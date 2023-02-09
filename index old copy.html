@@ -54,7 +54,78 @@
 <a href="CherwellClient://commands/goto?" target="_blank"><button>DESKTOP APP</button></a>
 <a href="https://servicedesk.wh.org.au/CherwellClient/Access/New/incident" target="_blank"><button>NEW INCIDENT</button></a><br>
 <a href="https://app.asana.com/0/home/" target="_blank"><button>ASANA</button></a>
-<br><br>
+
+
+<br>
+<label>OPEN INCIDENT</label><br>
+<input id="incident_id" type="text" placeholder="eg. 447169">
+
+<!-- script for making incident browser link -->
+<script> 
+var input = document.getElementById("incident_id");
+
+    $("input#incident_id").on("change", function(){ // Whenever this field changes
+    
+    var incident_id = $("input#incident_id").val(); // Get the value of the field
+    
+    $("a#link-incident-browser").attr("href", "https://servicedesk.wh.org.au/CherwellClient/Access/incident/" + incident_id); // Update the href in the link to match the id inserted in the input field
+    
+    });
+</script>
+
+<a id="link-incident-browser" href="#" target="_blank"><button>OPEN IN BROWSER</button></a>
+
+<!-- script for making incident desktop link -->
+<script>
+  var input = document.getElementById("incident_id");
+  
+      $("input#incident_id").on("change", function(){ // Whenever this field changes
+      
+      var incident_id = $("input#incident_id").val(); // Get the value of the field
+      
+      $("a#link-task-browser").attr("href", "CherwellClient://commands/goto?rectype=incident&PublicID=" + incident_id); // Update the href in the link to match the id inserted in the input field
+      
+      });
+  </script>
+
+  <a id="link-task-browser" href="#" target="_blank"><button>OPEN IN DESKTOP APP</button></a><br>
+
+<br>
+<br>
+
+
+
+<label>OPEN TASK</label><br>
+<input id="task_id" type="text" placeholder="eg. 447169">
+<!-- script for making task browser link -->
+<script>
+    $("input#task_id").on("change", function(){ // Whenever this field changes
+    
+    var task_id = $("input#task_id").val(); // Get the value of the field
+    
+    $("a#linktask").attr("href", "https://servicedesk.wh.org.au/CherwellClient/Access/task/" + task_id); // Update the href in the link to match the id inserted in the input field
+    
+    });
+</script>
+<!-- <a id="link" type="button" onclick="location.href="#" value="GO" /> -->
+<a id="linktask" href="#" target="_blank"><button>OPEN IN BROWSER</button></a>
+<!-- script for making task desktop link -->
+<script>
+  var input = document.getElementById("task_id");
+  
+      $("input#task_id").on("change", function(){ // Whenever this field changes
+      
+      var task_id = $("input#task_id").val(); // Get the value of the field
+      
+      $("a#link-task-browser").attr("href", "CherwellClient://commands/goto?rectype=task&PublicID=" + task_id); // Update the href in the link to match the id inserted in the input field
+      
+      });
+  </script>
+  
+  <a id="link-task-browser" href="#" target="_blank"><button>OPEN IN DESKTOP APP</button></a><br>
+</div>
+
+<br>
 <hr>
 <h2>Sharepoint</h2>
 <a id="link3" href="https://westernhealth.sharepoint.com/:x:/r/sites/DigitalHealth/_layouts/15/Doc.aspx?sourcedoc=%7B02F2C0E0-2B4E-4F97-B074-5BEAC69F1CCC%7D&file=Digital%20Health%20Team%20Master%20File%20v0.04.xlsx&action=default&mobileredirect=true&cid=f33c3b2a-1265-47a3-b17e-c2a11afaa833&web=1" target="_blank"><button>ROSTER</button></a>
