@@ -2,7 +2,22 @@
 <html>
 <head>
     <title>System Documentation Index</title>
+    
     <style>
+        /* Add some basic styling for the button */
+        .home-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none; /* Removes underline from hyperlinks */
+            border-radius: 5px;
+            display: inline-block; /* Allows applying padding and other box model properties */
+        }
+
+        .home-button:hover {
+            background-color: #0056b3;
+        }
+        
         body { font-family: Arial, sans-serif; }
         h1 { text-align: center; }
         .section { margin-top: 20px; }
@@ -14,12 +29,15 @@
     </style>
 </head>
 <body>
+    <!-- Home Button -->
+    <a href="../index.html" class="home-button">Home</a>
+    <br>
     <h1>System Documentation Index</h1>
 
     <div class="section">
         <h2>Cerner Documentation from Cerner (not live but fast)</h2>
         <ul>
-            <li><a href="documentation/whentocycleservers.html">When to Cycle Servers</a></li>
+            <li><a href="whentocycleservers.html">When to Cycle Servers</a></li>
             <li><a href="getting-started/installation.html">PLACEHOLDER</a></li>
             <li><a href="getting-started/quick-start.html">PLACEHOLDER</a></li>
         </ul>
@@ -37,7 +55,7 @@
     <div class="section">
         <h2>System Reference Documentation</h2>
         <ul>
-            <li><a href="documentation/WineBarrelDiagram_20230728.pdf">Integration Architecture Wine Barrel Diagram (not complete)</a></li>
+            <li><a href="WineBarrelDiagram_20230728.pdf">Integration Architecture Wine Barrel Diagram (not complete)</a></li>
 
         </ul>
     </div>
