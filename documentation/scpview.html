@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Server Cycling with SCPVIEW</title>
+<style>
+        /* Add some basic styling for the button */
+        .home-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none; /* Removes underline from hyperlinks */
+            border-radius: 5px;
+            display: inline-block; /* Allows applying padding and other box model properties */
+        }
+
+        .home-button:hover {
+            background-color: #0056b3;
+        }
+        
+        body { font-family: Arial, sans-serif; }
+        h1 { text-align: center; }
+        .section { margin-top: 20px; }
+        .section h2 { color: #0056b3; }
+        .section ul { list-style-type: none; padding: 0; }
+        .section li { margin-bottom: 10px; }
+        .section a { text-decoration: none; color: #007bff; }
+        .section a:hover { text-decoration: underline; }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .table th {
+            background-color: #0056b3;
+            color: white;
+        }
+        .table th:first-child, .table td:first-child {
+            border-left: none;
+        }
+        .table th:last-child, .table td:last-child {
+            border-right: none;
+        }
+        .table tr:first-child th:first-child {
+            border-top-left-radius: 6px;
+        }
+        .table tr:first-child th:last-child {
+            border-top-right-radius: 6px;
+        }
+        .table tr:last-child td:first-child {
+            border-bottom-left-radius: 6px;
+        }
+        .table tr:last-child td:last-child {
+            border-bottom-right-radius: 6px;
+        }
+        @media screen and (max-width: 600px) {
+            .table thead {
+            display: none;
+            }
+            .table, .table tbody, .table tr, .table td {
+            display: block;
+            width: 100%;
+            }
+            .table tr {
+            margin-bottom: 15px;
+            }
+            .table td {
+            text-align: right;
+            padding-left: 50%;
+            position: relative;
+            }
+            .table td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 0;
+            width: 50%;
+            padding-left: 15px;
+            font-weight: bold;
+            text-align: left;
+            }
+        }
+
+</style>
+</head>
+<body>
+    <a href="../index.html" class="home-button">Documentation Index</a>
+    <h1>Cycle Servers with SCPVIEW</h1>
+    <p>You will need to log in using your username and password when you access the app.</p>
+    <h2>Selecting Nodes</h2>
+
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">P2031</th>
+        <th scope="col">C2031</th>
+        <th scope="col">B2031</th>
+        <th scope="col">M2031</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">NODE A</th>
+        <td data-label="P2031">select wheaauapp1</td>
+        <td data-label="C2031">select wheaauapp3</td>
+        <td data-label="B2031">select wheaauapp3</td>
+        <td data-label="M2031">select wheaauapp4</td>
+      </tr>
+      <tr>
+        <th scope="row">NODE B</th>
+        <td data-label="P2031">select wheaauapp2</td>
+        <td data-label="C2031"></td>
+        <td data-label="B2031"></td>
+        <td data-label="M2031"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+<h2>Cycle Server 'x' (where x is a number)</h2>
+<p>cycle -entry x<entryid></entryid></p>
+<p>You will need to check below for servers to cycle. See 'Server Cycle Lookup Table' for Servers you will need to cycle for your change.</p>
+<br>
+<h2>Check Cycle Status</h2>
+<p>cycle -query</p>
+<br>
+<h2>Server Cycle Lookup Table</h2>
+<div class="container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Change Description</th>
+          <th scope="col">Servers To Cycle</th>
+ 
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td scope="row">
+            Change Orderable Name
+            <br>
+            Change Orderable Virtual View
+
+          </td>
+          <td>
+            cycle -entry 506
+            <br>
+            cycle -entry 101
+          </td>
+
+        </tr>
+        <tr>
+          <td scope="row">New Orderable</td>
+          <td>cycle -entry 362</td>
+        </tr>
+        <tr>
+            <th scope="row">Change Order Entry Form</th>
+            <td>
+            cycle -entry 100
+            <br>
+            cycle -entry 101
+            <br>
+            cycle -entry 104
+            <br>
+            cycle -entry 105
+            <br>
+            cycle -entry 106
+            <br>
+            cycle -entry 107
+            <br>
+            cycle -entry 108
+            <br>
+            cycle -entry 109
+
+
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">New Orderable</th>
+            <td>cycle -entry 362</td>
+        </tr>
+        <tr>
+            <th scope="row">New Orderable</th>
+            <td>cycle -entry 362</td>
+        </tr>
+        <tr>
+            <th scope="row">New Orderable</th>
+            <td>cycle -entry 362</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>
