@@ -4,7 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Server Cycling with SCPVIEW</title>
+<script src="../script.js" defer></script>
 <style>
+        .copy-button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border: none; /* Removes default button border */
+            border-radius: 3px;
+            cursor: pointer;
+            margin-left: 10px; /* Added some space after the text */
+        }
+
+        .copy-button:hover {
+            background-color: #0056b3;
+        }
+        
         /* Add some basic styling for the button */
         .home-button {
             padding: 10px 20px;
@@ -112,7 +128,7 @@
     <tbody>
       <tr>
         <th scope="row">NODE A</th>
-        <td data-label="P2031">select wheaauapp1</td>
+        <td><span id="selectnode1code">select wheaauapp1</span> <button class="copy-button" onclick="copyTextById('selectnode1code')">Copy</button></td>
         <td data-label="C2031">select wheaauapp3</td>
         <td data-label="B2031">select wheaauapp3</td>
         <td data-label="M2031">select wheaauapp4</td>
