@@ -7,7 +7,7 @@ function copyTextById(textElementId) {
 
         navigator.clipboard.writeText(textToCopy)
             .then(() => {
-                alert('Text copied!');
+                alert('Text copied! Hit ENTER to Close');
             })
             .catch(err => {
                 console.error('Failed to copy: ', err);
