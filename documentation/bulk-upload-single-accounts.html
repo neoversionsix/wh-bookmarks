@@ -6,7 +6,8 @@
 <body>
 <h1>Excel Formulae</h1>
 <p>This will switch the newlines with pipes to make extracting usernames etc easier. Where A2 is the tickets description</p>
-<p>=SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(A2, CHAR(10), "|"), CHAR(13), "|"), CHAR(10)&CHAR(13), "|")
-</p>
+<p>=SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(A2, CHAR(10), "|"), CHAR(13), "|"), CHAR(10)&CHAR(13), "|")</p>
+<p>To get the first Name:</p>
+<p>=MID(D2, SEARCH("|First Name:|", D2) + LEN("|First Name:|"), SEARCH("|", D2, SEARCH("|First Name:|", D2) + LEN("|First Name:|")) - (SEARCH("|First Name:|", D2) + LEN("|First Name:|")))</p>
 </body>
 </html>
