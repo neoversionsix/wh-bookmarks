@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Bulk Uploading Single Accounts From Cherwell</title>
+<title>Bulk Uploading Single Accounts From Cherwell</title>
 </head>
 <body>
 <h1>Excel Formulae</h1>
@@ -9,5 +9,11 @@
 <p>=SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(A2, CHAR(10), "|"), CHAR(13), "|"), CHAR(10)&CHAR(13), "|")</p>
 <p>To get the first Name:</p>
 <p>=MID(D2, SEARCH("|First Name:|", D2) + LEN("|First Name:|"), SEARCH("|", D2, SEARCH("|First Name:|", D2) + LEN("|First Name:|")) - (SEARCH("|First Name:|", D2) + LEN("|First Name:|")))</p>
+<p>To get last name</p>
+<p>=MID(D2, SEARCH("|Last Name:|", D2) + LEN("|Last Name:|"), SEARCH("|", D2, SEARCH("|Last Name:|", D2) + LEN("|Last Name:|")) - (SEARCH("|Last Name:|", D2) + LEN("|Last Name:|")))</p>
+<p>EMR ROLE</p>
+<p>=MID(D2, SEARCH("|EMR Role:|", D2) + LEN("|EMR Role:|"), SEARCH("|", D2, SEARCH("|EMR Role:|", D2) + LEN("|EMR Role:|")) - (SEARCH("|EMR Role:|", D2) + LEN("|EMR Role:|")))</p>
+<p>CREDENTIAL</p>
+<p>=MID(D2, SEARCH("|EMR Credential:|", D2) + LEN("|EMR Credential:|"), SEARCH("|", D2, SEARCH("|EMR Credential:|", D2) + LEN("|EMR Credential:|")) - (SEARCH("|EMR Credential:|", D2) + LEN("|EMR Credential:|")))</p>
 </body>
 </html>
