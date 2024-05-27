@@ -13,24 +13,19 @@ body {
   background-color: #222;
   color: #fff;
 }
-
 h1, h2, h3 {
   color: #fff;
 }
-
 table {
   background-color: #333;
   color: #fff;
 }
-
 table th {
   background-color: #555;
 }
-
 a {
   color: #fff;
 }
-
 button {
   background-color: #555;
   color: #fff;
@@ -42,13 +37,48 @@ button {
   border-radius: 5px; /* Rounded corners */
   font-size: 20px; /* Adjust the size as needed */
 }
-
 button:hover {
   background-color: #777;
   color: #222;
   box-shadow: 0 5px 15px rgba(0,0,0,0.5); /* Darker shadow on hover */
 }
+
+.container {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #555;
+  color: #fff;
+}
+
+input[type="text"]::placeholder {
+  color: #ddd;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #ee8383;
+}
+
 </style>
+<script>
+function goToIncident() {
+    var incidentNumber = document.getElementById("incidentInput").value;
+    if (incidentNumber) {
+        var url = "https://servicedesk.wh.org.au/CherwellClient/Access/incident/" + incidentNumber;
+        window.open(url, '_blank');
+    } else {
+        alert("Please enter an incident number");
+    }
+}
+</script>
 </head>
 <body>
 <h1>Bookmarks - Digital Health</h1>
@@ -58,7 +88,7 @@ button:hover {
 <h3>Cerner Environments</h3>
 <table border="1" cellpadding="5" style="border-collapse: collapse;">
     <tr>
-      <th title="wheaauapp1 & 2">PROD</th>
+      <th title="wheaauapp1&2">PROD</th>
       <th title="wheaauapp3">CERT</th>
       <th title="wheaauapp3">BUILD</th>
       <th title="wheaauapp4">MOCK</th>
@@ -107,6 +137,10 @@ button:hover {
 <a href="https://servicedesk.wh.org.au/CherwellClient/Access/New/incident" target="_blank"><button>Create New Incident</button></a>
 <br><br>
 <a href="https://app.asana.com/0/home/" target="_blank"><button>ASANA</button></a>
+<div class="container">
+  <input type="text" id="incidentInput" placeholder="Enter Incident Number">
+  <button onclick="goToIncident()">GO TO INCIDENT</button>
+</div>
 <br><br>
 <hr>
 <h2>Western Health - Other</h2>
@@ -120,6 +154,7 @@ button:hover {
 <a  href="https://mail.wh.org.au" target="_blank"><button>WEBMAIL</button></a>
 <a  href="https://westernhealth.sharepoint.com/sites/DataManagementAnalystsEMR" target="_blank"><button>DMT Sharepoint</button></a>
 <a  href="https://github.com/neoversionsix/custom-ccl-jobs" target="_blank"><button>Github Code Repository</button></a>
+<a  href="https://apps.wh.org.au/home/bookmark/0oa47kabuujpbm3h93l7/2557" target="_blank"><button>People Hub</button></a>
 <br><br><hr>
 
 <h2>HL7 Links</h2>
