@@ -88,6 +88,26 @@ function goToProblem() {
         alert("Please enter a problem number");
     }
 }
+
+function goToTask() {
+    var problemNumber = document.getElementById("taskInput").value;
+    if (taskNumber) {
+        var url = "https://servicedesk.wh.org.au/CherwellClient/Access/task/" + taskNumber;
+        window.open(url, '_blank');
+    } else {
+        alert("Please enter a task number");
+    }
+}
+
+function goToKnowledgearticle() {
+    var knowledgearticleNumber = document.getElementById("knowledgearticleInput").value;
+    if (knowledgearticleNumber) {
+        var url = "https://servicedesk.wh.org.au/CherwellClient/Access/knowledgearticle/" + knowledgearticleNumber;
+        window.open(url, '_blank');
+    } else {
+        alert("Please enter a task number");
+    }
+}
 </script>
 </head>
 <body>
@@ -149,13 +169,21 @@ function goToProblem() {
 <p> Note: Need to be logged into Cherwell Web before these work:</p>
 <div class="container">
   <input type="text" id="incidentInput" placeholder="Enter Incident Number">
-  <button onclick="goToIncident()">GO TO INCIDENT</button>
+  <button onclick="goToIncident()">Go To Incident</button>
 </div>
 <div class="container">
   <input type="text" id="problemInput" placeholder="Enter Problem Number">
-  <button onclick="goToProblem()">GO TO PROBLEM</button>
+  <button onclick="goToProblem()">Go To Problem</button>
 </div>
-<br><br>
+<div class="container">
+  <input type="text" id="taskInput" placeholder="Enter Task Number">
+  <button onclick="goToTask()">Go To Task</button>
+</div>
+<div class="container">
+  <input type="text" id="knowledgearticleInput" placeholder="Enter KA Number">
+  <button onclick="goToKnowledgearticle()">Go To Knowledge Article</button>
+</div>
+<br>
 <hr>
 <h2>Western Health - Other</h2>
 <a  href="https://westernhealth.sharepoint.com/:x:/r/sites/DigitalHealth/_layouts/15/Doc.aspx?sourcedoc=%7B02F2C0E0-2B4E-4F97-B074-5BEAC69F1CCC%7D&file=Digital%20Health%20Team%20Master%20File%20v0.04.xlsx&action=default&mobileredirect=true&cid=f33c3b2a-1265-47a3-b17e-c2a11afaa833&web=1" target="_blank"><button>ROSTER</button></a>
