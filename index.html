@@ -69,6 +69,23 @@ input[type="text"]:focus {
 
 </style>
 <script>
+// Search functionality
+function filterButtons() {
+    var input = document.getElementById('searchBar');
+    var filter = input.value.toLowerCase();
+    var buttons = document.querySelectorAll('button');
+    
+    buttons.forEach(function(button) {
+        if (button.textContent.toLowerCase().includes(filter)) {
+            button.style.display = '';
+        } else {
+            button.style.display = 'none';
+        }
+    });
+}
+
+
+
 function goToIncident() {
     var incidentNumber = document.getElementById("incidentInput").value;
     if (incidentNumber) {
@@ -112,6 +129,8 @@ function goToKnowledgearticle() {
 </head>
 <body>
 <h1>Bookmarks - Digital Health</h1>
+<!-- Search Bar -->
+<input type="text" id="searchBar" onkeyup="filterButtons()" placeholder="filter buttons...">
 <!-- CERNER -->
 <div>
 <h2>Cerner</h2>
