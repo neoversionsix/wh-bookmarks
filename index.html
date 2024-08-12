@@ -80,31 +80,35 @@ input[type="text"]:focus {
 
 </style>
 <script>
+
+// Arrays to keep track of elements to hide/filter
+let divIdsToHide = ['cherwellTicketSection', 'cernerEnvironments', 'yetAnotherDivId'];
+let elementsToFilter = ['hr', '.text-container'];
+
 // Search functionality
 function filterButtons() {
     var input = document.getElementById('searchBar').value.toLowerCase();
     var buttons = document.querySelectorAll('button');
-    var nonButtons = document.querySelectorAll('.table-container, .text-container');
+    var elementsToHide = document.querySelectorAll(elementsToFilter.join(', '));
 
     // Show/hide buttons based on input
     buttons.forEach(function(button) {
-        if (button.textContent.toLowerCase().includes(input)) {
-            button.style.display = 'inline-block';
-        } else {
-            button.style.display = 'none';
-        }
+        button.style.display = button.textContent.toLowerCase().includes(input) ? 'inline-block' : 'none';
     });
 
-    // Hide non-button content if input is not empty
-    if (input.length > 0) {
-        nonButtons.forEach(function(nonButton) {
-            nonButton.classList.add('hidden');
-        });
-    } else {
-        nonButtons.forEach(function(nonButton) {
-            nonButton.classList.remove('hidden');
-        });
-    }
+    // Hide all specified elements if there's any input, show them otherwise
+    var shouldHide = input.length > 0;
+    elementsToHide.forEach(function(element) {
+        element.style.display = shouldHide ? 'none' : '';
+    });
+
+    // Handle specific div hiding
+    divIdsToHide.forEach(function(id) {
+        var div = document.getElementById(id);
+        if (div) {
+            div.classList.toggle('hidden', shouldHide);
+        }
+    });
 }
 
 function goToIncident() {
@@ -158,7 +162,7 @@ function goToKnowledgearticle() {
 <div>
 <h2 class="text-container">Cerner</h2>
 <h3 class="text-container">Cerner Environments</h3>
-<div class="table-container">
+<div id="cernerEnvironments">
 <table border="1" cellpadding="5" style="border-collapse: collapse;">
     <tr>
       <th title="wheaauapp1&2">PROD</th>
@@ -216,6 +220,7 @@ function goToKnowledgearticle() {
 " target="_blank"><button>ASANA DMT LIST</button></a>
 
 <p class="text-container"> Note: Need to be logged into Cherwell Web before these work:</p>
+<div id="cherwellTicketSection">
 <div class="container">
   <input type="text" id="incidentInput" placeholder="Enter Incident Number">
   <button onclick="goToIncident()">Go To Incident</button>
@@ -231,6 +236,7 @@ function goToKnowledgearticle() {
 <div class="container">
   <input type="text" id="knowledgearticleInput" placeholder="Enter KA Number">
   <button onclick="goToKnowledgearticle()">Go To Knowledge Article</button>
+</div>
 </div>
 <br>
 <hr>
