@@ -85,5 +85,79 @@ copyButton.addEventListener("click", () => {
     alert("Code copied to clipboard.");
 });
     </script>
+
+    <h2>Instructions</h2>
+    <p>Let's say you have an update script:</p>
+
+    <div style="border:1px solid #ccc; padding:10px; background-color:#f9f9f9;">
+        <pre><code>
+; ACCOUNT END DATE TO NOW FOR _USERNAME_
+UPDATE INTO PRSNL P
+    SET
+        P.END_EFFECTIVE_DT_TM = CNVTDATETIME(CURDATE,CURTIME3)
+        , P.UPDT_DT_TM = CNVTDATETIME(CURDATE,CURTIME3)
+        , P.UPDT_ID = REQINFO-&gt;UPDT_ID
+        , P.UPDT_CNT = P.UPDT_CNT + 1
+    WHERE
+        P.USERNAME = "_USERNAME_" ; &lt;---COLUMN HEADER NAME FOR GENERATOR
+;------------------------------------------------------------------------
+        </code></pre>
+
+    <p>You can upload an excel file like this:</p>
+    <div style="border:1px solid #ccc; padding:10px; background-color:#f9f9f9;">
+        <pre><code>
+_USERNAME_
+SOMEUSERNAME
+SOMEOTHERUSER
+ANDANOTHER
+        </code></pre>
+    </div>
+    <p>This will be what is generated. Notice that it's 
+            just finding and replacing the column header with 
+            each username in the column
+    </p>
+    <div style="border:1px solid #ccc; padding:10px; background-color:#f9f9f9;">
+        <pre><code>
+; ACCOUNT END DATE TO NOW FOR SOMEUSERNAME
+UPDATE INTO PRSNL P
+    SET
+        P.END_EFFECTIVE_DT_TM = CNVTDATETIME(CURDATE,CURTIME3)
+        , P.UPDT_DT_TM = CNVTDATETIME(CURDATE,CURTIME3)
+        , P.UPDT_ID = REQINFO-&gt;UPDT_ID
+        , P.UPDT_CNT = P.UPDT_CNT + 1
+    WHERE
+        P.USERNAME = "SOMEUSERNAME" ; &lt;---COLUMN HEADER NAME FOR GENERATOR
+;------------------------------------------------------------------------
+
+            ; ACCOUNT END DATE TO NOW FOR SOMEOTHERUSER
+UPDATE INTO PRSNL P
+    SET
+        P.END_EFFECTIVE_DT_TM = CNVTDATETIME(CURDATE,CURTIME3)
+        , P.UPDT_DT_TM = CNVTDATETIME(CURDATE,CURTIME3)
+        , P.UPDT_ID = REQINFO-&gt;UPDT_ID
+        , P.UPDT_CNT = P.UPDT_CNT + 1
+    WHERE
+        P.USERNAME = "SOMEOTHERUSER" ; &lt;---COLUMN HEADER NAME FOR GENERATOR
+;------------------------------------------------------------------------
+
+; ACCOUNT END DATE TO NOW FOR ANDANOTHER
+UPDATE INTO PRSNL P
+    SET
+        P.END_EFFECTIVE_DT_TM = CNVTDATETIME(CURDATE,CURTIME3)
+        , P.UPDT_DT_TM = CNVTDATETIME(CURDATE,CURTIME3)
+        , P.UPDT_ID = REQINFO-&gt;UPDT_ID
+        , P.UPDT_CNT = P.UPDT_CNT + 1
+    WHERE
+        P.USERNAME = "ANDANOTHER" ; &lt;---COLUMN HEADER NAME FOR GENERATOR
+;------------------------------------------------------------------------
+        </code></pre>
+    </div>
+    <p>
+        You can simply add more columns to the excels file if you want to replace
+         multiple things in the same script.
+    </p>
+
+    
+
 </body>
 </html>
