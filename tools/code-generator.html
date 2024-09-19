@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Code Generator (JavaScript Version)</title>
+    <!-- Include SheetJS -->
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+    <h1>Update Script Generator</h1>
+
+    <!-- File input for Excel file -->
+    <input type="file" id="file-input" accept=".xlsx">
+    <label id="filepath-label"></label>
+    <br><br>
+
+    <!-- Textarea for the template code -->
+    <label>Paste Template Code Here:</label><br>
+    <textarea id="template-text" rows="10" cols="80"></textarea>
+    <br><br>
+
+    <!-- Run button -->
+    <button id="run-button">RUN</button>
+    <br><br>
+
+    <!-- Output area -->
+    <label>Generated Code:</label><br>
+    <textarea id="output-text" rows="10" cols="80" readonly></textarea>
+    <br><br>
+
+    <!-- Copy to clipboard button -->
+    <button id="copy-button">Copy to Clipboard</button>
+
+    <!-- JavaScript Code -->
+    <script>
+const fileInput = document.getElementById("file-input");
+const filepathLabel = document.getElementById("filepath-label");
+const templateTextarea = document.getElementById("template-text");
+const runButton = document.getElementById("run-button");
+const outputTextarea = document.getElementById("output-text");
+const copyButton = document.getElementById("copy-button");
+let workbook;
+
+fileInput.addEventListener("change", (event) => {
+    const file = fileInput.files[0];
+    if (file) {
+        filepathLabel.innerText = `Loaded file: ${file.name}`;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const data = new Uint8Array(e.target.result);
+            workbook = XLSX.read(data, {type: 'array'});
+        };
+        reader.readAsArrayBuffer(file);
+    } else {
+        filepathLabel.innerText = "";
+    }
+});
+
+runButton.addEventListener("click", () => {
+    if (!workbook) {
+        alert("Please select an XLSX file first.");
+        return;
+    }
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+    const template = templateTextarea.value.trim();
+    if (!template) {
+        alert("Please enter the template code.");
+        return;
+    }
+    const generatedCodes = jsonData.map(row => {
+        let code = template;
+        for (const key in row) {
+            code = code.replace(new RegExp(key, 'g'), row[key]);
+        }
+        return code;
+    });
+    outputTextarea.value = generatedCodes.join('\n\n\n');
+});
+
+copyButton.addEventListener("click", () => {
+    outputTextarea.select();
+    document.execCommand("copy");
+    alert("Code copied to clipboard.");
+});
+    </script>
+</body>
+</html>
