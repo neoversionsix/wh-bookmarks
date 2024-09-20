@@ -97,7 +97,7 @@ copyButton.addEventListener("click", () => {
     <h2>Example</h2>
     <p>Let's say you have an update script:</p>
 
-    <div style="border:1px solid #ccc; padding:10px; background-color:#f9f9f9;">
+    <div style="border:1px solid #ccc; padding:10px; background-color: black; color: white;">
         <pre><code>
 ; ACCOUNT END DATE TO NOW FOR _USERNAME_
 UPDATE INTO PRSNL P
@@ -110,9 +110,10 @@ UPDATE INTO PRSNL P
         P.USERNAME = "_USERNAME_" ; &lt;---COLUMN HEADER NAME FOR GENERATOR
 ;------------------------------------------------------------------------
         </code></pre>
+    </div>
 
     <p>You can upload an excel file like this:</p>
-    <div style="border:1px solid #ccc; padding:10px; background-color:#f9f9f9;">
+    <div style="border:1px solid #ccc; padding:10px; background-color: black; color: white;">
         <pre><code>
 _USERNAME_
 SOMEUSERNAME
@@ -124,7 +125,7 @@ ANDANOTHER
             just finding and replacing the column header with 
             each username in the column
     </p>
-    <div style="border:1px solid #ccc; padding:10px; background-color:#f9f9f9;">
+    <div style="border:1px solid #ccc; padding:10px; background-color: black; color: white;">
         <pre><code>
 ; ACCOUNT END DATE TO NOW FOR SOMEUSERNAME
 UPDATE INTO PRSNL P
@@ -161,7 +162,7 @@ UPDATE INTO PRSNL P
         </code></pre>
     </div>
     <p>
-        You can simply add more columns to the excels file if you want to replace
+        You can simply add more columns to the excel file if you want to replace
          multiple things in the same script.
     </p>
 
