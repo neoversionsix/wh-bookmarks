@@ -89,15 +89,24 @@ input[type="text"]:focus {
 let divIdsToHide = ['cherwellTicketSection', 'cernerEnvironments', 'yetAnotherDivId'];
 let elementsToFilter = ['hr', '.text-container', 'br'];
 
+// Clear Search bar button functionality
+function clearSearch() {
+    document.getElementById('searchBar').value = '';
+    filterButtons(); // Call the filter function to reset the button visibility
+}
+
+
 // Search functionality
 function filterButtons() {
     var input = document.getElementById('searchBar').value.toLowerCase();
     var buttons = document.querySelectorAll('button');
     var elementsToHide = document.querySelectorAll(elementsToFilter.join(', '));
 
-    // Show/hide buttons based on input
+    // Show/hide buttons based on input, except the "Clear" button
     buttons.forEach(function(button) {
-        button.style.display = button.textContent.toLowerCase().includes(input) ? 'inline-block' : 'none';
+        if (button.id !== 'clearButton') {  // Skip the clear button
+            button.style.display = button.textContent.toLowerCase().includes(input) ? 'inline-block' : 'none';
+        }
     });
 
     // Hide all specified elements if there's any input, show them otherwise
@@ -114,6 +123,7 @@ function filterButtons() {
         }
     });
 }
+
 
 function goToIncident() {
     var incidentNumber = document.getElementById("incidentInput").value;
@@ -161,6 +171,7 @@ function goToKnowledgearticle() {
 <!-- Search Bar -->
 <div class="container">
   <input type="text" id="searchBar" placeholder="Type To Filter Buttons..." onkeyup="filterButtons()">
+  <button id="clearButton" onclick="clearSearch()">Clear</button>
 </div>
 <br>
 <hr>
