@@ -172,7 +172,8 @@
 
                 // Remove duplicate rows
                 finalTable = removeDuplicates(finalTable);
-
+                logMessage(`dfA rows: ${dfA.length}`);
+                logMessage(`dfB rows: ${dfB.length}`);
                 logMessage(`Created new table with ${finalTable.length} rows and ${Object.keys(finalTable[0]).length} columns`);
 
                 resultsLabel.textContent = `Created new table with ${finalTable.length} rows and ${Object.keys(finalTable[0]).length} columns`;
@@ -195,26 +196,45 @@
 
     // Merge dataframes function
     function mergeDataframes(dfA, dfB, key) {
+        // Create a map where each key maps to an array of matching rows from dfB
         const dfBKeyed = dfB.reduce((acc, row) => {
-            acc[row[key]] = row;
+            const keyValue = String(row[key]).trim();
+            if (!acc[keyValue]) {
+                acc[keyValue] = [];
+            }
+            acc[keyValue].push(row);
             return acc;
         }, {});
-        return dfA.reduce((acc, row) => {
-            if (dfBKeyed.hasOwnProperty(row[key])) {
-                acc.push({ ...row, ...dfBKeyed[row[key]] });
+
+        // Merge dfA and dfB on the key, accounting for multiple matches
+        const merged = [];
+        dfA.forEach(rowA => {
+            const keyValue = String(rowA[key]).trim();
+            if (dfBKeyed[keyValue]) {
+                dfBKeyed[keyValue].forEach(rowB => {
+                    merged.push({ ...rowA, ...rowB });
+                });
             }
-            return acc;
-        }, []);
+        });
+        return merged;
     }
+
 
     // Remove duplicates function
     function removeDuplicates(data) {
         const seen = new Set();
         return data.filter(item => {
-            const key = JSON.stringify(item);
-            return seen.has(key) ? false : seen.add(key);
+            // Create a unique identifier based on the relevant columns
+            const keyString = JSON.stringify(item);
+            if (seen.has(keyString)) {
+                return false;
+            } else {
+                seen.add(keyString);
+                return true;
+            }
         });
     }
+
 
     // Download table function
     downloadButton.addEventListener('click', function () {
