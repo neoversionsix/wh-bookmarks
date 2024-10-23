@@ -24,9 +24,42 @@
     <!-- Include required libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script>
+        async function copyCodeFromGitHub(url) {
+          try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Failed to fetch code.');
+      
+            const code = await response.text();
+            await navigator.clipboard.writeText(code);
+            alert('Code copied to clipboard!');
+          } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to copy code. See console for details.');
+          }
+        }
+        /* BUTTON EXAMPLE
+        <button onclick="copyCodeFromGitHub('https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/39387cdd90b6c690dc4d53bfc61e2e577fe29f52/PBS/PBS%20-%20For%20Copy%20Existing%20Mappings%20-%20Last%20Installed%20Package.ccl')">
+        Copy CCL to Clipboard - PBS Existing Mappings
+        </button>
+        */
+       
+    </script>
 </head>
 <body>
     <h1>PBS Drug Mapping</h1>
+
+    <button onclick="copyCodeFromGitHub('https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/39387cdd90b6c690dc4d53bfc61e2e577fe29f52/PBS/PBS%20-%20For%20Copy%20Existing%20Mappings%20-%20Last%20Installed%20Package.ccl')">
+    Copy CCL to Clipboard - PBS Last Installed Package Items To Map
+    </button>
+
+    <button onclick="copyCodeFromGitHub('https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/39387cdd90b6c690dc4d53bfc61e2e577fe29f52/PBS/PBS%20-%20For%20Copy%20Existing%20Mappings%20-%20Last%20Installed%20Package%20-%20Unmapped%20Only.ccl')">
+    Copy CCL to Clipboard - PBS Last Installed Package Items To Map - Filter for 0 Associated Mappings
+    </button>
+
+    <button onclick="copyCodeFromGitHub('https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/39387cdd90b6c690dc4d53bfc61e2e577fe29f52/PBS/PBS%20-%20For%20Copying%20Existing%20Mappings%20-%20All%20Mappings.ccl')">
+    Copy CCL to Clipboard - PBS All Existing Mappings
+    </button>
 
     <!-- Key column input -->
     <label for="keyColumn">Matching Column:</label>
