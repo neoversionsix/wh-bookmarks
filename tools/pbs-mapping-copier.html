@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PBS Drug Mapping</title>
+    <!-- Include CSS for styling -->
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label, input, button {
+            display: block;
+            margin: 10px 0;
+        }
+        #logText {
+            width: 100%;
+        }
+        button:disabled {
+            background-color: #ccc;
+        }
+    </style>
+    <!-- Include required libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</head>
+<body>
+    <h1>PBS Drug Mapping</h1>
+
+    <!-- Key column input -->
+    <label for="keyColumn">Matching Column:</label>
+    <input type="text" id="keyColumn" value="MAPPING_KEY" />
+
+    <!-- File input -->
+    <label for="excelFile">Select copier.xlsx file:</label>
+    <input type="file" id="excelFile" accept=".xlsx" />
+
+    <!-- Process button -->
+    <button id="processButton">Process copier.xlsx file</button>
+
+    <!-- Results label -->
+    <p id="resultsLabel"></p>
+
+    <!-- Download and copy script buttons -->
+    <button id="downloadButton" disabled>Download Auto Mapping Table</button>
+    <button id="copyScriptButton" disabled>Copy Auto Mapping Update Script to Clipboard</button>
+
+    <!-- Console log -->
+    <h3>Console Log:</h3>
+    <textarea id="logText" rows="15" readonly></textarea>
+
+    <!-- Close button -->
+    <button id="closeButton">CLOSE</button>
+
+    <!-- Include the main JavaScript logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    // Initialize variables
+    let finalTable = null;
+    const logs = [];
+
+    // Get references to DOM elements
+    const keyColumnInput = document.getElementById('keyColumn');
+    const excelFileInput = document.getElementById('excelFile');
+    const processButton = document.getElementById('processButton');
+    const resultsLabel = document.getElementById('resultsLabel');
+    const downloadButton = document.getElementById('downloadButton');
+    const copyScriptButton = document.getElementById('copyScriptButton');
+    const logText = document.getElementById('logText');
+    const closeButton = document.getElementById('closeButton');
+
+    // Log message function
+    function logMessage(message) {
+        logs.push(message);
+        logText.value += message + '\n';
+        logText.scrollTop = logText.scrollHeight;
+    }
+
+    // Process files function
+    processButton.addEventListener('click', function () {
+        const keyColumn = keyColumnInput.value.trim();
+        const file = excelFileInput.files[0];
+
+        if (!file) {
+            alert('Please select the copier.xlsx file.');
+            return;
+        }
+
+        logMessage(`Processing files with key column: ${keyColumn}`);
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const data = e.target.result;
+            const workbook = XLSX.read(data, { type: 'binary' });
+
+            try {
+                // Read 'need-mapping' sheet
+                const sheetA = workbook.Sheets['need-mapping'];
+                if (!sheetA) {
+                    throw new Error("Sheet 'need-mapping' not found in the Excel file.");
+                }
+                const dfA = XLSX.utils.sheet_to_json(sheetA);
+
+                // Read 'existing-mappings' sheet
+                const sheetB = workbook.Sheets['existing-mappings'];
+                if (!sheetB) {
+                    throw new Error("Sheet 'existing-mappings' not found in the Excel file.");
+                }
+                const dfB = XLSX.utils.sheet_to_json(sheetB);
+
+                // Check if key column exists in both sheets
+                if (!dfA[0].hasOwnProperty(keyColumn)) {
+                    throw new Error(`Key column '${keyColumn}' not found in sheet 'need-mapping'.`);
+                }
+                if (!dfB[0].hasOwnProperty(keyColumn)) {
+                    throw new Error(`Key column '${keyColumn}' not found in sheet 'existing-mappings'.`);
+                }
+
+                // Merge dataframes
+                const mergedData = mergeDataframes(dfA, dfB, keyColumn);
+
+                // Select required columns
+                const mapColumns = Object.keys(mergedData[0]).filter(col => col.startsWith('MAP_PBS_DRUG_ID_'));
+                const requiredColumns = ['MAPPED_SYNONYM_ID', 'PBS_CODE'];
+                const missingColumns = requiredColumns.filter(col => !mergedData[0].hasOwnProperty(col));
+
+                if (missingColumns.length > 0) {
+                    throw new Error(`Columns ${missingColumns.join(', ')} not found in the merged data.`);
+                }
+                if (mapColumns.length === 0) {
+                    throw new Error("No columns starting with 'MAP_PBS_DRUG_ID_' found in the merged data.");
+                }
+
+                finalTable = mergedData.map(row => {
+                    const newRow = {};
+                    [...mapColumns, ...requiredColumns].forEach(col => {
+                        newRow[col] = row[col];
+                    });
+                    return newRow;
+                });
+
+                // Remove duplicate rows
+                finalTable = removeDuplicates(finalTable);
+
+                logMessage(`Created new table with ${finalTable.length} rows and ${Object.keys(finalTable[0]).length} columns`);
+
+                resultsLabel.textContent = `Created new table with ${finalTable.length} rows and ${Object.keys(finalTable[0]).length} columns`;
+
+                // Enable the download and copy script buttons
+                downloadButton.disabled = false;
+                copyScriptButton.disabled = false;
+
+            } catch (error) {
+                logMessage(`An error occurred: ${error.message}`);
+                alert(error.message);
+            }
+        };
+        reader.onerror = function (ex) {
+            logMessage(`An error occurred while reading the file: ${ex.message}`);
+            alert(ex.message);
+        };
+        reader.readAsBinaryString(file);
+    });
+
+    // Merge dataframes function
+    function mergeDataframes(dfA, dfB, key) {
+        const dfBKeyed = dfB.reduce((acc, row) => {
+            acc[row[key]] = row;
+            return acc;
+        }, {});
+        return dfA.reduce((acc, row) => {
+            if (dfBKeyed.hasOwnProperty(row[key])) {
+                acc.push({ ...row, ...dfBKeyed[row[key]] });
+            }
+            return acc;
+        }, []);
+    }
+
+    // Remove duplicates function
+    function removeDuplicates(data) {
+        const seen = new Set();
+        return data.filter(item => {
+            const key = JSON.stringify(item);
+            return seen.has(key) ? false : seen.add(key);
+        });
+    }
+
+    // Download table function
+    downloadButton.addEventListener('click', function () {
+        if (!finalTable) {
+            alert('No data to save. Please process the files first.');
+            return;
+        }
+
+        const ws = XLSX.utils.json_to_sheet(finalTable);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Result');
+
+        const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'AutoMappingTable.xlsx');
+
+        logMessage('Download complete: AutoMappingTable.xlsx');
+    });
+
+    // Copy update script function
+    copyScriptButton.addEventListener('click', function () {
+        if (!finalTable) {
+            alert('No data to generate script. Please process the files first.');
+            return;
+        }
+
+        const scriptTemplate = `
+;________________________________________________
+;  {PBS_CODE} Mapping PBS_DRUG_ID: {MAP_PBS_DRUG_ID_} and SYNONYM_ID: {MAPPED_SYNONYM_ID}
+update into pbs_ocs_mapping P_O_M
+set
+    P_O_M.beg_effective_dt_tm = cnvtdatetime(curdate, 0008)
+    ; Above line sets the activation time to today at 12:08 am, used to identify this type of update
+    , P_O_M.end_effective_dt_tm = cnvtdatetime("31-DEC-2100")
+    /*CHANGE THE ROW BELOW {MAP_PBS_DRUG_ID_}*/
+    , P_O_M.pbs_drug_id = {MAP_PBS_DRUG_ID_} ; Swap With Pbs Drug Id that maps to the synonym id
+    /*CHANGE THE ROW BELOW {MAPPED_SYNONYM_ID}*/
+    , P_O_M.synonym_id = {MAPPED_SYNONYM_ID} ; Swap With Synonym Id that maps to the pbs_drug_id
+    , P_O_M.drug_synonym_id = 0 ; clear multum mapping (multum mappings are not used)
+    , P_O_M.main_multum_drug_code = 0 ; clear multum mapping
+    , P_O_M.drug_identifier = "0" ; clear multum mapping
+    , P_O_M.updt_dt_tm = cnvtdatetime(curdate,curtime3)
+    , P_O_M.updt_id = reqinfo->updt_id
+    , P_O_M.updt_cnt = P_O_M.updt_cnt + 1
+where
+    ;Update the next unused row
+    P_O_M.pbs_ocs_mapping_id =
+    (select min(pbs_ocs_mapping_id) from pbs_ocs_mapping where end_effective_dt_tm < sysdate)
+    ; Only Update if the item is NOT already mapped
+    and not exists
+    (
+        select 1
+        from pbs_ocs_mapping
+        /*CHANGE THE ROW BELOW {MAP_PBS_DRUG_ID_}*/
+        where pbs_drug_id = {MAP_PBS_DRUG_ID_} ; Swap With Pbs Drug Id
+        /*CHANGE THE ROW BELOW {MAPPED_SYNONYM_ID}*/
+        and synonym_id = {MAPPED_SYNONYM_ID} ; Swap With Synonym Id
+        and end_effective_dt_tm > sysdate
+    )
+;________________________________________________
+`;
+
+        let fullScript = '';
+        finalTable.forEach(row => {
+            const script = scriptTemplate
+                .replace(/{PBS_CODE}/g, row['PBS_CODE'])
+                .replace(/{MAP_PBS_DRUG_ID_}/g, row['MAP_PBS_DRUG_ID_'])
+                .replace(/{MAPPED_SYNONYM_ID}/g, row['MAPPED_SYNONYM_ID']);
+            fullScript += script + '\n';
+        });
+
+        // Copy to clipboard
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.value = fullScript;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempTextArea);
+
+        logMessage('Update script copied to clipboard!');
+        alert('Update script copied to clipboard!');
+    });
+
+    // Close button function
+    closeButton.addEventListener('click', function () {
+        logMessage('Functionality Terminated, close this app');
+        alert('Closing the application.');
+        // Note: window.close() may not work due to browser security policies
+    });
+});
+    </script>
+</body>
+</html>
