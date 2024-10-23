@@ -92,13 +92,11 @@
         let appState = {
             data1: [],
             data2: [],
-            df_primaries: [],
-            df_brands: [],
             df_generics: [],
             df_trades: [],
             row_number: 0,
             column_number: 0,
-            columns: ['PRIMARY', 'BRAND', 'GENERIC', 'TRADE'],
+            columns: ['GENERIC', 'TRADE'],
             matches: [],
             final_matches: [],
             total_steps: 0
@@ -145,8 +143,6 @@
 
         // Process Catalog data
         function processData2() {
-            appState.df_primaries = appState.data2.filter(item => item['ITEM_TYPE'] === 'PRIMARY');
-            appState.df_brands = appState.data2.filter(item => item['ITEM_TYPE'] === 'BRAND');
             appState.df_generics = appState.data2.filter(item => item['ITEM_TYPE'] === 'GENERIC');
             appState.df_trades = appState.data2.filter(item => item['ITEM_TYPE'] === 'TRADE');
         }
@@ -199,11 +195,7 @@
 
             // Get the corresponding data2 subset
             let data2_subset = [];
-            if (currentColumn === 'PRIMARY') {
-                data2_subset = appState.df_primaries;
-            } else if (currentColumn === 'BRAND') {
-                data2_subset = appState.df_brands;
-            } else if (currentColumn === 'GENERIC') {
+            if (currentColumn === 'GENERIC') {
                 data2_subset = appState.df_generics;
             } else if (currentColumn === 'TRADE') {
                 data2_subset = appState.df_trades;
@@ -278,6 +270,7 @@
 
                 // Combine currentItem and match.data
                 let combined = Object.assign({}, currentItem, match.data);
+                combined['MatchedColumn'] = currentColumn; // Add the matched column type
 
                 // Add to final_matches
                 appState.final_matches.push(combined);
