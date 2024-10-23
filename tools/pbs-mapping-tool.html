@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PBS Mapping Tool</title>
+    <!-- Include SheetJS and fuzzball.js libraries -->
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nol13/fuzzball.js@0.1.2/fuzzball.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        #matchesContainer {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        #outputContainer {
+            white-space: pre-wrap;
+            background-color: #000;
+            color: #fff;
+            padding: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: lightgray;
+            height: 20px;
+            margin-bottom: 10px;
+        }
+        .progress {
+            height: 100%;
+            background-color: blue;
+            width: 0%;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>The PBS Mapping Tool</h1>
+
+    <!-- Section 1: File Uploads -->
+    <div id="fileUploadSection" class="section">
+        <h2>Part I: Upload Files</h2>
+
+        <h3>1. Upload PBS Items.xlsx</h3>
+        <input type="file" id="file1" accept=".xlsx">
+
+        <h3>2. Upload Catalog.xlsx</h3>
+        <input type="file" id="file2" accept=".xlsx">
+
+        <p id="fileStatus"></p>
+    </div>
+
+    <!-- Section 2: Mapping Interface -->
+    <div id="mappingSection" class="section hidden">
+        <h2>Part II: Map Data</h2>
+
+        <div class="progress-bar">
+            <div id="progress" class="progress"></div>
+        </div>
+
+        <div>
+            <h3>Current Item (Row: <span id="rowNumber"></span>, Type: <span id="currentColumn"></span>)</h3>
+            <div id="currentItemDetails"></div>
+        </div>
+
+        <div>
+            <h3>Matches</h3>
+            <div id="matchesContainer">
+                <!-- Matches will be added here -->
+            </div>
+        </div>
+
+        <button id="nextButton">Next / Save Selections</button>
+    </div>
+
+    <!-- Section 3: Generated Code -->
+    <div id="outputSection" class="section hidden">
+        <h2>Part III: Generated Code</h2>
+        <p>The code has been copied to your clipboard. You can paste it into your desired location.</p>
+        <div id="outputContainer"></div>
+    </div>
+
+    <script>
+        // Application state
+        let appState = {
+            data1: [],
+            data2: [],
+            df_primaries: [],
+            df_brands: [],
+            df_generics: [],
+            df_trades: [],
+            row_number: 0,
+            column_number: 0,
+            columns: ['PRIMARY', 'BRAND', 'GENERIC', 'TRADE'],
+            matches: [],
+            final_matches: [],
+            total_steps: 0
+        };
+
+        // Event listeners for file uploads
+        document.getElementById('file1').addEventListener('change', handleFile1, false);
+        document.getElementById('file2').addEventListener('change', handleFile2, false);
+
+        // Handle PBS Items file upload
+        function handleFile1(event) {
+            let file = event.target.files[0];
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                let data = new Uint8Array(e.target.result);
+                let workbook = XLSX.read(data, {type: 'array'});
+                let firstSheetName = workbook.SheetNames[0];
+                let worksheet = workbook.Sheets[firstSheetName];
+                let jsonData = XLSX.utils.sheet_to_json(worksheet, {defval: ''});
+                appState.data1 = jsonData;
+                document.getElementById('fileStatus').innerText = 'PBS Items.xlsx loaded.';
+                checkFilesLoaded();
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Handle Catalog file upload
+        function handleFile2(event) {
+            let file = event.target.files[0];
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                let data = new Uint8Array(e.target.result);
+                let workbook = XLSX.read(data, {type: 'array'});
+                let firstSheetName = workbook.SheetNames[0];
+                let worksheet = workbook.Sheets[firstSheetName];
+                let jsonData = XLSX.utils.sheet_to_json(worksheet, {defval: ''});
+                appState.data2 = jsonData;
+                document.getElementById('fileStatus').innerText += ' Catalog.xlsx loaded.';
+                processData2();
+                checkFilesLoaded();
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Process Catalog data
+        function processData2() {
+            appState.df_primaries = appState.data2.filter(item => item['ITEM_TYPE'] === 'PRIMARY');
+            appState.df_brands = appState.data2.filter(item => item['ITEM_TYPE'] === 'BRAND');
+            appState.df_generics = appState.data2.filter(item => item['ITEM_TYPE'] === 'GENERIC');
+            appState.df_trades = appState.data2.filter(item => item['ITEM_TYPE'] === 'TRADE');
+        }
+
+        // Check if both files are loaded
+        function checkFilesLoaded() {
+            if (appState.data1.length > 0 && appState.data2.length > 0) {
+                // Both files are loaded, proceed to mapping
+                document.getElementById('fileUploadSection').classList.add('hidden');
+                document.getElementById('mappingSection').classList.remove('hidden');
+                startMapping();
+            }
+        }
+
+        // Start mapping process
+        function startMapping() {
+            appState.row_number = 0;
+            appState.column_number = 0;
+            appState.final_matches = [];
+            appState.total_steps = appState.data1.length * appState.columns.length;
+            displayCurrentItem();
+        }
+
+        // Display current item and perform fuzzy matching
+        function displayCurrentItem() {
+            if (appState.row_number >= appState.data1.length) {
+                // All items processed, proceed to generate code
+                generateCode();
+                return;
+            }
+            let currentItem = appState.data1[appState.row_number];
+            let currentColumn = appState.columns[appState.column_number];
+            let currentItemValue = currentItem[currentColumn];
+
+            // Update progress
+            let currentStep = appState.row_number * appState.columns.length + appState.column_number;
+            let progressPercent = (currentStep / appState.total_steps) * 100;
+            document.getElementById('progress').style.width = progressPercent + '%';
+
+            // Update row number and current column
+            document.getElementById('rowNumber').innerText = appState.row_number;
+            document.getElementById('currentColumn').innerText = currentColumn;
+
+            // Display current item details
+            let currentItemDetails = document.getElementById('currentItemDetails');
+            currentItemDetails.innerHTML = '';
+            for (let key in currentItem) {
+                currentItemDetails.innerHTML += '<strong>' + key + ':</strong> ' + currentItem[key] + '<br>';
+            }
+
+            // Get the corresponding data2 subset
+            let data2_subset = [];
+            if (currentColumn === 'PRIMARY') {
+                data2_subset = appState.df_primaries;
+            } else if (currentColumn === 'BRAND') {
+                data2_subset = appState.df_brands;
+            } else if (currentColumn === 'GENERIC') {
+                data2_subset = appState.df_generics;
+            } else if (currentColumn === 'TRADE') {
+                data2_subset = appState.df_trades;
+            }
+
+            // Perform fuzzy matching
+            let choices = data2_subset.map(item => item['NAME']);
+            let options = fuzzball.extract(currentItemValue, choices, {scorer: fuzzball.token_sort_ratio, limit: 50});
+
+            // Prepare matches
+            let matches = options.map(option => {
+                let item = data2_subset[option[2]];
+                return {
+                    score: option[1],
+                    value: option[0],
+                    data: item
+                };
+            });
+
+            // Store matches in appState
+            appState.matches = matches;
+
+            // Display matches to user
+            displayMatches();
+        }
+
+        // Display matches
+        function displayMatches() {
+            let matchesContainer = document.getElementById('matchesContainer');
+            matchesContainer.innerHTML = ''; // Clear previous matches
+
+            appState.matches.forEach((match, index) => {
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = 'match-' + index;
+                checkbox.value = index;
+
+                let label = document.createElement('label');
+                label.htmlFor = 'match-' + index;
+                label.innerHTML = '<strong>' + match.value + '</strong> (Score: ' + match.score + ')<br>';
+
+                matchesContainer.appendChild(checkbox);
+                matchesContainer.appendChild(label);
+
+                // Display additional details
+                for (let key in match.data) {
+                    let detail = document.createElement('span');
+                    detail.innerHTML = key + ': ' + match.data[key] + '<br>';
+                    matchesContainer.appendChild(detail);
+                }
+                matchesContainer.appendChild(document.createElement('hr'));
+            });
+        }
+
+        // Handle 'Next' button click
+        document.getElementById('nextButton').addEventListener('click', saveMatchesAndNext);
+
+        function saveMatchesAndNext() {
+            // Get selected matches
+            let selectedMatches = [];
+            appState.matches.forEach((match, index) => {
+                let checkbox = document.getElementById('match-' + index);
+                if (checkbox.checked) {
+                    selectedMatches.push(match);
+                }
+            });
+
+            // Save the selected matches
+            selectedMatches.forEach(match => {
+                let currentItem = appState.data1[appState.row_number];
+                let currentColumn = appState.columns[appState.column_number];
+
+                // Combine currentItem and match.data
+                let combined = Object.assign({}, currentItem, match.data);
+
+                // Add to final_matches
+                appState.final_matches.push(combined);
+            });
+
+            // Move to next column or row
+            appState.column_number++;
+            if (appState.column_number >= appState.columns.length) {
+                appState.column_number = 0;
+                appState.row_number++;
+            }
+
+            // Check if all items processed
+            if (appState.row_number >= appState.data1.length) {
+                // All items processed, proceed to generate code
+                generateCode();
+                return;
+            }
+
+            // Display next item
+            displayCurrentItem();
+        }
+
+        // Generate code based on matches
+        function generateCode() {
+            let output = '';
+            let template = `
+;________________________________________________
+;  PBS mapping script for PBS_DRUG_ID: MAP_PBS_DRUG_ID_ and SYNONYM_ID: MAP_SYNONYM_ID_
+update into pbs_ocs_mapping ocsm
+set
+    ocsm.beg_effective_dt_tm = cnvtdatetime(curdate, 0004)
+    ; Above line sets the activation time to today at 12:04 am, used to identify this type of update
+    , ocsm.end_effective_dt_tm = cnvtdatetime("31-DEC-2100")
+    /*CHANGE THE ROW BELOW MAP_PBS_DRUG_ID_*/
+    , ocsm.pbs_drug_id = MAP_PBS_DRUG_ID_ ; Swap With Pbs Drug Id that maps to the synonym id
+    /*CHANGE THE ROW BELOW MAP_SYNONYM_ID_*/
+    , ocsm.synonym_id = MAP_SYNONYM_ID_ ; Swap With Synonym Id that maps to the pbs_drug_id
+    , ocsm.drug_synonym_id = 0 ; clear multum mapping (multum mappings are not used)
+    , ocsm.main_multum_drug_code = 0 ; clear multum mapping
+    , ocsm.drug_identifier = "0" ; clear multum mapping
+    , ocsm.updt_dt_tm = cnvtdatetime(curdate,curtime3)
+    , ocsm.updt_id = reqinfo->updt_id
+    , ocsm.updt_cnt = ocsm.updt_cnt + 1
+where
+    ;Update the next unused row
+    ocsm.pbs_ocs_mapping_id =
+    (select min(pbs_ocs_mapping_id) from pbs_ocs_mapping where end_effective_dt_tm < sysdate)
+    ; Only Update if the item is NOT already mapped
+    and not exists
+    (
+        select 1
+        from pbs_ocs_mapping
+        /*CHANGE THE ROW BELOW MAP_PBS_DRUG_ID_*/
+        where pbs_drug_id = MAP_PBS_DRUG_ID_ ; Swap With Pbs Drug Id
+        /*CHANGE THE ROW BELOW MAP_SYNONYM_ID_*/
+        and synonym_id = MAP_SYNONYM_ID_ ; Swap With Synonym Id
+        and end_effective_dt_tm > sysdate
+    )
+;________________________________________________
+`;
+
+            appState.final_matches.forEach(match => {
+                let code = template;
+                code = code.replace(/MAP_PBS_DRUG_ID_/g, match['MAP_PBS_DRUG_ID_']);
+                code = code.replace(/MAP_SYNONYM_ID_/g, match['MAP_SYNONYM_ID_']);
+                output += code + '\n\n\n';
+            });
+
+            // Display the output
+            let outputContainer = document.getElementById('outputContainer');
+            outputContainer.textContent = output;
+
+            // Copy to clipboard
+            navigator.clipboard.writeText(output).then(function() {
+                alert('Code copied to clipboard');
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+            });
+
+            // Show output section
+            document.getElementById('mappingSection').classList.add('hidden');
+            document.getElementById('outputSection').classList.remove('hidden');
+        }
+    </script>
+
+</body>
+</html>
