@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Chopper</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            display: inline-block;
+            width: 150px;
+            vertical-align: top;
+        }
+        input[type="text"], input[type="number"] {
+            width: 300px;
+        }
+        input[type="file"] {
+            width: 300px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        #startButton {
+            margin-top: 20px;
+        }
+        #messages {
+            margin-top: 20px;
+            color: green;
+        }
+        #error {
+            margin-top: 20px;
+            color: red;
+        }
+    </style>
+    <!-- Include required libraries -->
+    <!-- Papa Parse -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <!-- SheetJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- JSZip -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- FileSaver.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</head>
+<body>
+
+<h1>File Chopper</h1>
+
+<div class="form-group">
+    <label for="inputFile">Select input file:</label>
+    <input type="file" id="inputFile" accept=".csv, .xlsx">
+</div>
+
+<div class="form-group">
+    <label for="numRows">Number of rows per file:</label>
+    <input type="number" id="numRows" min="1">
+</div>
+
+<button id="startButton">Start Chopping</button>
+
+<div id="messages"></div>
+<div id="error"></div>
+
+<script>
+document.getElementById('startButton').addEventListener('click', startChopping);
+
+function startChopping() {
+    const inputFileElement = document.getElementById('inputFile');
+    const numRowsInput = document.getElementById('numRows');
+    const messagesDiv = document.getElementById('messages');
+    const errorDiv = document.getElementById('error');
+
+    // Clear messages
+    messagesDiv.innerHTML = '';
+    errorDiv.innerHTML = '';
+
+    const file = inputFileElement.files[0];
+    const numRows = parseInt(numRowsInput.value);
+
+    if (!file) {
+        errorDiv.textContent = 'Please select an input file.';
+        return;
+    }
+    if (!numRows || numRows <= 0) {
+        errorDiv.textContent = 'Please enter a valid number of rows per file.';
+        return;
+    }
+
+    // Determine the file type based on the file extension
+    const fileName = file.name;
+    const fileExtension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
+
+    if (fileExtension === '.csv') {
+        processCSV(file, numRows);
+    } else if (fileExtension === '.xlsx') {
+        processExcel(file, numRows);
+    } else {
+        errorDiv.textContent = 'Unsupported file type.';
+    }
+}
+
+function processCSV(file, numRows) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const csvData = e.target.result;
+
+        // Use Papa Parse to parse the CSV data
+        const parsedData = Papa.parse(csvData, {
+            header: true,
+            skipEmptyLines: true
+        });
+
+        if (parsedData.errors.length > 0) {
+            document.getElementById('error').textContent = 'Error parsing CSV file: ' + parsedData.errors[0].message;
+            return;
+        }
+
+        const data = parsedData.data;
+
+        // Split data into chunks
+        const chunks = [];
+        for (let i = 0; i < data.length; i += numRows) {
+            chunks.push(data.slice(i, i + numRows));
+        }
+
+        // Create a ZIP file
+        const zip = new JSZip();
+
+        chunks.forEach((chunk, index) => {
+            const csvContent = Papa.unparse(chunk);
+            const fileName = `${file.name.substring(0, file.name.lastIndexOf('.'))}_${index + 1}.csv`;
+            zip.file(fileName, csvContent);
+        });
+
+        // Generate the ZIP file and provide download link
+        zip.generateAsync({ type: 'blob' }).then(function(content) {
+            saveAs(content, `${file.name.substring(0, file.name.lastIndexOf('.'))}_chopped.zip`);
+            document.getElementById('messages').textContent = 'File has been chopped successfully.';
+        });
+    };
+    reader.onerror = function() {
+        document.getElementById('error').textContent = 'Unable to read ' + file.name;
+    };
+
+    reader.readAsText(file);
+}
+
+function processExcel(file, numRows) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const data = e.target.result;
+        const workbook = XLSX.read(data, { type: 'array' });
+
+        // Assuming we're processing the first sheet
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+
+        // Convert sheet to JSON
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: '', raw: false });
+
+        // Split data into chunks
+        const chunks = [];
+        for (let i = 0; i < jsonData.length; i += numRows) {
+            chunks.push(jsonData.slice(i, i + numRows));
+        }
+
+        // Create a ZIP file
+        const zip = new JSZip();
+
+        chunks.forEach((chunk, index) => {
+            // Create a new workbook
+            const newWorkbook = XLSX.utils.book_new();
+            const newWorksheet = XLSX.utils.json_to_sheet(chunk, { cellText: true });
+
+            // Set all cells to text format '@'
+            const range = XLSX.utils.decode_range(newWorksheet['!ref']);
+            for (let R = range.s.r; R <= range.e.r; ++R) {
+                for (let C = range.s.c; C <= range.e.c; ++C) {
+                    const cell_address = { c: C, r: R };
+                    const cell_ref = XLSX.utils.encode_cell(cell_address);
+                    if (!newWorksheet[cell_ref]) continue;
+                    newWorksheet[cell_ref].z = '@'; // Set number format to text
+                }
+            }
+
+            XLSX.utils.book_append_sheet(newWorkbook, newWorksheet, 'Sheet1');
+
+            // Generate file data
+            const wopts = { bookType: 'xlsx', type: 'array' };
+            const wbout = XLSX.write(newWorkbook, wopts);
+
+            const fileName = `${file.name.substring(0, file.name.lastIndexOf('.'))}_${index + 1}.xlsx`;
+            zip.file(fileName, wbout);
+        });
+
+        // Generate the ZIP file and provide download link
+        zip.generateAsync({ type: 'blob' }).then(function(content) {
+            saveAs(content, `${file.name.substring(0, file.name.lastIndexOf('.'))}_chopped.zip`);
+            document.getElementById('messages').textContent = 'File has been chopped successfully.';
+        });
+
+    };
+    reader.onerror = function() {
+        document.getElementById('error').textContent = 'Unable to read ' + file.name;
+    };
+
+    reader.readAsArrayBuffer(file);
+}
+</script>
+
+</body>
+</html>
