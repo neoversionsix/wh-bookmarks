@@ -83,8 +83,6 @@
     <h3>Console Log:</h3>
     <textarea id="logText" rows="15" readonly></textarea>
 
-    <!-- Close button -->
-    <button id="closeButton">CLOSE</button>
 
     <!-- Include the main JavaScript logic -->
     <script>
@@ -101,7 +99,6 @@
     const downloadButton = document.getElementById('downloadButton');
     const copyScriptButton = document.getElementById('copyScriptButton');
     const logText = document.getElementById('logText');
-    const closeButton = document.getElementById('closeButton');
 
     // Log message function
     function logMessage(message) {
@@ -298,13 +295,6 @@ where
 
         logMessage('Update script copied to clipboard!');
         alert('Update script copied to clipboard!');
-    });
-
-    // Close button function
-    closeButton.addEventListener('click', function () {
-        logMessage('Functionality Terminated, close this app');
-        alert('Closing the application.');
-        // Note: window.close() may not work due to browser security policies
     });
 });
     </script>
