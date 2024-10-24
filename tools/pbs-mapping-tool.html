@@ -170,7 +170,7 @@
         function performFuzzyMatching(query, data) {
             const options = {
                 keys: ['NAME'],  // Ensure your data has a 'NAME' field
-                threshold: 0.4,  // Adjust as needed for strictness
+                threshold: 0.3,  // Adjust as needed for strictness
                 includeScore: true
             };
             const fuse = new Fuse(data, options);
@@ -229,6 +229,9 @@
                 return;
             }
 
+            // Sort matches in descending order of score
+            appState.matches.sort((a, b) => b.score - a.score);
+
             appState.matches.forEach((match, index) => {
                 let checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
@@ -236,21 +239,23 @@
                 checkbox.value = index;
 
                 let label = document.createElement('label');
+                let scorePercentage = (match.score * 100).toFixed(0) + '%';
                 label.htmlFor = 'match-' + index;
-                label.innerHTML = `<strong>${match.value}</strong> (Score: ${match.score})<br>`;
+                label.innerHTML = `<strong>${match.value}</strong> (Score: ${scorePercentage})<br>`;
 
                 matchesContainer.appendChild(checkbox);
                 matchesContainer.appendChild(label);
 
-                for (let key in match.data) {
+                // Display only the 'PRIMARY' field
+                if (match.data.PRIMARY) {
                     let detail = document.createElement('span');
-                    detail.innerHTML = `${key}: ${match.data[key]}<br>`;
+                    detail.innerHTML = `PRIMARY: ${match.data.PRIMARY}<br>`;
                     matchesContainer.appendChild(detail);
                 }
+
                 matchesContainer.appendChild(document.createElement('hr'));
             });
         }
-
 
         // Handle 'Next' button click
         document.getElementById('nextButton').addEventListener('click', saveMatchesAndNext);
