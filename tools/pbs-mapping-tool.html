@@ -14,7 +14,7 @@
             margin-bottom: 40px;
         }
         #matchesContainer {
-            max-height: 45%;
+            max-height: 500px;
             overflow-y: auto;
             border: 1px solid #ccc;
             padding: 10px;
@@ -48,13 +48,8 @@
     <!-- Section 1: File Uploads -->
     <div id="fileUploadSection" class="section">
         <h2>Part I: Upload Files</h2>
-
-        <h3>1. Upload PBS Items.xlsx</h3>
-        <input type="file" id="file1" accept=".xlsx">
-
-        <h3>2. Upload Catalog.xlsx</h3>
-        <input type="file" id="file2" accept=".xlsx">
-
+        <h3>Upload Excel File with PBS_Items and Catalog</h3>
+        <input type="file" id="fileUpload" accept=".xlsx">
         <p id="fileStatus"></p>
     </div>
 
@@ -103,60 +98,77 @@
             total_steps: 0
         };
 
-        // Event listeners for file uploads
-        document.getElementById('file1').addEventListener('change', handleFile1, false);
-        document.getElementById('file2').addEventListener('change', handleFile2, false);
+        // Event listener for single file upload
+        document.getElementById('fileUpload').addEventListener('change', handleFile, false);
 
-        // Handle PBS Items file upload
-        function handleFile1(event) {
-            let file = event.target.files[0];
-            let reader = new FileReader();
-            reader.onload = function(e) {
-                let data = new Uint8Array(e.target.result);
-                let workbook = XLSX.read(data, {type: 'array'});
-                let firstSheetName = workbook.SheetNames[0];
-                let worksheet = workbook.Sheets[firstSheetName];
-                let jsonData = XLSX.utils.sheet_to_json(worksheet, {defval: ''});
-                appState.data1 = jsonData;
-                document.getElementById('fileStatus').innerText = 'PBS Items.xlsx loaded.';
-                checkFilesLoaded();
-            };
-            reader.readAsArrayBuffer(file);
+        function validateColumns(data) {
+            let requiredColumns = ['GENERIC', 'TRADE'];
+            let missingColumns = requiredColumns.filter(col => !(col in data[0]));
+
+            if (missingColumns.length > 0) {
+                alert(`Missing required columns: ${missingColumns.join(', ')}`);
+                return false;
+            }
+            return true;
         }
 
-        // Handle Catalog file upload
-        function handleFile2(event) {
+        function handleFile(event) {
             let file = event.target.files[0];
             let reader = new FileReader();
+
             reader.onload = function(e) {
                 let data = new Uint8Array(e.target.result);
-                let workbook = XLSX.read(data, {type: 'array'});
-                let firstSheetName = workbook.SheetNames[0];
-                let worksheet = workbook.Sheets[firstSheetName];
-                let jsonData = XLSX.utils.sheet_to_json(worksheet, {defval: ''});
-                appState.data2 = jsonData;
-                document.getElementById('fileStatus').innerText += ' Catalog.xlsx loaded.';
+                let workbook = XLSX.read(data, { type: 'array' });
+
+                // Access sheets by their names
+                let pbsSheetName = "PBS_Items";  // Change if your sheet name is different
+                let catalogSheetName = "Catalog"; // Change if your sheet name is different
+
+                let pbsSheet = workbook.Sheets[pbsSheetName];
+                let catalogSheet = workbook.Sheets[catalogSheetName];
+
+                if (!pbsSheet || !catalogSheet) {
+                    alert(`One or both sheets not found. Ensure the file contains "${pbsSheetName}" and "${catalogSheetName}".`);
+                    return;
+                }
+
+                // Convert sheets to JSON
+                appState.data1 = XLSX.utils.sheet_to_json(pbsSheet, { defval: '' });
+                appState.data2 = XLSX.utils.sheet_to_json(catalogSheet, { defval: '' });
+
+                document.getElementById('fileStatus').innerText = 'Both sheets loaded successfully.';
                 processData2();
                 checkFilesLoaded();
             };
+
             reader.readAsArrayBuffer(file);
         }
 
-        // Process Catalog data
-        function processData2() {
-            appState.df_generics = appState.data2.filter(item => item['ITEM_TYPE'] === 'GENERIC');
-            appState.df_trades = appState.data2.filter(item => item['ITEM_TYPE'] === 'TRADE');
-        }
-
-        // Check if both files are loaded
+        // Check if data is loaded and proceed to the mapping process
         function checkFilesLoaded() {
             if (appState.data1.length > 0 && appState.data2.length > 0) {
-                // Both files are loaded, proceed to mapping
+                if (!validateColumns(appState.data1)) return; // Stop if columns are missing
+
                 document.getElementById('fileUploadSection').classList.add('hidden');
                 document.getElementById('mappingSection').classList.remove('hidden');
                 startMapping();
             }
         }
+
+
+        function processData2() {
+            // Filter GENERIC and TRADE items from the catalog data
+            appState.df_generics = appState.data2.filter(item => item['ITEM_TYPE'] === 'GENERIC');
+            appState.df_trades = appState.data2.filter(item => item['ITEM_TYPE'] === 'TRADE');
+
+            console.log("Filtered GENERIC items:", appState.df_generics);
+            console.log("Filtered TRADE items:", appState.df_trades);
+
+            if (appState.df_generics.length === 0 || appState.df_trades.length === 0) {
+                alert("Warning: One or both item types (GENERIC or TRADE) are missing or incorrectly labeled.");
+            }
+        }
+
 
         // Start mapping process
         function startMapping() {
