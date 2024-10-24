@@ -14,7 +14,7 @@
             margin-bottom: 40px;
         }
         #matchesContainer {
-            max-height: 300px;
+            max-height: 50%;
             overflow-y: auto;
             border: 1px solid #ccc;
             padding: 10px;
@@ -67,12 +67,12 @@
         </div>
 
         <div>
-            <h3>Current Item (Row: <span id="rowNumber"></span>, Type: <span id="currentColumn"></span>)</h3>
+            <h3>Current PBS Item (Row: <span id="rowNumber"></span>, Type: <span id="currentColumn"></span>)</h3>
             <div id="currentItemDetails"></div>
         </div>
 
         <div>
-            <h3>Matches</h3>
+            <h3>Close Matches from our Catalog</h3>
             <div id="matchesContainer">
                 <!-- Matches will be added here -->
             </div>
@@ -218,7 +218,6 @@
 
         }
 
-
         // Display matches
         function displayMatches() {
             let matchesContainer = document.getElementById('matchesContainer');
@@ -240,19 +239,17 @@
 
                 let label = document.createElement('label');
                 let scorePercentage = (match.score * 100).toFixed(0) + '%';
+                let primaryField = match.data.PRIMARY ? `PRIMARY: ${match.data.PRIMARY}` : '';
+
+                // Use a span to style the score percentage in green
                 label.htmlFor = 'match-' + index;
-                label.innerHTML = `<strong>${match.value}</strong> (Score: ${scorePercentage})<br>`;
+                label.innerHTML = `
+                    <strong>${match.value}</strong> 
+                    (<span style="color: green;">Score: ${scorePercentage}</span>) 
+                    - ${primaryField}`;
 
                 matchesContainer.appendChild(checkbox);
                 matchesContainer.appendChild(label);
-
-                // Display only the 'PRIMARY' field
-                if (match.data.PRIMARY) {
-                    let detail = document.createElement('span');
-                    detail.innerHTML = `PRIMARY: ${match.data.PRIMARY}<br>`;
-                    matchesContainer.appendChild(detail);
-                }
-
                 matchesContainer.appendChild(document.createElement('hr'));
             });
         }
