@@ -4,7 +4,8 @@
     <title>PBS Mapping Tool</title>
     <!-- Include SheetJS and fuzzball.js libraries -->
     <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/nol13/fuzzball.js@0.1.2/fuzzball.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
+    <script>console.log('Fuse.js:', typeof Fuse);</script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -166,10 +167,28 @@
             displayCurrentItem();
         }
 
-        // Display current item and perform fuzzy matching
+        function performFuzzyMatching(query, data) {
+            const options = {
+                keys: ['NAME'],  // Ensure your data has a 'NAME' field
+                threshold: 0.4,  // Adjust as needed for strictness
+                includeScore: true
+            };
+            const fuse = new Fuse(data, options);
+
+            const results = fuse.search(query);
+            console.log('Matching Results:', results);  // Log matches for debugging
+
+            return results.map(result => ({
+                score: result.score,
+                value: result.item.NAME,
+                data: result.item
+            }));
+        }
+
+
+        // Update displayCurrentItem to use the new matching function
         function displayCurrentItem() {
             if (appState.row_number >= appState.data1.length) {
-                // All items processed, proceed to generate code
                 generateCode();
                 return;
             }
@@ -177,55 +196,38 @@
             let currentColumn = appState.columns[appState.column_number];
             let currentItemValue = currentItem[currentColumn];
 
-            // Update progress
             let currentStep = appState.row_number * appState.columns.length + appState.column_number;
             let progressPercent = (currentStep / appState.total_steps) * 100;
             document.getElementById('progress').style.width = progressPercent + '%';
 
-            // Update row number and current column
             document.getElementById('rowNumber').innerText = appState.row_number;
             document.getElementById('currentColumn').innerText = currentColumn;
 
-            // Display current item details
             let currentItemDetails = document.getElementById('currentItemDetails');
             currentItemDetails.innerHTML = '';
             for (let key in currentItem) {
-                currentItemDetails.innerHTML += '<strong>' + key + ':</strong> ' + currentItem[key] + '<br>';
+                currentItemDetails.innerHTML += `<strong>${key}:</strong> ${currentItem[key]}<br>`;
             }
 
-            // Get the corresponding data2 subset
-            let data2_subset = [];
-            if (currentColumn === 'GENERIC') {
-                data2_subset = appState.df_generics;
-            } else if (currentColumn === 'TRADE') {
-                data2_subset = appState.df_trades;
-            }
+            let data2_subset = currentColumn === 'GENERIC' ? appState.df_generics : appState.df_trades;
 
-            // Perform fuzzy matching
-            let choices = data2_subset.map(item => item['NAME']);
-            let options = fuzzball.extract(currentItemValue, choices, {scorer: fuzzball.token_sort_ratio, limit: 50});
-
-            // Prepare matches
-            let matches = options.map(option => {
-                let item = data2_subset[option[2]];
-                return {
-                    score: option[1],
-                    value: option[0],
-                    data: item
-                };
-            });
-
-            // Store matches in appState
-            appState.matches = matches;
-
-            // Display matches to user
+            appState.matches = performFuzzyMatching(currentItemValue, data2_subset);
             displayMatches();
+            console.log('Current Item Value:', currentItemValue);
+            console.log('Data Subset:', data2_subset);
+
         }
+
 
         // Display matches
         function displayMatches() {
             let matchesContainer = document.getElementById('matchesContainer');
             matchesContainer.innerHTML = ''; // Clear previous matches
+
+            if (appState.matches.length === 0) {
+                matchesContainer.innerHTML = '<p>No matches found.</p>';
+                return;
+            }
 
             appState.matches.forEach((match, index) => {
                 let checkbox = document.createElement('input');
@@ -235,20 +237,20 @@
 
                 let label = document.createElement('label');
                 label.htmlFor = 'match-' + index;
-                label.innerHTML = '<strong>' + match.value + '</strong> (Score: ' + match.score + ')<br>';
+                label.innerHTML = `<strong>${match.value}</strong> (Score: ${match.score})<br>`;
 
                 matchesContainer.appendChild(checkbox);
                 matchesContainer.appendChild(label);
 
-                // Display additional details
                 for (let key in match.data) {
                     let detail = document.createElement('span');
-                    detail.innerHTML = key + ': ' + match.data[key] + '<br>';
+                    detail.innerHTML = `${key}: ${match.data[key]}<br>`;
                     matchesContainer.appendChild(detail);
                 }
                 matchesContainer.appendChild(document.createElement('hr'));
             });
         }
+
 
         // Handle 'Next' button click
         document.getElementById('nextButton').addEventListener('click', saveMatchesAndNext);
