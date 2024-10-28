@@ -27,25 +27,33 @@
 <body>
 
 <div id="app">
-    <h1>User Re-Activation Tool</h1>
+    <h1>Bulk User Creation Tool</h1>
 
     <!-- Step 1 -->
     <div id="step1" class="step active">
+        <h2>1. Load the Excel File</h2>
+        <p>Download the excel file template found here, edit it, save it, then load it using the button below</p>
         <button id="loadExcelButton">Load Excel File</button>
     </div>
 
     <!-- Step 2 -->
     <div id="step2" class="step">
+        <h2>2. Run the reactivation update script</h2>
+        <p>Click Below. Paste the update script copied to your clipboard into DVDev and run it.</p>
         <button id="generateUserReactivationScriptButton">Create User Re-Activation Script</button>
     </div>
 
     <!-- Step 3 -->
     <div id="step3" class="step">
+        <h2>3. Create Users Using Content Manager</h2>
+        <p>Click below. Save the csv file to your computer, Then upload it using Cerner's Content Manager Tool</p>
         <button id="saveContentManagerCsvButton">Save Content Manager CSV File</button>
     </div>
 
     <!-- Step 4 -->
     <div id="step4" class="step">
+        <h2>4. Create Credentials</h2>
+        <p>Click the button below, run the update script copied to your clipboard to create the credentials.</p>
         <button id="generateCredentialMoveScriptButton">Create Credential Move/Directory Ind Update Script</button>
     </div>
 </div>
@@ -262,32 +270,47 @@ function createCsvData(inputData) {
 }
 
 // Function to save CSV file
-function saveCsvFile(data) {
+async function saveCsvFile(data) {
     let csvContent = '';
     data.forEach(rowArray => {
         let row = rowArray.map(item => '"' + item + '"').join(',');
         csvContent += row + '\r\n';
     });
-
     const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
     const filename = 'ContentManager.csv';
 
-    if (navigator.msSaveBlob) { // For IE 10+
-        navigator.msSaveBlob(blob, filename);
-    } else {
-        const link = document.createElement("a");
-        if (link.download !== undefined) { // Feature detection
-            const url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", filename);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+    if (window.showSaveFilePicker) {
+        // Use the File System Access API to prompt the user where to save the file
+        try {
+            const handle = await window.showSaveFilePicker({
+                suggestedName: filename,
+                types: [{
+                    description: 'CSV Files',
+                    accept: {'text/csv': ['.csv']}
+                }]
+            });
+            const writable = await handle.createWritable();
+            await writable.write(blob);
+            await writable.close();
             alert('CSV file saved successfully! Upload the file you just saved with the Cerner Content Manager Tool.');
+        } catch (err) {
+            console.error('Error saving file:', err);
+            alert('An error occurred while saving the file.');
         }
+    } else {
+        // Fallback for browsers that do not support the File System Access API
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", filename);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        alert('CSV file saved successfully! Upload the file you just saved with the Cerner Content Manager Tool.');
     }
 }
+
 </script>
 
 </body>
