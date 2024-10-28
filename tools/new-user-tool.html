@@ -272,19 +272,22 @@ function createCsvData(inputData) {
 
 // Function to save CSV file
 async function saveCsvFile(data) {
-    let csvContent = '';
-    data.forEach(rowArray => {
-        let row = rowArray.map(item => '"' + item + '"').join(',');
-        csvContent += row + '\r\n';
-    });
+    // Create a worksheet from the data array
+    const ws = XLSX.utils.aoa_to_sheet(data);
+
+    // Generate CSV content using SheetJS
+    const csvContentWithoutBOM = XLSX.utils.sheet_to_csv(ws, {FS: ',', RS: '\r\n'});
+
+    // Add UTF-8 Byte Order Mark (BOM)
+    const csvContent = '\uFEFF' + csvContentWithoutBOM;
+
     const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
-    const filename = 'ContentManager.csv';
 
     if (window.showSaveFilePicker) {
-        // Use the File System Access API to prompt the user where to save the file
+        // Use the File System Access API
         try {
             const handle = await window.showSaveFilePicker({
-                suggestedName: filename,
+                suggestedName: 'ContentManager.csv',
                 types: [{
                     description: 'CSV Files',
                     accept: {'text/csv': ['.csv']}
@@ -299,11 +302,11 @@ async function saveCsvFile(data) {
             alert('An error occurred while saving the file.');
         }
     } else {
-        // Fallback for browsers that do not support the File System Access API
+        // Fallback for unsupported browsers
         const link = document.createElement("a");
         const url = URL.createObjectURL(blob);
         link.setAttribute("href", url);
-        link.setAttribute("download", filename);
+        link.setAttribute("download", 'ContentManager.csv');
         link.style.visibility = 'hidden';
         document.body.appendChild(link);
         link.click();
