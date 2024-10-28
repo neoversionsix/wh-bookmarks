@@ -265,8 +265,9 @@ function createCsvData(inputData) {
         const rowArray = header_row.map(column => data_dict[column] || '');
         return rowArray;
     });
-    // Return data including header
-    return [header_row].concat(data_rows);
+    // Return data including header row (header twice for content manager)
+    return [header_row, header_row].concat(data_rows);
+
 }
 
 // Function to save CSV file
