@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>User Re-Activation Tool</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  #app {
+    max-width: 800px;
+    margin: auto;
+  }
+  button {
+    padding: 10px 15px;
+    margin: 10px 0;
+  }
+  .step {
+    display: none;
+  }
+  .step.active {
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+    <h1>User Re-Activation Tool</h1>
+
+    <!-- Step 1 -->
+    <div id="step1" class="step active">
+        <button id="loadExcelButton">Load Excel File</button>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="step2" class="step">
+        <button id="generateUserReactivationScriptButton">Create User Re-Activation Script</button>
+    </div>
+
+    <!-- Step 3 -->
+    <div id="step3" class="step">
+        <button id="saveContentManagerCsvButton">Save Content Manager CSV File</button>
+    </div>
+
+    <!-- Step 4 -->
+    <div id="step4" class="step">
+        <button id="generateCredentialMoveScriptButton">Create Credential Move/Directory Ind Update Script</button>
+    </div>
+</div>
+
+<!-- Hidden file input -->
+<input type="file" id="fileInput" accept=".xlsx" style="display:none;">
+
+<!-- Include SheetJS library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+let inputData = null;
+
+const ccl_code = [
+    '; USER RE-ACTIVATION SCRIPT',
+    'update into prsnl p',
+    'set p.end_effective_dt_tm = cnvtdatetime("31-DEC-2100")',
+    ', p.updt_dt_tm = cnvtdatetime(curdate,curtime3)',
+    ', p.updt_id = reqinfo->updt_id',
+    ', p.updt_cnt = p.updt_cnt + 1',
+    'where p.username = "SWAPME123"',
+    ''
+];
+
+const ccl_cred_code = [
+    '; CREDENTIAL MOVE SCRIPT ------------------------------------------',
+    'update into credential cred',
+    'set cred.prsnl_id = (select person_id from prsnl where username = "SWAPME123")',
+    ', cred.credential_cd = (select code_value from code_value where code_set = 29600 and display = "SWAP_TO_REAL_CREDENTIAL")',
+    ', cred.credential_type_cd = 686580 ; License from code set 254874',
+    ', cred.beg_effective_dt_tm = cnvtdatetime(curdate,curtime3)',
+    ', cred.active_ind = 1',
+    ', cred.active_status_dt_tm = cnvtdatetime(curdate,curtime3)',
+    ', cred.active_status_cd = 188 ; Active from code set 48',
+    ', cred.updt_dt_tm = cnvtdatetime(curdate,curtime3)',
+    ', cred.updt_id = reqinfo->updt_id',
+    ', cred.updt_cnt = cred.updt_cnt + 1',
+    'where cred.credential_id  = (',
+    'select min(credential_id)',
+    'from credential',
+    'where prsnl_id = 13876656 ; Credential Box user in prod or cert',
+    ')',
+    'and not exists (',
+    'select 1',
+    'from credential',
+    'where prsnl_id = (select person_id from prsnl where username = "SWAPME123")',
+    'and credential_cd = (select code_value from code_value where code_set = 29600 and display = "SWAP_TO_REAL_CREDENTIAL")',
+    'and active_ind = 1',
+    ')',
+    '',
+    '; DIRECTORY IND SCRIPT',
+    'update into ea_user eau',
+    'set',
+    'eau.directory_ind = 1',
+    ',eau.updt_dt_tm = cnvtdatetime(curdate,curtime3)',
+    ',eau.updt_id = reqinfo->updt_id',
+    ',eau.updt_cnt = eau.updt_cnt + 1',
+    'where eau.username = "SWAPME123"',
+    ';---------------------------------------------------------------------'
+];
+
+document.getElementById('loadExcelButton').addEventListener('click', function() {
+    document.getElementById('fileInput').click();
+});
+
+document.getElementById('fileInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, {type: 'array'});
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+            inputData = XLSX.utils.sheet_to_json(worksheet, {raw: true});
+            alert('Excel file loaded successfully!');
+            // Show the next step
+            showStep(2);
+        };
+        reader.readAsArrayBuffer(file);
+    }
+});
+
+document.getElementById('generateUserReactivationScriptButton').addEventListener('click', function() {
+    if (inputData) {
+        let script = '';
+        inputData.forEach(row => {
+            const to_switch_1 = row['USERNAME'].toUpperCase();
+            ccl_code.forEach(line => {
+                const new_line = line.replace('SWAPME123', to_switch_1);
+                script += new_line + '\n';
+            });
+        });
+        navigator.clipboard.writeText(script).then(function() {
+            alert('User Re-Activation Script copied to clipboard! Please run the script.');
+            showStep(3);
+        }, function(err) {
+            console.error('Could not copy text: ', err);
+        });
+    } else {
+        alert('Please load the Excel file first.');
+    }
+});
+
+document.getElementById('saveContentManagerCsvButton').addEventListener('click', function() {
+    if (inputData) {
+        const data = createCsvData(inputData);
+        saveCsvFile(data);
+        showStep(4);
+    } else {
+        alert('Please load the Excel file first.');
+    }
+});
+
+document.getElementById('generateCredentialMoveScriptButton').addEventListener('click', function() {
+    if (inputData) {
+        let script = '';
+        inputData.forEach(row => {
+            const to_switch_1 = row['USERNAME'].toUpperCase();
+            const to_switch_2 = row['CREDENTIAL'] ? String(row['CREDENTIAL']) : '';
+            if (to_switch_2) {
+                ccl_cred_code.forEach(line => {
+                    let new_line = line.replace('SWAPME123', to_switch_1);
+                    new_line = new_line.replace('SWAP_TO_REAL_CREDENTIAL', to_switch_2);
+                    script += new_line + '\n';
+                });
+            }
+        });
+        navigator.clipboard.writeText(script).then(function() {
+            alert('Credential Move/Directory Ind Update Script copied to clipboard! Please run the script.');
+        }, function(err) {
+            console.error('Could not copy text: ', err);
+        });
+    } else {
+        alert('Please load the Excel file first.');
+    }
+});
+
+// Function to show the next step
+function showStep(stepNumber) {
+    document.getElementById(`step${stepNumber}`).classList.add('active');
+}
+
+// Function to create CSV data
+function createCsvData(inputData) {
+    const header_row = ['*Last Name', '*First Name', 'Middle Name', 'Username', 'External Id',
+        'External Id Alias Pool', 'Name Full Formatted', 'Title', 'Suffix',
+        'Position', 'Begin Date+Time', '*End Date+Time', 'Physician Ind',
+        'SSN', 'SSN Pool', 'Birthdate', 'Sex', 'VIP', 'Active Ind',
+        'Primary Assigned Location', 'Email', '*Prsnl Alias Type', '*Prsnl Alias',
+        '*Prsnl Alias Pool', 'Prsnl Alias Active Ind', 'Prsnl_Alias_End_Dt', '*Org Name',
+        'Org Confid Level', 'Org_End_Dt', '*Address Type', '*Address Type Seq',
+        'Address Street 1', 'Address Street 2', 'Address Street 3', 'Address Street 4',
+        'City', 'County', 'State or Prov', 'Country', 'Zip Code', 'Contact', 'Comment',
+        'District Health UK', 'Primary Care UK', 'Address_Delete_Ind',
+        'Org Address Reltn Ind', 'Org Addr Name', 'Org Addr Type', 'Org Addr Sequence',
+        '*Phone Type', '*Phone Type Seq', 'Phone Number', 'Phone Extension',
+        'Phone Format', 'Phone Description', 'Phone Contact', 'Phone Call Instruction',
+        'Phone_Delete_Ind', 'Org Phone Reln Ind', 'Org Phone Name', 'Org Phone Type',
+        'Org Phone Seq', '*Location Type', '*Location Name', 'Location_Delete_Ind',
+        '*Org Group Type', '*Org Group Name', 'Org_Group_Delete_Ind', '*Prsnl Group Type',
+        '*Prsnl Group Name', '*Prsnl Group Class', 'Prsnl_Group_Delete_Ind',
+        '*Clinical Service Display', 'Clinical Service Default',
+        'Clinical Service Org Name', 'Clin_Serv_Delete_Ind'
+    ];
+
+    const end_date = "31/12/2100 00:00";
+    const alias_pool = 'External ID';
+    const today = new Date();
+    const d1 = today.getDate().toString().padStart(2, '0') + '/' + 
+               (today.getMonth() + 1).toString().padStart(2, '0') + '/' + 
+               today.getFullYear();
+    const begin_date = d1 + ' 00:00';
+    const act_ind = '1';
+    const org_g_type = 'SECURITY';
+    const org_g_name = 'Western Health';
+    const PRSNL_GROUP_NAME = 'ED Primed Views';
+    const PRSNL_GROUP_TYPE = 'ED Primed Views';
+
+    // Build data rows
+    const data_rows = inputData.map(row => {
+        const a_user = row['USERNAME'].toUpperCase();
+        let a_credential = row['CREDENTIAL'] ? String(row['CREDENTIAL']) : '';
+        const a_fname = row['FIRST'];
+        const a_lname = row['LAST'];
+        const a_fullname = a_lname + ', ' + a_fname + ' - ' + a_credential;
+        const a_position = row['POSITION'];
+        const a_extid = 'WHS' + a_user;
+        let physician_ind = '0';
+        if (['Medical Officer', 'Medical Officer P1', 'Medical Officer P2'].includes(a_position)) {
+            physician_ind = '1';
+        }
+        const data_dict = {
+            'Username': a_user,
+            'External Id': a_extid,
+            'External Id Alias Pool': alias_pool,
+            '*Last Name': a_lname, '*First Name': a_fname,
+            'Name Full Formatted': a_fullname,
+            'Position': a_position,
+            'Begin Date+Time': begin_date,
+            '*End Date+Time': end_date,
+            'Physician Ind': physician_ind,
+            'Active Ind': act_ind,
+            '*Org Group Type': org_g_type,
+            '*Org Group Name': org_g_name,
+            '*Prsnl Group Type': PRSNL_GROUP_TYPE,
+            '*Prsnl Group Name': PRSNL_GROUP_NAME
+        };
+        // Map data_dict to an array in the order of header_row
+        const rowArray = header_row.map(column => data_dict[column] || '');
+        return rowArray;
+    });
+    // Return data including header
+    return [header_row].concat(data_rows);
+}
+
+// Function to save CSV file
+function saveCsvFile(data) {
+    let csvContent = '';
+    data.forEach(rowArray => {
+        let row = rowArray.map(item => '"' + item + '"').join(',');
+        csvContent += row + '\r\n';
+    });
+
+    const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+    const filename = 'ContentManager.csv';
+
+    if (navigator.msSaveBlob) { // For IE 10+
+        navigator.msSaveBlob(blob, filename);
+    } else {
+        const link = document.createElement("a");
+        if (link.download !== undefined) { // Feature detection
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            alert('CSV file saved successfully! Upload the file you just saved with the Cerner Content Manager Tool.');
+        }
+    }
+}
+</script>
+
+</body>
+</html>
