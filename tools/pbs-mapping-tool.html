@@ -48,7 +48,7 @@
     <!-- Section 1: File Uploads -->
     <div id="fileUploadSection" class="section">
         <h2>Part I: Upload Files</h2>
-        <p>Refresh the template <a href="https://github.com/neoversionsix/wh-bookmarks/blob/ee61622c2a51996de30823127cbd0dd2892907c5/tools/user-upload-sheet.xlsx" target="_blank">mapping Template</a>, edit it, save it, then load it using the button below</p>
+        <p>Refresh the template <a href="https://github.com/neoversionsix/wh-bookmarks/blob/8c70cc6bbc59a6d1392147cead30b795bea4752e/tools/mapping-template.xlsx" target="_blank">Link to Mapping Template</a>, refresh the data, save it, then load it using the button below</p>
         <input type="file" id="fileUpload" accept=".xlsx">
         <p id="fileStatus"></p>
     </div>
@@ -121,8 +121,8 @@
                 let workbook = XLSX.read(data, { type: 'array' });
 
                 // Access sheets by their names
-                let pbsSheetName = "PBS_Items";  // Change if your sheet name is different
-                let catalogSheetName = "Catalog"; // Change if your sheet name is different
+                let pbsSheetName = "to-map";  // Change if your sheet name is different
+                let catalogSheetName = "pharmacy-catalog"; // Change if your sheet name is different
 
                 let pbsSheet = workbook.Sheets[pbsSheetName];
                 let catalogSheet = workbook.Sheets[catalogSheetName];
