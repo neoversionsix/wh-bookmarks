@@ -338,7 +338,7 @@
             let template = `
 ;________________________________________________
 ;  PBS mapping script for PBS_DRUG_ID: MAP_PBS_DRUG_ID_ and SYNONYM_ID: MAP_SYNONYM_ID_
-; This Maps PBS NAME: $NAME$ to SYNONYM: $SYNONYM$
+; This Maps PBS NAME: !NAME! to SYNONYM: !SYNONYM!
 update into pbs_ocs_mapping ocsm
 set
     ocsm.beg_effective_dt_tm = cnvtdatetime(curdate, 0004)
