@@ -57,11 +57,11 @@
     <input type="text" id="keyColumn" value="MAPPING_KEY" />
 
     <!-- File input -->
-    <label for="excelFile">Select copier.xlsx file:</label>
+    <label for="excelFile">Select template file from your PC (after refreshing the data):</label>
     <input type="file" id="excelFile" accept=".xlsx" />
 
     <!-- Process button -->
-    <button id="processButton">Process copier.xlsx file</button>
+    <button id="processButton">Process file</button>
 
     <!-- Results label -->
     <p id="resultsLabel"></p>
@@ -69,6 +69,7 @@
     <!-- Download and copy script buttons -->
     <p> downloading the auto mapping table is optional. It's just a table that that say's what it has decided to auto map</p>
     <button id="downloadButton" disabled>Download Auto Mapping Table</button>
+    <p>The button below will genearte the update script that implements the auto mappings</p>
     <button id="copyScriptButton" disabled>Copy Auto Mapping Update Script to Clipboard</button>
 
     <!-- Console log -->
