@@ -67,7 +67,8 @@
         </div>
 
         <div>
-            <h3>Close Matches from our Catalog</h3>
+            <h3 id="matchesHeader"></h3>  <!-- Added placeholder for PBS Name -->
+            <h4>List of Close Matches from our Catalog</h4>
             <div id="matchesContainer">
                 <!-- Matches will be added here -->
             </div>
@@ -217,6 +218,10 @@
                 currentItemDetails.innerHTML += `<strong>${key}:</strong> ${currentItem[key]}<br>`;
             }
 
+            // Display PBS Name just above the matches section
+            let matchesHeader = document.getElementById('matchesHeader');
+            matchesHeader.innerHTML = `<strong>Current PBS Name:</strong> ${currentItemValue}`;
+
             // Get the corresponding data2 subset
             let data2_subset = [];
             if (currentColumn === 'PRIMARY') {
@@ -233,7 +238,6 @@
             displayMatches();
             console.log('Current Item Value:', currentItemValue);
             console.log('Data Subset:', data2_subset);
-
         }
 
         // Display matches
