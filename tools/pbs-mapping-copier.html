@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PBS Drug Mapping</title>
+    <title>PBS Drug Auto Mapping Copier</title>
     <!-- Include CSS for styling -->
     <style>
         /* Add your CSS styles here */
@@ -47,19 +47,10 @@
     </script>
 </head>
 <body>
-    <h1>PBS Drug Mapping</h1>
+    <h1>PBS Drug Auto Mapping Copier</h1>
 
-    <button onclick="copyCodeFromGitHub('https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/39387cdd90b6c690dc4d53bfc61e2e577fe29f52/PBS/PBS%20-%20For%20Copy%20Existing%20Mappings%20-%20Last%20Installed%20Package.ccl')">
-    Copy CCL to Clipboard - PBS Last Installed Package Items To Map
-    </button>
-
-    <button onclick="copyCodeFromGitHub('https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/39387cdd90b6c690dc4d53bfc61e2e577fe29f52/PBS/PBS%20-%20For%20Copy%20Existing%20Mappings%20-%20Last%20Installed%20Package%20-%20Unmapped%20Only.ccl')">
-    Copy CCL to Clipboard - PBS Last Installed Package Items To Map - Filter for 0 Associated Mappings
-    </button>
-
-    <button onclick="copyCodeFromGitHub('https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/39387cdd90b6c690dc4d53bfc61e2e577fe29f52/PBS/PBS%20-%20For%20Copying%20Existing%20Mappings%20-%20All%20Mappings.ccl')">
-    Copy CCL to Clipboard - PBS All Existing Mappings
-    </button>
+    <p>Refresh the template xlsx file and then load it into this tool</p>
+    <p>TEMPLATE: https://github.com/neoversionsix/wh-bookmarks/blob/81c4211915a8d9a97754404ae97d8040ae8c22ec/tools/mapping-template.xlsx</p>
 
     <!-- Key column input -->
     <label for="keyColumn">Matching Column:</label>
@@ -76,6 +67,7 @@
     <p id="resultsLabel"></p>
 
     <!-- Download and copy script buttons -->
+    <p> downloading the auto mapping table is optional. It's just a table that that say's what it has decided to auto map</p>
     <button id="downloadButton" disabled>Download Auto Mapping Table</button>
     <button id="copyScriptButton" disabled>Copy Auto Mapping Update Script to Clipboard</button>
 
