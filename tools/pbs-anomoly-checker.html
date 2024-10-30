@@ -43,6 +43,9 @@
         .highlight {
             background-color: #FFFF99;
         }
+        .less-mappings {
+            background-color: #FFCCCC; /* Light red background */
+        }
     </style>
 </head>
 <body>
@@ -129,7 +132,7 @@
                     const title = document.createElement('h2');
                     title.textContent = `Anomaly ${index + 1} - PBS_MAPPING_KEY: ${anomalyGroup.key}`;
                     section.appendChild(title);
-                    const table = createTable(anomalyGroup.rows, anomalyGroup.differences);
+                    const table = createAnomalyTable(anomalyGroup);
                     section.appendChild(table);
                     anomaliesDiv.appendChild(section);
                 });
@@ -163,7 +166,7 @@
         }
 
         // Function to create a table from data rows
-        function createTable(dataRows, highlightColumns = []) {
+        function createTable(dataRows, highlightColumns = [], lessMappingsCodes = []) {
             const table = document.createElement('table');
             if (dataRows.length === 0) return table;
             const headers = Object.keys(dataRows[0]);
@@ -182,6 +185,9 @@
                 headers.forEach(header => {
                     const td = document.createElement('td');
                     td.textContent = row[header];
+                    if (header === 'PBS_CODE' && lessMappingsCodes.includes(row['PBS_CODE'])) {
+                        td.classList.add('less-mappings');
+                    }
                     if (highlightColumns.includes(header)) {
                         td.classList.add('highlight');
                     }
@@ -191,6 +197,18 @@
             });
             table.appendChild(tbody);
             return table;
+        }
+
+        // Function to create an anomaly table sorted by PBS_CODE
+        function createAnomalyTable(anomalyGroup) {
+            // Sort the rows by PBS_CODE
+            const sortedRows = anomalyGroup.rows.sort((a, b) => {
+                if (a['PBS_CODE'] < b['PBS_CODE']) return -1;
+                if (a['PBS_CODE'] > b['PBS_CODE']) return 1;
+                return 0;
+            });
+
+            return createTable(sortedRows, anomalyGroup.differences, anomalyGroup.lessMappingsCodes);
         }
 
         // Updated function to find anomalies in the data
@@ -234,10 +252,17 @@
 
                 // If there is more than one unique set of MAPPED_TO values, it's an anomaly
                 if (uniqueMappings.size > 1) {
+                    // Find the maximum number of mappings any PBS_CODE has in this group
+                    const maxMappings = Math.max(...Object.values(pbsCodeMappings).map(set => set.size));
+
+                    // Identify PBS_CODEs with fewer mappings
+                    const lessMappingsCodes = Object.keys(pbsCodeMappings).filter(pbsCode => pbsCodeMappings[pbsCode].size < maxMappings);
+
                     anomalies.push({
                         key: key,
                         rows: group,
-                        differences: ['MAPPED_TO']
+                        differences: ['MAPPED_TO'],
+                        lessMappingsCodes: lessMappingsCodes
                     });
                 }
             }
