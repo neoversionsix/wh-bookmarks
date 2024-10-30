@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PBS Mapping Checker Tool</title>
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        button {
+            margin: 5px 0;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #dataStatus, #anomalies {
+            margin-top: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            margin-top: 10px;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #CCC;
+            padding: 8px;
+            text-align: left;
+        }
+        .anomaly {
+            background-color: #FFD2D2;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .hidden {
+            display: none;
+        }
+        .highlight {
+            background-color: #FFFF99;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>PBS Mapping Checker Tool</h1>
+
+    <div class="section">
+        <button id="copyScriptBtn">Copy Extract Script to Clipboard</button>
+    </div>
+
+    <div class="section">
+        <button id="loadDataBtn">Load Data from Clipboard</button>
+        <div id="dataStatus"></div>
+        <div id="dataPreview"></div>
+    </div>
+
+    <div class="section">
+        <button id="processBtn">Process</button>
+    </div>
+
+    <div id="anomalies"></div>
+
+    <script>
+        // JavaScript Code
+        const copyScriptBtn = document.getElementById('copyScriptBtn');
+        const loadDataBtn = document.getElementById('loadDataBtn');
+        const processBtn = document.getElementById('processBtn');
+        const dataStatus = document.getElementById('dataStatus');
+        const dataPreview = document.getElementById('dataPreview');
+        const anomaliesDiv = document.getElementById('anomalies');
+
+        let data = [];
+
+        // Event listener for 'Copy Extract Script to Clipboard' button
+        copyScriptBtn.addEventListener('click', () => {
+            fetch('https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/e29fe62dbc40317ef5490b254a9ae22393278bd6/PBS/PBS%20Mappings%20All%20-%20with%20mapping%20keys.ccl')
+                .then(response => response.text())
+                .then(text => {
+                    navigator.clipboard.writeText(text)
+                        .then(() => {
+                            alert('Extract script copied to clipboard.');
+                        })
+                        .catch(err => {
+                            alert('Failed to copy script to clipboard: ' + err);
+                        });
+                })
+                .catch(err => {
+                    alert('Failed to fetch script: ' + err);
+                });
+        });
+
+        // Event listener for 'Load Data from Clipboard' button
+        loadDataBtn.addEventListener('click', () => {
+            navigator.clipboard.readText()
+                .then(clipboardText => {
+                    // Parse the data
+                    data = parseData(clipboardText);
+                    if (data.length > 0) {
+                        dataStatus.textContent = 'Data loaded successfully.';
+                        displayDataPreview(data);
+                    } else {
+                        dataStatus.textContent = 'No data found or failed to parse data.';
+                    }
+                })
+                .catch(err => {
+                    dataStatus.textContent = 'Failed to read clipboard contents: ' + err;
+                });
+        });
+
+        // Event listener for 'Process' button
+        processBtn.addEventListener('click', () => {
+            if (data.length === 0) {
+                alert('No data to process. Please load data first.');
+                return;
+            }
+            anomaliesDiv.innerHTML = '';
+            const anomalies = findAnomalies(data);
+            if (anomalies.length === 0) {
+                anomaliesDiv.textContent = 'No anomalies found.';
+            } else {
+                anomalies.forEach((anomalyGroup, index) => {
+                    const section = document.createElement('div');
+                    section.classList.add('section');
+                    const title = document.createElement('h2');
+                    title.textContent = `Anomaly ${index + 1} - PBS_MAPPING_KEY: ${anomalyGroup.key}`;
+                    section.appendChild(title);
+                    const table = createTable(anomalyGroup.rows, anomalyGroup.differences);
+                    section.appendChild(table);
+                    anomaliesDiv.appendChild(section);
+                });
+            }
+        });
+
+        // Function to parse clipboard data
+        function parseData(text) {
+            const lines = text.trim().split('\n');
+            if (lines.length < 2) {
+                return [];
+            }
+            const headers = lines[0].split('\t');
+            const data = lines.slice(1).map(line => {
+                const values = line.split('\t');
+                const obj = {};
+                headers.forEach((header, index) => {
+                    obj[header.trim()] = values[index] ? values[index].trim() : '';
+                });
+                return obj;
+            });
+            return data;
+        }
+
+        // Function to display data preview (first 10 rows)
+        function displayDataPreview(data) {
+            const previewData = data.slice(0, 10);
+            const table = createTable(previewData);
+            dataPreview.innerHTML = '';
+            dataPreview.appendChild(table);
+        }
+
+        // Function to create a table from data rows
+        function createTable(dataRows, highlightColumns = []) {
+            const table = document.createElement('table');
+            if (dataRows.length === 0) return table;
+            const headers = Object.keys(dataRows[0]);
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            headers.forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+            const tbody = document.createElement('tbody');
+            dataRows.forEach(row => {
+                const tr = document.createElement('tr');
+                headers.forEach(header => {
+                    const td = document.createElement('td');
+                    td.textContent = row[header];
+                    if (highlightColumns.includes(header)) {
+                        td.classList.add('highlight');
+                    }
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+            table.appendChild(tbody);
+            return table;
+        }
+
+        // Updated function to find anomalies in the data
+        function findAnomalies(data) {
+            const anomalies = [];
+            const mappingGroups = {};
+
+            // Group data by PBS_MAPPING_KEY
+            data.forEach(row => {
+                const key = row['PBS_MAPPING_KEY'];
+                if (!mappingGroups[key]) {
+                    mappingGroups[key] = [];
+                }
+                mappingGroups[key].push(row);
+            });
+
+            // Check each group for anomalies
+            for (const key in mappingGroups) {
+                const group = mappingGroups[key];
+
+                // For each PBS_CODE within the group, collect its set of MAPPED_TO values
+                const pbsCodeMappings = {};
+
+                group.forEach(row => {
+                    const pbsCode = row['PBS_CODE'];
+                    const mappedTo = row['MAPPED_TO'];
+                    if (!pbsCodeMappings[pbsCode]) {
+                        pbsCodeMappings[pbsCode] = new Set();
+                    }
+                    pbsCodeMappings[pbsCode].add(mappedTo);
+                });
+
+                // Collect the unique sets of MAPPED_TO values
+                const uniqueMappings = new Set();
+
+                Object.values(pbsCodeMappings).forEach(mappingSet => {
+                    // Convert set to array and sort for comparison
+                    const mappingArray = Array.from(mappingSet).sort().join('|');
+                    uniqueMappings.add(mappingArray);
+                });
+
+                // If there is more than one unique set of MAPPED_TO values, it's an anomaly
+                if (uniqueMappings.size > 1) {
+                    anomalies.push({
+                        key: key,
+                        rows: group,
+                        differences: ['MAPPED_TO']
+                    });
+                }
+            }
+            return anomalies;
+        }
+    </script>
+
+</body>
+</html>
