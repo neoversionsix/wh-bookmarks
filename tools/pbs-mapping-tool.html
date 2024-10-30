@@ -48,7 +48,7 @@
     <!-- Section 1: File Uploads -->
     <div id="fileUploadSection" class="section">
         <h2>Part I: Upload Files</h2>
-        <p>Refresh the template <a href="https://github.com/neoversionsix/wh-bookmarks/blob/8c70cc6bbc59a6d1392147cead30b795bea4752e/tools/mapping-template.xlsx" target="_blank">Link to Mapping Template</a>, refresh the data, save it, then load it using the button below</p>
+        <p>Refresh the template <a href="https://github.com/neoversionsix/wh-bookmarks/blob/8c70cc6bbc59a6d1392147cead30b795bea4752e/tools/mapping-template.xlsx" target="_blank">Link to Mapping Template</a> save it, then load it using the button below</p>
         <input type="file" id="fileUpload" accept=".xlsx">
         <p id="fileStatus"></p>
     </div>
@@ -88,11 +88,13 @@
         let appState = {
             data1: [],
             data2: [],
+            df_primaries: [],
+            df_brands: [],
             df_generics: [],
             df_trades: [],
             row_number: 0,
             column_number: 0,
-            columns: ['GENERIC', 'TRADE'],
+            columns: ['PRIMARY', 'BRAND','GENERIC', 'TRADE'],
             matches: [],
             final_matches: [],
             total_steps: 0
@@ -102,7 +104,7 @@
         document.getElementById('fileUpload').addEventListener('change', handleFile, false);
 
         function validateColumns(data) {
-            let requiredColumns = ['GENERIC', 'TRADE'];
+            let requiredColumns = ['PRIMARY', 'BRAND', 'GENERIC', 'TRADE'];
             let missingColumns = requiredColumns.filter(col => !(col in data[0]));
 
             if (missingColumns.length > 0) {
@@ -155,20 +157,13 @@
             }
         }
 
-
         function processData2() {
-            // Filter GENERIC and TRADE items from the catalog data
+            // Filter PRIMARY, BRAND, GENERIC and TRADE items from the catalog data
+            appState.df_primaries = appState.data2.filter(item => item['ITEM_TYPE'] === 'PRIMARY');
+            appState.df_brands = appState.data2.filter(item => item['ITEM_TYPE'] === 'BRAND');
             appState.df_generics = appState.data2.filter(item => item['ITEM_TYPE'] === 'GENERIC');
             appState.df_trades = appState.data2.filter(item => item['ITEM_TYPE'] === 'TRADE');
-
-            console.log("Filtered GENERIC items:", appState.df_generics);
-            console.log("Filtered TRADE items:", appState.df_trades);
-
-            if (appState.df_generics.length === 0 || appState.df_trades.length === 0) {
-                alert("Warning: One or both item types (GENERIC or TRADE) are missing or incorrectly labeled.");
-            }
         }
-
 
         // Start mapping process
         function startMapping() {
@@ -179,10 +174,11 @@
             displayCurrentItem();
         }
 
+        // Perform Fuzzy Matching function
         function performFuzzyMatching(query, data) {
             const options = {
                 keys: ['NAME'],  // Ensure your data has a 'NAME' field
-                threshold: 0.3,  // Adjust as needed for strictness
+                threshold: 0.6,  // Adjust as needed for strictness (smaller is stricter)
                 includeScore: true
             };
             const fuse = new Fuse(data, options);
@@ -221,7 +217,17 @@
                 currentItemDetails.innerHTML += `<strong>${key}:</strong> ${currentItem[key]}<br>`;
             }
 
-            let data2_subset = currentColumn === 'GENERIC' ? appState.df_generics : appState.df_trades;
+            // Get the corresponding data2 subset
+            let data2_subset = [];
+            if (currentColumn === 'PRIMARY') {
+                data2_subset = appState.df_primaries;
+            } else if (currentColumn === 'BRAND') {
+                data2_subset = appState.df_brands;
+            } else if (currentColumn === 'GENERIC') {
+                data2_subset = appState.df_generics;
+            } else if (currentColumn === 'TRADE') {
+                data2_subset = appState.df_trades;
+            }
 
             appState.matches = performFuzzyMatching(currentItemValue, data2_subset);
             displayMatches();
@@ -240,8 +246,9 @@
                 return;
             }
 
-            // Sort matches in descending order of score
-            appState.matches.sort((a, b) => b.score - a.score);
+            // Sort matches in ascending order of score (smaller scores indicate a better match)
+            appState.matches.sort((a, b) => a.score - b.score);
+
 
             appState.matches.forEach((match, index) => {
                 let checkbox = document.createElement('input');
@@ -250,8 +257,8 @@
                 checkbox.value = index;
 
                 let label = document.createElement('label');
-                let scorePercentage = (match.score * 100).toFixed(0) + '%';
-                let primaryField = match.data.PRIMARY ? `PRIMARY: ${match.data.PRIMARY}` : '';
+                let scorePercentage = ((1 - match.score) * 100).toFixed(0) + '%';
+                let primaryField = match.data.PRIMARY ? `(PRIMARY: ${match.data.PRIMARY})` : '';
 
                 // Use a span to style the score percentage in green
                 label.htmlFor = 'match-' + index;
@@ -316,6 +323,7 @@
             let template = `
 ;________________________________________________
 ;  PBS mapping script for PBS_DRUG_ID: MAP_PBS_DRUG_ID_ and SYNONYM_ID: MAP_SYNONYM_ID_
+; This Maps PBS NAME: $NAME$ to SYNONYM: $SYNONYM$
 update into pbs_ocs_mapping ocsm
 set
     ocsm.beg_effective_dt_tm = cnvtdatetime(curdate, 0004)
