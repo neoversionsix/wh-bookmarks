@@ -39,6 +39,15 @@
             background-color: blue;
             width: 0%;
         }
+
+        .currentItemDetailsBox {
+            background-color: lightgrey;
+            color: black;
+            padding: 15px;
+            border-radius: 5px; /* Optional: add rounded corners */
+            margin-bottom: 20px; /* Space below the box */
+        }
+
     </style>
 </head>
 <body>
@@ -62,19 +71,21 @@
         </div>
 
         <div>
-            <h3>Current PBS Item (Row: <span id="rowNumber"></span>, Type: <span id="currentColumn"></span>)</h3>
-            <div id="currentItemDetails"></div>
+            <h3>Current PBS Item Details:</h3>
+            <div class="currentItemDetailsBox">
+                <div id="currentItemDetails"></div>
+            </div>
+            <p>Current PBS Item Row: <span id="rowNumber"></span>, Type: <span id="currentColumn"></span></p>
         </div>
 
         <div>
             <h3 id="matchesHeader"></h3>  <!-- Added placeholder for PBS Name -->
-            <h4>List of Close Matches from our Catalog</h4>
+            <p>List of Close Matches from our Catalog:</p>
+            <button id="nextButton">Next / Save Selections</button>
             <div id="matchesContainer">
                 <!-- Matches will be added here -->
             </div>
         </div>
-
-        <button id="nextButton">Next / Save Selections</button>
     </div>
 
     <!-- Section 3: Generated Code -->
