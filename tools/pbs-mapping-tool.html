@@ -14,7 +14,7 @@
             margin-bottom: 40px;
         }
         #matchesContainer {
-            max-height: 500px;
+            max-height: 465px;
             overflow-y: auto;
             border: 1px solid #ccc;
             padding: 10px;
@@ -64,24 +64,23 @@
 
     <!-- Section 2: Mapping Interface -->
     <div id="mappingSection" class="section hidden">
-        <h3>Part II: Map Data</h3>
 
         <div class="progress-bar">
             <div id="progress" class="progress"></div>
         </div>
 
         <div>
-            <p>Current PBS Item Details:</p>
+            <p>Part II: Data Mapping. Current PBS Item Details:</p>
             <div class="currentItemDetailsBox">
                 <div id="currentItemDetails"></div>
             </div>
-            <p>Current PBS Item Row: <span id="rowNumber"></span>, Type: <span id="currentColumn"></span></p>
+            <p>Row: <span id="rowNumber"></span>, Type: <b><span id="currentColumn"></span></b></p>
+            <p id="matchesHeader"></p>  <!-- Added placeholder for PBS Name -->
         </div>
 
-        <div>
-            <h3 id="matchesHeader"></h3>  <!-- Added placeholder for PBS Name -->
-            <p>List of Close Matches from our Catalog:</p>
+        <div>            
             <button id="nextButton">Next / Save Selections</button>
+            <p>List of Close Matches from our Catalog:</p>
             <div id="matchesContainer">
                 <!-- Matches will be added here -->
             </div>
@@ -231,7 +230,7 @@
 
             // Display PBS Name just above the matches section
             let matchesHeader = document.getElementById('matchesHeader');
-            matchesHeader.innerHTML = `Current PBS Name: <strong>${currentItemValue}</strong>`;
+            matchesHeader.innerHTML = `PBS Name: <strong>${currentItemValue}</strong>`;
 
 
             // Get the corresponding data2 subset
