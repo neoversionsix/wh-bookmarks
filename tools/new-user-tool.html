@@ -229,8 +229,9 @@ function createCsvData(inputData) {
     const act_ind = '1';
     const org_g_type = 'SECURITY';
     const org_g_name = 'Western Health';
-    //const PRSNL_GROUP_NAME = 'ED Primed Views';
-    //const PRSNL_GROUP_TYPE = 'ED Primed Views';
+    const PRSNL_GROUP_NAME = 'ED Primed Views';
+    const PRSNL_GROUP_TYPE = 'ED Primed Views';
+    const PRSNL_GROUP_CLASS = 'Department'
 
     // Build data rows
     const data_rows = inputData.map(row => {
@@ -258,8 +259,9 @@ function createCsvData(inputData) {
             'Active Ind': act_ind,
             '*Org Group Type': org_g_type,
             '*Org Group Name': org_g_name,
-            //'*Prsnl Group Type': PRSNL_GROUP_TYPE,
-            //'*Prsnl Group Name': PRSNL_GROUP_NAME
+            '*Prsnl Group Type': PRSNL_GROUP_TYPE,
+            '*Prsnl Group Name': PRSNL_GROUP_NAME,
+            '*Prsnl Group Class': PRSNL_GROUP_CLASS
         };
         // Map data_dict to an array in the order of header_row
         const rowArray = header_row.map(column => data_dict[column] || '');
