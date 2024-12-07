@@ -1,3 +1,10 @@
+Below is an updated version of the code. Now, once Part I (Pharmacy Catalog) is successfully completed (when the Pharmacy Catalog data is loaded), Part II (PBS Items to Map) appears, and Part I is hidden from view at that point.
+
+**Key Changes:**  
+- After successfully loading the pharmacy catalog data, we hide Part I by adding a `hidden` class to the `pharmacyCatalogSection`.
+- Then we remove the `hidden` class from the `pbsItemsSection` to show Part II.
+
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -404,7 +411,8 @@ where
                     if (data.length > 0) {
                         pharmacyStatus.textContent = 'Pharmacy Catalog data loaded successfully.';
                         appState.data2 = data;
-                        // Show Part II now that Part I is done
+                        // Hide Part I and show Part II
+                        document.getElementById('pharmacyCatalogSection').classList.add('hidden');
                         document.getElementById('pbsItemsSection').classList.remove('hidden');
                     } else {
                         pharmacyStatus.textContent = 'No data found or failed to parse pharmacy catalog data.';
@@ -443,3 +451,4 @@ where
     </script>
 </body>
 </html>
+```
