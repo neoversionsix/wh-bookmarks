@@ -51,7 +51,7 @@
 
     <!-- PART 1: Pharmacy Catalog -->
     <div id="pharmacyCatalogSection" class="section">
-        <h2>Part I: Pharmacy Catalog</h2>
+        <h2>Part 1: Pharmacy Catalog</h2>
         <p>
             Click the button below to copy the CCL extract code for the Pharmacy Catalog.
             After copying the code, run it in DVDev and then copy the resulting output (ctrl-c).
@@ -72,7 +72,7 @@
 
     <!-- PART 2: PBS Items to Map (Initially hidden) -->
     <div id="pbsItemsSection" class="section hidden">
-        <h2>Part II: PBS Items to Map</h2>
+        <h2>Part 2: PBS Items to Map</h2>
         <p>
             Click the button below to copy the CCL extract code for PBS Items to Map.
             After copying the code, run it in DVDev and then copy the resulting output (ctrl-c).
@@ -93,7 +93,7 @@
 
     <!-- PART 3: Mapping Interface (Initially hidden) -->
     <div id="mappingSection" class="section hidden">
-        <h2>Part III: Data Mapping</h2>
+        <h2>Part 3: Data Mapping</h2>
         <div class="progress-bar">
             <div id="progress" class="progress"></div>
         </div>
@@ -116,7 +116,7 @@
 
     <!-- PART 4: Generated Code (Initially hidden) -->
     <div id="outputSection" class="section hidden">
-        <h2>Part IV: Generated Code</h2>
+        <h2>Part 4: Generated Code</h2>
         <p>The CCL update script has been copied to your clipboard. You can paste it into DVdev.</p>
         <div id="outputContainer"></div>
     </div>
@@ -202,10 +202,10 @@
                 // Validate required columns in data1
                 if (!validateColumns(appState.data1)) return; 
 
-                // Hide Part I and Part II sections since we now have all data
+                // Hide Part 1 and Part 2 sections since we now have all data
                 document.getElementById('pharmacyCatalogSection').classList.add('hidden');
                 document.getElementById('pbsItemsSection').classList.add('hidden');
-                // Show the mapping section (Part III)
+                // Show the mapping section (Part 3)
                 document.getElementById('mappingSection').classList.remove('hidden');
 
                 // Process the catalog data into subsets
@@ -283,12 +283,12 @@
          * Performs fuzzy matching to find similar items in the pharmacy catalog subsets.
          * Updates the UI with matches for the user to select from.
          * Once done, resets cursor to default to indicate loading has finished.
+         *
+         * NOTE: The cursor will be set to 'wait' before calling this function (in saveMatchesAndNext()).
+         * We give the browser a frame to show the wait cursor, then proceed to display. 
+         * At the end, we set cursor back to 'default'.
          */
         function displayCurrentItem() {
-            // IMPORTANT NOTE ON CURSOR:
-            // The cursor will be set to 'wait' before this function is called (in saveMatchesAndNext()).
-            // Here, after finishing UI updates, we'll reset it to 'default'.
-
             // If we've processed all rows, generate the final code
             if (appState.row_number >= appState.data1.length) {
                 generateCode();
@@ -336,7 +336,6 @@
             displayMatches();
 
             // After UI updates are complete, revert the cursor back to default
-            // This ensures that after loading is done, the user sees the normal cursor.
             document.body.style.cursor = 'default';
         }
 
@@ -387,14 +386,14 @@
 
         /**
          * saveMatchesAndNext():
-         * 1. Sets cursor to 'wait' to indicate processing.
+         * 1. Sets cursor to 'wait' to indicate processing while we load the next item.
          * 2. Collects user-selected matches from checkboxes.
          * 3. Saves these matches into final_matches.
          * 4. Moves to the next column or row of PBS items.
          * 5. Uses requestAnimationFrame to allow browser to render the wait cursor before loading the next item.
          *
-         * NOTE: Using requestAnimationFrame() (or setTimeout()) after changing cursor to 'wait'
-         * helps ensure the browser has time to update the cursor visually before we do more processing.
+         * NOTE: Using requestAnimationFrame ensures that the cursor update is shown to the user 
+         * before 'displayCurrentItem()' runs. That gives a visual indication of "loading".
          */
         function saveMatchesAndNext() {
             // Indicate to the user that processing is happening
@@ -431,7 +430,8 @@
                 return;
             }
 
-            // Use requestAnimationFrame to ensure the browser updates the cursor to 'wait' before we load the next item
+            // Use requestAnimationFrame to ensure the browser updates the cursor to 'wait' 
+            // before we load the next item.
             requestAnimationFrame(() => {
                 displayCurrentItem();
             });
@@ -443,7 +443,7 @@
          * This script is based on a template and replaces placeholders with actual PBS_DRUG_ID and SYNONYM_ID.
          * Finally, the generated code is copied to clipboard and displayed to the user.
          *
-         * NOTE: Since this is the final step, we should ensure the cursor returns to default.
+         * NOTE: Since this is the final step, we ensure the cursor returns to default here as well.
          */
         function generateCode() {
             let output = '';
@@ -502,12 +502,11 @@ where
             document.getElementById('mappingSection').classList.add('hidden');
             document.getElementById('outputSection').classList.remove('hidden');
 
-            // IMPORTANT: After finishing code generation, set cursor back to default
-            // This ensures that if we were previously stuck in a 'wait' state, we now return to normal.
+            // After finishing code generation, set cursor back to default
             document.body.style.cursor = 'default';
         }
 
-        // PART I: Handling the Pharmacy Catalog data loading
+        // PART 1: Handling the Pharmacy Catalog data loading
         const copyPharmacyCodeBtn = document.getElementById('copyPharmacyCodeBtn');
         const loadPharmacyClipboardBtn = document.getElementById('loadPharmacyClipboardBtn');
         const pharmacyStatus = document.getElementById('pharmacyStatus');
@@ -526,7 +525,7 @@ where
                     if (data.length > 0) {
                         pharmacyStatus.textContent = 'Pharmacy Catalog data loaded successfully.';
                         appState.data2 = data;
-                        // Once pharmacy catalog is loaded, hide Part I and show Part II
+                        // Once pharmacy catalog is loaded, hide Part 1 and show Part 2
                         document.getElementById('pharmacyCatalogSection').classList.add('hidden');
                         document.getElementById('pbsItemsSection').classList.remove('hidden');
                     } else {
@@ -538,7 +537,7 @@ where
                 });
         });
 
-        // PART II: Handling the PBS Items to Map data loading
+        // PART 2: Handling the PBS Items to Map data loading
         const copyToMapCodeBtn = document.getElementById('copyToMapCodeBtn');
         const loadToMapClipboardBtn = document.getElementById('loadToMapClipboardBtn');
         const toMapStatus = document.getElementById('toMapStatus');
