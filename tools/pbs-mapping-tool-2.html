@@ -41,8 +41,8 @@
             background-color: lightgrey;
             color: black;
             padding: 15px;
-            border-radius: 5px; /* Optional: add rounded corners */
-            margin-bottom: 20px; /* Space below the box */
+            border-radius: 5px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -53,27 +53,39 @@
     <!-- PART 1: Pharmacy Catalog -->
     <div id="pharmacyCatalogSection" class="section">
         <h2>Part I: Pharmacy Catalog</h2>
-        <p>Click the first button to copy the CCL extract code for the Pharmacy Catalog.</p>
+        <p>
+            Click the first button to copy the CCL extract code for the Pharmacy Catalog.
+            After copying the code, run it in DVDev, and copy the output (ctrl-c).
+        </p>
         <button id="copyPharmacyCodeBtn">
             Copy Pharmacy Catalog CCL Extract Code
         </button>
 
-        <p>After copying the code, run it in DVDev and copy the output (ctrl-c). Then click the button below to load the Pharmacy Catalog data from the clipboard.</p>
+        <p>
+            After running the code in DVDev and copying the results, click the button below
+            to load the Pharmacy Catalog data from the clipboard.
+        </p>
         <button id="loadPharmacyClipboardBtn" class="hidden">
             Copy Pharmacy Catalog from clipboard
         </button>
         <p id="pharmacyStatus"></p>
     </div>
 
-    <!-- PART 2: PBS Items to Map (hidden until Part 1 complete) -->
+    <!-- PART 2: PBS Items to Map (hidden until Part 1 is complete) -->
     <div id="pbsItemsSection" class="section hidden">
         <h2>Part II: PBS Items to Map</h2>
-        <p>Click the first button to copy the CCL extract code for PBS Items to Map.</p>
+        <p>
+            Click the first button to copy the CCL extract code for PBS Items to Map.
+            After copying the code, run it in DVDev, and copy the output (ctrl-c).
+        </p>
         <button id="copyToMapCodeBtn">
             Copy PBS Items To Map Extract Code
         </button>
 
-        <p>After copying the code, run it in DVDev and copy the output (ctrl-c). Then click the button below to load the PBS Items to Map from the clipboard.</p>
+        <p>
+            After running the code in DVDev and copying the results, click the button below
+            to load the PBS Items to Map data from the clipboard.
+        </p>
         <button id="loadToMapClipboardBtn" class="hidden">
             Copy New PBS Items from clipboard
         </button>
@@ -111,23 +123,31 @@
     </div>
 
     <script>
-        // Application state
+        // Application state object holds all the data and references used throughout
         let appState = {
-            data1: [],    // PBS Items to map
-            data2: [],    // Pharmacy Catalog
+            // data1: Data from PBS Items to Map
+            data1: [],
+            // data2: Data from Pharmacy Catalog
+            data2: [],
+            // Filtered data subsets by item type
             df_primaries: [],
             df_brands: [],
             df_generics: [],
             df_trades: [],
+            // Current row and column being mapped
             row_number: 0,
             column_number: 0,
+            // Columns correspond to item types we need to map: PRIMARY, BRAND, GENERIC, TRADE
             columns: ['PRIMARY', 'BRAND','GENERIC', 'TRADE'],
+            // Current list of matches found by fuzzy matching
             matches: [],
+            // Final list of all selected matches for output
             final_matches: [],
+            // Total steps for progress calculation
             total_steps: 0
         };
 
-        // Function to copy code from a given URL to the clipboard
+        // Copies code from a given URL into the user's clipboard
         function copyCode(url) {
             fetch(url)
                 .then(response => response.text())
@@ -145,9 +165,10 @@
                 });
         }
 
-        // Parse clipboard TSV data
+        // Parses TSV (tab-separated values) data from the clipboard into a structured array of objects
         function parseData(text) {
             const lines = text.trim().split('\n');
+            // We expect at least one header line and one data line
             if (lines.length < 2) {
                 return [];
             }
@@ -162,23 +183,27 @@
             });
         }
 
-        // Check if both sets of data are loaded and proceed to mapping
+        // After both sets of data (data1 and data2) are loaded, we can start the mapping process
         function checkDataLoaded() {
             if (appState.data1.length > 0 && appState.data2.length > 0) {
-                if (!validateColumns(appState.data1)) return; // Stop if columns are missing
-
+                // Validate that the required columns exist in data1
+                if (!validateColumns(appState.data1)) return; 
+                
+                // Once we have both datasets:
                 // Hide Part I and Part II sections
                 document.getElementById('pharmacyCatalogSection').classList.add('hidden');
                 document.getElementById('pbsItemsSection').classList.add('hidden');
-
-                // Show mapping section (Part III)
+                // Show the mapping section (Part III)
                 document.getElementById('mappingSection').classList.remove('hidden');
 
+                // Process the catalog data into subsets
                 processData2();
+                // Start the mapping workflow
                 startMapping();
             }
         }
 
+        // Check that the required columns (PRIMARY, BRAND, GENERIC, TRADE) exist in the PBS Items dataset
         function validateColumns(data) {
             let requiredColumns = ['PRIMARY', 'BRAND', 'GENERIC', 'TRADE'];
             let missingColumns = requiredColumns.filter(col => !(col in data[0]));
@@ -190,15 +215,15 @@
             return true;
         }
 
+        // Split the Pharmacy Catalog data (data2) into subsets by ITEM_TYPE
         function processData2() {
-            // Filter PRIMARY, BRAND, GENERIC and TRADE items from the catalog data
             appState.df_primaries = appState.data2.filter(item => item['ITEM_TYPE'] === 'PRIMARY');
             appState.df_brands = appState.data2.filter(item => item['ITEM_TYPE'] === 'BRAND');
             appState.df_generics = appState.data2.filter(item => item['ITEM_TYPE'] === 'GENERIC');
             appState.df_trades = appState.data2.filter(item => item['ITEM_TYPE'] === 'TRADE');
         }
 
-        // Start mapping process
+        // Initialize the mapping process by resetting indices and calculating total steps
         function startMapping() {
             appState.row_number = 0;
             appState.column_number = 0;
@@ -207,10 +232,10 @@
             displayCurrentItem();
         }
 
-        // Fuzzy Matching
+        // Use Fuse.js for fuzzy matching the current PBS item name against the subset of catalog items
         function performFuzzyMatching(query, data) {
             const options = {
-                keys: ['NAME'],  // Ensure your data has a 'NAME' field
+                keys: ['NAME'], // We match by the 'NAME' field of the catalog
                 threshold: 0.6,
                 includeScore: true
             };
@@ -223,31 +248,39 @@
             }));
         }
 
+        // Display details for the current item and perform fuzzy matching to find similar items from the catalog
         function displayCurrentItem() {
+            // If we've processed all rows, move to the code generation step
             if (appState.row_number >= appState.data1.length) {
                 generateCode();
                 return;
             }
+
             let currentItem = appState.data1[appState.row_number];
             let currentColumn = appState.columns[appState.column_number];
             let currentItemValue = currentItem[currentColumn];
 
+            // Update progress bar
             let currentStep = appState.row_number * appState.columns.length + appState.column_number;
             let progressPercent = (currentStep / appState.total_steps) * 100;
             document.getElementById('progress').style.width = progressPercent + '%';
 
+            // Update UI with current row and column info
             document.getElementById('rowNumber').innerText = appState.row_number;
             document.getElementById('currentColumn').innerText = currentColumn;
 
+            // Show current item details
             let currentItemDetails = document.getElementById('currentItemDetails');
             currentItemDetails.innerHTML = '';
             for (let key in currentItem) {
                 currentItemDetails.innerHTML += `<strong>${key}:</strong> ${currentItem[key]}<br>`;
             }
 
+            // Show the current PBS name for reference above the matches
             let matchesHeader = document.getElementById('matchesHeader');
             matchesHeader.innerHTML = `PBS Name: <strong>${currentItemValue}</strong>`;
 
+            // Choose which subset of catalog data to match against based on current column
             let data2_subset = [];
             if (currentColumn === 'PRIMARY') {
                 data2_subset = appState.df_primaries;
@@ -259,22 +292,29 @@
                 data2_subset = appState.df_trades;
             }
 
+            // Perform fuzzy matching
             appState.matches = performFuzzyMatching(currentItemValue, data2_subset);
+            // Display the matches
             displayMatches();
+
+            // Reset cursor back to default after loading finishes
+            document.body.style.cursor = 'default';
         }
 
+        // Show the list of fuzzy matches in the UI
         function displayMatches() {
             let matchesContainer = document.getElementById('matchesContainer');
-            matchesContainer.innerHTML = ''; // Clear previous matches
+            matchesContainer.innerHTML = '';
 
             if (appState.matches.length === 0) {
                 matchesContainer.innerHTML = '<p>No matches found.</p>';
                 return;
             }
 
-            // Sort matches by ascending order of score
+            // Sort matches so the best-scoring matches appear first
             appState.matches.sort((a, b) => a.score - b.score);
 
+            // Create a checkbox for each match so the user can select which ones to map
             appState.matches.forEach((match, index) => {
                 let checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
@@ -297,9 +337,15 @@
             });
         }
 
+        // Handle click on the 'Next / Save Selections' button
         document.getElementById('nextButton').addEventListener('click', saveMatchesAndNext);
 
+        // Save currently selected matches and move on to the next item
         function saveMatchesAndNext() {
+            // Change cursor to 'wait' to indicate loading while we process next item
+            document.body.style.cursor = 'wait';
+
+            // Identify which matches the user selected
             let selectedMatches = [];
             appState.matches.forEach((match, index) => {
                 let checkbox = document.getElementById('match-' + index);
@@ -308,33 +354,37 @@
                 }
             });
 
-            // Save selected matches
+            // For each selected match, combine the PBS item data with the selected catalog match
             selectedMatches.forEach(match => {
                 let currentItem = appState.data1[appState.row_number];
                 let currentColumn = appState.columns[appState.column_number];
 
                 let combined = Object.assign({}, currentItem, match.data);
                 combined['MatchedColumn'] = currentColumn;
-
                 appState.final_matches.push(combined);
             });
 
+            // Move to the next column; if no more columns, move to the next row
             appState.column_number++;
             if (appState.column_number >= appState.columns.length) {
                 appState.column_number = 0;
                 appState.row_number++;
             }
 
+            // If we've processed all rows, generate the final code
             if (appState.row_number >= appState.data1.length) {
                 generateCode();
                 return;
             }
 
+            // Display the next item (displayCurrentItem will reset the cursor)
             displayCurrentItem();
         }
 
+        // Generate the CCL update code based on all selected matches
         function generateCode() {
             let output = '';
+            // Template CCL script with placeholders for MAP_PBS_DRUG_ID_ and MAP_SYNONYM_ID_
             let template = `
 ;________________________________________________
 ;  PBS mapping script for PBS_DRUG_ID: MAP_PBS_DRUG_ID_ and SYNONYM_ID: MAP_SYNONYM_ID_
@@ -367,6 +417,7 @@ where
 ;________________________________________________
 `;
 
+            // Replace placeholders in template with actual IDs from final_matches
             appState.final_matches.forEach(match => {
                 let code = template;
                 code = code.replace(/MAP_PBS_DRUG_ID_/g, match['MAP_PBS_DRUG_ID_']);
@@ -374,30 +425,36 @@ where
                 output += code + '\n\n\n';
             });
 
+            // Display generated code in the output section
             let outputContainer = document.getElementById('outputContainer');
             outputContainer.textContent = output;
 
+            // Copy generated code to clipboard automatically
             navigator.clipboard.writeText(output).then(function() {
                 alert('Code copied to clipboard');
             }, function(err) {
                 console.error('Could not copy text: ', err);
             });
 
+            // Hide the mapping section and show the output section
             document.getElementById('mappingSection').classList.add('hidden');
             document.getElementById('outputSection').classList.remove('hidden');
         }
 
-        // Button logic for Part I and Part II
+        // PART I event listeners: Loading Pharmacy Catalog
         const copyPharmacyCodeBtn = document.getElementById('copyPharmacyCodeBtn');
         const loadPharmacyClipboardBtn = document.getElementById('loadPharmacyClipboardBtn');
         const pharmacyStatus = document.getElementById('pharmacyStatus');
 
         copyPharmacyCodeBtn.addEventListener('click', () => {
+            // Copy the Pharmacy Catalog CCL extract code to clipboard
             copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/refs/heads/main/PBS/PBS%20Pharmacy%20Catalogue%20-%20Possible%20Items%20to%20Map%20to%20(All%20types).ccl");
+            // Show the button to load data from clipboard
             loadPharmacyClipboardBtn.classList.remove('hidden');
         });
 
         loadPharmacyClipboardBtn.addEventListener('click', () => {
+            // Read the pharmacy catalog data from the clipboard
             navigator.clipboard.readText()
                 .then(clipboardText => {
                     let data = parseData(clipboardText);
@@ -416,22 +473,27 @@ where
                 });
         });
 
+        // PART II event listeners: Loading PBS Items to Map
         const copyToMapCodeBtn = document.getElementById('copyToMapCodeBtn');
         const loadToMapClipboardBtn = document.getElementById('loadToMapClipboardBtn');
         const toMapStatus = document.getElementById('toMapStatus');
 
         copyToMapCodeBtn.addEventListener('click', () => {
+            // Copy the PBS Items to Map CCL extract code to clipboard
             copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/refs/heads/main/PBS/PBS%20Last%20Installed%20Package%20Items%20to%20Map%20-%20Without%20any%20Mappings%20-%20Distinct%20Mappings%20for%20Package.ccl");
+            // Show the button to load data from clipboard
             loadToMapClipboardBtn.classList.remove('hidden');
         });
 
         loadToMapClipboardBtn.addEventListener('click', () => {
+            // Read the PBS Items to Map data from the clipboard
             navigator.clipboard.readText()
                 .then(clipboardText => {
                     let data = parseData(clipboardText);
                     if (data.length > 0) {
                         toMapStatus.textContent = 'PBS Items to Map data loaded successfully.';
                         appState.data1 = data;
+                        // Once we have both datasets, start mapping
                         checkDataLoaded();
                     } else {
                         toMapStatus.textContent = 'No data found or failed to parse PBS items to map.';
@@ -444,4 +506,3 @@ where
     </script>
 </body>
 </html>
-```
