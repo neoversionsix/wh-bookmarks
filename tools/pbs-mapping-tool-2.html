@@ -285,6 +285,10 @@
          * Once done, resets cursor to default to indicate loading has finished.
          */
         function displayCurrentItem() {
+            // IMPORTANT NOTE ON CURSOR:
+            // The cursor will be set to 'wait' before this function is called (in saveMatchesAndNext()).
+            // Here, after finishing UI updates, we'll reset it to 'default'.
+
             // If we've processed all rows, generate the final code
             if (appState.row_number >= appState.data1.length) {
                 generateCode();
@@ -332,6 +336,7 @@
             displayMatches();
 
             // After UI updates are complete, revert the cursor back to default
+            // This ensures that after loading is done, the user sees the normal cursor.
             document.body.style.cursor = 'default';
         }
 
@@ -386,7 +391,10 @@
          * 2. Collects user-selected matches from checkboxes.
          * 3. Saves these matches into final_matches.
          * 4. Moves to the next column or row of PBS items.
-         * 5. Uses setTimeout to allow browser to render the wait cursor before loading the next item.
+         * 5. Uses requestAnimationFrame to allow browser to render the wait cursor before loading the next item.
+         *
+         * NOTE: Using requestAnimationFrame() (or setTimeout()) after changing cursor to 'wait'
+         * helps ensure the browser has time to update the cursor visually before we do more processing.
          */
         function saveMatchesAndNext() {
             // Indicate to the user that processing is happening
@@ -396,7 +404,7 @@
             let selectedMatches = [];
             appState.matches.forEach((match, index) => {
                 let checkbox = document.getElementById('match-' + index);
-                if (checkbox.checked) {
+                if (checkbox && checkbox.checked) {
                     selectedMatches.push(match);
                 }
             });
@@ -423,10 +431,10 @@
                 return;
             }
 
-            // Use a timeout so the browser can show the wait cursor before we load the next item
-            setTimeout(() => {
+            // Use requestAnimationFrame to ensure the browser updates the cursor to 'wait' before we load the next item
+            requestAnimationFrame(() => {
                 displayCurrentItem();
-            }, 0);
+            });
         }
 
         /**
@@ -434,6 +442,8 @@
          * After all items are processed and selections are made, we generate a CCL update script.
          * This script is based on a template and replaces placeholders with actual PBS_DRUG_ID and SYNONYM_ID.
          * Finally, the generated code is copied to clipboard and displayed to the user.
+         *
+         * NOTE: Since this is the final step, we should ensure the cursor returns to default.
          */
         function generateCode() {
             let output = '';
@@ -470,7 +480,6 @@ where
 ;________________________________________________
 `;
 
-            // Replace placeholders in the template for each final match
             appState.final_matches.forEach(match => {
                 let code = template;
                 code = code.replace(/MAP_PBS_DRUG_ID_/g, match['MAP_PBS_DRUG_ID_']);
@@ -492,6 +501,10 @@ where
             // Show the final code section
             document.getElementById('mappingSection').classList.add('hidden');
             document.getElementById('outputSection').classList.remove('hidden');
+
+            // IMPORTANT: After finishing code generation, set cursor back to default
+            // This ensures that if we were previously stuck in a 'wait' state, we now return to normal.
+            document.body.style.cursor = 'default';
         }
 
         // PART I: Handling the Pharmacy Catalog data loading
