@@ -43,6 +43,11 @@
             border-radius: 5px;
             margin-bottom: 20px;
         }
+        /* Add a class to visually show the button disabled state if needed */
+        .disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -146,6 +151,9 @@
             // Total steps for calculating progress
             total_steps: 0
         };
+
+        // Grabbing references to elements we frequently manipulate
+        const nextButton = document.getElementById('nextButton');
 
         /**
          * copyCode(url):
@@ -282,11 +290,11 @@
          * Displays details for the current PBS item (row_number, column_number).
          * Performs fuzzy matching to find similar items in the pharmacy catalog subsets.
          * Updates the UI with matches for the user to select from.
-         * Once done, resets cursor to default to indicate loading has finished.
+         * Once done, resets cursor to default and enables the next button again.
          *
-         * NOTE: The cursor will be set to 'wait' before calling this function (in saveMatchesAndNext()).
-         * We now incorporate a forced 1-second delay before calling this function to ensure the wait cursor is visible.
-         * After this function finishes its work, it sets the cursor back to default.
+         * NOTE: The loading wait cursor and delay were handled in saveMatchesAndNext().
+         * By the time we reach here, the 1-second delay has passed. We can now load the item,
+         * and once fully loaded, set the cursor back to 'default' and enable the next button.
          */
         function displayCurrentItem() {
             // If we've processed all rows, generate the final code
@@ -335,8 +343,9 @@
             // Display the matches found
             displayMatches();
 
-            // After UI updates are complete, revert the cursor back to default
+            // Item is now displayed, so we can reset the cursor to default and re-enable the next button
             document.body.style.cursor = 'default';
+            nextButton.classList.remove('disabled');
         }
 
         /**
@@ -380,25 +389,24 @@
             });
         }
 
-        // When the user clicks "Next / Save Selections":
-        // We save the chosen matches and move on to the next item/column.
-        document.getElementById('nextButton').addEventListener('click', saveMatchesAndNext);
-
         /**
          * saveMatchesAndNext():
-         * 1. Sets cursor to 'wait' to indicate processing while we load the next item.
-         * 2. Collects user-selected matches from checkboxes.
-         * 3. Saves these matches into final_matches.
-         * 4. Moves to the next column or row of PBS items.
-         * 5. Uses a setTimeout with 1000ms (1 second) to force a delay before calling displayCurrentItem().
-         *    This ensures the wait cursor is visible for at least 1 second before the next item loads.
+         * When the user clicks "Next / Save Selections":
+         * 1. Set cursor to 'wait' to indicate processing.
+         * 2. Disable the next button so the user can't interact while we're "loading."
+         * 3. Collect user-selected matches.
+         * 4. Save these matches into final_matches.
+         * 5. Move to the next column or row of PBS items.
+         * 6. Use requestAnimationFrame() to allow the browser to re-render with the wait cursor and disabled button.
+         * 7. After requestAnimationFrame(), use setTimeout(1000) to show the wait cursor for at least 1 second.
+         * 8. After the 1 second wait, call displayCurrentItem() to load the next item.
          *
-         * NOTE: We previously used requestAnimationFrame. Now we use setTimeout(1000) to enforce a visible delay.
-         * This ensures the user actually sees the loading cursor for a noticeable duration.
+         * This ensures the wait cursor is visible for a noticeable duration and the user sees that the tool is "working."
          */
         function saveMatchesAndNext() {
             // Indicate to the user that processing is happening
             document.body.style.cursor = 'wait';
+            nextButton.classList.add('disabled'); // Disable the button to indicate no interaction allowed
 
             // Gather which matches the user selected
             let selectedMatches = [];
@@ -431,12 +439,17 @@
                 return;
             }
 
-            // Instead of calling displayCurrentItem() immediately or using requestAnimationFrame,
-            // we use a 1 second delay. This ensures the wait cursor shows up and stays visible.
-            setTimeout(() => {
-                displayCurrentItem();
-            }, 1000);
+            // Step 6: Use requestAnimationFrame to ensure browser applies cursor wait and disabled button first
+            requestAnimationFrame(() => {
+                // Step 7: After re-render, we wait 1 second before calling displayCurrentItem
+                setTimeout(() => {
+                    // Now call displayCurrentItem after 1 second, ensuring the wait cursor was visible
+                    displayCurrentItem();
+                }, 1000);
+            });
         }
+
+        document.getElementById('nextButton').addEventListener('click', saveMatchesAndNext);
 
         /**
          * generateCode():
