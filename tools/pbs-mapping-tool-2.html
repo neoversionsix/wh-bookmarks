@@ -285,8 +285,8 @@
          * Once done, resets cursor to default to indicate loading has finished.
          *
          * NOTE: The cursor will be set to 'wait' before calling this function (in saveMatchesAndNext()).
-         * We give the browser a frame to show the wait cursor, then proceed to display. 
-         * At the end, we set cursor back to 'default'.
+         * We now incorporate a forced 1-second delay before calling this function to ensure the wait cursor is visible.
+         * After this function finishes its work, it sets the cursor back to default.
          */
         function displayCurrentItem() {
             // If we've processed all rows, generate the final code
@@ -390,10 +390,11 @@
          * 2. Collects user-selected matches from checkboxes.
          * 3. Saves these matches into final_matches.
          * 4. Moves to the next column or row of PBS items.
-         * 5. Uses requestAnimationFrame to allow browser to render the wait cursor before loading the next item.
+         * 5. Uses a setTimeout with 1000ms (1 second) to force a delay before calling displayCurrentItem().
+         *    This ensures the wait cursor is visible for at least 1 second before the next item loads.
          *
-         * NOTE: Using requestAnimationFrame ensures that the cursor update is shown to the user 
-         * before 'displayCurrentItem()' runs. That gives a visual indication of "loading".
+         * NOTE: We previously used requestAnimationFrame. Now we use setTimeout(1000) to enforce a visible delay.
+         * This ensures the user actually sees the loading cursor for a noticeable duration.
          */
         function saveMatchesAndNext() {
             // Indicate to the user that processing is happening
@@ -430,11 +431,11 @@
                 return;
             }
 
-            // Use requestAnimationFrame to ensure the browser updates the cursor to 'wait' 
-            // before we load the next item.
-            requestAnimationFrame(() => {
+            // Instead of calling displayCurrentItem() immediately or using requestAnimationFrame,
+            // we use a 1 second delay. This ensures the wait cursor shows up and stays visible.
+            setTimeout(() => {
                 displayCurrentItem();
-            });
+            }, 1000);
         }
 
         /**
