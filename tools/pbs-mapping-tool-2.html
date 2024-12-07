@@ -65,8 +65,8 @@
         <p id="pharmacyStatus"></p>
     </div>
 
-    <!-- PART 2: PBS Items to Map -->
-    <div id="pbsItemsSection" class="section">
+    <!-- PART 2: PBS Items to Map (hidden until Part 1 complete) -->
+    <div id="pbsItemsSection" class="section hidden">
         <h2>Part II: PBS Items to Map</h2>
         <p>Click the first button to copy the CCL extract code for PBS Items to Map.</p>
         <button id="copyToMapCodeBtn">
@@ -80,9 +80,8 @@
         <p id="toMapStatus"></p>
     </div>
 
-    <!-- PART 3: Mapping Interface (Originally Part II) -->
+    <!-- PART 3: Mapping Interface -->
     <div id="mappingSection" class="section hidden">
-
         <h2>Part III: Data Mapping</h2>
         <div class="progress-bar">
             <div id="progress" class="progress"></div>
@@ -104,7 +103,7 @@
         </div>
     </div>
 
-    <!-- PART 4: Generated Code (Originally Part III) -->
+    <!-- PART 4: Generated Code -->
     <div id="outputSection" class="section hidden">
         <h2>Part IV: Generated Code</h2>
         <p>The CCL update script has been copied to your clipboard. You can paste it into DVdev.</p>
@@ -389,7 +388,6 @@ where
         }
 
         // Button logic for Part I and Part II
-
         const copyPharmacyCodeBtn = document.getElementById('copyPharmacyCodeBtn');
         const loadPharmacyClipboardBtn = document.getElementById('loadPharmacyClipboardBtn');
         const pharmacyStatus = document.getElementById('pharmacyStatus');
@@ -406,7 +404,8 @@ where
                     if (data.length > 0) {
                         pharmacyStatus.textContent = 'Pharmacy Catalog data loaded successfully.';
                         appState.data2 = data;
-                        checkDataLoaded();
+                        // Show Part II now that Part I is done
+                        document.getElementById('pbsItemsSection').classList.remove('hidden');
                     } else {
                         pharmacyStatus.textContent = 'No data found or failed to parse pharmacy catalog data.';
                     }
@@ -441,7 +440,6 @@ where
                     toMapStatus.textContent = 'Failed to read clipboard contents: ' + err;
                 });
         });
-
     </script>
 </body>
 </html>
