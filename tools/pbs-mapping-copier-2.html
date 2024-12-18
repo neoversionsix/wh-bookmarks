@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PBS Drug Auto Mapping Copier (Clipboard Version)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .hidden {
+            display: none;
+        }
+        textarea {
+            width: 100%;
+        }
+        button:disabled {
+            background-color: #ccc;
+        }
+        .currentStep {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>PBS Drug Auto Mapping Copier</h1>
+
+<!-- PART 1: Load existing-mappings data -->
+<div id="part1" class="section">
+    <h2>Part 1: Load Existing Mappings</h2>
+    <p class="currentStep">Step 1:</p>
+    <p>
+        Click the button below to copy the CCL extract code for existing mappings.<br>
+        After copying, run it in DVDev and then copy the resulting output (Ctrl+C).
+    </p>
+    <button id="copyExistingCodeBtn">
+        Copy "Existing Mappings" CCL Extract Code
+    </button>
+    <p>
+        After running the code in DVDev and copying the results, click the button below
+        to load the existing mappings from your clipboard.
+    </p>
+    <button id="loadExistingClipboardBtn" class="hidden">
+        Load Existing Mappings from Clipboard
+    </button>
+    <p id="existingStatus"></p>
+</div>
+
+<!-- PART 2: Load need-mapping data -->
+<div id="part2" class="section hidden">
+    <h2>Part 2: Load Items That Need Mapping</h2>
+    <p class="currentStep">Step 2:</p>
+    <p>
+        Click the button below to copy the CCL extract code for items that need mapping.<br>
+        After copying, run it in DVDev and then copy the resulting output (Ctrl+C).
+    </p>
+    <button id="copyNeedCodeBtn">
+        Copy "Need Mapping" CCL Extract Code
+    </button>
+    <p>
+        After running the code in DVDev and copying the results, click the button below
+        to load the items that need mapping data from your clipboard.
+    </p>
+    <button id="loadNeedClipboardBtn" class="hidden">
+        Load Need-Mapping Data from Clipboard
+    </button>
+    <p id="needStatus"></p>
+</div>
+
+<!-- PART 3: Show results and allow downloading final table -->
+<div id="part3" class="section hidden">
+    <h2>Part 3: Final Steps</h2>
+    <p class="currentStep">Step 3:</p>
+    <p>Click the button below to copy the update script to your clipboard and then paste it into DVDev.</p>
+    <button id="copyScriptButton" disabled>Copy Update Script</button>
+    <p>You can also download the "Auto Mapping Table" (optional) for your records:</p>
+    <button id="downloadButton" disabled>Download Auto Mapping Table</button>
+</div>
+
+<!-- Console log for debugging -->
+<h3>Console Log:</h3>
+<textarea id="logText" rows="15" readonly></textarea>
+
+<script>
+    // ************************************************************************************************
+    // This script:
+    // 1) Loads two sets of data from the clipboard.
+    // 2) Uses a fixed matching column "MAPPING_KEY".
+    // 3) After both data sets are loaded and merged, we provide a button to copy the update script.
+    // 4) Also allows downloading the final merged table.
+    // 5) Presents the process in three steps, showing one part at a time.
+    // ************************************************************************************************
+
+    let existingData = [];
+    let needMappingData = [];
+    let finalTable = null;
+    const KEY_COLUMN = "MAPPING_KEY"; // Hardcoded as requested
+
+    // DOM references
+    const logText = document.getElementById('logText');
+    const part1 = document.getElementById('part1');
+    const part2 = document.getElementById('part2');
+    const part3 = document.getElementById('part3');
+
+    const copyExistingCodeBtn = document.getElementById('copyExistingCodeBtn');
+    const loadExistingClipboardBtn = document.getElementById('loadExistingClipboardBtn');
+    const existingStatus = document.getElementById('existingStatus');
+
+    const copyNeedCodeBtn = document.getElementById('copyNeedCodeBtn');
+    const loadNeedClipboardBtn = document.getElementById('loadNeedClipboardBtn');
+    const needStatus = document.getElementById('needStatus');
+
+    const downloadButton = document.getElementById('downloadButton');
+    const copyScriptButton = document.getElementById('copyScriptButton');
+
+    // Log message function
+    function logMessage(message) {
+        logText.value += message + '\n';
+        logText.scrollTop = logText.scrollHeight;
+        console.log(message);
+    }
+
+    // Parse TSV data
+    function parseData(text) {
+        const lines = text.trim().split('\n');
+        if (lines.length < 2) {
+            return [];
+        }
+        const headers = lines[0].split('\t');
+        return lines.slice(1).map(line => {
+            const values = line.split('\t');
+            const obj = {};
+            headers.forEach((header, index) => {
+                obj[header.trim()] = values[index] ? values[index].trim() : '';
+            });
+            return obj;
+        });
+    }
+
+    // Merge dataframes by KEY_COLUMN
+    function mergeDataframes(dfA, dfB, key) {
+        const dfBKeyed = dfB.reduce((acc, row) => {
+            const keyValue = String(row[key]).trim();
+            if (!acc[keyValue]) acc[keyValue] = [];
+            acc[keyValue].push(row);
+            return acc;
+        }, {});
+
+        const merged = [];
+        dfA.forEach(rowA => {
+            const keyValue = String(rowA[key]).trim();
+            if (dfBKeyed[keyValue]) {
+                dfBKeyed[keyValue].forEach(rowB => {
+                    merged.push({ ...rowA, ...rowB });
+                });
+            }
+        });
+        return merged;
+    }
+
+    // Remove duplicates
+    function removeDuplicates(data) {
+        const seen = new Set();
+        return data.filter(item => {
+            const keyString = JSON.stringify(item);
+            if (seen.has(keyString)) {
+                return false;
+            } else {
+                seen.add(keyString);
+                return true;
+            }
+        });
+    }
+
+    // Copy code from GitHub
+    async function copyCodeFromGitHub(url) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Failed to fetch code from given URL.');
+
+            const code = await response.text();
+            await navigator.clipboard.writeText(code);
+            alert('Code copied to clipboard! Now run it in DVDev and then copy the result output.');
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to copy code. Check console for details.');
+        }
+    }
+
+    // Load data from clipboard
+    async function loadDataFromClipboard() {
+        const clipboardText = await navigator.clipboard.readText();
+        const data = parseData(clipboardText);
+        if (data.length > 0) {
+            return data;
+        } else {
+            throw new Error("No valid data found in clipboard or parsing failed.");
+        }
+    }
+
+    // Part 1 Events
+    copyExistingCodeBtn.addEventListener('click', () => {
+        copyCodeFromGitHub("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/refs/heads/main/PBS/PBS%20-%20For%20Copying%20Existing%20Mappings%20-%20All%20Mappings.ccl");
+        loadExistingClipboardBtn.classList.remove('hidden');
+        logMessage("User requested existing mappings code copied to clipboard.");
+    });
+
+    loadExistingClipboardBtn.addEventListener('click', async () => {
+        try {
+            existingData = await loadDataFromClipboard();
+            existingStatus.textContent = `Loaded ${existingData.length} rows of existing mappings.`;
+            logMessage(`Loaded ${existingData.length} rows of existing mappings from clipboard.`);
+            part1.classList.add('hidden');
+            part2.classList.remove('hidden');
+        } catch (error) {
+            alert(error.message);
+            logMessage(error.message);
+        }
+    });
+
+    // Part 2 Events
+    copyNeedCodeBtn.addEventListener('click', () => {
+        copyCodeFromGitHub("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/refs/heads/main/PBS/PBS%20-%20For%20Copy%20Existing%20Mappings%20-%20Last%20Installed%20Package%20-%20Unmapped%20Only.ccl");
+        loadNeedClipboardBtn.classList.remove('hidden');
+        logMessage("User requested need-mapping code copied to clipboard.");
+    });
+
+    loadNeedClipboardBtn.addEventListener('click', async () => {
+        try {
+            needMappingData = await loadDataFromClipboard();
+            needStatus.textContent = `Loaded ${needMappingData.length} rows of need-mapping data.`;
+            logMessage(`Loaded ${needMappingData.length} rows of need-mapping data from clipboard.`);
+            doMergeAndGenerateResults();
+        } catch (error) {
+            alert(error.message);
+            logMessage(error.message);
+        }
+    });
+
+    // Merge and prepare final results
+    function doMergeAndGenerateResults() {
+        try {
+            if (!needMappingData[0].hasOwnProperty(KEY_COLUMN)) {
+                throw new Error(`Key column '${KEY_COLUMN}' not found in need-mapping data.`);
+            }
+            if (!existingData[0].hasOwnProperty(KEY_COLUMN)) {
+                throw new Error(`Key column '${KEY_COLUMN}' not found in existing-mappings data.`);
+            }
+
+            const mergedData = mergeDataframes(needMappingData, existingData, KEY_COLUMN);
+            const mapColumns = Object.keys(mergedData[0]).filter(col => col.startsWith('MAP_PBS_DRUG_ID_'));
+
+            const requiredColumns = ['MAPPED_SYNONYM_ID', 'PBS_CODE'];
+            const missingColumns = requiredColumns.filter(col => !mergedData[0].hasOwnProperty(col));
+            if (missingColumns.length > 0) {
+                throw new Error(`Columns ${missingColumns.join(', ')} not found in merged data.`);
+            }
+            if (mapColumns.length === 0) {
+                throw new Error("No columns starting with 'MAP_PBS_DRUG_ID_' found in the merged data.");
+            }
+
+            finalTable = mergedData.map(row => {
+                const newRow = {};
+                [...mapColumns, ...requiredColumns].forEach(col => {
+                    newRow[col] = row[col];
+                });
+                return newRow;
+            });
+
+            finalTable = removeDuplicates(finalTable);
+            logMessage(`Created final table with ${finalTable.length} rows and ${Object.keys(finalTable[0]).length} columns.`);
+
+            // Enable the buttons in Part 3
+            part2.classList.add('hidden');
+            part3.classList.remove('hidden');
+            copyScriptButton.disabled = false;
+            downloadButton.disabled = false;
+        } catch (error) {
+            alert(error.message);
+            logMessage(error.message);
+        }
+    }
+
+    // Copy update script on button click
+    copyScriptButton.addEventListener('click', () => {
+        if (!finalTable || finalTable.length === 0) {
+            alert('No data to generate script. Please ensure steps are completed.');
+            return;
+        }
+
+        const scriptTemplate = `
+;________________________________________________
+;  {PBS_CODE} Mapping PBS_DRUG_ID: {MAP_PBS_DRUG_ID_} and SYNONYM_ID: {MAPPED_SYNONYM_ID}
+update into pbs_ocs_mapping P_O_M
+set
+    P_O_M.beg_effective_dt_tm = cnvtdatetime(curdate, 0008)
+    , P_O_M.end_effective_dt_tm = cnvtdatetime("31-DEC-2100")
+    , P_O_M.pbs_drug_id = {MAP_PBS_DRUG_ID_}
+    , P_O_M.synonym_id = {MAPPED_SYNONYM_ID}
+    , P_O_M.drug_synonym_id = 0
+    , P_O_M.main_multum_drug_code = 0
+    , P_O_M.drug_identifier = "0"
+    , P_O_M.updt_dt_tm = cnvtdatetime(curdate,curtime3)
+    , P_O_M.updt_id = reqinfo->updt_id
+    , P_O_M.updt_cnt = P_O_M.updt_cnt + 1
+where
+    P_O_M.pbs_ocs_mapping_id =
+    (select min(pbs_ocs_mapping_id) from pbs_ocs_mapping where end_effective_dt_tm < sysdate)
+    and not exists
+    (
+        select 1
+        from pbs_ocs_mapping
+        where pbs_drug_id = {MAP_PBS_DRUG_ID_}
+        and synonym_id = {MAPPED_SYNONYM_ID}
+        and end_effective_dt_tm > sysdate
+    )
+;________________________________________________
+`;
+
+        let fullScript = '';
+        finalTable.forEach(row => {
+            const script = scriptTemplate
+                .replace(/{PBS_CODE}/g, row['PBS_CODE'])
+                .replace(/{MAP_PBS_DRUG_ID_}/g, row['MAP_PBS_DRUG_ID_'])
+                .replace(/{MAPPED_SYNONYM_ID}/g, row['MAPPED_SYNONYM_ID']);
+            fullScript += script + '\n';
+        });
+
+        navigator.clipboard.writeText(fullScript)
+            .then(() => {
+                logMessage('Update script copied to clipboard!');
+                alert('Update script copied to clipboard!\nPaste it into DVDev and run it.');
+            })
+            .catch(err => {
+                logMessage('Failed to copy update script: ' + err.message);
+                alert('Failed to copy update script. Please manually select and copy it.');
+            });
+    });
+
+    // Download final table as Excel
+    downloadButton.addEventListener('click', function () {
+        if (!finalTable || finalTable.length === 0) {
+            alert('No data to save. Please complete the process first.');
+            return;
+        }
+
+        const ws = XLSX.utils.json_to_sheet(finalTable);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Result');
+
+        const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'AutoMappingTable.xlsx');
+
+        logMessage('Download complete: AutoMappingTable.xlsx');
+    });
+</script>
+
+<!-- Dependencies for XLSX and FileSaver -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</body>
+</html>
