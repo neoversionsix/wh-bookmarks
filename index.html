@@ -138,7 +138,7 @@ function goToIncident() {
 function goToProblem() {
     var problemNumber = document.getElementById("problemInput").value;
     if (problemNumber) {
-        var url = "https://servicedesk.wh.org.au/CherwellClient/Access/problem/" + incidentNumber;
+      var url = "https://servicedesk.wh.org.au/CherwellClient/Access/problem/" + problemNumber;
         window.open(url, '_blank');
     } else {
         alert("Please enter a problem number");
