@@ -146,7 +146,7 @@ function goToProblem() {
 }
 
 function goToTask() {
-    var problemNumber = document.getElementById("taskInput").value;
+    var taskNumber = document.getElementById("taskInput").value;
     if (taskNumber) {
         var url = "https://servicedesk.wh.org.au/CherwellClient/Access/task/" + taskNumber;
         window.open(url, '_blank');
