@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Copy Code Button Example</title>
+</head>
+<body>
+
+    <h1>Copy Code Button Example</h1>
+
+    <!-- Button to copy the first script -->
+    <button class="copy-btn" data-url="https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/e29fe62dbc40317ef5490b254a9ae22393278bd6/PBS/PBS%20Mappings%20All%20-%20with%20mapping%20keys.ccl">
+        Copy Extract Script to Clipboard
+    </button>
+
+    <!-- Button to copy a second script -->
+    <button class="copy-btn" data-url="https://raw.githubusercontent.com/yourusername/yourrepo/yourbranch/yourfile.ccl">Copy Another Script to Clipboard</button>
+
+    <script>
+        // Function to copy code from a given URL to the clipboard
+        function copyCode(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(text => {
+                    navigator.clipboard.writeText(text)
+                        .then(() => {
+                            alert('Code copied to clipboard.');
+                        })
+                        .catch(err => {
+                            alert('Failed to copy code to clipboard: ' + err);
+                        });
+                })
+                .catch(err => {
+                    alert('Failed to fetch code: ' + err);
+                });
+        }
+
+        // Attach event listeners to all buttons with the 'copy-btn' class
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const url = button.dataset.url;
+                copyCode(url);
+            });
+        });
+    </script>
+</body>
+</html>
