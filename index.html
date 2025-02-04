@@ -125,7 +125,9 @@ function filterButtons() {
 }
 
 
+// Existing functions - now used for "in browser" buttons
 function goToIncident() {
+    // Takes the user input from #incidentInput and opens in browser
     var incidentNumber = document.getElementById("incidentInput").value;
     if (incidentNumber) {
         var url = "https://servicedesk.wh.org.au/CherwellClient/Access/incident/" + incidentNumber;
@@ -136,9 +138,10 @@ function goToIncident() {
 }
 
 function goToProblem() {
+    // Takes the user input from #problemInput and opens in browser
     var problemNumber = document.getElementById("problemInput").value;
     if (problemNumber) {
-      var url = "https://servicedesk.wh.org.au/CherwellClient/Access/problem/" + problemNumber;
+        var url = "https://servicedesk.wh.org.au/CherwellClient/Access/problem/" + problemNumber;
         window.open(url, '_blank');
     } else {
         alert("Please enter a problem number");
@@ -146,6 +149,7 @@ function goToProblem() {
 }
 
 function goToTask() {
+    // Takes the user input from #taskInput and opens in browser
     var taskNumber = document.getElementById("taskInput").value;
     if (taskNumber) {
         var url = "https://servicedesk.wh.org.au/CherwellClient/Access/task/" + taskNumber;
@@ -156,6 +160,7 @@ function goToTask() {
 }
 
 function goToKnowledgearticle() {
+    // Takes the user input from #knowledgearticleInput and opens in browser
     var knowledgearticleNumber = document.getElementById("knowledgearticleInput").value;
     if (knowledgearticleNumber) {
         var url = "https://servicedesk.wh.org.au/CherwellClient/Access/knowledgearticle/" + knowledgearticleNumber;
@@ -164,6 +169,55 @@ function goToKnowledgearticle() {
         alert("Please enter a task number");
     }
 }
+
+/* 
+  NEW Desktop-App Functions 
+  These open CherwellClient:// URLs directly in the Cherwell rich client 
+*/
+function goToIncidentDesktop() {
+    var incidentNumber = document.getElementById("incidentInput").value;
+    if (incidentNumber) {
+        // Example: CherwellClient://commands/goto?rectype=Incident&PublicId=xxxx
+        var url = "CherwellClient://commands/goto?rectype=Incident&PublicId=" + incidentNumber;
+        window.open(url, '_blank');
+    } else {
+        alert("Please enter an incident number");
+    }
+}
+
+function goToProblemDesktop() {
+    var problemNumber = document.getElementById("problemInput").value;
+    if (problemNumber) {
+        // Example: CherwellClient://commands/goto?rectype=Problem&PublicId=xxxx
+        var url = "CherwellClient://commands/goto?rectype=Problem&PublicId=" + problemNumber;
+        window.open(url, '_blank');
+    } else {
+        alert("Please enter a problem number");
+    }
+}
+
+function goToTaskDesktop() {
+    var taskNumber = document.getElementById("taskInput").value;
+    if (taskNumber) {
+        // Example: CherwellClient://commands/goto?rectype=Task&PublicId=xxxx
+        var url = "CherwellClient://commands/goto?rectype=Task&PublicId=" + taskNumber;
+        window.open(url, '_blank');
+    } else {
+        alert("Please enter a task number");
+    }
+}
+
+function goToKnowledgeArticleDesktop() {
+    var knowledgearticleNumber = document.getElementById("knowledgearticleInput").value;
+    if (knowledgearticleNumber) {
+        // Example: CherwellClient://commands/goto?rectype=KnowledgeArticle&PublicId=xxxx
+        var url = "CherwellClient://commands/goto?rectype=KnowledgeArticle&PublicId=" + knowledgearticleNumber;
+        window.open(url, '_blank');
+    } else {
+        alert("Please enter a task number");
+    }
+}
+
 </script>
 </head>
 <body>
@@ -239,22 +293,36 @@ function goToKnowledgearticle() {
 
 <p class="text-container"> Note: Need to be logged into Cherwell Web before these work:</p>
 <div id="cherwellTicketSection">
-<div class="container">
-  <input type="text" id="incidentInput" placeholder="Enter Incident Number">
-  <button onclick="goToIncident()">Go To Incident</button>
-</div>
-<div class="container">
-  <input type="text" id="problemInput" placeholder="Enter Problem Number">
-  <button onclick="goToProblem()">Go To Problem</button>
-</div>
-<div class="container">
-  <input type="text" id="taskInput" placeholder="Enter Task Number">
-  <button onclick="goToTask()">Go To Task</button>
-</div>
-<div class="container">
-  <input type="text" id="knowledgearticleInput" placeholder="Enter KA Number">
-  <button onclick="goToKnowledgearticle()">Go To Knowledge Article</button>
-</div>
+  <!-- This is where we rename existing "Go To..." buttons to "...in browser" 
+       and add the new "...in desktop app" buttons. -->
+  <div class="container">
+    <input type="text" id="incidentInput" placeholder="Enter Incident Number">
+    <!-- Renamed existing button -->
+    <button onclick="goToIncident()">Go To Incident in browser</button>
+    <!-- New button for desktop app -->
+    <button onclick="goToIncidentDesktop()">Go To Incident in desktop app</button>
+  </div>
+  <div class="container">
+    <input type="text" id="problemInput" placeholder="Enter Problem Number">
+    <!-- Renamed existing button -->
+    <button onclick="goToProblem()">Go To Problem in browser</button>
+    <!-- New button for desktop app -->
+    <button onclick="goToProblemDesktop()">Go To Problem in desktop app</button>
+  </div>
+  <div class="container">
+    <input type="text" id="taskInput" placeholder="Enter Task Number">
+    <!-- Renamed existing button -->
+    <button onclick="goToTask()">Go To Task in browser</button>
+    <!-- New button for desktop app -->
+    <button onclick="goToTaskDesktop()">Go To Task in desktop app</button>
+  </div>
+  <div class="container">
+    <input type="text" id="knowledgearticleInput" placeholder="Enter KA Number">
+    <!-- Renamed existing button -->
+    <button onclick="goToKnowledgearticle()">Go To Knowledge Article in browser</button>
+    <!-- New button for desktop app -->
+    <button onclick="goToKnowledgeArticleDesktop()">Go To Knowledge Article in desktop app</button>
+  </div>
 </div>
 <br>
 <hr>
@@ -302,7 +370,6 @@ function goToKnowledgearticle() {
 <hr>
 <h2 class="text-container">Developed Tools</h2>
 <a href="tools/code-generator.html" target="_blank"><button>Code Generator Tool</button></a>
-
 <a href="tools/spreadsheet-chopper.html" target="_blank"><button>Spreadsheet Chopper</button></a>
 <a href="tools/new-user-tool.html" target="_blank"><button>New User Tool</button></a>
 <a href="tools/pbs-mapping-copier-2.html" target="_blank"><button>PBS Mapping Copier Tool</button></a>
