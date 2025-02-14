@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bare Bones Data Tool</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    button { margin: 5px; padding: 10px 15px; }
+    #output { margin-top: 20px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>Bare Bones Data Tool</h1>
+  <button id="copyScriptBtn">Copy Script</button>
+  <button id="loadDataBtn">Load Data</button>
+  <button id="processBtn">Process Data</button>
+  <div id="status"></div>
+  <div id="output"></div>
+
+  <script>
+    // Change this URL to point to the script you want to copy
+    const SCRIPT_URL = 'https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/e29fe62dbc40317ef5490b254a9ae22393278bd6/PBS/PBS%20Mappings%20All%20-%20with%20mapping%20keys.ccl';
+    let clipboardData = '';
+
+    document.getElementById('copyScriptBtn').addEventListener('click', () => {
+      fetch(SCRIPT_URL)
+        .then(response => response.text())
+        .then(text => navigator.clipboard.writeText(text))
+        .then(() => {
+          document.getElementById('status').textContent = 'Script copied to clipboard.';
+        })
+        .catch(err => {
+          document.getElementById('status').textContent = 'Error copying script: ' + err;
+        });
+    });
+
+    document.getElementById('loadDataBtn').addEventListener('click', () => {
+      navigator.clipboard.readText()
+        .then(text => {
+          clipboardData = text;
+          document.getElementById('status').textContent = 'Data loaded from clipboard.';
+          // Optional: preview first 200 characters of the data
+          document.getElementById('output').textContent = text.slice(0, 200) + (text.length > 200 ? '...' : '');
+        })
+        .catch(err => {
+          document.getElementById('status').textContent = 'Error loading data: ' + err;
+        });
+    });
+
+    document.getElementById('processBtn').addEventListener('click', () => {
+      if (!clipboardData) {
+        document.getElementById('status').textContent = 'No data loaded.';
+        return;
+      }
+      // Example processing: convert tab-separated data to an array of objects
+      const lines = clipboardData.trim().split('\n');
+      if (lines.length < 2) {
+        document.getElementById('status').textContent = 'Insufficient data.';
+        return;
+      }
+      const headers = lines[0].split('\t');
+      const parsedData = lines.slice(1).map(line => {
+        const values = line.split('\t');
+        return headers.reduce((obj, header, index) => {
+          obj[header.trim()] = values[index] ? values[index].trim() : '';
+          return obj;
+        }, {});
+      });
+      // Custom processing logic can be inserted here.
+      // For now, we simply output the parsed data as JSON.
+      document.getElementById('output').textContent = JSON.stringify(parsedData, null, 2);
+      document.getElementById('status').textContent = 'Data processed.';
+    });
+  </script>
+</body>
+</html>
