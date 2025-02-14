@@ -2,74 +2,169 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Bare Bones Data Tool</title>
+  <title>Multi-Data Set Tool</title>
   <style>
     body { font-family: sans-serif; padding: 20px; }
     button { margin: 5px; padding: 10px 15px; }
-    #output { margin-top: 20px; white-space: pre-wrap; }
+    .hidden { display: none; }
+    .section { margin-bottom: 20px; border: 1px solid #eee; padding: 10px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 5px; }
   </style>
 </head>
 <body>
-  <h1>Bare Bones Data Tool</h1>
-  <button id="copyScriptBtn">Copy Script</button>
-  <button id="loadDataBtn">Load Data</button>
-  <button id="processBtn">Process Data</button>
-  <div id="status"></div>
-  <div id="output"></div>
+  <h1>Multi-Data Set Tool</h1>
+  <div id="dataSetsContainer"></div>
+  <button id="processBtn" class="hidden">Process All Data</button>
+  <div id="processedOutput"></div>
 
   <script>
-    // Change this URL to point to the script you want to copy
-    const SCRIPT_URL = 'https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/e29fe62dbc40317ef5490b254a9ae22393278bd6/PBS/PBS%20Mappings%20All%20-%20with%20mapping%20keys.ccl';
-    let clipboardData = '';
+    // Configure your data sets here. Add more objects to load additional sets.
+    const dataSetsConfig = [
+      { name: "Data Set 1", scriptURL: "https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/e29fe62dbc40317ef5490b254a9ae22393278bd6/PBS/PBS%20Mappings%20All%20-%20with%20mapping%20keys.ccl", data: null },
+      { name: "Data Set 2", scriptURL: "https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/e29fe62dbc40317ef5490b254a9ae22393278bd6/PBS/PBS%20Mappings%20All%20-%20with%20mapping%20keys.ccl", data: null }
+    ];
 
-    document.getElementById('copyScriptBtn').addEventListener('click', () => {
-      fetch(SCRIPT_URL)
-        .then(response => response.text())
-        .then(text => navigator.clipboard.writeText(text))
-        .then(() => {
-          document.getElementById('status').textContent = 'Script copied to clipboard.';
-        })
-        .catch(err => {
-          document.getElementById('status').textContent = 'Error copying script: ' + err;
+    const container = document.getElementById('dataSetsContainer');
+    const processBtn = document.getElementById('processBtn');
+    const processedOutput = document.getElementById('processedOutput');
+    let currentIndex = 0;
+
+    // Create an HTML table from an array of objects
+    function createTable(data) {
+      if (!data || data.length === 0) return document.createElement('div');
+      const table = document.createElement('table');
+      const headers = Object.keys(data[0]);
+      const thead = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      headers.forEach(h => {
+        const th = document.createElement('th');
+        th.textContent = h;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+      const tbody = document.createElement('tbody');
+      data.forEach(row => {
+        const tr = document.createElement('tr');
+        headers.forEach(h => {
+          const td = document.createElement('td');
+          td.textContent = row[h];
+          tr.appendChild(td);
         });
-    });
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      return table;
+    }
 
-    document.getElementById('loadDataBtn').addEventListener('click', () => {
-      navigator.clipboard.readText()
-        .then(text => {
-          clipboardData = text;
-          document.getElementById('status').textContent = 'Data loaded from clipboard.';
-          // Optional: preview first 200 characters of the data
-          document.getElementById('output').textContent = text.slice(0, 200) + (text.length > 200 ? '...' : '');
-        })
-        .catch(err => {
-          document.getElementById('status').textContent = 'Error loading data: ' + err;
-        });
-    });
-
-    document.getElementById('processBtn').addEventListener('click', () => {
-      if (!clipboardData) {
-        document.getElementById('status').textContent = 'No data loaded.';
-        return;
-      }
-      // Example processing: convert tab-separated data to an array of objects
-      const lines = clipboardData.trim().split('\n');
-      if (lines.length < 2) {
-        document.getElementById('status').textContent = 'Insufficient data.';
-        return;
-      }
+    // Convert tab-separated text into an array of objects
+    function parseData(text) {
+      const lines = text.trim().split('\n');
+      if (lines.length < 2) return [];
       const headers = lines[0].split('\t');
-      const parsedData = lines.slice(1).map(line => {
+      return lines.slice(1).map(line => {
         const values = line.split('\t');
-        return headers.reduce((obj, header, index) => {
-          obj[header.trim()] = values[index] ? values[index].trim() : '';
+        return headers.reduce((obj, header, i) => {
+          obj[header.trim()] = values[i] ? values[i].trim() : '';
           return obj;
         }, {});
       });
-      // Custom processing logic can be inserted here.
-      // For now, we simply output the parsed data as JSON.
-      document.getElementById('output').textContent = JSON.stringify(parsedData, null, 2);
-      document.getElementById('status').textContent = 'Data processed.';
+    }
+
+    // Create a section for each data set with its buttons and preview area
+    function createDataSetSection(dataSet, index) {
+      const section = document.createElement('div');
+      section.className = 'section';
+      section.id = 'section-' + index;
+
+      const title = document.createElement('h3');
+      title.textContent = dataSet.name;
+      section.appendChild(title);
+
+      // Copy Script button
+      const copyBtn = document.createElement('button');
+      copyBtn.textContent = 'Copy Script for ' + dataSet.name;
+      section.appendChild(copyBtn);
+
+      // Load Data button (hidden until copy is done)
+      const loadBtn = document.createElement('button');
+      loadBtn.textContent = 'Load Data for ' + dataSet.name;
+      loadBtn.classList.add('hidden');
+      section.appendChild(loadBtn);
+
+      // Status message
+      const statusDiv = document.createElement('div');
+      section.appendChild(statusDiv);
+
+      // Preview area for top 10 rows
+      const previewDiv = document.createElement('div');
+      section.appendChild(previewDiv);
+
+      copyBtn.addEventListener('click', () => {
+        fetch(dataSet.scriptURL)
+          .then(resp => resp.text())
+          .then(text => {
+            navigator.clipboard.writeText(text);
+            statusDiv.textContent = 'Script copied. Now click "Load Data".';
+            copyBtn.disabled = true;
+            loadBtn.classList.remove('hidden');
+          })
+          .catch(err => {
+            statusDiv.textContent = 'Error copying script: ' + err;
+          });
+      });
+
+      loadBtn.addEventListener('click', () => {
+        navigator.clipboard.readText()
+          .then(text => {
+            const parsed = parseData(text);
+            if (parsed.length === 0) {
+              statusDiv.textContent = 'No valid data found.';
+              return;
+            }
+            dataSetsConfig[index].data = parsed;
+            statusDiv.textContent = 'Data loaded successfully.';
+            // Display preview: top 10 rows as a table
+            previewDiv.innerHTML = '';
+            previewDiv.appendChild(createTable(parsed.slice(0, 10)));
+            loadBtn.disabled = true;
+            // Reveal next section if exists; otherwise, show Process button
+            currentIndex++;
+            if (currentIndex < dataSetsConfig.length) {
+              document.getElementById('section-' + currentIndex).classList.remove('hidden');
+            } else {
+              processBtn.classList.remove('hidden');
+            }
+          })
+          .catch(err => {
+            statusDiv.textContent = 'Error loading data: ' + err;
+          });
+      });
+
+      // Only show the first section initially
+      if (index !== 0) {
+        section.classList.add('hidden');
+      }
+      return section;
+    }
+
+    // Create sections for all data sets
+    dataSetsConfig.forEach((ds, i) => {
+      container.appendChild(createDataSetSection(ds, i));
+    });
+
+    // Process and display all loaded data as HTML tables
+    processBtn.addEventListener('click', () => {
+      processedOutput.innerHTML = '';
+      dataSetsConfig.forEach(ds => {
+        if (ds.data) {
+          const header = document.createElement('h3');
+          header.textContent = ds.name + ' Processed Data';
+          processedOutput.appendChild(header);
+          processedOutput.appendChild(createTable(ds.data));
+        }
+      });
     });
   </script>
 </body>
