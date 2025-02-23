@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Set 52 - Nomalacy Codes</title>
+    <style>
+        body {
+            background-color: #2c2c2c;
+            color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        input[type="text"] {
+            width: 100%;
+            box-sizing: border-box;
+            background-color: #444;
+            color: #f0f0f0;
+            border: 1px solid #555;
+            padding: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #555;
+        }
+        th {
+            background-color: #333;
+        }
+        tr:nth-child(even) {
+            background-color: #3a3a3a;
+        }
+        tr:nth-child(odd) {
+            background-color: #2c2c2c;
+        }
+        tr:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>CODE SETS AND VALUES</h1>
+
+    <table id="codeTable">
+        <thead>
+            <tr>
+                <th>Code Set<br><input type="text" onkeyup="filterTable(0)" placeholder="Search Code Set"></th>
+                <th>Code Set Name<br><input type="text" onkeyup="filterTable(1)" placeholder="Search Code Set Name"></th>
+                <th>Code Set Description<br><input type="text" onkeyup="filterTable(2)" placeholder="Search Code Set Description"></th>
+                <th>Table Name<br><input type="text" onkeyup="filterTable(3)" placeholder="Search Table Name"></th>
+                <th>Column Name<br><input type="text" onkeyup="filterTable(4)" placeholder="Search Column Name"></th>
+                <th>CODE_VALUE<br><input type="text" onkeyup="filterTable(5)" placeholder="Search CODE_VALUE"></th>
+                <th>DISPLAY<br><input type="text" onkeyup="filterTable(6)" placeholder="Search DISPLAY"></th>
+                <th>CDF_MEANING<br><input type="text" onkeyup="filterTable(7)" placeholder="Search CDF_MEANING"></th>
+                <th>DESCRIPTION<br><input type="text" onkeyup="filterTable(8)" placeholder="Search DESCRIPTION"></th>
+                <th>DISPLAY_KEY<br><input type="text" onkeyup="filterTable(9)" placeholder="Search DISPLAY_KEY"></th>
+                <th>CKI<br><input type="text" onkeyup="filterTable(10)" placeholder="Search CKI"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>52</td>
+                <td>Nomalacy Codes</td>
+                <td>This indicates if the result was critical, high, low, normal, or if it changed up or down.</td>
+                <td>CLINICAL_EVENT</td>
+                <td>NORMALACY CODE</td>
+                <td>201.00</td>
+                <td>Abnormal</td>
+                <td>ABNORMAL</td>
+                <td>Abnormal</td>
+                <td>ABNORMAL</td>
+                <td>CKI.CODEVALUE!2680</td>
+            </tr>
+            <tr>
+                <td>52</td>
+                <td>Nomalacy Codes</td>
+                <td>This indicates if the result was critical, high, low, normal, or if it changed up or down.</td>
+                <td>CLINICAL_EVENT</td>
+                <td>NORMALACY CODE</td>
+                <td>202.00</td>
+                <td>B</td>
+                <td>BETTER</td>
+                <td>Better</td>
+                <td>B</td>
+                <td>CKI.CODEVALUE!3705</td>
+            </tr>
+            <tr>
+                <td>52</td>
+                <td>Nomalacy Codes</td>
+                <td>This indicates if the result was critical, high, low, normal, or if it changed up or down.</td>
+                <td>CLINICAL_EVENT</td>
+                <td>NORMALACY CODE</td>
+                <td>204.00</td>
+                <td>DWN</td>
+                <td>CHANGEDOWN</td>
+                <td>Change Down</td>
+                <td>DWN</td>
+                <td>CKI.CODEVALUE!2682</td>
+            </tr>
+            <tr>
+                <td>52</td>
+                <td>Nomalacy Codes</td>
+                <td>This indicates if the result was critical, high, low, normal, or if it changed up or down.</td>
+                <td>CLINICAL_EVENT</td>
+                <td>NORMALACY CODE</td>
+                <td>218.00</td>
+                <td>UP</td>
+                <td>CHANGEUP</td>
+                <td>Change Up</td>
+                <td>UP</td>
+                <td>CKI.CODEVALUE!3830</td>
+            </tr>
+            <tr>
+                <td>52</td>
+                <td>Nomalacy Codes</td>
+                <td>This indicates if the result was critical, high, low, normal, or if it changed up or down.</td>
+                <td>CLINICAL_EVENT</td>
+                <td>NORMALACY CODE</td>
+                <td>203.00</td>
+                <td>Critical</td>
+                <td>CRITICAL</td>
+                <td>Critical</td>
+                <td>CRITICAL</td>
+                <td>CKI.CODEVALUE!2683</td>
+            </tr>
+            <tr>
+                <td>52</td>
+                <td>Nomalacy Codes</td>
+                <td>This indicates if the result was critical, high, low, normal, or if it changed up or down.</td>
+                <td>CLINICAL_EVENT</td>
+                <td>NORMALACY CODE</td>
+                <td>205.00</td>
+                <td>Extreme High</td>
+                <td>EXTREMEHIGH</td>
+                <td>Extreme High</td>
+                <td>EXTREMEHIGH</td>
+                <td>CKI.CODEVALUE!3707</td>
+            </tr>
+            <tr>
+                <td>52</td>
+                <td>Nomalacy Codes</td>
+                <td>This indicates if the result was critical, high, low, normal, or if it changed up or down.</td>
+                <td>CLINICAL_EVENT</td>
+                <td>NORMALACY CODE</td>
+                <td>209.00</td>
+                <td>Extreme Low</td>
+                <td>EXTREMELOW</td>
+                <td>Extreme Low</td>
+                <td>EXTREMELOW</td>
+                <td>CKI.CODEVALUE!2687</td>
+            </tr>
+            <tr>
+                <td>52</td>
+                <td>Nomalacy Codes</td>
+                <td>This indicates if the result was critical, high, low, normal, or if it changed up or down.</td>
+                <td>CLINICAL_EVENT</td>
+                <td>NORMALACY CODE</td>
+                <td>207.00</td>
+                <td>High</td>
+                <td>HIGH</td>
+                <td>High</td>
+                <td>HIGH</td>
+                <td>CKI.CODEVALUE!3803</td>
+            </tr>
+            <tr>
+                <td>52</td>
+                <td>Nomalacy Codes</td>
+                <td>This indicates if the result was critical, high, low, normal, or if it changed up or down.</td>
+                <td>CLINICAL_EVENT</td>
+                <td>NORMALACY CODE</td>
+                <td>208.00</td>
+                <td>I</td>
+                <td>INTERVAL</td>
+                <td>Interval</td>
+                <td>I</td>
+                <td>CKI.CODEVALUE!2688</td>
+            </tr>
+            <tr>
+                <td>52</td>
+                <td>Nomalacy Codes</td>
+                <td>This indicates if the result was critical, high, low, normal, or if it changed up or down.</td>
+                <td>CLINICAL_EVENT</td>
+                <td>NORMALACY CODE</td>
+                <td>211.00</td>
+                <td>Low</td>
+                <td>LOW</td>
+                <td>Low</td>
+                <td>LOW</td>
+                <td>CKI.CODEVALUE!2681</td>
+            </tr>
+            <tr>
+                <td>52</td>
+                <td>Nomalacy Codes</td>
+                <td>This indicates if the result was critical, high, low, normal, or if it changed up or down.</td>
+                <td>CLINICAL_EVENT</td>
+                <td>NORMALACY CODE</td>
+                <td>212.00</td>
+                <td>NA</td>
+                <td>NA</td>
+                <td>N/A</td>
+                <td>NA</td>
+                <td>CKI.CODEVALUE!3706</td>
+            </tr>
+            <tr>
+                <td>52</td>
+                <td>Nomalacy Codes</td>
+                <td>This indicates if the result was critical, high, low, normal, or if it changed up or down.</td>
+                <td>CLINICAL_EVENT</td>
+                <td>NORMALACY CODE</td>
+                <td>213.00</td>
+                <td>NEG</td>
+                <td>NEGATIVE</td>
+                <td>Negative</td>
+                <td>NEG</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        function filterTable(columnIndex) {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementsByTagName("input")[columnIndex];
+            filter = input.value.toUpperCase();
+            table = document.getElementById("codeTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[columnIndex];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
