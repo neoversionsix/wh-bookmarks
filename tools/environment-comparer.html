@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Environment Data Comparator</title>
+  <style>
+    /* Dark theme styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #2e2e2e;
+      color: #e0e0e0;
+    }
+    .hidden { display: none; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background-color: #3e3e3e;
+    }
+    th, td {
+      border: 1px solid #555;
+      padding: 8px;
+      text-align: left;
+    }
+    .mismatch { background-color: #8B0000; color: #fff; } /* Dark red for mismatches */
+    .exact-match { background-color: #006400; color: #fff; } /* Dark green for exact matches */
+    .missing { background-color: #8B8B00; color: #fff; } /* Dark yellow-ish for missing rows */
+    button {
+      background-color: #555;
+      color: #e0e0e0;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #777;
+    }
+    select, input, textarea {
+      background-color: #555;
+      color: #e0e0e0;
+      border: 1px solid #777;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Environment Data Comparator</h1>
+  <p>This tool helps compare data between two environments by loading data from the clipboard. Follow the steps below to load two datasets, choose a key column, and view differences, missing rows, and exact matches.</p>
+  
+  <div id="step1">
+    <p>Step 1: Load the first dataset (e.g., Production).</p>
+    <button onclick="loadData(1)">Load First Dataset</button>
+  </div>
+  
+  <div id="step2" class="hidden">
+    <p>Step 2: Load the second dataset (e.g., Non-Production).</p>
+    <button onclick="loadData(2)">Load Second Dataset</button>
+  </div>
+  
+  <div id="step3" class="hidden">
+    <p>Step 3: Select the key column for comparison.</p>
+    <select id="keyColumn"></select>
+    <button onclick="compareData()">Compare Data</button>
+  </div>
+  
+  <div id="results" class="hidden">
+    <h2>Comparison Results</h2>
+    <div id="blankKeysInfo"></div>
+    <h3>Differences</h3>
+    <div id="differences"></div>
+    <h3>Rows present in <span id="envName1"></span> but missing in <span id="envName2"></span></h3>
+    <div id="missingInEnv2"></div>
+    <h3>Rows present in <span id="envName2"></span> but missing in <span id="envName1"></span></h3>
+    <div id="missingInEnv1"></div>
+    <h3>Exact Matches</h3>
+    <div id="exactMatches"></div>
+  </div>
+
+  <script>
+    let datasets = {};
+    let keyColumn = "";
+
+    function loadData(setNumber) {
+      if (!navigator.clipboard) {
+        alert('Clipboard API not supported in this browser.');
+        return;
+      }
+      navigator.clipboard.readText().then(text => {
+        if (!text.trim()) {
+          alert('Clipboard is empty or does not contain valid data.');
+          return;
+        }
+        const data = parseData(text);
+        if (data.length === 0) {
+          alert("The data does not appear to be a valid table. Please refresh the page and try again.");
+          return;
+        }
+        // When loading the second dataset, check if it's identical to the first.
+        if (setNumber === 2 && JSON.stringify(datasets[1].data) === JSON.stringify(data)) {
+          alert("The datasets are identical. They appear to have been extracted from the same environment. Please refresh the page and try again.");
+          return;
+        }
+        const name = prompt(`Enter a name for dataset ${setNumber}:`);
+        if (!name) return;
+        datasets[setNumber] = { name, data };
+
+        if (setNumber === 1) {
+          document.getElementById('step1').classList.add('hidden');
+          document.getElementById('step2').classList.remove('hidden');
+        } else {
+          document.getElementById('step2').classList.add('hidden');
+          setupKeySelection();
+        }
+      }).catch(err => alert('Failed to read clipboard: ' + err));
+    }
+
+    function parseData(text) {
+      const lines = text.trim().split('\n');
+      // Check if the text appears to be a table (must have at least one header and one row, and header should have more than one column)
+      if (lines.length < 2 || lines[0].split('\t').length < 2) return [];
+      const headers = lines[0].split('\t').map(h => h.trim());
+      return lines.slice(1).map(line => {
+        const values = line.split('\t');
+        let obj = {};
+        headers.forEach((header, index) => {
+          obj[header] = values[index] ? values[index].trim() : "";
+        });
+        return obj;
+      });
+    }
+
+    function setupKeySelection() {
+      const keySelect = document.getElementById('keyColumn');
+      keySelect.innerHTML = "";
+      const headers = Object.keys(datasets[1].data[0]);
+      headers.forEach(column => {
+        let option = document.createElement('option');
+        option.value = column;
+        option.textContent = column;
+        keySelect.appendChild(option);
+      });
+      document.getElementById('step3').classList.remove('hidden');
+    }
+
+    function compareData() {
+      keyColumn = document.getElementById('keyColumn').value;
+      let data1 = datasets[1].data;
+      let data2 = datasets[2].data;
+      let blankCount1 = 0, blankCount2 = 0;
+      let validData1 = [];
+      let validData2 = [];
+      let map1 = new Map();
+      let map2 = new Map();
+
+      data1.forEach(row => {
+        if (!row[keyColumn] || row[keyColumn].trim() === "") {
+          blankCount1++;
+        } else {
+          validData1.push(row);
+          map1.set(row[keyColumn], row);
+        }
+      });
+      data2.forEach(row => {
+        if (!row[keyColumn] || row[keyColumn].trim() === "") {
+          blankCount2++;
+        } else {
+          validData2.push(row);
+          map2.set(row[keyColumn], row);
+        }
+      });
+
+      let differences = [];
+      let missingInEnv2 = [];
+      let exactMatches = [];
+
+      // Compare valid rows from dataset1 to dataset2
+      validData1.forEach(row => {
+        let key = row[keyColumn];
+        if (!map2.has(key)) {
+          missingInEnv2.push(row);
+        } else {
+          let row2 = map2.get(key);
+          let diffs = {};
+          Object.keys(row).forEach(col => {
+            if (row[col] !== row2[col]) {
+              diffs[col] = { [datasets[1].name]: row[col], [datasets[2].name]: row2[col] };
+            }
+          });
+          if (Object.keys(diffs).length > 0) {
+            differences.push({ key, diffs });
+          } else {
+            exactMatches.push(row);
+          }
+        }
+      });
+
+      // Find valid rows in dataset2 that are missing in dataset1
+      let missingInEnv1 = [];
+      validData2.forEach(row => {
+        let key = row[keyColumn];
+        if (!map1.has(key)) {
+          missingInEnv1.push(row);
+        }
+      });
+
+      // Update environment names in the headings
+      document.getElementById('envName1').textContent = datasets[1].name;
+      document.getElementById('envName2').textContent = datasets[2].name;
+
+      // Report blank key row counts, if any.
+      let blankKeysInfo = "";
+      if (blankCount1 > 0 || blankCount2 > 0) {
+        blankKeysInfo = `<p>Note: ${blankCount1} row(s) in ${datasets[1].name} and ${blankCount2} row(s) in ${datasets[2].name} have a blank key and were not analyzed.</p>`;
+      }
+      document.getElementById('blankKeysInfo').innerHTML = blankKeysInfo;
+
+      renderDifferences(differences);
+      renderTable('missingInEnv2', missingInEnv2, 'missing');
+      renderTable('missingInEnv1', missingInEnv1, 'missing');
+      renderTable('exactMatches', exactMatches, 'exact-match');
+
+      document.getElementById('results').classList.remove('hidden');
+    }
+
+    // Render differences in a custom table format
+    function renderDifferences(differences) {
+      const container = document.getElementById('differences');
+      container.innerHTML = "";
+      if (differences.length === 0) {
+        container.innerHTML = "<p>No differences found.</p>";
+        return;
+      }
+      let table = document.createElement('table');
+      let thead = document.createElement('thead');
+      let headerRow = document.createElement('tr');
+      let headers = ["Key", "Column", datasets[1].name, datasets[2].name];
+      headers.forEach(header => {
+        let th = document.createElement('th');
+        th.textContent = header;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      let tbody = document.createElement('tbody');
+      differences.forEach(entry => {
+        const key = entry.key;
+        Object.keys(entry.diffs).forEach(col => {
+          let row = document.createElement('tr');
+          let tdKey = document.createElement('td');
+          tdKey.textContent = key;
+          let tdCol = document.createElement('td');
+          tdCol.textContent = col;
+          let tdVal1 = document.createElement('td');
+          tdVal1.textContent = entry.diffs[col][datasets[1].name];
+          let tdVal2 = document.createElement('td');
+          tdVal2.textContent = entry.diffs[col][datasets[2].name];
+          
+          tdVal1.classList.add('mismatch');
+          tdVal2.classList.add('mismatch');
+          
+          row.appendChild(tdKey);
+          row.appendChild(tdCol);
+          row.appendChild(tdVal1);
+          row.appendChild(tdVal2);
+          tbody.appendChild(row);
+        });
+      });
+      table.appendChild(tbody);
+      container.appendChild(table);
+    }
+
+    // Generic table renderer for missing rows and exact matches
+    function renderTable(containerId, data, rowClass = "") {
+      let container = document.getElementById(containerId);
+      container.innerHTML = "";
+      if (data.length === 0) {
+        container.innerHTML = "<p>No entries.</p>";
+        return;
+      }
+      let table = document.createElement('table');
+      let headers = Object.keys(data[0]);
+      let thead = document.createElement('thead');
+      let headerRow = document.createElement('tr');
+      headers.forEach(header => {
+        let th = document.createElement('th');
+        th.textContent = header;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      let tbody = document.createElement('tbody');
+      data.forEach(rowData => {
+        let row = document.createElement('tr');
+        headers.forEach(header => {
+          let td = document.createElement('td');
+          td.textContent = rowData[header] || "";
+          if (rowClass) td.classList.add(rowClass);
+          row.appendChild(td);
+        });
+        tbody.appendChild(row);
+      });
+      table.appendChild(tbody);
+      container.appendChild(table);
+    }
+  </script>
+</body>
+</html>
