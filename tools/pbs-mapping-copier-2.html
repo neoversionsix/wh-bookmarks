@@ -2,103 +2,133 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PBS Drug Auto Mapping Copier (Clipboard Version)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Additional styles if needed */
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Inter', sans-serif;
         }
-        .section {
-            margin-bottom: 40px;
+        /* Style for the console log */
+        #logText {
+            font-family: monospace;
+            background-color: #f3f4f6; /* Tailwind gray-100 */
+            border: 1px solid #d1d5db; /* Tailwind gray-300 */
+            border-radius: 0.375rem; /* Tailwind rounded-md */
+            padding: 0.5rem;
         }
-        .hidden {
-            display: none;
-        }
-        textarea {
-            width: 100%;
+        /* Ensure buttons look good */
+        button {
+            transition: background-color 0.2s ease-in-out;
         }
         button:disabled {
-            background-color: #ccc;
-        }
-        .currentStep {
-            font-weight: bold;
-            margin-bottom: 10px;
+            cursor: not-allowed;
+            opacity: 0.6;
         }
     </style>
 </head>
-<body>
-<h1>PBS Drug Auto Mapping Copier</h1>
+<body class="bg-gray-50 p-4 md:p-8">
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
 
-<!-- PART 1: Load existing-mappings data -->
-<div id="part1" class="section">
-    <h2>Part 1: Load Existing Mappings</h2>
-    <p class="currentStep">Step 1:</p>
-    <p>
-        Click the button below to copy the CCL extract code.<br>
-        Run the CCL Code in DVDev and then copy the data from DVDev to your clipboard (Ctrl+C).
-    </p>
-    <button id="copyExistingCodeBtn">
-        Copy "Existing Mappings" CCL Extract Code
-    </button>
-    <p>
-        Click the button below to load the data from your clipboard.
-    </p>
-    <button id="loadExistingClipboardBtn" class="hidden">
-        Load Existing Mappings from Clipboard
-    </button>
-    <p id="existingStatus"></p>
+    <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">PBS Drug Auto Mapping Copier</h1>
+
+    <div id="part1" class="section mb-8 p-5 border border-gray-200 rounded-lg bg-white">
+        <h2 class="text-xl font-semibold mb-3 text-gray-700">Part 1: Load Existing Mappings</h2>
+        <p class="currentStep text-lg font-medium mb-2 text-indigo-600">Step 1:</p>
+        <div class="space-y-3 text-gray-600">
+            <p>
+                Click the button below to copy the CCL extract code.<br>
+                Run the CCL Code in DVDev and then copy the resulting data from DVDev to your clipboard (Ctrl+C).
+            </p>
+            <button id="copyExistingCodeBtn" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                Copy "Existing Mappings" CCL Code
+            </button>
+            <p>
+                Once the data is copied, click the button below to load it from your clipboard.
+            </p>
+            <button id="loadExistingClipboardBtn" class="hidden px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                Load Existing Mappings from Clipboard
+            </button>
+            <p id="existingStatus" class="mt-2 text-sm font-medium text-gray-700"></p>
+        </div>
+    </div>
+
+    <div id="part2" class="section hidden mb-8 p-5 border border-gray-200 rounded-lg bg-white">
+        <h2 class="text-xl font-semibold mb-3 text-gray-700">Part 2: Load Items That Need Mapping</h2>
+        <p class="currentStep text-lg font-medium mb-2 text-indigo-600">Step 2:</p>
+         <div class="space-y-3 text-gray-600">
+            <p>
+                Click the button below to copy the CCL extract code.<br>
+                Run the CCL Code in DVDev and then copy the resulting data from DVDev to your clipboard (Ctrl+C).
+            </p>
+            <button id="copyNeedCodeBtn" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                Copy "Need Mapping" CCL Code
+            </button>
+            <p>
+                Once the data is copied, click the button below to load it from your clipboard.
+            </p>
+            <button id="loadNeedClipboardBtn" class="hidden px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                Load Need-Mapping Data from Clipboard
+            </button>
+            <p id="needStatus" class="mt-2 text-sm font-medium text-gray-700"></p>
+        </div>
+    </div>
+
+    <div id="part3" class="section hidden mb-8 p-5 border border-gray-200 rounded-lg bg-white">
+        <h2 class="text-xl font-semibold mb-3 text-gray-700">Part 3: Final Steps</h2>
+        <p class="currentStep text-lg font-medium mb-2 text-indigo-600">Step 3:</p>
+        <div class="space-y-3 text-gray-600">
+            <p>Click the button below to copy the generated update script to your clipboard. Paste and run this script in DVDev.</p>
+            <button id="copyScriptButton" disabled class="px-4 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:bg-gray-400">
+                Copy Update Script
+            </button>
+            <p class="mt-4">You can also download the "Auto Mapping Table" (optional) for your records:</p>
+            <button id="downloadButton" disabled class="px-4 py-2 bg-teal-500 text-white rounded-md hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 disabled:bg-gray-400">
+                Download Auto Mapping Table (Excel)
+            </button>
+        </div>
+    </div>
+
+    <div class="mt-8 p-5 border border-gray-200 rounded-lg bg-gray-50">
+        <h3 class="text-lg font-semibold mb-3 text-gray-700">Console Log:</h3>
+        <textarea id="logText" rows="15" readonly class="w-full text-sm"></textarea>
+    </div>
 </div>
-
-<!-- PART 2: Load need-mapping data -->
-<div id="part2" class="section hidden">
-    <h2>Part 2: Load Items That Need Mapping</h2>
-    <p class="currentStep">Step 2:</p>
-    <p>
-        Click the button below to copy the CCL extract code<br>
-        Run the CCL Code in DVDev and then copy the data from DVDev to your clipboard (Ctrl+C).
-    </p>
-    <button id="copyNeedCodeBtn">
-        Copy "Need Mapping" CCL Extract Code
-    </button>
-    <p>
-        Click the button below to load the data from your clipboard.
-    </p>
-    <button id="loadNeedClipboardBtn" class="hidden">
-        Load Need-Mapping Data from Clipboard
-    </button>
-    <p id="needStatus"></p>
-</div>
-
-<!-- PART 3: Show results and allow downloading final table -->
-<div id="part3" class="section hidden">
-    <h2>Part 3: Final Steps</h2>
-    <p class="currentStep">Step 3:</p>
-    <p>Click the button below to copy the update script to your clipboard and then run it into DVDev. Done.</p>
-    <button id="copyScriptButton" disabled>Copy Update Script</button>
-    <p>You can also download the "Auto Mapping Table" (optional) for your records:</p>
-    <button id="downloadButton" disabled>Download Auto Mapping Table</button>
-</div>
-
-<!-- Console log for debugging -->
-<h3>Console Log:</h3>
-<textarea id="logText" rows="15" readonly></textarea>
 
 <script>
     // ************************************************************************************************
     // This script:
-    // 1) Loads two sets of data from the clipboard.
-    // 2) Uses a fixed matching column "MAPPING_KEY".
-    // 3) After both data sets are loaded and merged, we provide a button to copy the update script.
-    // 4) Also allows downloading the final merged table.
-    // 5) Presents the process in three steps, showing one part at a time.
+    // 1) Provides buttons to copy CCL code URLs.
+    // 2) Loads two sets of tab-separated data from the clipboard.
+    // 3) Uses a fixed matching column "MAPPING_KEY".
+    // 4) Merges the data based on the key column (inner join).
+    // 5) If matches are found, generates a CCL update script and allows copying it.
+    // 6) Allows downloading the final merged table as an Excel file.
+    // 7) Presents the process in three steps, showing one part at a time.
+    // 8) Includes basic error handling and logging.
     // ************************************************************************************************
 
     let existingData = [];
     let needMappingData = [];
     let finalTable = null;
-    const KEY_COLUMN = "MAPPING_KEY"; // Hardcoded as requested
+    const KEY_COLUMN = "MAPPING_KEY"; // Hardcoded key column for merging
 
-    // DOM references
+    // --- DOM References ---
     const logText = document.getElementById('logText');
     const part1 = document.getElementById('part1');
     const part2 = document.getElementById('part2');
@@ -115,249 +145,388 @@
     const downloadButton = document.getElementById('downloadButton');
     const copyScriptButton = document.getElementById('copyScriptButton');
 
-    // Log message function
+    // --- Helper Functions ---
+
+    /**
+     * Logs a message to the textarea and the browser console.
+     * @param {string} message - The message to log.
+     */
     function logMessage(message) {
-        logText.value += message + '\n';
-        logText.scrollTop = logText.scrollHeight;
-        console.log(message);
+        const timestamp = new Date().toLocaleTimeString();
+        const logEntry = `[${timestamp}] ${message}`;
+        logText.value += logEntry + '\n';
+        logText.scrollTop = logText.scrollHeight; // Auto-scroll to bottom
+        console.log(logEntry);
     }
 
-    // Parse TSV data
+    /**
+     * Parses tab-separated text into an array of objects.
+     * Assumes the first line is the header.
+     * @param {string} text - The TSV text content.
+     * @returns {Array<Object>} An array of data objects.
+     */
     function parseData(text) {
         const lines = text.trim().split('\n');
         if (lines.length < 2) {
-            return [];
+            logMessage("Warning: TSV data has less than 2 lines (header + data).");
+            return []; // Need at least header and one data row
         }
-        const headers = lines[0].split('\t');
-        return lines.slice(1).map(line => {
+        // Trim headers to remove potential inconsistencies
+        const headers = lines[0].split('\t').map(h => h.trim());
+        // Check if the key column exists in the header
+        if (!headers.includes(KEY_COLUMN)) {
+             logMessage(`Error: Key column '${KEY_COLUMN}' not found in headers: ${headers.join(', ')}`);
+             throw new Error(`Parsing Error: Required key column '${KEY_COLUMN}' is missing in the pasted data header.`);
+        }
+
+        return lines.slice(1).map((line, rowIndex) => {
             const values = line.split('\t');
             const obj = {};
             headers.forEach((header, index) => {
-                obj[header.trim()] = values[index] ? values[index].trim() : '';
+                // Trim each value, handle cases where value might be missing
+                obj[header] = values[index] ? values[index].trim() : '';
             });
             return obj;
         });
     }
 
-    // Merge dataframes by KEY_COLUMN
+    /**
+     * Merges two arrays of objects based on a common key (inner join).
+     * @param {Array<Object>} dfA - The first dataset (e.g., needMappingData).
+     * @param {Array<Object>} dfB - The second dataset (e.g., existingData).
+     * @param {string} key - The common key column name.
+     * @returns {Array<Object>} The merged dataset.
+     */
     function mergeDataframes(dfA, dfB, key) {
+        // Create a lookup map from dfB for efficient matching
         const dfBKeyed = dfB.reduce((acc, row) => {
-            const keyValue = String(row[key]).trim();
-            if (!acc[keyValue]) acc[keyValue] = [];
-            acc[keyValue].push(row);
+            const keyValue = String(row[key] || '').trim(); // Ensure key exists and trim
+            if (keyValue) { // Only map if key has a value
+                 if (!acc[keyValue]) acc[keyValue] = [];
+                 acc[keyValue].push(row);
+            }
             return acc;
         }, {});
 
+        logMessage(`Built lookup map from ${dfB.length} existing mappings.`);
+
         const merged = [];
+        let matchCount = 0;
         dfA.forEach(rowA => {
-            const keyValue = String(rowA[key]).trim();
-            if (dfBKeyed[keyValue]) {
+            const keyValue = String(rowA[key] || '').trim(); // Ensure key exists and trim
+            if (keyValue && dfBKeyed[keyValue]) { // Check if key exists and has a match
                 dfBKeyed[keyValue].forEach(rowB => {
-                    merged.push({ ...rowA, ...rowB });
+                    // Combine properties, dfA properties overwrite dfB if names clash (usually okay here)
+                    merged.push({ ...rowB, ...rowA });
+                    matchCount++;
                 });
             }
         });
+        logMessage(`Found ${matchCount} potential matches based on '${key}'. Merged into ${merged.length} rows before deduplication.`);
         return merged;
     }
 
-    // Remove duplicates
+    /**
+     * Removes duplicate objects from an array based on their JSON string representation.
+     * @param {Array<Object>} data - The array containing potential duplicates.
+     * @returns {Array<Object>} The array with duplicates removed.
+     */
     function removeDuplicates(data) {
         const seen = new Set();
-        return data.filter(item => {
-            const keyString = JSON.stringify(item);
+        const uniqueData = data.filter(item => {
+            const keyString = JSON.stringify(item); // Use string representation for comparison
             if (seen.has(keyString)) {
-                return false;
+                return false; // Duplicate found
             } else {
                 seen.add(keyString);
-                return true;
+                return true; // Unique item
             }
         });
+        if (data.length !== uniqueData.length) {
+             logMessage(`Removed ${data.length - uniqueData.length} duplicate rows.`);
+        }
+        return uniqueData;
     }
 
-    // Copy code from GitHub
-    async function copyCodeFromGitHub(url) {
+    /**
+     * Copies text to the clipboard.
+     * @param {string} text - The text to copy.
+     * @param {string} successMessage - Message to show on success.
+     * @param {string} errorMessage - Message prefix on failure.
+     */
+    async function copyToClipboard(text, successMessage, errorMessage) {
         try {
-            const response = await fetch(url);
-            if (!response.ok) throw new Error('Failed to fetch code from given URL.');
-
-            const code = await response.text();
-            await navigator.clipboard.writeText(code);
-            alert('Code copied to clipboard! Now run it in DVDev and then copy the result output.');
+            await navigator.clipboard.writeText(text);
+            logMessage(successMessage);
+            alert(successMessage);
         } catch (error) {
-            console.error('Error:', error);
-            alert('Failed to copy code. Check console for details.');
+            logMessage(`${errorMessage}: ${error.message}`);
+            alert(`${errorMessage}. Check console for details or copy manually.`);
+            console.error("Clipboard write error:", error);
         }
     }
 
-    // Load data from clipboard
+
+    /**
+     * Loads data from the clipboard, parses it, and handles potential errors.
+     * @returns {Promise<Array<Object>>} A promise that resolves with the parsed data array.
+     */
     async function loadDataFromClipboard() {
-        const clipboardText = await navigator.clipboard.readText();
-        const data = parseData(clipboardText);
-        if (data.length > 0) {
+        try {
+            const clipboardText = await navigator.clipboard.readText();
+            if (!clipboardText) {
+                throw new Error("Clipboard is empty or permission was denied.");
+            }
+            logMessage("Read text from clipboard.");
+            const data = parseData(clipboardText); // parseData now throws on missing key column
+            if (data.length === 0 && clipboardText.trim().split('\n').length > 1) {
+                 logMessage("Warning: Parsed data array is empty, but clipboard text seemed to have data rows. Check TSV format and headers.");
+            } else if (data.length === 0) {
+                 logMessage("Warning: Parsed data array is empty. Clipboard might only contain header or be empty.");
+            }
             return data;
-        } else {
-            throw new Error("No valid data found in clipboard or parsing failed.");
+        } catch (error) {
+            logMessage(`Error loading or parsing clipboard data: ${error.message}`);
+            alert(`Error loading data: ${error.message}\nPlease ensure you copied the correct tab-separated data including the header row.`);
+            throw error; // Re-throw to stop the process
         }
     }
 
-    // Part 1 Events
+    // --- Event Listeners ---
+
+    // Part 1 Events (Existing Mappings)
     copyExistingCodeBtn.addEventListener('click', () => {
-        copyCodeFromGitHub("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/refs/heads/main/PBS/PBS%20-%20For%20Copying%20Existing%20Mappings%20-%20All%20Mappings.ccl");
-        loadExistingClipboardBtn.classList.remove('hidden');
-        logMessage("User requested existing mappings code copied to clipboard.");
+        const cclUrl = "https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/refs/heads/main/PBS/PBS%20-%20For%20Copying%20Existing%20Mappings%20-%20All%20Mappings.ccl";
+        copyToClipboard(cclUrl,
+            'URL for "Existing Mappings" CCL code copied!\nPaste this URL into your browser, copy the code, run it in DVDev, then copy the *output data*.',
+            'Failed to copy Existing Mappings URL'
+        );
+        loadExistingClipboardBtn.classList.remove('hidden'); // Show load button
+        logMessage("User requested existing mappings CCL code URL.");
     });
 
     loadExistingClipboardBtn.addEventListener('click', async () => {
+        logMessage("Attempting to load existing mappings from clipboard...");
         try {
             existingData = await loadDataFromClipboard();
             existingStatus.textContent = `Loaded ${existingData.length} rows of existing mappings.`;
-            logMessage(`Loaded ${existingData.length} rows of existing mappings from clipboard.`);
+            logMessage(`Successfully loaded ${existingData.length} rows of existing mappings.`);
+            // Hide Part 1 and show Part 2
             part1.classList.add('hidden');
             part2.classList.remove('hidden');
+            logMessage("Proceeding to Part 2.");
         } catch (error) {
-            alert(error.message);
-            logMessage(error.message);
+            // Error already logged and alerted in loadDataFromClipboard
+            existingStatus.textContent = 'Failed to load data. See log.';
         }
     });
 
-    // Part 2 Events
+    // Part 2 Events (Need Mapping)
     copyNeedCodeBtn.addEventListener('click', () => {
-        copyCodeFromGitHub("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/refs/heads/main/PBS/PBS%20-%20For%20Copy%20Existing%20Mappings%20-%20Last%20Installed%20Package%20-%20Unmapped%20Only.ccl");
-        loadNeedClipboardBtn.classList.remove('hidden');
-        logMessage("User requested need-mapping code copied to clipboard.");
+        const cclUrl = "https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/refs/heads/main/PBS/PBS%20-%20For%20Copy%20Existing%20Mappings%20-%20Last%20Installed%20Package%20-%20Unmapped%20Only.ccl";
+         copyToClipboard(cclUrl,
+            'URL for "Need Mapping" CCL code copied!\nPaste this URL into your browser, copy the code, run it in DVDev, then copy the *output data*.',
+            'Failed to copy Need Mapping URL'
+        );
+        loadNeedClipboardBtn.classList.remove('hidden'); // Show load button
+        logMessage("User requested need-mapping CCL code URL.");
     });
 
     loadNeedClipboardBtn.addEventListener('click', async () => {
+        logMessage("Attempting to load need-mapping data from clipboard...");
         try {
             needMappingData = await loadDataFromClipboard();
             needStatus.textContent = `Loaded ${needMappingData.length} rows of need-mapping data.`;
-            logMessage(`Loaded ${needMappingData.length} rows of need-mapping data from clipboard.`);
+            logMessage(`Successfully loaded ${needMappingData.length} rows of need-mapping data.`);
+            // Attempt to merge and generate results
             doMergeAndGenerateResults();
         } catch (error) {
-            alert(error.message);
-            logMessage(error.message);
+             // Error already logged and alerted in loadDataFromClipboard
+            needStatus.textContent = 'Failed to load data. See log.';
         }
     });
 
-    // Merge and prepare final results
+    /**
+     * Performs the merge, checks results, generates the final table and script.
+     */
     function doMergeAndGenerateResults() {
+        logMessage("Starting merge process...");
         try {
-            if (!needMappingData[0].hasOwnProperty(KEY_COLUMN)) {
-                throw new Error(`Key column '${KEY_COLUMN}' not found in need-mapping data.`);
+            // Basic validation before merge
+            if (existingData.length === 0) {
+                throw new Error("Cannot merge: Existing Mappings data is empty.");
             }
-            if (!existingData[0].hasOwnProperty(KEY_COLUMN)) {
-                throw new Error(`Key column '${KEY_COLUMN}' not found in existing-mappings data.`);
+             if (needMappingData.length === 0) {
+                throw new Error("Cannot merge: Need Mapping data is empty.");
+            }
+            // Check if key column exists in the first row of parsed data (already checked during parse, but good failsafe)
+             if (!existingData[0] || !existingData[0].hasOwnProperty(KEY_COLUMN)) {
+                throw new Error(`Consistency Error: Key column '${KEY_COLUMN}' missing in existingData[0].`);
+            }
+             if (!needMappingData[0] || !needMappingData[0].hasOwnProperty(KEY_COLUMN)) {
+                throw new Error(`Consistency Error: Key column '${KEY_COLUMN}' missing in needMappingData[0].`);
             }
 
+            // Perform the merge
             const mergedData = mergeDataframes(needMappingData, existingData, KEY_COLUMN);
+
+            // *** CRITICAL CHECK: Handle empty merge result ***
+            if (mergedData.length === 0) {
+                logMessage(`Merge complete, but no matching records were found between the two datasets using the key '${KEY_COLUMN}'.`);
+                logMessage("No update script or download file will be generated. Please check your input data and CCL queries.");
+                alert(`Merge completed, but no matching records found based on '${KEY_COLUMN}'.\n\nCheck the Console Log for details. Ensure the MAPPING_KEY values align between your two datasets.`);
+                // Optionally hide Part 2 and show a message, or just leave Part 2 visible
+                // part2.classList.add('hidden'); // Or keep it visible
+                // part3.classList.add('hidden'); // Ensure part 3 stays hidden
+                return; // Stop processing
+            }
+
+            logMessage(`Merge successful. Found ${mergedData.length} matched rows.`);
+
+            // Identify the required columns for the script and final table
             const mapColumns = Object.keys(mergedData[0]).filter(col => col.startsWith('MAP_PBS_DRUG_ID_'));
+            const requiredScriptColumns = ['MAPPED_SYNONYM_ID', 'PBS_CODE']; // Columns needed for the CCL script logic
 
-            const requiredColumns = ['MAPPED_SYNONYM_ID', 'PBS_CODE'];
-            const missingColumns = requiredColumns.filter(col => !mergedData[0].hasOwnProperty(col));
+            // Validate that necessary columns exist in the merged data
+            const allNeededColumns = [...mapColumns, ...requiredScriptColumns];
+            const missingColumns = allNeededColumns.filter(col => !mergedData[0].hasOwnProperty(col));
+
             if (missingColumns.length > 0) {
-                throw new Error(`Columns ${missingColumns.join(', ')} not found in merged data.`);
+                throw new Error(`Critical Error: Required columns ${missingColumns.join(', ')} are missing in the merged data. Cannot generate script.`);
             }
-            if (mapColumns.length === 0) {
-                throw new Error("No columns starting with 'MAP_PBS_DRUG_ID_' found in the merged data.");
+             if (mapColumns.length === 0) {
+                 // This case should be unlikely if the merge worked and existingData had the column, but check anyway
+                throw new Error("Critical Error: No columns starting with 'MAP_PBS_DRUG_ID_' found in the merged data, although matches were found.");
             }
 
+            // Select only the necessary columns for the final output table and script generation
             finalTable = mergedData.map(row => {
                 const newRow = {};
-                [...mapColumns, ...requiredColumns].forEach(col => {
-                    newRow[col] = row[col];
+                allNeededColumns.forEach(col => {
+                    newRow[col] = row[col]; // Copy needed columns
                 });
                 return newRow;
             });
 
+            // Remove duplicates from the final selection
             finalTable = removeDuplicates(finalTable);
-            logMessage(`Created final table with ${finalTable.length} rows and ${Object.keys(finalTable[0]).length} columns.`);
+            logMessage(`Created final table with ${finalTable.length} unique rows and ${Object.keys(finalTable[0]).length} columns.`);
 
-            // Enable the buttons in Part 3
-            part2.classList.add('hidden');
-            part3.classList.remove('hidden');
+            // Enable the buttons in Part 3 and show it
+            part2.classList.add('hidden'); // Hide Part 2
+            part3.classList.remove('hidden'); // Show Part 3
             copyScriptButton.disabled = false;
             downloadButton.disabled = false;
+            logMessage("Ready for Part 3: Copy Script or Download Table.");
+
         } catch (error) {
-            alert(error.message);
-            logMessage(error.message);
+            logMessage(`Error during merge or result generation: ${error.message}`);
+            alert(`An error occurred: ${error.message}\nCheck the Console Log for more details.`);
+            console.error("Merge/Generate Error:", error);
+            // Ensure Part 3 buttons remain disabled if error occurs
+            copyScriptButton.disabled = true;
+            downloadButton.disabled = true;
         }
     }
 
-    // Copy update script on button click
+    // Part 3 Events (Copy Script / Download)
     copyScriptButton.addEventListener('click', () => {
         if (!finalTable || finalTable.length === 0) {
-            alert('No data to generate script. Please ensure steps are completed.');
+            alert('No data available to generate script. Please ensure steps 1 & 2 completed successfully and produced matches.');
+            logMessage("Attempted to copy script, but finalTable is empty or null.");
             return;
         }
 
-        const scriptTemplate = `
+        logMessage("Generating update script...");
+
+        // Define the CCL script template
+        // Using template literals for easier readability
+        const scriptTemplate = (row) => `
 ;________________________________________________
-;  {PBS_CODE} Mapping PBS_DRUG_ID: {MAP_PBS_DRUG_ID_} and SYNONYM_ID: {MAPPED_SYNONYM_ID}
+; Mapping for PBS_CODE: ${row['PBS_CODE']} -> MAP_PBS_DRUG_ID: ${row['MAP_PBS_DRUG_ID_']}, SYNONYM_ID: ${row['MAPPED_SYNONYM_ID']}
 update into pbs_ocs_mapping P_O_M
 set
-    P_O_M.beg_effective_dt_tm = cnvtdatetime(curdate, 0008)
-    , P_O_M.end_effective_dt_tm = cnvtdatetime("31-DEC-2100")
-    , P_O_M.pbs_drug_id = {MAP_PBS_DRUG_ID_}
-    , P_O_M.synonym_id = {MAPPED_SYNONYM_ID}
-    , P_O_M.drug_synonym_id = 0
-    , P_O_M.main_multum_drug_code = 0
-    , P_O_M.drug_identifier = "0"
-    , P_O_M.updt_dt_tm = cnvtdatetime(curdate,curtime3)
-    , P_O_M.updt_id = reqinfo->updt_id
-    , P_O_M.updt_cnt = P_O_M.updt_cnt + 1
+    P_O_M.beg_effective_dt_tm = cnvtdatetime(curdate, 0008) ; Set begin date to today
+    , P_O_M.end_effective_dt_tm = cnvtdatetime("31-DEC-2100") ; Set end date far in future
+    , P_O_M.pbs_drug_id = ${row['MAP_PBS_DRUG_ID_']} ; Mapped PBS Drug ID from existing data
+    , P_O_M.synonym_id = ${row['MAPPED_SYNONYM_ID']} ; Mapped Synonym ID from need-mapping data
+    , P_O_M.drug_synonym_id = 0 ; Default value
+    , P_O_M.main_multum_drug_code = 0 ; Default value
+    , P_O_M.drug_identifier = "0" ; Default value
+    , P_O_M.updt_dt_tm = cnvtdatetime(curdate,curtime3) ; Update timestamp
+    , P_O_M.updt_id = reqinfo->updt_id ; User ID running the script
+    , P_O_M.updt_cnt = P_O_M.updt_cnt + 1 ; Increment update count
 where
+    ; Select a record to recycle (one that is already ended)
     P_O_M.pbs_ocs_mapping_id =
-    (select min(pbs_ocs_mapping_id) from pbs_ocs_mapping where end_effective_dt_tm < sysdate)
+    (select min(pom_inner.pbs_ocs_mapping_id) from pbs_ocs_mapping pom_inner where pom_inner.end_effective_dt_tm < sysdate)
+    ; Ensure this specific mapping doesn't already exist and is active
     and not exists
     (
         select 1
-        from pbs_ocs_mapping
-        where pbs_drug_id = {MAP_PBS_DRUG_ID_}
-        and synonym_id = {MAPPED_SYNONYM_ID}
-        and end_effective_dt_tm > sysdate
+        from pbs_ocs_mapping pom_check
+        where pom_check.pbs_drug_id = ${row['MAP_PBS_DRUG_ID_']}
+        and pom_check.synonym_id = ${row['MAPPED_SYNONYM_ID']}
+        and pom_check.end_effective_dt_tm > sysdate
     )
 ;________________________________________________
 `;
 
-        let fullScript = '';
+        // Generate the full script by applying the template to each row
+        let fullScript = `;\n; Auto-Generated PBS OCS Mapping Update Script\n; Generated on: ${new Date().toISOString()}\n; Number of mappings: ${finalTable.length}\n;\n`;
         finalTable.forEach(row => {
-            const script = scriptTemplate
-                .replace(/{PBS_CODE}/g, row['PBS_CODE'])
-                .replace(/{MAP_PBS_DRUG_ID_}/g, row['MAP_PBS_DRUG_ID_'])
-                .replace(/{MAPPED_SYNONYM_ID}/g, row['MAPPED_SYNONYM_ID']);
-            fullScript += script + '\n';
+            // Basic check for required values in the row before generating script part
+            if (row['PBS_CODE'] && row['MAP_PBS_DRUG_ID_'] && row['MAPPED_SYNONYM_ID']) {
+                 fullScript += scriptTemplate(row);
+            } else {
+                 logMessage(`Warning: Skipping script generation for a row due to missing data: ${JSON.stringify(row)}`);
+            }
         });
 
-        navigator.clipboard.writeText(fullScript)
-            .then(() => {
-                logMessage('Update script copied to clipboard!');
-                alert('Update script copied to clipboard!\nPaste it into DVDev and run it.');
-            })
-            .catch(err => {
-                logMessage('Failed to copy update script: ' + err.message);
-                alert('Failed to copy update script. Please manually select and copy it.');
-            });
+        // Copy the generated script to the clipboard
+        copyToClipboard(fullScript,
+            'Update script copied to clipboard!\nPaste it into DVDev and run it.',
+            'Failed to copy update script'
+        );
     });
 
     // Download final table as Excel
     downloadButton.addEventListener('click', function () {
         if (!finalTable || finalTable.length === 0) {
-            alert('No data to save. Please complete the process first.');
+            alert('No data available to download. Please ensure steps 1 & 2 completed successfully and produced matches.');
+             logMessage("Attempted to download table, but finalTable is empty or null.");
             return;
         }
 
-        const ws = XLSX.utils.json_to_sheet(finalTable);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Result');
+        logMessage("Preparing Excel file for download...");
+        try {
+            // Convert the array of objects to a worksheet
+            const ws = XLSX.utils.json_to_sheet(finalTable);
+            // Create a new workbook
+            const wb = XLSX.utils.book_new();
+            // Append the worksheet to the workbook
+            XLSX.utils.book_append_sheet(wb, ws, 'AutoMappingResult'); // Sheet name
 
-        const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-        saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'AutoMappingTable.xlsx');
+            // Generate the Excel file data (binary array)
+            const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
 
-        logMessage('Download complete: AutoMappingTable.xlsx');
+            // Trigger the download using FileSaver.js
+            saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'AutoMappingTable.xlsx');
+
+            logMessage('Download initiated: AutoMappingTable.xlsx');
+        } catch (error) {
+             logMessage(`Error generating or downloading Excel file: ${error.message}`);
+             alert(`Failed to generate Excel file: ${error.message}`);
+             console.error("Excel generation/download error:", error);
+        }
     });
+
+    // --- Initialisation ---
+    logMessage("PBS Drug Auto Mapping Copier initialized.");
+    logMessage("Please follow the steps sequentially.");
+
 </script>
 
-<!-- Dependencies for XLSX and FileSaver -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </body>
