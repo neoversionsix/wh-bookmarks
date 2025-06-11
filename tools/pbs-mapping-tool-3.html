@@ -4,53 +4,144 @@
     <title>PBS Mapping Tool</title>
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
     <style>
-        body {
+        /* Basic setup for full-height, flexible layout */
+        html, body {
+            height: 100%;
+            margin: 0;
             font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            background-color: #f0f2f5; /* A slightly softer background color */
+            box-sizing: border-box;
         }
+
+        /* Main container to manage padding and centering */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            padding: 20px;
+            min-height: 0; /* Important for nested flex containers */
+            width: 100%;
+            max-width: 1200px; /* Max width for better readability on large screens */
+            margin: 0 auto; /* Center the container */
+            box-sizing: border-box;
+        }
+
         .section {
-            margin-bottom: 40px;
+            margin-bottom: 20px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
         }
+
+        /* Remove bottom margin from the last section */
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        /* The mapping section should grow to fill available vertical space */
+        #mappingSection {
+            flex-grow: 1;
+            min-height: 0; /* Allows children with overflow to scroll correctly */
+        }
+
+        /* The direct div child that contains the matches container needs to be flexible */
+        #mappingSection > div:last-of-type {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
         #matchesContainer {
-            max-height: 465px;
-            overflow-y: auto;
+            /* The fixed max-height is removed and replaced with flex-grow */
+            flex-grow: 1; /* This makes the container expand to fill available space */
+            overflow-y: auto; /* Add a scrollbar if content overflows */
             border: 1px solid #ccc;
             padding: 10px;
+            border-radius: 5px;
         }
+
+        /* Also allow the final output section to grow */
+        #outputSection {
+            flex-grow: 1;
+        }
+
         #outputContainer {
             white-space: pre-wrap;
-            background-color: #000;
-            color: #fff;
-            padding: 10px;
+            background-color: #2d3748; /* Darker, more modern background */
+            color: #f7fafc;
+            padding: 15px;
+            border-radius: 5px;
+            flex-grow: 1; /* Allow it to fill the output section */
+            overflow-y: auto; /* Add scroll if code is long */
         }
+
         .hidden {
-            display: none;
+            display: none !important; /* Use important to ensure it's always hidden */
         }
+
         .progress-bar {
             width: 100%;
-            background-color: lightgray;
+            background-color: #e9ecef;
+            border-radius: .25rem;
             height: 20px;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
+
         .progress {
             height: 100%;
-            background-color: blue;
+            background-color: #0d6efd; /* A more modern blue */
             width: 0%;
+            border-radius: .25rem;
+            transition: width 0.6s ease;
         }
+
         .currentItemDetailsBox {
-            background-color: lightgrey;
+            background-color: #f8f9fa; /* Lighter grey */
             color: black;
             padding: 15px;
             border-radius: 5px;
+            border: 1px solid #dee2e6;
             margin-bottom: 20px;
         }
+
         .disabled {
             opacity: 0.5;
             pointer-events: none;
         }
+
+        /* General button styling */
+        button {
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0b5ed7;
+        }
+
+        button.hidden {
+            display: none;
+        }
+
+        #nextButton {
+            margin-bottom: 10px; /* Add space below the next button */
+        }
     </style>
 </head>
 <body>
-
+<div class="main-container">
     <h2>The PBS Mapping Tool</h2>
 
     <!-- PART 1: Pharmacy Catalog -->
@@ -121,7 +212,7 @@
         <p>The CCL update script has been copied to your clipboard. You can paste it into DVdev.</p>
         <div id="outputContainer"></div>
     </div>
-
+</div>
     <script>
         // The appState object holds all the stateful information about the data sets, progress,
         // and intermediate/final results.
@@ -305,17 +396,17 @@
             }
 
             appState.matches = performFuzzyMatching(currentItemValue, data2_subset);
-            displayMatches();
+            displayMatches(currentItemValue); // Pass the original query string to the display function
 
             document.body.style.cursor = 'default';
             nextButton.classList.remove('disabled');
         }
 
         /**
-         * displayMatches():
-         * Shows fuzzy matches with checkboxes.
+         * displayMatches(originalQuery):
+         * Shows fuzzy matches with checkboxes and custom scoring logic.
          */
-        function displayMatches() {
+        function displayMatches(originalQuery) {
             let matchesContainer = document.getElementById('matchesContainer');
             matchesContainer.innerHTML = '';
 
@@ -333,7 +424,23 @@
                 checkbox.value = index;
 
                 let label = document.createElement('label');
-                let scorePercentage = ((1 - match.score) * 100).toFixed(0) + '%';
+                let scorePercentage;
+
+                // New scoring logic:
+                // Only show 100% for an exact (case-insensitive) match.
+                if (originalQuery.toLowerCase() === match.value.toLowerCase()) {
+                    scorePercentage = '100%';
+                } else {
+                    // For all other matches, calculate the percentage from the score.
+                    // If the calculated score is 100 but it's not an exact match, cap it at 99%.
+                    let calculatedPercentage = (1 - match.score) * 100;
+                    if (calculatedPercentage >= 100) {
+                        scorePercentage = '99%';
+                    } else {
+                        scorePercentage = calculatedPercentage.toFixed(0) + '%';
+                    }
+                }
+
                 let primaryField = match.data.PRIMARY ? `(PRIMARY: ${match.data.PRIMARY})` : '';
 
                 label.htmlFor = 'match-' + index;
