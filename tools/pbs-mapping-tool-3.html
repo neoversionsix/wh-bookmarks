@@ -109,6 +109,10 @@
             color: #6c757d;
         }
 
+        #progressStatus {
+            margin-bottom: 4px; /* Reduced space below Page count */
+        }
+        
         .currentItemDetailsBox {
             background-color: #f8f9fa; /* Lighter grey */
             color: black;
@@ -384,7 +388,7 @@
             
             // Update item count status
             const itemStatus = document.getElementById('itemStatus');
-            itemStatus.innerHTML = `Item ${appState.row_number + 1} of ${appState.data1.length}, Type: <b>${currentColumn}</b>`;
+            itemStatus.innerHTML = `Item ${appState.row_number + 1} of ${appState.data1.length}`;
 
 
             let currentItem = appState.data1[appState.row_number];
@@ -400,7 +404,7 @@
             }
 
             let matchesHeader = document.getElementById('matchesHeader');
-            matchesHeader.innerHTML = `PBS Name: <strong>${currentItemValue}</strong>`;
+            matchesHeader.innerHTML = `Type: <b>${currentColumn}</b><br>PBS Name: <strong>${currentItemValue}</strong>`;
 
             let data2_subset = [];
             if (currentColumn === 'PRIMARY') {
