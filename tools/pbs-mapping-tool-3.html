@@ -109,10 +109,6 @@
             color: #6c757d;
         }
 
-        #progressStatus {
-            margin-bottom: 4px; /* Reduced space below Page count */
-        }
-        
         .currentItemDetailsBox {
             background-color: #f8f9fa; /* Lighter grey */
             color: black;
@@ -201,10 +197,8 @@
         <div class="progress-bar">
             <div id="progress" class="progress"></div>
         </div>
-        <!-- New element for page count -->
+        <!-- Combined element for page and item count -->
         <p id="progressStatus" class="progress-status"></p>
-        <!-- New element for item count -->
-        <p id="itemStatus" class="progress-status"></p>
 
         <div>
             <p>Current PBS Item Details:</p>
@@ -382,14 +376,9 @@
             let currentStep = appState.row_number * appState.columns.length + appState.column_number;
             let currentColumn = appState.columns[appState.column_number];
 
-            // Update page count status
+            // Update page and item count status
             const progressStatus = document.getElementById('progressStatus');
-            progressStatus.innerText = `Page ${currentStep + 1} of ${appState.total_steps}`;
-            
-            // Update item count status
-            const itemStatus = document.getElementById('itemStatus');
-            itemStatus.innerHTML = `Item ${appState.row_number + 1} of ${appState.data1.length}`;
-
+            progressStatus.innerText = `Page ${currentStep + 1} of ${appState.total_steps} (Item ${appState.row_number + 1} of ${appState.data1.length})`;
 
             let currentItem = appState.data1[appState.row_number];
             let currentItemValue = currentItem[currentColumn];
