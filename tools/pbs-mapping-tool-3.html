@@ -373,17 +373,18 @@
                 generateCode();
                 return;
             }
+            
+            let currentStep = appState.row_number * appState.columns.length + appState.column_number;
 
             // Update page count status
             const progressStatus = document.getElementById('progressStatus');
-            progressStatus.innerText = `Page ${appState.row_number + 1} of ${appState.data1.length}`;
+            progressStatus.innerText = `Page ${currentStep + 1} of ${appState.total_steps}`;
 
 
             let currentItem = appState.data1[appState.row_number];
             let currentColumn = appState.columns[appState.column_number];
             let currentItemValue = currentItem[currentColumn];
 
-            let currentStep = appState.row_number * appState.columns.length + appState.column_number;
             let progressPercent = (currentStep / appState.total_steps) * 100;
             document.getElementById('progress').style.width = progressPercent + '%';
 
