@@ -431,13 +431,13 @@
                 if (originalQuery.toLowerCase() === match.value.toLowerCase()) {
                     scorePercentage = '100%';
                 } else {
-                    // For all other matches, calculate the percentage from the score.
-                    // If the calculated score is 100 but it's not an exact match, cap it at 99%.
                     let calculatedPercentage = (1 - match.score) * 100;
-                    if (calculatedPercentage >= 100) {
-                        scorePercentage = '99%';
+                    // If it's a perfect fuzzy score (0) but not an exact string match, cap at 99.
+                    if (match.score === 0) {
+                         scorePercentage = '99%';
                     } else {
-                        scorePercentage = calculatedPercentage.toFixed(0) + '%';
+                         // Floor the result to prevent rounding 99.x up to 100.
+                         scorePercentage = Math.floor(calculatedPercentage) + '%';
                     }
                 }
 
