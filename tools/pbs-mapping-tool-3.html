@@ -199,13 +199,14 @@
         </div>
         <!-- New element for page count -->
         <p id="progressStatus" class="progress-status"></p>
+        <!-- New element for item count -->
+        <p id="itemStatus" class="progress-status"></p>
 
         <div>
             <p>Current PBS Item Details:</p>
             <div class="currentItemDetailsBox">
                 <div id="currentItemDetails"></div>
             </div>
-            <p>Row: <span id="rowNumber"></span>, Type: <b><span id="currentColumn"></span></b></p>
             <p id="matchesHeader"></p>
         </div>
 
@@ -375,21 +376,22 @@
             }
             
             let currentStep = appState.row_number * appState.columns.length + appState.column_number;
+            let currentColumn = appState.columns[appState.column_number];
 
             // Update page count status
             const progressStatus = document.getElementById('progressStatus');
             progressStatus.innerText = `Page ${currentStep + 1} of ${appState.total_steps}`;
+            
+            // Update item count status
+            const itemStatus = document.getElementById('itemStatus');
+            itemStatus.innerHTML = `Item ${appState.row_number + 1} of ${appState.data1.length}, Type: <b>${currentColumn}</b>`;
 
 
             let currentItem = appState.data1[appState.row_number];
-            let currentColumn = appState.columns[appState.column_number];
             let currentItemValue = currentItem[currentColumn];
 
             let progressPercent = (currentStep / appState.total_steps) * 100;
             document.getElementById('progress').style.width = progressPercent + '%';
-
-            document.getElementById('rowNumber').innerText = appState.row_number;
-            document.getElementById('currentColumn').innerText = currentColumn;
 
             let currentItemDetails = document.getElementById('currentItemDetails');
             currentItemDetails.innerHTML = '';
