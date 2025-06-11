@@ -143,9 +143,17 @@
             display: none;
         }
 
-        #nextButton {
-            margin-bottom: 10px; /* Add space below the next button */
+        #navigationButtons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
         }
+
+        #saveNextButton {
+             width: 100%;
+             margin-bottom: 15px;
+        }
+
     </style>
 </head>
 <body>
@@ -209,9 +217,13 @@
         </div>
 
         <div>
-            <button id="nextButton">Next / Save Selections</button>
+            <button id="saveNextButton">Next / Save Selections</button>
             <p>List of Close Matches from our Catalog:</p>
             <div id="matchesContainer"></div>
+            <div id="navigationButtons">
+                <button id="backButton">Back</button>
+                <button id="forwardButton">Forward</button>
+            </div>
         </div>
     </div>
 
@@ -236,17 +248,20 @@
             column_number: 0,
             columns: ['PRIMARY', 'BRAND','GENERIC', 'TRADE'],
             matches: [],
-            final_matches: [],
+            // 'final_matches' is now generated at the end from 'selections'.
+            selections: {}, // Stores the state of checkboxes for each step. Key: "row-col", Value: Set of selected synonym IDs.
+            max_step_reached: -1, // Tracks the furthest step the user has navigated to.
             total_steps: 0
         };
 
         // Grab references to elements
-        const nextButton = document.getElementById('nextButton');
+        const saveNextButton = document.getElementById('saveNextButton');
+        const backButton = document.getElementById('backButton');
+        const forwardButton = document.getElementById('forwardButton');
 
         /**
          * copyCode(url):
          * Fetches code from a given URL and copies it into the clipboard.
-         * This is used to copy the CCL extract scripts for Pharmacy Catalog or PBS Items.
          */
         function copyCode(url) {
             fetch(url)
@@ -268,8 +283,6 @@
         /**
          * parseData(text):
          * Parses tab-separated values (TSV) data from a string.
-         * Expected format: first line headers, subsequent lines are rows of data.
-         * Returns an array of objects, where keys are column names from the header.
          */
         function parseData(text) {
             const lines = text.trim().split('\n');
@@ -289,8 +302,7 @@
 
         /**
          * checkDataLoaded():
-         * Called after we try loading both data sets (Pharmacy Catalog and PBS Items).
-         * If both are loaded, and columns are valid, we proceed to the mapping process.
+         * Called after we try loading both data sets. Proceeds to mapping if both are loaded.
          */
         function checkDataLoaded() {
             if (appState.data1.length > 0 && appState.data2.length > 0) {
@@ -307,22 +319,26 @@
 
         /**
          * validateColumns(data):
-         * Ensures that the required columns (PRIMARY, BRAND, GENERIC, TRADE) exist in data1.
+         * Ensures that the required columns exist in the data.
          */
         function validateColumns(data) {
-            let requiredColumns = ['PRIMARY', 'BRAND', 'GENERIC', 'TRADE'];
+            let requiredColumns = ['PRIMARY', 'BRAND', 'GENERIC', 'TRADE', 'MAP_PBS_DRUG_ID_'];
             let missingColumns = requiredColumns.filter(col => !(col in data[0]));
 
             if (missingColumns.length > 0) {
-                alert(`Missing required columns: ${missingColumns.join(', ')}`);
+                alert(`Missing required columns in PBS Items data: ${missingColumns.join(', ')}`);
                 return false;
+            }
+            if (!('MAP_SYNONYM_ID_' in appState.data2[0])) {
+                 alert(`Missing required column in Pharmacy Catalog data: MAP_SYNONYM_ID_`);
+                 return false;
             }
             return true;
         }
 
         /**
          * processData2():
-         * Splits the pharmacy catalog data (data2) into separate arrays by their ITEM_TYPE.
+         * Splits the pharmacy catalog data into separate arrays by ITEM_TYPE.
          */
         function processData2() {
             appState.df_primaries = appState.data2.filter(item => item['ITEM_TYPE'] === 'PRIMARY');
@@ -333,19 +349,20 @@
 
         /**
          * startMapping():
-         * Initialize mapping by resetting indices and calculating total steps.
+         * Initialize mapping process.
          */
         function startMapping() {
             appState.row_number = 0;
             appState.column_number = 0;
-            appState.final_matches = [];
+            appState.selections = {};
             appState.total_steps = appState.data1.length * appState.columns.length;
+            appState.max_step_reached = 0;
             displayCurrentItem();
         }
 
         /**
          * performFuzzyMatching(query, data):
-         * Uses Fuse.js to perform fuzzy searching for 'query' within 'NAME' fields of 'data'.
+         * Uses Fuse.js to perform fuzzy searching.
          */
         function performFuzzyMatching(query, data) {
             const options = {
@@ -363,29 +380,43 @@
         }
 
         /**
-         * displayCurrentItem():
-         * Displays details for the current PBS item and performs fuzzy matching.
-         * After finishing, sets cursor to default and re-enables the Next button.
+         * navigateTo(stepIndex):
+         * Navigates the view to a specific step in the process.
          */
-        function displayCurrentItem() {
-            if (appState.row_number >= appState.data1.length) {
+        function navigateTo(stepIndex) {
+            if (stepIndex >= appState.total_steps) {
                 generateCode();
                 return;
             }
-            
-            let currentStep = appState.row_number * appState.columns.length + appState.column_number;
-            let currentColumn = appState.columns[appState.column_number];
+             if (stepIndex < 0) {
+                return;
+            }
 
-            // Update page and item count status
+            appState.row_number = Math.floor(stepIndex / appState.columns.length);
+            appState.column_number = stepIndex % appState.columns.length;
+            displayCurrentItem();
+        }
+
+        /**
+         * displayCurrentItem():
+         * Main function to render the current mapping view.
+         */
+        function displayCurrentItem() {
+            let currentStep = appState.row_number * appState.columns.length + appState.column_number;
+
+            // Update progress status text
             const progressStatus = document.getElementById('progressStatus');
             progressStatus.innerText = `Page ${currentStep + 1} of ${appState.total_steps} (Item ${appState.row_number + 1} of ${appState.data1.length})`;
 
             let currentItem = appState.data1[appState.row_number];
+            let currentColumn = appState.columns[appState.column_number];
             let currentItemValue = currentItem[currentColumn];
-
+            
+            // Update progress bar
             let progressPercent = (currentStep / appState.total_steps) * 100;
             document.getElementById('progress').style.width = progressPercent + '%';
 
+            // Display current item details
             let currentItemDetails = document.getElementById('currentItemDetails');
             currentItemDetails.innerHTML = '';
             for (let key in currentItem) {
@@ -395,36 +426,58 @@
             let matchesHeader = document.getElementById('matchesHeader');
             matchesHeader.innerHTML = `Type: <b>${currentColumn}</b><br>PBS Name: <strong>${currentItemValue}</strong>`;
 
+            // Get the correct subset of the pharmacy catalog for matching
             let data2_subset = [];
-            if (currentColumn === 'PRIMARY') {
-                data2_subset = appState.df_primaries;
-            } else if (currentColumn === 'BRAND') {
-                data2_subset = appState.df_brands;
-            } else if (currentColumn === 'GENERIC') {
-                data2_subset = appState.df_generics;
-            } else if (currentColumn === 'TRADE') {
-                data2_subset = appState.df_trades;
-            }
-
+            if (currentColumn === 'PRIMARY') data2_subset = appState.df_primaries;
+            else if (currentColumn === 'BRAND') data2_subset = appState.df_brands;
+            else if (currentColumn === 'GENERIC') data2_subset = appState.df_generics;
+            else if (currentColumn === 'TRADE') data2_subset = appState.df_trades;
+            
+            // Perform matching and display results
             appState.matches = performFuzzyMatching(currentItemValue, data2_subset);
-            displayMatches(currentItemValue); // Pass the original query string to the display function
+            displayMatches(currentItemValue);
 
-            document.body.style.cursor = 'default';
-            nextButton.classList.remove('disabled');
+            // Update button states
+            backButton.disabled = currentStep <= 0;
+            forwardButton.disabled = currentStep >= appState.max_step_reached;
+            saveNextButton.innerText = (currentStep + 1 >= appState.total_steps) ? 'Finish & Generate Code' : 'Next / Save Selections';
+        }
+        
+        /**
+         * saveCurrentSelections():
+         * Saves the current state of checkboxes into appState.selections.
+         */
+        function saveCurrentSelections() {
+            const key = `${appState.row_number}-${appState.column_number}`;
+            const selectedIds = new Set();
+            appState.matches.forEach((match, index) => {
+                const checkbox = document.getElementById('match-' + index);
+                if (checkbox && checkbox.checked) {
+                    selectedIds.add(match.data.MAP_SYNONYM_ID_);
+                }
+            });
+            if (selectedIds.size > 0) {
+                appState.selections[key] = selectedIds;
+            } else {
+                delete appState.selections[key]; // Remove entry if nothing is selected
+            }
         }
 
         /**
          * displayMatches(originalQuery):
-         * Shows fuzzy matches with checkboxes and custom scoring logic.
+         * Shows fuzzy matches with checkboxes, checking boxes based on saved state.
          */
         function displayMatches(originalQuery) {
-            let matchesContainer = document.getElementById('matchesContainer');
+            const matchesContainer = document.getElementById('matchesContainer');
             matchesContainer.innerHTML = '';
 
             if (appState.matches.length === 0) {
                 matchesContainer.innerHTML = '<p>No matches found.</p>';
                 return;
             }
+            
+            const key = `${appState.row_number}-${appState.column_number}`;
+            const savedSelections = appState.selections[key] || new Set();
 
             appState.matches.sort((a, b) => a.score - b.score);
 
@@ -432,28 +485,22 @@
                 let checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.id = 'match-' + index;
-                checkbox.value = index;
+                checkbox.value = match.data.MAP_SYNONYM_ID_;
+                if(savedSelections.has(match.data.MAP_SYNONYM_ID_)) {
+                    checkbox.checked = true;
+                }
 
                 let label = document.createElement('label');
                 let scorePercentage;
-
-                // New scoring logic:
-                // Only show 100% for an exact (case-insensitive) match.
                 if (originalQuery.toLowerCase() === match.value.toLowerCase()) {
                     scorePercentage = '100%';
                 } else {
                     let calculatedPercentage = (1 - match.score) * 100;
-                    // If it's a perfect fuzzy score (0) but not an exact string match, cap at 99.
-                    if (match.score === 0) {
-                         scorePercentage = '99%';
-                    } else {
-                         // Floor the result to prevent rounding 99.x up to 100.
-                         scorePercentage = Math.floor(calculatedPercentage) + '%';
-                    }
+                    if (match.score === 0) scorePercentage = '99%';
+                    else scorePercentage = Math.floor(calculatedPercentage) + '%';
                 }
 
                 let primaryField = match.data.PRIMARY ? `(PRIMARY: ${match.data.PRIMARY})` : '';
-
                 label.htmlFor = 'match-' + index;
                 label.innerHTML = `
                     <strong>${match.value}</strong> 
@@ -466,56 +513,63 @@
             });
         }
 
-        /**
-         * saveMatchesAndNext():
-         * Handles the Next button click.
-         * Sets cursor to wait, disables button, shows wait for 1 second, then loads next item.
-         */
-        function saveMatchesAndNext() {
-            document.body.style.cursor = 'wait';
-            nextButton.classList.add('disabled');
+        // --- Event Listeners ---
 
-            let selectedMatches = [];
-            appState.matches.forEach((match, index) => {
-                let checkbox = document.getElementById('match-' + index);
-                if (checkbox && checkbox.checked) {
-                    selectedMatches.push(match);
-                }
-            });
+        saveNextButton.addEventListener('click', () => {
+            saveCurrentSelections();
+            const currentStep = appState.row_number * appState.columns.length + appState.column_number;
+            const nextStep = currentStep + 1;
+            appState.max_step_reached = Math.max(appState.max_step_reached, nextStep);
+            navigateTo(nextStep);
+        });
+        
+        backButton.addEventListener('click', () => {
+            saveCurrentSelections();
+            const currentStep = appState.row_number * appState.columns.length + appState.column_number;
+            navigateTo(currentStep - 1);
+        });
 
-            selectedMatches.forEach(match => {
-                let currentItem = appState.data1[appState.row_number];
-                let currentColumn = appState.columns[appState.column_number];
-                let combined = Object.assign({}, currentItem, match.data);
-                combined['MatchedColumn'] = currentColumn;
-                appState.final_matches.push(combined);
-            });
-
-            appState.column_number++;
-            if (appState.column_number >= appState.columns.length) {
-                appState.column_number = 0;
-                appState.row_number++;
-            }
-
-            if (appState.row_number >= appState.data1.length) {
-                generateCode();
-                return;
-            }
-
-            requestAnimationFrame(() => {
-                setTimeout(() => {
-                    displayCurrentItem();
-                }, 1000);
-            });
-        }
-
-        document.getElementById('nextButton').addEventListener('click', saveMatchesAndNext);
+        forwardButton.addEventListener('click', () => {
+            saveCurrentSelections();
+            const currentStep = appState.row_number * appState.columns.length + appState.column_number;
+            navigateTo(currentStep + 1);
+        });
 
         /**
          * generateCode():
-         * Generates the final CCL update code.
+         * Builds the final CCL update code from the stored selections.
          */
         function generateCode() {
+            saveCurrentSelections(); // Save the very last page's selections
+            
+            const final_matches = [];
+            for (const key in appState.selections) {
+                const [rowStr, colStr] = key.split('-');
+                const row = parseInt(rowStr, 10);
+                const col = parseInt(colStr, 10);
+
+                const originalItem = appState.data1[row];
+                const selectedSynonymIds = appState.selections[key];
+
+                if (selectedSynonymIds && selectedSynonymIds.size > 0) {
+                    const matchedItemsData = appState.data2.filter(item =>
+                        selectedSynonymIds.has(item.MAP_SYNONYM_ID_)
+                    );
+
+                    matchedItemsData.forEach(matchData => {
+                        const combined = { ...originalItem, ...matchData };
+                        combined['MatchedColumn'] = appState.columns[col];
+                        final_matches.push(combined);
+                    });
+                }
+            }
+            
+            if (final_matches.length === 0) {
+                alert("No matches were selected. Nothing to generate.");
+                startMapping(); // Go back to the start
+                return;
+            }
+
             let output = '';
             let template = `
 ;________________________________________________
@@ -549,8 +603,10 @@ where
 ;________________________________________________
 `;
 
-            appState.final_matches.forEach(match => {
+            final_matches.forEach(match => {
                 let code = template;
+                code = code.replace(/!NAME!/g, match['PRIMARY'] || match['BRAND'] || match['GENERIC'] || match['TRADE']);
+                code = code.replace(/!SYNONYM!/g, match['NAME']);
                 code = code.replace(/MAP_PBS_DRUG_ID_/g, match['MAP_PBS_DRUG_ID_']);
                 code = code.replace(/MAP_SYNONYM_ID_/g, match['MAP_SYNONYM_ID_']);
                 output += code + '\n\n\n';
@@ -567,10 +623,10 @@ where
 
             document.getElementById('mappingSection').classList.add('hidden');
             document.getElementById('outputSection').classList.remove('hidden');
-            document.body.style.cursor = 'default';
         }
 
-        // PART 1: Handling the Pharmacy Catalog data loading
+        // --- Initial data loading event listeners ---
+
         const copyPharmacyCodeBtn = document.getElementById('copyPharmacyCodeBtn');
         const loadPharmacyClipboardBtn = document.getElementById('loadPharmacyClipboardBtn');
         const pharmacyStatus = document.getElementById('pharmacyStatus');
@@ -580,7 +636,6 @@ where
             loadPharmacyClipboardBtn.classList.remove('hidden');
         });
 
-        // When user loads Pharmacy Catalog from clipboard, show a popup after data is loaded
         loadPharmacyClipboardBtn.addEventListener('click', () => {
             navigator.clipboard.readText()
                 .then(clipboardText => {
@@ -588,7 +643,6 @@ where
                     if (data.length > 0) {
                         pharmacyStatus.textContent = 'Pharmacy Catalog data loaded successfully.';
                         appState.data2 = data;
-                        // Show a popup to the user
                         alert("The data has been loaded into this tool.");
                         document.getElementById('pharmacyCatalogSection').classList.add('hidden');
                         document.getElementById('pbsItemsSection').classList.remove('hidden');
@@ -601,7 +655,6 @@ where
                 });
         });
 
-        // PART 2: Handling the PBS Items to Map data loading
         const copyToMapCodeBtn = document.getElementById('copyToMapCodeBtn');
         const loadToMapClipboardBtn = document.getElementById('loadToMapClipboardBtn');
         const toMapStatus = document.getElementById('toMapStatus');
@@ -611,7 +664,6 @@ where
             loadToMapClipboardBtn.classList.remove('hidden');
         });
 
-        // When user loads PBS Items to Map from clipboard, show a popup after data is loaded
         loadToMapClipboardBtn.addEventListener('click', () => {
             navigator.clipboard.readText()
                 .then(clipboardText => {
@@ -619,7 +671,6 @@ where
                     if (data.length > 0) {
                         toMapStatus.textContent = 'PBS Items to Map data loaded successfully.';
                         appState.data1 = data;
-                        // Show a popup to the user
                         alert("The data has been loaded into this tool.");
                         checkDataLoaded();
                     } else {
