@@ -90,7 +90,7 @@
             background-color: #e9ecef;
             border-radius: .25rem;
             height: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 10px; /* Adjusted margin */
         }
 
         .progress {
@@ -99,6 +99,14 @@
             width: 0%;
             border-radius: .25rem;
             transition: width 0.6s ease;
+        }
+
+        /* Styling for the new progress status text */
+        .progress-status {
+            text-align: center;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #6c757d;
         }
 
         .currentItemDetailsBox {
@@ -189,6 +197,8 @@
         <div class="progress-bar">
             <div id="progress" class="progress"></div>
         </div>
+        <!-- New element for page count -->
+        <p id="progressStatus" class="progress-status"></p>
 
         <div>
             <p>Current PBS Item Details:</p>
@@ -363,6 +373,11 @@
                 generateCode();
                 return;
             }
+
+            // Update page count status
+            const progressStatus = document.getElementById('progressStatus');
+            progressStatus.innerText = `Page ${appState.row_number + 1} of ${appState.data1.length}`;
+
 
             let currentItem = appState.data1[appState.row_number];
             let currentColumn = appState.columns[appState.column_number];
