@@ -3,6 +3,10 @@
 A web-based bookmark site for Digital Health team members at Western Health.  
 This site provides quick access to frequently used links, tools, documentation, and resources relevant to Cerner, Cherwell, HL7, Pharmacy, and other internal systems.
 
+> **Note:**  
+> This repository does **not** contain any sensitive or confidential data.  
+> It only provides links to internal and external resources for convenience.
+
 ## Features
 
 - **Searchable Bookmarks:** Quickly filter and find links using the search bar.
