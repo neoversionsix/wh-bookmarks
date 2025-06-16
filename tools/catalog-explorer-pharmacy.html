@@ -40,13 +40,30 @@
         .section:last-child {
             margin-bottom: 0;
         }
+        
+        /* Two-column layout container for the loading screen */
+        .layout-container {
+            display: flex;
+            flex-direction: row;
+            gap: 20px; /* Space between columns */
+        }
+        
+        .layout-left {
+            width: 50%;
+        }
+        
+        .layout-right {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+        }
 
         .hidden {
             display: none !important;
         }
         
         .status-text {
-            min-height: 20px; /* Reserve space for status text */
+            min-height: 20px;
             margin-top: 5px;
             font-style: italic;
             color: #28a745;
@@ -106,6 +123,7 @@
         
         #logConsole {
             width: 100%;
+            flex-grow: 1; /* Make textarea fill its container */
             box-sizing: border-box;
             background-color: #2d3748;
             color: #f7fafc;
@@ -122,41 +140,45 @@
 <div class="main-container">
     <h2>Pharmacy Catalog Explorer</h2>
 
-    <!-- Console Log Section -->
-    <div class="section">
-        <h3>Console Log</h3>
-        <textarea id="logConsole" readonly rows="4"></textarea>
+    <!-- Two-column layout for loading phase -->
+    <div id="loadingLayoutContainer" class="layout-container">
+        <!-- Data Loading Section (Left Column) -->
+        <div id="loadDataSection" class="section layout-left">
+            <h2>Load Data</h2>
+            
+            <button id="copyCode1Btn">
+                Copy CCL to Clipboard (Dataset 1)
+            </button>
+            <p id="code1Status" class="status-text"></p>
+
+            <button id="loadData1Btn">
+                Copy Data from Clipboard (Dataset 1)
+            </button>
+            <p id="data1Status" class="status-text"></p>
+            <div id="data1PreviewContainer" class="preview-container table-container"></div>
+
+
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+
+            <button id="copyCode2Btn">
+                Copy CCL to Clipboard (Dataset 2)
+            </button>
+            <p id="code2Status" class="status-text"></p>
+
+            <button id="loadData2Btn">
+                Copy Data from Clipboard (Dataset 2)
+            </button>
+            <p id="data2Status" class="status-text"></p>
+            <div id="data2PreviewContainer" class="preview-container table-container"></div>
+        </div>
+
+        <!-- Console Log Section (Right Column) -->
+        <div class="section layout-right">
+            <h3>Console Log</h3>
+            <textarea id="logConsole" readonly></textarea>
+        </div>
     </div>
 
-    <!-- Data Loading Section -->
-    <div id="loadDataSection" class="section">
-        <h2>Load Data</h2>
-        
-        <button id="copyCode1Btn">
-            Copy CCL to Clipboard (Dataset 1)
-        </button>
-        <p id="code1Status" class="status-text"></p>
-
-        <button id="loadData1Btn">
-            Copy Data from Clipboard (Dataset 1)
-        </button>
-        <p id="data1Status" class="status-text"></p>
-        <div id="data1PreviewContainer" class="preview-container table-container"></div>
-
-
-        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
-
-        <button id="copyCode2Btn">
-            Copy CCL to Clipboard (Dataset 2)
-        </button>
-        <p id="code2Status" class="status-text"></p>
-
-        <button id="loadData2Btn">
-            Copy Data from Clipboard (Dataset 2)
-        </button>
-        <p id="data2Status" class="status-text"></p>
-        <div id="data2PreviewContainer" class="preview-container table-container"></div>
-    </div>
 
     <!-- Data Display Section (Initially hidden) -->
     <div id="displayDataSection" class="section hidden">
@@ -192,7 +214,7 @@
         const data1PreviewContainer = document.getElementById('data1PreviewContainer');
         const data2PreviewContainer = document.getElementById('data2PreviewContainer');
 
-        const loadDataSection = document.getElementById('loadDataSection');
+        const loadingLayoutContainer = document.getElementById('loadingLayoutContainer');
         const displayDataSection = document.getElementById('displayDataSection');
 
         const dataSet1Container = document.getElementById('dataSet1Container');
@@ -202,32 +224,18 @@
 
         // --- CORE FUNCTIONS ---
 
-        /**
-         * Logs a message to the on-screen console.
-         * @param {string} message - The message to log.
-         */
         function logMessage(message) {
             const timestamp = new Date().toLocaleTimeString();
             logConsole.value += `[${timestamp}] ${message}\n`;
-            logConsole.scrollTop = logConsole.scrollHeight; // Auto-scroll
+            logConsole.scrollTop = logConsole.scrollHeight;
         }
         
-        /**
-         * Fetches code from a given URL and copies it to the clipboard.
-         * @param {string} url - The URL to fetch the code from.
-         * @returns {Promise}
-         */
         function copyCode(url) {
             return fetch(url)
                 .then(response => response.text())
                 .then(text => navigator.clipboard.writeText(text));
         }
 
-        /**
-         * Parses tab-separated values (TSV) data from a string into an array of objects.
-         * @param {string} text - The TSV text from the clipboard.
-         * @returns {Array<Object>}
-         */
         function parseData(text) {
             const lines = text.trim().split('\n');
             if (lines.length < 2) return [];
@@ -242,26 +250,17 @@
             });
         }
 
-        /**
-         * Checks if both datasets are loaded and, if so, displays them in the main view.
-         */
         function checkAndDisplayFullData() {
             if (appState.dataSet1.length > 0 && appState.dataSet2.length > 0) {
                 logMessage("Both datasets loaded. Displaying full data view.");
                 renderDataTable(dataSet1Container, appState.dataSet1);
                 renderDataTable(dataSet2Container, appState.dataSet2);
 
-                loadDataSection.classList.add('hidden');
+                loadingLayoutContainer.classList.add('hidden');
                 displayDataSection.classList.remove('hidden');
             }
         }
 
-        /**
-         * Renders an array of objects into an HTML table.
-         * @param {HTMLElement} container - The container element to render the table into.
-         * @param {Array<Object>} data - The data to display.
-         * @param {number} [rowCount] - Optional number of rows to display. If omitted, all rows are shown.
-         */
         function renderDataTable(container, data, rowCount) {
             container.innerHTML = '';
             if (!data || data.length === 0) return;
@@ -295,9 +294,6 @@
             container.appendChild(table);
         }
         
-        /**
-         * Resets the application to its initial state.
-         */
         function resetApp() {
             appState.dataSet1 = [];
             appState.dataSet2 = [];
@@ -313,7 +309,7 @@
             data2Status.textContent = '';
 
             displayDataSection.classList.add('hidden');
-            loadDataSection.classList.remove('hidden');
+            loadingLayoutContainer.classList.remove('hidden');
 
             dataSet1Container.innerHTML = '';
             dataSet2Container.innerHTML = '';
@@ -330,10 +326,10 @@
             logMessage("Attempting to copy Dataset 1 CCL code...");
             copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/179e56814dc7083f920dddb63db49b65e1bb5fa3/QUERIES/QUERIES%20FOR%20SPECIFIC%20TOOLS/PHARMACY%20CATALOG%20EXPLORER/Pharmacy%20Order%20Catalog%20Synonym.ccl")
                 .then(() => {
-                    code1Status.textContent = 'Code copied. Run it in DVDev, then copy the output.';
+                    code1Status.textContent = 'Code copied. Run it, then copy the output.';
                     copyCode1Btn.classList.add('disabled');
                     loadData1Btn.classList.remove('disabled');
-                    logMessage("Dataset 1 CCL code copied successfully.");
+                    logMessage("Dataset 1 CCL code copied. You can now load data from the clipboard.");
                 })
                 .catch(err => {
                     code1Status.textContent = 'Failed to copy code: ' + err;
@@ -343,39 +339,44 @@
         });
 
         loadData1Btn.addEventListener('click', () => {
-            logMessage("Attempting to load Dataset 1 from clipboard...");
-            navigator.clipboard.readText()
-                .then(clipboardText => {
-                    let data = parseData(clipboardText);
-                    if (data.length > 0) {
-                        data1Status.textContent = `Dataset 1 loaded successfully (${data.length} items).`;
-                        appState.dataSet1 = data;
-                        renderDataTable(data1PreviewContainer, data, 3);
-                        loadData1Btn.classList.add('disabled');
-                        copyCode2Btn.classList.remove('disabled');
-                        logMessage(`Dataset 1 loaded with ${data.length} items.`);
-                        checkAndDisplayFullData();
-                    } else {
-                         data1Status.textContent = 'No data found or failed to parse data.';
-                         data1Status.style.color = 'red';
-                         logMessage("ERROR: No data found or failed to parse Dataset 1.");
-                    }
-                })
-                .catch(err => {
-                    data1Status.textContent = 'Failed to read clipboard contents: ' + err;
-                    data1Status.style.color = 'red';
-                    logMessage("ERROR: Could not read from clipboard for Dataset 1.");
-                });
+            logMessage("Loading Dataset 1 from clipboard... Please wait.");
+            loadData1Btn.classList.add('disabled');
+            
+            setTimeout(() => { // Gives UI time to update
+                navigator.clipboard.readText()
+                    .then(clipboardText => {
+                        let data = parseData(clipboardText);
+                        if (data.length > 0) {
+                            data1Status.textContent = `Dataset 1 loaded successfully (${data.length} items).`;
+                            appState.dataSet1 = data;
+                            renderDataTable(data1PreviewContainer, data, 3);
+                            copyCode2Btn.classList.remove('disabled');
+                            logMessage(`Dataset 1 loaded. You may now proceed to Dataset 2.`);
+                            checkAndDisplayFullData();
+                        } else {
+                             data1Status.textContent = 'No data found or failed to parse data.';
+                             data1Status.style.color = 'red';
+                             logMessage("ERROR: No data found for Dataset 1. Please try again.");
+                             loadData1Btn.classList.remove('disabled');
+                        }
+                    })
+                    .catch(err => {
+                        data1Status.textContent = 'Failed to read clipboard: ' + err;
+                        data1Status.style.color = 'red';
+                        logMessage("ERROR: Could not read clipboard for Dataset 1.");
+                        loadData1Btn.classList.remove('disabled');
+                    });
+            }, 100);
         });
         
         copyCode2Btn.addEventListener('click', () => {
             logMessage("Attempting to copy Dataset 2 CCL code...");
             copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/a1d0dc52ec175ae84efa2f59156b3c88bcb66941/QUERIES/QUERIES%20FOR%20SPECIFIC%20TOOLS/PHARMACY%20CATALOG%20EXPLORER/PBS%20mappings.ccl")
                 .then(() => {
-                    code2Status.textContent = 'Code copied. Run it in DVDev, then copy the output.';
+                    code2Status.textContent = 'Code copied. Run it, then copy the output.';
                     copyCode2Btn.classList.add('disabled');
                     loadData2Btn.classList.remove('disabled');
-                    logMessage("Dataset 2 CCL code copied successfully.");
+                    logMessage("Dataset 2 CCL code copied. You can now load data from the clipboard.");
                 })
                 .catch(err => {
                     code2Status.textContent = 'Failed to copy code: ' + err;
@@ -385,28 +386,33 @@
         });
         
         loadData2Btn.addEventListener('click', () => {
-            logMessage("Attempting to load Dataset 2 from clipboard...");
-            navigator.clipboard.readText()
-                .then(clipboardText => {
-                    let data = parseData(clipboardText);
-                    if (data.length > 0) {
-                        data2Status.textContent = `Dataset 2 loaded successfully (${data.length} items).`;
-                        appState.dataSet2 = data;
-                        renderDataTable(data2PreviewContainer, data, 3);
-                        loadData2Btn.classList.add('disabled');
-                        logMessage(`Dataset 2 loaded with ${data.length} items.`);
-                        checkAndDisplayFullData();
-                    } else {
-                        data2Status.textContent = 'No data found or failed to parse data.';
+            logMessage("Loading Dataset 2 from clipboard... Please wait.");
+            loadData2Btn.classList.add('disabled');
+
+            setTimeout(() => { // Gives UI time to update
+                navigator.clipboard.readText()
+                    .then(clipboardText => {
+                        let data = parseData(clipboardText);
+                        if (data.length > 0) {
+                            data2Status.textContent = `Dataset 2 loaded successfully (${data.length} items).`;
+                            appState.dataSet2 = data;
+                            renderDataTable(data2PreviewContainer, data, 3);
+                            logMessage(`Dataset 2 loaded successfully.`);
+                            checkAndDisplayFullData();
+                        } else {
+                            data2Status.textContent = 'No data found or failed to parse data.';
+                            data2Status.style.color = 'red';
+                            logMessage("ERROR: No data found for Dataset 2. Please try again.");
+                            loadData2Btn.classList.remove('disabled');
+                        }
+                    })
+                    .catch(err => {
+                        data2Status.textContent = 'Failed to read clipboard: ' + err;
                         data2Status.style.color = 'red';
-                        logMessage("ERROR: No data found or failed to parse Dataset 2.");
-                    }
-                })
-                .catch(err => {
-                    data2Status.textContent = 'Failed to read clipboard contents: ' + err;
-                    data2Status.style.color = 'red';
-                    logMessage("ERROR: Could not read from clipboard for Dataset 2.");
-                });
+                        logMessage("ERROR: Could not read clipboard for Dataset 2.");
+                        loadData2Btn.classList.remove('disabled');
+                    });
+            }, 100);
         });
 
         startOverBtn.addEventListener('click', resetApp);
