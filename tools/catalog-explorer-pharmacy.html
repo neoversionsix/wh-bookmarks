@@ -74,6 +74,10 @@
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f8f9fa; }
         
+        #searchResultsContainer tr:hover { background-color: #f0f2f5; }
+        #searchResultsContainer .clickable-row { cursor: pointer; }
+
+
         .table-container { max-height: 400px; overflow-y: auto; border: 1px solid #eee; margin-bottom: 20px; }
         .preview-container:not(:empty) { margin-bottom: 20px; }
         
@@ -83,9 +87,6 @@
         #searchControls { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; }
         #searchColumnSelect, #searchInput { padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
         #searchInput { flex-grow: 1; }
-        
-        .search-result-item { padding: 10px; border: 1px solid #eee; border-radius: 5px; margin-bottom: 5px; cursor: pointer; }
-        .search-result-item:hover { background-color: #f0f2f5; }
         
         #itemDetailsContainer .detail-table th { width: 30%; background-color: #f8f9fa; }
         .double-click-note { font-style: italic; color: #6c757d; margin-top: 10px;}
@@ -129,7 +130,7 @@
             <button id="clearSearchBtn" class="clear-btn">Clear</button>
         </div>
         <p id="searchScenarioNote" class="double-click-note"></p>
-        <div id="searchResultsContainer"></div>
+        <div id="searchResultsContainer" class="table-container"></div>
     </div>
 </div>
     <script>
@@ -188,30 +189,43 @@
             });
         }
         
-        function renderDataTable(container, data, rowCount) {
+        function renderDataTable(container, data, { rowCount, isClickable = false, onRowClick = null } = {}) {
             container.innerHTML = '';
-            if (!data || data.length === 0) return;
+            if (!data || data.length === 0) {
+                container.innerHTML = '<p>No data to display.</p>';
+                return;
+            }
             const table = document.createElement('table');
             const thead = document.createElement('thead');
             const tbody = document.createElement('tbody');
             const headerRow = document.createElement('tr');
-            Object.keys(data[0]).forEach(key => {
+            const headers = Object.keys(data[0]);
+
+            headers.forEach(key => {
                 const th = document.createElement('th');
                 th.textContent = key;
                 headerRow.appendChild(th);
             });
             thead.appendChild(headerRow);
+            
             const dataToRender = rowCount ? data.slice(0, rowCount) : data;
-            dataToRender.forEach((item, index) => {
+            
+            dataToRender.forEach((item) => {
                 const row = document.createElement('tr');
-                row.dataset.index = index; // Used for click events
-                Object.values(item).forEach(value => {
+                if (isClickable) {
+                    row.classList.add('clickable-row');
+                    if(onRowClick) {
+                       row.onclick = () => onRowClick(item);
+                    }
+                }
+                headers.forEach(header => {
                     const td = document.createElement('td');
-                    td.textContent = value;
+                    td.textContent = item[header];
                     row.appendChild(td);
-                });
+                })
                 tbody.appendChild(row);
             });
+
             table.appendChild(thead);
             table.appendChild(tbody);
             container.appendChild(table);
@@ -227,33 +241,21 @@
             loadingLayoutContainer.classList.remove('hidden');
             logConsole.value = '';
             logMessage("Application reset. Ready to load data.");
+            clearSearch();
         }
 
         function initializeSearchView() {
-            logMessage("Both datasets loaded. Initializing search view.");
+            logMessage("All datasets loaded. Initializing search view.");
             loadingLayoutContainer.classList.add('hidden');
             searchSection.classList.remove('hidden');
 
-            // Populate column metadata
-            const allHeaders = new Map();
+            searchColumnSelect.innerHTML = '';
+            appState.columnMetadata = [];
+            
             appState.datasets.forEach((dataset, index) => {
                 if (dataset.length > 0) {
                     const headers = Object.keys(dataset[0]);
                     headers.forEach(header => {
-                        if (!allHeaders.has(header)) {
-                            allHeaders.set(header, []);
-                        }
-                        allHeaders.get(header).push(index);
-                    });
-                }
-            });
-
-            // Create dropdown options
-            searchColumnSelect.innerHTML = '';
-            appState.columnMetadata = [];
-            allHeaders.forEach((indices, header) => {
-                if (indices.length > 1) {
-                    indices.forEach(index => {
                         const option = document.createElement('option');
                         const label = `${header} - (Dataset ${index + 1})`;
                         option.value = appState.columnMetadata.length;
@@ -261,21 +263,15 @@
                         searchColumnSelect.appendChild(option);
                         appState.columnMetadata.push({ header, datasetIndex: index });
                     });
-                } else {
-                    const option = document.createElement('option');
-                    option.value = appState.columnMetadata.length;
-                    option.textContent = header;
-                    searchColumnSelect.appendChild(option);
-                    appState.columnMetadata.push({ header, datasetIndex: indices[0] });
                 }
             });
 
-            // Set default to 'PRIMARY' if it exists
-            const primaryOption = Array.from(searchColumnSelect.options).find(opt => opt.text === 'PRIMARY');
+            // Set default to 'PRIMARY - (Dataset 1)' if it exists
+            const primaryOption = Array.from(searchColumnSelect.options).find(opt => opt.text === 'PRIMARY - (Dataset 1)');
             if (primaryOption) {
                 searchColumnSelect.value = primaryOption.value;
             }
-            handleSearch(); // Trigger initial state
+            handleSearch();
         }
         
         function handleSearch() {
@@ -285,26 +281,22 @@
             const { header, datasetIndex } = appState.columnMetadata[metadataIndex];
             const query = searchInput.value.toLowerCase();
             const isScenario1 = datasetIndex === 0;
+            
+            const sourceData = appState.datasets[datasetIndex];
+            const filteredData = sourceData.filter(row => row[header] && row[header].toLowerCase().includes(query));
 
             if (isScenario1) {
-                // SCENARIO 1: Search in Dataset 1
-                searchScenarioNote.textContent = "Click an item to see details and linked data.";
-                const filteredData = appState.datasets[0].filter(row => row[header] && row[header].toLowerCase().includes(query));
-                searchResultsContainer.innerHTML = '';
-                filteredData.forEach((item, index) => {
-                    const div = document.createElement('div');
-                    div.className = 'search-result-item';
-                    div.textContent = item[header];
-                    div.dataset.originalIndex = appState.datasets[0].indexOf(item); // Link back to original unfiltered array
-                    div.onclick = () => showItemDetails(div.dataset.originalIndex);
-                    searchResultsContainer.appendChild(div);
+                searchScenarioNote.textContent = "Click a row to see details and linked data.";
+                renderDataTable(searchResultsContainer, filteredData, { 
+                    isClickable: true,
+                    onRowClick: (item) => {
+                        // Find original index because filtering changes it
+                        const originalIndex = appState.datasets[0].indexOf(item);
+                        showItemDetails(originalIndex);
+                    }
                 });
-
             } else {
-                // SCENARIO 2: Search in other datasets
                 searchScenarioNote.textContent = "Double-click any cell to copy its value.";
-                const filteredData = appState.datasets[datasetIndex].filter(row => row[header] && row[header].toLowerCase().includes(query));
-                searchResultsContainer.innerHTML = ''; // Clear previous results
                 renderDataTable(searchResultsContainer, filteredData);
                 searchResultsContainer.ondblclick = (e) => {
                     if (e.target && e.target.tagName === 'TD') {
@@ -319,6 +311,11 @@
             const selectedItem = appState.datasets[0][itemIndex];
             searchResultsContainer.innerHTML = ''; // Clear search results
             searchScenarioNote.textContent = '';
+            searchResultsContainer.classList.remove('table-container'); // Use flex layout instead
+
+            // Wrapper for the two-column detail view
+            const wrapper = document.createElement('div');
+            wrapper.className = 'search-results-container';
 
             // Left side: Details of the selected item
             const detailsContainer = document.createElement('div');
@@ -339,23 +336,22 @@
             linkedContainer.className = 'search-results-right';
             linkedContainer.innerHTML = '<h3>Linked Data</h3>';
             
-            // Find common keys and join data
             const commonKeys = Object.keys(selectedItem).filter(key => 
                 appState.datasets.slice(1).some(otherDataset => otherDataset.length > 0 && otherDataset[0].hasOwnProperty(key))
             );
 
-            if (commonKeys.length === 0) {
-                linkedContainer.innerHTML += '<p>No common columns found to link other datasets.</p>';
-            } else {
+            let linkedDataFound = false;
+            if (commonKeys.length > 0) {
                  appState.datasets.forEach((otherDataset, index) => {
-                    if (index === 0) return; // Skip dataset 1
+                    if (index === 0) return; 
                     
                     const relevantCommonKeys = commonKeys.filter(key => otherDataset.length > 0 && otherDataset[0].hasOwnProperty(key));
                     if (relevantCommonKeys.length > 0) {
-                        const linkingKey = relevantCommonKeys[0]; // Use the first common key for simplicity
+                        const linkingKey = relevantCommonKeys[0]; 
                         const linkedData = otherDataset.filter(row => row[linkingKey] === selectedItem[linkingKey]);
 
                         if(linkedData.length > 0) {
+                            linkedDataFound = true;
                             linkedContainer.innerHTML += `<h4>From Dataset ${index + 1} (linked by ${linkingKey})</h4>`;
                             const tableContainer = document.createElement('div');
                             tableContainer.className = 'table-container';
@@ -366,13 +362,19 @@
                 });
             }
 
-            searchResultsContainer.appendChild(detailsContainer);
-            searchResultsContainer.appendChild(linkedContainer);
+            if (!linkedDataFound) {
+                linkedContainer.innerHTML += '<p>No linked data found in other datasets.</p>';
+            }
+
+            wrapper.appendChild(detailsContainer);
+            wrapper.appendChild(linkedContainer);
+            searchResultsContainer.appendChild(wrapper);
         }
 
         function clearSearch() {
             searchInput.value = '';
             searchResultsContainer.innerHTML = '';
+            searchResultsContainer.classList.add('table-container');
             searchScenarioNote.textContent = '';
             handleSearch();
         }
@@ -383,20 +385,19 @@
                 logMessage(`Loading Dataset ${datasetIndex + 1}... Please wait.`);
                 loadBtn.classList.add('disabled');
                 
-                setTimeout(() => { // Gives UI time to update
+                setTimeout(() => {
                     navigator.clipboard.readText()
                         .then(clipboardText => {
                             const data = parseData(clipboardText);
                             if (data.length > 0) {
                                 statusEl.textContent = `Dataset ${datasetIndex + 1} loaded successfully (${data.length} items).`;
                                 appState.datasets[datasetIndex] = data;
-                                renderDataTable(previewEl, data, 3);
+                                renderDataTable(previewEl, data, { rowCount: 3 });
                                 logMessage(`Dataset ${datasetIndex + 1} loaded with ${data.length} items.`);
                                 if (nextBtn) {
                                     nextBtn.classList.remove('disabled');
                                     logMessage(`You may now proceed to Dataset ${datasetIndex + 2}.`);
                                 } else {
-                                    // This was the last dataset, initialize search
                                     initializeSearchView();
                                 }
                             } else {
