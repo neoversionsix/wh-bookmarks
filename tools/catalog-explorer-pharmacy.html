@@ -55,7 +55,7 @@
         
         .status-text { min-height: 20px; margin-top: 5px; font-style: italic; color: #28a745; }
 
-        .disabled { opacity: 0.5; pointer-events: none; background-color: #6c757d; }
+        .disabled, button:disabled { opacity: 0.5; pointer-events: none; background-color: #6c757d; }
 
         button {
             background-color: #0d6efd;
@@ -113,6 +113,15 @@
             font-size: 1.2em;
             color: #6c757d;
         }
+        
+        #paginationControls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
 
     </style>
 </head>
@@ -163,13 +172,22 @@
         <div id="searchResultsContainer" class="table-container">
             <div id="loadingIndicator" class="hidden"><p>Loading...</p></div>
         </div>
+        <div id="paginationControls" class="hidden">
+             <button id="prevPageBtn">Previous</button>
+             <span id="pageInfo"></span>
+             <button id="nextPageBtn">Next</button>
+        </div>
     </div>
 </div>
     <script>
         // --- GLOBAL STATE ---
         let appState = {
             datasets: [],
-            columnMetadata: []
+            columnMetadata: [],
+            // Pagination state
+            filteredResults: [],
+            currentPage: 1,
+            rowsPerPage: 50,
         };
 
         // --- DOM ELEMENT REFERENCES ---
@@ -199,6 +217,10 @@
         const searchResultsContainer = document.getElementById('searchResultsContainer');
         const searchScenarioNote = document.getElementById('searchScenarioNote');
         const loadingIndicator = document.getElementById('loadingIndicator');
+        const paginationControls = document.getElementById('paginationControls');
+        const prevPageBtn = document.getElementById('prevPageBtn');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+        const pageInfo = document.getElementById('pageInfo');
         
         const logConsole = document.getElementById('logConsole');
 
@@ -250,8 +272,8 @@
             });
         }
         
-        function renderDataTable(container, data, { rowCount, isClickable = false, onRowClick = null } = {}) {
-            container.innerHTML = ''; // Clear previous content, including loading indicator
+        function renderDataTable(container, data, { isClickable = false, onRowClick = null } = {}) {
+            container.innerHTML = '';
             if (!data || data.length === 0) {
                 container.innerHTML = '<p>No data to display.</p>';
                 return;
@@ -269,9 +291,7 @@
             });
             thead.appendChild(headerRow);
             
-            const dataToRender = rowCount ? data.slice(0, rowCount) : data;
-            
-            dataToRender.forEach((item) => {
+            data.forEach((item) => {
                 const row = document.createElement('tr');
                 if (isClickable) {
                     row.classList.add('clickable-row');
@@ -298,6 +318,7 @@
                 searchControls.classList.add('loading');
                 [searchInput, searchColumnSelect, searchGoBtn, clearSearchBtn].forEach(el => el.disabled = true);
                 searchResultsContainer.innerHTML = '';
+                paginationControls.classList.add('hidden');
                 loadingIndicator.classList.remove('hidden');
              } else {
                 document.body.classList.remove('wait');
@@ -354,53 +375,91 @@
         function handleSearch() {
             const metadataIndex = searchColumnSelect.value;
             if(!metadataIndex && metadataIndex !== 0) {
+                appState.filteredResults = [];
+                // Directly clear the results instead of calling renderCurrentPage,
+                // which would fail without valid column metadata on initial load.
                 searchResultsContainer.innerHTML = '';
+                paginationControls.classList.add('hidden');
                 return;
             };
 
             setSearchLoadingState(true);
             logMessage(`Searching...`);
 
-            // Use setTimeout to allow the UI to update with the loading state
             setTimeout(() => {
                 const { header, datasetIndex } = appState.columnMetadata[metadataIndex];
                 const query = searchInput.value.toLowerCase();
-                const isScenario1 = datasetIndex === 0;
-                
                 const sourceData = appState.datasets[datasetIndex];
-                const filteredData = sourceData.filter(row => row[header] && row[header].toLowerCase().includes(query));
                 
-                logMessage(`Found ${filteredData.length} results.`);
-
-                if (isScenario1) {
-                    searchScenarioNote.textContent = "Click a row to see details and linked data.";
-                    renderDataTable(searchResultsContainer, filteredData, { 
-                        isClickable: true,
-                        onRowClick: (item) => {
-                            const originalIndex = appState.datasets[0].indexOf(item);
-                            showItemDetails(originalIndex);
-                        }
-                    });
-                } else {
-                    searchScenarioNote.textContent = "Double-click any cell to copy its value.";
-                    renderDataTable(searchResultsContainer, filteredData);
-                    searchResultsContainer.ondblclick = (e) => {
-                        if (e.target && e.target.tagName === 'TD') {
-                            copyTextToClipboard(e.target.textContent)
-                                .then(() => logMessage(`Copied to clipboard: "${e.target.textContent}"`))
-                                .catch(() => logMessage(`ERROR: Failed to copy text.`));
-                        }
-                    };
-                }
+                appState.filteredResults = sourceData.filter(row => row[header] && row[header].toLowerCase().includes(query));
+                appState.currentPage = 1;
+                
+                logMessage(`Found ${appState.filteredResults.length} results.`);
                 setSearchLoadingState(false);
-            }, 10); // A small delay is enough to let the browser repaint
+                renderCurrentPage();
+            }, 10);
         }
         
+        function renderCurrentPage() {
+            const { filteredResults, currentPage, rowsPerPage } = appState;
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const pageData = filteredResults.slice(start, end);
+            
+            if (pageData.length === 0) {
+                 searchResultsContainer.innerHTML = '<p>No results found.</p>';
+                 renderPaginationControls();
+                 return;
+            }
+            
+            const metadataIndex = searchColumnSelect.value;
+            const { datasetIndex } = appState.columnMetadata[metadataIndex];
+            const isScenario1 = datasetIndex === 0;
+
+            if (isScenario1) {
+                searchScenarioNote.textContent = "Click a row to see details and linked data.";
+                renderDataTable(searchResultsContainer, pageData, { 
+                    isClickable: true,
+                    onRowClick: (item) => {
+                        const originalIndex = appState.datasets[0].indexOf(item);
+                        showItemDetails(originalIndex);
+                    }
+                });
+            } else {
+                searchScenarioNote.textContent = "Double-click any cell to copy its value.";
+                renderDataTable(searchResultsContainer, pageData);
+                 searchResultsContainer.ondblclick = (e) => {
+                    if (e.target && e.target.tagName === 'TD') {
+                        copyTextToClipboard(e.target.textContent)
+                            .then(() => logMessage(`Copied to clipboard: "${e.target.textContent}"`))
+                            .catch(() => logMessage(`ERROR: Failed to copy text.`));
+                    }
+                };
+            }
+            renderPaginationControls();
+        }
+
+        function renderPaginationControls() {
+            const { filteredResults, currentPage, rowsPerPage } = appState;
+            const totalPages = Math.ceil(filteredResults.length / rowsPerPage);
+
+            if(totalPages <= 1) {
+                paginationControls.classList.add('hidden');
+                return;
+            }
+
+            paginationControls.classList.remove('hidden');
+            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages;
+        }
+
         function showItemDetails(itemIndex) {
             const selectedItem = appState.datasets[0][itemIndex];
             searchResultsContainer.innerHTML = '';
             searchScenarioNote.textContent = '';
             searchResultsContainer.classList.remove('table-container');
+            paginationControls.classList.add('hidden');
 
             const wrapper = document.createElement('div');
             wrapper.className = 'search-results-container';
@@ -461,13 +520,14 @@
             searchInput.value = '';
             searchResultsContainer.classList.add('table-container');
             searchScenarioNote.textContent = '';
+            paginationControls.classList.add('hidden');
             handleSearch();
         }
 
         // --- EVENT LISTENERS ---
         copyCode1Btn.addEventListener('click', () => {
             logMessage("Copying Dataset 1 CCL code...");
-            copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/179e56814dc7083f920dddb63db49b65e1bb5fa3/QUERIES/QUERIES%20FOR%20SPECIFIC%20TOOLS/PHARMACY%20CATALOG%20EXPLORER/Pharmacy%20Order%20Catalog%20Synonym.ccl")
+            copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/refs/heads/main/QUERIES/QUERIES%20FOR%20SPECIFIC%20TOOLS/PHARMACY%20CATALOG%20EXPLORER/Pharmacy%20Order%20Catalog%20Synonym.ccl")
                 .then(() => {
                     code1Status.textContent = 'Code copied. Run it, copy the output, and paste it below.';
                     copyCode1Btn.classList.add('disabled');
@@ -490,7 +550,7 @@
                 data1Status.textContent = `Dataset 1 loaded successfully (${data.length} items).`;
                 data1Status.style.color = '#28a745';
                 appState.datasets[0] = data;
-                renderDataTable(data1PreviewContainer, data, { rowCount: 3 });
+                renderDataTable(data1PreviewContainer, data, { isClickable: false, rowCount: 3 });
                 logMessage(`Dataset 1 loaded with ${data.length} items.`);
                 copyCode2Btn.classList.remove('disabled');
                 pasteArea1Container.classList.add('hidden');
@@ -526,7 +586,7 @@
                 data2Status.textContent = `Dataset 2 loaded successfully (${data.length} items).`;
                 data2Status.style.color = '#28a745';
                 appState.datasets[1] = data;
-                renderDataTable(data2PreviewContainer, data, { rowCount: 3 });
+                renderDataTable(data2PreviewContainer, data, { isClickable: false, rowCount: 3 });
                 logMessage(`Dataset 2 loaded with ${data.length} items.`);
                 pasteArea2Container.classList.add('hidden');
                 initializeSearchView();
@@ -539,15 +599,28 @@
 
         searchGoBtn.addEventListener('click', handleSearch);
         searchInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                handleSearch();
-            }
+            if (e.key === 'Enter') handleSearch();
         });
         searchColumnSelect.addEventListener('change', () => {
             searchInput.value = '';
             handleSearch();
         });
         clearSearchBtn.addEventListener('click', clearSearch);
+        
+        prevPageBtn.addEventListener('click', () => {
+            if(appState.currentPage > 1) {
+                appState.currentPage--;
+                renderCurrentPage();
+            }
+        });
+        
+        nextPageBtn.addEventListener('click', () => {
+            const totalPages = Math.ceil(appState.filteredResults.length / appState.rowsPerPage);
+            if(appState.currentPage < totalPages) {
+                appState.currentPage++;
+                renderCurrentPage();
+            }
+        });
         
         document.addEventListener('DOMContentLoaded', resetApp);
     </script>
