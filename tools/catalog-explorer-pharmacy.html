@@ -13,6 +13,10 @@
             background-color: #f0f2f5;
             box-sizing: border-box;
         }
+        
+        body.wait {
+            cursor: wait !important;
+        }
 
         /* Main container to manage padding and centering */
         .main-container {
@@ -85,11 +89,30 @@
 
         /* Search Page Specific Styles */
         #searchControls { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; }
+        #searchControls.loading * { cursor: wait !important; }
+
         #searchColumnSelect, #searchInput { padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
         #searchInput { flex-grow: 1; }
         
         #itemDetailsContainer .detail-table th { width: 30%; background-color: #f8f9fa; }
         .double-click-note { font-style: italic; color: #6c757d; margin-top: 10px;}
+
+        .paste-area {
+            width: 100%;
+            min-height: 100px;
+            margin-top: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px dashed #ccc;
+        }
+        
+        #loadingIndicator {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2em;
+            color: #6c757d;
+        }
 
     </style>
 </head>
@@ -104,13 +127,19 @@
             <h2>Load Data</h2>
             <button id="copyCode1Btn">Copy CCL to Clipboard (Dataset 1)</button>
             <p id="code1Status" class="status-text"></p>
-            <button id="loadData1Btn">Copy Data from Clipboard (Dataset 1)</button>
+            <div id="pasteArea1Container" class="hidden">
+                <textarea id="pasteArea1" class="paste-area" placeholder="Paste data for Dataset 1 here..."></textarea>
+                <button id="processData1Btn">Process Pasted Data (Dataset 1)</button>
+            </div>
             <p id="data1Status" class="status-text"></p>
             <div id="data1PreviewContainer" class="preview-container table-container"></div>
             <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
             <button id="copyCode2Btn">Copy CCL to Clipboard (Dataset 2)</button>
             <p id="code2Status" class="status-text"></p>
-            <button id="loadData2Btn">Copy Data from Clipboard (Dataset 2)</button>
+            <div id="pasteArea2Container" class="hidden">
+                <textarea id="pasteArea2" class="paste-area" placeholder="Paste data for Dataset 2 here..."></textarea>
+                <button id="processData2Btn">Process Pasted Data (Dataset 2)</button>
+            </div>
             <p id="data2Status" class="status-text"></p>
             <div id="data2PreviewContainer" class="preview-container table-container"></div>
         </div>
@@ -127,10 +156,13 @@
         <div id="searchControls">
             <select id="searchColumnSelect"></select>
             <input type="text" id="searchInput" placeholder="Type to search...">
+            <button id="searchGoBtn">Go</button>
             <button id="clearSearchBtn" class="clear-btn">Clear</button>
         </div>
         <p id="searchScenarioNote" class="double-click-note"></p>
-        <div id="searchResultsContainer" class="table-container"></div>
+        <div id="searchResultsContainer" class="table-container">
+            <div id="loadingIndicator" class="hidden"><p>Loading...</p></div>
+        </div>
     </div>
 </div>
     <script>
@@ -143,23 +175,30 @@
         // --- DOM ELEMENT REFERENCES ---
         const loadingLayoutContainer = document.getElementById('loadingLayoutContainer');
         const copyCode1Btn = document.getElementById('copyCode1Btn');
-        const loadData1Btn = document.getElementById('loadData1Btn');
+        const pasteArea1Container = document.getElementById('pasteArea1Container');
+        const pasteArea1 = document.getElementById('pasteArea1');
+        const processData1Btn = document.getElementById('processData1Btn');
         const data1PreviewContainer = document.getElementById('data1PreviewContainer');
         const code1Status = document.getElementById('code1Status');
         const data1Status = document.getElementById('data1Status');
         
         const copyCode2Btn = document.getElementById('copyCode2Btn');
-        const loadData2Btn = document.getElementById('loadData2Btn');
+        const pasteArea2Container = document.getElementById('pasteArea2Container');
+        const pasteArea2 = document.getElementById('pasteArea2');
+        const processData2Btn = document.getElementById('processData2Btn');
         const data2PreviewContainer = document.getElementById('data2PreviewContainer');
         const code2Status = document.getElementById('code2Status');
         const data2Status = document.getElementById('data2Status');
 
         const searchSection = document.getElementById('searchSection');
+        const searchControls = document.getElementById('searchControls');
         const searchColumnSelect = document.getElementById('searchColumnSelect');
         const searchInput = document.getElementById('searchInput');
+        const searchGoBtn = document.getElementById('searchGoBtn');
         const clearSearchBtn = document.getElementById('clearSearchBtn');
         const searchResultsContainer = document.getElementById('searchResultsContainer');
         const searchScenarioNote = document.getElementById('searchScenarioNote');
+        const loadingIndicator = document.getElementById('loadingIndicator');
         
         const logConsole = document.getElementById('logConsole');
 
@@ -171,8 +210,30 @@
             logConsole.scrollTop = logConsole.scrollHeight;
         }
         
+        function copyTextToClipboard(text) {
+            return new Promise((resolve, reject) => {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                textArea.style.position = "fixed"; 
+                textArea.style.left = "-9999px";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) resolve();
+                    else reject(new Error('Copy command was not successful'));
+                } catch (err) {
+                    reject(err);
+                }
+                document.body.removeChild(textArea);
+            });
+        }
+
         function copyCode(url) {
-            return fetch(url).then(response => response.text()).then(text => navigator.clipboard.writeText(text));
+            return fetch(url)
+                .then(response => response.text())
+                .then(text => copyTextToClipboard(text));
         }
 
         function parseData(text) {
@@ -190,7 +251,7 @@
         }
         
         function renderDataTable(container, data, { rowCount, isClickable = false, onRowClick = null } = {}) {
-            container.innerHTML = '';
+            container.innerHTML = ''; // Clear previous content, including loading indicator
             if (!data || data.length === 0) {
                 container.innerHTML = '<p>No data to display.</p>';
                 return;
@@ -230,14 +291,31 @@
             table.appendChild(tbody);
             container.appendChild(table);
         }
+        
+        function setSearchLoadingState(isLoading) {
+             if(isLoading) {
+                document.body.classList.add('wait');
+                searchControls.classList.add('loading');
+                [searchInput, searchColumnSelect, searchGoBtn, clearSearchBtn].forEach(el => el.disabled = true);
+                searchResultsContainer.innerHTML = '';
+                loadingIndicator.classList.remove('hidden');
+             } else {
+                document.body.classList.remove('wait');
+                searchControls.classList.remove('loading');
+                [searchInput, searchColumnSelect, searchGoBtn, clearSearchBtn].forEach(el => el.disabled = false);
+                loadingIndicator.classList.add('hidden');
+             }
+        }
 
         function resetApp() {
             appState.datasets = [];
             appState.columnMetadata = [];
             copyCode1Btn.classList.remove('disabled');
-            [loadData1Btn, copyCode2Btn, loadData2Btn].forEach(btn => btn.classList.add('disabled'));
+            copyCode2Btn.classList.add('disabled');
+            [pasteArea1Container, pasteArea2Container, searchSection].forEach(el => el.classList.add('hidden'));
             [code1Status, data1Status, code2Status, data2Status, data1PreviewContainer, data2PreviewContainer].forEach(el => el.innerHTML = '');
-            searchSection.classList.add('hidden');
+            pasteArea1.value = '';
+            pasteArea2.value = '';
             loadingLayoutContainer.classList.remove('hidden');
             logConsole.value = '';
             logMessage("Application reset. Ready to load data.");
@@ -266,7 +344,6 @@
                 }
             });
 
-            // Set default to 'PRIMARY - (Dataset 1)' if it exists
             const primaryOption = Array.from(searchColumnSelect.options).find(opt => opt.text === 'PRIMARY - (Dataset 1)');
             if (primaryOption) {
                 searchColumnSelect.value = primaryOption.value;
@@ -276,48 +353,58 @@
         
         function handleSearch() {
             const metadataIndex = searchColumnSelect.value;
-            if(!metadataIndex) return;
+            if(!metadataIndex && metadataIndex !== 0) {
+                searchResultsContainer.innerHTML = '';
+                return;
+            };
 
-            const { header, datasetIndex } = appState.columnMetadata[metadataIndex];
-            const query = searchInput.value.toLowerCase();
-            const isScenario1 = datasetIndex === 0;
-            
-            const sourceData = appState.datasets[datasetIndex];
-            const filteredData = sourceData.filter(row => row[header] && row[header].toLowerCase().includes(query));
+            setSearchLoadingState(true);
+            logMessage(`Searching...`);
 
-            if (isScenario1) {
-                searchScenarioNote.textContent = "Click a row to see details and linked data.";
-                renderDataTable(searchResultsContainer, filteredData, { 
-                    isClickable: true,
-                    onRowClick: (item) => {
-                        // Find original index because filtering changes it
-                        const originalIndex = appState.datasets[0].indexOf(item);
-                        showItemDetails(originalIndex);
-                    }
-                });
-            } else {
-                searchScenarioNote.textContent = "Double-click any cell to copy its value.";
-                renderDataTable(searchResultsContainer, filteredData);
-                searchResultsContainer.ondblclick = (e) => {
-                    if (e.target && e.target.tagName === 'TD') {
-                        navigator.clipboard.writeText(e.target.textContent);
-                        logMessage(`Copied to clipboard: "${e.target.textContent}"`);
-                    }
-                };
-            }
+            // Use setTimeout to allow the UI to update with the loading state
+            setTimeout(() => {
+                const { header, datasetIndex } = appState.columnMetadata[metadataIndex];
+                const query = searchInput.value.toLowerCase();
+                const isScenario1 = datasetIndex === 0;
+                
+                const sourceData = appState.datasets[datasetIndex];
+                const filteredData = sourceData.filter(row => row[header] && row[header].toLowerCase().includes(query));
+                
+                logMessage(`Found ${filteredData.length} results.`);
+
+                if (isScenario1) {
+                    searchScenarioNote.textContent = "Click a row to see details and linked data.";
+                    renderDataTable(searchResultsContainer, filteredData, { 
+                        isClickable: true,
+                        onRowClick: (item) => {
+                            const originalIndex = appState.datasets[0].indexOf(item);
+                            showItemDetails(originalIndex);
+                        }
+                    });
+                } else {
+                    searchScenarioNote.textContent = "Double-click any cell to copy its value.";
+                    renderDataTable(searchResultsContainer, filteredData);
+                    searchResultsContainer.ondblclick = (e) => {
+                        if (e.target && e.target.tagName === 'TD') {
+                            copyTextToClipboard(e.target.textContent)
+                                .then(() => logMessage(`Copied to clipboard: "${e.target.textContent}"`))
+                                .catch(() => logMessage(`ERROR: Failed to copy text.`));
+                        }
+                    };
+                }
+                setSearchLoadingState(false);
+            }, 10); // A small delay is enough to let the browser repaint
         }
         
         function showItemDetails(itemIndex) {
             const selectedItem = appState.datasets[0][itemIndex];
-            searchResultsContainer.innerHTML = ''; // Clear search results
+            searchResultsContainer.innerHTML = '';
             searchScenarioNote.textContent = '';
-            searchResultsContainer.classList.remove('table-container'); // Use flex layout instead
+            searchResultsContainer.classList.remove('table-container');
 
-            // Wrapper for the two-column detail view
             const wrapper = document.createElement('div');
             wrapper.className = 'search-results-container';
 
-            // Left side: Details of the selected item
             const detailsContainer = document.createElement('div');
             detailsContainer.className = 'search-results-left';
             detailsContainer.innerHTML = '<h3>Item Details (Dataset 1)</h3>';
@@ -331,7 +418,6 @@
             detailTable.appendChild(tbody);
             detailsContainer.appendChild(detailTable);
 
-            // Right side: Linked data
             const linkedContainer = document.createElement('div');
             linkedContainer.className = 'search-results-right';
             linkedContainer.innerHTML = '<h3>Linked Data</h3>';
@@ -373,77 +459,94 @@
 
         function clearSearch() {
             searchInput.value = '';
-            searchResultsContainer.innerHTML = '';
             searchResultsContainer.classList.add('table-container');
             searchScenarioNote.textContent = '';
             handleSearch();
         }
 
         // --- EVENT LISTENERS ---
-        const setupLoadListener = (loadBtn, statusEl, previewEl, datasetIndex, nextBtn) => {
-            loadBtn.addEventListener('click', () => {
-                logMessage(`Loading Dataset ${datasetIndex + 1}... Please wait.`);
-                loadBtn.classList.add('disabled');
-                
-                setTimeout(() => {
-                    navigator.clipboard.readText()
-                        .then(clipboardText => {
-                            const data = parseData(clipboardText);
-                            if (data.length > 0) {
-                                statusEl.textContent = `Dataset ${datasetIndex + 1} loaded successfully (${data.length} items).`;
-                                appState.datasets[datasetIndex] = data;
-                                renderDataTable(previewEl, data, { rowCount: 3 });
-                                logMessage(`Dataset ${datasetIndex + 1} loaded with ${data.length} items.`);
-                                if (nextBtn) {
-                                    nextBtn.classList.remove('disabled');
-                                    logMessage(`You may now proceed to Dataset ${datasetIndex + 2}.`);
-                                } else {
-                                    initializeSearchView();
-                                }
-                            } else {
-                                statusEl.textContent = 'No data found or failed to parse.';
-                                statusEl.style.color = 'red';
-                                logMessage(`ERROR: No data found for Dataset ${datasetIndex + 1}.`);
-                                loadBtn.classList.remove('disabled');
-                            }
-                        })
-                        .catch(err => {
-                            statusEl.textContent = 'Failed to read clipboard: ' + err;
-                            statusEl.style.color = 'red';
-                            logMessage(`ERROR: Could not read clipboard for Dataset ${datasetIndex + 1}.`);
-                            loadBtn.classList.remove('disabled');
-                        });
-                }, 100);
-            });
-        };
-
         copyCode1Btn.addEventListener('click', () => {
             logMessage("Copying Dataset 1 CCL code...");
             copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/179e56814dc7083f920dddb63db49b65e1bb5fa3/QUERIES/QUERIES%20FOR%20SPECIFIC%20TOOLS/PHARMACY%20CATALOG%20EXPLORER/Pharmacy%20Order%20Catalog%20Synonym.ccl")
                 .then(() => {
-                    code1Status.textContent = 'Code copied. Run it, then copy the output.';
+                    code1Status.textContent = 'Code copied. Run it, copy the output, and paste it below.';
                     copyCode1Btn.classList.add('disabled');
-                    loadData1Btn.classList.remove('disabled');
-                    logMessage("Dataset 1 CCL code copied.");
-                });
+                    pasteArea1Container.classList.remove('hidden');
+                    logMessage("Dataset 1 CCL code copied. Please paste data below.");
+                })
+                .catch(err => logMessage("ERROR: Failed to copy Dataset 1 code."));
         });
         
+        processData1Btn.addEventListener('click', () => {
+            const pastedText = pasteArea1.value;
+            if(!pastedText) {
+                logMessage("ERROR: Paste area for Dataset 1 is empty.");
+                data1Status.textContent = 'Please paste data before processing.';
+                data1Status.style.color = 'red';
+                return;
+            }
+            const data = parseData(pastedText);
+            if (data.length > 0) {
+                data1Status.textContent = `Dataset 1 loaded successfully (${data.length} items).`;
+                data1Status.style.color = '#28a745';
+                appState.datasets[0] = data;
+                renderDataTable(data1PreviewContainer, data, { rowCount: 3 });
+                logMessage(`Dataset 1 loaded with ${data.length} items.`);
+                copyCode2Btn.classList.remove('disabled');
+                pasteArea1Container.classList.add('hidden');
+            } else {
+                data1Status.textContent = 'No data found or failed to parse.';
+                data1Status.style.color = 'red';
+                logMessage(`ERROR: No data parsed from Dataset 1 input.`);
+            }
+        });
+
         copyCode2Btn.addEventListener('click', () => {
             logMessage("Copying Dataset 2 CCL code...");
             copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/a1d0dc52ec175ae84efa2f59156b3c88bcb66941/QUERIES/QUERIES%20FOR%20SPECIFIC%20TOOLS/PHARMACY%20CATALOG%20EXPLORER/PBS%20mappings.ccl")
                 .then(() => {
-                    code2Status.textContent = 'Code copied. Run it, then copy the output.';
+                    code2Status.textContent = 'Code copied. Run it, copy the output, and paste it below.';
                     copyCode2Btn.classList.add('disabled');
-                    loadData2Btn.classList.remove('disabled');
-                    logMessage("Dataset 2 CCL code copied.");
-                });
+                    pasteArea2Container.classList.remove('hidden');
+                    logMessage("Dataset 2 CCL code copied. Please paste data below.");
+                })
+                .catch(err => logMessage("ERROR: Failed to copy Dataset 2 code."));
         });
         
-        setupLoadListener(loadData1Btn, data1Status, data1PreviewContainer, 0, copyCode2Btn);
-        setupLoadListener(loadData2Btn, data2Status, data2PreviewContainer, 1, null);
+        processData2Btn.addEventListener('click', () => {
+             const pastedText = pasteArea2.value;
+             if(!pastedText) {
+                logMessage("ERROR: Paste area for Dataset 2 is empty.");
+                data2Status.textContent = 'Please paste data before processing.';
+                data2Status.style.color = 'red';
+                return;
+            }
+            const data = parseData(pastedText);
+            if (data.length > 0) {
+                data2Status.textContent = `Dataset 2 loaded successfully (${data.length} items).`;
+                data2Status.style.color = '#28a745';
+                appState.datasets[1] = data;
+                renderDataTable(data2PreviewContainer, data, { rowCount: 3 });
+                logMessage(`Dataset 2 loaded with ${data.length} items.`);
+                pasteArea2Container.classList.add('hidden');
+                initializeSearchView();
+            } else {
+                data2Status.textContent = 'No data found or failed to parse.';
+                data2Status.style.color = 'red';
+                logMessage(`ERROR: No data parsed from Dataset 2 input.`);
+            }
+        });
 
-        searchInput.addEventListener('input', handleSearch);
-        searchColumnSelect.addEventListener('change', handleSearch);
+        searchGoBtn.addEventListener('click', handleSearch);
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                handleSearch();
+            }
+        });
+        searchColumnSelect.addEventListener('change', () => {
+            searchInput.value = '';
+            handleSearch();
+        });
         clearSearchBtn.addEventListener('click', clearSearch);
         
         document.addEventListener('DOMContentLoaded', resetApp);
