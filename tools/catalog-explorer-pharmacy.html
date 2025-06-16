@@ -36,44 +36,22 @@
             display: flex;
             flex-direction: column;
         }
+        
+        /* Layout containers */
+        .layout-container { display: flex; flex-direction: row; gap: 20px; }
+        .layout-left { width: 50%; }
+        .layout-right { width: 50%; display: flex; flex-direction: column; }
+        
+        .search-results-container { display: flex; gap: 20px; }
+        .search-results-left { flex: 1; }
+        .search-results-right { flex: 2; }
 
-        .section:last-child {
-            margin-bottom: 0;
-        }
-        
-        /* Two-column layout container for the loading screen */
-        .layout-container {
-            display: flex;
-            flex-direction: row;
-            gap: 20px; /* Space between columns */
-        }
-        
-        .layout-left {
-            width: 50%;
-        }
-        
-        .layout-right {
-            width: 50%;
-            display: flex;
-            flex-direction: column;
-        }
 
-        .hidden {
-            display: none !important;
-        }
+        .hidden { display: none !important; }
         
-        .status-text {
-            min-height: 20px;
-            margin-top: 5px;
-            font-style: italic;
-            color: #28a745;
-        }
+        .status-text { min-height: 20px; margin-top: 5px; font-style: italic; color: #28a745; }
 
-        .disabled {
-            opacity: 0.5;
-            pointer-events: none;
-            background-color: #6c757d;
-        }
+        .disabled { opacity: 0.5; pointer-events: none; background-color: #6c757d; }
 
         button {
             background-color: #0d6efd;
@@ -86,53 +64,31 @@
             transition: background-color 0.3s ease, opacity 0.3s ease;
             margin-bottom: 10px;
         }
+        
+        button.clear-btn { background-color: #6c757d; }
+        button:hover:not(.disabled) { background-color: #0b5ed7; }
+        button.clear-btn:hover:not(.disabled) { background-color: #5c636a; }
 
-        button:hover:not(.disabled) {
-            background-color: #0b5ed7;
-        }
         
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f8f9fa; }
+        
+        .table-container { max-height: 400px; overflow-y: auto; border: 1px solid #eee; margin-bottom: 20px; }
+        .preview-container:not(:empty) { margin-bottom: 20px; }
+        
+        #logConsole { width: 100%; flex-grow: 1; box-sizing: border-box; background-color: #2d3748; color: #f7fafc; border: 1px solid #ccc; border-radius: 5px; padding: 10px; font-family: monospace; font-size: 14px; }
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f8f9fa;
-        }
+        /* Search Page Specific Styles */
+        #searchControls { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; }
+        #searchColumnSelect, #searchInput { padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
+        #searchInput { flex-grow: 1; }
         
-        .table-container {
-            max-height: 400px;
-            overflow-y: auto;
-            border: 1px solid #eee;
-            margin-bottom: 20px;
-        }
+        .search-result-item { padding: 10px; border: 1px solid #eee; border-radius: 5px; margin-bottom: 5px; cursor: pointer; }
+        .search-result-item:hover { background-color: #f0f2f5; }
         
-        .preview-container {
-            margin-top: 15px;
-        }
-        .preview-container:not(:empty) {
-             margin-bottom: 20px;
-        }
-        
-        #logConsole {
-            width: 100%;
-            flex-grow: 1; /* Make textarea fill its container */
-            box-sizing: border-box;
-            background-color: #2d3748;
-            color: #f7fafc;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            font-family: monospace;
-            font-size: 14px;
-        }
+        #itemDetailsContainer .detail-table th { width: 30%; background-color: #f8f9fa; }
+        .double-click-note { font-style: italic; color: #6c757d; margin-top: 10px;}
 
     </style>
 </head>
@@ -145,29 +101,15 @@
         <!-- Data Loading Section (Left Column) -->
         <div id="loadDataSection" class="section layout-left">
             <h2>Load Data</h2>
-            
-            <button id="copyCode1Btn">
-                Copy CCL to Clipboard (Dataset 1)
-            </button>
+            <button id="copyCode1Btn">Copy CCL to Clipboard (Dataset 1)</button>
             <p id="code1Status" class="status-text"></p>
-
-            <button id="loadData1Btn">
-                Copy Data from Clipboard (Dataset 1)
-            </button>
+            <button id="loadData1Btn">Copy Data from Clipboard (Dataset 1)</button>
             <p id="data1Status" class="status-text"></p>
             <div id="data1PreviewContainer" class="preview-container table-container"></div>
-
-
             <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
-
-            <button id="copyCode2Btn">
-                Copy CCL to Clipboard (Dataset 2)
-            </button>
+            <button id="copyCode2Btn">Copy CCL to Clipboard (Dataset 2)</button>
             <p id="code2Status" class="status-text"></p>
-
-            <button id="loadData2Btn">
-                Copy Data from Clipboard (Dataset 2)
-            </button>
+            <button id="loadData2Btn">Copy Data from Clipboard (Dataset 2)</button>
             <p id="data2Status" class="status-text"></p>
             <div id="data2PreviewContainer" class="preview-container table-container"></div>
         </div>
@@ -179,47 +121,45 @@
         </div>
     </div>
 
-
-    <!-- Data Display Section (Initially hidden) -->
-    <div id="displayDataSection" class="section hidden">
-        <h2>Loaded Data</h2>
-        <button id="startOverBtn">Start Over</button>
-        
-        <h3>Dataset 1</h3>
-        <div id="dataSet1Container" class="table-container"></div>
-
-        <h3>Dataset 2</h3>
-        <div id="dataSet2Container" class="table-container"></div>
+    <!-- Search and Exploration Section (Initially hidden) -->
+    <div id="searchSection" class="section hidden">
+        <div id="searchControls">
+            <select id="searchColumnSelect"></select>
+            <input type="text" id="searchInput" placeholder="Type to search...">
+            <button id="clearSearchBtn" class="clear-btn">Clear</button>
+        </div>
+        <p id="searchScenarioNote" class="double-click-note"></p>
+        <div id="searchResultsContainer"></div>
     </div>
-
 </div>
     <script>
         // --- GLOBAL STATE ---
         let appState = {
-            dataSet1: [],
-            dataSet2: []
+            datasets: [],
+            columnMetadata: []
         };
 
         // --- DOM ELEMENT REFERENCES ---
+        const loadingLayoutContainer = document.getElementById('loadingLayoutContainer');
         const copyCode1Btn = document.getElementById('copyCode1Btn');
         const loadData1Btn = document.getElementById('loadData1Btn');
-        const copyCode2Btn = document.getElementById('copyCode2Btn');
-        const loadData2Btn = document.getElementById('loadData2Btn');
-        
+        const data1PreviewContainer = document.getElementById('data1PreviewContainer');
         const code1Status = document.getElementById('code1Status');
         const data1Status = document.getElementById('data1Status');
+        
+        const copyCode2Btn = document.getElementById('copyCode2Btn');
+        const loadData2Btn = document.getElementById('loadData2Btn');
+        const data2PreviewContainer = document.getElementById('data2PreviewContainer');
         const code2Status = document.getElementById('code2Status');
         const data2Status = document.getElementById('data2Status');
 
-        const data1PreviewContainer = document.getElementById('data1PreviewContainer');
-        const data2PreviewContainer = document.getElementById('data2PreviewContainer');
-
-        const loadingLayoutContainer = document.getElementById('loadingLayoutContainer');
-        const displayDataSection = document.getElementById('displayDataSection');
-
-        const dataSet1Container = document.getElementById('dataSet1Container');
-        const dataSet2Container = document.getElementById('dataSet2Container');
-        const startOverBtn = document.getElementById('startOverBtn');
+        const searchSection = document.getElementById('searchSection');
+        const searchColumnSelect = document.getElementById('searchColumnSelect');
+        const searchInput = document.getElementById('searchInput');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+        const searchResultsContainer = document.getElementById('searchResultsContainer');
+        const searchScenarioNote = document.getElementById('searchScenarioNote');
+        
         const logConsole = document.getElementById('logConsole');
 
         // --- CORE FUNCTIONS ---
@@ -231,56 +171,40 @@
         }
         
         function copyCode(url) {
-            return fetch(url)
-                .then(response => response.text())
-                .then(text => navigator.clipboard.writeText(text));
+            return fetch(url).then(response => response.text()).then(text => navigator.clipboard.writeText(text));
         }
 
         function parseData(text) {
             const lines = text.trim().split('\n');
             if (lines.length < 2) return [];
-            const headers = lines[0].split('\t');
+            const headers = lines[0].split('\t').map(h => h.trim());
             return lines.slice(1).map(line => {
                 const values = line.split('\t');
                 const obj = {};
                 headers.forEach((header, index) => {
-                    obj[header.trim()] = values[index] ? values[index].trim() : '';
+                    obj[header] = values[index] ? values[index].trim() : '';
                 });
                 return obj;
             });
         }
-
-        function checkAndDisplayFullData() {
-            if (appState.dataSet1.length > 0 && appState.dataSet2.length > 0) {
-                logMessage("Both datasets loaded. Displaying full data view.");
-                renderDataTable(dataSet1Container, appState.dataSet1);
-                renderDataTable(dataSet2Container, appState.dataSet2);
-
-                loadingLayoutContainer.classList.add('hidden');
-                displayDataSection.classList.remove('hidden');
-            }
-        }
-
+        
         function renderDataTable(container, data, rowCount) {
             container.innerHTML = '';
             if (!data || data.length === 0) return;
-
             const table = document.createElement('table');
             const thead = document.createElement('thead');
             const tbody = document.createElement('tbody');
             const headerRow = document.createElement('tr');
-
             Object.keys(data[0]).forEach(key => {
                 const th = document.createElement('th');
                 th.textContent = key;
                 headerRow.appendChild(th);
             });
             thead.appendChild(headerRow);
-
             const dataToRender = rowCount ? data.slice(0, rowCount) : data;
-
-            dataToRender.forEach(item => {
+            dataToRender.forEach((item, index) => {
                 const row = document.createElement('tr');
+                row.dataset.index = index; // Used for click events
                 Object.values(item).forEach(value => {
                     const td = document.createElement('td');
                     td.textContent = value;
@@ -288,138 +212,240 @@
                 });
                 tbody.appendChild(row);
             });
-
             table.appendChild(thead);
             table.appendChild(tbody);
             container.appendChild(table);
         }
-        
+
         function resetApp() {
-            appState.dataSet1 = [];
-            appState.dataSet2 = [];
-
+            appState.datasets = [];
+            appState.columnMetadata = [];
             copyCode1Btn.classList.remove('disabled');
-            loadData1Btn.classList.add('disabled');
-            copyCode2Btn.classList.add('disabled');
-            loadData2Btn.classList.add('disabled');
-            
-            code1Status.textContent = '';
-            data1Status.textContent = '';
-            code2Status.textContent = '';
-            data2Status.textContent = '';
-
-            displayDataSection.classList.add('hidden');
+            [loadData1Btn, copyCode2Btn, loadData2Btn].forEach(btn => btn.classList.add('disabled'));
+            [code1Status, data1Status, code2Status, data2Status, data1PreviewContainer, data2PreviewContainer].forEach(el => el.innerHTML = '');
+            searchSection.classList.add('hidden');
             loadingLayoutContainer.classList.remove('hidden');
-
-            dataSet1Container.innerHTML = '';
-            dataSet2Container.innerHTML = '';
-            data1PreviewContainer.innerHTML = '';
-            data2PreviewContainer.innerHTML = '';
-            
             logConsole.value = '';
             logMessage("Application reset. Ready to load data.");
         }
 
+        function initializeSearchView() {
+            logMessage("Both datasets loaded. Initializing search view.");
+            loadingLayoutContainer.classList.add('hidden');
+            searchSection.classList.remove('hidden');
+
+            // Populate column metadata
+            const allHeaders = new Map();
+            appState.datasets.forEach((dataset, index) => {
+                if (dataset.length > 0) {
+                    const headers = Object.keys(dataset[0]);
+                    headers.forEach(header => {
+                        if (!allHeaders.has(header)) {
+                            allHeaders.set(header, []);
+                        }
+                        allHeaders.get(header).push(index);
+                    });
+                }
+            });
+
+            // Create dropdown options
+            searchColumnSelect.innerHTML = '';
+            appState.columnMetadata = [];
+            allHeaders.forEach((indices, header) => {
+                if (indices.length > 1) {
+                    indices.forEach(index => {
+                        const option = document.createElement('option');
+                        const label = `${header} - (Dataset ${index + 1})`;
+                        option.value = appState.columnMetadata.length;
+                        option.textContent = label;
+                        searchColumnSelect.appendChild(option);
+                        appState.columnMetadata.push({ header, datasetIndex: index });
+                    });
+                } else {
+                    const option = document.createElement('option');
+                    option.value = appState.columnMetadata.length;
+                    option.textContent = header;
+                    searchColumnSelect.appendChild(option);
+                    appState.columnMetadata.push({ header, datasetIndex: indices[0] });
+                }
+            });
+
+            // Set default to 'PRIMARY' if it exists
+            const primaryOption = Array.from(searchColumnSelect.options).find(opt => opt.text === 'PRIMARY');
+            if (primaryOption) {
+                searchColumnSelect.value = primaryOption.value;
+            }
+            handleSearch(); // Trigger initial state
+        }
+        
+        function handleSearch() {
+            const metadataIndex = searchColumnSelect.value;
+            if(!metadataIndex) return;
+
+            const { header, datasetIndex } = appState.columnMetadata[metadataIndex];
+            const query = searchInput.value.toLowerCase();
+            const isScenario1 = datasetIndex === 0;
+
+            if (isScenario1) {
+                // SCENARIO 1: Search in Dataset 1
+                searchScenarioNote.textContent = "Click an item to see details and linked data.";
+                const filteredData = appState.datasets[0].filter(row => row[header] && row[header].toLowerCase().includes(query));
+                searchResultsContainer.innerHTML = '';
+                filteredData.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'search-result-item';
+                    div.textContent = item[header];
+                    div.dataset.originalIndex = appState.datasets[0].indexOf(item); // Link back to original unfiltered array
+                    div.onclick = () => showItemDetails(div.dataset.originalIndex);
+                    searchResultsContainer.appendChild(div);
+                });
+
+            } else {
+                // SCENARIO 2: Search in other datasets
+                searchScenarioNote.textContent = "Double-click any cell to copy its value.";
+                const filteredData = appState.datasets[datasetIndex].filter(row => row[header] && row[header].toLowerCase().includes(query));
+                searchResultsContainer.innerHTML = ''; // Clear previous results
+                renderDataTable(searchResultsContainer, filteredData);
+                searchResultsContainer.ondblclick = (e) => {
+                    if (e.target && e.target.tagName === 'TD') {
+                        navigator.clipboard.writeText(e.target.textContent);
+                        logMessage(`Copied to clipboard: "${e.target.textContent}"`);
+                    }
+                };
+            }
+        }
+        
+        function showItemDetails(itemIndex) {
+            const selectedItem = appState.datasets[0][itemIndex];
+            searchResultsContainer.innerHTML = ''; // Clear search results
+            searchScenarioNote.textContent = '';
+
+            // Left side: Details of the selected item
+            const detailsContainer = document.createElement('div');
+            detailsContainer.className = 'search-results-left';
+            detailsContainer.innerHTML = '<h3>Item Details (Dataset 1)</h3>';
+            
+            const detailTable = document.createElement('table');
+            detailTable.className = 'detail-table';
+            const tbody = document.createElement('tbody');
+            for(const key in selectedItem) {
+                tbody.innerHTML += `<tr><th>${key}</th><td>${selectedItem[key]}</td></tr>`;
+            }
+            detailTable.appendChild(tbody);
+            detailsContainer.appendChild(detailTable);
+
+            // Right side: Linked data
+            const linkedContainer = document.createElement('div');
+            linkedContainer.className = 'search-results-right';
+            linkedContainer.innerHTML = '<h3>Linked Data</h3>';
+            
+            // Find common keys and join data
+            const commonKeys = Object.keys(selectedItem).filter(key => 
+                appState.datasets.slice(1).some(otherDataset => otherDataset.length > 0 && otherDataset[0].hasOwnProperty(key))
+            );
+
+            if (commonKeys.length === 0) {
+                linkedContainer.innerHTML += '<p>No common columns found to link other datasets.</p>';
+            } else {
+                 appState.datasets.forEach((otherDataset, index) => {
+                    if (index === 0) return; // Skip dataset 1
+                    
+                    const relevantCommonKeys = commonKeys.filter(key => otherDataset.length > 0 && otherDataset[0].hasOwnProperty(key));
+                    if (relevantCommonKeys.length > 0) {
+                        const linkingKey = relevantCommonKeys[0]; // Use the first common key for simplicity
+                        const linkedData = otherDataset.filter(row => row[linkingKey] === selectedItem[linkingKey]);
+
+                        if(linkedData.length > 0) {
+                            linkedContainer.innerHTML += `<h4>From Dataset ${index + 1} (linked by ${linkingKey})</h4>`;
+                            const tableContainer = document.createElement('div');
+                            tableContainer.className = 'table-container';
+                            renderDataTable(tableContainer, linkedData);
+                            linkedContainer.appendChild(tableContainer);
+                        }
+                    }
+                });
+            }
+
+            searchResultsContainer.appendChild(detailsContainer);
+            searchResultsContainer.appendChild(linkedContainer);
+        }
+
+        function clearSearch() {
+            searchInput.value = '';
+            searchResultsContainer.innerHTML = '';
+            searchScenarioNote.textContent = '';
+            handleSearch();
+        }
+
         // --- EVENT LISTENERS ---
+        const setupLoadListener = (loadBtn, statusEl, previewEl, datasetIndex, nextBtn) => {
+            loadBtn.addEventListener('click', () => {
+                logMessage(`Loading Dataset ${datasetIndex + 1}... Please wait.`);
+                loadBtn.classList.add('disabled');
+                
+                setTimeout(() => { // Gives UI time to update
+                    navigator.clipboard.readText()
+                        .then(clipboardText => {
+                            const data = parseData(clipboardText);
+                            if (data.length > 0) {
+                                statusEl.textContent = `Dataset ${datasetIndex + 1} loaded successfully (${data.length} items).`;
+                                appState.datasets[datasetIndex] = data;
+                                renderDataTable(previewEl, data, 3);
+                                logMessage(`Dataset ${datasetIndex + 1} loaded with ${data.length} items.`);
+                                if (nextBtn) {
+                                    nextBtn.classList.remove('disabled');
+                                    logMessage(`You may now proceed to Dataset ${datasetIndex + 2}.`);
+                                } else {
+                                    // This was the last dataset, initialize search
+                                    initializeSearchView();
+                                }
+                            } else {
+                                statusEl.textContent = 'No data found or failed to parse.';
+                                statusEl.style.color = 'red';
+                                logMessage(`ERROR: No data found for Dataset ${datasetIndex + 1}.`);
+                                loadBtn.classList.remove('disabled');
+                            }
+                        })
+                        .catch(err => {
+                            statusEl.textContent = 'Failed to read clipboard: ' + err;
+                            statusEl.style.color = 'red';
+                            logMessage(`ERROR: Could not read clipboard for Dataset ${datasetIndex + 1}.`);
+                            loadBtn.classList.remove('disabled');
+                        });
+                }, 100);
+            });
+        };
 
         copyCode1Btn.addEventListener('click', () => {
-            logMessage("Attempting to copy Dataset 1 CCL code...");
+            logMessage("Copying Dataset 1 CCL code...");
             copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/179e56814dc7083f920dddb63db49b65e1bb5fa3/QUERIES/QUERIES%20FOR%20SPECIFIC%20TOOLS/PHARMACY%20CATALOG%20EXPLORER/Pharmacy%20Order%20Catalog%20Synonym.ccl")
                 .then(() => {
                     code1Status.textContent = 'Code copied. Run it, then copy the output.';
                     copyCode1Btn.classList.add('disabled');
                     loadData1Btn.classList.remove('disabled');
-                    logMessage("Dataset 1 CCL code copied. You can now load data from the clipboard.");
-                })
-                .catch(err => {
-                    code1Status.textContent = 'Failed to copy code: ' + err;
-                    code1Status.style.color = 'red';
-                    logMessage("ERROR: Failed to copy Dataset 1 code.");
+                    logMessage("Dataset 1 CCL code copied.");
                 });
-        });
-
-        loadData1Btn.addEventListener('click', () => {
-            logMessage("Loading Dataset 1 from clipboard... Please wait.");
-            loadData1Btn.classList.add('disabled');
-            
-            setTimeout(() => { // Gives UI time to update
-                navigator.clipboard.readText()
-                    .then(clipboardText => {
-                        let data = parseData(clipboardText);
-                        if (data.length > 0) {
-                            data1Status.textContent = `Dataset 1 loaded successfully (${data.length} items).`;
-                            appState.dataSet1 = data;
-                            renderDataTable(data1PreviewContainer, data, 3);
-                            copyCode2Btn.classList.remove('disabled');
-                            logMessage(`Dataset 1 loaded. You may now proceed to Dataset 2.`);
-                            checkAndDisplayFullData();
-                        } else {
-                             data1Status.textContent = 'No data found or failed to parse data.';
-                             data1Status.style.color = 'red';
-                             logMessage("ERROR: No data found for Dataset 1. Please try again.");
-                             loadData1Btn.classList.remove('disabled');
-                        }
-                    })
-                    .catch(err => {
-                        data1Status.textContent = 'Failed to read clipboard: ' + err;
-                        data1Status.style.color = 'red';
-                        logMessage("ERROR: Could not read clipboard for Dataset 1.");
-                        loadData1Btn.classList.remove('disabled');
-                    });
-            }, 100);
         });
         
         copyCode2Btn.addEventListener('click', () => {
-            logMessage("Attempting to copy Dataset 2 CCL code...");
+            logMessage("Copying Dataset 2 CCL code...");
             copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/a1d0dc52ec175ae84efa2f59156b3c88bcb66941/QUERIES/QUERIES%20FOR%20SPECIFIC%20TOOLS/PHARMACY%20CATALOG%20EXPLORER/PBS%20mappings.ccl")
                 .then(() => {
                     code2Status.textContent = 'Code copied. Run it, then copy the output.';
                     copyCode2Btn.classList.add('disabled');
                     loadData2Btn.classList.remove('disabled');
-                    logMessage("Dataset 2 CCL code copied. You can now load data from the clipboard.");
-                })
-                .catch(err => {
-                    code2Status.textContent = 'Failed to copy code: ' + err;
-                    code2Status.style.color = 'red';
-                    logMessage("ERROR: Failed to copy Dataset 2 code.");
+                    logMessage("Dataset 2 CCL code copied.");
                 });
         });
         
-        loadData2Btn.addEventListener('click', () => {
-            logMessage("Loading Dataset 2 from clipboard... Please wait.");
-            loadData2Btn.classList.add('disabled');
+        setupLoadListener(loadData1Btn, data1Status, data1PreviewContainer, 0, copyCode2Btn);
+        setupLoadListener(loadData2Btn, data2Status, data2PreviewContainer, 1, null);
 
-            setTimeout(() => { // Gives UI time to update
-                navigator.clipboard.readText()
-                    .then(clipboardText => {
-                        let data = parseData(clipboardText);
-                        if (data.length > 0) {
-                            data2Status.textContent = `Dataset 2 loaded successfully (${data.length} items).`;
-                            appState.dataSet2 = data;
-                            renderDataTable(data2PreviewContainer, data, 3);
-                            logMessage(`Dataset 2 loaded successfully.`);
-                            checkAndDisplayFullData();
-                        } else {
-                            data2Status.textContent = 'No data found or failed to parse data.';
-                            data2Status.style.color = 'red';
-                            logMessage("ERROR: No data found for Dataset 2. Please try again.");
-                            loadData2Btn.classList.remove('disabled');
-                        }
-                    })
-                    .catch(err => {
-                        data2Status.textContent = 'Failed to read clipboard: ' + err;
-                        data2Status.style.color = 'red';
-                        logMessage("ERROR: Could not read clipboard for Dataset 2.");
-                        loadData2Btn.classList.remove('disabled');
-                    });
-            }, 100);
-        });
-
-        startOverBtn.addEventListener('click', resetApp);
+        searchInput.addEventListener('input', handleSearch);
+        searchColumnSelect.addEventListener('change', handleSearch);
+        clearSearchBtn.addEventListener('click', clearSearch);
         
-        // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', resetApp);
-
     </script>
 </body>
 </html>
