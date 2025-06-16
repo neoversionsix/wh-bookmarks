@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pharmacy Catalog Explorer</title>
+    <style>
+        /* Basic setup for full-height, flexible layout */
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            background-color: #f0f2f5;
+            box-sizing: border-box;
+        }
+
+        /* Main container to manage padding and centering */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            padding: 20px;
+            min-height: 0;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+        
+        .status-text {
+            min-height: 20px; /* Reserve space for status text */
+            margin-top: 5px;
+            font-style: italic;
+            color: #28a745;
+        }
+
+        .disabled {
+            opacity: 0.5;
+            pointer-events: none;
+            background-color: #6c757d;
+        }
+
+        button {
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, opacity 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        button:hover:not(.disabled) {
+            background-color: #0b5ed7;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8f9fa;
+        }
+        
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        
+        .preview-container {
+            margin-top: 15px;
+            /* The preview container will be empty initially, so let's ensure it doesn't take up space */
+        }
+        .preview-container:not(:empty) {
+             margin-bottom: 20px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <h2>Pharmacy Catalog Explorer</h2>
+
+    <!-- Data Loading Section -->
+    <div id="loadDataSection" class="section">
+        <h2>Load Data</h2>
+        
+        <button id="copyCode1Btn">
+            Copy CCL to Clipboard (Dataset 1)
+        </button>
+        <p id="code1Status" class="status-text"></p>
+
+        <button id="loadData1Btn">
+            Copy Data from Clipboard (Dataset 1)
+        </button>
+        <p id="data1Status" class="status-text"></p>
+        <div id="data1PreviewContainer" class="preview-container table-container"></div>
+
+
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+
+        <button id="copyCode2Btn">
+            Copy CCL to Clipboard (Dataset 2)
+        </button>
+        <p id="code2Status" class="status-text"></p>
+
+        <button id="loadData2Btn">
+            Copy Data from Clipboard (Dataset 2)
+        </button>
+        <p id="data2Status" class="status-text"></p>
+        <div id="data2PreviewContainer" class="preview-container table-container"></div>
+    </div>
+
+    <!-- Data Display Section (Initially hidden) -->
+    <div id="displayDataSection" class="section hidden">
+        <h2>Loaded Data</h2>
+        <button id="startOverBtn">Start Over</button>
+        
+        <h3>Dataset 1</h3>
+        <div id="dataSet1Container" class="table-container"></div>
+
+        <h3>Dataset 2</h3>
+        <div id="dataSet2Container" class="table-container"></div>
+    </div>
+</div>
+    <script>
+        // --- GLOBAL STATE ---
+        let appState = {
+            dataSet1: [],
+            dataSet2: []
+        };
+
+        // --- DOM ELEMENT REFERENCES ---
+        // Loading section elements
+        const copyCode1Btn = document.getElementById('copyCode1Btn');
+        const loadData1Btn = document.getElementById('loadData1Btn');
+        const copyCode2Btn = document.getElementById('copyCode2Btn');
+        const loadData2Btn = document.getElementById('loadData2Btn');
+        
+        const code1Status = document.getElementById('code1Status');
+        const data1Status = document.getElementById('data1Status');
+        const code2Status = document.getElementById('code2Status');
+        const data2Status = document.getElementById('data2Status');
+
+        const data1PreviewContainer = document.getElementById('data1PreviewContainer');
+        const data2PreviewContainer = document.getElementById('data2PreviewContainer');
+
+        // Sections
+        const loadDataSection = document.getElementById('loadDataSection');
+        const displayDataSection = document.getElementById('displayDataSection');
+
+        // Data Display
+        const dataSet1Container = document.getElementById('dataSet1Container');
+        const dataSet2Container = document.getElementById('dataSet2Container');
+        const startOverBtn = document.getElementById('startOverBtn');
+
+        // --- CORE FUNCTIONS ---
+
+        /**
+         * Fetches code from a given URL and copies it to the clipboard.
+         * @param {string} url - The URL to fetch the code from.
+         * @returns {Promise}
+         */
+        function copyCode(url) {
+            return fetch(url)
+                .then(response => response.text())
+                .then(text => navigator.clipboard.writeText(text));
+        }
+
+        /**
+         * Parses tab-separated values (TSV) data from a string into an array of objects.
+         * @param {string} text - The TSV text from the clipboard.
+         * @returns {Array<Object>}
+         */
+        function parseData(text) {
+            const lines = text.trim().split('\n');
+            if (lines.length < 2) return [];
+            const headers = lines[0].split('\t');
+            return lines.slice(1).map(line => {
+                const values = line.split('\t');
+                const obj = {};
+                headers.forEach((header, index) => {
+                    obj[header.trim()] = values[index] ? values[index].trim() : '';
+                });
+                return obj;
+            });
+        }
+
+        /**
+         * Checks if both datasets are loaded and, if so, displays them in the main view.
+         */
+        function checkAndDisplayFullData() {
+            if (appState.dataSet1.length > 0 && appState.dataSet2.length > 0) {
+                renderDataTable(dataSet1Container, appState.dataSet1);
+                renderDataTable(dataSet2Container, appState.dataSet2);
+
+                loadDataSection.classList.add('hidden');
+                displayDataSection.classList.remove('hidden');
+            }
+        }
+
+        /**
+         * Renders an array of objects into an HTML table.
+         * @param {HTMLElement} container - The container element to render the table into.
+         * @param {Array<Object>} data - The data to display.
+         * @param {number} [rowCount] - Optional number of rows to display. If omitted, all rows are shown.
+         */
+        function renderDataTable(container, data, rowCount) {
+            container.innerHTML = '';
+            if (!data || data.length === 0) return;
+
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            const tbody = document.createElement('tbody');
+            const headerRow = document.createElement('tr');
+
+            // Create headers from the keys of the first object
+            Object.keys(data[0]).forEach(key => {
+                const th = document.createElement('th');
+                th.textContent = key;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+
+            // Determine how many rows to render
+            const dataToRender = rowCount ? data.slice(0, rowCount) : data;
+
+            // Create body rows
+            dataToRender.forEach(item => {
+                const row = document.createElement('tr');
+                Object.values(item).forEach(value => {
+                    const td = document.createElement('td');
+                    td.textContent = value;
+                    row.appendChild(td);
+                });
+                tbody.appendChild(row);
+            });
+
+            table.appendChild(thead);
+            table.appendChild(tbody);
+            container.appendChild(table);
+        }
+        
+        /**
+         * Resets the application to its initial state.
+         */
+        function resetApp() {
+            appState.dataSet1 = [];
+            appState.dataSet2 = [];
+
+            // Reset button states
+            copyCode1Btn.classList.remove('disabled');
+            loadData1Btn.classList.add('disabled');
+            copyCode2Btn.classList.add('disabled');
+            loadData2Btn.classList.add('disabled');
+            
+            // Reset status texts
+            code1Status.textContent = '';
+            data1Status.textContent = '';
+            code2Status.textContent = '';
+            data2Status.textContent = '';
+
+            // Reset views
+            displayDataSection.classList.add('hidden');
+            loadDataSection.classList.remove('hidden');
+
+            // Clear data displays
+            dataSet1Container.innerHTML = '';
+            dataSet2Container.innerHTML = '';
+            data1PreviewContainer.innerHTML = '';
+            data2PreviewContainer.innerHTML = '';
+        }
+
+        // --- EVENT LISTENERS ---
+
+        // Data Loading for Dataset 1
+        copyCode1Btn.addEventListener('click', () => {
+            copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/refs/heads/main/PBS/PBS%20Last%20Installed%20Package%20Items%20to%20Map%20-%20Without%20any%20Mappings%20-%20Distinct%20Mappings%20for%20Package.ccl")
+                .then(() => {
+                    code1Status.textContent = 'Code copied. Run it in DVDev, then copy the output.';
+                    copyCode1Btn.classList.add('disabled');
+                    loadData1Btn.classList.remove('disabled');
+                })
+                .catch(err => {
+                    code1Status.textContent = 'Failed to copy code: ' + err;
+                    code1Status.style.color = 'red';
+                });
+        });
+
+        loadData1Btn.addEventListener('click', () => {
+            navigator.clipboard.readText()
+                .then(clipboardText => {
+                    let data = parseData(clipboardText);
+                    if (data.length > 0) {
+                        data1Status.textContent = `Dataset 1 loaded successfully (${data.length} items).`;
+                        appState.dataSet1 = data;
+                        renderDataTable(data1PreviewContainer, data, 3); // Render preview
+                        loadData1Btn.classList.add('disabled');
+                        copyCode2Btn.classList.remove('disabled');
+                        checkAndDisplayFullData();
+                    } else {
+                         data1Status.textContent = 'No data found or failed to parse data.';
+                         data1Status.style.color = 'red';
+                    }
+                })
+                .catch(err => {
+                    data1Status.textContent = 'Failed to read clipboard contents: ' + err;
+                    data1Status.style.color = 'red';
+                });
+        });
+        
+        // Data Loading for Dataset 2
+        copyCode2Btn.addEventListener('click', () => {
+            copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/refs/heads/main/PBS/PBS%20Pharmacy%20Catalogue%20-%20Possible%20Items%20to%20Map%20to%20(All%20types).ccl")
+                .then(() => {
+                    code2Status.textContent = 'Code copied. Run it in DVDev, then copy the output.';
+                    copyCode2Btn.classList.add('disabled');
+                    loadData2Btn.classList.remove('disabled');
+                })
+                .catch(err => {
+                    code2Status.textContent = 'Failed to copy code: ' + err;
+                    code2Status.style.color = 'red';
+                });
+        });
+        
+        loadData2Btn.addEventListener('click', () => {
+            navigator.clipboard.readText()
+                .then(clipboardText => {
+                    let data = parseData(clipboardText);
+                    if (data.length > 0) {
+                        data2Status.textContent = `Dataset 2 loaded successfully (${data.length} items).`;
+                        appState.dataSet2 = data;
+                        renderDataTable(data2PreviewContainer, data, 3); // Render preview
+                        loadData2Btn.classList.add('disabled');
+                        checkAndDisplayFullData();
+                    } else {
+                        data2Status.textContent = 'No data found or failed to parse data.';
+                        data2Status.style.color = 'red';
+                    }
+                })
+                .catch(err => {
+                    data2Status.textContent = 'Failed to read clipboard contents: ' + err;
+                    data2Status.style.color = 'red';
+                });
+        });
+
+        // Start Over Button
+        startOverBtn.addEventListener('click', resetApp);
+        
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', resetApp);
+
+    </script>
+</body>
+</html>
