@@ -94,11 +94,8 @@
         #searchColumnSelect, #searchInput { padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
         #searchInput { flex-grow: 1; }
         
-        .detail-table { table-layout: fixed; }
-        .detail-table th { width: 30%; }
-        .linked-data-table th { width: 20%; font-weight: bold; }
-        .linked-data-table td { width: 30%;}
-
+        .detail-table, .linked-data-table { table-layout: fixed; }
+        .detail-table th, .linked-data-table th { width: 30%; font-weight: bold; }
 
         .double-click-note { font-style: italic; color: #6c757d; margin-top: 10px;}
 
@@ -415,7 +412,6 @@
             logMessage(`Searching...`);
 
             setTimeout(() => {
-                // Restore search results container
                 if(!document.getElementById('searchResultsContainer')){
                      searchResultsWrapper.innerHTML = `<div id="searchResultsContainer" class="table-container"></div>`;
                 }
@@ -439,8 +435,11 @@
             const end = start + rowsPerPage;
             const pageData = filteredResults.slice(start, end);
             
+            const container = document.getElementById('searchResultsContainer');
+            if (!container) return;
+
             if (pageData.length === 0) {
-                 document.getElementById('searchResultsContainer').innerHTML = '<p>No results found.</p>';
+                 container.innerHTML = '<p>No results found.</p>';
                  renderPaginationControls();
                  return;
             }
@@ -451,7 +450,7 @@
 
             if (isScenario1) {
                 searchScenarioNote.textContent = "Click a row to see details and linked data.";
-                renderDataTable(document.getElementById('searchResultsContainer'), pageData, { 
+                renderDataTable(container, pageData, { 
                     isClickable: true,
                     onRowClick: (item) => {
                         const originalIndex = appState.datasets[0].indexOf(item);
@@ -460,8 +459,8 @@
                 });
             } else {
                 searchScenarioNote.textContent = "Double-click any cell to copy its value.";
-                renderDataTable(document.getElementById('searchResultsContainer'), pageData);
-                 document.getElementById('searchResultsContainer').ondblclick = (e) => {
+                renderDataTable(container, pageData);
+                 container.ondblclick = (e) => {
                     if (e.target && e.target.tagName === 'TD') {
                         copyTextToClipboard(e.target.textContent)
                             .then(() => logMessage(`Copied to clipboard: "${e.target.textContent}"`))
@@ -489,7 +488,7 @@
 
         function showItemDetails(itemIndex) {
             const selectedItem = appState.datasets[0][itemIndex];
-            searchResultsWrapper.innerHTML = ''; // Clear previous results including container
+            searchResultsWrapper.innerHTML = '';
             searchScenarioNote.textContent = '';
             paginationControls.classList.add('hidden');
 
@@ -556,16 +555,9 @@
                 const tbody = document.createElement('tbody');
                 const headers = Object.keys(item);
 
-                for (let i = 0; i < headers.length; i += 2) {
+                for (let i = 0; i < headers.length; i++) {
                     const row = document.createElement('tr');
-                    
                     row.innerHTML = `<th>${headers[i]}</th><td>${item[headers[i]]}</td>`;
-
-                    if (i + 1 < headers.length) {
-                        row.innerHTML += `<th>${headers[i + 1]}</th><td>${item[headers[i + 1]]}</td>`;
-                    } else {
-                        row.innerHTML += `<th></th><td></td>`;
-                    }
                     tbody.appendChild(row);
                 }
                 table.appendChild(tbody);
