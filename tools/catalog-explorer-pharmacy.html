@@ -439,7 +439,7 @@
 
             setTimeout(() => {
                 if(!document.getElementById('searchResultsContainer')){
-                     searchResultsWrapper.innerHTML = `<div id="searchResultsContainer" class="table-container"></div>`;
+                     searchResultsWrapper.innerHTML = `<div id="searchResultsContainer" class="table-container"></div><div id="paginationControls" class="hidden"><button id="prevPageBtn">Previous</button><span id="pageInfo"></span><button id="nextPageBtn">Next</button></div>`;
                 }
             
                 const { header, datasetIndex } = appState.columnMetadata[metadataIndex];
@@ -484,8 +484,38 @@
                     }
                 });
             } else {
-                searchScenarioNote.textContent = "Double-click any cell to copy its value.";
-                renderDataTable(container, pageData);
+                 const primaryDataset = appState.datasets[0];
+                const otherDataset = appState.datasets[datasetIndex];
+
+                if (!primaryDataset || primaryDataset.length === 0 || !otherDataset || otherDataset.length === 0) {
+                    renderDataTable(container, pageData); 
+                } else {
+                    const primaryHeaders = Object.keys(primaryDataset[0]);
+                    const otherHeaders = Object.keys(otherDataset[0]);
+                    const linkingKey = otherHeaders.find(h => primaryHeaders.includes(h));
+                    
+                    if (!linkingKey) {
+                         renderDataTable(container, pageData);
+                    } else {
+                        const primaryDataMap = new Map();
+                        primaryDataset.forEach(row => {
+                            const key = row[linkingKey];
+                            if (key && !primaryDataMap.has(key)) {
+                                primaryDataMap.set(key, row);
+                            }
+                        });
+
+                        const combinedData = pageData.map(otherRow => {
+                            const linkingValue = otherRow[linkingKey];
+                            const primaryMatch = primaryDataMap.get(linkingValue);
+                            return primaryMatch ? { ...otherRow, ...primaryMatch } : otherRow;
+                        });
+                        
+                        renderDataTable(container, combinedData);
+                        searchScenarioNote.textContent = `Double-click any cell to copy its value. Results joined with ${appState.datasetNames[0]}.`;
+                    }
+                }
+
                  container.ondblclick = (e) => {
                     if (e.target && e.target.tagName === 'TD') {
                         copyTextToClipboard(e.target.textContent)
@@ -514,10 +544,9 @@
 
         function showItemDetails(itemIndex) {
             const selectedItem = appState.datasets[0][itemIndex];
-            searchResultsContainer.innerHTML = '';
+            searchResultsWrapper.innerHTML = ''; // Clear wrapper to remove table and pagination
             searchScenarioNote.textContent = '';
-            paginationControls.classList.add('hidden');
-
+            
             const wrapper = document.createElement('div');
             wrapper.className = 'search-results-container';
 
@@ -568,7 +597,7 @@
 
             wrapper.appendChild(detailsContainer);
             wrapper.appendChild(linkedContainer);
-            searchResultsContainer.appendChild(wrapper);
+            searchResultsWrapper.appendChild(wrapper);
         }
 
         function renderLinkedData(container, data) {
@@ -592,20 +621,19 @@
         }
 
         function clearSearch() {
-             const container = document.getElementById('searchResultsContainer');
-             if(container) {
-                container.innerHTML = '';
-             }
-             if (document.getElementById('searchResultsWrapper').childElementCount === 0) {
-                  document.getElementById('searchResultsWrapper').innerHTML = `
-                    <div id="searchResultsContainer" class="table-container">
-                        <div id="loadingIndicator" class="hidden"><p>Loading...</p></div>
-                    </div>
-                 `;
-             }
+             searchResultsWrapper.innerHTML = `
+                <div id="searchResultsContainer" class="table-container">
+                    <div id="loadingIndicator" class="hidden"><p>Loading...</p></div>
+                </div>
+                <div id="paginationControls" class="hidden">
+                    <button id="prevPageBtn">Previous</button>
+                    <span id="pageInfo"></span>
+                    <button id="nextPageBtn">Next</button>
+                </div>
+             `;
             searchInput.value = '';
-            searchScenarioNote.textContent = '';
-            paginationControls.classList.add('hidden');
+            document.getElementById('searchScenarioNote').textContent = '';
+            document.getElementById('paginationControls').classList.add('hidden');
             handleSearch();
         }
         
@@ -712,18 +740,20 @@
         });
         clearSearchBtn.addEventListener('click', clearSearch);
         
-        prevPageBtn.addEventListener('click', () => {
-            if(appState.currentPage > 1) {
-                appState.currentPage--;
-                renderCurrentPage();
+        // Use event delegation for dynamically created buttons
+        document.addEventListener('click', (e) => {
+            if (e.target && e.target.id === 'prevPageBtn') {
+                 if(appState.currentPage > 1) {
+                    appState.currentPage--;
+                    renderCurrentPage();
+                }
             }
-        });
-        
-        nextPageBtn.addEventListener('click', () => {
-            const totalPages = Math.ceil(appState.filteredResults.length / appState.rowsPerPage);
-            if(appState.currentPage < totalPages) {
-                appState.currentPage++;
-                renderCurrentPage();
+            if(e.target && e.target.id === 'nextPageBtn') {
+                 const totalPages = Math.ceil(appState.filteredResults.length / appState.rowsPerPage);
+                if(appState.currentPage < totalPages) {
+                    appState.currentPage++;
+                    renderCurrentPage();
+                }
             }
         });
         
