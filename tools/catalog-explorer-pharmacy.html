@@ -46,7 +46,7 @@
         .layout-left { width: 50%; }
         .layout-right { width: 50%; display: flex; flex-direction: column; }
         
-        .search-results-container { display: flex; gap: 20px; }
+        .search-results-container { display: flex; gap: 20px; align-items: flex-start; }
         .search-results-left { flex: 1; }
         .search-results-right { flex: 2; }
 
@@ -74,7 +74,7 @@
         button.clear-btn:hover:not(.disabled) { background-color: #5c636a; }
 
         
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; table-layout: fixed; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; table-layout: auto; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; word-wrap: break-word; }
         th { background-color: #f8f9fa; }
         
@@ -82,7 +82,7 @@
         #searchResultsContainer .clickable-row { cursor: pointer; }
 
 
-        .table-container { max-height: 400px; overflow-y: auto; border: 1px solid #eee; margin-bottom: 20px; }
+        .table-container { max-height: 400px; overflow: auto; border: 1px solid #eee; margin-bottom: 20px; }
         .preview-container:not(:empty) { margin-bottom: 20px; }
         
         #logConsole { width: 100%; flex-grow: 1; box-sizing: border-box; background-color: #2d3748; color: #f7fafc; border: 1px solid #ccc; border-radius: 5px; padding: 10px; font-family: monospace; font-size: 14px; }
@@ -94,7 +94,12 @@
         #searchColumnSelect, #searchInput { padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
         #searchInput { flex-grow: 1; }
         
-        .detail-table th { width: 30%; } /* Specific layout for the 2-column detail view headers */
+        .detail-table { table-layout: fixed; }
+        .detail-table th { width: 30%; }
+        .linked-data-table th { width: 20%; font-weight: bold; }
+        .linked-data-table td { width: 30%;}
+
+
         .double-click-note { font-style: italic; color: #6c757d; margin-top: 10px;}
 
         .paste-area {
@@ -178,13 +183,15 @@
             <button id="clearSearchBtn" class="clear-btn">Clear</button>
         </div>
         <p id="searchScenarioNote" class="double-click-note"></p>
-        <div id="searchResultsContainer" class="table-container">
-            <div id="loadingIndicator" class="hidden"><p>Loading...</p></div>
-        </div>
-        <div id="paginationControls" class="hidden">
-             <button id="prevPageBtn">Previous</button>
-             <span id="pageInfo"></span>
-             <button id="nextPageBtn">Next</button>
+        <div id="searchResultsWrapper">
+             <div id="searchResultsContainer" class="table-container">
+                <div id="loadingIndicator" class="hidden"><p>Loading...</p></div>
+            </div>
+            <div id="paginationControls" class="hidden">
+                 <button id="prevPageBtn">Previous</button>
+                 <span id="pageInfo"></span>
+                 <button id="nextPageBtn">Next</button>
+            </div>
         </div>
     </div>
 </div>
@@ -232,6 +239,7 @@
         const searchInput = document.getElementById('searchInput');
         const searchGoBtn = document.getElementById('searchGoBtn');
         const clearSearchBtn = document.getElementById('clearSearchBtn');
+        const searchResultsWrapper = document.getElementById('searchResultsWrapper');
         const searchResultsContainer = document.getElementById('searchResultsContainer');
         const searchScenarioNote = document.getElementById('searchScenarioNote');
         const loadingIndicator = document.getElementById('loadingIndicator');
@@ -301,7 +309,6 @@
             const tbody = document.createElement('tbody');
             const headerRow = document.createElement('tr');
             
-            // Use provided data's headers, not all possible headers
             const headers = Object.keys(data[0]);
 
             headers.forEach(key => {
@@ -408,6 +415,11 @@
             logMessage(`Searching...`);
 
             setTimeout(() => {
+                // Restore search results container
+                if(!document.getElementById('searchResultsContainer')){
+                     searchResultsWrapper.innerHTML = `<div id="searchResultsContainer" class="table-container"></div>`;
+                }
+            
                 const { header, datasetIndex } = appState.columnMetadata[metadataIndex];
                 const query = searchInput.value.toLowerCase();
                 const sourceData = appState.datasets[datasetIndex];
@@ -428,7 +440,7 @@
             const pageData = filteredResults.slice(start, end);
             
             if (pageData.length === 0) {
-                 searchResultsContainer.innerHTML = '<p>No results found.</p>';
+                 document.getElementById('searchResultsContainer').innerHTML = '<p>No results found.</p>';
                  renderPaginationControls();
                  return;
             }
@@ -439,7 +451,7 @@
 
             if (isScenario1) {
                 searchScenarioNote.textContent = "Click a row to see details and linked data.";
-                renderDataTable(searchResultsContainer, pageData, { 
+                renderDataTable(document.getElementById('searchResultsContainer'), pageData, { 
                     isClickable: true,
                     onRowClick: (item) => {
                         const originalIndex = appState.datasets[0].indexOf(item);
@@ -448,8 +460,8 @@
                 });
             } else {
                 searchScenarioNote.textContent = "Double-click any cell to copy its value.";
-                renderDataTable(searchResultsContainer, pageData);
-                 searchResultsContainer.ondblclick = (e) => {
+                renderDataTable(document.getElementById('searchResultsContainer'), pageData);
+                 document.getElementById('searchResultsContainer').ondblclick = (e) => {
                     if (e.target && e.target.tagName === 'TD') {
                         copyTextToClipboard(e.target.textContent)
                             .then(() => logMessage(`Copied to clipboard: "${e.target.textContent}"`))
@@ -477,9 +489,8 @@
 
         function showItemDetails(itemIndex) {
             const selectedItem = appState.datasets[0][itemIndex];
-            searchResultsContainer.innerHTML = '';
+            searchResultsWrapper.innerHTML = ''; // Clear previous results including container
             searchScenarioNote.textContent = '';
-            searchResultsContainer.classList.remove('table-container');
             paginationControls.classList.add('hidden');
 
             const wrapper = document.createElement('div');
@@ -516,28 +527,61 @@
                         const linkedData = otherDataset.filter(row => row[linkingKey] === linkingValue);
 
                         if(linkedData.length > 0) {
-                            linkedContainer.innerHTML += `<h4>From ${appState.datasetNames[index]} (linked by ${linkingKey})</h4>`;
-                            const tableContainer = document.createElement('div');
-                            tableContainer.className = 'table-container';
-                            renderDataTable(tableContainer, linkedData);
-                            linkedContainer.appendChild(tableContainer);
+                            const container = document.createElement('div');
+                            container.innerHTML = `<h4>From ${appState.datasetNames[index]} (linked by ${linkingKey})</h4>`;
+                            renderLinkedData(container, linkedData);
+                            linkedContainer.appendChild(container);
                             break; 
                         }
                     }
                 }
             });
 
-            if (linkedContainer.querySelectorAll('.table-container').length === 0) {
+            if (linkedContainer.querySelectorAll('table').length === 0) {
                  linkedContainer.innerHTML += '<p>No linked data found in other datasets.</p>';
             }
 
             wrapper.appendChild(detailsContainer);
             wrapper.appendChild(linkedContainer);
-            searchResultsContainer.appendChild(wrapper);
+            searchResultsWrapper.appendChild(wrapper);
+        }
+
+        function renderLinkedData(container, data) {
+             data.forEach((item, index) => {
+                if (index > 0) {
+                     container.appendChild(document.createElement('hr'));
+                }
+                const table = document.createElement('table');
+                table.className = 'linked-data-table';
+                const tbody = document.createElement('tbody');
+                const headers = Object.keys(item);
+
+                for (let i = 0; i < headers.length; i += 2) {
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `<th>${headers[i]}</th><td>${item[headers[i]]}</td>`;
+
+                    if (i + 1 < headers.length) {
+                        row.innerHTML += `<th>${headers[i + 1]}</th><td>${item[headers[i + 1]]}</td>`;
+                    } else {
+                        row.innerHTML += `<th></th><td></td>`;
+                    }
+                    tbody.appendChild(row);
+                }
+                table.appendChild(tbody);
+                container.appendChild(table);
+            });
         }
 
         function clearSearch() {
             searchInput.value = '';
+             if(!document.getElementById('searchResultsContainer')){
+                 searchResultsWrapper.innerHTML = `
+                    <div id="searchResultsContainer" class="table-container">
+                        <div id="loadingIndicator" class="hidden"><p>Loading...</p></div>
+                    </div>
+                 `;
+             }
             searchResultsContainer.classList.add('table-container');
             searchScenarioNote.textContent = '';
             paginationControls.classList.add('hidden');
