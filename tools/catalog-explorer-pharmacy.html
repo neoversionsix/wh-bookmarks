@@ -74,8 +74,8 @@
         button.clear-btn:hover:not(.disabled) { background-color: #5c636a; }
 
         
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; table-layout: fixed; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; word-wrap: break-word; }
         th { background-color: #f8f9fa; }
         
         #searchResultsContainer tr:hover { background-color: #f0f2f5; }
@@ -514,15 +514,19 @@
                     const relevantCommonKeys = commonKeys.filter(key => otherDataset.length > 0 && otherDataset[0].hasOwnProperty(key));
                     if (relevantCommonKeys.length > 0) {
                         const linkingKey = relevantCommonKeys[0]; 
-                        const linkedData = otherDataset.filter(row => row[linkingKey] === selectedItem[linkingKey]);
+                        const linkingValue = selectedItem[linkingKey];
 
-                        if(linkedData.length > 0) {
-                            linkedDataFound = true;
-                            linkedContainer.innerHTML += `<h4>From ${appState.datasetNames[index]} (linked by ${linkingKey})</h4>`;
-                            const tableContainer = document.createElement('div');
-                            tableContainer.className = 'table-container';
-                            renderDataTable(tableContainer, linkedData);
-                            linkedContainer.appendChild(tableContainer);
+                        if (linkingValue && linkingValue.trim() !== '') {
+                            const linkedData = otherDataset.filter(row => row[linkingKey] === linkingValue);
+
+                            if(linkedData.length > 0) {
+                                linkedDataFound = true;
+                                linkedContainer.innerHTML += `<h4>From ${appState.datasetNames[index]} (linked by ${linkingKey})</h4>`;
+                                const tableContainer = document.createElement('div');
+                                tableContainer.className = 'table-container';
+                                renderDataTable(tableContainer, linkedData);
+                                linkedContainer.appendChild(tableContainer);
+                            }
                         }
                     }
                 });
