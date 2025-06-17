@@ -26,7 +26,7 @@
             padding: 20px;
             min-height: 0;
             width: 100%;
-            max-width: 1200px;
+            max-width: 95%;
             margin: 0 auto;
             box-sizing: border-box;
         }
@@ -75,6 +75,7 @@
 
         
         table { width: 100%; border-collapse: collapse; margin-top: 15px; table-layout: auto; }
+        .detail-table { table-layout: fixed; } /* Specific layout for the 2-column detail view */
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; word-wrap: break-word; }
         th { background-color: #f8f9fa; }
         
@@ -94,7 +95,6 @@
         #searchColumnSelect, #searchInput { padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
         #searchInput { flex-grow: 1; }
         
-        .detail-table, .linked-data-table { table-layout: fixed; }
         .detail-table th, .linked-data-table th { width: 30%; font-weight: bold; }
 
         .double-click-note { font-style: italic; color: #6c757d; margin-top: 10px;}
