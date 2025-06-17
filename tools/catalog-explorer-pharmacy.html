@@ -290,7 +290,7 @@
             });
         }
         
-        function renderDataTable(container, data, { isClickable = false, onRowClick = null } = {}) {
+        function renderDataTable(container, data, { isClickable = false, onRowClick = null, rowCount = null } = {}) {
             container.innerHTML = '';
             if (!data || data.length === 0) {
                 container.innerHTML = '<p>No data to display.</p>';
@@ -300,6 +300,8 @@
             const thead = document.createElement('thead');
             const tbody = document.createElement('tbody');
             const headerRow = document.createElement('tr');
+            
+            // Use provided data's headers, not all possible headers
             const headers = Object.keys(data[0]);
 
             headers.forEach(key => {
@@ -309,7 +311,9 @@
             });
             thead.appendChild(headerRow);
             
-            data.forEach((item) => {
+            const dataToRender = rowCount ? data.slice(0, rowCount) : data;
+
+            dataToRender.forEach((item) => {
                 const row = document.createElement('tr');
                 if (isClickable) {
                     row.classList.add('clickable-row');
@@ -371,7 +375,7 @@
             appState.columnMetadata = [];
             
             appState.datasets.forEach((dataset, index) => {
-                if (dataset.length > 0) {
+                if (dataset && dataset.length > 0) {
                     const headers = Object.keys(dataset[0]);
                     headers.forEach(header => {
                         const option = document.createElement('option');
@@ -499,13 +503,13 @@
             linkedContainer.innerHTML = '<h3>Linked Data</h3>';
             
             const commonKeys = Object.keys(selectedItem).filter(key => 
-                appState.datasets.slice(1).some(otherDataset => otherDataset.length > 0 && otherDataset[0].hasOwnProperty(key))
+                appState.datasets.slice(1).some(otherDataset => otherDataset && otherDataset.length > 0 && otherDataset[0].hasOwnProperty(key))
             );
 
             let linkedDataFound = false;
             if (commonKeys.length > 0) {
                  appState.datasets.forEach((otherDataset, index) => {
-                    if (index === 0) return; 
+                    if (index === 0 || !otherDataset) return; 
                     
                     const relevantCommonKeys = commonKeys.filter(key => otherDataset.length > 0 && otherDataset[0].hasOwnProperty(key));
                     if (relevantCommonKeys.length > 0) {
@@ -540,6 +544,57 @@
             paginationControls.classList.add('hidden');
             handleSearch();
         }
+        
+        function setupProcessDataListener(processBtn, pasteArea, statusEl, previewEl, datasetIndex, nextBtn, finalInitFn) {
+            processBtn.addEventListener('click', () => {
+                const pastedText = pasteArea.value;
+                if (!pastedText) {
+                    logMessage(`ERROR: Paste area for ${appState.datasetNames[datasetIndex]} is empty.`);
+                    statusEl.textContent = 'Please paste data before processing.';
+                    statusEl.style.color = 'red';
+                    return;
+                }
+
+                statusEl.textContent = 'Processing...';
+                statusEl.style.color = '#6c757d';
+                processBtn.disabled = true;
+                document.body.classList.add('wait');
+                
+                setTimeout(() => {
+                    try {
+                        const data = parseData(pastedText);
+                        if (data.length > 0) {
+                            statusEl.textContent = `Data loaded successfully (${data.length} items).`;
+                            statusEl.style.color = '#28a745';
+                            appState.datasets[datasetIndex] = data;
+                            renderDataTable(previewEl, data, { isClickable: false, rowCount: 10 });
+                            logMessage(`${appState.datasetNames[datasetIndex]} loaded with ${data.length} items.`);
+                            
+                            pasteArea.parentElement.classList.add('hidden');
+
+                            if (nextBtn) {
+                                nextBtn.classList.remove('disabled');
+                            } else if (finalInitFn) {
+                                finalInitFn();
+                            }
+                        } else {
+                            statusEl.textContent = 'No data found or failed to parse.';
+                            statusEl.style.color = 'red';
+                            logMessage(`ERROR: No data parsed from ${appState.datasetNames[datasetIndex]} input.`);
+                            processBtn.disabled = false;
+                        }
+                    } catch (e) {
+                         statusEl.textContent = 'An error occurred during parsing.';
+                         statusEl.style.color = 'red';
+                         logMessage(`FATAL ERROR during parsing: ${e.message}`);
+                         processBtn.disabled = false;
+                    } finally {
+                        document.body.classList.remove('wait');
+                    }
+                }, 10);
+            });
+        }
+
 
         // --- EVENT LISTENERS ---
         copyCode1Btn.addEventListener('click', () => {
@@ -554,30 +609,6 @@
                 .catch(err => logMessage("ERROR: Failed to copy code."));
         });
         
-        processData1Btn.addEventListener('click', () => {
-            const pastedText = pasteArea1.value;
-            if(!pastedText) {
-                logMessage("ERROR: Paste area is empty.");
-                data1Status.textContent = 'Please paste data before processing.';
-                data1Status.style.color = 'red';
-                return;
-            }
-            const data = parseData(pastedText);
-            if (data.length > 0) {
-                data1Status.textContent = `Data loaded successfully (${data.length} items).`;
-                data1Status.style.color = '#28a745';
-                appState.datasets[0] = data;
-                renderDataTable(data1PreviewContainer, data, { isClickable: false, rowCount: 3 });
-                logMessage(`Order Catalog Synonym loaded with ${data.length} items.`);
-                copyCode2Btn.classList.remove('disabled');
-                pasteArea1Container.classList.add('hidden');
-            } else {
-                data1Status.textContent = 'No data found or failed to parse.';
-                data1Status.style.color = 'red';
-                logMessage(`ERROR: No data parsed from input.`);
-            }
-        });
-
         copyCode2Btn.addEventListener('click', () => {
             logMessage("Copying PBS Mappings CCL code...");
             copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/a1d0dc52ec175ae84efa2f59156b3c88bcb66941/QUERIES/QUERIES%20FOR%20SPECIFIC%20TOOLS/PHARMACY%20CATALOG%20EXPLORER/PBS%20mappings.ccl")
@@ -588,30 +619,6 @@
                     logMessage("PBS Mappings CCL code copied. Please paste data below.");
                 })
                 .catch(err => logMessage("ERROR: Failed to copy code."));
-        });
-        
-        processData2Btn.addEventListener('click', () => {
-             const pastedText = pasteArea2.value;
-             if(!pastedText) {
-                logMessage("ERROR: Paste area is empty.");
-                data2Status.textContent = 'Please paste data before processing.';
-                data2Status.style.color = 'red';
-                return;
-            }
-            const data = parseData(pastedText);
-            if (data.length > 0) {
-                data2Status.textContent = `Data loaded successfully (${data.length} items).`;
-                data2Status.style.color = '#28a745';
-                appState.datasets[1] = data;
-                renderDataTable(data2PreviewContainer, data, { isClickable: false, rowCount: 3 });
-                logMessage(`PBS Mappings loaded with ${data.length} items.`);
-                copyCode3Btn.classList.remove('disabled');
-                pasteArea2Container.classList.add('hidden');
-            } else {
-                data2Status.textContent = 'No data found or failed to parse.';
-                data2Status.style.color = 'red';
-                logMessage(`ERROR: No data parsed from input.`);
-            }
         });
 
         copyCode3Btn.addEventListener('click', () => {
@@ -626,29 +633,9 @@
                 .catch(err => logMessage("ERROR: Failed to copy code."));
         });
         
-        processData3Btn.addEventListener('click', () => {
-             const pastedText = pasteArea3.value;
-             if(!pastedText) {
-                logMessage("ERROR: Paste area is empty.");
-                data3Status.textContent = 'Please paste data before processing.';
-                data3Status.style.color = 'red';
-                return;
-            }
-            const data = parseData(pastedText);
-            if (data.length > 0) {
-                data3Status.textContent = `Data loaded successfully (${data.length} items).`;
-                data3Status.style.color = '#28a745';
-                appState.datasets[2] = data;
-                renderDataTable(data3PreviewContainer, data, { isClickable: false, rowCount: 3 });
-                logMessage(`Order Catalog loaded with ${data.length} items.`);
-                pasteArea3Container.classList.add('hidden');
-                initializeSearchView();
-            } else {
-                data3Status.textContent = 'No data found or failed to parse.';
-                data3Status.style.color = 'red';
-                logMessage(`ERROR: No data parsed from input.`);
-            }
-        });
+        setupProcessDataListener(processData1Btn, pasteArea1, data1Status, data1PreviewContainer, 0, copyCode2Btn, null);
+        setupProcessDataListener(processData2Btn, pasteArea2, data2Status, data2PreviewContainer, 1, copyCode3Btn, null);
+        setupProcessDataListener(processData3Btn, pasteArea3, data3Status, data3PreviewContainer, 2, null, initializeSearchView);
 
 
         searchGoBtn.addEventListener('click', handleSearch);
