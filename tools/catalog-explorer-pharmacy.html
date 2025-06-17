@@ -74,7 +74,8 @@
         button.clear-btn:hover:not(.disabled) { background-color: #5c636a; }
 
         
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; table-layout: fixed; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; table-layout: auto; }
+        .detail-table { table-layout: fixed; } /* Specific layout for the 2-column detail view */
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; word-wrap: break-word; }
         th { background-color: #f8f9fa; }
         
@@ -615,7 +616,7 @@
         
         copyCode2Btn.addEventListener('click', () => {
             logMessage("Copying PBS Mappings CCL code...");
-            copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/a1d0dc52ec175ae84efa2f59156b3c88bcb66941/QUERIES/QUERIES%20FOR%20SPECIFIC%20TOOLS/PHARMACY%20CATALOG%20EXPLORER/PBS%20mappings.ccl")
+            copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/refs/heads/main/QUERIES/QUERIES%20FOR%20SPECIFIC%20TOOLS/PHARMACY%20CATALOG%20EXPLORER/PBS%20mappings.ccl")
                 .then(() => {
                     code2Status.textContent = 'Code copied. Run it, copy the output, and paste it below.';
                     copyCode2Btn.classList.add('disabled');
