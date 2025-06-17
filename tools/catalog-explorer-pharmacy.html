@@ -74,8 +74,7 @@
         button.clear-btn:hover:not(.disabled) { background-color: #5c636a; }
 
         
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; table-layout: auto; }
-        .detail-table th { width: 30%; } /* Specific layout for the 2-column detail view headers */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; table-layout: fixed; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; word-wrap: break-word; }
         th { background-color: #f8f9fa; }
         
@@ -95,6 +94,7 @@
         #searchColumnSelect, #searchInput { padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
         #searchInput { flex-grow: 1; }
         
+        .detail-table th { width: 30%; } /* Specific layout for the 2-column detail view headers */
         .double-click-note { font-style: italic; color: #6c757d; margin-top: 10px;}
 
         .paste-area {
@@ -509,8 +509,6 @@
                 const otherHeaders = Object.keys(otherDataset[0]);
                 const commonKeys = primaryHeaders.filter(key => otherHeaders.includes(key));
 
-                let linkedDataFoundForThisDataset = false;
-
                 for (const linkingKey of commonKeys) {
                     const linkingValue = selectedItem[linkingKey];
 
@@ -518,13 +516,12 @@
                         const linkedData = otherDataset.filter(row => row[linkingKey] === linkingValue);
 
                         if(linkedData.length > 0) {
-                            linkedDataFoundForThisDataset = true;
                             linkedContainer.innerHTML += `<h4>From ${appState.datasetNames[index]} (linked by ${linkingKey})</h4>`;
                             const tableContainer = document.createElement('div');
                             tableContainer.className = 'table-container';
                             renderDataTable(tableContainer, linkedData);
                             linkedContainer.appendChild(tableContainer);
-                            break; // Stop after finding the first successful link for this dataset
+                            break; 
                         }
                     }
                 }
