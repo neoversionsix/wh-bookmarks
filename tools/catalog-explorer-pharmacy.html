@@ -41,6 +41,11 @@
             flex-direction: column;
         }
         
+        #searchSection {
+            flex-grow: 1;
+            min-height: 0;
+        }
+        
         /* Layout containers */
         .layout-container { display: flex; flex-direction: row; gap: 20px; }
         .layout-left { width: 50%; }
@@ -83,7 +88,28 @@
         #searchResultsContainer .clickable-row { cursor: pointer; }
 
 
-        .table-container { max-height: 400px; overflow: auto; border: 1px solid #eee; margin-bottom: 20px; }
+        .table-container {
+             max-height: 60vh; /* Use more vertical space */
+             overflow: auto; 
+             border: 1px solid #eee; 
+             margin-bottom: 20px; 
+        }
+
+        #searchResultsWrapper {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        #searchResultsContainer {
+            flex-grow: 1;
+        }
+
+        .preview-container {
+             max-height: 25vh;
+        }
+        
         .preview-container:not(:empty) { margin-bottom: 20px; }
         
         #logConsole { width: 100%; flex-grow: 1; box-sizing: border-box; background-color: #2d3748; color: #f7fafc; border: 1px solid #ccc; border-radius: 5px; padding: 10px; font-family: monospace; font-size: 14px; }
@@ -180,13 +206,15 @@
             <button id="clearSearchBtn" class="clear-btn">Clear</button>
         </div>
         <p id="searchScenarioNote" class="double-click-note"></p>
-        <div id="searchResultsContainer" class="table-container">
-            <div id="loadingIndicator" class="hidden"><p>Loading...</p></div>
-        </div>
-        <div id="paginationControls" class="hidden">
-             <button id="prevPageBtn">Previous</button>
-             <span id="pageInfo"></span>
-             <button id="nextPageBtn">Next</button>
+        <div id="searchResultsWrapper">
+             <div id="searchResultsContainer" class="table-container">
+                <div id="loadingIndicator" class="hidden"><p>Loading...</p></div>
+            </div>
+            <div id="paginationControls" class="hidden">
+                 <button id="prevPageBtn">Previous</button>
+                 <span id="pageInfo"></span>
+                 <button id="nextPageBtn">Next</button>
+            </div>
         </div>
     </div>
 </div>
@@ -234,6 +262,7 @@
         const searchInput = document.getElementById('searchInput');
         const searchGoBtn = document.getElementById('searchGoBtn');
         const clearSearchBtn = document.getElementById('clearSearchBtn');
+        const searchResultsWrapper = document.getElementById('searchResultsWrapper');
         const searchResultsContainer = document.getElementById('searchResultsContainer');
         const searchScenarioNote = document.getElementById('searchScenarioNote');
         const loadingIndicator = document.getElementById('loadingIndicator');
@@ -409,6 +438,10 @@
             logMessage(`Searching...`);
 
             setTimeout(() => {
+                if(!document.getElementById('searchResultsContainer')){
+                     searchResultsWrapper.innerHTML = `<div id="searchResultsContainer" class="table-container"></div>`;
+                }
+            
                 const { header, datasetIndex } = appState.columnMetadata[metadataIndex];
                 const query = searchInput.value.toLowerCase();
                 const sourceData = appState.datasets[datasetIndex];
@@ -428,8 +461,11 @@
             const end = start + rowsPerPage;
             const pageData = filteredResults.slice(start, end);
             
+            const container = document.getElementById('searchResultsContainer');
+            if (!container) return;
+
             if (pageData.length === 0) {
-                 searchResultsContainer.innerHTML = '<p>No results found.</p>';
+                 container.innerHTML = '<p>No results found.</p>';
                  renderPaginationControls();
                  return;
             }
@@ -440,7 +476,7 @@
 
             if (isScenario1) {
                 searchScenarioNote.textContent = "Click a row to see details and linked data.";
-                renderDataTable(searchResultsContainer, pageData, { 
+                renderDataTable(container, pageData, { 
                     isClickable: true,
                     onRowClick: (item) => {
                         const originalIndex = appState.datasets[0].indexOf(item);
@@ -449,8 +485,8 @@
                 });
             } else {
                 searchScenarioNote.textContent = "Double-click any cell to copy its value.";
-                renderDataTable(searchResultsContainer, pageData);
-                 searchResultsContainer.ondblclick = (e) => {
+                renderDataTable(container, pageData);
+                 container.ondblclick = (e) => {
                     if (e.target && e.target.tagName === 'TD') {
                         copyTextToClipboard(e.target.textContent)
                             .then(() => logMessage(`Copied to clipboard: "${e.target.textContent}"`))
@@ -556,8 +592,18 @@
         }
 
         function clearSearch() {
+             const container = document.getElementById('searchResultsContainer');
+             if(container) {
+                container.innerHTML = '';
+             }
+             if (document.getElementById('searchResultsWrapper').childElementCount === 0) {
+                  document.getElementById('searchResultsWrapper').innerHTML = `
+                    <div id="searchResultsContainer" class="table-container">
+                        <div id="loadingIndicator" class="hidden"><p>Loading...</p></div>
+                    </div>
+                 `;
+             }
             searchInput.value = '';
-            searchResultsContainer.innerHTML = '';
             searchScenarioNote.textContent = '';
             paginationControls.classList.add('hidden');
             handleSearch();
