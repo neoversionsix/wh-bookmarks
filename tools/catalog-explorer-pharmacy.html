@@ -134,23 +134,32 @@
         <!-- Data Loading Section (Left Column) -->
         <div id="loadDataSection" class="section layout-left">
             <h2>Load Data</h2>
-            <button id="copyCode1Btn">Copy CCL to Clipboard (Dataset 1)</button>
+            <button id="copyCode1Btn">Copy CCL to Clipboard (Order Catalog Synonym)</button>
             <p id="code1Status" class="status-text"></p>
             <div id="pasteArea1Container" class="hidden">
-                <textarea id="pasteArea1" class="paste-area" placeholder="Paste data for Dataset 1 here..."></textarea>
-                <button id="processData1Btn">Process Pasted Data (Dataset 1)</button>
+                <textarea id="pasteArea1" class="paste-area" placeholder="Paste data for Order Catalog Synonym here..."></textarea>
+                <button id="processData1Btn">Process Pasted Data (Order Catalog Synonym)</button>
             </div>
             <p id="data1Status" class="status-text"></p>
             <div id="data1PreviewContainer" class="preview-container table-container"></div>
             <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
-            <button id="copyCode2Btn">Copy CCL to Clipboard (Dataset 2)</button>
+            <button id="copyCode2Btn">Copy CCL to Clipboard (PBS Mappings)</button>
             <p id="code2Status" class="status-text"></p>
             <div id="pasteArea2Container" class="hidden">
-                <textarea id="pasteArea2" class="paste-area" placeholder="Paste data for Dataset 2 here..."></textarea>
-                <button id="processData2Btn">Process Pasted Data (Dataset 2)</button>
+                <textarea id="pasteArea2" class="paste-area" placeholder="Paste data for PBS Mappings here..."></textarea>
+                <button id="processData2Btn">Process Pasted Data (PBS Mappings)</button>
             </div>
             <p id="data2Status" class="status-text"></p>
             <div id="data2PreviewContainer" class="preview-container table-container"></div>
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+            <button id="copyCode3Btn">Copy CCL to Clipboard (Order Catalog)</button>
+            <p id="code3Status" class="status-text"></p>
+            <div id="pasteArea3Container" class="hidden">
+                <textarea id="pasteArea3" class="paste-area" placeholder="Paste data for Order Catalog here..."></textarea>
+                <button id="processData3Btn">Process Pasted Data (Order Catalog)</button>
+            </div>
+            <p id="data3Status" class="status-text"></p>
+            <div id="data3PreviewContainer" class="preview-container table-container"></div>
         </div>
 
         <!-- Console Log Section (Right Column) -->
@@ -183,6 +192,7 @@
         // --- GLOBAL STATE ---
         let appState = {
             datasets: [],
+            datasetNames: ["Order Catalog Synonym", "PBS Mappings", "Order Catalog"],
             columnMetadata: [],
             // Pagination state
             filteredResults: [],
@@ -207,6 +217,14 @@
         const data2PreviewContainer = document.getElementById('data2PreviewContainer');
         const code2Status = document.getElementById('code2Status');
         const data2Status = document.getElementById('data2Status');
+        
+        const copyCode3Btn = document.getElementById('copyCode3Btn');
+        const pasteArea3Container = document.getElementById('pasteArea3Container');
+        const pasteArea3 = document.getElementById('pasteArea3');
+        const processData3Btn = document.getElementById('processData3Btn');
+        const data3PreviewContainer = document.getElementById('data3PreviewContainer');
+        const code3Status = document.getElementById('code3Status');
+        const data3Status = document.getElementById('data3Status');
 
         const searchSection = document.getElementById('searchSection');
         const searchControls = document.getElementById('searchControls');
@@ -332,11 +350,12 @@
             appState.datasets = [];
             appState.columnMetadata = [];
             copyCode1Btn.classList.remove('disabled');
-            copyCode2Btn.classList.add('disabled');
-            [pasteArea1Container, pasteArea2Container, searchSection].forEach(el => el.classList.add('hidden'));
-            [code1Status, data1Status, code2Status, data2Status, data1PreviewContainer, data2PreviewContainer].forEach(el => el.innerHTML = '');
-            pasteArea1.value = '';
-            pasteArea2.value = '';
+            [copyCode2Btn, copyCode3Btn].forEach(btn => btn.classList.add('disabled'));
+            [pasteArea1Container, pasteArea2Container, pasteArea3Container, searchSection].forEach(el => el.classList.add('hidden'));
+            [code1Status, data1Status, code2Status, data2Status, code3Status, data3Status, 
+             data1PreviewContainer, data2PreviewContainer, data3PreviewContainer].forEach(el => el.innerHTML = '');
+            [pasteArea1, pasteArea2, pasteArea3].forEach(el => el.value = '');
+            
             loadingLayoutContainer.classList.remove('hidden');
             logConsole.value = '';
             logMessage("Application reset. Ready to load data.");
@@ -356,7 +375,7 @@
                     const headers = Object.keys(dataset[0]);
                     headers.forEach(header => {
                         const option = document.createElement('option');
-                        const label = `${header} - (Dataset ${index + 1})`;
+                        const label = `${header} - (${appState.datasetNames[index]})`;
                         option.value = appState.columnMetadata.length;
                         option.textContent = label;
                         searchColumnSelect.appendChild(option);
@@ -365,7 +384,7 @@
                 }
             });
 
-            const primaryOption = Array.from(searchColumnSelect.options).find(opt => opt.text === 'PRIMARY - (Dataset 1)');
+            const primaryOption = Array.from(searchColumnSelect.options).find(opt => opt.text.startsWith('PRIMARY'));
             if (primaryOption) {
                 searchColumnSelect.value = primaryOption.value;
             }
@@ -376,8 +395,6 @@
             const metadataIndex = searchColumnSelect.value;
             if(!metadataIndex && metadataIndex !== 0) {
                 appState.filteredResults = [];
-                // Directly clear the results instead of calling renderCurrentPage,
-                // which would fail without valid column metadata on initial load.
                 searchResultsContainer.innerHTML = '';
                 paginationControls.classList.add('hidden');
                 return;
@@ -466,7 +483,7 @@
 
             const detailsContainer = document.createElement('div');
             detailsContainer.className = 'search-results-left';
-            detailsContainer.innerHTML = '<h3>Item Details (Dataset 1)</h3>';
+            detailsContainer.innerHTML = `<h3>Item Details (${appState.datasetNames[0]})</h3>`;
             
             const detailTable = document.createElement('table');
             detailTable.className = 'detail-table';
@@ -497,7 +514,7 @@
 
                         if(linkedData.length > 0) {
                             linkedDataFound = true;
-                            linkedContainer.innerHTML += `<h4>From Dataset ${index + 1} (linked by ${linkingKey})</h4>`;
+                            linkedContainer.innerHTML += `<h4>From ${appState.datasetNames[index]} (linked by ${linkingKey})</h4>`;
                             const tableContainer = document.createElement('div');
                             tableContainer.className = 'table-container';
                             renderDataTable(tableContainer, linkedData);
@@ -526,76 +543,113 @@
 
         // --- EVENT LISTENERS ---
         copyCode1Btn.addEventListener('click', () => {
-            logMessage("Copying Dataset 1 CCL code...");
+            logMessage("Copying Order Catalog Synonym CCL code...");
             copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/refs/heads/main/QUERIES/QUERIES%20FOR%20SPECIFIC%20TOOLS/PHARMACY%20CATALOG%20EXPLORER/Pharmacy%20Order%20Catalog%20Synonym.ccl")
                 .then(() => {
                     code1Status.textContent = 'Code copied. Run it, copy the output, and paste it below.';
                     copyCode1Btn.classList.add('disabled');
                     pasteArea1Container.classList.remove('hidden');
-                    logMessage("Dataset 1 CCL code copied. Please paste data below.");
+                    logMessage("Order Catalog Synonym CCL code copied. Please paste data below.");
                 })
-                .catch(err => logMessage("ERROR: Failed to copy Dataset 1 code."));
+                .catch(err => logMessage("ERROR: Failed to copy code."));
         });
         
         processData1Btn.addEventListener('click', () => {
             const pastedText = pasteArea1.value;
             if(!pastedText) {
-                logMessage("ERROR: Paste area for Dataset 1 is empty.");
+                logMessage("ERROR: Paste area is empty.");
                 data1Status.textContent = 'Please paste data before processing.';
                 data1Status.style.color = 'red';
                 return;
             }
             const data = parseData(pastedText);
             if (data.length > 0) {
-                data1Status.textContent = `Dataset 1 loaded successfully (${data.length} items).`;
+                data1Status.textContent = `Data loaded successfully (${data.length} items).`;
                 data1Status.style.color = '#28a745';
                 appState.datasets[0] = data;
                 renderDataTable(data1PreviewContainer, data, { isClickable: false, rowCount: 3 });
-                logMessage(`Dataset 1 loaded with ${data.length} items.`);
+                logMessage(`Order Catalog Synonym loaded with ${data.length} items.`);
                 copyCode2Btn.classList.remove('disabled');
                 pasteArea1Container.classList.add('hidden');
             } else {
                 data1Status.textContent = 'No data found or failed to parse.';
                 data1Status.style.color = 'red';
-                logMessage(`ERROR: No data parsed from Dataset 1 input.`);
+                logMessage(`ERROR: No data parsed from input.`);
             }
         });
 
         copyCode2Btn.addEventListener('click', () => {
-            logMessage("Copying Dataset 2 CCL code...");
+            logMessage("Copying PBS Mappings CCL code...");
             copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/a1d0dc52ec175ae84efa2f59156b3c88bcb66941/QUERIES/QUERIES%20FOR%20SPECIFIC%20TOOLS/PHARMACY%20CATALOG%20EXPLORER/PBS%20mappings.ccl")
                 .then(() => {
                     code2Status.textContent = 'Code copied. Run it, copy the output, and paste it below.';
                     copyCode2Btn.classList.add('disabled');
                     pasteArea2Container.classList.remove('hidden');
-                    logMessage("Dataset 2 CCL code copied. Please paste data below.");
+                    logMessage("PBS Mappings CCL code copied. Please paste data below.");
                 })
-                .catch(err => logMessage("ERROR: Failed to copy Dataset 2 code."));
+                .catch(err => logMessage("ERROR: Failed to copy code."));
         });
         
         processData2Btn.addEventListener('click', () => {
              const pastedText = pasteArea2.value;
              if(!pastedText) {
-                logMessage("ERROR: Paste area for Dataset 2 is empty.");
+                logMessage("ERROR: Paste area is empty.");
                 data2Status.textContent = 'Please paste data before processing.';
                 data2Status.style.color = 'red';
                 return;
             }
             const data = parseData(pastedText);
             if (data.length > 0) {
-                data2Status.textContent = `Dataset 2 loaded successfully (${data.length} items).`;
+                data2Status.textContent = `Data loaded successfully (${data.length} items).`;
                 data2Status.style.color = '#28a745';
                 appState.datasets[1] = data;
                 renderDataTable(data2PreviewContainer, data, { isClickable: false, rowCount: 3 });
-                logMessage(`Dataset 2 loaded with ${data.length} items.`);
+                logMessage(`PBS Mappings loaded with ${data.length} items.`);
+                copyCode3Btn.classList.remove('disabled');
                 pasteArea2Container.classList.add('hidden');
-                initializeSearchView();
             } else {
                 data2Status.textContent = 'No data found or failed to parse.';
                 data2Status.style.color = 'red';
-                logMessage(`ERROR: No data parsed from Dataset 2 input.`);
+                logMessage(`ERROR: No data parsed from input.`);
             }
         });
+
+        copyCode3Btn.addEventListener('click', () => {
+            logMessage("Copying Order Catalog CCL code...");
+            copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/refs/heads/main/QUERIES/QUERIES%20FOR%20SPECIFIC%20TOOLS/PHARMACY%20CATALOG%20EXPLORER/Pharmacy%20Order%20Catalog.ccl")
+                .then(() => {
+                    code3Status.textContent = 'Code copied. Run it, copy the output, and paste it below.';
+                    copyCode3Btn.classList.add('disabled');
+                    pasteArea3Container.classList.remove('hidden');
+                    logMessage("Order Catalog CCL code copied. Please paste data below.");
+                })
+                .catch(err => logMessage("ERROR: Failed to copy code."));
+        });
+        
+        processData3Btn.addEventListener('click', () => {
+             const pastedText = pasteArea3.value;
+             if(!pastedText) {
+                logMessage("ERROR: Paste area is empty.");
+                data3Status.textContent = 'Please paste data before processing.';
+                data3Status.style.color = 'red';
+                return;
+            }
+            const data = parseData(pastedText);
+            if (data.length > 0) {
+                data3Status.textContent = `Data loaded successfully (${data.length} items).`;
+                data3Status.style.color = '#28a745';
+                appState.datasets[2] = data;
+                renderDataTable(data3PreviewContainer, data, { isClickable: false, rowCount: 3 });
+                logMessage(`Order Catalog loaded with ${data.length} items.`);
+                pasteArea3Container.classList.add('hidden');
+                initializeSearchView();
+            } else {
+                data3Status.textContent = 'No data found or failed to parse.';
+                data3Status.style.color = 'red';
+                logMessage(`ERROR: No data parsed from input.`);
+            }
+        });
+
 
         searchGoBtn.addEventListener('click', handleSearch);
         searchInput.addEventListener('keydown', (e) => {
