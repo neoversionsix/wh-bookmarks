@@ -263,13 +263,13 @@
         const searchGoBtn = document.getElementById('searchGoBtn');
         const clearSearchBtn = document.getElementById('clearSearchBtn');
         const searchResultsWrapper = document.getElementById('searchResultsWrapper');
-        const searchResultsContainer = document.getElementById('searchResultsContainer');
+        let searchResultsContainer = document.getElementById('searchResultsContainer'); // Use let to allow re-assignment if needed
+        let paginationControls = document.getElementById('paginationControls');
         const searchScenarioNote = document.getElementById('searchScenarioNote');
         const loadingIndicator = document.getElementById('loadingIndicator');
-        const paginationControls = document.getElementById('paginationControls');
-        const prevPageBtn = document.getElementById('prevPageBtn');
-        const nextPageBtn = document.getElementById('nextPageBtn');
-        const pageInfo = document.getElementById('pageInfo');
+        let prevPageBtn = document.getElementById('prevPageBtn');
+        let nextPageBtn = document.getElementById('nextPageBtn');
+        let pageInfo = document.getElementById('pageInfo');
         
         const logConsole = document.getElementById('logConsole');
 
@@ -369,14 +369,14 @@
                 document.body.classList.add('wait');
                 searchControls.classList.add('loading');
                 [searchInput, searchColumnSelect, searchGoBtn, clearSearchBtn].forEach(el => el.disabled = true);
-                searchResultsContainer.innerHTML = '';
-                paginationControls.classList.add('hidden');
-                loadingIndicator.classList.remove('hidden');
+                if (searchResultsContainer) searchResultsContainer.innerHTML = '';
+                if (paginationControls) paginationControls.classList.add('hidden');
+                if (loadingIndicator) loadingIndicator.classList.remove('hidden');
              } else {
                 document.body.classList.remove('wait');
                 searchControls.classList.remove('loading');
                 [searchInput, searchColumnSelect, searchGoBtn, clearSearchBtn].forEach(el => el.disabled = false);
-                loadingIndicator.classList.add('hidden');
+                if (loadingIndicator) loadingIndicator.classList.add('hidden');
              }
         }
 
@@ -429,8 +429,8 @@
             const metadataIndex = searchColumnSelect.value;
             if(!metadataIndex && metadataIndex !== 0) {
                 appState.filteredResults = [];
-                searchResultsContainer.innerHTML = '';
-                paginationControls.classList.add('hidden');
+                if (searchResultsContainer) searchResultsContainer.innerHTML = '';
+                if (paginationControls) paginationControls.classList.add('hidden');
                 return;
             };
 
@@ -438,10 +438,6 @@
             logMessage(`Searching...`);
 
             setTimeout(() => {
-                if(!document.getElementById('searchResultsContainer')){
-                     searchResultsWrapper.innerHTML = `<div id="searchResultsContainer" class="table-container"></div><div id="paginationControls" class="hidden"><button id="prevPageBtn">Previous</button><span id="pageInfo"></span><button id="nextPageBtn">Next</button></div>`;
-                }
-            
                 const { header, datasetIndex } = appState.columnMetadata[metadataIndex];
                 const query = searchInput.value.toLowerCase();
                 const sourceData = appState.datasets[datasetIndex];
@@ -461,11 +457,10 @@
             const end = start + rowsPerPage;
             const pageData = filteredResults.slice(start, end);
             
-            const container = document.getElementById('searchResultsContainer');
-            if (!container) return;
+            if (!searchResultsContainer) return;
 
             if (pageData.length === 0) {
-                 container.innerHTML = '<p>No results found.</p>';
+                 searchResultsContainer.innerHTML = '<p>No results found.</p>';
                  renderPaginationControls();
                  return;
             }
@@ -476,7 +471,7 @@
 
             if (isScenario1) {
                 searchScenarioNote.textContent = "Click a row to see details and linked data.";
-                renderDataTable(container, pageData, { 
+                renderDataTable(searchResultsContainer, pageData, { 
                     isClickable: true,
                     onRowClick: (item) => {
                         const originalIndex = appState.datasets[0].indexOf(item);
@@ -488,14 +483,14 @@
                 const otherDataset = appState.datasets[datasetIndex];
 
                 if (!primaryDataset || primaryDataset.length === 0 || !otherDataset || otherDataset.length === 0) {
-                    renderDataTable(container, pageData); 
+                    renderDataTable(searchResultsContainer, pageData); 
                 } else {
                     const primaryHeaders = Object.keys(primaryDataset[0]);
                     const otherHeaders = Object.keys(otherDataset[0]);
                     const linkingKey = otherHeaders.find(h => primaryHeaders.includes(h));
                     
                     if (!linkingKey) {
-                         renderDataTable(container, pageData);
+                         renderDataTable(searchResultsContainer, pageData);
                     } else {
                         const primaryDataMap = new Map();
                         primaryDataset.forEach(row => {
@@ -511,12 +506,12 @@
                             return primaryMatch ? { ...otherRow, ...primaryMatch } : otherRow;
                         });
                         
-                        renderDataTable(container, combinedData);
+                        renderDataTable(searchResultsContainer, combinedData);
                         searchScenarioNote.textContent = `Double-click any cell to copy its value. Results joined with ${appState.datasetNames[0]}.`;
                     }
                 }
 
-                 container.ondblclick = (e) => {
+                 searchResultsContainer.ondblclick = (e) => {
                     if (e.target && e.target.tagName === 'TD') {
                         copyTextToClipboard(e.target.textContent)
                             .then(() => logMessage(`Copied to clipboard: "${e.target.textContent}"`))
@@ -530,6 +525,8 @@
         function renderPaginationControls() {
             const { filteredResults, currentPage, rowsPerPage } = appState;
             const totalPages = Math.ceil(filteredResults.length / rowsPerPage);
+            
+            if (!paginationControls) return;
 
             if(totalPages <= 1) {
                 paginationControls.classList.add('hidden');
@@ -544,9 +541,10 @@
 
         function showItemDetails(itemIndex) {
             const selectedItem = appState.datasets[0][itemIndex];
-            searchResultsWrapper.innerHTML = ''; // Clear wrapper to remove table and pagination
+            searchResultsContainer.innerHTML = '';
             searchScenarioNote.textContent = '';
-            
+            paginationControls.classList.add('hidden');
+
             const wrapper = document.createElement('div');
             wrapper.className = 'search-results-container';
 
@@ -597,7 +595,7 @@
 
             wrapper.appendChild(detailsContainer);
             wrapper.appendChild(linkedContainer);
-            searchResultsWrapper.appendChild(wrapper);
+            searchResultsContainer.appendChild(wrapper);
         }
 
         function renderLinkedData(container, data) {
@@ -621,7 +619,7 @@
         }
 
         function clearSearch() {
-             searchResultsWrapper.innerHTML = `
+            searchResultsWrapper.innerHTML = `
                 <div id="searchResultsContainer" class="table-container">
                     <div id="loadingIndicator" class="hidden"><p>Loading...</p></div>
                 </div>
@@ -630,10 +628,17 @@
                     <span id="pageInfo"></span>
                     <button id="nextPageBtn">Next</button>
                 </div>
-             `;
+            `;
+            // Re-acquire DOM references after rebuilding
+            searchResultsContainer = document.getElementById('searchResultsContainer');
+            paginationControls = document.getElementById('paginationControls');
+            prevPageBtn = document.getElementById('prevPageBtn');
+            nextPageBtn = document.getElementById('nextPageBtn');
+            pageInfo = document.getElementById('pageInfo');
+            
             searchInput.value = '';
-            document.getElementById('searchScenarioNote').textContent = '';
-            document.getElementById('paginationControls').classList.add('hidden');
+            searchScenarioNote.textContent = '';
+            paginationControls.classList.add('hidden');
             handleSearch();
         }
         
@@ -740,8 +745,8 @@
         });
         clearSearchBtn.addEventListener('click', clearSearch);
         
-        // Use event delegation for dynamically created buttons
-        document.addEventListener('click', (e) => {
+        // Use event delegation on a static parent
+        document.getElementById('searchResultsWrapper').addEventListener('click', (e) => {
             if (e.target && e.target.id === 'prevPageBtn') {
                  if(appState.currentPage > 1) {
                     appState.currentPage--;
