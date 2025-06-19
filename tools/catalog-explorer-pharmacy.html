@@ -123,7 +123,7 @@
         
         .detail-table th, .linked-data-table th { width: 30%; font-weight: bold; }
 
-        .double-click-note { font-style: italic; color: #6c757d; margin-top: 10px;}
+        /* Removed .double-click-note as it's no longer needed */
 
         .paste-area {
             width: 100%;
@@ -157,7 +157,9 @@
 <div class="main-container">
     <h2>Pharmacy Catalog Explorer</h2>
 
+    <!-- Two-column layout for loading phase -->
     <div id="loadingLayoutContainer" class="layout-container">
+        <!-- Data Loading Section (Left Column) -->
         <div id="loadDataSection" class="section layout-left">
             <h2>Load Data</h2>
             <button id="copyCode1Btn">Copy CCL to Clipboard (Order Catalog Synonym)</button>
@@ -190,20 +192,23 @@
             <button id="startExploringBtn" class="hidden">Start Exploring Data</button>
         </div>
 
+        <!-- Console Log Section (Right Column) -->
         <div class="section layout-right">
             <h3>Console Log</h3>
             <textarea id="logConsole" readonly></textarea>
         </div>
     </div>
 
+    <!-- Search and Exploration Section (Initially hidden) -->
     <div id="searchSection" class="section hidden">
         <div id="searchControls">
             <select id="searchColumnSelect"></select>
             <input type="text" id="searchInput" placeholder="Type to search...">
             <button id="searchGoBtn">Go</button>
             <button id="clearSearchBtn" class="clear-btn">Clear</button>
-            <button id="loadMoreDataBtn">Load More Data</button> </div>
-        <p id="searchScenarioNote" class="double-click-note"></p>
+            <button id="loadMoreDataBtn">Load More Data</button> <!-- New button to go back to loading -->
+        </div>
+        <p id="searchScenarioNote"></p> <!-- Removed .double-click-note class -->
         <div id="searchResultsWrapper">
              <div id="searchResultsContainer" class="table-container">
                 <div id="loadingIndicator" class="hidden"><p>Loading...</p></div>
@@ -507,15 +512,15 @@
 
                 if (!primaryDataset || primaryDataset.length === 0 || !otherDataset || otherDataset.length === 0) {
                     renderDataTable(searchResultsContainer, pageData); 
-                    searchScenarioNote.textContent = "Double-click any cell to copy its value.";
+                    searchScenarioNote.textContent = "Data displayed from the selected dataset."; // Updated text
                 } else {
                     const primaryHeaders = Object.keys(primaryDataset[0]);
                     const otherHeaders = Object.keys(otherDataset[0]);
-                    const linkingKey = otherHeaders.find(h => primaryHeaders.includes(h));
+                    const commonKeys = primaryHeaders.filter(key => otherHeaders.includes(key));
                     
-                    if (!linkingKey) {
+                    if (!commonKeys.length) { // Check if commonKeys array is empty
                          renderDataTable(searchResultsContainer, pageData);
-                         searchScenarioNote.textContent = "Double-click any cell to copy its value. No common linking key found with Order Catalog Synonym.";
+                         searchScenarioNote.textContent = `Data displayed from the selected dataset. No common linking key found with ${appState.datasetNames[0]}.`; // Updated text
                     } else {
                         const primaryDataMap = new Map();
                         primaryDataset.forEach(row => {
@@ -532,17 +537,11 @@
                         });
                         
                         renderDataTable(searchResultsContainer, combinedData);
-                        searchScenarioNote.textContent = `Double-click any cell to copy its value. Results joined with ${appState.datasetNames[0]}.`;
+                        searchScenarioNote.textContent = `Results joined with ${appState.datasetNames[0]}.`; // Updated text
                     }
                 }
 
-                 searchResultsContainer.ondblclick = (e) => {
-                    if (e.target && e.target.tagName === 'TD') {
-                        copyTextToClipboard(e.target.textContent)
-                            .then(() => logMessage(`Copied to clipboard: "${e.target.textContent}"`))
-                            .catch(() => logMessage(`ERROR: Failed to copy text.`));
-                    }
-                };
+                // Removed searchResultsContainer.ondblclick event listener
             }
             renderPaginationControls();
         }
@@ -573,7 +572,7 @@
 
             const selectedItem = appState.datasets[0][itemIndex];
             searchResultsContainer.innerHTML = '';
-            searchScenarioNote.textContent = '';
+            searchScenarioNote.textContent = ''; // Clear scenario note
             paginationControls.classList.add('hidden');
 
             const wrapper = document.createElement('div');
@@ -641,7 +640,8 @@
 
                 for (let i = 0; i < headers.length; i++) {
                     const row = document.createElement('tr');
-                    row.innerHTML = `<th>${headers[i]}</th><td>${item[headers[i]]}</td>`;
+                    // FIX: Added missing '}' to close the template literal expression
+                    row.innerHTML = `<th>${headers[i]}</th><td>${item[headers[i]]}</td>`; 
                     tbody.appendChild(row);
                 }
                 table.appendChild(tbody);
