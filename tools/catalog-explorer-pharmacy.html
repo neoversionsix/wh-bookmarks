@@ -157,16 +157,14 @@
 <div class="main-container">
     <h2>Pharmacy Catalog Explorer</h2>
 
-    <!-- Two-column layout for loading phase -->
     <div id="loadingLayoutContainer" class="layout-container">
-        <!-- Data Loading Section (Left Column) -->
         <div id="loadDataSection" class="section layout-left">
             <h2>Load Data</h2>
             <button id="copyCode1Btn">Copy CCL to Clipboard (Order Catalog Synonym)</button>
             <p id="code1Status" class="status-text"></p>
             <div id="pasteArea1Container" class="hidden">
                 <textarea id="pasteArea1" class="paste-area" placeholder="Paste data for Order Catalog Synonym here..."></textarea>
-                <button id="processData1Btn">Process Pasted Data (Order Catalog Synonym)</button>
+                <button id="processData1Btn" disabled>Process Pasted Data (Order Catalog Synonym)</button>
             </div>
             <p id="data1Status" class="status-text"></p>
             <div id="data1PreviewContainer" class="preview-container table-container"></div>
@@ -175,7 +173,7 @@
             <p id="code2Status" class="status-text"></p>
             <div id="pasteArea2Container" class="hidden">
                 <textarea id="pasteArea2" class="paste-area" placeholder="Paste data for PBS Mappings here..."></textarea>
-                <button id="processData2Btn">Process Pasted Data (PBS Mappings)</button>
+                <button id="processData2Btn" disabled>Process Pasted Data (PBS Mappings)</button>
             </div>
             <p id="data2Status" class="status-text"></p>
             <div id="data2PreviewContainer" class="preview-container table-container"></div>
@@ -184,27 +182,27 @@
             <p id="code3Status" class="status-text"></p>
             <div id="pasteArea3Container" class="hidden">
                 <textarea id="pasteArea3" class="paste-area" placeholder="Paste data for Order Catalog here..."></textarea>
-                <button id="processData3Btn">Process Pasted Data (Order Catalog)</button>
+                <button id="processData3Btn" disabled>Process Pasted Data (Order Catalog)</button>
             </div>
             <p id="data3Status" class="status-text"></p>
             <div id="data3PreviewContainer" class="preview-container table-container"></div>
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+            <button id="startExploringBtn" class="hidden">Start Exploring Data</button>
         </div>
 
-        <!-- Console Log Section (Right Column) -->
         <div class="section layout-right">
             <h3>Console Log</h3>
             <textarea id="logConsole" readonly></textarea>
         </div>
     </div>
 
-    <!-- Search and Exploration Section (Initially hidden) -->
     <div id="searchSection" class="section hidden">
         <div id="searchControls">
             <select id="searchColumnSelect"></select>
             <input type="text" id="searchInput" placeholder="Type to search...">
             <button id="searchGoBtn">Go</button>
             <button id="clearSearchBtn" class="clear-btn">Clear</button>
-        </div>
+            <button id="loadMoreDataBtn">Load More Data</button> </div>
         <p id="searchScenarioNote" class="double-click-note"></p>
         <div id="searchResultsWrapper">
              <div id="searchResultsContainer" class="table-container">
@@ -221,7 +219,7 @@
     <script>
         // --- GLOBAL STATE ---
         let appState = {
-            datasets: [],
+            datasets: [null, null, null], // Initialize with nulls to track loaded status
             datasetNames: ["Order Catalog Synonym", "PBS Mappings", "Order Catalog"],
             columnMetadata: [],
             // Pagination state
@@ -256,6 +254,9 @@
         const code3Status = document.getElementById('code3Status');
         const data3Status = document.getElementById('data3Status');
 
+        const startExploringBtn = document.getElementById('startExploringBtn'); // New button
+        const loadMoreDataBtn = document.getElementById('loadMoreDataBtn'); // New button in search section
+
         const searchSection = document.getElementById('searchSection');
         const searchControls = document.getElementById('searchControls');
         const searchColumnSelect = document.getElementById('searchColumnSelect');
@@ -263,7 +264,7 @@
         const searchGoBtn = document.getElementById('searchGoBtn');
         const clearSearchBtn = document.getElementById('clearSearchBtn');
         const searchResultsWrapper = document.getElementById('searchResultsWrapper');
-        let searchResultsContainer = document.getElementById('searchResultsContainer'); // Use let to allow re-assignment if needed
+        let searchResultsContainer = document.getElementById('searchResultsContainer'); 
         let paginationControls = document.getElementById('paginationControls');
         const searchScenarioNote = document.getElementById('searchScenarioNote');
         const loadingIndicator = document.getElementById('loadingIndicator');
@@ -368,28 +369,29 @@
              if(isLoading) {
                 document.body.classList.add('wait');
                 searchControls.classList.add('loading');
-                [searchInput, searchColumnSelect, searchGoBtn, clearSearchBtn].forEach(el => el.disabled = true);
+                [searchInput, searchColumnSelect, searchGoBtn, clearSearchBtn, loadMoreDataBtn].forEach(el => el.disabled = true);
                 if (searchResultsContainer) searchResultsContainer.innerHTML = '';
                 if (paginationControls) paginationControls.classList.add('hidden');
                 if (loadingIndicator) loadingIndicator.classList.remove('hidden');
              } else {
                 document.body.classList.remove('wait');
                 searchControls.classList.remove('loading');
-                [searchInput, searchColumnSelect, searchGoBtn, clearSearchBtn].forEach(el => el.disabled = false);
+                [searchInput, searchColumnSelect, searchGoBtn, clearSearchBtn, loadMoreDataBtn].forEach(el => el.disabled = false);
                 if (loadingIndicator) loadingIndicator.classList.add('hidden');
              }
         }
 
         function resetApp() {
-            appState.datasets = [];
+            appState.datasets = [null, null, null]; // Reset datasets to null
             appState.columnMetadata = [];
-            copyCode1Btn.classList.remove('disabled');
-            [copyCode2Btn, copyCode3Btn].forEach(btn => btn.classList.add('disabled'));
+            [copyCode1Btn, copyCode2Btn, copyCode3Btn].forEach(btn => btn.classList.remove('disabled')); // Enable all copy buttons
             [pasteArea1Container, pasteArea2Container, pasteArea3Container, searchSection].forEach(el => el.classList.add('hidden'));
             [code1Status, data1Status, code2Status, data2Status, code3Status, data3Status, 
              data1PreviewContainer, data2PreviewContainer, data3PreviewContainer].forEach(el => el.innerHTML = '');
             [pasteArea1, pasteArea2, pasteArea3].forEach(el => el.value = '');
+            [processData1Btn, processData2Btn, processData3Btn].forEach(btn => btn.disabled = true); // Disable process buttons
             
+            startExploringBtn.classList.add('hidden'); // Hide "Start Exploring" button
             loadingLayoutContainer.classList.remove('hidden');
             logConsole.value = '';
             logMessage("Application reset. Ready to load data.");
@@ -397,7 +399,14 @@
         }
 
         function initializeSearchView() {
-            logMessage("All datasets loaded. Initializing search view.");
+            // Check if at least one dataset is loaded
+            const loadedDatasets = appState.datasets.filter(d => d !== null);
+            if (loadedDatasets.length === 0) {
+                logMessage("No datasets loaded. Cannot initialize search view.");
+                return;
+            }
+
+            logMessage("Datasets loaded. Initializing search view.");
             loadingLayoutContainer.classList.add('hidden');
             searchSection.classList.remove('hidden');
 
@@ -421,15 +430,17 @@
             const primaryOption = Array.from(searchColumnSelect.options).find(opt => opt.text.startsWith('PRIMARY'));
             if (primaryOption) {
                 searchColumnSelect.value = primaryOption.value;
+            } else if (searchColumnSelect.options.length > 0) {
+                searchColumnSelect.value = searchColumnSelect.options[0].value;
             }
-            handleSearch();
+            handleSearch(); // Perform an initial search with the available data
         }
         
         function handleSearch() {
             const metadataIndex = searchColumnSelect.value;
             if(!metadataIndex && metadataIndex !== 0) {
                 appState.filteredResults = [];
-                if (searchResultsContainer) searchResultsContainer.innerHTML = '';
+                if (searchResultsContainer) searchResultsContainer.innerHTML = '<p>Select a column to search.</p>';
                 if (paginationControls) paginationControls.classList.add('hidden');
                 return;
             };
@@ -453,6 +464,7 @@
         
         function renderCurrentPage() {
             const { filteredResults, currentPage, rowsPerPage } = appState;
+            const totalPages = Math.ceil(filteredResults.length / rowsPerPage);
             const start = (currentPage - 1) * rowsPerPage;
             const end = start + rowsPerPage;
             const pageData = filteredResults.slice(start, end);
@@ -466,24 +478,36 @@
             }
             
             const metadataIndex = searchColumnSelect.value;
-            const { datasetIndex } = appState.columnMetadata[metadataIndex];
-            const isScenario1 = datasetIndex === 0;
+            // Handle case where metadataIndex might be undefined if no options are available
+            if (metadataIndex === undefined || appState.columnMetadata[metadataIndex] === undefined) {
+                 searchResultsContainer.innerHTML = '<p>No search columns available. Load data first.</p>';
+                 renderPaginationControls();
+                 return;
+            }
 
-            if (isScenario1) {
+            const { datasetIndex } = appState.columnMetadata[metadataIndex];
+            const isScenario1 = datasetIndex === 0; // Check if the selected column is from the first dataset (Order Catalog Synonym)
+
+            if (isScenario1 && appState.datasets[0]) { // Only enable click for scenario 1 if dataset 0 is loaded
                 searchScenarioNote.textContent = "Click a row to see details and linked data.";
                 renderDataTable(searchResultsContainer, pageData, { 
                     isClickable: true,
                     onRowClick: (item) => {
-                        const originalIndex = appState.datasets[0].indexOf(item);
-                        showItemDetails(originalIndex);
+                        const originalIndex = appState.datasets[0].indexOf(item); // Find the index in the original dataset
+                        if (originalIndex !== -1) {
+                             showItemDetails(originalIndex);
+                        } else {
+                            logMessage("ERROR: Could not find original item for details view.");
+                        }
                     }
                 });
             } else {
-                 const primaryDataset = appState.datasets[0];
+                const primaryDataset = appState.datasets[0];
                 const otherDataset = appState.datasets[datasetIndex];
 
                 if (!primaryDataset || primaryDataset.length === 0 || !otherDataset || otherDataset.length === 0) {
                     renderDataTable(searchResultsContainer, pageData); 
+                    searchScenarioNote.textContent = "Double-click any cell to copy its value.";
                 } else {
                     const primaryHeaders = Object.keys(primaryDataset[0]);
                     const otherHeaders = Object.keys(otherDataset[0]);
@@ -491,6 +515,7 @@
                     
                     if (!linkingKey) {
                          renderDataTable(searchResultsContainer, pageData);
+                         searchScenarioNote.textContent = "Double-click any cell to copy its value. No common linking key found with Order Catalog Synonym.";
                     } else {
                         const primaryDataMap = new Map();
                         primaryDataset.forEach(row => {
@@ -528,7 +553,7 @@
             
             if (!paginationControls) return;
 
-            if(totalPages <= 1) {
+            if(totalPages <= 1 && filteredResults.length === 0) { // Only hide if no results and single page
                 paginationControls.classList.add('hidden');
                 return;
             }
@@ -540,6 +565,12 @@
         }
 
         function showItemDetails(itemIndex) {
+            // Ensure dataset 0 is loaded for details view
+            if (!appState.datasets[0] || appState.datasets[0].length === 0) {
+                logMessage("ERROR: Order Catalog Synonym data not loaded for details view.");
+                return;
+            }
+
             const selectedItem = appState.datasets[0][itemIndex];
             searchResultsContainer.innerHTML = '';
             searchScenarioNote.textContent = '';
@@ -566,7 +597,7 @@
             linkedContainer.innerHTML = '<h3>Linked Data</h3>';
             
             appState.datasets.forEach((otherDataset, index) => {
-                if (index === 0 || !otherDataset || otherDataset.length === 0) return;
+                if (index === 0 || !otherDataset || otherDataset.length === 0) return; // Skip self and unloaded datasets
 
                 const primaryHeaders = Object.keys(appState.datasets[0][0]);
                 const otherHeaders = Object.keys(otherDataset[0]);
@@ -619,6 +650,7 @@
         }
 
         function clearSearch() {
+            // Re-create the search results container to clear existing content and event listeners
             searchResultsWrapper.innerHTML = `
                 <div id="searchResultsContainer" class="table-container">
                     <div id="loadingIndicator" class="hidden"><p>Loading...</p></div>
@@ -639,10 +671,15 @@
             searchInput.value = '';
             searchScenarioNote.textContent = '';
             paginationControls.classList.add('hidden');
-            handleSearch();
+            handleSearch(); // Re-run search to populate with initial data
         }
         
-        function setupProcessDataListener(processBtn, pasteArea, statusEl, previewEl, datasetIndex, nextBtn, finalInitFn) {
+        function setupProcessDataListener(processBtn, pasteArea, statusEl, previewEl, datasetIndex, copyBtn) {
+            // Enable process button when text is pasted
+            pasteArea.addEventListener('input', () => {
+                processBtn.disabled = pasteArea.value.trim().length === 0;
+            });
+
             processBtn.addEventListener('click', () => {
                 const pastedText = pasteArea.value;
                 if (!pastedText) {
@@ -668,23 +705,24 @@
                             logMessage(`${appState.datasetNames[datasetIndex]} loaded with ${data.length} items.`);
                             
                             pasteArea.parentElement.classList.add('hidden');
+                            copyBtn.classList.add('disabled'); // Disable copy button after data is loaded
 
-                            if (nextBtn) {
-                                nextBtn.classList.remove('disabled');
-                            } else if (finalInitFn) {
-                                finalInitFn();
+                            // Check if at least one dataset is loaded to enable "Start Exploring"
+                            const anyDatasetLoaded = appState.datasets.some(d => d !== null);
+                            if (anyDatasetLoaded) {
+                                startExploringBtn.classList.remove('hidden');
                             }
                         } else {
                             statusEl.textContent = 'No data found or failed to parse.';
                             statusEl.style.color = 'red';
                             logMessage(`ERROR: No data parsed from ${appState.datasetNames[datasetIndex]} input.`);
-                            processBtn.disabled = false;
+                            processBtn.disabled = false; // Re-enable process button if parsing fails
                         }
                     } catch (e) {
                          statusEl.textContent = 'An error occurred during parsing.';
                          statusEl.style.color = 'red';
                          logMessage(`FATAL ERROR during parsing: ${e.message}`);
-                         processBtn.disabled = false;
+                         processBtn.disabled = false; // Re-enable process button on error
                     } finally {
                         document.body.classList.remove('wait');
                     }
@@ -699,8 +737,8 @@
             copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/refs/heads/main/QUERIES/QUERIES%20FOR%20SPECIFIC%20TOOLS/PHARMACY%20CATALOG%20EXPLORER/Pharmacy%20Order%20Catalog%20Synonym.ccl")
                 .then(() => {
                     code1Status.textContent = 'Code copied. Run it, copy the output, and paste it below.';
-                    copyCode1Btn.classList.add('disabled');
                     pasteArea1Container.classList.remove('hidden');
+                    processData1Btn.disabled = pasteArea1.value.trim().length === 0; // Enable/disable based on current text
                     logMessage("Order Catalog Synonym CCL code copied. Please paste data below.");
                 })
                 .catch(err => logMessage("ERROR: Failed to copy code."));
@@ -711,8 +749,8 @@
             copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/refs/heads/main/QUERIES/QUERIES%20FOR%20SPECIFIC%20TOOLS/PHARMACY%20CATALOG%20EXPLORER/PBS%20mappings.ccl")
                 .then(() => {
                     code2Status.textContent = 'Code copied. Run it, copy the output, and paste it below.';
-                    copyCode2Btn.classList.add('disabled');
                     pasteArea2Container.classList.remove('hidden');
+                    processData2Btn.disabled = pasteArea2.value.trim().length === 0;
                     logMessage("PBS Mappings CCL code copied. Please paste data below.");
                 })
                 .catch(err => logMessage("ERROR: Failed to copy code."));
@@ -723,16 +761,42 @@
             copyCode("https://raw.githubusercontent.com/neoversionsix/custom-ccl-jobs/refs/heads/main/QUERIES/QUERIES%20FOR%20SPECIFIC%20TOOLS/PHARMACY%20CATALOG%20EXPLORER/Pharmacy%20Order%20Catalog.ccl")
                 .then(() => {
                     code3Status.textContent = 'Code copied. Run it, copy the output, and paste it below.';
-                    copyCode3Btn.classList.add('disabled');
                     pasteArea3Container.classList.remove('hidden');
+                    processData3Btn.disabled = pasteArea3.value.trim().length === 0;
                     logMessage("Order Catalog CCL code copied. Please paste data below.");
                 })
                 .catch(err => logMessage("ERROR: Failed to copy code."));
         });
         
-        setupProcessDataListener(processData1Btn, pasteArea1, data1Status, data1PreviewContainer, 0, copyCode2Btn, null);
-        setupProcessDataListener(processData2Btn, pasteArea2, data2Status, data2PreviewContainer, 1, copyCode3Btn, null);
-        setupProcessDataListener(processData3Btn, pasteArea3, data3Status, data3PreviewContainer, 2, null, initializeSearchView);
+        // Pass the copy button reference to setupProcessDataListener
+        setupProcessDataListener(processData1Btn, pasteArea1, data1Status, data1PreviewContainer, 0, copyCode1Btn);
+        setupProcessDataListener(processData2Btn, pasteArea2, data2Status, data2PreviewContainer, 1, copyCode2Btn);
+        setupProcessDataListener(processData3Btn, pasteArea3, data3Status, data3PreviewContainer, 2, copyCode3Btn);
+
+        startExploringBtn.addEventListener('click', initializeSearchView);
+
+        loadMoreDataBtn.addEventListener('click', () => {
+            logMessage("Returning to data loading section.");
+            searchSection.classList.add('hidden');
+            loadingLayoutContainer.classList.remove('hidden');
+            // Re-enable copy buttons for any datasets not yet loaded
+            if (appState.datasets[0] === null) copyCode1Btn.classList.remove('disabled');
+            if (appState.datasets[1] === null) copyCode2Btn.classList.remove('disabled');
+            if (appState.datasets[2] === null) copyCode3Btn.classList.remove('disabled');
+
+            // Hide the "Start Exploring" button as we are back in loading mode
+            startExploringBtn.classList.add('hidden');
+
+            // Show paste areas for any datasets that haven't been processed yet
+            if (appState.datasets[0] === null) pasteArea1Container.classList.remove('hidden');
+            if (appState.datasets[1] === null) pasteArea2Container.classList.remove('hidden');
+            if (appState.datasets[2] === null) pasteArea3Container.classList.remove('hidden');
+
+            // Ensure process buttons are correctly enabled/disabled based on paste area content
+            processData1Btn.disabled = pasteArea1.value.trim().length === 0 || appState.datasets[0] !== null;
+            processData2Btn.disabled = pasteArea2.value.trim().length === 0 || appState.datasets[1] !== null;
+            processData3Btn.disabled = pasteArea3.value.trim().length === 0 || appState.datasets[2] !== null;
+        });
 
 
         searchGoBtn.addEventListener('click', handleSearch);
