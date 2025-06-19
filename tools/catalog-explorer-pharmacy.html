@@ -123,8 +123,6 @@
         
         .detail-table th, .linked-data-table th { width: 30%; font-weight: bold; }
 
-        /* Removed .double-click-note as it's no longer needed */
-
         .paste-area {
             width: 100%;
             min-height: 100px;
@@ -162,6 +160,7 @@
         <!-- Data Loading Section (Left Column) -->
         <div id="loadDataSection" class="section layout-left">
             <h2>Load Data</h2>
+            <p>The first dataset you load will become the primary dataset for exploration.</p>
             <button id="copyCode1Btn">Copy CCL to Clipboard (Order Catalog Synonym)</button>
             <p id="code1Status" class="status-text"></p>
             <div id="pasteArea1Container" class="hidden">
@@ -208,7 +207,7 @@
             <button id="clearSearchBtn" class="clear-btn">Clear</button>
             <button id="loadMoreDataBtn">Load More Data</button> <!-- New button to go back to loading -->
         </div>
-        <p id="searchScenarioNote"></p> <!-- Removed .double-click-note class -->
+        <p id="searchScenarioNote"></p>
         <div id="searchResultsWrapper">
              <div id="searchResultsContainer" class="table-container">
                 <div id="loadingIndicator" class="hidden"><p>Loading...</p></div>
@@ -226,6 +225,7 @@
         let appState = {
             datasets: [null, null, null], // Initialize with nulls to track loaded status
             datasetNames: ["Order Catalog Synonym", "PBS Mappings", "Order Catalog"],
+            primaryDatasetIndex: -1, // MODIFIED: Tracks the index of the first loaded dataset. -1 means not set.
             columnMetadata: [],
             // Pagination state
             filteredResults: [],
@@ -259,8 +259,8 @@
         const code3Status = document.getElementById('code3Status');
         const data3Status = document.getElementById('data3Status');
 
-        const startExploringBtn = document.getElementById('startExploringBtn'); // New button
-        const loadMoreDataBtn = document.getElementById('loadMoreDataBtn'); // New button in search section
+        const startExploringBtn = document.getElementById('startExploringBtn');
+        const loadMoreDataBtn = document.getElementById('loadMoreDataBtn'); 
 
         const searchSection = document.getElementById('searchSection');
         const searchControls = document.getElementById('searchControls');
@@ -387,16 +387,17 @@
         }
 
         function resetApp() {
-            appState.datasets = [null, null, null]; // Reset datasets to null
+            appState.datasets = [null, null, null];
+            appState.primaryDatasetIndex = -1; // MODIFIED: Reset primary dataset index
             appState.columnMetadata = [];
-            [copyCode1Btn, copyCode2Btn, copyCode3Btn].forEach(btn => btn.classList.remove('disabled')); // Enable all copy buttons
+            [copyCode1Btn, copyCode2Btn, copyCode3Btn].forEach(btn => btn.classList.remove('disabled'));
             [pasteArea1Container, pasteArea2Container, pasteArea3Container, searchSection].forEach(el => el.classList.add('hidden'));
             [code1Status, data1Status, code2Status, data2Status, code3Status, data3Status, 
              data1PreviewContainer, data2PreviewContainer, data3PreviewContainer].forEach(el => el.innerHTML = '');
             [pasteArea1, pasteArea2, pasteArea3].forEach(el => el.value = '');
-            [processData1Btn, processData2Btn, processData3Btn].forEach(btn => btn.disabled = true); // Disable process buttons
+            [processData1Btn, processData2Btn, processData3Btn].forEach(btn => btn.disabled = true);
             
-            startExploringBtn.classList.add('hidden'); // Hide "Start Exploring" button
+            startExploringBtn.classList.add('hidden');
             loadingLayoutContainer.classList.remove('hidden');
             logConsole.value = '';
             logMessage("Application reset. Ready to load data.");
@@ -404,7 +405,6 @@
         }
 
         function initializeSearchView() {
-            // Check if at least one dataset is loaded
             const loadedDatasets = appState.datasets.filter(d => d !== null);
             if (loadedDatasets.length === 0) {
                 logMessage("No datasets loaded. Cannot initialize search view.");
@@ -412,6 +412,9 @@
             }
 
             logMessage("Datasets loaded. Initializing search view.");
+            if (appState.primaryDatasetIndex !== -1) {
+                logMessage(`Primary dataset is: "${appState.datasetNames[appState.primaryDatasetIndex]}".`);
+            }
             loadingLayoutContainer.classList.add('hidden');
             searchSection.classList.remove('hidden');
 
@@ -423,7 +426,11 @@
                     const headers = Object.keys(dataset[0]);
                     headers.forEach(header => {
                         const option = document.createElement('option');
-                        const label = `${header} - (${appState.datasetNames[index]})`;
+                        let label = `${header} - (${appState.datasetNames[index]})`;
+                        // MODIFIED: Add a note for the primary dataset's columns
+                        if (index === appState.primaryDatasetIndex) {
+                            label += " [Primary]";
+                        }
                         option.value = appState.columnMetadata.length;
                         option.textContent = label;
                         searchColumnSelect.appendChild(option);
@@ -432,13 +439,14 @@
                 }
             });
 
-            const primaryOption = Array.from(searchColumnSelect.options).find(opt => opt.text.startsWith('PRIMARY'));
+            // Try to select a column from the primary dataset first
+            const primaryOption = Array.from(searchColumnSelect.options).find(opt => opt.text.includes('[Primary]'));
             if (primaryOption) {
                 searchColumnSelect.value = primaryOption.value;
             } else if (searchColumnSelect.options.length > 0) {
                 searchColumnSelect.value = searchColumnSelect.options[0].value;
             }
-            handleSearch(); // Perform an initial search with the available data
+            handleSearch();
         }
         
         function handleSearch() {
@@ -468,7 +476,7 @@
         }
         
         function renderCurrentPage() {
-            const { filteredResults, currentPage, rowsPerPage } = appState;
+            const { filteredResults, currentPage, rowsPerPage, primaryDatasetIndex } = appState;
             const totalPages = Math.ceil(filteredResults.length / rowsPerPage);
             const start = (currentPage - 1) * rowsPerPage;
             const end = start + rowsPerPage;
@@ -483,7 +491,6 @@
             }
             
             const metadataIndex = searchColumnSelect.value;
-            // Handle case where metadataIndex might be undefined if no options are available
             if (metadataIndex === undefined || appState.columnMetadata[metadataIndex] === undefined) {
                  searchResultsContainer.innerHTML = '<p>No search columns available. Load data first.</p>';
                  renderPaginationControls();
@@ -491,14 +498,16 @@
             }
 
             const { datasetIndex } = appState.columnMetadata[metadataIndex];
-            const isScenario1 = datasetIndex === 0; // Check if the selected column is from the first dataset (Order Catalog Synonym)
+            // MODIFIED: Check if the searched column is from the DYNAMIC primary dataset
+            const isPrimaryDatasetSearch = datasetIndex === primaryDatasetIndex;
 
-            if (isScenario1 && appState.datasets[0]) { // Only enable click for scenario 1 if dataset 0 is loaded
+            if (isPrimaryDatasetSearch && appState.datasets[primaryDatasetIndex]) {
                 searchScenarioNote.textContent = "Click a row to see details and linked data.";
                 renderDataTable(searchResultsContainer, pageData, { 
                     isClickable: true,
                     onRowClick: (item) => {
-                        const originalIndex = appState.datasets[0].indexOf(item); // Find the index in the original dataset
+                        // MODIFIED: Find the index in the correct primary dataset
+                        const originalIndex = appState.datasets[primaryDatasetIndex].indexOf(item);
                         if (originalIndex !== -1) {
                              showItemDetails(originalIndex);
                         } else {
@@ -507,20 +516,22 @@
                     }
                 });
             } else {
-                const primaryDataset = appState.datasets[0];
+                // This logic handles displaying data from a non-primary ("linked") dataset
+                const primaryDataset = appState.datasets[primaryDatasetIndex];
                 const otherDataset = appState.datasets[datasetIndex];
 
                 if (!primaryDataset || primaryDataset.length === 0 || !otherDataset || otherDataset.length === 0) {
                     renderDataTable(searchResultsContainer, pageData); 
-                    searchScenarioNote.textContent = "Data displayed from the selected dataset."; // Updated text
+                    searchScenarioNote.textContent = "Data displayed from the selected dataset.";
                 } else {
                     const primaryHeaders = Object.keys(primaryDataset[0]);
                     const otherHeaders = Object.keys(otherDataset[0]);
                     const commonKeys = primaryHeaders.filter(key => otherHeaders.includes(key));
+                    const linkingKey = commonKeys[0]; // FIX: Use the first common key found
                     
-                    if (!commonKeys.length) { // Check if commonKeys array is empty
+                    if (!linkingKey) {
                          renderDataTable(searchResultsContainer, pageData);
-                         searchScenarioNote.textContent = `Data displayed from the selected dataset. No common linking key found with ${appState.datasetNames[0]}.`; // Updated text
+                         searchScenarioNote.textContent = `Data displayed. No common linking key found with primary dataset (${appState.datasetNames[primaryDatasetIndex]}).`;
                     } else {
                         const primaryDataMap = new Map();
                         primaryDataset.forEach(row => {
@@ -533,15 +544,13 @@
                         const combinedData = pageData.map(otherRow => {
                             const linkingValue = otherRow[linkingKey];
                             const primaryMatch = primaryDataMap.get(linkingValue);
-                            return primaryMatch ? { ...otherRow, ...primaryMatch } : otherRow;
+                            return primaryMatch ? { ...primaryMatch, ...otherRow } : otherRow;
                         });
                         
                         renderDataTable(searchResultsContainer, combinedData);
-                        searchScenarioNote.textContent = `Results joined with ${appState.datasetNames[0]}.`; // Updated text
+                        searchScenarioNote.textContent = `Results from ${appState.datasetNames[datasetIndex]} joined with primary dataset (${appState.datasetNames[primaryDatasetIndex]}) on key: ${linkingKey}.`;
                     }
                 }
-
-                // Removed searchResultsContainer.ondblclick event listener
             }
             renderPaginationControls();
         }
@@ -552,7 +561,7 @@
             
             if (!paginationControls) return;
 
-            if(totalPages <= 1 && filteredResults.length === 0) { // Only hide if no results and single page
+            if(totalPages <= 1) {
                 paginationControls.classList.add('hidden');
                 return;
             }
@@ -563,14 +572,17 @@
             nextPageBtn.disabled = currentPage === totalPages;
         }
 
-        function showItemDetails(itemIndex) {
-            // Ensure dataset 0 is loaded for details view
-            if (!appState.datasets[0] || appState.datasets[0].length === 0) {
-                logMessage("ERROR: Order Catalog Synonym data not loaded for details view.");
+        function showItemDetails(itemIndexInPrimary) {
+            // MODIFIED: Use dynamic primary dataset index
+            const { primaryDatasetIndex, datasets, datasetNames } = appState;
+
+            if (primaryDatasetIndex === -1 || !datasets[primaryDatasetIndex] || datasets[primaryDatasetIndex].length === 0) {
+                logMessage("ERROR: Primary data not loaded for details view.");
                 return;
             }
-
-            const selectedItem = appState.datasets[0][itemIndex];
+            
+            const primaryDataset = datasets[primaryDatasetIndex];
+            const selectedItem = primaryDataset[itemIndexInPrimary];
             searchResultsContainer.innerHTML = '';
             searchScenarioNote.textContent = ''; // Clear scenario note
             paginationControls.classList.add('hidden');
@@ -580,7 +592,8 @@
 
             const detailsContainer = document.createElement('div');
             detailsContainer.className = 'search-results-left';
-            detailsContainer.innerHTML = `<h3>Item Details (${appState.datasetNames[0]})</h3>`;
+            // MODIFIED: Use dynamic name for the primary dataset
+            detailsContainer.innerHTML = `<h3>Item Details (${datasetNames[primaryDatasetIndex]})</h3>`;
             
             const detailTable = document.createElement('table');
             detailTable.className = 'detail-table';
@@ -595,14 +608,17 @@
             linkedContainer.className = 'search-results-right';
             linkedContainer.innerHTML = '<h3>Linked Data</h3>';
             
-            appState.datasets.forEach((otherDataset, index) => {
-                if (index === 0 || !otherDataset || otherDataset.length === 0) return; // Skip self and unloaded datasets
+            datasets.forEach((otherDataset, index) => {
+                // MODIFIED: Skip self (the primary dataset) and unloaded datasets
+                if (index === primaryDatasetIndex || !otherDataset || otherDataset.length === 0) return;
 
-                const primaryHeaders = Object.keys(appState.datasets[0][0]);
+                const primaryHeaders = Object.keys(primaryDataset[0]);
                 const otherHeaders = Object.keys(otherDataset[0]);
                 const commonKeys = primaryHeaders.filter(key => otherHeaders.includes(key));
+                let foundLink = false;
 
                 for (const linkingKey of commonKeys) {
+                    if (foundLink) break;
                     const linkingValue = selectedItem[linkingKey];
 
                     if (linkingValue && linkingValue.trim() !== '') {
@@ -610,10 +626,10 @@
 
                         if(linkedData.length > 0) {
                             const container = document.createElement('div');
-                            container.innerHTML = `<h4>From ${appState.datasetNames[index]} (linked by ${linkingKey})</h4>`;
+                            container.innerHTML = `<h4>From ${datasetNames[index]} (linked by ${linkingKey})</h4>`;
                             renderLinkedData(container, linkedData);
                             linkedContainer.appendChild(container);
-                            break; 
+                            foundLink = true;
                         }
                     }
                 }
@@ -640,7 +656,6 @@
 
                 for (let i = 0; i < headers.length; i++) {
                     const row = document.createElement('tr');
-                    // FIX: Added missing '}' to close the template literal expression
                     row.innerHTML = `<th>${headers[i]}</th><td>${item[headers[i]]}</td>`; 
                     tbody.appendChild(row);
                 }
@@ -650,7 +665,6 @@
         }
 
         function clearSearch() {
-            // Re-create the search results container to clear existing content and event listeners
             searchResultsWrapper.innerHTML = `
                 <div id="searchResultsContainer" class="table-container">
                     <div id="loadingIndicator" class="hidden"><p>Loading...</p></div>
@@ -661,7 +675,6 @@
                     <button id="nextPageBtn">Next</button>
                 </div>
             `;
-            // Re-acquire DOM references after rebuilding
             searchResultsContainer = document.getElementById('searchResultsContainer');
             paginationControls = document.getElementById('paginationControls');
             prevPageBtn = document.getElementById('prevPageBtn');
@@ -671,11 +684,10 @@
             searchInput.value = '';
             searchScenarioNote.textContent = '';
             paginationControls.classList.add('hidden');
-            handleSearch(); // Re-run search to populate with initial data
+            handleSearch();
         }
         
         function setupProcessDataListener(processBtn, pasteArea, statusEl, previewEl, datasetIndex, copyBtn) {
-            // Enable process button when text is pasted
             pasteArea.addEventListener('input', () => {
                 processBtn.disabled = pasteArea.value.trim().length === 0;
             });
@@ -701,13 +713,22 @@
                             statusEl.textContent = `Data loaded successfully (${data.length} items).`;
                             statusEl.style.color = '#28a745';
                             appState.datasets[datasetIndex] = data;
+
+                            // ---- MODIFIED LOGIC ----
+                            // If this is the first dataset being loaded, set it as the primary.
+                            if (appState.primaryDatasetIndex === -1) {
+                                appState.primaryDatasetIndex = datasetIndex;
+                                logMessage(`Set "${appState.datasetNames[datasetIndex]}" as the primary dataset.`);
+                                statusEl.textContent += ' (Set as Primary)';
+                            }
+                            // ---- END MODIFIED LOGIC ----
+
                             renderDataTable(previewEl, data, { isClickable: false, rowCount: 10 });
                             logMessage(`${appState.datasetNames[datasetIndex]} loaded with ${data.length} items.`);
                             
                             pasteArea.parentElement.classList.add('hidden');
-                            copyBtn.classList.add('disabled'); // Disable copy button after data is loaded
+                            copyBtn.classList.add('disabled');
 
-                            // Check if at least one dataset is loaded to enable "Start Exploring"
                             const anyDatasetLoaded = appState.datasets.some(d => d !== null);
                             if (anyDatasetLoaded) {
                                 startExploringBtn.classList.remove('hidden');
@@ -716,13 +737,13 @@
                             statusEl.textContent = 'No data found or failed to parse.';
                             statusEl.style.color = 'red';
                             logMessage(`ERROR: No data parsed from ${appState.datasetNames[datasetIndex]} input.`);
-                            processBtn.disabled = false; // Re-enable process button if parsing fails
+                            processBtn.disabled = false;
                         }
                     } catch (e) {
                          statusEl.textContent = 'An error occurred during parsing.';
                          statusEl.style.color = 'red';
                          logMessage(`FATAL ERROR during parsing: ${e.message}`);
-                         processBtn.disabled = false; // Re-enable process button on error
+                         processBtn.disabled = false;
                     } finally {
                         document.body.classList.remove('wait');
                     }
@@ -738,7 +759,7 @@
                 .then(() => {
                     code1Status.textContent = 'Code copied. Run it, copy the output, and paste it below.';
                     pasteArea1Container.classList.remove('hidden');
-                    processData1Btn.disabled = pasteArea1.value.trim().length === 0; // Enable/disable based on current text
+                    processData1Btn.disabled = pasteArea1.value.trim().length === 0;
                     logMessage("Order Catalog Synonym CCL code copied. Please paste data below.");
                 })
                 .catch(err => logMessage("ERROR: Failed to copy code."));
@@ -768,7 +789,6 @@
                 .catch(err => logMessage("ERROR: Failed to copy code."));
         });
         
-        // Pass the copy button reference to setupProcessDataListener
         setupProcessDataListener(processData1Btn, pasteArea1, data1Status, data1PreviewContainer, 0, copyCode1Btn);
         setupProcessDataListener(processData2Btn, pasteArea2, data2Status, data2PreviewContainer, 1, copyCode2Btn);
         setupProcessDataListener(processData3Btn, pasteArea3, data3Status, data3PreviewContainer, 2, copyCode3Btn);
@@ -779,20 +799,17 @@
             logMessage("Returning to data loading section.");
             searchSection.classList.add('hidden');
             loadingLayoutContainer.classList.remove('hidden');
-            // Re-enable copy buttons for any datasets not yet loaded
+            
             if (appState.datasets[0] === null) copyCode1Btn.classList.remove('disabled');
             if (appState.datasets[1] === null) copyCode2Btn.classList.remove('disabled');
             if (appState.datasets[2] === null) copyCode3Btn.classList.remove('disabled');
 
-            // Hide the "Start Exploring" button as we are back in loading mode
-            startExploringBtn.classList.add('hidden');
+            startExploringBtn.classList.remove('hidden'); // Keep this visible so user can go back to exploring
 
-            // Show paste areas for any datasets that haven't been processed yet
             if (appState.datasets[0] === null) pasteArea1Container.classList.remove('hidden');
             if (appState.datasets[1] === null) pasteArea2Container.classList.remove('hidden');
             if (appState.datasets[2] === null) pasteArea3Container.classList.remove('hidden');
 
-            // Ensure process buttons are correctly enabled/disabled based on paste area content
             processData1Btn.disabled = pasteArea1.value.trim().length === 0 || appState.datasets[0] !== null;
             processData2Btn.disabled = pasteArea2.value.trim().length === 0 || appState.datasets[1] !== null;
             processData3Btn.disabled = pasteArea3.value.trim().length === 0 || appState.datasets[2] !== null;
@@ -809,7 +826,6 @@
         });
         clearSearchBtn.addEventListener('click', clearSearch);
         
-        // Use event delegation on a static parent
         document.getElementById('searchResultsWrapper').addEventListener('click', (e) => {
             if (e.target && e.target.id === 'prevPageBtn') {
                  if(appState.currentPage > 1) {
