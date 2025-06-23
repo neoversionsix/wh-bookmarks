@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Universal Data Explorer</title>
+    <style>
+        /* Basic setup for full-height, flexible layout */
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            background-color: #f0f2f5;
+            box-sizing: border-box;
+        }
+        
+        body.wait {
+            cursor: wait !important;
+        }
+
+        /* Main container to manage padding and centering */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            padding: 20px;
+            min-height: 0;
+            width: 100%;
+            max-width: 95%;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #searchSection {
+            flex-grow: 1;
+            min-height: 0;
+        }
+        
+        /* Layout containers */
+        .layout-container { display: flex; flex-direction: row; gap: 20px; }
+        .layout-left { width: 50%; }
+        .layout-right { width: 50%; display: flex; flex-direction: column; }
+        
+        .search-results-container { display: flex; gap: 20px; align-items: flex-start; }
+        .search-results-left { flex: 1; }
+        .search-results-right { flex: 2; }
+
+        .hidden { display: none !important; }
+        
+        .status-text { min-height: 20px; margin-top: 5px; font-style: italic; color: #28a745; }
+
+        .disabled, button:disabled, input:disabled { opacity: 0.5; pointer-events: none; background-color: #e9ecef; }
+
+        button {
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, opacity 0.3s ease;
+            margin-bottom: 10px;
+        }
+        
+        button.secondary-btn { background-color: #6c757d; }
+        button:hover:not(:disabled) { background-color: #0b5ed7; }
+        button.secondary-btn:hover:not(:disabled) { background-color: #5c636a; }
+
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; table-layout: auto; }
+        .detail-table { table-layout: fixed; } /* Specific layout for the 2-column detail view */
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; word-wrap: break-word; }
+        th { background-color: #f8f9fa; }
+        
+        #searchResultsContainer tr:hover { background-color: #f0f2f5; }
+        #searchResultsContainer .clickable-row { cursor: pointer; }
+
+
+        .table-container {
+             max-height: 60vh; /* Use more vertical space */
+             overflow: auto; 
+             border: 1px solid #eee; 
+             margin-bottom: 20px; 
+        }
+
+        #searchResultsWrapper {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        #searchResultsContainer {
+            flex-grow: 1;
+        }
+
+        .preview-container {
+             max-height: 25vh;
+        }
+        
+        .preview-container:not(:empty) { margin-bottom: 20px; }
+        
+        #logConsole { width: 100%; flex-grow: 1; box-sizing: border-box; background-color: #2d3748; color: #f7fafc; border: 1px solid #ccc; border-radius: 5px; padding: 10px; font-family: monospace; font-size: 14px; }
+
+        /* Search Page Specific Styles */
+        #searchControls { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; }
+        #searchControls.loading * { cursor: wait !important; }
+
+        #searchColumnSelect, #searchInput, input[type="text"] { padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
+        #searchInput { flex-grow: 1; }
+        
+        .detail-table th, .linked-data-table th { width: 30%; font-weight: bold; }
+
+        .data-upload-area {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .data-upload-area h4 { margin-top: 0; }
+        .paste-area {
+            width: 100%;
+            min-height: 100px;
+            margin-top: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px dashed #ccc;
+            margin-bottom: 10px;
+        }
+        
+        #loadingIndicator {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2em;
+            color: #6c757d;
+        }
+        
+        #paginationControls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <h2>Universal Data Explorer</h2>
+
+    <!-- Two-column layout for loading phase -->
+    <div id="loadingLayoutContainer" class="layout-container">
+        <!-- Data Loading Section (Left Column) -->
+        <div id="loadDataSection" class="section layout-left">
+            <h2>Load Data</h2>
+            <p>Paste one or more tab-separated datasets below. The first dataset you process will be the "Base Table".</p>
+            
+            <div id="tableUploadContainer">
+                <!-- Dynamic upload areas will be injected here -->
+            </div>
+
+            <button id="addTableBtn">Add Another Table</button>
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+            <button id="startExploringBtn" class="hidden">Start Exploring Data</button>
+        </div>
+
+        <!-- Console Log Section (Right Column) -->
+        <div class="section layout-right">
+            <h3>Console Log</h3>
+            <textarea id="logConsole" readonly></textarea>
+        </div>
+    </div>
+
+    <!-- Search and Exploration Section (Initially hidden) -->
+    <div id="searchSection" class="section hidden">
+        <div id="searchControls">
+            <select id="searchColumnSelect"></select>
+            <input type="text" id="searchInput" placeholder="Type to search...">
+            <button id="searchGoBtn">Go</button>
+            <button id="clearSearchBtn" class="secondary-btn">Clear</button>
+            <button id="backToLoadBtn">Back to Data Loader</button>
+        </div>
+        <p id="searchScenarioNote"></p>
+        <div id="searchResultsWrapper">
+             <div id="searchResultsContainer" class="table-container">
+                <div id="loadingIndicator" class="hidden"><p>Loading...</p></div>
+            </div>
+            <div id="paginationControls" class="hidden">
+                 <button id="prevPageBtn">Previous</button>
+                 <span id="pageInfo"></span>
+                 <button id="nextPageBtn">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+        // --- GLOBAL STATE ---
+        let appState = {
+            datasets: [], // Will store { name: '...', data: [...] } objects
+            baseTableIndex: -1, 
+            columnMetadata: [],
+            // Pagination state
+            filteredResults: [],
+            currentPage: 1,
+            rowsPerPage: 50,
+            nextTableId: 0,
+        };
+
+        // --- DOM ELEMENT REFERENCES ---
+        const loadingLayoutContainer = document.getElementById('loadingLayoutContainer');
+        const loadDataSection = document.getElementById('loadDataSection');
+        const tableUploadContainer = document.getElementById('tableUploadContainer');
+        const addTableBtn = document.getElementById('addTableBtn');
+        const startExploringBtn = document.getElementById('startExploringBtn');
+        const backToLoadBtn = document.getElementById('backToLoadBtn'); 
+
+        const searchSection = document.getElementById('searchSection');
+        const searchControls = document.getElementById('searchControls');
+        const searchColumnSelect = document.getElementById('searchColumnSelect');
+        const searchInput = document.getElementById('searchInput');
+        const searchGoBtn = document.getElementById('searchGoBtn');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+        const searchResultsWrapper = document.getElementById('searchResultsWrapper');
+        let searchResultsContainer = document.getElementById('searchResultsContainer'); 
+        let paginationControls = document.getElementById('paginationControls');
+        const searchScenarioNote = document.getElementById('searchScenarioNote');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        let prevPageBtn = document.getElementById('prevPageBtn');
+        let nextPageBtn = document.getElementById('nextPageBtn');
+        let pageInfo = document.getElementById('pageInfo');
+        
+        const logConsole = document.getElementById('logConsole');
+
+        // --- CORE FUNCTIONS ---
+
+        function logMessage(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            logConsole.value += `[${timestamp}] ${message}\n`;
+            logConsole.scrollTop = logConsole.scrollHeight;
+        }
+
+        function parseData(text) {
+            const lines = text.trim().split('\n');
+            if (lines.length < 2) return [];
+            // Robustly handle headers with potential trailing tabs
+            const headers = lines[0].split('\t').map(h => h.trim()).filter(h => h);
+            return lines.slice(1).map(line => {
+                const values = line.split('\t');
+                const obj = {};
+                headers.forEach((header, index) => {
+                    obj[header] = values[index] ? values[index].trim() : '';
+                });
+                return obj;
+            });
+        }
+        
+        function renderDataTable(container, data, { isClickable = false, onRowClick = null, rowCount = null } = {}) {
+            container.innerHTML = '';
+            if (!data || data.length === 0) {
+                container.innerHTML = '<p>No data to display.</p>';
+                return;
+            }
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            const tbody = document.createElement('tbody');
+            const headerRow = document.createElement('tr');
+            
+            const headers = Object.keys(data[0]);
+
+            headers.forEach(key => {
+                const th = document.createElement('th');
+                th.textContent = key;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            
+            const dataToRender = rowCount ? data.slice(0, rowCount) : data;
+
+            dataToRender.forEach((item) => {
+                const row = document.createElement('tr');
+                if (isClickable) {
+                    row.classList.add('clickable-row');
+                    if(onRowClick) {
+                       row.onclick = () => onRowClick(item);
+                    }
+                }
+                headers.forEach(header => {
+                    const td = document.createElement('td');
+                    td.textContent = item[header];
+                    row.appendChild(td);
+                })
+                tbody.appendChild(row);
+            });
+
+            table.appendChild(thead);
+            table.appendChild(tbody);
+            container.appendChild(table);
+        }
+        
+        function setSearchLoadingState(isLoading) {
+             if(isLoading) {
+                document.body.classList.add('wait');
+                searchControls.classList.add('loading');
+                [searchInput, searchColumnSelect, searchGoBtn, clearSearchBtn, backToLoadBtn].forEach(el => el.disabled = true);
+                if (searchResultsContainer) searchResultsContainer.innerHTML = '';
+                if (paginationControls) paginationControls.classList.add('hidden');
+                if (loadingIndicator) loadingIndicator.classList.remove('hidden');
+             } else {
+                document.body.classList.remove('wait');
+                searchControls.classList.remove('loading');
+                [searchInput, searchColumnSelect, searchGoBtn, clearSearchBtn, backToLoadBtn].forEach(el => el.disabled = false);
+                if (loadingIndicator) loadingIndicator.classList.add('hidden');
+             }
+        }
+
+        function resetApp() {
+            appState.datasets = [];
+            appState.baseTableIndex = -1;
+            appState.columnMetadata = [];
+            appState.nextTableId = 0;
+            
+            tableUploadContainer.innerHTML = '';
+            addTableInterface(); // Add the first interface
+            
+            searchSection.classList.add('hidden');
+            startExploringBtn.classList.add('hidden');
+            loadingLayoutContainer.classList.remove('hidden');
+            logConsole.value = '';
+            logMessage("Application reset. Ready to load data.");
+            clearSearch();
+        }
+
+        function initializeSearchView() {
+            if (appState.datasets.length === 0) {
+                logMessage("No datasets loaded. Cannot initialize search view.");
+                return;
+            }
+
+            logMessage("Datasets loaded. Initializing search view.");
+            if (appState.baseTableIndex !== -1) {
+                logMessage(`Base Table is: "${appState.datasets[appState.baseTableIndex].name}".`);
+            }
+            loadingLayoutContainer.classList.add('hidden');
+            searchSection.classList.remove('hidden');
+
+            searchColumnSelect.innerHTML = '';
+            appState.columnMetadata = [];
+            
+            appState.datasets.forEach((dataset, index) => {
+                if (dataset && dataset.data.length > 0) {
+                    const headers = Object.keys(dataset.data[0]);
+                    headers.forEach(header => {
+                        const option = document.createElement('option');
+                        let label = `${header} - (${dataset.name})`;
+                        if (index === appState.baseTableIndex) {
+                            label += " [Base]";
+                        } else {
+                             label += " [Linked]";
+                        }
+                        option.value = appState.columnMetadata.length;
+                        option.textContent = label;
+                        searchColumnSelect.appendChild(option);
+                        appState.columnMetadata.push({ header, datasetIndex: index });
+                    });
+                }
+            });
+
+            // Try to select a column from the primary dataset first
+            const primaryOption = Array.from(searchColumnSelect.options).find(opt => opt.text.includes('[Base]'));
+            if (primaryOption) {
+                searchColumnSelect.value = primaryOption.value;
+            } else if (searchColumnSelect.options.length > 0) {
+                searchColumnSelect.value = searchColumnSelect.options[0].value;
+            }
+            handleSearch();
+        }
+        
+        function handleSearch() {
+            const metadataIndex = searchColumnSelect.value;
+            if(!metadataIndex && metadataIndex !== 0) {
+                appState.filteredResults = [];
+                if (searchResultsContainer) searchResultsContainer.innerHTML = '<p>Select a column to search.</p>';
+                if (paginationControls) paginationControls.classList.add('hidden');
+                return;
+            };
+
+            setSearchLoadingState(true);
+            logMessage(`Searching...`);
+
+            setTimeout(() => {
+                const { header, datasetIndex } = appState.columnMetadata[metadataIndex];
+                const query = searchInput.value.toLowerCase();
+                const sourceData = appState.datasets[datasetIndex].data;
+                
+                appState.filteredResults = sourceData.filter(row => row[header] && String(row[header]).toLowerCase().includes(query));
+                appState.currentPage = 1;
+                
+                logMessage(`Found ${appState.filteredResults.length} results.`);
+                setSearchLoadingState(false);
+                renderCurrentPage();
+            }, 10);
+        }
+        
+        function renderCurrentPage() {
+            const { filteredResults, currentPage, rowsPerPage, baseTableIndex, datasets } = appState;
+            const totalPages = Math.ceil(filteredResults.length / rowsPerPage);
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const pageData = filteredResults.slice(start, end);
+            
+            if (!searchResultsContainer) return;
+
+            if (pageData.length === 0) {
+                 searchResultsContainer.innerHTML = '<p>No results found.</p>';
+                 renderPaginationControls();
+                 return;
+            }
+            
+            const metadataIndex = searchColumnSelect.value;
+            if (metadataIndex === undefined || appState.columnMetadata[metadataIndex] === undefined) {
+                 searchResultsContainer.innerHTML = '<p>No search columns available. Load data first.</p>';
+                 renderPaginationControls();
+                 return;
+            }
+
+            const { datasetIndex } = appState.columnMetadata[metadataIndex];
+            const isBaseTableSearch = datasetIndex === baseTableIndex;
+
+            if (isBaseTableSearch && datasets[baseTableIndex]) {
+                searchScenarioNote.textContent = "Click a row to see details and linked data.";
+                renderDataTable(searchResultsContainer, pageData, { 
+                    isClickable: true,
+                    onRowClick: (item) => {
+                        const originalIndex = datasets[baseTableIndex].data.indexOf(item);
+                        if (originalIndex !== -1) {
+                             showItemDetails(originalIndex);
+                        } else {
+                            logMessage("ERROR: Could not find original item for details view.");
+                        }
+                    }
+                });
+            } else {
+                // This logic handles displaying data from a non-base ("linked") dataset
+                const baseDataset = datasets[baseTableIndex];
+                const otherDataset = datasets[datasetIndex];
+
+                if (!baseDataset || baseDataset.data.length === 0 || !otherDataset || otherDataset.data.length === 0) {
+                    renderDataTable(searchResultsContainer, pageData); 
+                    searchScenarioNote.textContent = "Data displayed from the selected dataset.";
+                } else {
+                    const primaryHeaders = Object.keys(baseDataset.data[0]);
+                    const otherHeaders = Object.keys(otherDataset.data[0]);
+                    const commonKeys = primaryHeaders.filter(key => otherHeaders.includes(key));
+                    const linkingKey = commonKeys[0]; 
+                    
+                    if (!linkingKey) {
+                         renderDataTable(searchResultsContainer, pageData);
+                         searchScenarioNote.textContent = `Data displayed. No common linking key found with Base Table (${datasets[baseTableIndex].name}).`;
+                    } else {
+                        const primaryDataMap = new Map();
+                        baseDataset.data.forEach(row => {
+                            const key = row[linkingKey];
+                            if (key && !primaryDataMap.has(key)) {
+                                primaryDataMap.set(key, row);
+                            }
+                        });
+
+                        const combinedData = pageData.map(otherRow => {
+                            const linkingValue = otherRow[linkingKey];
+                            const primaryMatch = primaryDataMap.get(linkingValue);
+                            return primaryMatch ? { ...primaryMatch, ...otherRow } : otherRow;
+                        });
+                        
+                        renderDataTable(searchResultsContainer, combinedData);
+                        searchScenarioNote.textContent = `Results from ${otherDataset.name} joined with Base Table (${baseDataset.name}) on key: ${linkingKey}.`;
+                    }
+                }
+            }
+            renderPaginationControls();
+        }
+
+        function renderPaginationControls() {
+            const { filteredResults, currentPage, rowsPerPage } = appState;
+            const totalPages = Math.ceil(filteredResults.length / rowsPerPage);
+            
+            if (!paginationControls) return;
+
+            if(totalPages <= 1) {
+                paginationControls.classList.add('hidden');
+                return;
+            }
+
+            paginationControls.classList.remove('hidden');
+            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages;
+        }
+
+        function showItemDetails(itemIndexInBase) {
+            const { baseTableIndex, datasets } = appState;
+
+            if (baseTableIndex === -1 || !datasets[baseTableIndex] || datasets[baseTableIndex].data.length === 0) {
+                logMessage("ERROR: Base Table data not loaded for details view.");
+                return;
+            }
+            
+            const baseDataset = datasets[baseTableIndex].data;
+            const selectedItem = baseDataset[itemIndexInBase];
+            searchResultsContainer.innerHTML = '';
+            searchScenarioNote.textContent = ''; // Clear scenario note
+            paginationControls.classList.add('hidden');
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'search-results-container';
+
+            const detailsContainer = document.createElement('div');
+            detailsContainer.className = 'search-results-left';
+            detailsContainer.innerHTML = `<h3>Item Details (${datasets[baseTableIndex].name})</h3>`;
+            
+            const detailTable = document.createElement('table');
+            detailTable.className = 'detail-table';
+            const tbody = document.createElement('tbody');
+            for(const key in selectedItem) {
+                tbody.innerHTML += `<tr><th>${key}</th><td>${selectedItem[key]}</td></tr>`;
+            }
+            detailTable.appendChild(tbody);
+            detailsContainer.appendChild(detailTable);
+
+            const linkedContainer = document.createElement('div');
+            linkedContainer.className = 'search-results-right';
+            linkedContainer.innerHTML = '<h3>Linked Data</h3>';
+            
+            datasets.forEach((otherDatasetInfo, index) => {
+                const otherDataset = otherDatasetInfo.data;
+                if (index === baseTableIndex || !otherDataset || otherDataset.length === 0) return;
+
+                const primaryHeaders = Object.keys(baseDataset[0]);
+                const otherHeaders = Object.keys(otherDataset[0]);
+                const commonKeys = primaryHeaders.filter(key => otherHeaders.includes(key));
+                let foundLink = false;
+
+                for (const linkingKey of commonKeys) {
+                    if (foundLink) break;
+                    const linkingValue = selectedItem[linkingKey];
+
+                    if (linkingValue && String(linkingValue).trim() !== '') {
+                        const linkedData = otherDataset.filter(row => row[linkingKey] === linkingValue);
+
+                        if(linkedData.length > 0) {
+                            const container = document.createElement('div');
+                            container.innerHTML = `<h4>From ${otherDatasetInfo.name} (linked by ${linkingKey})</h4>`;
+                            renderLinkedData(container, linkedData);
+                            linkedContainer.appendChild(container);
+                            foundLink = true;
+                        }
+                    }
+                }
+            });
+
+            if (linkedContainer.querySelectorAll('table').length === 0) {
+                 linkedContainer.innerHTML += '<p>No linked data found in other datasets.</p>';
+            }
+
+            wrapper.appendChild(detailsContainer);
+            wrapper.appendChild(linkedContainer);
+            searchResultsContainer.appendChild(wrapper);
+        }
+
+        function renderLinkedData(container, data) {
+             data.forEach((item, index) => {
+                if (index > 0) {
+                     container.appendChild(document.createElement('hr'));
+                }
+                const table = document.createElement('table');
+                table.className = 'linked-data-table';
+                const tbody = document.createElement('tbody');
+                const headers = Object.keys(item);
+
+                for (let i = 0; i < headers.length; i++) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<th>${headers[i]}</th><td>${item[headers[i]]}</td>`; 
+                    tbody.appendChild(row);
+                }
+                table.appendChild(tbody);
+                container.appendChild(table);
+            });
+        }
+
+        function clearSearch() {
+            searchResultsWrapper.innerHTML = `
+                <div id="searchResultsContainer" class="table-container">
+                    <div id="loadingIndicator" class="hidden"><p>Loading...</p></div>
+                </div>
+                <div id="paginationControls" class="hidden">
+                    <button id="prevPageBtn">Previous</button>
+                    <span id="pageInfo"></span>
+                    <button id="nextPageBtn">Next</button>
+                </div>
+            `;
+            searchResultsContainer = document.getElementById('searchResultsContainer');
+            paginationControls = document.getElementById('paginationControls');
+            prevPageBtn = document.getElementById('prevPageBtn');
+            nextPageBtn = document.getElementById('nextPageBtn');
+            pageInfo = document.getElementById('pageInfo');
+            
+            searchInput.value = '';
+            searchScenarioNote.textContent = '';
+            paginationControls.classList.add('hidden');
+            handleSearch();
+        }
+        
+        function addTableInterface() {
+            const tableId = appState.nextTableId++;
+            const isFirstTable = appState.baseTableIndex === -1;
+            const titleText = isFirstTable ? 'Base Table' : 'Linked Data';
+
+            const container = document.createElement('div');
+            container.className = 'data-upload-area';
+            container.id = `table-area-${tableId}`;
+            container.innerHTML = `
+                <h4>${titleText}</h4>
+                <div class="table-controls">
+                    <label for="tableName-${tableId}">Table Name: </label>
+                    <input type="text" id="tableName-${tableId}" placeholder="Enter a name for this table (optional)">
+                </div>
+                <div id="pasteContainer-${tableId}">
+                    <textarea id="pasteArea-${tableId}" class="paste-area" placeholder="Paste tab-separated data here..."></textarea>
+                    <button id="processDataBtn-${tableId}" disabled>Process Pasted Data</button>
+                </div>
+                <p class="status-text" id="status-${tableId}"></p>
+                <div class="preview-container table-container" id="preview-${tableId}"></div>
+            `;
+
+            tableUploadContainer.appendChild(container);
+
+            const processBtn = document.getElementById(`processDataBtn-${tableId}`);
+            const pasteArea = document.getElementById(`pasteArea-${tableId}`);
+            const statusEl = document.getElementById(`status-${tableId}`);
+            const previewEl = document.getElementById(`preview-${tableId}`);
+            const nameInput = document.getElementById(`tableName-${tableId}`);
+            const pasteContainer = document.getElementById(`pasteContainer-${tableId}`);
+
+            setupProcessDataListener(processBtn, pasteArea, statusEl, previewEl, nameInput, tableId, container, pasteContainer);
+
+            logMessage(`Added interface for new table (ID: ${tableId}).`);
+        }
+
+        function setupProcessDataListener(processBtn, pasteArea, statusEl, previewEl, nameInput, tableId, container, pasteContainer) {
+            pasteArea.addEventListener('input', () => {
+                processBtn.disabled = pasteArea.value.trim().length === 0;
+            });
+
+            processBtn.addEventListener('click', () => {
+                const pastedText = pasteArea.value;
+                if (!pastedText) {
+                    logMessage(`ERROR: Paste area for table ${tableId} is empty.`);
+                    statusEl.textContent = 'Please paste data before processing.';
+                    statusEl.style.color = 'red';
+                    return;
+                }
+
+                const tableName = nameInput.value.trim() || `Table ${tableId + 1}`;
+                nameInput.value = tableName; 
+
+                statusEl.textContent = 'Processing...';
+                statusEl.style.color = '#6c757d';
+                processBtn.disabled = true;
+                document.body.classList.add('wait');
+                
+                setTimeout(() => {
+                    try {
+                        const data = parseData(pastedText);
+                        if (data.length > 0) {
+                            statusEl.textContent = `Data loaded successfully (${data.length} items).`;
+                            statusEl.style.color = '#28a745';
+                            
+                            const datasetInfo = { name: tableName, data: data, id: tableId };
+                            appState.datasets.push(datasetInfo);
+
+                            if (appState.baseTableIndex === -1) {
+                                appState.baseTableIndex = appState.datasets.length - 1;
+                                logMessage(`Set "${tableName}" as the Base Table.`);
+                                statusEl.textContent += ' (Set as Base Table)';
+                                container.querySelector('h4').textContent = 'Base Table';
+                            }
+                            
+                            renderDataTable(previewEl, data, { isClickable: false, rowCount: 10 });
+                            logMessage(`${tableName} loaded with ${data.length} items.`);
+                            
+                            pasteContainer.classList.add('hidden');
+                            nameInput.disabled = true;
+
+                            if (appState.datasets.length > 0) {
+                                startExploringBtn.classList.remove('hidden');
+                            }
+                        } else {
+                            statusEl.textContent = 'No data found or failed to parse.';
+                            statusEl.style.color = 'red';
+                            logMessage(`ERROR: No data parsed from table ${tableId} input.`);
+                            processBtn.disabled = false;
+                        }
+                    } catch (e) {
+                         statusEl.textContent = 'An error occurred during parsing.';
+                         statusEl.style.color = 'red';
+                         logMessage(`FATAL ERROR during parsing: ${e.message}`);
+                         processBtn.disabled = false;
+                    } finally {
+                        document.body.classList.remove('wait');
+                    }
+                }, 10);
+            });
+        }
+
+        // --- EVENT LISTENERS ---
+        
+        addTableBtn.addEventListener('click', addTableInterface);
+        startExploringBtn.addEventListener('click', initializeSearchView);
+
+        backToLoadBtn.addEventListener('click', () => {
+            logMessage("Returning to data loading section.");
+            searchSection.classList.add('hidden');
+            loadingLayoutContainer.classList.remove('hidden');
+            startExploringBtn.classList.remove('hidden');
+        });
+
+        searchGoBtn.addEventListener('click', handleSearch);
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') handleSearch();
+        });
+        searchColumnSelect.addEventListener('change', () => {
+            searchInput.value = '';
+            handleSearch();
+        });
+        clearSearchBtn.addEventListener('click', clearSearch);
+        
+        document.getElementById('searchResultsWrapper').addEventListener('click', (e) => {
+            if (e.target && e.target.id === 'prevPageBtn') {
+                 if(appState.currentPage > 1) {
+                    appState.currentPage--;
+                    renderCurrentPage();
+                }
+            }
+            if(e.target && e.target.id === 'nextPageBtn') {
+                 const totalPages = Math.ceil(appState.filteredResults.length / appState.rowsPerPage);
+                if(appState.currentPage < totalPages) {
+                    appState.currentPage++;
+                    renderCurrentPage();
+                }
+            }
+        });
+        
+        document.addEventListener('DOMContentLoaded', resetApp);
+    </script>
+</body>
+</html>
