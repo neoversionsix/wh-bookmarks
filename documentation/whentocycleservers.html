@@ -3,319 +3,1015 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Server Cycling Table</title>
+    <title>Servers to Cycle Reference Table</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
         }
-        th {
-            background-color: #f2f2f2;
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .table-container {
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        thead th {
             position: sticky;
             top: 0;
             z-index: 10;
         }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-        .filter-input {
-            width: 100%;
-            padding: 5px;
-            margin-bottom: 5px;
-            box-sizing: border-box;
-        }
-        .table-container {
-            max-height: 600px;
-            overflow-y: auto;
-        }
     </style>
 </head>
-<body>
-    <h1>Server Cycling Reference Table</h1>
-    <div class="table-container">
-        <table id="serverTable">
-            <thead>
-                <tr>
-                    <th>Action <br><input type="text" class="filter-input" data-column="0" placeholder="Filter Action..."></th>
-                    <th>Server to Cycle <br><input type="text" class="filter-input" data-column="1" placeholder="Filter Server..."></th>
-                    <th>SCP Entry <br><input type="text" class="filter-input" data-column="2" placeholder="Filter SCP..."></th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- CareNet and Orders -->
-                <tr><td>Add or modify order entry formats (OEF)</td><td>ORM Format, ORM Order Write Synch, ORM Order Write Asynch, ORM Explode Cont Order, DCP Output, ORM Order Write Synch for FSI, ORM Explode Cont Order 001, OAR Order Proposal</td><td>100, 101, 104, 105, 106, 107, 108, 109</td></tr>
-                <tr><td>Modify CONFIG_PREFS (using dcputil_set_config_prefs)</td><td>ORM Order Write Synch, ORM Order Write Asynch</td><td>101, 104</td></tr>
-                <tr><td>Change virtual view in the order catalog</td><td>Orders Support, Incremental Search (Orders)</td><td>362, 506</td></tr>
-                <tr><td>Add an orderable item to the order catalog</td><td>Crmtest 6024 200, ORM Order Write Synch, ORM Order Write Asynch, Orders Support, Incremental Search (Orders)</td><td>Not applicable, 101, 104, 362, 506</td></tr>
-                <tr><td>Modify the order description or primary synonym for an order catalog item</td><td>Crmtest 6024 200, ORM Order Write Synch, ORM Order Write Asynch, RadNet Async Script, OAR Order Process Server Synch, Orders Support, Incremental Search (Orders)</td><td>Not applicable, 101, 104, 111, 112, 362, 506</td></tr>
-                <tr><td>Add a route for requisition or consent forms in Requisition and Consent Form Routing Tool</td><td>CPM Script Batch Private, ORM Order Write Synch, ORM Order Write Asynch, DCP Output</td><td>57, 101, 104, 106</td></tr>
-                <tr><td>Modify task-related build</td><td>ORM Format Server, ORM Order Write Synch, DCP Task Server, ORM Order Write Asynch, ORM Explode Cont Order, DCP Output, DCP Task Order Async, Clinical Event, Clinical Event (ESI), Clinical Event (Batch), Clinical Event Server For ESO</td><td>100, 101, 102, 104, 105, 106, 120, 200, 205, 209, 3005</td></tr>
-                <tr><td>Modify task authorization</td><td>CPM Application Authorization, ORM Order Write Synch, ORM Order Write Asynch</td><td>50, 101, 104</td></tr>
-                <tr><td>Add or modify a provider group</td><td>None</td><td>Not applicable</td></tr>
-                <tr><td>Add or modify an Order Sentence Tool</td><td>Incremental Search (Orders)</td><td>506</td></tr>
-                <tr><td>Modify any code set that is part of order entry formats (OEF)</td><td>Crmtest 6024 xxxx, DCP Task Server</td><td>Not applicable, 102</td></tr>
-                <tr><td>Modify Code Sets 6000 (Catalog Type) and 6026 (Task Type)</td><td>Crmtest 6024 6000, Crmtest 6024 6026, ORM Order Write Synch, DCP Task Server, ORM Order Write Asynch</td><td>Not applicable, 101, 102, 104</td></tr>
-                <tr><td>Modify Nomenclature Tool</td><td>None</td><td>Not applicable</td></tr>
-                <tr><td>Add or modify PowerForms</td><td>DCP Task Server, DCP Output</td><td>102, 106</td></tr>
-                <tr><td>Add or modify discrete task assays (DTAs)</td><td>CPM Script Cache</td><td>80</td></tr>
-                <tr><td>Add or modify event codes or event sets</td><td>See Core</td><td>Not applicable</td></tr>
-                <tr><td>Add applications, tasks, or requests (ATRs)</td><td>CPM Script Batch Private</td><td>57</td></tr>
-                <tr><td>Add requisition or report back-end Discern Explorer (CCL) scripts</td><td>CPM Script Batch Private, DCP Output</td><td>57, 106</td></tr>
-                <tr><td>Add care sets</td><td>ORM Order Write Synch, ORM Order Write Asynch, Orders Support, Incremental Search (Orders)</td><td>101, 104, 362, 506</td></tr>
-                <tr><td>Add or modify clinical equations</td><td>None</td><td>Not applicable</td></tr>
-                <tr><td>Set headings for clinical documents</td><td>None</td><td>Not applicable</td></tr>
-                <tr><td>Add or modify reference text</td><td>None</td><td>Not applicable</td></tr>
-                <tr><td>Modify order privileges</td><td>Order Management, Clinical Information, Privilege Authorization</td><td>351, 352, 358, 359, 509, 357</td></tr>
-                <tr><td>Add or modify order proposals</td><td>OAR Order Proposal</td><td>109</td></tr>
-                <tr><td>Add or modify autoproduct assignment or autoverification</td><td>CPM Application Authorization, ORM Order Write Synch, ORM Order Write Asynch, OAR Order Process Async, OAR Order Process Sync</td><td>50, 101, 104, 111, 112</td></tr>
-                <tr><td>Modify frequencies</td><td>See Inpatient Pharmacy</td><td>Not applicable</td></tr>
-                <tr><td>Configure Cerner ePrescribe</td><td>Order Management, Prescription Benefits, Orders Support</td><td>351, 355, 362</td></tr>
-                <tr><td>Modify inbound orders</td><td>ORM Order Write Synch, ORM Order Write Synch for FSI</td><td>101, 107</td></tr>
-                <tr><td>Modify medication reconciliation</td><td>Orders Decision Support, Incremental Search (Orders), Medication Decision Support, CPOE</td><td>362, 506, 386, 395</td></tr>
-                <tr><td>Modify ECO Operations job settings or request class routing to 108</td><td>CPM Application Authorization, ORM Explode Cont Order, ORM Explode Cont Order 001, Order Query</td><td>50, 105, 108, 623</td></tr>
-                <tr><td>Add or modify the OpsExec server for control group containing ECO Operations jobs</td><td>Orders Support</td><td>362</td></tr>
-                <tr><td>Add or modify a PowerPlan or outcome</td><td>ORM Format Server, ORM Order Write Synch, DCP Task Server, ORM Order Write Asynch, DCP Pathway, DCP Write Outcome Async, DCP Query Outcome, DCP Query Plans, CPOE, PowerPlans Server, Incremental Search (Orders)</td><td>100, 101, 102, 104, 115, 116, 117, 119, 395, 378, 506</td></tr>
-                <tr><td>Add new print queue, requisition routing, or modify requisition</td><td>CPM Script, CPM Script Private, CPM Async Script, CPM Script Batch, CPM Script Batch Priv, CPM Script (Read Only), CPM Script Cache, Print Services Cache Manager, System Print Services, System Print Server (node-specific), ORM Order Write Synch, ORM Order Write Asynch, DCP Output, Discern ODBC, OAR Admin Process Sync, ORM Format</td><td>51, 53, 54, 56, 57, 58, 80, 128, 129, 127, 101, 104, 106, 170, 118, 100</td></tr>
-                <tr><td>Add or modify order rules</td><td>ORM Order Write Asynch, ORM Explode Cont Order, Discern Expert EKS ASYNC_01, Discern Expert EKS ASYNC_02, Discern Expert EKS ASYNC_03, Discern Expert CPM.EKS, Orders Support, Incremental Search (Orders), CareCompass Server, MPages Script Server</td><td>104, 105, 150, 151, 152, 175, 362, 506, 397, 79</td></tr>
-                <tr><td>After installing CareCompass package and building filters in Bedrock</td><td>CPM Code Cache, CPM Script, CPM Script Cache, CPM Script Batch, Clinical Information (Nomenclature), Clinical Information (Clinical Fact)</td><td>52, 51, 53, 56, 359, 374</td></tr>
-                <tr><td>For new Problems and Diagnosis or Diagnosis Assistant content</td><td>Incremental Search (Medical Terminology) (MPages), Documentation Quality, MPages, Incremental Search for IMO & MPL terminology, Incremental Search for HL PFT terminology, Incremental Search for SNOMED CT terminology</td><td>396, 529, 535, 422, 423, 424</td></tr>
-                <tr><td>Modify Preference Manager server settings</td><td>Preference Manager</td><td>25</td></tr>
-                <!-- Inpatient Pharmacy -->
-                <tr><td>Update to an existing personnel username</td><td>Pharmacy Utility</td><td>645</td></tr>
-                <tr><td>Ensure Inpatient Pharmacy functionality</td><td>Medication Dispense and Dose, Medication Fill Report, Pharmacy Inbound Dispense, Pharmacy Utility, Orders Decision Support, Entity Lock</td><td>625, 626, 640, 645, 362, 59</td></tr>
-                <tr><td>Modify frequency</td><td>Crmtest 6024 4003, Medication Dispense and Dose, Medication Fill Report, Orders Decision Support, CPOE</td><td>Not applicable, 625, 626, 362, 395</td></tr>
-                <tr><td>Modify units of measure</td><td>Crmtest 6024 54, OCF Unit</td><td>Not applicable, 225</td></tr>
-                <tr><td>Modify unit-based cabinet parameters</td><td>Pharmacy Inbound Dispense</td><td>640</td></tr>
-                <tr><td>Modify queue preferences</td><td>Pharmacy Inbound Dispense</td><td>640</td></tr>
-                <tr><td>Modify pharmacy billing preferences</td><td>Medication Dispense and Dose, Medication Fill/Report, CPM Script Async</td><td>625, 626, 54</td></tr>
-                <tr><td>Install new output code (labels MARs)</td><td>Crmtest 6024 4039, CPM Script, CPM Script Async, CPM Script Batch, CPM Script Cache, Medication Dispense and Dose, Medication Fill Report, Medication Fill Report Async Server</td><td>Not applicable, 51, 54, 56, 80, 625, 626, 627</td></tr>
-                <tr><td>Modify automatic product assignment (APA) or automatic verify (AV)</td><td>ORM Format Server, ORM Order Write Synch, ORM Order Write Asynch, ORM Explode Cont Order, DCP Output, ORM Order Write Synch for FSI, ORM Explode Cont Order 001, OAR Order Proposal Server Sync, OAR Order Process Server Async, OAR Order Process Server Sync</td><td>100, 101, 104, 105, 106, 107, 108, 109, 111, 112</td></tr>
-                <tr><td>Add or modify dispense category</td><td>Medication Dispense and Dose, Medication Fill/Report, OAR Order Process Server Async, OAR Order Process Server Sync</td><td>625, 626, 111, 112</td></tr>
-                <tr><td>Add or modify price schedule</td><td>Medication Dispense and Dose, Medication Fill/Report, OAR Order Process Server Async, OAR Order Process Server Sync, Pharmacy Inbound Dispense, Pharmacy Utility, OAR Admin Process Sync</td><td>625, 626, 111, 112, 640, 645, 118</td></tr>
-                <tr><td>Add or modify service resources</td><td>Medication Dispense and Dose, Medication Fill/Report, Pharmacy Utility</td><td>625, 626, 645</td></tr>
-                <tr><td>Add or modify therapeutic substitution</td><td>ORM Order Write Synch, ORM Order Write Asynch, OAR Order Process Server Async, OAR Order Process Server Sync, Orders Decision Support, Medication Decision Support, CPOE</td><td>101, 104, 111, 112, 362, 386, 395</td></tr>
-                <tr><td>Modify preferences (Height, weight, creatinine, etc.)</td><td>Medication Dispense and Dose, Medication Fill/Report</td><td>625, 626</td></tr>
-                <tr><td>Update or modify Dose Range Checking (DRC) content</td><td>Medication Decision Support</td><td>386</td></tr>
-                <tr><td>Modify the DRC Discern rule</td><td>Discern Expert CPM EKS Server, Medication Decision Support</td><td>175, 386</td></tr>
-                <tr><td>Changes made to pharmacy label formats</td><td>CPM Script, CPM Code Cache, CPM Script Private, CPM Async Script, CPM Process, CPM Script Batch, CPM Script Batch Priv, CPM Script (Read Only), CPM Entity Lock, CPM Service Resource Security, CPM Script Cache, CPM Script Cache 001, CPM Script Cache 002, CPM Script Cache 003, CPM Async Script MPage, DCP Task Server, DCP Output, OAR Order Process Server Async, OAR Order Process Server Synch, CPM Script (DCP Task Interface), System Print Server (Node-Specific), Print Services Cache Manager, System Printer, Pharmacy Queue Server, Medication Dispense and Dose, Medication Fill-Report, Medication Fill-Report Server Asynch, Pharmacy Order, Pharmacy Inbound Dispense, Pharmacy Utility</td><td>51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 80, 81, 82, 83, 84, 102, 106, 111, 112, 114, 127, 128, 129, 601, 625, 626, 627, 630, 640, 645</td></tr>
-                <tr><td>Configuring Waste Charge Management</td><td>Medication Dispense and Dose, Medication Fill Report, Pharmacy Inbound Dispense, Pharmacy Utility, Pharmacy Support</td><td>625, 626, 640, 645, 544</td></tr>
-                <!-- SurgiNet -->
-                <tr><td>Add or modify order entry formats (OEF)</td><td>See CareNet and Orders</td><td>Not applicable</td></tr>
-                <tr><td>Add or modify discrete task assays (DTAs)</td><td>CPM Script Cache, Crmtest 6024 xxxx</td><td>80, Not applicable</td></tr>
-                <tr><td>Modify any scheduling flex rules</td><td>Scheduling Flex</td><td>582</td></tr>
-                <tr><td>Modify scheduling key chains or locks</td><td>Scheduling Security</td><td>581</td></tr>
-                <tr><td>Add an orderable item to order catalog</td><td>Crmtest 6024 200, ORM Order Write Synch, ORM Order Write Asynch, Orders Support, Incremental Search (Orders)</td><td>Not applicable, 101, 104, 362, 506</td></tr>
-                <!-- Clinical Reporting -->
-                <tr><td>After downtime</td><td>Remote Report Distribution Dispatch, Remote Report Distribution Monitor</td><td>501, 502</td></tr>
-                <tr><td>Before loading the event set hierarchy</td><td>Bring down the Chart Server, See Core</td><td>Not applicable</td></tr>
-                <!-- Charge Services -->
-                <tr><td>After changes using DB Pricing Tool, Batch Charge Entry, Charge Viewer, DB Miscellaneous Setup</td><td>CS Charging Async Server, CS Charging Sync Server</td><td>320, 322</td></tr>
-                <!-- Scheduling Management and Revenue Cycle Scheduling -->
-                <tr><td>Add a new operations job code</td><td>CPM Batch Script</td><td>56</td></tr>
-                <tr><td>Add or modify rules</td><td>CPM Process, Discern Expert EKS ASYNC_02</td><td>55, 151</td></tr>
-                <tr><td>Configure or modify appointment types</td><td>Scheduling</td><td>361</td></tr>
-                <tr><td>Modify code sets in the accept format fields or maintenance reasons</td><td>Crmtest 6024 xxxx</td><td>Not applicable</td></tr>
-                <tr><td>Modify accept or order format</td><td>Scheduling, See CareNet and Orders</td><td>361</td></tr>
-                <tr><td>Modify appointment priority</td><td>Scheduling</td><td>361</td></tr>
-                <tr><td>Modify appointment resource quotas</td><td>Scheduling</td><td>361</td></tr>
-                <tr><td>Adding, disabling, or removing appointment type synonyms</td><td>Scheduling</td><td>361</td></tr>
-                <tr><td>Modify any scheduling flex rules</td><td>Scheduling Flex</td><td>582</td></tr>
-                <tr><td>Modify scheduling key chains or locks</td><td>Scheduling Security</td><td>581</td></tr>
-                <tr><td>Modify interactions are added later</td><td>Scheduling Sequencing</td><td>580</td></tr>
-                <tr><td>Modify manual or automatic notifications</td><td>CPM Process</td><td>55</td></tr>
-                <tr><td>Modify interactive reports</td><td>CPM Script Batch</td><td>56</td></tr>
-                <tr><td>Modify interactive inquiries or request list inquiries</td><td>CPM Script</td><td>51</td></tr>
-                <tr><td>Populate the Health Information Management Event Allocation table</td><td>CPM Process</td><td>55</td></tr>
-                <tr><td>Referral conversations: modify referral code value aliases</td><td>Referral</td><td>526</td></tr>
-                <tr><td>Scheduling preferences: default outpatient encounter type (REFOUTENCTR)</td><td>Referral, Scheduling</td><td>526, 361</td></tr>
-                <tr><td>Scheduling preferences: check in encounter type (REFCHKINENCR)</td><td>Scheduling, Referral</td><td>361, 526</td></tr>
-                <tr><td>Referral clocks: modify guaranteed appointment date and days to letter</td><td>Referral, Scheduling</td><td>526, 361</td></tr>
-                <tr><td>Pathway clocks: modify breach date</td><td>Referral, Scheduling</td><td>526, 361</td></tr>
-                <tr><td>Modify code values for Code Sets 34, 3394, 14776, 14777, 14778, 30381, 30386, 30392, 4002978</td><td>Referral</td><td>526</td></tr>
-                <!-- FirstNet -->
-                <tr><td>If changes to filters and columns do not take effect immediately</td><td>Crmtest 6024 16372, CPM Async Script, CPM Process, CPM Script Cache, FRN Tracking View</td><td>Not applicable, 54, 55, 80, 425</td></tr>
-                <tr><td>If updates to orders or clinical events in Bedrock ED Physician ED LaunchPoint configuration do not take effect</td><td>Server 84, then reprime the group</td><td>Not applicable</td></tr>
-                <!-- Core -->
-                <tr><td>Add or modify event codes</td><td>Clinical Event, Clinical Event For ESI, Clinical Event - Batch, Clinical Event Server For ESO</td><td>200, 205, 209, 3005</td></tr>
-                <tr><td>Add or Modify External System Inbound (ESI) aliases</td><td>CPM ESI Server, Clinical Event (ESI)</td><td>250, 205</td></tr>
-                <tr><td>Unload event codes or event sets</td><td>None</td><td>Not applicable</td></tr>
-                <tr><td>Add, remove, or modify event_codes, event_sets, or DTAs under Working view sections</td><td>Sync or refresh any affected bands in the Bedrock tool</td><td>Not applicable</td></tr>
-                <tr><td>Load event sets using Event Set Loader</td><td>CPM ESI server, Chart Servers, Clinical Event, Clinical Event (ESI), Clinical Event (Batch), Clinical Event Server For ESO, Clinical Information, Privilege Authorization, CPM ESI, Chart Servers</td><td>250, 200, 205, 209, 3005, 352, 358, 359, 509, 357, 250</td></tr>
-                <tr><td>Add or modify Core Event Manager</td><td>CPM Script Batch, Clinical Event, Clinical Event (ESI), Clinical Event (Batch), Clinical Event Server For ESO, Clinical Information, Privilege Authorization, Chart Servers, CPM ESI</td><td>56, 200, 205, 209, 3005, 352, 358, 359, 509, 357, 250</td></tr>
-                <tr><td>Grant or revoke tasks in DB Task Access</td><td>None</td><td>Not applicable</td></tr>
-                <tr><td>Modify using Maintain Positions in User Maintenance</td><td>None</td><td>Not applicable</td></tr>
-                <tr><td>Modify personnel name in User Maintenance</td><td>Patient Demographics & Registration</td><td>373</td></tr>
-                <tr><td>Add a new position in Core Code Builder</td><td>Crmtest 6024 88</td><td>Not applicable</td></tr>
-                <tr><td>Create or generate location aliases</td><td>Crmtest 6024 220, CPM ESI</td><td>Not applicable, 250</td></tr>
-                <tr><td>Add or modify Code Set 73 (Contributor Source)</td><td>Crmtest 6024 73, CPM ESI</td><td>Not applicable, 250</td></tr>
-                <tr><td>Turn on or turn off encounter or organization security</td><td>CPM Script, CPM Script Batch, System Print Services, Clinical Information, Patient Demographics & Registration, Pharmacy Utility Server</td><td>51, 56, 129, 358, 373, 645</td></tr>
-                <tr><td>Turn on or turn off person-level security</td><td>CPM Script, CPM Async Script, CPM Script Batch, CPM Script Server, PM Reg, PM Utility, PM Transaction, PM Trans Async, PM Query, Health Expectation, DCP Task Query</td><td>51, 54, 56, 58, 330, 331, 332, 335, 340, 455, 103</td></tr>
-                <!-- PowerChart -->
-                <tr><td>Import new charts or modify content for Advanced Growth Chart</td><td>CPM Script Cache</td><td>80</td></tr>
-                <tr><td>Modify Privileges Maintenance Tool</td><td>Order Management, Clinical Information, Privilege Authorization</td><td>351, 352, 358, 359, 509, 357</td></tr>
-                <tr><td>Modify Preferences Maintenance Tool</td><td>None unless application-level preferences are modified, CPM Application Authorization</td><td>Not applicable</td></tr>
-                <tr><td>Modify Demographics Bar</td><td>CPM Script, CPM Script Async, CPM Script</td><td>51, 54, 56</td></tr>
-                <!-- PowerChart Health Maintenance -->
-                <tr><td>Add or modify Health Maintenance Expectation Build Tool</td><td>CPM Script Cache, Health Expectation, Health Expert, Health Maintenance Agents, Health Recommendations</td><td>80, 455, 360, 534, 366</td></tr>
-                <tr><td>Publish rules in Health Expert Rule Builder</td><td>Health Expert, Health Maintenance Agents, Health Recommendations</td><td>360, 534, 366</td></tr>
-                <!-- PowerChart Message Center -->
-                <tr><td>Modify Message Center pool names</td><td>Clinical Information (Messaging)</td><td>509</td></tr>
-                <!-- Foreign System Interfaces – ESI and ESO -->
-                <tr><td>Modify ESO Suppression Scripts</td><td>Varied, see Configure ESO With SI_Manager</td><td>Varied</td></tr>
-                <tr><td>Add an outbound alias to code_value_outbound</td><td>Outbound comserver</td><td>Varied</td></tr>
-                <tr><td>Add or start an interface in eso_init_outbound</td><td>FSI ESO Load, FSI ESO Notify</td><td>280-285, 260-269, 1900-1914, 3200-3284, 275</td></tr>
-                <tr><td>Modify hold logic</td><td>FSI ESO-CQM, FSI ESO Notify, FSI Hold Release, CPM ESI</td><td>252, 275, 276, 250</td></tr>
-                <tr><td>Change the outbound route script</td><td>FSI ESO Load, OEN Router</td><td>280-285, 260-269, 1900-1914, 3200-3284, 245</td></tr>
-                <tr><td>Modify eso_init_outbound</td><td>FSI ESO-CQM, FSI ESO Notify, FSI ESO Load</td><td>252, 275, 280-285, 260-269, 1900-1914, 3200-3284</td></tr>
-                <tr><td>Modify OrgTool, Location Alias Maintenance Tool, and PowerChart Database Tools</td><td>CPM ESI</td><td>250</td></tr>
-                <tr><td>Modify to ESI Configuration Tool</td><td>CPM ESI</td><td>250</td></tr>
-                <tr><td>Add or modify an inbound alias</td><td>CPM ESI</td><td>250</td></tr>
-                <tr><td>Modify batch_route</td><td>OEN Router, FSI ESO Server Batch #1, FSI ESO Query Extract Server, FSI Batch CQM Server, FSI ESO OE Batch Server</td><td>245, 285, 290, 291, 292</td></tr>
-                <tr><td>Configuring ESO Server Routing</td><td>FSI ESO-CQM, FSI ESO Notify, FSI ESO Load</td><td>252, 275, 280-285, 260-269, 1900-1914, 3200-3284</td></tr>
-                <!-- ERM – Registration Management -->
-                <tr><td>Add, modify, or remove from a code set</td><td>Crmtest 6024 xxxx</td><td>Not applicable</td></tr>
-                <tr><td>Modify Code Set 20790 or 207902</td><td>Crmtest 6024 xxxx, CPM Script, CPM Process, PM Reg, PM Utility, PM Transaction, PM Transaction Async</td><td>Not applicable, 51, 55, 330, 331, 332, 335</td></tr>
-                <tr><td>Add a user-defined field (UDF)</td><td>CPM Script, PM Reg, PM Transaction, PM Utility</td><td>51, 330, 332, 331</td></tr>
-                <tr><td>Add or modify a location</td><td>Crmtest 6024 220, PM Utility</td><td>Not applicable, 331</td></tr>
-                <tr><td>Modify documents or document routing</td><td>CPM Application Authorization, CPM Script, CPM Code Cache Query, CPM Process, CPM Script Batch, CPM Script Cache, Custom CPM, PM Reg, PM Transaction, PM Transaction Async, PM Utility, Patient Demographics and Registration server, Revenue Cycle Registration server</td><td>50, 51, 52, 55, 56, 80, 3001, 3002, 3003, 3004, 330, 332, 335, 331, 373, 519</td></tr>
-                <tr><td>Troubleshoot Registration Management</td><td>PM Reg, PM Transaction, PM Utility</td><td>330, 332, 331</td></tr>
-                <tr><td>Modify registration conversation</td><td>PM Utility, PM Reg, PM Transaction, PM Trans Async, PM Query, CPM Script, CPM ESI</td><td>331, 330, 332, 335, 340, 51, 250</td></tr>
-                <!-- Revenue Cycle Registration -->
-                <tr><td>Add or modify payers or web address for medical eligibility</td><td>Patient Demographics and Registration</td><td>373</td></tr>
-                <tr><td>Add or modify organizations</td><td>Patient Demographics and Registration, Patient and Registration Reconciliation</td><td>373, 2064</td></tr>
-                <tr><td>Add or modify locations</td><td>Patient Demographics and Registration</td><td>373</td></tr>
-                <tr><td>Add or modify server logging for person and encounter troubleshooting</td><td>Patient Demographics and Registration</td><td>373</td></tr>
-                <tr><td>Add or modify server web address for admission notification</td><td>Patient Demographics and Registration</td><td>373</td></tr>
-                <tr><td>Financial Clearance Eligibility configuration</td><td>Transaction Services Medical Eligibility Service</td><td>369, 2033</td></tr>
-                <tr><td>Configuration changes made in Revenue Cycle Configuration Manager</td><td>Revenue Cycle Configuration</td><td>2012</td></tr>
-                <tr><td>Add or modify address validation</td><td>Revenue Cycle Registration</td><td>519</td></tr>
-                <tr><td>Add or modify external provider search</td><td>Revenue Cycle Registration</td><td>519</td></tr>
-                <tr><td>Add or modify global days retrieval</td><td>Revenue Cycle Registration</td><td>519</td></tr>
-                <tr><td>Add or modify alias pools and alias pool relationships</td><td>Patient Demographics and Registration, Patient and Registration Reconciliation, Revenue Cycle Registration</td><td>373, 2064, 519</td></tr>
-                <tr><td>Add or modify personnel organization relationships</td><td>Patient Demographics and Registration, Revenue Cycle Registration</td><td>373, 519</td></tr>
-                <tr><td>Patient and Encounter Accessibility</td><td>Patient and Encounter Accessibility</td><td>2043</td></tr>
-                <!-- Cerner Millennium Laboratory Common Services -->
-                <tr><td>Add or modify tasks</td><td>See CareNet and Orders</td><td>Not applicable</td></tr>
-                <tr><td>Modify DORC, COLLREQMAINT, or Routing</td><td>SCS Collections Server, SCS Netting</td><td>132, 131</td></tr>
-                <tr><td>Add or modify routing orders to instruments or benches</td><td>Anatomic Pathology Resource Routing</td><td>130</td></tr>
-                <tr><td>Order entry formats (OEF) prompt tests</td><td>ORM Format, Anatomic Pathology Result Order Posting</td><td>100, 133</td></tr>
-                <tr><td>Add or modify collection routes</td><td>SCS Collections Server</td><td>132</td></tr>
-                <tr><td>Add or modify accession assignment pools</td><td>SCS Netting</td><td>131</td></tr>
-                <tr><td>Add or modify collection priorities</td><td>SCS Netting</td><td>131</td></tr>
-                <tr><td>Add or modify specimen containers</td><td>SCS Netting</td><td>131</td></tr>
-                <tr><td>Build accession site prefixes</td><td>SCS Netting</td><td>131</td></tr>
-                <tr><td>Build service resource calendars</td><td>Anatomic Pathology Resource Routing</td><td>130</td></tr>
-                <tr><td>Assign service resources in Work Routing wizard</td><td>Anatomic Pathology Resource Routing</td><td>130</td></tr>
-                <tr><td>Add a new instrument to the laboratory</td><td>Anatomic Pathology Resource Routing, MDI</td><td>130, 230, 231, 235</td></tr>
-                <tr><td>Deactivate a laboratory instrument</td><td>Anatomic Pathology Resource Routing</td><td>130</td></tr>
-                <tr><td>Set default label printer</td><td>SCS Netting, SCS Collections</td><td>131, 132</td></tr>
-                <tr><td>Modify label program</td><td>CPM Script Cache, Print Services Cache Manager, System Print Services, System Print Server (node specific), CPM Script 3002</td><td>80, 128, 129, 127, 3002</td></tr>
-                <!-- General Laboratory -->
-                <tr><td>Modify a control type</td><td>Crmtest 6024 1907</td><td>Not applicable</td></tr>
-                <tr><td>Change a manufacturer</td><td>Crmtest 6024 1908</td><td>Not applicable</td></tr>
-                <tr><td>Modify or add instrument cross-reference numbers</td><td>GLB Result, MDI Result Server</td><td>551, 231</td></tr>
-                <tr><td>Transfer list temperatures</td><td>Crmtest 6024 1663</td><td>Not applicable</td></tr>
-                <tr><td>Modify a report orderable item or task assay</td><td>CPM Process, ORM Order Write Synch</td><td>55, 101</td></tr>
-                <tr><td>Change QC Scheduler for results</td><td>GLB Result</td><td>551</td></tr>
-                <!-- Microbiology -->
-                <tr><td>Modify MDI Installation Tool</td><td>MDI Order Server, MDI GenLab Result Client and MDI Micro Result Client, MDI Results</td><td>235, 230, 52, 231</td></tr>
-                <tr><td>Modify a microbiology order description</td><td>Crmtest 6024 200, Anatomic Pathology Result Order Posting</td><td>5300, 133</td></tr>
-                <tr><td>Modify second level interpretations</td><td>Discern Expert Server</td><td>150, 151, 152</td></tr>
-                <tr><td>Create or modify susceptibility interpretations</td><td>CPM Script Cache</td><td>80</td></tr>
-                <!-- Blood Bank Transfusion -->
-                <tr><td>-</td><td>None, See CareNet and Orders, Cerner Millennium Laboratory Common Services</td><td>-</td></tr>
-                <!-- Anatomic Pathology -->
-                <tr><td>Build coding synonyms</td><td>Anatomic Pathology - AP Automatic Diagnostic Coder, Anatomic Pathology - AP Interactive Diagnostic Coder</td><td>141,142</td></tr>
-                <tr><td>Build internal codes</td><td>Anatomic Pathology - AP Automatic Diagnostic Coder, Anatomic Pathology - AP Interactive Diagnostic Coder</td><td>141, 1423</td></tr>
-                <!-- Outreach Services -->
-                <tr><td>Add new Outreach Services Client</td><td>CPM Script Cache, CPM ESI, PM Reg, PM Utility, PM Transaction, PM Trans Async, PM Query, PM Reg Debug</td><td>80, 250, 330, 331, 332, 335, 340, 345</td></tr>
-                <tr><td>Other for Outreach Services</td><td>See CareNet and Orders, Cerner Millennium Laboratory Common Services</td><td>Not applicable</td></tr>
-                <!-- Radiology Management -->
-                <tr><td>Modify Cerner Imaging Database Tools pull list settings</td><td>CPM Async Script</td><td>54</td></tr>
-                <tr><td>Modify Cerner Imaging Database Tools pull list batch operations</td><td>CPM Script Batch</td><td>56</td></tr>
-                <tr><td>Modify Cerner Imaging Database Tools signature line</td><td>CPM Process, CPM Process (001–91 if exists)</td><td>55, 001–91</td></tr>
-                <tr><td>Modify Radiology Patient Packet code</td><td>CPM Async Script, CPM Script Batch, CPM Script Cache</td><td>54, 56, 80</td></tr>
-                <tr><td>Printer Preferences</td><td>CPM Script, CPM Script Private, CPM Async Script, CPM Process, CPM Script Batch, CPM Script Batch Priv, CPM Script Cache, System Print Server (Node-Specific), Print Services Cache Manager, System Print Services, Cerner Millennium Laboratory Resource Routing, PM Utility</td><td>51, 53, 54, 55, 56, 57, 80, 127, 128, 129, 130, 331</td></tr>
-                <tr><td>Modify Cerner Imaging Database Tools requisition controls</td><td>CPM Async Script, CPM Script Batch, ORM Order Write Synch, ORM Order Write Asynch</td><td>54, 56, 101, 104</td></tr>
-                <tr><td>Changes to PPR Service Resource Access</td><td>CPM Service Resource Security</td><td>60</td></tr>
-                <tr><td>Changes to Department ORC Wizard (Bill Only Items, Exam Segments)</td><td>CPM Async Script, CPM Script Batch, CPM Script Cache, ORM Order Write Synch, ORM Order Write Asynch</td><td>54, 56, 80, 101, 104</td></tr>
-                <tr><td>Folder/Folder Default Locations</td><td>CPM Script, CPM Script Cache, ORM Order Write Synch, ORM Order Write Asynch</td><td>51, 80, 101, 104</td></tr>
-                <tr><td>Document Medications</td><td>CPM Script Cache, ORM Order Write Synch, ORM Order Write Asynch, OAR Admin Process Asynch, Medication Dispense and Dose</td><td>80, 101, 104, 118, 625</td></tr>
-                <tr><td>Protocol Changes</td><td>ORM Order Write Synch, ORM Order Write Asynch</td><td>101, 104</td></tr>
-                <tr><td>Word Processing Templates</td><td>CPM Process</td><td>55</td></tr>
-                <tr><td>Radiology Report Search</td><td>RadAsync Script</td><td>110</td></tr>
-                <tr><td>Accession Number Changes</td><td>Order Format Server, ORM Order Write Synch, ORM Order Write Asynch, Anatomic Pathology Resource Routing Server, SCS Netting Server, SCS Collection Server, PM Utility</td><td>100, 101, 104, 130, 131, 132, 331</td></tr>
-                <tr><td>Add a procedure to mammography follow-up group</td><td>ORM Order Write Synch, ORM Order Write Asynch, ORM Explode Cont Order 001</td><td>101, 104, 108</td></tr>
-                <tr><td>Mammography Follow Up Changes</td><td>CPM Script Private, CPM Script Server, ORM Order Write Synch, ORM Order Write Asynch</td><td>53, 2869, 101, 104</td></tr>
-                <tr><td>Mammography Diagram Changes</td><td>CPM Script Server, CPM Script Cache, ORM Order Write Synch, ORM Order Write Asynch</td><td>51, 80, 101, 104</td></tr>
-                <tr><td>Multimedia Changes</td><td>Multimedia Server</td><td>354</td></tr>
-                <!-- Physician Documentation -->
-                <tr><td>Add or modify concept mapping for Dynamic Documentation</td><td>XML Document Generator, Dynamic Documentation, Clinical Event</td><td>388, 389, 200, 3005</td></tr>
-                <tr><td>Add smart template to Code Set 16529</td><td>Crmtest 6024 16529, CPM Script, CPM Script Cache</td><td>Not applicable, 51, 80</td></tr>
-                <tr><td>Add a new note type</td><td>Clinical Event</td><td>200, 3005</td></tr>
-                <tr><td>Changes to Code Sets 8, 17, 12100, 36, etc.</td><td>CPS SCD</td><td>420</td></tr>
-                <tr><td>Import new tagging content for Dynamic Documentation</td><td>Dynamic Documentation</td><td>389</td></tr>
-                <!-- Printers -->
-                <tr><td>Add or delete any printer</td><td>CPM Script Server, CPM Script Private Server, CPM Async Script Server, CPM Script Batch, CPM Script Batch Priv, CPM Script (Read Only), Time Repository Server, CPM Script Cache, Client Custom server, System Print Server (Node Specific), Print Services Cache Manager, System Print Server, OAR Admin Process Server Synch</td><td>51, 53, 54, 56, 57, 58, 73, 80, 3000 series, 127, 128, 129, 118</td></tr>
-                <tr><td>Add or delete a printer used for General Laboratory applications</td><td>SCS Netting Server, SCS Collections Server, Discern Expert Server (EKS_ASYNCH_01–03), ORM Order Write Synch, Discern ODBC Server, CPM Script Batch, CPM Script (Read Only), CPM Script Install, CPM Script mPages, CPM Script (Custom), CPM Script Batch (Custom)</td><td>131, 132, 150, 151, 152, 101, 170, 56, 58, 78, 79, 178, 179</td></tr>
-                <tr><td>Add or delete a printer used for PowerChart, but not viewable in PowerChart</td><td>DCP Output</td><td>106</td></tr>
-                <tr><td>Add or delete a printer used for Pharmacy Medication labels and IV labels</td><td>Medication Dispense and Dose Server, Medication Fill/Report Server, Medication Fill/Report Server Asynch, Pharmacy Inbound Dispense Server, Pharmacy Utility Server, Authorize, CPM Application Authorization Server, CPM Code Cache Query, CPM Process Server, PM Reg, PM Utility, PM Transaction, PM Transaction Async, ORM Order Write Synch</td><td>625, 626, 627, 640, 645, 37, 50, 52, 55, 330, 331, 332, 335, 101</td></tr>
-                <tr><td>Build or modify printers and Device Viewer test pages</td><td>Print Services Cache Manager, CPM Script</td><td>128, 51</td></tr>
-                <tr><td>Add or delete a printer used for Visual Explorer</td><td>CPM Script Batch (Custom)</td><td>179</td></tr>
-                <tr><td>Add or delete a printer used for Cerner Millennium Laboratory or General Laboratory solutions</td><td>SCS Netting, SCS Collections</td><td>131, 132</td></tr>
-                <tr><td>Add or delete a printer used for PowerChart</td><td>DCP Output</td><td>106</td></tr>
-                <tr><td>Add or delete a printer used for PharmNet Med Labels and IV Labels</td><td>Medication Dispense and Dose, Medication Fill Report</td><td>625, 626</td></tr>
-                <tr><td>Add, remove, change, or update the back-end application node name</td><td>System Print Server, System Print Server (Node-Specific)</td><td>129, 127</td></tr>
-                <tr><td>For unresolved UNIX host operating system issues</td><td>CPM Script Private, CPM Async Script, CPM Script Batch, CPM Script Batch Priv, CPM Script (Read Only), CPM Script Cache</td><td>53, 54, 56, 57, 58, 80</td></tr>
-                <!-- Document Imaging -->
-                <tr><td>Changes to Cerner ProVision Document Imaging Configuration Tool</td><td>Document Imaging</td><td>5300</td></tr>
-                <tr><td>Modify clinical document types (Code Set 205)</td><td>Document Imaging</td><td>5300</td></tr>
-                <tr><td>Modify nonclinical document types (Code Set 26820)</td><td>Document Imaging</td><td>5300</td></tr>
-                <tr><td>Modify locations (Code Setting)</td><td>5300</td><td></td></tr>
-                <!-- MPages -->
-                <tr><td>Make an MPages-related Bedrock change</td><td>MPages</td><td>535</td></tr>
-                <tr><td>If you have custom-developed CCL scripts</td><td>CPM Script, CPM Script (Custom)</td><td>79, 178</td></tr>
-                <tr><td>Change CKI mappings</td><td>Clinical Leader Dashboard</td><td>548</td></tr>
-                <!-- Transaction Services -->
-                <tr><td>Build Eligibility (including updates to URLs)</td><td>Patient Demographics and Registration, Financial Clearance Transaction, Revenue Cycle Registration</td><td>373, 369, 519</td></tr>
-                <tr><td>Build 278N - Admission Notifications</td><td>Patient Demographics and Registration</td><td>373</td></tr>
-                <!-- Revenue Cycle/Patient Accounting -->
-                <tr><td>Create or modify ProFit Business Manager rule or association</td><td>ProFit Transaction Server, ProFit Billing Server</td><td>475, 476</td></tr>
-                <!-- Custom Client-Server Definitions -->
-                <tr><td>If expected change does not take effect</td><td>Reserved for custom server definitions</td><td>3001, 3002, 3003</td></tr>
-                <!-- ESH Server -->
-                <tr><td>Make any event set hierarchy (ESH) change</td><td>CPM Script Cache, Clinical Event Server, Clinical Event Server For ESI, Clinical Event Server - Batch, Clinical Information, Privilege Authorization, Content Retrieval, Clinical Information (nomenclature), XML Document Generator, Dynamic Documentation, Data Extraction</td><td>80, 200, 205, 209, 352, 357, 358, 359, 388, 389, 2024</td></tr>
-                <tr><td>Make any immunizations ESH change</td><td>Health Expert, Health Recommendations</td><td>360, 366</td></tr>
-            </tbody>
-        </table>
+<body class="p-4 sm:p-6 lg:p-8">
+
+    <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Servers to Cycle</h1>
+                <p class="text-sm text-gray-500 mt-1">A consolidated and filterable list of servers to cycle based on action.</p>
+            </div>
+            <div id="rowCount" class="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full mt-3 sm:mt-0"></div>
+        </div>
+
+        <div class="table-container border border-gray-200 rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Area
+                            <input type="text" id="filterArea" placeholder="Filter Area..." class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm p-2">
+                        </th>
+                        <th scope="col" class="w-2/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Action
+                            <input type="text" id="filterAction" placeholder="Filter Action..." class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm p-2">
+                        </th>
+                        <th scope="col" class="w-2/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Server to Cycle
+                            <input type="text" id="filterServer" placeholder="Filter Server..." class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm p-2">
+                        </th>
+                        <th scope="col" class="w-1/6 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            SCP Entry
+                            <input type="text" id="filterScp" placeholder="Filter SCP..." class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm p-2">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="serverTableBody" class="bg-white divide-y divide-gray-200">
+                    <!-- Rows will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script>
-        document.querySelectorAll('.filter-input').forEach(input => {
-            input.addEventListener('input', function() {
-                const column = this.getAttribute('data-column');
-                const filterValue = this.value.toLowerCase();
-                const rows = document.querySelectorAll('#serverTable tbody tr');
+        // Raw data parsed from the document
+        const rawData = `
+CareNet and Orders
+Action,Server to Cycle,SCP Entry
+Add or modify order entry formats (OEF),ORM Format,100
+,ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+,ORM Explode Cont Order,105
+,DCP Output,106
+,ORM Order Write Synch for FSI,107
+,ORM Explode Cont Order 001,108
+,OAR Order Proposal (if order resides in PowerPlan),109
+Modify CONFIG_PREFS (using dcputil_set_config_prefs),ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+Change virtual view in the order catalog,Orders Support,362
+,Incremental Search (Orders),506
+Add an orderable item or care set to the order catalog,Crmtest 6024 200,Not applicable
+,ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+,OAR Order Proposal Server Synch,109
+,OAR Order Process Async Server,111
+,OAR Order Process Server Synch,112
+,Order Management,351
+,Orders Support,362
+,Incremental Search (Orders),506
+Modify the order description or primary synonym for an order catalog item,Crmtest 6024 200,Not applicable
+,ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+,OAR Order Proposal Server Synch,109
+,OAR Order Process Async Server,111
+,OAR Order Process Server Synch,112
+,Order Management,351
+,Orders Support,362
+,Incremental Search (Orders),506
+Add a route for requisition or consent forms in Requisition and Consent Form Routing Tool (ReqTool.dll opened from DCPTools.exe),CPM Script Batch Private,57
+,ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+,DCP Output,106
+Modify task-related build,ORM Format Server,100
+,ORM Order Write Synch,101
+,DCP Task Server,102
+,ORM Order Write Asynch,104
+,ORM Explode Cont Order,105
+,DCP Output,106
+,DCP Task Order Async,120
+,Clinical Event,200
+,Clinical Event (ESI),205
+,Clinical Event (Batch),209
+,Clinical Event Server For ESO,3005
+Modify task authorization,CPM Application Authorization,50
+,ORM Order Write Synch,101
+,ORM order Write Asynch,104
+Add or modify a provider group,None,Not applicable
+Add or modify an Order Sentence Tool (OrdSentTool.exe or opened from DCPTools.exe),Incremental Search (Orders),506
+Modify any code set that is part of order entry formats (OEF),Crmtest 6024 xxxx (where xxxx is the modified code set value),Not applicable
+,DCP Task Server,102
+Modify Code Sets 6000 (Catalog Type) and 6026 (Task Type) to allow task completion to trigger order completion,Crmtest 6024 6000,Not applicable
+,Crmtest 6024 6026,Not applicable
+,ORM Order Write Synch,101
+,DCP Task Server,102
+,ORM Order Write Asynch,104
+Modify Nomenclature Tool (NomenclatureTool.exe),None,Not applicable
+Add or modify PowerForms,DCP Task Server,102
+,DCP Output,106
+Add or modify discrete task assays (DTAs),CPM Script Cache,80
+Add or modify event codes or event sets,See Core,Not applicable
+"Add applications, tasks, or requests (ATRs)",CPM Script Batch Private,57
+,Add requisition or report back-end Discern Explorer (CCL) scripts,CPM Script Batch Private,57
+,DCP Output,106
+Add or modify clinical equations,None,Not applicable
+Set headings for clinical documents,None,Not applicable
+Add or modify reference text,None,Not applicable
+Modify order privileges,Order Management,351
+,Clinical Information,"352, 358, 359, 509"
+,Privilege Authorization,357
+Add or modify order proposals,OAR Order Proposal,109
+Add or modify autoproduct assignment or autoverification,CPM Application Authorization,50
+,ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+,OAR Order Process Async,111
+,OAR Order Process Sync,112
+Modify frequencies,See Inpatient Pharmacy,Not applicable
+"Configure Oracle Health Electronic Prescription Interoperability (that is, the Web Address for formulary or pharmacy directory)",Order Management,351
+,Prescription Benefits,355
+,Orders Support,362
+Modify inbound orders,ORM Order Write Synch,101
+,ORM Order Write Synch for FSI,107
+Modify medication reconciliation,Orders Decision Support,362
+,Incremental Search (Orders),506
+,Medication Decision Support,386
+,CPOE,395
+Modify ECO Operations job settings or request class routing to 108,CPM Application Authorization,50
+,ORM Explode Cont Order,105
+,ORM Explode Cont Order 001,108
+,Order Query,623
+Add or modify the OpsExec server for control group containing ECO Operations jobs,Orders Support,362
+Add or modify a PowerPlan or outcome,ORM Format Server,100
+,ORM Order Write Synch,101
+,DCP Task Server,102
+,ORM Order Write Asynch,104
+,DCP Pathway,115
+,DCP Write Outcome Async,116
+,DCP Query Outcome,117
+,DCP Query Plans,119
+,CPOE,395
+,PowerPlans Server,378
+,Incremental Search (Orders),506
+"Add new print queue, requisition routing, or modify requisition",CPM Script,51
+,CPM Script Private,53
+,CPM Async Script,54
+,CPM Script Batch,56
+,CPM Script Batch Priv,57
+,CPM Script (Read Only),58
+,CPM Script Cache,80
+,Print Services Cache Manager,128
+,System Print Services,129
+,System Print Server (node-specific),127
+,ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+,DCP Output,106
+,Discern ODBC,170
+,OAR Admin Process Sync,118
+,ORM Format,100
+Add or modify order rules,ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+,ORM Explode Cont Order,105
+,Discern Expert EKS ASYNC_01,150
+,Discern Expert EKS ASYNC_02,151
+,Discern Expert EKS ASYNC_03,152
+,Discern Expert CPM.EKS,175
+,Orders Support,362
+,Incremental Search (Orders),506
+,CareCompass Server,397
+,MPages Script Server,79
+After you install the CareCompass package and build the CareCompass filters in Bedrock (Bedrock.exe),CPM Code Cache,52
+,CPM Script,51
+,CPM Script Cache,53
+,CPM Script Batch,56
+,Clinical Information (Nomenclature),359
+,Clinical Information (Clinical Fact),374
+For any new Problems and Diagnosis or Diagnosis Assistant content (Cerner Medical Terminology (CMT) content),Incremental Search (Medical Terminology) ( MPages ),396
+,Documentation Quality (Used for Diagnosis Assistant),529
+,MPages (Depending on your licenses and packages, determine whether these servers are applicable to your site.),535
+,Incremental Search for IMO & MPL terminology,422
+,Incremental Search for HL PFT terminology,423
+,Incremental Search for SNOMED CT terminology,424
+Modify Preference Manager server settings,Preference Manager,25
 
-                rows.forEach(row => {
-                    const cellText = row.cells[column].textContent.toLowerCase();
-                    row.style.display = cellText.includes(filterValue) ? '' : 'none';
-                });
+Inpatient Pharmacy
+Actions,Server to Cycle,SCP Entry
+Update to an existing personnel username,Pharmacy Utility,645
+The following servers must be running for Inpatient Pharmacy to function:,Medication Dispense and Dose,625
+,Medication Fill Report,626
+,Pharmacy Inbound Dispense,640 (replaced 601 and 630)
+,Pharmacy Utility,645
+,Orders Decision Support,362
+,Entity Lock,59
+Modify frequency,Crmtest 6024 4003,Not applicable
+,Medication Dispense and Dose,625
+,Medication Fill Report,626
+,Orders Decision Support,362
+,CPOE,395
+Modify units of measure,Crmtest 6024 54,Not applicable
+,OCF Unit,225
+Modify unit-based cabinet parameters,Pharmacy Inbound Dispense,640 (replaced 601 and 630)
+Modify queue preferences,Pharmacy Inbound Dispense,640 (replaced 601 and 630)
+Modify pharmacy billing preferences,Medication Dispense and Dose,625
+,Medication Fill/ Report,626
+,CPM Script Async,54
+Install new output code (labels MARs),Crmtest 6024 4039 (if you modify values in Code Set 4039),Not applicable
+,CPM Script,51
+,CPM Script Async,54
+,CPM Script Batch,56
+,CPM Script Cache,80
+,Medication Dispense and Dose,625
+,Medication Fill Report,626
+,Medication Fill Report Async Server,627
+Modify automatic product assignment (APA) or automatic verify (AV),ORM Format Server,100
+,ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+,ORM Explode Cont Order,105
+,DCP Output,106
+,ORM Order Write Synch for FSI,107
+,ORM Explode Cont Order 001,108
+,OAR Order Proposal Server Sync,109
+,OAR Order Process Server Async,111
+,OAR Order Process Server Sync,112
+Add or modify dispense category,Medication Dispense and Dose,625
+,Medication Fill/ Report,626
+,OAR Order Process Server Async,111
+,OAR Order Process Server Sync,112
+Add or modify price schedule,Medication Dispense and Dose,625
+,Medication Fill/ Report,626
+,OAR Order Process Server Async,111
+,OAR Order Process Server Sync,112
+,Pharmacy Inbound Dispense,640 (replaced 601 and 630)
+,Pharmacy Utility,645
+,OAR Admin Process Sync,118
+Add or modify service resources,Medication Dispense and Dose,625
+,Medication Fill/ Report,626
+,Pharmacy Utility,645
+Add or modify therapeutic substitution,ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+,OAR Order Process Server Async,111
+,OAR Order Process Server Sync,112
+,Orders Decision Support,362
+,Medication Decision Support,386
+,CPOE,395
+"Modify the following preferences: Height, weight, or creatinine event set, net cart dosing, unscheduled non-PRN fill qualification, Partial Dose Crediting",Medication Dispense and Dose,625
+,Medication Fill/ Report,626
+Update or modify Dose Range Checking (DRC) content,Medication Decision Support,386
+Modify the DRC Discern rule,Discern Expert CPM EKS Server,175
+,Medication Decision Support,386
+Changes made to pharmacy label formats,CPM Script,51
+,CPM Code Cache,52
+,CPM Script Private,53
+,CPM Async Script,54
+,CPM Process,55
+,CPM Script Batch,56
+,CPM Script Batch Priv,57
+,CPM Script (Read Only),58
+,CPM Entity Lock,59
+,CPM Service Resource Security,60
+,CPM Script Cache,80
+,DCP Task Server,102
+,DCP Output,106
+,System Print Server (Node-Specific),127
+,Print Services Cache Manager,128
+,System Printer,129
+,Pharmacy Queue Server,601
+,Medication Dispense and Dose,625
+,Medication Fill-Report,626
+,Pharmacy Inbound Dispense,640
+,Pharmacy Utility,645
+Configuring Waste Charge Management,Medication Dispense and Dose,625
+,Medication Fill Report,626
+,Pharmacy Inbound Dispense,640 (replaced 601 and 630)
+,Pharmacy Utility,645
+,Pharmacy Support,544
+
+SurgiNet
+Action,Server to Cycle,SCP Entry
+Add or modify order entry formats (OEF),See CareNet and Orders,Not applicable
+Add or modify discrete task assays (DTAs),CPM Script Cache,80
+,"Crmtest 6024 xxxx(xxxx = code set modified)(Code Set Modifications including: 14003, 14036, 14039, 14258, 10170, 1005xx)",Not applicable
+"Modify any scheduling flex rules (notifications, slots, or guidelines)",Scheduling Flex,582
+Modify scheduling key chains or locks,Scheduling Security,581
+Add an orderable item to order catalog,See CareNet and Orders,Not applicable
+
+Clinical Reporting
+Action,Server to Cycle,SCP Entry
+After downtime,Remote Report Distribution Dispatch,501
+,Remote Report Distribution Monitor,502
+Before loading the event set hierarchy (cer_exe/ocf_event_set_load.exe),Bring down the Chart Server,See Core
+
+Charge Services
+Action,Server to Cycle,SCP Entry
+After any changes are made using: DB Pricing Tool (CSPricingTool.exe), Batch Charge Entry (CSBatchChargeEntry.exe), Charge Viewer (CSChargeViewer.exe), DB Miscellaneous Setup (CSMiscSetup.exe),CS Charging Async Server,320
+,CS Charging Sync Server,322
+
+Scheduling Management and Revenue Cycle Scheduling
+Action,Server to Cycle,SCP Entry
+Add a new operations job code,CPM Batch Script,56
+Add or modify rules,"CPM Process, Discern Expert EKS ASYNC_02(or the appropriate rules server set up in Expert System Tool (ExpertSystTool.exe))","55,151"
+Configure or modify appointment types,Scheduling,361
+Modify code sets in the accept format fields or maintenance reasons,Crmtest 6024 xxxx (where xxxx is the modified code set value),Not applicable
+Modify accept or order format,"Scheduling. See also CareNet and Orders.",361
+Modify appointment priority,Scheduling,361
+Modify appointment resource quotas,Scheduling,361
+"Adding, disabling, or removing appointment type synonyms",Scheduling,361
+"Modify any scheduling flex rules (request lists, slots, guidelines, preps, and so on)",Scheduling Flex,582
+Modify scheduling key chains or locks,Scheduling Security,581
+Modify interactions are added later,Scheduling Sequencing,580
+Modify manual or automatic notifications,CPM Process,55
+Modify interactive reports (Reports menu),CPM Script Batch,56
+Modify interactive inquiries or request list inquiries,CPM Script,51
+Populate the Health Information Management Event Allocation table,CPM Process,55
+Referral conversations: modify referral code value aliases,Referral,526
+Scheduling preferences: default outpatient encounter type (REFOUTENCTR),Referral,526
+,Scheduling,361
+Scheduling preferences: check in encounter type (REFCHKINENCR),Scheduling,361
+Referral clocks: modify guaranteed appointment date and days to letter,Referral,526
+,Scheduling,361
+Pathway clocks: modify breach date,Referral,526
+,Scheduling,361
+Any modifications to code values for the following code sets: 34 (HOSP_SERV), 3394 (Service Category), 14776 (Urgency), 14777 (Wait List Standby), 14778 (Wait List Status), 30381 (Admit Booking), 30386 (Service Type Requested), 30392 (Referral Type), 4002978 (Referral Status),Referral,526
+
+FirstNet
+Action,Server to Cycle,SCP Entry
+If changes to filters and columns do not take effect immediately,Crmtest 6024 16372,Not applicable
+,CPM Async Script,54
+,CPM Process,55
+,CPM Script Cache,80
+,FRN Tracking View (not applicable with 2018 code level),425
+If updates to orders or clinical events in the Bedrock ED Physician ED LaunchPoint configuration do not take effect on an existing patient in ED Physician ED LaunchPoint,Server 84, then reprime the group,Not applicable
+
+Core
+Action,Server to Cycle,SCP Entry
+Add or modify event codes,Clinical Event,"200 1"
+,Clinical Event For ESI,"205 1"
+,Clinical Event - Batch,"209 1"
+,Clinical Event Server For ESO,3005
+Add or Modify External System Inbound (ESI) aliases for orderable items or results – manually or when using Event Code Loader (OCF_Event_Code_Load.exe),CPM ESI Server,250
+,Clinical Event (ESI),205
+Unload event codes or event sets using Event Code Unloader (OCF_Event_Code_Unload.exe) or Event Set Unloader (OCF_Event_Set_Unload.exe),None,Not applicable
+"Add, remove, or Modify event_codes, event_sets, or DTAs under Working view sections.",Sync or refresh any affected bands in the Bedrock tool,
+Load event sets using Event Set Loader (OCF_Event_Set_Load.exe),PRE-LOAD, STOP,
+,CPM ESI server,250 (stop)
+,Chart Servers,
+,POST-LOAD, CYCLE,
+,Clinical Event,"200 1"
+,Clinical Event (ESI),"205 1"
+,Clinical Event (Batch),"209 1"
+,Clinical Event Server For ESO,3005
+,Clinical Information,"352, 358, 359, 509"
+,Privilege Authorization,357
+,START,
+,CPM ESI,250 - if stopped
+,Chart Servers,
+Add or modify Core Event Manager (CoreEventManager.exe),PRE-LOCK, CYCLE,
+,CPM Script Batch,56
+,POST-LOCK, CYCLE,
+,Clinical Event,"200 1"
+,Clinical Event (ESI),"205 1"
+,Clinical Event (Batch),"209 1"
+,Clinical Event Server For ESO,3005
+,Clinical Information,"352, 358, 359, 509"
+,Privilege Authorization,357
+,Chart Servers,
+,CPM ESI,250
+Grant or revoke tasks in DB Task Access (TaskAccess.exe),None,
+Modify using Maintain Positions in User Maintenance (HNAUser.exe),None,
+Modify personnel name in User Maintenance,Patient Demographics & Registration,373
+Add a new position in Core Code Builder (CoreCodeBuilder.exe),Crmtest 6024 88,Not applicable
+Create or generate location aliases,Crmtest 6024 220,Not applicable
+,CPM ESI,250
+Add or modify Code Set 73 (Contributor Source),Crmtest 6024 73,Not applicable
+,CPM ESI,250
+Turn on or turn off encounter or organization security,CPM Script,51
+,CPM Script Batch,56
+,System Print Services,129
+,Clinical Information,358
+,Patient Demographics & Registration,373
+,Pharmacy Utility Server,645
+Turn on or turn off person-level security,CPM Script,51
+,CPM Async Script,54
+,CPM Script Batch,56
+,CPM Script Server,58
+,PM Reg,330 (Stop/Start)
+,PM Utility,331 (Stop/Start)
+,PM Transaction,332 (Stop/Start)
+,PM Trans Async,335
+,PM Query,340
+,Health Expectation,455
+,DCP Task Query,103
+Change a Bandu Feature Flag or Toggle,Feature Toggle Management,2030
+
+PowerChart
+Action,Server to Cycle,SCP Entry
+Import new charts or modify content for Advanced Growth Chart (CPSUIPGC.dll opened from PowerChart.exe),CPM Script Cache,80
+Modify Privileges Maintenance Tool (PrivMaint.exe),Order Management,351
+,Clinical Information,"352, 358, 359, 509"
+,Privilege Authorization,357
+Modify Preferences Maintenance Tool (PrefMaint.exe),None unless application-level preferences are modified,
+Modify Demographics Bar,CPM Script,51
+,CPM Script Async,54
+,CPM Script,56
+
+PowerChart Health Maintenance
+Action,Server to Cycle,SCP Entry
+Add or modify Health Maintenance Expectation Build Tool (HealthExpTool.exe or opened from DCPTools.exe),CPM Script Cache,80
+,Health Expectation,455
+,Health Expert,360
+,Health Maintenance Agents,534
+,Health Recommendations,366
+Publish rules in Health Expert Rule Builder (HERuleBuilder.exe),Health Expert,360
+,Health Maintenance Agents,534
+,Health Recommendations,366
+
+PowerChart Message Center
+Action,Server to Cycle,SCP Entry
+Modify Message Center (PVInbox.dll opened from multiple applications) pool names,Clinical Information (Messaging),509
+
+Foreign System Interfaces – ESI and ESO
+Action,Server to Cycle,SCP Entry
+Modify ESO Suppression Scripts.,"Varied, please see Configure ESO With SI_Manager for various ESO_GET_*_SELECTION scripts for details.",Varied
+Add an outbound alias to code_value_outbound,Outbound comserver where the contributor_source_cd value for the alias is associated with the contributor_system_cd value from eso_init_outbound.,Varied
+"Add or start an interface in eso_init_outbound such as orders outbound, results outbound, and so on.",FSI ESO Load,"280 - 285 (Stop/Start),260-269 (Stop/Start),3200-3284 (Stop/Start)"
+,FSI ESO Notify,275 (Stop/Start)
+Modify hold logic,FSI ESO-CQM,252 (Cycle)
+,FSI ESO Notify,275 (Stop/Start)
+,FSI Hold Release,276 (Stop/Start)
+,CPM ESI,250 (Cycle)
+Change the outbound route script: oen.eso.interface->CUSTOMROUTINGSCRIPTNAME,FSI ESO Load,"280-285 (Stop/Start),260-269 (Stop/Start),3200-3284 (Stop/Start)"
+,OEN Router,245 (October Cumulative and below)(Stop/Start)
+Modify eso_init_outbound,FSI ESO-CQM,252 (Cycle)
+,FSI ESO Notify,275 (Stop/Start)
+,FSI ESO Load,"280-285 (Stop/Start),260-269 (Stop/Start),3200-3284 (Stop/Start)"
+"Modify OrgTool (OrgTool.exe), Location Alias Maintenance Tool (LocAlias.exe), and PowerChart Database Tools (DCPTools.exe)",CPM ESI,250 (Cycle)
+Modify to ESI Configuration Tool (ESIConfigTool.exe),CPM ESI,250 (Cycle)
+Add or modify an inbound alias,CPM ESI,250 (Cycle)
+Modify OEN.Batch.Interface Custom Routing Script.,OEN Router,245 (Stop/Start)
+,FSI Batch CQM Server,291 (Stop/Start)
+"Configuring ESO Server Routing, see Configure Server Load Balancing Using SI_Manager.",FSI ESO-CQM,252 (Cycle)
+,FSI ESO Notify,275 (Stop/Start)
+,FSI ESO Load,"280-285 (Stop/Start),260-269 (Stop/Start),3200-3284 (Stop/Start)"
+
+ERM – Registration Management
+Action,Server to Cycle,SCP Entry
+"Add, modify, or remove from a code set",Crmtest 6024 xxxx (where xxxx is the modified code set value),Not applicable
+Modify Code Set 20790 or 207902,Crmtest 6024 xxxx (where xxxx is the modified code set value),Not applicable
+,CPM Script,51
+,CPM Process,55
+,PM Reg,330
+,PM Utility,331
+,PM Transaction,332
+,PM Transaction Async,335
+Add a user-defined field (UDF),CPM Script,51
+,PM Reg,330
+,PM Transaction,332
+,PM Utility,331
+Add or modify a location,Crmtest 6024 220,Not applicable
+,PM Utility,331
+Modify documents or document routing,CPM Application Authorization,50
+,CPM Script,51
+,CPM Code Cache Query,52
+,CPM Async Script,54
+,CPM Process,55
+,CPM Script Batch,56
+,CPM Script Cache,80
+,Custom CPM (if present - see Custom Client Server Definitions),3001
+,PM Reg,330
+,PM Transaction,332
+,PM Transaction Async,335
+,PM Utility,331
+,Patient Demographics and Registration server,373
+,Revenue Cycle Registration server,519
+Troubleshoot Registration Management,PM Reg,330
+,PM Transaction,332
+,PM Utility,331
+Modify registration conversation,PM Utility,331 (first)
+,PM Reg,330
+,PM Transaction,332
+,PM Trans Async,335
+,PM Query,340
+,CPM Script,51
+,CPM ESI,250
+
+Revenue Cycle Registration
+Action,Server to Cycle,SCP Entry
+Add or modify payers or Web Address for medical eligibility,Patient Demographics and Registration,373
+Add or modify organizations,"Patient Demographics and Registration,Patient and Registration Reconciliation","373,2064"
+Add or modify locations,Patient Demographics and Registration,373
+Add or modify server logging for person and encounter troubleshooting,Patient Demographics and Registration,373
+Add or modify server Web Address for admission notification,Patient Demographics and Registration,373
+Financial Clearance Eligibility configuration,Transaction Services Medical Eligibility Service,"369, 2033"
+Configuration changes made in Revenue Cycle Configuration Manager,Revenue Cycle Configuration,2012
+Add or modify address validation,Revenue Cycle Registration,519
+Add or modify external provider search,Revenue Cycle Registration,519
+Add or modify global days retrieval,Revenue Cycle Registration,519
+Add or modify alias pools and alias pool relationships,"Patient Demographics and Registration,Patient and Registration Reconciliation","373,2064"
+,Revenue Cycle Registration,519
+Add or modify personnel organization relationships,Patient Demographics and Registration,373
+,Revenue Cycle Registration,519
+,Patient and Encounter Accessibility,2043
+
+Laboratory Common Services
+Action,Server to Cycle,SCP Entry
+Add or modify tasks,See CareNet and Orders,Not applicable
+"Modify DORC, COLLREQMAINT, or Routing",SCS Collections Server,132
+,SCS Netting,131
+Add or modify routing orders to instruments or benches,PathNet Resource Routing,130
+Order entry formats (OEF) prompt tests,ORM Format,100
+,PathNet Result Order Posting,133
+Add or modify collection routes,SCS Collections Server,132
+Add or modify accession assignment pools,SCS Netting,131
+Add or modify collection priorities,SCS Netting,131
+Add or modify specimen containers,SCS Netting,131
+Build accession site prefixes,SCS Netting,131
+Build service resource calendars,PathNet Resource Routing,130
+Assign service resources in the LaboratoryGeneral Laboratory: Work Routing wizard (opened from Bedrock.exe),PathNet Resource Routing,130
+Add a new instrument to the laboratory,PathNet Resource Routing,130
+,MDI,"230, 231, 235"
+Deactivate a laboratory instrument no longer in use,PathNet Resource Routing,130
+Set default label printer,SCS Netting,131
+,SCS Collections,132
+Modify label program,CPM Script Cache,80
+,Print Services Cache Manager,128
+,System Print Services,129
+,System Print Server (node specific),127
+,CPM Script 3002,3002
+
+General Laboratory
+Action,Server to Cycle,SCP Entry
+Modify a control type,Crmtest 6024 1907,Not applicable
+Change a manufacturer,Crmtest 6024 1908,Not applicable
+Modify or add instrument cross-reference numbers,GLB Result,551
+,MDI Result Server,231
+Transfer list temperatures,Crmtest 6024 1663,Not applicable
+Modify a report orderable item or task assay,CPM Process,55
+,ORM Order Write Synch,101
+Change QC Scheduler (QCScheduler.dll opened from QCMaintenance.exe) for results,GLB Result,551
+
+Microbiology
+Action,Server to Cycle,SCP Entry
+Modify MDI Installation Tool (MDIInstallTool.exe),MDI Order Server,235
+,MDI GenLab Result Client and MDI Micro Result Client,"230, 232"
+,MDI Results,231
+Modify a microbiology order description,Crmtest 6024 200,Not applicable
+,PathNet Result Order Posting,133
+Modify second level interpretations,Discern Expert Server,150
+,Discern Expert Server,151
+,Discern Expert Server,152
+Create or modify susceptibility interpretations,CPM Script Cache,80
+
+Blood Bank Transfusion (BBT)
+Action,Server to Cycle,SCP Entry
+None specific to Blood Bank Transfusion,"See CareNet and Orders and Laboratory Common Services.",
+
+Anatomic Pathology
+Action,Server to Cycle,SCP Entry
+Build coding synonyms,PathNet - AP Automatic Diagnostic Coder,141
+,PathNet - AP Interactive Diagnostic Coder,142
+Build internal codes,PathNet - AP Automatic Diagnostic Coder,141
+,PathNet - AP Interactive Diagnostic Coder,142
+
+Outreach Services
+Action Taken,Server to Cycle,SCP Entry
+Add new Outreach Services Client,CPM Script Cache,80
+,CPM ESI,250 (Cycle)
+,PM Reg,330 (Stop/Start)
+,PM Utility,331 (Stop/Start)
+,PM Transaction,332 (Stop/Start)
+,PM Trans Async,335 (Stop/Start)
+,PM Query,340 (Stop/Start)
+,PM Reg Debug,345 (Stop/Start)
+Other for Outreach Services,"See CareNet and Orders and Laboratory Common Services",Not applicable
+
+Radiology Management
+Action,Server to Cycle,SCP Entry
+Modify Cerner Imaging Database Tools pull list settings,CPM Async Script,54
+Modify Cerner Imaging Database Tools pull list batch operations job settings,CPM Script Batch,56
+Modify Cerner Imaging Database Tools signature line,CPM Process,55
+,CPM Process,001 - 91 (if exists at site)
+"Modify Radiology Patient Packet code (In most cases, cycling the CPM Async Script server (SCP 54) is all that is needed. However, the Oracle standard is to cycle the rest of these servers.)",CPM Async Script,54
+,CPM Script Batch,56
+,CPM Script Cache,80
+,ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+,RadNet Async Script,110
+Printer Preferences,CPM Script,51
+,CPM Script Private,53
+,CPM Async Script,54
+,CPM Process,55
+,CPM Script Batch,56
+,CPM Script Batch Priv,57
+,CPM Script Cache,80
+,System Print Server (Node Specific),127
+,Print services cache manager,128
+,System print server,129
+,Laboratory Resource Routing,130
+,PM Utility,331
+Modify Cerner Imaging Database Tools requisition controls,CPM Async Script,54
+,CPM Script Batch,56
+,ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+Changes to PPR Service Resource Access (PPRServResAccess.exe),CPM Service Resource Security,60
+Changes to Department ORC Wizard (Deptorcwizard.exe), Bill Only Items, Exam Segments,CPM Async Script,54
+,CPM Script Batch,56
+,CPM Script Cache,80
+,ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+Folder/Folder Default Locations,CPM Script,51
+,CPM Script Cache,80
+,ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+Document Medications,CPM Script Cache,80
+,Write Synch,101
+,ORM Order Write Asynch,104
+,OAR Admin Process Asynch,118
+,Medication Dispense and Dose,625 if changing medication info
+Protocol Changes,ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+Word Processing Templates,CPM Process,55
+Radiology Report Search,RadAsyncScript,110
+Accession Number Changes,Order Format Server,100
+,Order Write Synch,101
+,Order Write Asynch,104
+,PathNet Resource Routing Server,130
+,SCS Netting Server,131
+,SCS Collection Server,132
+,PM Utility,331
+Add a procedure to mammography follow-up group in Cerner Imaging Database Tools (RadDBTools.exe) procedure group build,ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+,ORM Explode Cont Order 001,108
+Mammography Follow Up Changes,CPM Script Private,53
+,CPM Script Server,51
+,ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+Mammography Diagram Changes,CPM Script Server,51
+,CPM Script Cache,80
+,ORM Order Write Synch,101
+,ORM Order Write Asynch,104
+,Multimedia Server,354 (Stopped/Started)
+
+Physician Documentation
+Action,Server to Cycle,SCP Entry
+Add or modify concept mapping for Dynamic Documentation,XML Document Generator,388
+,Dynamic Documentation,389
+,Clinical Event,200
+,Clinical Event,3005
+Add smart template to Code Set 16529,Crmtest 6024 16529,Not applicable
+,CPM Script,51
+,CPM Script Cache,80
+Add a new note type,Clinical Event,200
+,Clinical Event,3005
+"Any changes to the following Code Sets:8, 17, 12100, 36, 14449, 14450, 14709,23, 54, 120, 48, 12100, 29520, 31337, 31339,14409 through 14422,or 15749 through 15752",CPS SCD,420
+Import new tagging content for Dynamic Documentation,Dynamic Documentation,389
+
+Printers
+Action Taken,Server to Cycle,SCP Entry
+My printer is not printing - single printer issues,SCP List in Add or Delete Any Printer.,<####>
+Add or delete any printer,Print Services Cache Manager (Auto refreshes every 10 minutes),128
+,CPM Script Server,51
+,CPM Script Private Server,53
+,CPM Async Script Server,54
+,CPM Script Batch,56
+,CPM Script Batch Priv,57
+,CPM Script (Read Only),58
+,Time Repository Server,73
+,CPM Script Cache,80
+,Client Custom server,3000 series
+,"The Custom CPM Script and CPM Async Script servers may have bound application print requests associated with them. If cycling the normal list, including the 3000 Series servers, not resolve a suspected SCP server cache issue, search for custom SCP entries that are returned from the following paths:",<Custom>
+Servers that must have an instance running on each node in the domain,System Print Server (Node Specific),127
+,Print Services Cache Manager (Auto refreshes every 10 minutes),128
+,System Print Server,129
+,OAR Admin Process Server Synch,118
+Add or delete a printer used for General Laboratory applications,SCS Netting Server,131
+,SCS Collections Server,132
+,Discern Expert Server (EKS_ASYNCH_01),150
+,Discern Expert Server (EKS_ASYNCH_02),151
+,Discern Expert Server (EKS_ASYNCH_03),152
+,ORM Order Write Synch,101
+,Discern ODBC Server,170
+,CPM Script Batch,56
+,CPM Script (Read Only),58
+,CPM Script Install,78
+,CPM Script mPages,79
+,CPM Script (Custom),178
+,CPM Script Batch (Custom),179
+"Add or delete a printer used for PowerChart , but not viewable in PowerChart",DCP Output,106
+Add or delete a printer used for Pharmacy Medication labels and IV labels,Medication Dispense and Dose Server,625
+,Medication Fill / Report Server,626
+,Medication Fill / Report Server Asynch,627
+,Pharmacy Inbound Dispense Server,640
+,Pharmacy Utility Server,645
+,Authorize,37
+,CPM Application Authorization Server,50
+,CPM Code Cache Query,52
+,CPM Process Server,55
+,PM Reg,330
+,PM Utility,331
+,PM Transaction,332
+,PM Transaction Async,335
+,ORM Order Write Synch,101
+Build or modify printers and Device Viewer (DeviceViewer.exe) test pages,Print Services Cache Manager,128
+,CPM Script,51
+Add or delete a printer used for Visual Explorer (VisualExplorer.exe),CPM Script Batch (Custom),179
+Add or delete a printer used for Laboratory or General Laboratory solutions,SCS Netting,131
+,SCS Collections,132
+Add or delete a printer used for PowerChart,DCP Output,106
+Add or delete a printer used for PharmNet Med Labels and IV Labels,Medication Dispense and Dose,625
+,Medication Fill Report,626
+"Add, remove, change, or update the back-end application node name through the Nodes tab in Device Viewer (typically done after application node migration)",System Print Server,129
+,System Print Server (Node-Specific),127
+"For all UNIX host operating system environments, when cycling the above servers did not resolve issue",CPM Script Private,53
+,CPM Async Script,54
+,CPM Script Batch,56
+,CPM Script Batch Priv,57
+,CPM Script (Read Only),58
+,CPM Script Cache,80
+
+Document Imaging
+Action,Server to Cycle,SCP Entry
+Changes to Cerner ProVision Document Imaging Configuration Tool (CDIConfig.exe) – Content Management tab including:,Add or modify data source,Add or modify Web Services URL,Add or re-sort AX Applications in selected search applications,Document Imaging,382
+"Modify clinical document types (Code Set 72, Event Codes)",Document Imaging,382
+Modify nonclinical document types (Code Set 26820),Document Imaging,382
+Modify locations (Code Set 220),Document Imaging,382
+
+MPages
+Action,Server to Cycle,SCP Entry
+Make an MPages-related Bedrock change with MPages 5.x+ installed in the domain,Modify information in Care Team Build Tool (opened from DA2.exe),MPages,535
+If you have custom-developed CCL scripts,CPM Script,79
+,CPM Script (Custom),178
+Change CKI mappings,Clinical Leader Dashboard,548
+
+Transaction Services
+Action,Server to Cycle,SCP Entry
+Build Eligibility (including updates to Web Addresses),Patient Demographics and Registration,373
+,Financial Clearance Transaction,369
+,Revenue Cycle Registration,519
+Build 278N - Admission Notifications (including updates to Web Addresses),Patient Demographics and Registration,373
+
+Revenue Cycle/Patient Accounting
+Action,Server to Cycle,SCP Entry
+Create or modify ProFit Business Manager rule or association,ProFit Transaction Server,475
+,ProFit Billing Server,476
+
+Custom Client-Server Definitions
+Action,Server to Cycle,SCP Entry
+If you do not see your expected change take effect.,"Reserved for custom server definitions.(For more information or to reference the table of routed requests, see the CernerWorks production improvement plan, CWXPI 4354 SPS Monopoly on SCP 51 - Request Class Routing.)",3001
+,,"3002"
+,,"3003"
+
+ESH Server
+Action,Server to Cycle,SCP Entry
+When you make any event set hierarchy (ESH) change.,CPM Script Cache,80
+,Clinical Event Server,200
+,Clinical Event Server For ESI,205
+,Clinical Event Server - Batch,209
+,Clinical Information,352
+,Privilege Authorization,357
+,Content Retrieval,358
+,Clinical Information (nomenclature),359
+,XML Document Generator,388
+,Dynamic Documentation,389
+,Data Extraction,2024
+When you make any immunizations ESH change.,Health Expert,360
+,Health Recommendations,366
+
+Laboratory Medical Device Interface
+Action,Server to Cycle,SCP Entry
+"Add, modify, or remove the server property from Laboratory Medical Device Interface core servers","Cycle the server that the server property was added, modified, or removed from the MDI Results Server.","231, 233, 235, 236, 238"
+,MDI Result Order Posting Server (SCP 233),
+,MDI Order Server (SCP 235),
+,MDI Direct Result Server (SCP 236),
+,CareAware MDI Server (SPC 238),
+Install or create a new type of MDI Interface:,MDI Order Server,MDI Result Server,"235, 231"
+Install or create a new Blood Bank MDI interface,MDI Direct Result Server,236
+Install or create a New Point Of Care (POC) MDI interface,MDI Result Order Posting Server,233
+"Add or modify the following Code Set details: 221, 14001, and 4460007",MDI Direct Result Server,236
+"Route new Gen Lab, Microbiology, Blood Bank, POC, and Lab Automation orderables",MDI Order Server,235
+"Add or modify the following code sets: 57, 71, 220, 282, 321, 1905, and 2052",MDI Order Server,235
+Add or modify the message view logger,MDI Order Server,235
+Add or modify the pub-sub relationship in the Instrument Routing tab in Phoenix (Phoenix.exe) for the service resource.,MDI Order Server,235
+Add or modify download aliases in Phoenix at the service resource level,MDI Order Server,235
+Add or modify a back-end CCL insert at the MDI service resource level,MDI Order Server,235
+"You can add, modify, or remove the following data input fields in Phoenix for the MDI service resource:",CareAware MDI Server,238
+Add or modify an entry on the iBus domain table,CareAware MDI Server,238
+Add or modify the automatic log in template for the MDI service resource,CareAware MDI Server,238
+Add or modify the error priority or error code for the Gen Lab service resource,MDI Results Server,231
+Add or modify QC accessions,MDI Results Server,231
+Add or modify calculation and equation,MDI Results Server,231
+Add or modify the Interpretation value in DB Interpretation Tool (InterpretationTool.exe or opened from BBDBTools.exe),MDI Results Server,231
+Add or modify the notify flag configuration,MDI Results Server,231
+Add or modify the reference range definition for a discreet task assay (DTA),MDI Results Server,231
+Add or modify the automatic verification build for the service resource in DB Autoverify Build (AutoverifyBuild.exe or AutoverifyBuildDLL.dll opened from GLbDBTools.exe),MDI Results Server,231
+Add or modify the Point of Care tab in Phoenix for the POC service resource.,MDI Result Order Posting Server,233
+"Add or modify the following Code Sets: 289, 1901, and 1902",MDI Result Order Posting Server,233
+Add or modify the ROP Tab details in Phoenix for the ROP service resource,MDI Result Order Posting Server,233
+
+Bedside Medical Device Interface
+Action,Server to Cycle,SCP Entry
+When you add or modify the BMDI service resource in Phoenix,CareAware MDI Server,238
+"Add, modify, or remove the server property for BMDI core servers","Cycle the server that the server property was added, modified, or removed. ","237, 239"
+Add or modify the New BMDI interface or GateWay,BMDI Result Server,CareAware MDI Server,"237, 239"
+Add or modify the Device Alias tab details in Indus (Indus.exe) for the BMDI service resource,CareAware MDI Server,239
+Add a new child device (Device Monitor) to the BMDI interface or GateWay,BMDI Result Server,237
+Add or modify the Device Parameter tab in Indus for the BMDI service resource,BMDI Result Server,237
+Add or modify the Nomenclature tab in Indus for the BMDI service resource,BMDI Result Server,237
+`;
+
+        /**
+         * Parses the raw text data from the document into a structured array of objects.
+         * It handles section headers (Area) and continuation lines for actions.
+         * @param {string} text - The raw text data.
+         * @returns {Array<Object>} An array of row objects.
+         */
+        function parseData(text) {
+            const lines = text.trim().split('\n');
+            const data = [];
+            let currentArea = "Unknown";
+            let lastAction = "";
+
+            lines.forEach(line => {
+                line = line.trim();
+                if (!line) return; // Skip empty lines
+
+                const parts = line.split(',').map(part => part.trim().replace(/^"|"$/g, ''));
+
+                // Check if the line is a header for a new area
+                if (parts.length === 1 && parts[0] && !line.includes(',')) {
+                    // Simple check: if a line has no commas and isn't a known table header, treat it as an Area title
+                    const potentialHeader = parts[0].toLowerCase();
+                    if (potentialHeader !== 'action' && !potentialHeader.startsWith('actions')) {
+                         currentArea = parts[0].replace(/ /g, ' ').trim(); // Clean non-breaking spaces
+                         lastAction = ""; // Reset last action for new area
+                    }
+                    return;
+                }
+
+                // Skip table headers
+                const headerLine = line.toLowerCase();
+                if (headerLine.startsWith('action,') || headerLine.startsWith('actions,')) {
+                    return;
+                }
+                
+                // Process table rows
+                if (parts.length >= 2) {
+                    let [action, server, scp] = parts;
+                    
+                    // Handle continuation lines where the action is not specified
+                    if (action === "") {
+                        action = lastAction;
+                    } else {
+                        lastAction = action;
+                    }
+
+                    data.push({
+                        area: currentArea,
+                        action: action.replace(/ /g, ' '),
+                        server: (server || "").replace(/ /g, ' '),
+                        scp: (scp || "").replace(/ /g, ' ')
+                    });
+                }
             });
+            return data;
+        }
+
+        const tableData = parseData(rawData);
+
+        const tableBody = document.getElementById('serverTableBody');
+
+        /**
+         * Renders the table rows from the parsed data.
+         * @param {Array<Object>} data - The array of row objects.
+         */
+        function renderTable(data) {
+            tableBody.innerHTML = ''; // Clear existing table
+            if (data.length === 0) {
+                 tableBody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-500">No data available.</td></tr>';
+                 return;
+            }
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="px-4 py-4 whitespace-normal text-sm text-gray-800">${item.area}</td>
+                    <td class="px-4 py-4 whitespace-normal text-sm text-gray-800">${item.action}</td>
+                    <td class="px-4 py-4 whitespace-normal text-sm text-gray-800">${item.server}</td>
+                    <td class="px-4 py-4 whitespace-normal text-sm text-gray-800">${item.scp}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+            updateRowCount();
+        }
+
+
+        /**
+         * Filters the table based on user input in the filter fields.
+         * It checks each row against the filter values for each column.
+         */
+        function filterTable() {
+            const filters = {
+                area: document.getElementById('filterArea').value.toLowerCase(),
+                action: document.getElementById('filterAction').value.toLowerCase(),
+                server: document.getElementById('filterServer').value.toLowerCase(),
+                scp: document.getElementById('filterScp').value.toLowerCase()
+            };
+
+            const rows = tableBody.getElementsByTagName('tr');
+            let visibleCount = 0;
+
+            for (const row of rows) {
+                const cells = row.getElementsByTagName('td');
+                if (cells.length === 4) {
+                    const areaText = cells[0].textContent.toLowerCase();
+                    const actionText = cells[1].textContent.toLowerCase();
+                    const serverText = cells[2].textContent.toLowerCase();
+                    const scpText = cells[3].textContent.toLowerCase();
+
+                    const isVisible = areaText.includes(filters.area) &&
+                                      actionText.includes(filters.action) &&
+                                      serverText.includes(filters.server) &&
+                                      scpText.includes(filters.scp);
+
+                    row.style.display = isVisible ? '' : 'none';
+                    if (isVisible) {
+                        visibleCount++;
+                    }
+                }
+            }
+             updateRowCount(visibleCount);
+        }
+        
+        /**
+         * Updates the displayed row count.
+         * @param {number} [count] - The number of rows to display. If not provided, it counts visible rows.
+         */
+        function updateRowCount(count) {
+             const rowCountEl = document.getElementById('rowCount');
+             const totalRows = tableData.length;
+             let displayCount = count;
+
+             if (typeof count === 'undefined') {
+                const rows = tableBody.getElementsByTagName('tr');
+                let visibleCount = 0;
+                for(const row of rows) {
+                    if(row.style.display !== 'none') {
+                        visibleCount++;
+                    }
+                }
+                displayCount = visibleCount;
+             }
+             
+             if (displayCount === totalRows) {
+                rowCountEl.textContent = `Showing all ${totalRows} rows`;
+             } else {
+                rowCountEl.textContent = `Showing ${displayCount} of ${totalRows} rows`;
+             }
+        }
+
+
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTable(tableData);
+            
+            // Attach event listeners to filter inputs
+            document.getElementById('filterArea').addEventListener('keyup', filterTable);
+            document.getElementById('filterAction').addEventListener('keyup', filterTable);
+            document.getElementById('filterServer').addEventListener('keyup', filterTable);
+            document.getElementById('filterScp').addEventListener('keyup', filterTable);
         });
+
     </script>
 </body>
 </html>
