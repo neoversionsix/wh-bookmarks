@@ -852,7 +852,7 @@ Add or modify the Nomenclature tab in Indus for the BMDI service resource,BMDI R
 
         /**
          * Parses the raw text data from the document into a structured array of objects.
-         * It handles section headers (Area) and continuation lines for actions.
+         * This version is more robust to handle commas within the "Action" column.
          * @param {string} text - The raw text data.
          * @returns {Array<Object>} An array of row objects.
          */
@@ -866,49 +866,64 @@ Add or modify the Nomenclature tab in Indus for the BMDI service resource,BMDI R
                 line = line.trim();
                 if (!line) return; // Skip empty lines
 
-                const parts = line.split(',').map(part => part.trim().replace(/^"|"$/g, ''));
-
-                // Check if the line is a header for a new area
-                if (parts.length === 1 && parts[0] && !line.includes(',')) {
-                    // Simple check: if a line has no commas and isn't a known table header, treat it as an Area title
-                    const potentialHeader = parts[0].toLowerCase();
-                    if (potentialHeader !== 'action' && !potentialHeader.startsWith('actions')) {
-                         currentArea = parts[0].replace(/ /g, ' ').trim(); // Clean non-breaking spaces
-                         lastAction = ""; // Reset last action for new area
+                // Area header detection logic
+                const isLikelyHeader = !line.includes(',') && isNaN(parseInt(line.split(' ')[0]));
+                if (isLikelyHeader) {
+                    const potentialHeader = line.toLowerCase();
+                    if (potentialHeader !== 'action' && !potentialHeader.startsWith('actions') && !potentialHeader.startsWith('action,')) {
+                        currentArea = line.replace(/ /g, ' ').trim();
+                        lastAction = ""; // Reset for new area
+                        return;
                     }
-                    return;
                 }
-
+                
                 // Skip table headers
                 const headerLine = line.toLowerCase();
                 if (headerLine.startsWith('action,') || headerLine.startsWith('actions,')) {
                     return;
                 }
-                
-                // Process table rows
-                if (parts.length >= 2) {
-                    let [action, server, scp] = parts;
-                    
-                    // Handle continuation lines where the action is not specified
-                    if (action === "") {
-                        action = lastAction;
-                    } else {
-                        lastAction = action;
-                    }
 
-                    data.push({
-                        area: currentArea,
-                        action: action.replace(/ /g, ' '),
-                        server: (server || "").replace(/ /g, ' '),
-                        scp: (scp || "").replace(/ /g, ' ')
-                    });
+                const parts = line.split(',').map(part => part.trim().replace(/^"|"$/g, ''));
+                
+                // Ignore likely sub-headers or malformed lines that don't have enough parts
+                if (parts.length < 2) {
+                    return; 
                 }
+
+                let action, server, scp;
+
+                // Heuristic: Assume the last two comma-separated values are Server and SCP.
+                // Everything before that is part of the Action.
+                if (parts.length >= 3) {
+                    scp = parts[parts.length - 1];
+                    server = parts[parts.length - 2];
+                    action = parts.slice(0, parts.length - 2).join(', ');
+                } else { // Handles parts.length === 2
+                    action = parts[0];
+                    server = parts[1];
+                    scp = "";
+                }
+
+                // Handle continuation lines where the action cell is empty
+                if (action === "") {
+                    action = lastAction;
+                } else {
+                    lastAction = action;
+                }
+
+                data.push({
+                    area: currentArea.replace(/ /g, ' '),
+                    action: action.replace(/ /g, ' '),
+                    server: (server || "").replace(/ /g, ' '),
+                    scp: (scp || "").replace(/ /g, ' ')
+                });
             });
+
             return data;
         }
 
-        const tableData = parseData(rawData);
 
+        const tableData = parseData(rawData);
         const tableBody = document.getElementById('serverTableBody');
 
         /**
