@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CNVTDATETIME Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CNVTDATETIME+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div><fieldset class="parameters hidden">
+<input id="isWorkflowsLiteApp" type="hidden" value="false"/>
+<input id="isWorkflowsApp" type="hidden" value="true"/>
+<input id="parametersLabel" type="hidden" value="Parameters"/>
+<input id="hasWorkflow" type="hidden" value="true"/>
+<input id="isPageReadAck" type="hidden" value="false"/>
+<input id="cwConfluenceLocale" type="hidden" value="en"/>
+<input id="pluginKey" type="hidden" value="com.comalatech.workflow"/>
+<input id="cwConfluenceTimeFormat" type="hidden" value="h:mm a"/>
+<input id="isComalaAppLicensed" type="hidden" value="true"/>
+<input id="cwIsSpaceAdmin" type="hidden" value="false"/>
+<input id="cwIsConfluenceAdmin" type="hidden" value="false"/>
+<input id="hasReadAck" type="hidden" value="false"/>
+<input id="cwSpaceWorkflowAllowed" type="hidden" value="true"/>
+<input id="cwConfluenceDateTimeFormat" type="hidden" value="MMM dd, yyyy HH:mm"/>
+<input id="tasksLabel" type="hidden" value="Tasks"/>
+<input id="approvalsLabel" type="hidden" value="Approvals"/>
+<input id="cwConfluenceDateFormat" type="hidden" value="MMM dd, yyyy"/>
+<input id="statesLabel" type="hidden" value="State"/>
+<input id="workflowVersion" type="hidden" value="7.3.0"/>
+<input id="cwShowWorkflowTranslator" type="hidden" value="true"/>
+<input id="isApprovalsApp" type="hidden" value="false"/>
+</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<fieldset class="parameters hidden">
+<input id="showPageOnboarding" type="hidden" value="false"/>
+</fieldset>
+
+<fieldset class="parameters hidden">
+<input id="dbChromeHeader" type="hidden" value="Book Builder"/>
+<input id="dbChromeBack" type="hidden" value="Back"/>
+<input id="dbChromeSave" type="hidden" value="Save"/>
+<input id="dbChromeCancel" type="hidden" value="Cancel"/>
+<input id="dbChromeClose" type="hidden" value="Close"/>
+<input id="dbDraghere" type="hidden" value="Drag pages here"/>
+<input id="dbEdit" type="hidden" value="Edit"/>
+<input id="dbDelete" type="hidden" value="Delete Book"/>
+<input id="dbNoResults" type="hidden" value="Sorry, no results were found for"/>
+<input id="dbSearchSuggestions" type="hidden" value="Search Suggestions:"/>
+<input id="dbSuggestionOne" type="hidden" value="Check your spelling."/>
+<input id="dbSuggestionTwo" type="hidden" value="Try different, more general, or fewer keywords."/>
+<input id="dbNoMybooksResults" type="hidden" value="You do not have any books."/>
+</fieldset>
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The CNVTDATETIME() function converts date and time expressions to a Binary System Datetime value. A Binary System datetime is a value that represents a specific time on a specific date. A Binary System datetime has a DQ8 data type.</p><p>Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.7.2, CNVTDATETIME() ignores fractional seconds.</p><p>Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3 and 9.02.3, a DQ8 value passed to CNVTDATETIME() is returned as is.</p><p>In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 9.03.0 - 9.03.4 and 8.15.0 - 8.15.4, CNVTDATETIME() may incorrectly return a UTC datetime value in a non-UTC enabled environment when passed an internal_date and internal_time or sysdate after CNVTLOOKAHEAD(), CNVTLOOKBEHIND(), or DATETIMEADD() has been executed when SET TRACE DTTMCALC is enabled on a Linux system. This issue is resolved in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 9.03.5 and 8.15.5.</p><h2 id="CNVTDATETIMEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CNVTDATETIME(rdb_dt_tm)
+CNVTDATETIME(character_date [character_time])
+CNVTDATETIME(internal_date, internal_time)
+</pre>
+</div></div><h2 id="CNVTDATETIMEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>rdb_dt_tm</em><br>A column or value that stores the date and time.</br></p><p><em>character_date</em><br/>A character representation of a date.</p><p>Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.4 and 9.02.4, if SET TRACE WARNING2 is enabled, an informational message is generated when an invalid character date is passed to CNVTDATETIME().</p><p>Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.10.0, the character_date was required to be in D-MMM-YYYY or DD-MMM-YYYY format. Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.10.0, the character_date can be in the following formats, where monthabrev is a three- or four-character month abbreviation and monthfull is the full month name. Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.16.0|9.04.0 the first three characters of the month abbreviation or full month name must match one of the values in the CURLOCALE("MONTHABBREV") string. CNVTDATETIME() performs a case and accent insensitive comparison of the first three characters of the month abbreviation or full month name to the CURLOCALE("MONTHABBREV") string to determine the month. If a match is not found, the month with the closest match is returned. Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.16.0|9.04.0, if the first three characters of the month abbreviation or full month name does not match one of the values in the CURLOCALE("MONTHABBREV") string, the first four characters of the month abbreviation or full month name is compared to the values in the CURLOCALE("MONTHABBREV2") string. If a match is not found, the full month name is compared to the values in the CURLOCALE("MONTFULL") string. If a match is still not found, the month with the closest match is returned.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Format</p></th><th class="confluenceTh"><p>Example</p></th></tr><tr><td class="confluenceTd"><p>D-monthabrev-YY</p></td><td class="confluenceTd"><div class="content-wrapper"><p>1-Jan-15<br/>In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.10.0 through 8.11.5, when using a single-digit day and a two-digit year with a three-character month abbreviation, you must insert a space before the day or after the year to make the entire date string more than eight characters. Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.0, the leading or trailing space no longer is required.</p></div></td></tr><tr><td class="confluenceTd"><p>DD-monthabrev-YY</p></td><td class="confluenceTd"><p>01-Jan-15</p></td></tr><tr><td class="confluenceTd"><p>D-monthabrev-YYYY</p></td><td class="confluenceTd"><p>1-Jan-2015</p></td></tr><tr><td class="confluenceTd"><p>DD-monthabrev-YYYY</p></td><td class="confluenceTd"><p>01-Jan-2015</p></td></tr><tr><td class="confluenceTd"><p>D-monthfull-YY</p></td><td class="confluenceTd"><p>1-January-15</p></td></tr><tr><td class="confluenceTd"><p>DD-monthfull-YY</p></td><td class="confluenceTd"><p>01-January-15</p></td></tr><tr><td class="confluenceTd"><p>D-monthfull-YYYY</p></td><td class="confluenceTd"><p>1-January-2015</p></td></tr><tr><td class="confluenceTd"><p>DD-monthfull-YYYY</p></td><td class="confluenceTd"><p>01-January-2015</p></td></tr></tbody></table></div><p><em>character_time</em><br/>A character representation of a time. The character_time is optional. If omitted a character_time of 00:00:00 is assumed. Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.10.0, the character_time was required to be in the HH:MM:SS format. Only one space was required between the character_date and the character_time. Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.10.0, if you use a two-digit year in the character_date a space must be inserted between the character_date and the character_time. If you use a four-digit year in the character_date, an optional space can be inserted between the character_date and character_time, but the space no longer is required. The character_time can be in the following formats:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Format</p></th><th class="confluenceTh"><p>Example</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>HH</p></td><td class="confluenceTd"><p>01</p></td><td class="confluenceTd"><p>01:00:00</p></td></tr><tr><td class="confluenceTd"><p>HH:MM</p></td><td class="confluenceTd"><p>01:15</p></td><td class="confluenceTd"><p>01:15:00</p></td></tr><tr><td class="confluenceTd"><p>HH:MM:SS</p></td><td class="confluenceTd"><p>01:15:30</p></td><td class="confluenceTd"><p>01:15:30</p></td></tr><tr><td class="confluenceTd"><p>HH:MM:SS.CC</p></td><td class="confluenceTd"><p>01:15:30.45</p></td><td class="confluenceTd"><p>01:15:30.45</p></td></tr></tbody></table></div><p>You can use .CC, but it is ignored because the RDBMS only stores datetime values down to the second.</p><p>Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.10.1, a single space was required between the character_date and character_time. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.10.1 eliminated this requirement, provided the character_date uses the YYYY format for the year.</p><p>Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.11.0, the hour, minute, and second components are not required in the character_time, provided the colon and dot characters are used as placeholders. For example, CNVTDATETIME("01-JAN-2015 :01") returns a datetime value that is one minute after midnight on 01-JAN-2015, and CNVTDATETIME("01-JAN-2015 ::01") returns a datetime value that is one second after midnight on 01-JAN-2015.</p><p>Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.2, the colon (:) separating the hour, minute, and second components are not required in the character_time, provided two digits are used for each component.  For example, CNVTDATETIME("01-JAN-2015 0115") returns a datetime value that is one hour and fifteen minutes after midnight on 01-JAN-2015. CNVTDATETIME("01-JAN-2015 011530") returns a datetime value that is one hour, fifteen minutes, and thirty seconds after midnight on 01-JAN-2015.</p><p><em>internal_date</em><br/>A <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> internal date that is an integer value incremented by one each day with <strong>1</strong> (one) representing January 1, 1800. The system variable CURDATE is equal to the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> internal date for today.</p><p><em>internal_time</em><br/>An integer value representing the time in HHMM or HHMMSS format, or a floating-point (f8) number representing the time in ten-millisecond units. The system variable CURTIME3 is a floating-point number representing the time in ten-millisecond units. Use CURTIME3 in most situations that require using a system time variable. The system variables CURTIME and CURTIME2 are integer values equal to the current time in HHMM or HHMMSS format. An integer value less than or equal to 2400 is assumed to be in HHMM format. Leading zeros are ignored in integer values, so both 002359 and 2359 represent 11:59 PM.</p><h2 id="CNVTDATETIMEUsingDiscernExplorer-Examples">Examples</h2><p>The example below returns a datetime value that represents the very earliest possible time on 07-Oct-1992. Because no time value is given, zero is used as the time value by default:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CNVTDATETIME("07-OCT-1992")</pre>
+</div></div><p>The example below returns a datetime value that represents the very earliest possible time on 01-AUG-1996. A time value is required when using this option. The 0 (zero) is treated as 000000 in this case:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CNVTDATETIME(CNVTDATE(080196), 0)</pre>
+</div></div><p>The following example returns a datetime value that represents the current date and time:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CNVTDATETIME(CURDATE, CURTIME3)</pre>
+</div></div><p>The following example returns a datetime value that represents the very last possible time for today:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CNVTDATETIME(CURDATE, 235959)</pre>
+</div></div><p>The following example qualifies records that have been updated in the past 24 hours:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE P.UPDT_DT_TM BETWEEN CNVTDATETIME(CURDATE-1, CURTIME3) AND CNVTDATETIME(CURDATE , CURTIME3)</pre>
+</div></div>
+</div>
+</div>
+
+
+<fieldset class="parameters hidden">
+<input id="contextPageId" type="hidden" value="23338542">
+<input id="contextPageVersion" type="hidden" value="39">
+</input></input></fieldset>
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 873, "requestCorrelationId": "4a89bc00854cab23"}</span>
+</body>
+</html>

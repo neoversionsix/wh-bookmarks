@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>ALTER3 Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/ALTER3+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div><fieldset class="parameters hidden">
+<input id="isWorkflowsLiteApp" type="hidden" value="false"/>
+<input id="isWorkflowsApp" type="hidden" value="true"/>
+<input id="parametersLabel" type="hidden" value="Parameters"/>
+<input id="hasWorkflow" type="hidden" value="true"/>
+<input id="isPageReadAck" type="hidden" value="false"/>
+<input id="cwConfluenceLocale" type="hidden" value="en"/>
+<input id="pluginKey" type="hidden" value="com.comalatech.workflow"/>
+<input id="cwConfluenceTimeFormat" type="hidden" value="h:mm a"/>
+<input id="isComalaAppLicensed" type="hidden" value="true"/>
+<input id="cwIsSpaceAdmin" type="hidden" value="false"/>
+<input id="cwIsConfluenceAdmin" type="hidden" value="false"/>
+<input id="hasReadAck" type="hidden" value="false"/>
+<input id="cwSpaceWorkflowAllowed" type="hidden" value="true"/>
+<input id="cwConfluenceDateTimeFormat" type="hidden" value="MMM dd, yyyy HH:mm"/>
+<input id="tasksLabel" type="hidden" value="Tasks"/>
+<input id="approvalsLabel" type="hidden" value="Approvals"/>
+<input id="cwConfluenceDateFormat" type="hidden" value="MMM dd, yyyy"/>
+<input id="statesLabel" type="hidden" value="State"/>
+<input id="workflowVersion" type="hidden" value="7.3.0"/>
+<input id="cwShowWorkflowTranslator" type="hidden" value="true"/>
+<input id="isApprovalsApp" type="hidden" value="false"/>
+</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<fieldset class="parameters hidden">
+<input id="showPageOnboarding" type="hidden" value="false"/>
+</fieldset>
+
+<fieldset class="parameters hidden">
+<input id="dbChromeHeader" type="hidden" value="Book Builder"/>
+<input id="dbChromeBack" type="hidden" value="Back"/>
+<input id="dbChromeSave" type="hidden" value="Save"/>
+<input id="dbChromeCancel" type="hidden" value="Cancel"/>
+<input id="dbChromeClose" type="hidden" value="Close"/>
+<input id="dbDraghere" type="hidden" value="Drag pages here"/>
+<input id="dbEdit" type="hidden" value="Edit"/>
+<input id="dbDelete" type="hidden" value="Delete Book"/>
+<input id="dbNoResults" type="hidden" value="Sorry, no results were found for"/>
+<input id="dbSearchSuggestions" type="hidden" value="Search Suggestions:"/>
+<input id="dbSuggestionOne" type="hidden" value="Check your spelling."/>
+<input id="dbSuggestionTwo" type="hidden" value="Try different, more general, or fewer keywords."/>
+<input id="dbNoMybooksResults" type="hidden" value="You do not have any books."/>
+</fieldset>
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The ALTER3( ) function determines if the record structure list item is a contiguous record structure segment or a varlist record structure segment. It then calls the ALTER() or ALTERLIST() function accordingly to increase the size of the record structure segment. ALTER3 only increases the size of the record structure segment. It does not decrease the size. It returns <strong>1</strong> if successful, or <strong>0</strong> if not successful. The ALTER3() function was introduced in version 8.10.0 of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>.</p><h2 id="ALTER3UsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>ALTER3(record_structure_list_item, dimension)
+CALL ALTER3(record_structure_list_item, dimension)  ;return type is discarded when using CALL
+</pre>
+</div></div><h2 id="ALTER3UsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>record_structure_list_item</em></p><p>A record structure list_item that was defined using the RECORD command.</p><p><em>dimension</em></p><p>An integer representing the total number of positions to define in the record structure list_item.</p><h2 id="ALTER3UsingDiscernExplorer-Examples">Examples</h2><p>In this example, a contiguous record structure segment is created in REC1 with a dimension of 10. The segment increased in blocks of 10 using the Alter3() function. A varlist record structure segment is created in REC2. The ALTER3() function is also used to initialize the dimension of this list to 10 and allocate additional blocks of 10 as needed.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM TEST1 GO
+CREATE PROGRAM TEST1
+
+RECORD REC1 (
+	1 QUAL[10] /* creates a contiguous record structure segment */
+		2 NAME = C40)
+
+RECORD REC2 (
+	1 QUAL[*] /* creates a varlist record structure segment */
+		2 NAME = C40)
+
+SELECT INTO "NL:"
+	P.NAME_LAST_KEY
+
+FROM	PERSON P
+
+WHERE P.UPDT_DT_TM &gt; CNVTLOOKBEHIND("1,W")
+
+HEAD REPORT
+	COUNT = 0
+	/* allocate 10 positions in the rec2-&gt;qual list*/
+	STAT = ALTER3(REC2-&gt;QUAL,10)
+
+DETAIL
+	COUNT = COUNT + 1
+	/*if all available positions of the QUAL lists have been used, add 10 more */
+	IF (MOD(COUNT,10) = 1 AND COUNT &gt; 1 )
+		STAT = ALTER3(REC1-&gt;QUAL,COUNT + 9)
+		STAT = ALTER3(REC2-&gt;QUAL,COUNT + 9)
+	ENDIF
+	REC1-&gt;QUAL[COUNT]-&gt;NAME = P.NAME_LAST_KEY
+	REC2-&gt;QUAL[COUNT]-&gt;NAME = P.NAME_LAST_KEY
+
+
+WITH COUNTER
+CALL ECHORECORD(REC1)
+CALL ECHORECORD(REC2)
+END
+GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+<fieldset class="parameters hidden">
+<input id="contextPageId" type="hidden" value="1243055819">
+<input id="contextPageVersion" type="hidden" value="8">
+</input></input></fieldset>
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 620, "requestCorrelationId": "bddaeed8af304ae6"}</span>
+</body>
+</html>

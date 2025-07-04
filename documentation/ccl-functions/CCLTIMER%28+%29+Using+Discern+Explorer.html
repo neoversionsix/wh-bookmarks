@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CCLTIMER( ) Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CCLTIMER%28+%29+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div><fieldset class="parameters hidden">
+<input id="isWorkflowsLiteApp" type="hidden" value="false"/>
+<input id="isWorkflowsApp" type="hidden" value="true"/>
+<input id="parametersLabel" type="hidden" value="Parameters"/>
+<input id="hasWorkflow" type="hidden" value="true"/>
+<input id="isPageReadAck" type="hidden" value="false"/>
+<input id="cwConfluenceLocale" type="hidden" value="en"/>
+<input id="pluginKey" type="hidden" value="com.comalatech.workflow"/>
+<input id="cwConfluenceTimeFormat" type="hidden" value="h:mm a"/>
+<input id="isComalaAppLicensed" type="hidden" value="true"/>
+<input id="cwIsSpaceAdmin" type="hidden" value="false"/>
+<input id="cwIsConfluenceAdmin" type="hidden" value="false"/>
+<input id="hasReadAck" type="hidden" value="false"/>
+<input id="cwSpaceWorkflowAllowed" type="hidden" value="true"/>
+<input id="cwConfluenceDateTimeFormat" type="hidden" value="MMM dd, yyyy HH:mm"/>
+<input id="tasksLabel" type="hidden" value="Tasks"/>
+<input id="approvalsLabel" type="hidden" value="Approvals"/>
+<input id="cwConfluenceDateFormat" type="hidden" value="MMM dd, yyyy"/>
+<input id="statesLabel" type="hidden" value="State"/>
+<input id="workflowVersion" type="hidden" value="7.3.0"/>
+<input id="cwShowWorkflowTranslator" type="hidden" value="true"/>
+<input id="isApprovalsApp" type="hidden" value="false"/>
+</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<fieldset class="parameters hidden">
+<input id="showPageOnboarding" type="hidden" value="false"/>
+</fieldset>
+
+<fieldset class="parameters hidden">
+<input id="dbChromeHeader" type="hidden" value="Book Builder"/>
+<input id="dbChromeBack" type="hidden" value="Back"/>
+<input id="dbChromeSave" type="hidden" value="Save"/>
+<input id="dbChromeCancel" type="hidden" value="Cancel"/>
+<input id="dbChromeClose" type="hidden" value="Close"/>
+<input id="dbDraghere" type="hidden" value="Drag pages here"/>
+<input id="dbEdit" type="hidden" value="Edit"/>
+<input id="dbDelete" type="hidden" value="Delete Book"/>
+<input id="dbNoResults" type="hidden" value="Sorry, no results were found for"/>
+<input id="dbSearchSuggestions" type="hidden" value="Search Suggestions:"/>
+<input id="dbSuggestionOne" type="hidden" value="Check your spelling."/>
+<input id="dbSuggestionTwo" type="hidden" value="Try different, more general, or fewer keywords."/>
+<input id="dbNoMybooksResults" type="hidden" value="You do not have any books."/>
+</fieldset>
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The CCLTIMER( ) function was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.10.2. This function returns information about the time and resources used to process <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> commands. It requires either the COST or CALLECHO trace to be enabled. The function returns <strong>1</strong> if successful and <strong>0</strong> if unsuccessful.</p><h2 id="CCLTIMER()UsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CCLTIMER(timer_index,mode[,buffer])
+</pre>
+</div></div><h2 id="CCLTIMER()UsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>timer_index</em></p><p>Up to five timers can be active with the <em>timer_index, </em>which is used to indicate the timer.</p><p><em>mode</em></p><p>Mode to process. The following modes are available:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Mode</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>Open timer or reset timer if close timer not called since last open timer</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p>Get timer info and assign to a predefined C80 variable</p></td></tr><tr><td class="confluenceTd"><p>3</p></td><td class="confluenceTd"><p>Close timer</p></td></tr></tbody></table></div><p><em>buffer</em></p><p>A variable defined with a C80 data type. Used with Mode 2.</p><h2 id="CCLTIMER()UsingDiscernExplorer-Examples">Examples</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program ccl_timer_test go
+create program ccl_timer_test
+
+declare stat = i4
+declare tbuf = c80
+declare TIMER_OPEN = i4 with constant(1)
+declare TIMER_GET = i4 with constant(2)
+declare TIMER_CLOSE = i4 with constant(3)
+
+set stat = ccltimer(1,TIMER_OPEN)     ;open timer1
+set stat = ccltimer(2,TIMER_OPEN)     ;open timer2
+
+;do some work
+select into nl * from code_value where code_set = 200 with nocounter
+set stat = ccltimer(2,TIMER_GET,tbuf) ;get timer2 info
+call echo(tbuf) ;display timer2 info
+
+set stat = ccltimer(2,TIMER_OPEN)     ;reopen timer2
+;do more work
+select into nl * from code_value where code_set between 50 and 60 with nocounter
+
+set stat = ccltimer(2,TIMER_GET,tbuf) ;get timer2 info
+call echo(tbuf) ;display timer2 info
+set stat = ccltimer(1,TIMER_GET,tbuf) ;get timer1 info
+call echo(tbuf) ;display timer1 info
+
+set stat = ccltimer(1,TIMER_CLOSE)      ;close timer1
+set stat = ccltimer(2,TIMER_CLOSE)      ;close timer2 
+
+end go
+</pre>
+</div></div><p>When executed in a test environment, the above example echoed the below timer information.</p><p>CCLTIMER2(ela: 0.220000,cpu: 0.360000,bio= 0,dio= 0)<br>CCLTIMER2(ela: 0.010000,cpu: 0.000000,bio= 0,dio= 0)<br/>CCLTIMER1(ela: 0.230000,cpu: 0.360000,bio= 0,dio= 0)</br></p><p>Below is a description of the abbreviations from the above timer information.</p><ul><li><strong>ela:</strong> Indicates the elapsed time in seconds between the opening and closing or resetting of the timer.</li><li><strong>cpu:</strong> Indicates the time in seconds that <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> used the CPU between the opening and closing or resetting of the timer.</li><li><strong>bio=</strong> Indicates the number of buffer (memory) reads and writes that <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> performed between the opening and closing or resetting of the timer.</li><li><strong>dio=</strong> Indicates the number of disk reads and writes that <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> performed between the opening and closing or resetting of the timer.</li></ul>
+</div>
+</div>
+
+
+<fieldset class="parameters hidden">
+<input id="contextPageId" type="hidden" value="1373088214">
+<input id="contextPageVersion" type="hidden" value="10">
+</input></input></fieldset>
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 570, "requestCorrelationId": "63dd8fbea717ac58"}</span>
+</body>
+</html>

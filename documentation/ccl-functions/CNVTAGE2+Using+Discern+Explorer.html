@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CNVTAGE2 Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CNVTAGE2+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div><fieldset class="parameters hidden">
+<input id="isWorkflowsLiteApp" type="hidden" value="false"/>
+<input id="isWorkflowsApp" type="hidden" value="true"/>
+<input id="parametersLabel" type="hidden" value="Parameters"/>
+<input id="hasWorkflow" type="hidden" value="true"/>
+<input id="isPageReadAck" type="hidden" value="false"/>
+<input id="cwConfluenceLocale" type="hidden" value="en"/>
+<input id="pluginKey" type="hidden" value="com.comalatech.workflow"/>
+<input id="cwConfluenceTimeFormat" type="hidden" value="h:mm a"/>
+<input id="isComalaAppLicensed" type="hidden" value="true"/>
+<input id="cwIsSpaceAdmin" type="hidden" value="false"/>
+<input id="cwIsConfluenceAdmin" type="hidden" value="false"/>
+<input id="hasReadAck" type="hidden" value="false"/>
+<input id="cwSpaceWorkflowAllowed" type="hidden" value="true"/>
+<input id="cwConfluenceDateTimeFormat" type="hidden" value="MMM dd, yyyy HH:mm"/>
+<input id="tasksLabel" type="hidden" value="Tasks"/>
+<input id="approvalsLabel" type="hidden" value="Approvals"/>
+<input id="cwConfluenceDateFormat" type="hidden" value="MMM dd, yyyy"/>
+<input id="statesLabel" type="hidden" value="State"/>
+<input id="workflowVersion" type="hidden" value="7.3.0"/>
+<input id="cwShowWorkflowTranslator" type="hidden" value="true"/>
+<input id="isApprovalsApp" type="hidden" value="false"/>
+</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<fieldset class="parameters hidden">
+<input id="showPageOnboarding" type="hidden" value="false"/>
+</fieldset>
+
+<fieldset class="parameters hidden">
+<input id="dbChromeHeader" type="hidden" value="Book Builder"/>
+<input id="dbChromeBack" type="hidden" value="Back"/>
+<input id="dbChromeSave" type="hidden" value="Save"/>
+<input id="dbChromeCancel" type="hidden" value="Cancel"/>
+<input id="dbChromeClose" type="hidden" value="Close"/>
+<input id="dbDraghere" type="hidden" value="Drag pages here"/>
+<input id="dbEdit" type="hidden" value="Edit"/>
+<input id="dbDelete" type="hidden" value="Delete Book"/>
+<input id="dbNoResults" type="hidden" value="Sorry, no results were found for"/>
+<input id="dbSearchSuggestions" type="hidden" value="Search Suggestions:"/>
+<input id="dbSuggestionOne" type="hidden" value="Check your spelling."/>
+<input id="dbSuggestionTwo" type="hidden" value="Try different, more general, or fewer keywords."/>
+<input id="dbNoMybooksResults" type="hidden" value="You do not have any books."/>
+</fieldset>
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>CNVTAGE2 calculates an age and returns a 128-character string based on the age policies defined in PreferenceManager.exe. The following example displays how age policies can be defined to use a major and minor unit for a given age range and allow display of fractional units:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>	if age is less than one week
+		display as days and hours with partial hours displayed as minutes/60 hours
+	elseif age is less than one month
+		display as weeks and days
+	elseif age is less than one year
+		display as months and days
+	else
+		display as years and months
+</pre>
+</div></div><h2 id="CNVTAGE2UsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CNVTAGE2(rdb_date_time[,rdb_dt_tm, 0 ,agename])</pre>
+</div></div><p>or</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CNVTAGE2(internal_date, internal_time[,internal_date,internal_time,agename])</pre>
+</div></div><h2 id="CNVTAGE2UsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>rdb_date_time</em></p><p>An expression that contains the date and time as one value.</p><p><em>0</em></p><p>Used internally to indicate that the first two arguments are rbd_date_time expressions.</p><p><em>internal_date</em></p><p>An Internal System Date</p><p><em>internal_time</em></p><p>An integer value representing the time in HHMM format</p><p><em>agename</em></p><p>The name of an age policy defined in PreferenceManager.exe. The following example displays how this might look: </p><p>"CHRONOAGE"<br>"CORRECTEDAGE"<br/>"GESTAGE"</br></p><p>The above examples use the default format for each of the specified age policies.</p><p>The agename can be defined as just the age policy name or the age policy can be combined with a context sequence. If just the age policy name is used, the default formatting for the age policy is applied. If the age policy is combined with a context sequence, then the first valid value in the context sequence is applied.</p><p>For example, if the context sequence for an age policy included a User, Position, and Default context, the agename could be defined as "agename/person_id/position_cd". The following example displays how this might look:</p><p>"CHRONOAGE/12345.00/678.00"</p><p>The above first looks to see if there is a chronological age policy defined at the user level for the user whose PERSON_ID is 12345.00. If that age policy exists, it is used to determine the format of the age that is returned by the CnvtAge2() function. If no age policy is defined at the user level for person_id 12345.00, it looks to see if there is a chronological age policy defined at the position level for position_cd 678.00 If that age policy exists, it is used to determine the format of the age that is returned by the CnvtAge2() function. If no chronological age policy is defined for user 12345.00 or position 678.00, the default formatting for chronological age is used.</p><p>If the context sequence for an age policy included a User, Position, and Default context, the user level age policy could be bypassed by defining the agename as "agename//position_cd". The following example displays how this might look:</p><p>"CHRONOAGE//678.00"</p><p>The above first looks to see if there is a chronological age policy defined at the position level for position_cd 678.00. If that age policy existed, it is used to determine the format of the age that is returned by the CnvtAge2() function. If no chronological age policy is defined for position 678.00, the default formatting for chronological age is used.</p><p>Invalid age names will revert to the default age policy.</p><p>If no age policies are defined the default age format policy defined in the System.Cerner file will be used.  See the Configure Default Age Formatter Reference Page in the Core Services section of the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> Wiki for more information about defining the default age format in the System.Cerner file.</p><h2 id="CNVTAGE2UsingDiscernExplorer-Examples">Examples</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO $outdev
+	NOW = cnvtdatetime(curdate,curtime2) ";;q"
+	, p.updt_dt_tm ";;q"
+	, AGE = cnvtage(p.updt_dt_tm)
+	, AGE2 = cnvtage2(p.updt_dt_tm,"gestage")
+FROM
+	person   p
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT , maxrec = 2
+</pre>
+</div></div><p>If the previous example is executed in an environment where the default GESTAGE policy displayed the age in weeks and days, the results are similar to the following:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NOW                     P.UPDT_DT_TM            AGE             AGE2
+26-APR-2006 16:43:59    27-APR-2005 14:48:10    11 Months       52 weeks 0 days
+26-APR-2006 16:43:59    29-APR-2005 13:49:28    11 Months       51 weeks 5 days
+</pre>
+</div></div><p>The following example assumes the age policy for Chronological Age (CHRONOAGE) includes a User, Position, and Default context sequence:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select into $outdev
+	  age2default = cnvtage2(p.birth_dt_tm,"chronoage")
+	, age2position = cnvtage2(p.birth_dt_tm,"chronoage//441.00")
+	, age2user_pos = cnvtage2(p.birth_dt_tm,"chronoage/1015942.00/441.00")
+	, age2user_pos_flex = cnvtage2(p.birth_dt_tm,concat("chronoage/",
+		trim(cnvtstring(reqinfo-&gt;updt_id,11,2)),"/",
+		trim(cnvtstring(reqinfo-&gt;position_cd,11,2))))
+	, from
+	person   p
+
+where p.updt_dt_tm &gt; cnvtlookbehind("1,y")
+	and p.birth_dt_tm+0 &gt; cnvtdatetime("01-jan-1800")
+
+with format, separator = " "
+</pre>
+</div></div><p>In the above example:</p><p>Age2default is formatted using the default age policy for chronological age.</p><p>Age2position is formatted using the chronological age policy for position_cd 441.00. If that position does not have a chronological age policy defined, the default formatting will be used.</p><p>Age2user_pos is formatted using the chronological age policy for person_id 1015942.00. If that person does not have a chronological age policy defined, the format for the chronological age policy for position_cd 441.00 will be used. If that position does not have a chronological age policy defined, the default formatting will be used.</p><p>Age2user_pos_flex uses the person_id and position_cd from the reqinfo record structure to determine the format of the age. When executed from a front-end application, the reqinfo-&gt;updt_id will be set equal to the person_id of the user that is logged in to the application. Reqinfo-&gt;position_cd will be set equal to the position_cd of the use that is logged in to the front-end application.</p>
+</div>
+</div>
+
+
+<fieldset class="parameters hidden">
+<input id="contextPageId" type="hidden" value="23338530">
+<input id="contextPageVersion" type="hidden" value="13">
+</input></input></fieldset>
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 566, "requestCorrelationId": "17a9258aa9258fc4"}</span>
+</body>
+</html>

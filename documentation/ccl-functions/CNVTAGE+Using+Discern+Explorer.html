@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CNVTAGE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CNVTAGE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div><fieldset class="parameters hidden">
+<input id="isWorkflowsLiteApp" type="hidden" value="false"/>
+<input id="isWorkflowsApp" type="hidden" value="true"/>
+<input id="parametersLabel" type="hidden" value="Parameters"/>
+<input id="hasWorkflow" type="hidden" value="true"/>
+<input id="isPageReadAck" type="hidden" value="false"/>
+<input id="cwConfluenceLocale" type="hidden" value="en"/>
+<input id="pluginKey" type="hidden" value="com.comalatech.workflow"/>
+<input id="cwConfluenceTimeFormat" type="hidden" value="h:mm a"/>
+<input id="isComalaAppLicensed" type="hidden" value="true"/>
+<input id="cwIsSpaceAdmin" type="hidden" value="false"/>
+<input id="cwIsConfluenceAdmin" type="hidden" value="false"/>
+<input id="hasReadAck" type="hidden" value="false"/>
+<input id="cwSpaceWorkflowAllowed" type="hidden" value="true"/>
+<input id="cwConfluenceDateTimeFormat" type="hidden" value="MMM dd, yyyy HH:mm"/>
+<input id="tasksLabel" type="hidden" value="Tasks"/>
+<input id="approvalsLabel" type="hidden" value="Approvals"/>
+<input id="cwConfluenceDateFormat" type="hidden" value="MMM dd, yyyy"/>
+<input id="statesLabel" type="hidden" value="State"/>
+<input id="workflowVersion" type="hidden" value="7.3.0"/>
+<input id="cwShowWorkflowTranslator" type="hidden" value="true"/>
+<input id="isApprovalsApp" type="hidden" value="false"/>
+</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<fieldset class="parameters hidden">
+<input id="showPageOnboarding" type="hidden" value="false"/>
+</fieldset>
+
+<fieldset class="parameters hidden">
+<input id="dbChromeHeader" type="hidden" value="Book Builder"/>
+<input id="dbChromeBack" type="hidden" value="Back"/>
+<input id="dbChromeSave" type="hidden" value="Save"/>
+<input id="dbChromeCancel" type="hidden" value="Cancel"/>
+<input id="dbChromeClose" type="hidden" value="Close"/>
+<input id="dbDraghere" type="hidden" value="Drag pages here"/>
+<input id="dbEdit" type="hidden" value="Edit"/>
+<input id="dbDelete" type="hidden" value="Delete Book"/>
+<input id="dbNoResults" type="hidden" value="Sorry, no results were found for"/>
+<input id="dbSearchSuggestions" type="hidden" value="Search Suggestions:"/>
+<input id="dbSuggestionOne" type="hidden" value="Check your spelling."/>
+<input id="dbSuggestionTwo" type="hidden" value="Try different, more general, or fewer keywords."/>
+<input id="dbNoMybooksResults" type="hidden" value="You do not have any books."/>
+</fieldset>
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>CNVTAGE( ) calculates an age in years, months, days, or hours, and returns a 12-character string based on the following formula:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>IF (AGE &lt; 1 DAY) "HH:MM HOURS"
+ELSEIF (AGE &lt; 1 WEEK) "999 DAYS"
+ELSEIF (AGE &lt; 1 MONTH) "999 WEEKS"
+ELSEIF (AGE &lt; 2 YEAR) "999 MONTHS"
+ELSE "999 YEARS"
+ENDIF</pre>
+</div></div><p>The default break point for days, weeks, and months are:<br>Days 7<br/>Weeks 5<br/>Months 24</br></p><p>There are two ways to flex the break point when using the CNVTAGE( ) function. Use the CCLCNVTAGE logical or system variable to flex the defaults for all programs or use the SET MODIFY CNVTAGE( ) command to flex the defaults in individual programs.</p><h2 id="CNVTAGEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CNVTAGE(rdb_date_time[,rdb_date_time,0])</pre>
+</div></div><p>or</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CNVTAGE(internal_date, internal_time[,internal_date,internal_time|,internal_date,internal_time])</pre>
+</div></div><h2 id="CNVTAGEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>rdb_date_time</em><br/>An expression that contains the date and time as one value</p><p><em>0</em><br/>Used internally to indicate that the first two arguments are date_time expressions</p><p><em>internal_date</em><br/>A <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> Internal System Date</p><p><em>internal_time</em><br/>An integer value representing the time in HHMM format</p><h2 id="CNVTAGEUsingDiscernExplorer-Examples">Examples</h2><p>The following example calculates the person's current age. Because only one date time value is passed to the CNVTAGE( ) function, the current date and time are used as the ending date time value:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>AGE = CNVTAGE(P.BIRTH_DT_TM)</pre>
+</div></div><p>The following example calculates the person's age at the time the encounter was registered:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>ADM_AGE = CNVTAGE(P.BIRTH_DT_TM, E. REG_DT_TM,0)</pre>
+</div></div><p>The following example passes <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> internal dates and integer times to the CNVTAGE( ) function:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET BEGIN_DATE = CNVTDATE(10261990)
+SET BEGIN_TIME = 1300
+SET END_DATE = CNVTDATE(10261990)
+SET END_TIME = 2230
+SET AGE = CNVTAGE( BEGIN_DATE, BEGIN_TIME, END_DATE, END_TIME )</pre>
+</div></div>
+</div>
+</div>
+
+
+<fieldset class="parameters hidden">
+<input id="contextPageId" type="hidden" value="23338532">
+<input id="contextPageVersion" type="hidden" value="10">
+</input></input></fieldset>
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 1112, "requestCorrelationId": "0632752f81282c68"}</span>
+</body>
+</html>

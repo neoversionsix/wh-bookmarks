@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>ALTERLIST Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/ALTERLIST+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div><fieldset class="parameters hidden">
+<input id="isWorkflowsLiteApp" type="hidden" value="false"/>
+<input id="isWorkflowsApp" type="hidden" value="true"/>
+<input id="parametersLabel" type="hidden" value="Parameters"/>
+<input id="hasWorkflow" type="hidden" value="true"/>
+<input id="isPageReadAck" type="hidden" value="false"/>
+<input id="cwConfluenceLocale" type="hidden" value="en"/>
+<input id="pluginKey" type="hidden" value="com.comalatech.workflow"/>
+<input id="cwConfluenceTimeFormat" type="hidden" value="h:mm a"/>
+<input id="isComalaAppLicensed" type="hidden" value="true"/>
+<input id="cwIsSpaceAdmin" type="hidden" value="false"/>
+<input id="cwIsConfluenceAdmin" type="hidden" value="false"/>
+<input id="hasReadAck" type="hidden" value="false"/>
+<input id="cwSpaceWorkflowAllowed" type="hidden" value="true"/>
+<input id="cwConfluenceDateTimeFormat" type="hidden" value="MMM dd, yyyy HH:mm"/>
+<input id="tasksLabel" type="hidden" value="Tasks"/>
+<input id="approvalsLabel" type="hidden" value="Approvals"/>
+<input id="cwConfluenceDateFormat" type="hidden" value="MMM dd, yyyy"/>
+<input id="statesLabel" type="hidden" value="State"/>
+<input id="workflowVersion" type="hidden" value="7.3.0"/>
+<input id="cwShowWorkflowTranslator" type="hidden" value="true"/>
+<input id="isApprovalsApp" type="hidden" value="false"/>
+</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<fieldset class="parameters hidden">
+<input id="showPageOnboarding" type="hidden" value="false"/>
+</fieldset>
+
+<fieldset class="parameters hidden">
+<input id="dbChromeHeader" type="hidden" value="Book Builder"/>
+<input id="dbChromeBack" type="hidden" value="Back"/>
+<input id="dbChromeSave" type="hidden" value="Save"/>
+<input id="dbChromeCancel" type="hidden" value="Cancel"/>
+<input id="dbChromeClose" type="hidden" value="Close"/>
+<input id="dbDraghere" type="hidden" value="Drag pages here"/>
+<input id="dbEdit" type="hidden" value="Edit"/>
+<input id="dbDelete" type="hidden" value="Delete Book"/>
+<input id="dbNoResults" type="hidden" value="Sorry, no results were found for"/>
+<input id="dbSearchSuggestions" type="hidden" value="Search Suggestions:"/>
+<input id="dbSuggestionOne" type="hidden" value="Check your spelling."/>
+<input id="dbSuggestionTwo" type="hidden" value="Try different, more general, or fewer keywords."/>
+<input id="dbNoMybooksResults" type="hidden" value="You do not have any books."/>
+</fieldset>
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The ALTERLIST( ) function allocates a block of memory in a linked list to store information in a record structure list_item that was defined in the RECORD command using an asterisk (*) inside the [] square brackets. Returns <strong>1</strong> if successful, <strong>0</strong> if not successful. When a RECORD command that defines a list_item using an asterisk (*) inside the square brackets [] is executed, no memory is allocated to store the positions of the list. The ALTERLIST() function must be used to allocate an initial block of memory before assigning values to field_items under the list_item.</p><p>The general recommendation is to initially allocate a block of memory reasonably large enough to store the number of positions that are needed for the list. After the initial allocation is used, use subsequent executions of the ALTERLIST() function to allocate additional memory in reasonably sized blocks.</p><p>For example, if a select statement is used to get a list of person_ids that need to be stored in a record structure and you expect about a thousand person_ids to be returned, it would be reasonable to initially use the ALTERLIST() function to allocate memory to store a thousand positions in the list. If needed, use subsequent executions of the ALTERLIST() function to allocate memory for an additional one hundred positions in the list.</p><p>If you expected the select to return around twenty person_ids, it would be reasonable to initially use the ALTERLIST() function to allocate memory to store twenty positions in the list. If needed, subsequent executions of the ALTERLIST() function could be used to allocate memory for an additional ten positions in the list. Because the Cerner standard is to allocate memory in reasonably sized blocks, it is likely that more memory will be allocated than is actually used. Therefore it is also recommended that once a record structure list has been fully populated, execute the ALTERLIST() function one final time to reduce the size of the list to the actual number of positions that were actually used.</p><p>The option to use CALL ALTERLIST(record_structure_list_item, dimension) was introduced in version 8.9.2 of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>. CALL ALTERLIST(record_structure_list_item, dimension) is recommended and more efficient than using variable_name = ALTERLIST(record_structure_list_item, dimension).</p><h2 id="ALTERLISTUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>ALTERLIST(record_structure_list_item, dimension [,insert_dimension])
+CALL ALTERLIST(record_structure_list_item, dimension [,insert_dimension])  ;return type is discarded when using CALL</pre>
+</div></div><h2 id="ALTERLISTUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>record_structure_list_item</em><br>A record structure list_item that was defined in the RECORD command using an asterisk * inside the [] square brackets.</br></p><p><em>dimension</em><br/>A number representing the total number of positions to define in the record structure list_item.  Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.3.1, an integer data type was required for the dimension. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.12.3.1 and greater allow F8 and W8 data types for the dimension.</p><p><em>insert_dimension</em><br/>An integer representing a position of the current list. Positions will be added or removed from the list after the insert_dimension. If the parameter is omitted, the default is to add or remove the positions at the end. To insert positions at the beginning of the list_item, use 0 (zero) as the insert_dimension.</p><h2 id="ALTERLISTUsingDiscernExplorer-Examples">Examples</h2><p>In the below example, a record structure named REC1 is created. The REC1 record structure contains a level-one list_item named QUAL. Within the QUAL list_item are two field_items named ID and NAME. The ALTERLIST() function is used three times in this program. Once in the HEAD REPORT section to allocate an initial block of memory that stores up to 100 ID and NAME values. It is used again in the DETAIL section to add memory to store an additional 10 positions in the QUAL list_item if needed. It is used a third time in the FOOT REPORT section to reduce the number of positions in the list_item to the number of positions that were actually used.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM TEST1 GO
+CREATE PROGRAM TEST1
+
+RECORD REC1 (
+	1 QUAL[*] /* creates a list_item named QUAL*/
+		2 ID   = F8 /*creates a field_item named ID */
+		2 NAME = C30 /*creates a field_item named NAME*/
+		)
+
+SELECT INTO "NL:"
+	P.PERSON_ID,
+	P.NAME_LAST_KEY
+
+FROM	PERSON P
+
+WHERE P.NAME_LAST_KEY = "SMITH"
+
+HEAD REPORT
+	/* initialize 100 positions in the QUAL list_item */
+	call alterlist(REC1-&gt;QUAL,100)
+	/* create counter variable to keep track of the number of positions in the QUAL list_item */
+	PCOUNT1 = 0
+
+DETAIL
+	PCOUNT1 = PCOUNT1 + 1
+	/* if needed add 10 positions on the QUAL list_item */
+	IF (MOD(PCOUNT1,10) = 1 AND PCOUNT1 &gt; 100)
+		call alterlist(REC1-&gt;QUAL,PCOUNT1 + 9)
+	ENDIF
+	REC1-&gt;QUAL[PCOUNT1]-&gt;NAME = P.NAME_LAST_KEY
+	REC1-&gt;QUAL[PCOUNT1]-&gt;ID   = P.PERSON_ID
+
+FOOT REPORT
+	/* resize the QUAL list_item down to the number of positions that were used
+	   in the detail section */
+	CALL ALTERLIST(REC1-&gt;QUAL,PCOUNT1)
+
+WITH NOCOUNTER
+
+END
+GO
+</pre>
+</div></div><p>This example creates a simple record structure named REC and uses the optional insert_dimension parameter to remove and add positions to the list:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program ccl_alterlist_optional_3rd go
+create program ccl_alterlist_optional_3rd
+record rec (
+  1 list [*]  
+    2 fld = i4   
+) 
+;allocate 10 positions in the list
+call alterlist(rec-&gt;list,10)
+;assign 1 - 10 to fld in the list
+for(x = 1 to 10)
+    set rec-&gt;list[x].fld = x
+endfor
+call echorecord(rec)
+;remove the 6th position of the list
+call alterlist(rec-&gt;list,9,5)
+call echorecord(rec)
+;add 3 positions to the list after the current position 4
+;those positions will be blank
+call alterlist(rec-&gt;list,12,4)
+call echorecord(rec)
+end
+go
+ccl_alterlist_optional_3rd go</pre>
+</div></div>
+</div>
+</div>
+
+
+<fieldset class="parameters hidden">
+<input id="contextPageId" type="hidden" value="23338346">
+<input id="contextPageVersion" type="hidden" value="16">
+</input></input></fieldset>
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 654, "requestCorrelationId": "2e7282137900672e"}</span>
+</body>
+</html>

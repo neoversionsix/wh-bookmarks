@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CNVTDATETIMEUTC Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CNVTDATETIMEUTC+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div><fieldset class="parameters hidden">
+<input id="isWorkflowsLiteApp" type="hidden" value="false"/>
+<input id="isWorkflowsApp" type="hidden" value="true"/>
+<input id="parametersLabel" type="hidden" value="Parameters"/>
+<input id="hasWorkflow" type="hidden" value="true"/>
+<input id="isPageReadAck" type="hidden" value="false"/>
+<input id="cwConfluenceLocale" type="hidden" value="en"/>
+<input id="pluginKey" type="hidden" value="com.comalatech.workflow"/>
+<input id="cwConfluenceTimeFormat" type="hidden" value="h:mm a"/>
+<input id="isComalaAppLicensed" type="hidden" value="true"/>
+<input id="cwIsSpaceAdmin" type="hidden" value="false"/>
+<input id="cwIsConfluenceAdmin" type="hidden" value="false"/>
+<input id="hasReadAck" type="hidden" value="false"/>
+<input id="cwSpaceWorkflowAllowed" type="hidden" value="true"/>
+<input id="cwConfluenceDateTimeFormat" type="hidden" value="MMM dd, yyyy HH:mm"/>
+<input id="tasksLabel" type="hidden" value="Tasks"/>
+<input id="approvalsLabel" type="hidden" value="Approvals"/>
+<input id="cwConfluenceDateFormat" type="hidden" value="MMM dd, yyyy"/>
+<input id="statesLabel" type="hidden" value="State"/>
+<input id="workflowVersion" type="hidden" value="7.3.0"/>
+<input id="cwShowWorkflowTranslator" type="hidden" value="true"/>
+<input id="isApprovalsApp" type="hidden" value="false"/>
+</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<fieldset class="parameters hidden">
+<input id="showPageOnboarding" type="hidden" value="false"/>
+</fieldset>
+
+<fieldset class="parameters hidden">
+<input id="dbChromeHeader" type="hidden" value="Book Builder"/>
+<input id="dbChromeBack" type="hidden" value="Back"/>
+<input id="dbChromeSave" type="hidden" value="Save"/>
+<input id="dbChromeCancel" type="hidden" value="Cancel"/>
+<input id="dbChromeClose" type="hidden" value="Close"/>
+<input id="dbDraghere" type="hidden" value="Drag pages here"/>
+<input id="dbEdit" type="hidden" value="Edit"/>
+<input id="dbDelete" type="hidden" value="Delete Book"/>
+<input id="dbNoResults" type="hidden" value="Sorry, no results were found for"/>
+<input id="dbSearchSuggestions" type="hidden" value="Search Suggestions:"/>
+<input id="dbSuggestionOne" type="hidden" value="Check your spelling."/>
+<input id="dbSuggestionTwo" type="hidden" value="Try different, more general, or fewer keywords."/>
+<input id="dbNoMybooksResults" type="hidden" value="You do not have any books."/>
+</fieldset>
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The CNVTDATETIMEUTC( ) function allows you to convert <code>datetime</code> expressions to and from Coordinated Universal Time (UTC).</p><p>Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.7.2, CNVTDATETIMEUTC() ignores fractional seconds.</p><h2 id="CNVTDATETIMEUTCUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>cnvtdatetimeutc(datetime|datetime_string, [option [,timezone_index]])</pre>
+</div></div><h2 id="CNVTDATETIMEUTCUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><code><em>datetime</em></code></p><p>A datetime value.</p><p><code><em>datetime_string</em></code></p><p>A character string that represents a date or date, and time in the format of dd-mmm[mmmmmmmmm]-yyyy [hh:mm:ss.cc].</p><p>The time component is optional and can be in any of the following formats:</p><ul><li>hh</li><li>hh:mm</li><li>hh:mm:ss</li><li>hh:mm:ss.cc </li></ul><p>The .cc can be used, but it is ignored.</p><p>Before version 8.10.0 of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>, the month must be a three-character month abbreviation. Beginning with version 8.10.0 of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>, the month can be either a three-character abbreviation or the full name. Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.16.0|9.04.0 the first three characters of the month abbreviation or full month name must match one of the values in the CURLOCALE("MONTHABBREV") string. <code>CNVTDATETIMEUTC()</code> performs a case and accent insensitive comparison of the first three characters of the month abbreviation or full month name to the CURLOCALE("MONTHABBREV") string to determine the month. If a match is not found, the month with the closest match is returned. Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.16.0|9.04.0, if the first three characters of the month abbreviation or full month name do not match one of the values in the CURLOCALE("MONTHABBREV") string, the first four characters of the month abbreviation or full month name are compared to the values in the CURLOCALE("MONTHABBREV2") string. If a match is not found, the full month name is compared to the values in the CURLOCALE("MONTHFULL") string. If a match is still not found, the month with the closest match is returned.</p><p><code><em>option</em></code></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh" scope="row"><p>Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><th class="confluenceTh" scope="row"><p>0</p></th><td class="confluenceTd"><p><code>noop</code> so just return <code>datetime</code> with no conversion (default).</p></td></tr><tr><th class="confluenceTh" scope="row"><p>1</p></th><td class="confluenceTd"><p>convert the <code>datetime</code> from local to UTC if UTC mode is on, else return as is.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>2</p></th><td class="confluenceTd"><p>convert the <code>datetime</code> from UTC to local if UTC mode is on, else return as is.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>3</p></th><td class="confluenceTd"><p>convert the <code>datetime</code> from local to UTC regardless of UTC mode.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>4</p></th><td class="confluenceTd"><p>convert the <code>datetime</code> from UTC to local regardless of UTC mode.</p></td></tr></tbody></table></div><p>Options 1 and 3 expect a local <code>datetime</code> or datetime_string<em>. </em>Options 2 and 4 expect a UTC <code>datetime</code> or datetime_string. Using Options 1 and 3 with a UTC value, or Options 2 and 4 with a local value may return an unexpected result.<em><br/></em></p><p><code><em>timezone_index</em></code></p><p>The index number of the time zone to use for the conversion. This option defaults to the local time zone. It allows for emulating another target time zone for <code>datetime</code> conversions. When used, timezone_index temporarily sets the time zone before any other processing occurs in the function.</p><h2 id="CNVTDATETIMEUTCUsingDiscernExplorer-Examples">Examples</h2><p>The following examples convert the UTC <code>datetime</code> to the local <code>datetime</code> if the UTC mode is on:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>set dt_var1 = cnvtdatetimeutc(cnvtdatetime(curdate,curtime3),2)
+set dt_var2 = cnvtdatetimeutc(sysdate,2)
+</pre>
+</div></div><p>The following example converts the local <code>datetim</code>e string to UTC:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>set dt_var3 = cnvtdatetimeutc("15-Jul-2014 10:30:45",3)</pre>
+</div></div><p><br/>The following examples convert the UTC <code>datetime</code> to local <code>datetime</code> in the specific time zone regardless of UTC mode:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record rec (
+  1 Loc = dq8
+  1 Aus = dq8
+  1 HK  = dq8
+  1 Lon = dq8
+  1 NY  = dq8
+  1 LA  = dq8
+)
+
+set Aus = DATETIMEZONEBYNAME("Australia/Sydney")
+set HK  = DATETIMEZONEBYNAME("Asia/Hong_Kong")
+set Lon = DATETIMEZONEBYNAME("Europe/London")
+set NY  = DATETIMEZONEBYNAME("America/New_York")
+set LA  = DATETIMEZONEBYNAME("America/Los_Angeles")
+
+set static_dt_tm = cnvtdatetime("02-FEB-2011 09:30:00")
+
+set rec-&gt;loc = cnvtdatetimeutc(static_dt_tm,4)
+set rec-&gt;Aus = cnvtdatetimeutc(static_dt_tm,4,Aus)
+set rec-&gt;HK = cnvtdatetimeutc(static_dt_tm,4,HK )
+set rec-&gt;Lon = cnvtdatetimeutc(static_dt_tm,4,Lon)
+set rec-&gt;NY = cnvtdatetimeutc(static_dt_tm,4,NY )
+set rec-&gt;LA = cnvtdatetimeutc(static_dt_tm,4,LA )
+call echorecord(rec)
+</pre>
+</div></div><p>The following example has no effect. Since the timezone_index is used, the time zone is temporarily set to <strong>Australia/Sydney</strong>. In a UTC environment, the <code>cnvtdatetime()</code> function returns the UTC <code>datetime</code> that represents 02-FEB-2011 09:30:00 in that time zone. Using Option 2 converts it back to local.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record rec (  1 fld = dq8   )
+set Aus = DATETIMEZONEBYNAME("Australia/Sydney")
+set rec-&gt;fld = cnvtdatetimeutc(cnvtdatetime("02-FEB-2011 09:30:00"),2,Aus)
+</pre>
+</div></div>
+</div>
+</div>
+
+
+<fieldset class="parameters hidden">
+<input id="contextPageId" type="hidden" value="23338544">
+<input id="contextPageVersion" type="hidden" value="22">
+</input></input></fieldset>
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 758, "requestCorrelationId": "da5faf04ad02ec8d"}</span>
+</body>
+</html>

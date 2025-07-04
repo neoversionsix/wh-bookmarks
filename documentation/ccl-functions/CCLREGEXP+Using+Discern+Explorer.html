@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CCLREGEXP Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="General Review"/><input id="hoverDescription" type="hidden" value="General Review"/><input id="finalState" type="hidden" value="false"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="General Review"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CCLREGEXP+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View published version of page"/></fieldset></div>
+<div style="display: none;"></div><fieldset class="parameters hidden">
+<input id="isWorkflowsLiteApp" type="hidden" value="false"/>
+<input id="isWorkflowsApp" type="hidden" value="true"/>
+<input id="parametersLabel" type="hidden" value="Parameters"/>
+<input id="hasWorkflow" type="hidden" value="true"/>
+<input id="isPageReadAck" type="hidden" value="false"/>
+<input id="cwConfluenceLocale" type="hidden" value="en"/>
+<input id="pluginKey" type="hidden" value="com.comalatech.workflow"/>
+<input id="cwConfluenceTimeFormat" type="hidden" value="h:mm a"/>
+<input id="isComalaAppLicensed" type="hidden" value="true"/>
+<input id="cwIsSpaceAdmin" type="hidden" value="false"/>
+<input id="cwIsConfluenceAdmin" type="hidden" value="false"/>
+<input id="hasReadAck" type="hidden" value="false"/>
+<input id="cwSpaceWorkflowAllowed" type="hidden" value="true"/>
+<input id="cwConfluenceDateTimeFormat" type="hidden" value="MMM dd, yyyy HH:mm"/>
+<input id="tasksLabel" type="hidden" value="Tasks"/>
+<input id="approvalsLabel" type="hidden" value="Approvals"/>
+<input id="cwConfluenceDateFormat" type="hidden" value="MMM dd, yyyy"/>
+<input id="statesLabel" type="hidden" value="State"/>
+<input id="workflowVersion" type="hidden" value="7.3.0"/>
+<input id="cwShowWorkflowTranslator" type="hidden" value="true"/>
+<input id="isApprovalsApp" type="hidden" value="false"/>
+</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<fieldset class="parameters hidden">
+<input id="showPageOnboarding" type="hidden" value="false"/>
+</fieldset>
+
+<fieldset class="parameters hidden">
+<input id="dbChromeHeader" type="hidden" value="Book Builder"/>
+<input id="dbChromeBack" type="hidden" value="Back"/>
+<input id="dbChromeSave" type="hidden" value="Save"/>
+<input id="dbChromeCancel" type="hidden" value="Cancel"/>
+<input id="dbChromeClose" type="hidden" value="Close"/>
+<input id="dbDraghere" type="hidden" value="Drag pages here"/>
+<input id="dbEdit" type="hidden" value="Edit"/>
+<input id="dbDelete" type="hidden" value="Delete Book"/>
+<input id="dbNoResults" type="hidden" value="Sorry, no results were found for"/>
+<input id="dbSearchSuggestions" type="hidden" value="Search Suggestions:"/>
+<input id="dbSuggestionOne" type="hidden" value="Check your spelling."/>
+<input id="dbSuggestionTwo" type="hidden" value="Try different, more general, or fewer keywords."/>
+<input id="dbNoMybooksResults" type="hidden" value="You do not have any books."/>
+</fieldset>
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>CCLREGEXP( ) provides regular expression pattern matching. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.13.0 and 9.01.0 introduced LIKE, FIND, and COUNT modes. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.17.4 and 9.05.4 resolve memory issue for FIND|COUNT mode when total size of search and pattern strings exceed 1000 characters.</p><p>CCLREGEXP( ) uses the Portable Operating System Interface (POSIX) metacharacter set for regular expression pattern matching. See the OPERATOR( ) function for a description of the POSIX metacharacter set.</p><h2 id="CCLREGEXPUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CCLREGEXP(regexp_function,regexp_record)</pre>
+</div></div><h2 id="CCLREGEXPUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>regexp_function</em><br>Defines the type of operation to perform. The regexp_function must be passed as a string in uppercase. The following are valid function names:<span class="conf-macro output-inline" data-hasbody="true" data-macro-name="table-plus"><div class="table-wrap"><table class="confluenceTable" id="TBL1750526018394"><colgroup class=""><col class=""/><col class=""/><col class=""/></colgroup><tbody class=""><tr class=""><th class="confluenceTh"><p>Function Name</p></th><th class="confluenceTh"><p>Description</p></th><th class="confluenceTh"><p>Return</p><p>The CCLREGEXP() function returns different values depending on the regexp_function that is used.</p></th></tr><tr class=""><th class="confluenceTh"><p>LIKE</p></th><td class="confluenceTd"><p>Perform regular expression pattern matching.</p></td><td class="confluenceTd"><p>Returns <strong>1</strong> if the regular expression is found, and returns <strong>0</strong> if the regular expression is not found.</p></td></tr><tr class=""><th class="confluenceTh"><p>FIND</p></th><td class="confluenceTd"><p>Find an occurrence of a regular expression.</p></td><td class="confluenceTd"><p>Returns the position of the source string where the regular expression is found.</p></td></tr><tr class=""><th class="confluenceTh"><p>COUNT</p></th><td class="confluenceTd"><p>Count the occurrences of a regular expression.</p></td><td class="confluenceTd"><p>Returns the number of times the regular expression is found.</p></td></tr></tbody></table></div>
+
+</span><em style="letter-spacing: 0.0px;">regexp_record</em></br></p><p>Defines the name of a record structure that has been previously defined with the following fields at level 1.<span class="conf-macro output-inline" data-hasbody="true" data-macro-name="table-plus"><div class="table-wrap"><table class="confluenceTable" id="TBL1750526018395"><colgroup class=""><col class=""/><col class=""/><col class=""/><col class=""/></colgroup><tbody class=""><tr class=""><th class="confluenceTh"><p>Name</p></th><th class="confluenceTh"><p>Data Type</p></th><th class="confluenceTh">Input or Output</th><th class="confluenceTh"><p>Description</p></th></tr><tr class=""><th class="confluenceTh"><p>FLG</p></th><td class="confluenceTd"><p>I4</p></td><td class="confluenceTd"><strong>Input:</strong> LIKE, COUNT, and FIND</td><td class="confluenceTd"><p>Case sensitivity flag:</p><ul><li><strong>0:</strong> Case sensitive</li><li><strong>1</strong>: Case insensitive</li></ul></td></tr><tr class=""><th class="confluenceTh"><p>SRC</p></th><td class="confluenceTd"><p>VC</p></td><td class="confluenceTd"><strong>Input:</strong> LIKE, COUNT, and FIND</td><td class="confluenceTd"><p>Source text to search</p></td></tr><tr class=""><th class="confluenceTh"><p>PAT</p></th><td class="confluenceTd"><p>VC</p></td><td class="confluenceTd"><strong>Input:</strong><span> LIKE, COUNT, and FIND</span></td><td class="confluenceTd"><p>Regular expression or text string to search for</p></td></tr><tr class=""><th class="confluenceTh"><p>POS</p></th><td class="confluenceTd"><p>I4</p></td><td class="confluenceTd"><strong>Input:</strong> FIND</td><td class="confluenceTd"><p>Position of source text to begin search</p></td></tr><tr class=""><th class="confluenceTh"><p>OCC</p></th><td class="confluenceTd"><p>I4</p></td><td class="confluenceTd"><strong>Input:</strong> FIND</td><td class="confluenceTd"><p>Occurrence of regular expression or text string to search for</p></td></tr><tr class=""><th class="confluenceTh">LEN</th><td class="confluenceTd">I4</td><td class="confluenceTd"><strong>Output:</strong> FIND</td><td class="confluenceTd">Length of string found</td></tr></tbody></table></div>
+
+</span><span style="letter-spacing: 0.0px;">The following RECORD command creates a record structure that meets these requirements:</span></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record recreg(
+      1 flg = i4   
+      1 src = vc   
+      1 pat = vc   
+      1 pos = i4   
+      1 occ = i4   
+      1 len = i4   
+    ) with protect</pre>
+</div></div><h2 id="CCLREGEXPUsingDiscernExplorer-Examples">Examples</h2><p>The below example performs case-sensitive and case-insensitive Find and Count functions searching for <strong>Brown</strong> in the text string: Mr. Brown lives in Brownsville and owns a brown car. The CALL ECHO commands in the example output the following:</p><p>Mr. Brown lives in Brownsville and owns a brown car.</p><p>Perform Case Insensitive Find</p><p>Occurrence 1 of 'Brown' was found at offset 5.</p><p>Occurrence 2 of 'Brown' was found at offset 15.</p><p>Occurrence 3 of 'Brown' was found at offset 23.</p><p>Perform Case Sensitive Find</p><p>Occurrence 1 of 'Brown' was found at offset 5.</p><p>Occurrence 2 of 'Brown' was found at offset 15.</p><p>Perform Case Sensitive Count</p><p>'Brown' was found 2 times.</p><p>Perform Case Insensitive Count</p><p>'Brown' was found 3 times.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program ccl_test_cclregexp go
+create program ccl_test_cclregexp
+ 
+record recreg(
+      1 flg = i4    ;Like,Count,Find   (in)    0:case sensitive, 1:case insensitive
+      1 src = vc    ;Like,Count,Find   (in)    Source to search
+      1 pat = vc    ;Like,Count,Find   (in)    String to search for
+      1 pos = i4    ;Find              (in)    Position of source where search begins
+      1 occ = i4    ;Find              (in)    Occurrence of string to find
+      1 len = i4    ;Find              (out)   Length of string found
+    ) with protect
+ 
+declare offset = i4 with protect
+declare cnt = i4 with protect
+set recreg-&gt;pos = 1
+set recreg-&gt;occ = 1
+set recreg-&gt;src = "Mr. Brown lives in Brownsville and owns a brown car."
+Call echo(recreg-&gt;src)
+set recreg-&gt;pat = "Brown"
+call echo("Perform Case Insensitive Find")
+set recreg-&gt;flg = 1   ;0:case sensitive, 1:case insensitive
+set offset = 1
+while(offset != 0 )
+    set offset = cclregexp("FIND",recreg)
+    if(offset != 0)
+        call echo(concat("Occurrence "
+                            , trim(cnvtstring(recreg-&gt;occ))
+                            , " of '"
+                            , recreg-&gt;pat
+                            , "' was found at offset "
+                            , trim(cnvtstring(offset))
+                            , "."))        
+        set recreg-&gt;occ +=1
+    endif
+endwhile
+set recreg-&gt;pos = 1
+set recreg-&gt;occ = 1
+call echo("Perform Case Sensitive Find")
+set recreg-&gt;flg = 0   ;0:case sensitive, 1:case insensitive
+set offset = 1
+while(offset != 0 and cnt &lt; 10)
+    set cnt+=1 ;using to prevent an endless loop
+    set offset = cclregexp("FIND",recreg)
+    if(offset != 0)
+        call echo(concat("Occurrence "
+                            , trim(cnvtstring(recreg-&gt;occ))
+                            , " of '"
+                            , recreg-&gt;pat
+                            , "' was found at offset "
+                            , trim(cnvtstring(offset))
+                            , "."))        
+        set recreg-&gt;occ +=1
+    endif
+endwhile
+call echo("Perform Case Sensitive Count")
+set recreg-&gt;flg = 0   ;0:case sensitive, 1:case insensitive
+set cnt = cclregexp("COUNT",recreg)
+call echo(concat("'",recreg-&gt;pat, "'", " was found ", trim(cnvtstring(cnt)), " times."))        
+call echo("Perform Case Insensitive Count")
+set recreg-&gt;flg = 1   ;0:case sensitive, 1:case insensitive
+set cnt = cclregexp("COUNT",recreg)
+call echo(concat("'",recreg-&gt;pat, "'", " was found ", trim(cnvtstring(cnt)), " times."))    
+end
+go
+ccl_test_cclregexp go</pre>
+</div></div><p>The below example uses the PIECE( ) function to extract individual names from a comma-delimited list. CCLREGEXP( ) is used to determine if the name contains GR, followed by A or E, followed by any number of characters and an N. If the name matches that criteria, it is added to an output string. The CALL ECHO commands in the example output the following:</p><p>string_in: GRUB, GRANNY, Greer, Grayson, GREEN, GRAFEL, GRAHAM, Grander, GROVE</p><p>string_out:  GRANNY, Grayson, GREEN, Grander</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre> drop program ccl_test_cclregexp_piece go
+create program ccl_test_cclregexp_piece
+  
+ 
+declare stat = i4 with protect
+declare string_in  = vc with noconstant("GRUB, GRANNY, Greer, Grayson, GREEN, GRAFEL, GRAHAM, Grander, GROVE"), protect
+declare string_out = vc with protect
+declare lcnt = i4 with protect
+record recreg(
+      1 flg = i4    ;Like,Count,Find   (in)
+      1 src = vc    ;Like,Count,Find   (in)
+      1 pat = vc    ;Like,Count,Find   (in)
+      1 pos = i4    ;Find              (in)
+      1 occ = i4    ;Find              (in)
+      1 len = i4    ;Find              (out)
+    ) with protect
+set recreg-&gt;pos = 1
+set recreg-&gt;occ = 1
+set recreg-&gt;flg = 1   ;0:case sensitive, 1:case insensitive
+set recreg-&gt;pat = "GR[AE].*N"
+;get each name from string_in, names are separated by a comma
+while(recreg-&gt;src != "not found")
+    set lcnt += 1
+    set recreg-&gt;src  = piece(string_in, ",", lcnt, "not found")
+    ;determine if name contains GR followed by A or E followed by N (case insensitive)
+    set stat = cclregexp("LIKE",recreg)
+    if(stat = 1)
+        ;add name containing GR followed by A or E followed by N to string_out
+        set string_out = concat(string_out, trim(recreg-&gt;src), ",")
+    endif
+endwhile 
+;remove last comma from string_out
+set string_out = replace(string_out,","," ", 2)
+call echo(concat("string_in: ", string_in))
+call echo(concat("string_out: ",string_out))
+end
+go
+ccl_test_cclregexp_piece go</pre>
+</div></div>
+</div>
+</div>
+
+
+<fieldset class="parameters hidden">
+<input id="contextPageId" type="hidden" value="3378811172">
+<input id="contextPageVersion" type="hidden" value="28">
+</input></input></fieldset>
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 791, "requestCorrelationId": "7edf054d0e2099b5"}</span>
+</body>
+</html>
