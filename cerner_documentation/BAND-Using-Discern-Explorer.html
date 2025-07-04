@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>BAND Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/BAND+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The BAND( ) function returns an integer expression that is the result of a bit_number to bit_number AND comparison of two base-2 integers. The bit_number is the position of a bit in a field.</p><h2 id="BANDUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>BAND(integer,integer)</pre>
+</div></div><h2 id="BANDUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>integer</em><br>Any whole number.</br></p><p>The key to understanding how the BAND( ) function works is by converting the two numbers being compared to base-2 numbers first.</p><p><span style="color: rgb(23,43,77);">In base-2, numbers are represented by placing a zero or one in a bit number position and a subscript value of 2. In the base-10 system, the number base in which we usually count, we count from one to nine, carry the one, and start over at zero. The below examples display conversions from base-10 to base-2.</span></p><p>The following example displays base-10 value by 100, 10, and 1-column position: <span class="conf-macro output-inline" data-hasbody="true" data-macro-name="table-plus"><div class="table-wrap"><table class="wrapped confluenceTable" id="TBL1750526018673"><colgroup><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Value</th><th class="confluenceTh" colspan="1">100</th><th class="confluenceTh">10</th><th class="confluenceTh">1</th></tr><tr><th class="confluenceTh">1</th><td class="confluenceTd" colspan="1">0</td><td class="confluenceTd">0</td><td class="confluenceTd">1</td></tr><tr><th class="confluenceTh">12</th><td class="confluenceTd" colspan="1">0</td><td class="confluenceTd">1</td><td class="confluenceTd">2</td></tr><tr><th class="confluenceTh">127</th><td class="confluenceTd" colspan="1">1</td><td class="confluenceTd">2</td><td class="confluenceTd">7</td></tr><tr><th class="confluenceTh">166</th><td class="confluenceTd" colspan="1">1</td><td class="confluenceTd">6</td><td class="confluenceTd">6</td></tr><tr><th class="confluenceTh" colspan="1">255</th><td class="confluenceTd" colspan="1">2</td><td class="confluenceTd" colspan="1">5</td><td class="confluenceTd" colspan="1">5</td></tr></tbody></table></div>
+
+</span>The following example displays a base-2 value by bit number:<span class="conf-macro output-inline" data-hasbody="true" data-macro-name="table-plus"><div class="table-wrap"><table class="wrapped confluenceTable" id="TBL1750526018674"><colgroup><col/><col/><col/><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Value</th><th class="confluenceTh">128</th><th class="confluenceTh">64</th><th class="confluenceTh">32</th><th class="confluenceTh">16</th><th class="confluenceTh">8</th><th class="confluenceTh">4</th><th class="confluenceTh">2</th><th class="confluenceTh">1</th></tr><tr><th class="confluenceTh">1</th><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">1</td></tr><tr><th class="confluenceTh">12</th><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td></tr><tr><th class="confluenceTh">127</th><td class="confluenceTd">0</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td></tr><tr><th class="confluenceTh">166</th><td class="confluenceTd">1</td><td class="confluenceTd">0</td><td class="confluenceTd">1</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">0</td></tr><tr><th class="confluenceTh">255</th><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td></tr></tbody></table></div>
+
+</span>The BAND( ) function identifies if converting both integers to base-2 results in a value of 1 being displayed in both bit_number positions. If a value of 1 is displayed, then the result of the BAND( ) function also has a value of 1 displayed in the corresponding bit_number position.</p><h2 id="BANDUsingDiscernExplorer-Examples">Examples</h2><p>The following example displays the first number as three and the second number as five:</p><p><strong><span style="color: rgb(0,0,0);">RESULT=BAND(3,5)</span></strong></p><p>3<sub>10</sub>=00000011<sub>2</sub></p><p>5<sub>10</sub>=00000101<sub>2</sub></p><p>Looking from right to left, you can see that 00000011<sub>2</sub> has a one in the zero and first bit_number positions and that 00000101<sub>2</sub> has a one in the zero and second bit_number positions. Thus the RESULT value has a one in the zero bit_number position.</p><p>In base-2, the following result is displayed:</p><p><strong>RESULT=00000001<sub>2</sub></strong></p><p>Converting this back to base-10, the following result is displayed:</p><p><strong>RESULT=1</strong></p><p>The following example displays the integers of 12 and 10:</p><p><strong>RESULT=BAND(12,10)</strong></p><p>12<sub>10</sub>=00001100<sub>2</sub></p><p>10<sub>10</sub>=00001010<sub>2</sub></p><p><strong>RESULT=00001000<sub>2</sub></strong></p><p>When you convert this back to base-10, the following result is displayed:</p><p><strong>RESULT=8</strong></p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 775, "requestCorrelationId": "7d90a0697629d952"}</span>
+</body>
+</html>

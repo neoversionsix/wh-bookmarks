@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>ARRAYJOIN Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/ARRAYJOIN+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The ARRAYJOIN() function joins the fields in a Record list into a character data type variable. The function returns the result by recursively joining the fields into a single output variable. </p><p>The ARRAYJOIN() function was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.3 and enhanced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.5.</p><p>Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.17.0 and 9.05.0, ARRAYJOIN() may return inconsistent if the option_bits parameter is omitted. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.17.0 and 9.05.0 resolve an issues with character items that are preceeded by an F8 item truncating and the display of the UTC offset for a combination of option bits 2 and 4.</p><h2 id="ARRAYJOINUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>ArrayJoin(record_structure_list,field_separator,list_separator,delimiter[,option_bits])</pre>
+</div></div><h2 id="ARRAYJOINUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>record_structure_list</em>    </p><p>A Record Structure list name</p><p><em>field_separator</em>    </p><p>The characters used to separate the fields in the Record Structure list</p><p><em>list_separator </em>   </p><p>The characters used to separate the positions of the Record Structure list</p><p><em>delimiter</em></p><p>A character used to surround the values from the fields in the Record Structure list. By default, the delimiter is only applied to character fields </p><p><em>option_bits</em>    </p><p>An integer value representing the bitwise BOR (the bit_number to bit_number OR comparison) on the table below</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Integer</p></th><th class="confluenceTh"><p>Bit Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>BIT0</p></td><td class="confluenceTd"><p>Delimits all items using the delimiter</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p>BIT1</p></td><td class="confluenceTd"><p>Formats dates to International Organization for Standardization (ISO) format</p></td></tr><tr><td class="confluenceTd"><p>4</p></td><td class="confluenceTd"><p>BIT2</p></td><td class="confluenceTd"><p>Formats dates to local format</p></td></tr><tr><td class="confluenceTd"><p>8</p></td><td class="confluenceTd"><p>BIT3</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Applies a field_separator between every field and not just the fields from a list; requires <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.5</p></div></td></tr></tbody></table></div><p>The bitwise BOR of option_bits applies those options. For example, 3, the bitwise BOR of integers 1 and 2, delimits all items and formats dates as ISO.  Using 5, the bitwise BOR of integers 1 and 4, delimits all items and formats dates as local. Before  <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.17.0 and 9.05.0 the option_bits parameter must be specified to prevent inconsistent results.</p><h2 id="ARRAYJOINUsingDiscernExplorer-Examples">Examples</h2><p>The below example creates and populates a record structure named myrec with static values. The ARRAYJOIN() function is used to assign the contents of myrec-&gt;list to the variable jvar.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program ccl_arrayjoin_exam go
+create program ccl_arrayjoin_exam
+  declare jvar = vc with protect
+  declare cnt1 = i4 with protect
+  declare mcnt1 = i4 with constant(3),protect
+  Record myrec(
+    1 topfield = vc
+    1 list[*]
+       2 f1 = vc
+       2 f2 = i4
+       2 f3 = f8
+       2 f4 = dq8
+       2 f5 = dm12
+       2 f6=  vc
+  )with protect
+  call alterlist(myrec-&gt;list,mcnt1)
+  for (cnt1=1 to mcnt1)
+      set myrec-&gt;list[cnt1].f1=build("test",cnt1)
+      set myrec-&gt;list[cnt1].f2=cnt1
+      set myrec-&gt;list[cnt1].f3=cnt1+ 0.123
+      set myrec-&gt;list[cnt1].f4=cnvtdatetime("22-May-2017 15:00:00")
+      set myrec-&gt;list[cnt1].f5=cnvttimestamp("22-May-2017 15:00:00.1")
+      set myrec-&gt;list[cnt1].f6=fillstring(value(cnt1*10),char(cnt1+64))
+  endfor
+  Set jvar = ArrayJoin( myrec-&gt;list," and "," or ",'|')
+  call echo(concat("jvar= ",jvar))
+  Set jvar = ArrayJoin( myrec-&gt;list," and "," or ",'|',1)
+  call echo(concat("option bit 1, jvar= ",jvar))
+  Set jvar = ArrayJoin( myrec-&gt;list," and "," or ",'|',2)
+  call echo(concat("option bit 2, jvar= ",jvar))
+  Set jvar = ArrayJoin( myrec-&gt;list," and "," or ",'|',3)
+  call echo(concat("option bit 3, jvar= ",jvar))
+  Set jvar = ArrayJoin( myrec-&gt;list," and "," or ",'|',4)
+  call echo(concat("option bit 4, jvar= ",jvar))
+  Set jvar = ArrayJoin( myrec-&gt;list," and "," or ",'|',5)
+  call echo(concat("option bit 5, jvar= ",jvar))
+  Set jvar = ArrayJoin( myrec-&gt;list," and "," or ",'|',6)
+  call echo(concat("option bit 6, jvar= ",jvar))
+  Set jvar = ArrayJoin( myrec-&gt;list," and "," or ",'|',7)
+  call echo(concat("option bit 7, jvar= ",jvar))
+end go</pre>
+</div></div><p>The below code sample creates and populates a record structure named <strong>rec</strong> with a Level 1 list named <strong>plist</strong> and a Level 2 list named <strong>olist</strong>.  A query is used to load person information into the PLIST fields and orders information into the OLIST fields. The ARRAYJOIN() function is used to assign the contents of <strong>rec-&gt;plist</strong> to the variable <strong>array_join_var</strong>. Since olist is a child of plist<strong>,</strong> data from the OLIST fields are included in the return from the function. The fields are separated by a comma, the lists are separated by three dashes, and character values are embedded in double quotes.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program arrayjoin_2_level go
+create program arrayjoin_2_level
+
+declare array_join_var = vc with protect
+
+record rec (
+  1 plist [*]  
+    2 person_id = f8   
+    2 name_full_formatted = c30 
+    2 olist [*]  
+      3 order_id = f8   
+      3 order_display = c30    
+    )
+
+select into "nl:"
+    p.person_id
+    , p.name_full_formatted
+    , o.order_id
+    , o_catalog_disp = uar_get_code_display(o.catalog_cd)
+from
+    person   p
+    , orders   o
+plan p where p.updt_dt_tm between cnvtlookbehind("1,d") and cnvtdatetime(curdate,curtime3)
+join o where o.person_id = p.person_id
+head report
+    pcnt = 0
+head p.person_id
+    pcnt += 1
+    if(mod(pcnt,100)=1)
+        call alterlist(rec-&gt;plist,pcnt+99)
+    endif
+    rec-&gt;plist[pcnt].person_id = p.person_id
+    rec-&gt;plist[pcnt].name_full_formatted = p.name_full_formatted
+    ocnt = 0
+detail
+    ocnt += 1
+    if(mod(ocnt,100)=1)
+        call alterlist(rec-&gt;plist[pcnt].olist, ocnt+99)
+    endif
+    rec-&gt;plist[pcnt].olist[ocnt].order_id = o.order_id
+    rec-&gt;plist[pcnt].olist[ocnt].order_display = o_catalog_disp
+foot p.person_id
+    call alterlist(rec-&gt;plist[pcnt].olist, ocnt)
+foot report
+    call alterlist(rec-&gt;plist,pcnt)
+with nocounter, separator=" ", format
+
+set array_join_var = ArrayJoin(rec-&gt;plist
+    ,","
+    ,"---"
+    ,^"^
+    )
+call echo(array_join_var)
+
+;set array_join_var = ArrayJoin(rec-&gt;plist
+;    ,","
+;    ,"---"
+;    ,^"^
+;    ,1 )  ;adding bit option 1 will embed all values in double quotes
+
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 665, "requestCorrelationId": "764e0359cbd0e92f"}</span>
+</body>
+</html>

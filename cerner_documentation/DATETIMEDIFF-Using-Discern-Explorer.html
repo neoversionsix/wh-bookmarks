@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>DATETIMEDIFF Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/DATETIMEDIFF+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The result of the DATETIMEDIFF ( ) function is an F8 value that defines the difference between two datetime values. By default, the difference is the number of days with partial days expressed as a decimal.</p><p>See the DTTMCALC description in the SET TRACE topic for more information about flexing the behavior of the DATETIMEDIFF() function.</p><p>Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.1 and 9.02.1, a variable that is declared as a DQ8 is implicitly cast to an F8. Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.1 and 9.02.1, a variable that is declared as a DQ8 is cast as a DQ8. In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.1 and 9.02.1, DATETIMEDIFF() returns <strong>0.0</strong> when setting a variable that is declared as a DQ8. Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.2 and 9.02.2, using DATETIMEDIFF() to set a variable that is declared as a DQ8 implicitly converts the variable to an F8. </p><h2 id="DATETIMEDIFFUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DATETIMEDIFF(rdb_date_time1,rdb_date_time2 [,option[,mode]])
+</pre>
+</div></div><h2 id="DATETIMEDIFFUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p>rdb_date_time1<br>A datetime value that stores the more recent value.</br></p><p>Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.15.0 or 9.03.0, a variable that is declared as a DQ and assigned an Internal System Date can be used.</p><p>rdb_date_time2<br/>A datetime value that stores the older value.</p><p>Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.15.0 or 9.03.0, a variable that is declared as a DQ and assigned an Internal System Date can be used.</p><p>option</p><p>Determines the unit of the value that is returned.</p><p>Cannot be used when DATETIMEDIFF() is used in a query in a way that causes DATETIMEDIFF() to be processed at the Relational Database Management System (RDBMS) level.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh" scope="row"><p>Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><th class="confluenceTh" scope="row"><p>1</p></th><td class="confluenceTd"><p>Number of days &lt;default&gt;.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>2</p></th><td class="confluenceTd"><p>Number of weeks.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>3</p></th><td class="confluenceTd"><p>Number of hours.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>4</p></th><td class="confluenceTd"><p>Number of minutes.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>5</p></th><td class="confluenceTd"><p>Number of seconds.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>6</p></th><td class="confluenceTd"><p>Number of hundseconds.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>7</p></th><td class="confluenceTd"><p>Number of days and HHMM format. Requires the "####.##:##:##" display option to properly display minutes.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>8</p></th><td class="confluenceTd"><p>Number of days and HHMMSS format. Requires the "####.##:##:##" display option to properly display minutes and seconds.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>9</p></th><td class="confluenceTd"><div class="content-wrapper"><p>Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.11.3, this option returned the approximate number of years and partial years expressed as a decimal. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.11.3 and 8.11.4 return the number of years and partial years expressed as a decimal, but use rounding on months. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.11.5 and later use day for calculation to avoid issues with rounding on months.</p></div></td></tr><tr><th class="confluenceTh" scope="row"><p>10</p></th><td class="confluenceTd"><div class="content-wrapper"><p>Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.11.3, this option returned the approximate number of years. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.11.3 and 8.11.4 return the number of years but use rounding on months. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.11.5 and higher use day for calculation to avoid issues with rounding on months.</p></div></td></tr><tr><th class="confluenceTh" scope="row"><p>11</p></th><td class="confluenceTd"><div class="content-wrapper"><p>Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.11.3, this option returned the approximate number of months. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.11.3 and 8.11.4 return the number of months, but use rounding on months. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.11.5 and later use day for calculation to avoid issues with rounding on months.</p></div></td></tr></tbody></table></div><p>Options 9, 10, and 11 were introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.5.7.</p><p>mode<br/>Mode was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.7.2.</p><p>If Options 3, 4, 5, or 6 are used, the Mode option is ignored and the difference is calculated using the UTC datetime values.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh" scope="row"><p>Mode</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><th class="confluenceTh" scope="row"><p>0</p></th><td class="confluenceTd"><p>If a Coordinated Universal Time (UTC) datetime, then convert the datetime to local before applying the calculation.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>1</p></th><td class="confluenceTd"><p>If a UTC datetime and the difference is more than DTTMCALCFLEX trace, use UTC for the calculation; otherwise, use the local datetime for the calculation.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>2</p></th><td class="confluenceTd"><p>Same as Mode 1, but for the BSD extension.</p></td></tr></tbody></table></div><p>If mode is omitted, the default mode is flexed by the DTTMCALC trace. If DTTMCALC is disabled, Mode 0 is used. If DTTMCALC is enabled and the difference is more than DTTMCALCFLEX trace, Mode 1 is used; otherwise, Mode 0 is used. By default, the DTTMCALCFLEX is 24 hours.</p><h2 id="DATETIMEDIFFUsingDiscernExplorer-Examples">Examples</h2><p>If CE.VERIFIED_DT_TM is 19-Jan-1999 10:28:34, and O.ORIG_ORDER_DT_TM is 07-Jan-1999 11:29:39:</p><p>The following example sets DIFF equal to 11.96:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DIFF = DATETIMEDIFF(CE.VERIFIED_DT_TM,O.ORIG_ORDER_DT_TM,1)
+</pre>
+</div></div><p>The following example sets DIFF equal to 1.71:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DIFF = DATETIMEDIFF(CE.VERIFIED_DT_TM,O.ORIG_ORDER_DT_TM,2)
+</pre>
+</div></div><p>The following example sets DIFF equal to 286.98:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DIFF = DATETIMEDIFF(CE.VERIFIED_DT_TM,O.ORIG_ORDER_DT_TM,3)
+</pre>
+</div></div><p>The following example sets DIFF equal to 17218.92:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DIFF = DATETIMEDIFF(CE.VERIFIED_DT_TM,O.ORIG_ORDER_DT_TM,4)
+</pre>
+</div></div><p>The following example sets DIFF equal to 103315.0:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DIFF = DATETIMEDIFF(CE.VERIFIED_DT_TM,O.ORIG_ORDER_DT_TM,5)
+</pre>
+</div></div><p>The following example sets DIFF equal to 10331500.0:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DIFF = DATETIMEDIFF(CE.VERIFIED_DT_TM,O.ORIG_ORDER_DT_TM,6)
+</pre>
+</div></div><p>If CE.VERIFIED_DT_TM is 19-Jan-2014 10:28:34 and O.ORIG_ORDER_DT_TM is 07-Jan-2013 11:29:39:</p><p>The following example sets DIFF_FORM equal to 376.22:58:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DIFF = DATETIMEDIFF(CE.VERIFIED_DT_TM,O.ORIG_ORDER_DT_TM,7)
+DIFF_FORM = FORMAT(DIFF,"####.##:##")
+</pre>
+</div></div><p>The following example sets DIFF_FORM equal to 376.22:58:55:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DIFF = DATETIMEDIFF(CE.VERIFIED_DT_TM,O.ORIG_ORDER_DT_TM,8)
+DIFF_FORM = FORMAT(DIFF,"####.##:##:##")
+</pre>
+</div></div><p>The following example sets DIFF equal to 1.03:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DIFF = DATETIMEDIFF(CE.VERIFIED_DT_TM,O.ORIG_ORDER_DT_TM,9)
+</pre>
+</div></div><p>The following example sets DIFF equal to 1.0:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DIFF = DATETIMEDIFF(CE.VERIFIED_DT_TM,O.ORIG_ORDER_DT_TM,10)
+</pre>
+</div></div><p>The following example sets DIFF equal to 12.0:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DIFF = DATETIMEDIFF(CE.VERIFIED_DT_TM,O.ORIG_ORDER_DT_TM,11)
+</pre>
+</div></div><p>In the preceding examples, the value of DIFF is rounded to two decimal places.</p><p>If O.ORIG_ORDER_DT_TM is December 3, 1998, 17:46:00.0, and CE.VERIFIED_DT_TM is January 7, 1999, 10:55:57.0, the following sets D1 equal to 34.72 days. Because the Option parameter is not used, the default is to return the difference as the number of days with partial days expressed as a decimal value.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>D1 = DATETIMEDIFF(CE.VERIFIED_DT_TM,O.ORIG_ORDER_DT_TM)
+</pre>
+</div></div><p>If P.UPDT_DT_TM is September 29, 1998 18:10:24.0, and the current date and time are October 2, 1998 12:03:50.0, D2 is set to 2.75 days.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>D2 = DATETIMEDIFF(CNVTDATETIME(CURDATE,CURTIME3), P.UPDT_DT_TM )
+</pre>
+</div></div><p>The "Z" display format can be used in the FORMAT( ) function to convert the real number returned by the DATETIMEDIFF( ) function to a more meaningful display. If the order date and time is December 3, 1998, 17:46:00.0, and the verified date and time are January 7, 1999, 10:55:57.0, D3 equals 34 days 17:09:57.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>D3 = FORMAT(DATETIMEDIFF(CE.VERIFIED_DT_TM,O.ORIG_ORDER_DT_TM), "DD days HH:MM:SS;;Z")
+</pre>
+</div></div><p>If the order date and time is December 1, 1998, 14:00:00.0 and the verified date and time are December 1, 1998, 14:58:00.0, D4 equals 00:58. Make sure that you understand that using the format below you are limiting the display to hours and minutes. If the calculation goes into days, the days are not displayed.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>D4 = FORMAT(DATETIMEDIFF(CE.VERIFIED_DT_TM,O.ORIG_ORDER_DT_TM), "HH:MM;;Z")
+</pre>
+</div></div><p>The DATETIMEDIFF( ) function returns a real number. The default display format for a real number is two digits to the right of the decimal. When using Option 7 or 8, a display option is required to see the minutes and seconds.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>D7 = DATETIMEDIFF(CE.VERIFIED_DT_TM,O.ORIG_ORDER_DT_TM,7) "####.##:##"
+D8 = DATETIMEDIFF(CE.VERIFIED_DT_TM,O.ORIG_ORDER_DT_TM,8) "####.##:##:##"
+</pre>
+</div></div><p>The example below uses the optional mode parameter. If the example is executed in an environment in the America/Chicago time zone and UTC is enabled, the Call Echo commands return 0.125000, 0.083333, and 0.08333. If the example is executed in an environment in the America/Chicago time zone and UTC is not enabled, the Call Echo commands return 0.125000, 0.083333, and 0.125000. In the America/Chicago time zone, daylight saving time began at 2:00 a.m. local time on 09-Mar-2014.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>set start_dt_tm = cnvtdatetime("09-Mar-2014 03:00:00") 
+set end_dt_tm = cnvtdatetime("09-Mar-2014 00:00:00") 
+                       
+call echo(datetimediff(start_dt_tm,end_dt_tm,1,0)) 
+call echo(datetimediff(start_dt_tm,end_dt_tm,1,1)) 
+call echo(datetimediff(start_dt_tm,end_dt_tm,1,2)) 
+</pre>
+</div></div><p>The following example requires <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.15.0, 9.03.0, or later:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare date_var = dq8 with protect go
+set date_var = cnvtdate(3292019) go
+declare date_var2 = dq8 with protect go
+set date_var2 = curdate + 2 go
+call echo(datetimediff(date_var2,date_var)) go</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 917, "requestCorrelationId": "e9630948b066b344"}</span>
+</body>
+</html>

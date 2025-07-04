@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CURLOB Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CURLOB+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><br/></p><p>CURLOB allows you to pass a BLOB or CLOB parameter to a PLSQL function. It returns the expression but if it is used as bind parameter to PLSQL function, it binds the expression based on the mode.</p><p>CURLOB was introduced in version 8.10.0 of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>.</p><h2 id="CURLOBUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CURLOB(expression, mode)</pre>
+</div></div><h2 id="CURLOBUsingDiscernExplorer-Metasymbol">Metasymbol</h2><p><em>expression</em><br/>A BLOB or CLOB expression.</p><p><em>mode</em></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Mode</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>Pass as char</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p>Pass as raw</p></td></tr><tr><td class="confluenceTd"><p>3</p></td><td class="confluenceTd"><p>Pass as longchar</p></td></tr><tr><td class="confluenceTd"><p>4</p></td><td class="confluenceTd"><p>Pass as longrawchar</p></td></tr></tbody></table></div><h2 id="CURLOBUsingDiscernExplorer-Examples">Examples</h2><p>The following example uses CURLOB().</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program ccl_curlob_exam go
+create program ccl_curlob_exam 
+record rec1 (
+  1 blob = gvc )
+
+set rec1-&gt;blob = 'testing this line'
+
+declare hash(p1=vc,p2=i4) = c32 with sql = 'DBMS_CRYPTO.HASH'
+declare toraw(p1=vc)=null with sql = 'UTL_RAW.CAST_TO_RAW'
+
+select into 'NOFORMS' hash(toraw(curlob(rec1-&gt;blob,4)),2) from dual
+
+select into 'NOFORMS' hash(curlob(rec1-&gt;blob,4),2) from dual
+
+end go
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 775, "requestCorrelationId": "0d0caa5e0a8d728b"}</span>
+</body>
+</html>

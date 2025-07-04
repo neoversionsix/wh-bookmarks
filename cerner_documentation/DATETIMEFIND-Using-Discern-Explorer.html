@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>DATETIMEFIND Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/DATETIMEFIND+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><br/></p><p>Returns the beginning or ending datetime value of a specified relative range. For example, find the beginning or ending of the day, week, month, quarter, year, or century.</p><h2 id="DATETIMEFINDUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DATETIMEFIND(datetime, datemode, range, timemode )</pre>
+</div></div><p><br/></p><h2 id="DATETIMEFINDUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>datetime</em></p><p>The date and time value to base the calculation on.</p><p><em>datemode</em>:</p><p>The date unit to find.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Datemode</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>"D"</p></td><td class="confluenceTd"><p>Return begin or end of day</p></td></tr><tr><td class="confluenceTd"><p>"W"</p></td><td class="confluenceTd"><p>Return week begin or end day</p></td></tr><tr><td class="confluenceTd"><p>"M"</p></td><td class="confluenceTd"><p>Return month begin or end day</p></td></tr><tr><td class="confluenceTd"><p>"Q"</p></td><td class="confluenceTd"><p>Return quarter begin or end day</p></td></tr><tr><td class="confluenceTd"><p>"Y"</p></td><td class="confluenceTd"><p>Return year begin or end day</p></td></tr><tr><td class="confluenceTd"><p>"C"</p></td><td class="confluenceTd"><p>Return century begin or end day</p></td></tr></tbody></table></div><p><em>range</em></p><p>Finds the beginning or ending day of the date unit.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Range</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>"B"</p></td><td class="confluenceTd"><p>Find beginning</p></td></tr><tr><td class="confluenceTd"><p>"E"</p></td><td class="confluenceTd"><p>Find ending</p></td></tr></tbody></table></div><p><em>timemode</em></p><p> Finds the beginning or ending time of the date unit.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Timemode</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>"B"</p></td><td class="confluenceTd"><p>Begin time of day</p></td></tr><tr><td class="confluenceTd"><p>"E"</p></td><td class="confluenceTd"><p>End time of day</p></td></tr><tr><td class="confluenceTd"><p>"P"</p></td><td class="confluenceTd"><p>Preserve time of day</p></td></tr></tbody></table></div><h2 id="DATETIMEFINDUsingDiscernExplorer-Examples">Examples</h2><p>The following example will return all patients who were registered for the current week:</p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">DROP PROGRAM DATEFIND_EX GO
+CREATE PROGRAM DATEFIND_EX
+DECLARE BEGIN_DT = F8
+DECLARE END_DT = F8
+SET BEGIN_DT = DATETIMEFIND(CNVTDATETIME(CURDATE,0),"W","B","B")
+SET END_DT = DATETIMEFIND(CNVTDATETIME(CURDATE,0),"W","E","E")
+SELECT
+P.PERSON_ID,
+P.NAME_FULL_FORMATTED,
+E.ENCNTR_ID,
+E.REG_DT_TM
+FROM PERSON P,
+ENCOUNTER E
+PLAN P
+JOIN E WHERE E.REG_DT_TM BETWEEN
+CNVTDATETIME(BEGIN_DT) AND CNVTDATETIME(END_DT)
+WITH MAXREC = 10
+END
+GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 1097, "requestCorrelationId": "ff4f6b24c2d84f94"}</span>
+</body>
+</html>

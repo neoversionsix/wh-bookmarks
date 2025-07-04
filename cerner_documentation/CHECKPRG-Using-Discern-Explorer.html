@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CHECKPRG Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CHECKPRG+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The CHECKPRG function is used to determine if a program exists in the object library. Returns <strong>0</strong> if program does not exist, <strong>1</strong> if program exists and is in the server cache, <strong>2</strong> if program exists but is not currently in the server cache. If the group_name is omitted, the function checks in the user's group library. If not found, it checks in the DBA group library. If the explicit group_name is specified, it checks in that user's group library and if not found, it checks in the DBA group library. This matches the logic used to run a program.</p><h2 id="CHECKPRGUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CHECKPRG(program_name[:group_name][,type])</pre>
+</div></div><h2 id="CHECKPRGUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>program_name</em><br>The name of the program in the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> object library. Must be in uppercase and embedded in quotes.</br></p><p><em>group_name</em><br/>The name of a library group. Valid library groups are DBA and GROUP1 through GROUP99. Must be in uppercase and embedded in quotes.</p><p><em>type</em><br/>The object type. Must be in uppercase and embedded in quotes.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><td class="confluenceTd"><p>"P"</p></td><td class="confluenceTd"><p>Program (default)</p></td></tr><tr><td class="confluenceTd"><p>"E"</p></td><td class="confluenceTd"><div class="content-wrapper"><p>EKModule (<span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Expert</span> rule)</p></div></td></tr></tbody></table></div><h2 id="CHECKPRGUsingDiscernExplorer-Examples">Examples</h2><p>The following example checks for the existence of a program named MY_PROGRAM.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET PRG_EXISTS = CHECKPRG("MY_PROGRAM")
+</pre>
+</div></div><p>If a user in the DBA group executes the following example, the call echo(checkprg("CCL_TEST:DBA","P")) command would echo 0 because the DBA program was dropped. The call echo(checkprg("CCL_TEST:GROUP1","P")) would echo either 1 or 2 depending on whether or not the GROUP1 program is in the server cache or not. The call echo(checkprg("CCL_TEST")) would echo 0 because the user is in the DBA group and a DBA version of the program does not exist.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_TEST:DBA GO
+DROP PROGRAM CCL_TEST:GROUP1 GO
+CREATE PROGRAM CCL_TEST:GROUP1
+	call echo("hello")
+END
+GO
+
+call echo(checkprg("CCL_TEST:DBA","P")) go
+call echo(checkprg("CCL_TEST:GROUP1","P")) go
+call echo(checkprg("CCL_TEST")) go
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 858, "requestCorrelationId": "163c7825cdeea401"}</span>
+</body>
+</html>

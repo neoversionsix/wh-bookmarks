@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CNVTTIME( ) Function Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CNVTTIME%28+%29+Function+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><br/></p><p>The CNVTTIME() function  accepts a Number of Minutes or Datetime value and returns an integer representing time in 24-hour format of the form HHMM. The conversion can be performed in reverse by calling the CNVTMIN() function. A display option or the Format() function can be used to have the time displayed in Standard Time format using A.M. or P.M.</p><h2 id="CNVTTIME()FunctionUsingDiscernExplorer-Syntax">Syntax</h2><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">CNVTTIME(time)
+CNVTTIME(datetime)
+</pre>
+</div></div><h2 id="CNVTTIME()FunctionUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>time</em></p><p>An expression of time in number of minutes.</p><p><em>datetime</em></p><p>The value that represents a date and time. RDBMS fields with names that end in<strong> <em>_</em>DT_TM</strong> store Datetime values. Many Datetime functions like CNVTDATETIME() can be used to return a Datetime value.</p><h2 id="CNVTTIME()FunctionUsingDiscernExplorer-Examples">Examples</h2><p>In the example below, if the user-defined expression <strong>ADM_TIME</strong> equals <strong>780</strong> minutes, <strong>TIME</strong> is set to <strong>1300</strong>, <strong>13:00</strong> or<strong> 01:00 PM</strong>.</p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">TIME = CNVTTIME(ADM_TIME)
+
+or
+
+TIME = CNVTTIME(ADM_TIME) "HH:MM;;M"
+
+or
+
+TIME = CNVTTIME(ADM_TIME) "HH:MM;;S"
+</pre>
+</div></div><p>In the example below, if <strong>ORDER_DT_TM</strong> is <strong>01-JAN-1998 10:50:59</strong>, <strong>TIME</strong> is set to <strong>1050</strong>.  If <strong>ORDER_DT_TM</strong> is <strong>01-JAN-1998 09:30:59</strong>, <strong>TIME</strong> is set to <strong>930</strong>.</p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">TIME = CNVTTIME(O.ORDER_DT_TM)
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 835, "requestCorrelationId": "59a6efccf46504d8"}</span>
+</body>
+</html>

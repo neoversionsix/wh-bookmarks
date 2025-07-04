@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>BNOT Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/BNOT+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>BNOT () returns an integer expression that is the result of each bit in the base-2 number of the integer being reversed. This means that the BNOT( ) function changes all one bits to zeros, and zero bits to ones. Additionally, BNOT( ) changes the sign bit. If the value of the sign bit is zero, the integer is positive. If the sign bit value is one, the integer is negative.</p><h2 id="BNOTUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>BNOT(integer)</pre>
+</div></div><h2 id="BNOTUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>Integer</em><br>Any whole number.</br></p><p>The key to understanding how the BNOT( ) function works is to first convert the integer to base-2.</p><p><span style="color: rgb(23,43,77);">In base-2, numbers are represented by placing a zero or one in a bit number position and a subscript value of 2. In the base-10 system, the number base in which we usually count, we count from one to nine, carry the one, and start over at zero. The below examples display conversions from base-10 to base-2.</span></p><p>The following example displays base-10 value by 100, 10, and 1-column position: <span class="conf-macro output-inline" data-hasbody="true" data-macro-name="table-plus"><div class="table-wrap"><table class="wrapped confluenceTable" id="TBL1750526018677"><colgroup><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Value</th><th class="confluenceTh" colspan="1">100</th><th class="confluenceTh">10</th><th class="confluenceTh">1</th></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd" colspan="1">0</td><td class="confluenceTd">0</td><td class="confluenceTd">1</td></tr><tr><td class="confluenceTd">12</td><td class="confluenceTd" colspan="1">0</td><td class="confluenceTd">1</td><td class="confluenceTd">2</td></tr><tr><td class="confluenceTd">127</td><td class="confluenceTd" colspan="1">1</td><td class="confluenceTd">2</td><td class="confluenceTd">7</td></tr><tr><td class="confluenceTd">166</td><td class="confluenceTd" colspan="1">1</td><td class="confluenceTd">6</td><td class="confluenceTd">6</td></tr><tr><td class="confluenceTd" colspan="1">255</td><td class="confluenceTd" colspan="1">2</td><td class="confluenceTd" colspan="1">5</td><td class="confluenceTd" colspan="1">5</td></tr></tbody></table></div>
+
+</span>The following example displays a base-2 value by bit number:<span class="conf-macro output-inline" data-hasbody="true" data-macro-name="table-plus"><div class="table-wrap"><table class="wrapped confluenceTable" id="TBL1750526018678"><colgroup><col/><col/><col/><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Value</th><th class="confluenceTh">128</th><th class="confluenceTh">64</th><th class="confluenceTh">32</th><th class="confluenceTh">16</th><th class="confluenceTh">8</th><th class="confluenceTh">4</th><th class="confluenceTh">2</th><th class="confluenceTh">1</th></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">1</td></tr><tr><td class="confluenceTd">12</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td></tr><tr><td class="confluenceTd">127</td><td class="confluenceTd">0</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td></tr><tr><td class="confluenceTd">166</td><td class="confluenceTd">1</td><td class="confluenceTd">0</td><td class="confluenceTd">1</td><td class="confluenceTd">0</td><td class="confluenceTd">0</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">0</td></tr><tr><td class="confluenceTd">255</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td><td class="confluenceTd">1</td></tr></tbody></table></div>
+
+</span></p><h2 id="BNOTUsingDiscernExplorer-Examples">Examples</h2><p>The following example displays an integer of three:</p><p><strong>RESULT=BNOT(3)</strong></p><p>310=000000112</p><p>The BNOT( ) function converts this to the following result:</p><p><strong>RESULT=111111002</strong></p><p>The assigned bit that is not displayed changes from zero to one, making this a negative number. When you convert this back to base-10, the following result is displayed:</p><p><strong>RESULT=-4</strong></p><p>The BNOT() function returns the following values for the integer:  </p><ul><li>The negative of the original numbers minus one if the original number was positive.</li><li>The positive of the original number minus one if the original number was negative.</li></ul>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 1172, "requestCorrelationId": "d4c40678ed8d1b2d"}</span>
+</body>
+</html>

@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>DATETIMEZONEUTC Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/DATETIMEZONEUTC+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The DATETIMEZONEUTC( ) function returns the adjusted datetime based on the time zone index. The FORMAT( ) function or a Display Option with a display qualifier of <strong>4</strong> can be used to display the adjusted datetime value in a meaningful format. If Coordinated Universal Time (UTC) mode is turned off, then DATETIMEZONEUTC( ) returns the datetime as is. No conversion is performed.</p><h2 id="DATETIMEZONEUTCUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DATETIMEZONEUTC(&lt;datetime&gt;,&lt;timezone_index&gt;[,&lt;option&gt;])</pre>
+</div></div><h2 id="DATETIMEZONEUTCUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>datetime</em><br>A datetime value.</br></p><p><em>timezone_index</em><br/>An integer representing the time zone. If timezone_index is zero, then the application time zone is returned.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> uses a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Windows</span> standard that has defined time zone names and their associated index numbers.</p></div></div><p><em>option</em></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>Converts a UTC datetime to the local datetime using the index, and then back to UTC (the default option if omitted).</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p>Converts the local datetime to a UTC datetime using the index, and then back to local.</p></td></tr></tbody></table></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>If UTC mode is turned off, the function returns the datetime as is and performs no conversion.</p></div></div><h2 id="DATETIMEZONEUTCUsingDiscernExplorer-Examples">Examples</h2><p>When the following example is executed in an environment set to Central Daylight Time (CDT) with UTC turned on, the CALL ECHO command displays <strong>27-JUN-2013 04:59:59.00,</strong> since 75 is the time zone index for Central Daylight Time:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET C_DT_TM = DATETIMEZONEUTC(CNVTDATETIME("26-Jun-2013 23:59:59"),75,1) GO
+CALL ECHO(FORMAT(C_DT_TM,";4;Q")) GO</pre>
+</div></div><p>When the example below is executed in an environment set to Central Daylight Time (CDT) with UTC turned on, the CALL ECHO command displays <strong>27-JUN-2013 02:59:59.00</strong>, since 71 is the time zone index for Arizona Time. Arizona does not implement daylight saving time, resulting in a difference of two hours between Arizona time and Central Daylight time, and a one hour difference is between Arizona time and Central Standard time.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET A_DT_TM = DATETIMEZONEutc(CNVTDATETIME("26-Jun-2013 23:59:59"),71,1) GO
+CALL ECHO(FORMAT(A_DT_TM,";4;Q")) GO</pre>
+</div></div><p>When the example below is executed in an environment set to Central Daylight Time (CDT) with UTC turned on, the CALL ECHO command displays <strong>21</strong>. The CNVTDATETIME( ) function returns the UTC datetime for 26-JUN-2013 23:59:59 in CDT. The DATETIMEZONEUTC( ) function adjusts that datetime by two hours because of the difference between CDT and Arizona Time. The HOUR( ) function converts that datetime to local time and returns 21.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHO(HOUR(DATETIMEZONEUTC(CNVTDATETIME("26-JUN-2013 23:59:59"),71))) GO</pre>
+</div></div><p><br/><br/></p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 1502, "requestCorrelationId": "ade71ec0de5c38fb"}</span>
+</body>
+</html>

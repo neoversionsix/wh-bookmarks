@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>BUILD3 Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/BUILD3+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<div class="confluence-information-macro confluence-information-macro-tip conf-macro output-block" data-hasbody="true" data-macro-name="tip"><p class="title conf-macro-render">Release Considerations </p><span class="aui-icon aui-icon-small aui-iconfont-approve confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Build3 is introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.6.</p></div></div><p>The BUILD3() function allows you to return a concatenated expression based on the mode, with integer and float (numeric) values converted to strings. Float values are rounded to two decimal places. Float values are displayed using up to 14 characters including the decimal point. Integer values are displayed using up to 11 characters.</p><h2 id="BUILD3UsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>BUILD3(mode,expression{,expression})</pre>
+</div></div><h2 id="BUILD3UsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>expression</em></p><p>A value of any data type</p><p><em>mode</em></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Option</th><th class="confluenceTh">Description</th></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">Do not remove leading spaces from numeric expressions. If a converted numeric expression exceeds 14 characters, it is truncated.</td></tr><tr><td class="confluenceTd">2</td><td class="confluenceTd">Do not remove leading spaces from numeric expressions. If a converted numeric expression exceeds 14 characters, it is replaced with asterisks.</td></tr><tr><td class="confluenceTd">3</td><td class="confluenceTd">Remove leading spaces from numeric expressions. If a converted numeric expression exceeds 14 characters, it is truncated.</td></tr><tr><td class="confluenceTd">4</td><td class="confluenceTd"><p>Remove leading spaces from numeric expressions. If a converted numeric expression exceeds 14 characters, it is filled with asterisks.</p></td></tr></tbody></table></div><h2 id="BUILD3UsingDiscernExplorer-Examples">Examples</h2><pre>The following example echoes the options listed on the above table:</pre><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Mode:          1 ABC          12.35 DEFG        789 HIJ         789.12 KLM 12345678901234
+Mode:          2 ABC          12.35 DEFG        789 HIJ         789.12 KLM **************
+Mode:3 ABC 12.35 DEFG789 HIJ 789.12 KLM 12345678901234
+Mode:4 ABC 12.35 DEFG789 HIJ 789.12 KLM **************</pre>
+</div></div><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program ccl_test_build3 go
+create program ccl_test_build3
+for(mode_cnt = 1 to 4)
+    call echo(BUILD3(mode_cnt, "Mode:", mode_cnt, " ", "ABC ",12.3456," ", "DEFG",789," HIJ ", 789.123, " KLM ", 123456789012345.123)) 
+endfor
+end go
+ccl_test_build3 go</pre>
+</div></div><p><br/></p><p><br/></p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 1862, "requestCorrelationId": "666cb1149eb98ea2"}</span>
+</body>
+</html>

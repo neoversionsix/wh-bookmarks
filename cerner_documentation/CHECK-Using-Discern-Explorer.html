@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CHECK Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CHECK+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The CHECK() function replaces all characters that are less than the check_char with blank characters. If <strong>check_char</strong> is omitted, the default of blank is used. If<strong> check_char2</strong> is used, all characters greater than it are replaced with a blank character.</p><h2 id="CHECKUsingDiscernExplorer-Syntax">Syntax</h2><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">CHECK(expr [,check_char, check_char2]])</pre>
+</div></div><h2 id="CHECKUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>expr</em></p><p>Any character expression.</p><p><em>check_char</em></p><p>The<em> </em>character to check for. Characters with an ASCII ordinal value less than check_char are converted to a space.</p><p><em>check_char2</em></p><p>The character to check for. Characters with an ASCII ordinal value greater than check_char2 are converted to a space.</p><p><br/></p><p>Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.3, check_char and check_char2 were limited to characters with an ASCII ordinal value of 127 or less. Using a character with an ASCII ordinal value greater than 127 causes the entire expression to be converted to spaces. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.3 allows extended ASCII characters with ordinal values greater than 127 for check_char and check_char2.</p><h2 id="CHECKUsingDiscernExplorer-Examples">Examples</h2><p>The following example replaces <strong>abc</strong> with spaces, and returns the string <strong>defghijk</strong>:</p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">CALL ECHO(CHECK("abcdefghijk","d")) GO</pre>
+</div></div><p>This following example returns the string <strong>W L OM TO RN R</strong>:</p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">CALL ECHO(CHECK("WELCOME TO CERNER","L")) GO</pre>
+</div></div><p>The following example replaces all characters that are less than a carriage return (<strong>char(13)</strong>) with a blank character, and all characters that are greater than a tilde (<strong>~</strong>), <strong>char(126)</strong>,<strong> </strong>with a blank character.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre> SET VAR = CHECK(STRING_VAR,CHAR(13),CHAR(126)) </pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 628, "requestCorrelationId": "2692d6f2027c1a1a"}</span>
+</body>
+</html>

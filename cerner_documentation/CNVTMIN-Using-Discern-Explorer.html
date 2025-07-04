@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CNVTMIN Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CNVTMIN+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>CNVTMIN( ) converts a time value to an integer that is the total number of minutes for that value within a 24-hour period. It returns the number of minutes as an integer. This is useful when performing arithmetic operations on time values. The conversion can be performed in the other direction by using the CNVTTIME() function.</p><h2 id="CNVTMINUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CNVTMIN(time[,time_type])
+CNVTMIN(rdb_dt_tm[,time_type])</pre>
+</div></div><h2 id="CNVTMINUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>time</em><br>An expression that typically is in the format HHMM.</br></p><p><em>time_type</em><br/>An integer representing the time format specified in the time expression. The following are valid options:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Option</p></th><th class="confluenceTh"><p>Time Expression</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>Time column in HHMM format</p></td><td class="confluenceTd"><p>Default</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p>Time column in HHMMSS format</p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p>3</p></td><td class="confluenceTd"><p>Time in 10-millisecond units</p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p>4</p></td><td class="confluenceTd"><p>rdb_dt_tm, convert date and time</p></td><td class="confluenceTd"><p>Default for rdb_dt_tm <br class="atl-forced-newline"/>Using this <em>time_type</em>, before 01-Mar-1800 the total number of minutes since 01-Jan-1800 is returned. Between 01-Mar-1800 and 28-Feb-1900 the total number of minutes since 01-Jan-1800 plus 1440 is returned. After 28-Feb-1900 the total number of minutes since 01-Jan-1800 plus 2880 is returned..</p></td></tr><tr><td class="confluenceTd"><p>5</p></td><td class="confluenceTd"><p>rdb_dt_tm, convert time only</p></td><td class="confluenceTd"><p><br/></p></td></tr></tbody></table></div><p><em>rdb_dt_tm</em><br/>A column that stores the date and time.</p><h2 id="CNVTMINUsingDiscernExplorer-Examples">Examples</h2><p>In the below example, D1 is set equal to 60.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>D1 = CNVTMIN(0100,1)</pre>
+</div></div><p>In the below example, D2 is set equal to 618.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>D2 = CNVTMIN(1018,1)</pre>
+</div></div><p>In the below example, if the ORDER_DT_TM column is 01-JAN-1998 10:50:00, D3 is set equal to 650.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>D3 = CNVTMIN(O.ORDER_DT_TM,5)</pre>
+</div></div><p>In the below example, if the ORDER_DT_TM column is 01-JAN-1998 10:50:00, D4 is set equal to 104142890.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>D4 = CNVTMIN(O.ORDER_DT_TM)</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 945, "requestCorrelationId": "4efebc8eefc840f7"}</span>
+</body>
+</html>

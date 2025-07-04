@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CNVTRECTOJSON( ) Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CNVTRECTOJSON%28+%29+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The CNVTRECTOJSON( ) function converts a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> record structure to a JSON record structure. The JSON record structure is returned as a VC data type string. </p><p>See CALL ECHOJSON for information on writing the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> record structure as a JSON stream to the displayer, default log or listing file, or to a user-defined file.</p><p>Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.0, CNVTRECTOJSON() converts control characters with ASCII ordinal values 1-7,11,14-31 to their escaped equivalent.</p><p><br/></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Control Character</p></th><th class="confluenceTh"><p>Converts To</p></th></tr><tr><td class="confluenceTd"><p>char(1-7)</p></td><td class="confluenceTd"><p>\u&lt;hex:4&gt;</p></td></tr><tr><td class="confluenceTd"><p>char(8)</p></td><td class="confluenceTd"><p>\b /* backspace */</p></td></tr><tr><td class="confluenceTd"><p>char(9)</p></td><td class="confluenceTd"><p>\t /* horizontaltab */</p></td></tr><tr><td class="confluenceTd"><p>char(10)</p></td><td class="confluenceTd"><p>\n /* newline */</p></td></tr><tr><td class="confluenceTd"><p>char(11)</p></td><td class="confluenceTd"><p>\u&lt;hex:4&gt;</p></td></tr><tr><td class="confluenceTd"><p>char(12)</p></td><td class="confluenceTd"><p>\f /* formfeed */</p></td></tr><tr><td class="confluenceTd"><p>char(13)</p></td><td class="confluenceTd"><p>\r /* carriagereturn */</p></td></tr><tr><td class="confluenceTd"><p>char(14-31)</p></td><td class="confluenceTd"><p>\u&lt;hex:4&gt;</p></td></tr></tbody></table></div><p>On the preceding table &lt;hex:4&gt; indicates the 4-digit hex value. For example, char(14) will be converted to \u000E and char(20) will be converted to \u0014.</p><h2 id="CNVTRECTOJSON()UsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CNVTRECTOJSON(record_name[,case_mode[,date_mode[,flexmode]]])
+</pre>
+</div></div><h2 id="CNVTRECTOJSON()UsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>record_name</em><br/>The name of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> record structure.</p><p><em>case_mode</em><br/>Modes 2, 3, and 4 were introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.10.0. Modes 5 through 9 were introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.13.2 and 9.01.2 to provide the ability to exclude the record name in the converted JSON. Case_mode only applies to the names of the record structure items. It is not applied to the data that is stored in the record structure.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Mode</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>0</p></td><td class="confluenceTd"><div class="content-wrapper"><p>(Default) </p><p>Each named item of the record structure that is not enclosed in quotation marks is converted to uppercase. No case conversion is performed on named items of the record structure that are enclosed in quotation marks. This removes a point of ambiguity, because <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">JavaScript</span> is case sensitive and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> is not. </p></div></td></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>Convert record to json hash table format.</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p>Convert all named items of the record structure to lowercase.</p></td></tr><tr><td class="confluenceTd"><p>3</p></td><td class="confluenceTd"><p>Convert all named items of the record structure to uppercase.</p></td></tr><tr><td class="confluenceTd"><p>4</p></td><td class="confluenceTd"><p>Convert named items of the record structure to camelcase by removing the underscore (_) and uppercase next character following it. For example, APP_ID is converted to appId.</p></td></tr><tr><td class="confluenceTd" colspan="1">5</td><td class="confluenceTd" colspan="1">Do not include the record name in the JSON.</td></tr><tr><td class="confluenceTd" colspan="1">6</td><td class="confluenceTd" colspan="1">Do not include the record name in the JSON, and convert the record to JSON hash table format.</td></tr><tr><td class="confluenceTd" colspan="1">7</td><td class="confluenceTd" colspan="1"><p>Do not include the record name in the JSON, and convert all named items of the record structure to lowercase.</p></td></tr><tr><td class="confluenceTd" colspan="1">8</td><td class="confluenceTd" colspan="1">Do not include the record name in the JSON, and convert all named items of the record structure to uppercase.</td></tr><tr><td class="confluenceTd" colspan="1">9</td><td class="confluenceTd" colspan="1">Do not include the record name in the JSON, and convert named items of the record structure to camelcase by removing the underscore (_) and the uppercase next character following it. For example, APP_ID is converted to appId.</td></tr></tbody></table></div><p><em>date_mode</em></p><p>Introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.11.1 to allow controlling the use of Date() for ISO dates.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Mode</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>0</p></td><td class="confluenceTd"><p>Use Date(<em>iso_date</em>) for DQ8 or DM12. (default)</p></td></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>Use <em>iso_date</em> without Date() for DQ8 or DM12.</p></td></tr><tr><td class="confluenceTd" colspan="1">2</td><td class="confluenceTd" colspan="1">Use Date(<em>iso_date</em>) for DQ8 or DM12, and set the Coordinated Universal Time (UTC) offset to 00:00 regardless of the CURUTC.</td></tr><tr><td class="confluenceTd" colspan="1">3</td><td class="confluenceTd" colspan="1">Use <em>iso_date</em> without Date() for DQ8 or DM12, and set the UTC offset to 00:00 regardless of the CURUTC.</td></tr></tbody></table></div><p>DQ8 or DM12 record structure items that are unassigned or equal to 0.0 convert to "\/Date(0000-00-00T00:00:00.000+00:00)\/" for date_mode 0, or "0000-00-00T00:00:00.000+00:00" for date_mode 1.</p><p><em>flexmode</em></p><p>Introduced in <em><span><span class="conf-solution-name"><span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span></span></span></span></em> versions 8.14.0 and 9.02.0<em>.</em></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Mode</th><th class="confluenceTh">Description</th></tr><tr><td class="confluenceTd">0</td><td class="confluenceTd">The default mode.</td></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">Retain binary values, and do not convert to backslash (\) for JSON.</td></tr></tbody></table></div><p><strong><br/></strong></p><h2 id="CNVTRECTOJSON()UsingDiscernExplorer-Examples">Examples</h2><p>The following example creates and populates a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> record structure named REC1. The contents of the record structure are then written to a variable named REC_JSON in JSON format.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program CCL_CnvtRecToJson go
+create program CCL_CnvtRecToJson
+record rec1(
+  1 qual[*]
+    2 f1 = i4
+    2 qual2[*]
+      3 f2 = i4
+      3 f3 = vc)
+declare rec_json = vc
+
+set stat = alterlist(rec1-&gt;qual,3)
+for (num1=1 to size(rec1-&gt;qual,5))
+    set rec1-&gt;qual[num1].f1 = num1
+    set stat = alterlist(rec1-&gt;qual[num1].qual2,1)
+    set num2 = 1
+    set rec1-&gt;qual[num1].qual2[num2].f2=100+num1
+    set rec1-&gt;qual[num1].qual2[num2].f3=build("test:",num1,":",num2)
+endfor
+call echorecord(rec1)
+;convert ccl record to json string
+set rec_json = CnvtRecToJson(rec1)
+call echo(rec_json)
+
+end go
+</pre>
+</div></div><p>The output of the above example is:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&gt;&gt;&gt;Begin EchoRecord REC1   ;REC1
+ 1 QUAL[1,3*]
+  2 F1= I4   {1}
+  2 QUAL2[1,1*]
+   3 F2= I4   {101}
+   3 F3=VC8   {test:1:1}
+ 1 QUAL[2,3*]
+  2 F1= I4   {2}
+  2 QUAL2[1,1*]
+   3 F2= I4   {102}
+   3 F3=VC8   {test:2:1}
+ 1 QUAL[3,3*]
+  2 F1= I4   {3}
+  2 QUAL2[1,1*]
+   3 F2= I4   {103}
+   3 F3=VC8   {test:3:1}
+&gt;&gt;&gt;End EchoRecord REC1 Varchar=3, Varlist=4, Fixsize=12, Varsize=104
+{"REC1":{"QUAL":[{"F1":1,"QUAL2":[{"F2":101,"F3":"test:1:1"}]},{"F1":2,"QUAL2":[{"F2":102,"F3":"test:2:1"}]},{"F1":3,"QUAL2":[{"F2"
+:103,"F3":"test:3:1"}]}]}}</pre>
+</div></div><p><br/></p><p>The following example uses the case_mode parameter.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program CCL_CnvtRecToJson go
+create program CCL_CnvtRecToJson
+
+declare jsonbuf = vc
+record Rec1(
+   1 Fld1 = vc
+   1 Fld2_name = vc
+)
+set Rec1-&gt;Fld1 = "Test1"
+set Rec1-&gt;Fld2_name = "Test2"
+
+set jsonbuf = cnvtrectojson(rec1);default
+call echo(jsonbuf)
+
+set jsonbuf = cnvtrectojson(rec1,5);default no rec name
+call echo(jsonbuf)
+
+set jsonbuf = cnvtrectojson(rec1,1);hash table format
+call echo(jsonbuf)
+
+set jsonbuf = cnvtrectojson(rec1,6);hash table format no rec name
+call echo(jsonbuf)
+
+set jsonbuf = cnvtrectojson(rec1,2);lowercase
+call echo(jsonbuf)
+
+set jsonbuf = cnvtrectojson(rec1,7);lowercase no rec name
+call echo(jsonbuf)
+
+set jsonbuf = cnvtrectojson(rec1,3);uppercase
+call echo(jsonbuf)
+
+set jsonbuf = cnvtrectojson(rec1,8);uppercase no rec name
+call echo(jsonbuf)
+
+set jsonbuf = cnvtrectojson(rec1,4);camelcase
+call echo(jsonbuf)
+
+set jsonbuf = cnvtrectojson(rec1,9);camelcase no rec name
+call echo(jsonbuf)
+
+end
+go
+
+CCL_CnvtRecToJson go
+
+</pre>
+</div></div><p>The output of the above example is:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>{"REC1":{"FLD1":"Test1","FLD2_NAME":"Test2"}}
+{"FLD1":"Test1","FLD2_NAME":"Test2"}
+{"REC1":{"FLD1":"Test1","FLD2_NAME":"Test2"}}
+{"FLD1":"Test1","FLD2_NAME":"Test2"}
+{"rec1":{"fld1":"Test1","fld2_name":"Test2"}}
+{"fld1":"Test1","fld2_name":"Test2"}
+{"REC1":{"FLD1":"Test1","FLD2_NAME":"Test2"}}
+{"FLD1":"Test1","FLD2_NAME":"Test2"}
+{"rec1":{"fld1":"Test1","fld2Name":"Test2"}}
+{"fld1":"Test1","fld2Name":"Test2"}</pre>
+</div></div><p><br/></p><p>The following example uses the date_mode parameter:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program CCL_CnvtRecToJson go
+create program CCL_CnvtRecToJson
+
+declare buf = vc  
+record rec(
+     1 f1 = dq8
+     1 f2 = dm12
+   ) 
+set rec-&gt;f1 = cnvtdatetime("05-APR-2012 15:30:25")
+set rec-&gt;f2 = cnvttimestamp("05-APR-2012 13:45:59.1")
+
+set buf = cnvtrectojson(rec,0,0)  
+call echo(buf)  
+
+set buf = cnvtrectojson(rec,0,1)  
+call echo(buf)  
+
+set buf = cnvtrectojson(rec,0,2)  
+call echo(buf)  
+
+set buf = cnvtrectojson(rec,0,3)  
+call echo(buf)  
+end go
+CCL_CnvtRecToJson go
+</pre>
+</div></div><p>In a UTC enabled environment the output of the above example is:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>{"REC":{"F1":"\/Date(2012-04-05T20:30:25.000+00:00)\/","F2":"\/Date(2012-04-05T18:45:59.001+00:00)\/"}}
+{"REC":{"F1":"2012-04-05T20:30:25.000+00:00","F2":"2012-04-05T18:45:59.001+00:00"}}
+{"REC":{"F1":"\/Date(2012-04-05T20:30:25.000+00:00)\/","F2":"\/Date(2012-04-05T18:45:59.001+00:00)\/"}}
+{"REC":{"F1":"2012-04-05T20:30:25.000+00:00","F2":"2012-04-05T18:45:59.001+00:00"}}</pre>
+</div></div><p>In a non-UTC enabled environment where the timezone is Central Standard time, the output of the above example is:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>{"REC":{"F1":"\/Date(2012-04-05T15:30:25.000-06:00)\/","F2":"\/Date(2012-04-05T13:45:59.001-06:00)\/"}}
+{"REC":{"F1":"2012-04-05T15:30:25.000-06:00","F2":"2012-04-05T13:45:59.001-06:00"}}
+{"REC":{"F1":"\/Date(2012-04-05T15:30:25.000-00:00)\/","F2":"\/Date(2012-04-05T13:45:59.001-00:00)\/"}}
+{"REC":{"F1":"2012-04-05T15:30:25.000-00:00","F2":"2012-04-05T13:45:59.001-00:00"}}</pre>
+</div></div><p><br/></p><p>The following example creates a Record structure named TeMP that contains items with and without names embedded in quotations. The example echoes the output of using the different case_mode options with the CNVTRECTOJSON() function.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program ccl_test_cnvtrectojson go
+create program ccl_test_cnvtrectojson
+record TeMP (
+  1 name [1]  
+    2 "Last_Name" = vc   
+    2 First_Name = vc   
+) 
+set temp-&gt;name[1]-&gt;"Last_Name" = "EXPLORER"
+set temp-&gt;name[1]-&gt;First_Name = "Discern"
+call echorecord(temp)
+call echo(concat("No Case_mode: ", cnvtrectojson(TeMP)))
+call echo(concat("0 Case_mode: ", cnvtrectojson(TeMP,0)))
+call echo(concat("1 Case_mode(HashTable): ", cnvtrectojson(TeMP,1)))  
+call echo(concat("2 Case_mode(lowercase): ", cnvtrectojson(TeMP,2)))  
+call echo(concat("3 Case_mode(Uppercase): ", cnvtrectojson(TeMP,3)))  
+call echo(concat("4 Case_mode(Camelcase): ", cnvtrectojson(TeMP,4)))  
+end
+go</pre>
+</div></div><p>The output of the above example is:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&gt;&gt;&gt;Begin EchoRecord TEMP   ;TEMP
+ 1 NAME[1]
+
+  2 Last_Name=VC8   {EXPLORER}
+
+  2 FIRST_NAME=VC7   {Discern}
+
+&gt;&gt;&gt;End EchoRecord TEMP Varchar=2, Varlist=0, Fixsize=24, Varsize=31
+
+No Case_mode: {"TEMP":{"NAME":[{"Last_Name":"EXPLORER","FIRST_NAME":"Discern"}]}}
+
+0 Case_mode: {"TEMP":{"NAME":[{"Last_Name":"EXPLORER","FIRST_NAME":"Discern"}]}}
+
+1 Case_mode(HashTable): {"TEMP":{"NAME":[{"Last_Name":"EXPLORER","FIRST_NAME":"Discern"}]}}
+
+2 Case_mode(lowercase): {"temp":{"name":[{"last_name":"EXPLORER","first_name":"Discern"}]}}
+
+3 Case_mode(Uppercase): {"TEMP":{"NAME":[{"LAST_NAME":"EXPLORER","FIRST_NAME":"Discern"}]}}
+
+4 Case_mode(Camelcase): {"temp":{"name":[{"lastName":"EXPLORER","firstName":"Discern"}]}}
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 798, "requestCorrelationId": "f649ec7784486240"}</span>
+</body>
+</html>

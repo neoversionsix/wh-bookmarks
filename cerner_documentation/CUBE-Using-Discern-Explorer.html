@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CUBE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CUBE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The CUBE() function is valid only in the Group By clause. When the CUBE function is used in the Group By clause, the query returns subtotals for all combinations of the specified Select expressions. Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.3, the CUBE function must be declared before it is called.</p><h2 id="CUBEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CUBE(select_expression{,select_expression})</pre>
+</div></div><h2 id="CUBEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>select_expression</em><br>A field from the selection list of a Group By query. The field must be explicitly listed in the Select clause.</br></p><h2 id="CUBEUsingDiscernExplorer-Examples">Examples</h2><p>The following is an example of a simple Group By query:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare cube() = f8 go
+select
+    e_encntr_type_class_disp = uar_get_code_display(e.encntr_type_class_cd)
+    , e.encntr_type_class_cd
+    , e_encntr_type_disp = uar_get_code_display(e.encntr_type_cd)
+    , e.encntr_type_cd
+    , cnt = count(*)
+
+from
+    encounter   e
+
+where e.reg_dt_tm between cnvtlookbehind("1,w") and cnvtdatetime(curdate, curtime3)
+    and e.encntr_type_class_cd = er_var
+    and e.encntr_type_cd != 0.0
+
+group by
+    e.encntr_type_class_cd
+    ,e.encntr_type_cd
+
+
+order by
+    e.encntr_type_class_cd
+    , e.encntr_type_cd
+go</pre>
+</div></div><p><br/>For this example, assume that the above simple Group By query returns the following:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>E_ENCNTR_TYPE_CLASS_DISP</p></th><th class="confluenceTh"><p>ENCNTR_TYPE_CLASS_CD</p></th><th class="confluenceTh"><p>E_ENCNTR_TYPE_DISP</p></th><th class="confluenceTh"><p>ENCNTR_TYPE_CD</p></th><th class="confluenceTh"><p>CNT</p></th></tr><tr><td class="confluenceTd"><p>Emergency</p></td><td class="confluenceTd"><p>389.00</p></td><td class="confluenceTd"><p>Emergency</p></td><td class="confluenceTd"><p>309310.00</p></td><td class="confluenceTd"><p>2.00</p></td></tr><tr><td class="confluenceTd"><p>Emergency</p></td><td class="confluenceTd"><p>389.00</p></td><td class="confluenceTd"><p>Emergency Room</p></td><td class="confluenceTd"><p>658319.00</p></td><td class="confluenceTd"><p>2.00</p></td></tr><tr><td class="confluenceTd"><p>Emergency</p></td><td class="confluenceTd"><p>389.00</p></td><td class="confluenceTd"><p>Blood Donation</p></td><td class="confluenceTd"><p>15359739.00</p></td><td class="confluenceTd"><p>5.00</p></td></tr><tr><td class="confluenceTd"><p>Emergency</p></td><td class="confluenceTd"><p>389.00</p></td><td class="confluenceTd"><p>Emergency Department</p></td><td class="confluenceTd"><p>30319703.00</p></td><td class="confluenceTd"><p>33.00</p></td></tr></tbody></table></div><p>The following example uses CUBE(e.encntr_type_class_cd, e.encntr_type_cd):</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare cube() = f8 go
+select
+    e_encntr_type_class_disp = uar_get_code_display(e.encntr_type_class_cd)
+    , e.encntr_type_class_cd
+    , e_encntr_type_disp = uar_get_code_display(e.encntr_type_cd)
+    , e.encntr_type_cd
+    , cnt = count(*)
+
+from
+    encounter   e
+
+where e.reg_dt_tm between cnvtlookbehind("1,w") and cnvtdatetime(curdate, curtime3)
+    and e.encntr_type_class_cd = er_var
+    and e.encntr_type_cd != 0.0
+
+group by
+    CUBE(e.encntr_type_class_cd
+    ,e.encntr_type_cd)
+
+
+order by
+    e.encntr_type_class_cd
+    , e.encntr_type_cd
+go</pre>
+</div></div><p><br/>When the CUBE function is used, the output contains subtotals for combinations of the e.encntr_type_class_cd and e.encntr_type_cd fields as shown below.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>E_ENCNTR_TYPE_CLASS_DISP</p></th><th class="confluenceTh"><p>ENCNTR_TYPE_CLASS_CD</p></th><th class="confluenceTh"><p>E_ENCNTR_TYPE_DISP</p></th><th class="confluenceTh"><p>ENCNTR_TYPE_CD</p></th><th class="confluenceTh"><p>CNT</p></th></tr><tr><td class="confluenceTd"><p>Emergency</p></td><td class="confluenceTd"><p>389.00</p></td><td class="confluenceTd"><p>Emergency</p></td><td class="confluenceTd"><p>309310.00</p></td><td class="confluenceTd"><p>2.00</p></td></tr><tr><td class="confluenceTd"><p>Emergency</p></td><td class="confluenceTd"><p>389.00</p></td><td class="confluenceTd"><p>Emergency Room</p></td><td class="confluenceTd"><p>658319.00</p></td><td class="confluenceTd"><p>2.00</p></td></tr><tr><td class="confluenceTd"><p>Emergency</p></td><td class="confluenceTd"><p>389.00</p></td><td class="confluenceTd"><p>Blood Donation</p></td><td class="confluenceTd"><p>15359739.00</p></td><td class="confluenceTd"><p>5.00</p></td></tr><tr><td class="confluenceTd"><p>Emergency</p></td><td class="confluenceTd"><p>389.00</p></td><td class="confluenceTd"><p>Emergency Department</p></td><td class="confluenceTd"><p>30319703.00</p></td><td class="confluenceTd"><p>33.00</p></td></tr><tr><td class="confluenceTd"><p>Emergency</p></td><td class="confluenceTd"><p>389.00</p></td><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>0.00</p></td><td class="confluenceTd"><p>42.00</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>0.00</p></td><td class="confluenceTd"><p>Emergency</p></td><td class="confluenceTd"><p>309310.00</p></td><td class="confluenceTd"><p>2.00</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>0.00</p></td><td class="confluenceTd"><p>Emergency Room</p></td><td class="confluenceTd"><p>658319.00</p></td><td class="confluenceTd"><p>2.00</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>0.00</p></td><td class="confluenceTd"><p>Blood Donation</p></td><td class="confluenceTd"><p>15359739.00</p></td><td class="confluenceTd"><p>5.00</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>0.00</p></td><td class="confluenceTd"><p>Emergency Department</p></td><td class="confluenceTd"><p>30319703.00</p></td><td class="confluenceTd"><p>33.00</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>0.00</p></td><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>0.00</p></td><td class="confluenceTd"><p>42.00</p></td></tr></tbody></table></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 861, "requestCorrelationId": "8f3808dd07cbd0d5"}</span>
+</body>
+</html>
