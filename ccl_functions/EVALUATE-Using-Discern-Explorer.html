@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>EVALUATE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/EVALUATE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>This page contains instructions for using the EVALUATE function. See EVALUATE Command Using <em>Discern Explorer</em> Debugger for information on using the EVALUATE command.</p></div></div><p>The EVALUATE( ) function allows you to return an expression based on a condition. Similar functionality is used with the CASE or IF commands.</p><h2 id="EVALUATEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>EVALUATE(case_expr,case_value,return_value {,case_value,return_value} [,return_value])</pre>
+</div></div><h2 id="EVALUATEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em style="font-weight: 400;letter-spacing: 0.0px;">case_expr</em></p><p>An expression that is being compared to the case_value.</p><p><em>case_value</em><br>A value that is compared to the case_expr. If the condition is true, the return_value is returned.</br></p><p><em>return_value</em><br/>The value that is returned if the case_expr is equal to the case_value. The final return_value is used as a default if none of the conditions are true.</p><h2 id="EVALUATEUsingDiscernExplorer-Examples">Examples</h2><p>The following example demonstrates that if the value in the P.PHYSICIAN_IND column is <strong>1</strong>, PHYS_IND is set to <strong>"YES"</strong>. If the value is <strong>0</strong>, PHYS_IND is set to <strong>"NO"</strong>.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PHYS_IND = EVALUATE(P.PHYSICIAN_IND,1,"YES",0,"NO")</pre>
+</div></div><p>The following example demonstrates that GENDER is equal to "UNKNOWN" if P.SEX_CD is not equal to MALE_VAR or FEMALE_VAR.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>GENDER = EVALUATE(P.SEX_CD,MALE_VAR,"MALE",FEMALE_VAR,"FEMALE","UNKNOWN")</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 627, "requestCorrelationId": "2e635eae7e63265c"}</span>
+</body>
+</html>

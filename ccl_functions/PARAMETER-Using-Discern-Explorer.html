@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>PARAMETER Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/PARAMETER+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The PARAMETER( ) function fetches the value of a parameter that is passed to a program using the Execute command.</p><p>When assigning the output of the Parameter( ) function to a character data type variable, the variable must be predeclared as a VC. Assign numeric data type parameters to a variable with the same numeric data type.</p><p>The PARAMETER( ) function is not supported in the CREATE CLASS command.</p><h2 id="PARAMETERUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Parameter(parameter number, list number)
+</pre>
+</div></div><h2 id="PARAMETERUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>Parameter number</em></p><p>Parameters are numbered sequentially from left to right with 1 representing the first parameter. The parameter number indicates the parameter to fetch. PARAMETER2() can be used to return the parameter number using the parameter name.</p><p><em>List number</em></p><p>Use zero (0) if the parameter is not a list. If the parameter is a list, the list number indicates which list item to fetch. List items are numbered sequentially from left to right with 1 representing the first item in the list. A list parameter is a set of values enclosed in the Value( ) function. When using Parameter() in the REFLECT() function, using zero (0) as the list number when the parameter is a list causes REFLECT() to return <strong>L</strong><em>number</em> where number is the number of items in the list.</p><h2 id="PARAMETERUsingDiscernExplorer-Examples">Examples</h2><p>The Call Echo commands in the following example produce the following output:<br>$1: MINE<br/>P_Value1: MINE<br/>$2: Male<br/>P_Value2_1: Male<br/>P_Value2_2: Female<br/>P_Value2_3: Unknown<br/>$3: 1<br/>P_Value3_1: 1<br/>P_Value3_2: 2.20<br/>P_Value3_3: 3</br></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM ccl_parameter_exam GO
+CREATE PROGRAM ccl_parameter_exam
+DECLARE parameter_value1 = VC
+DECLARE parameter_value2_1 = VC
+DECLARE parameter_value2_2 = VC
+DECLARE parameter_value2_3 = VC
+SET parameter_value1 = parameter(1,0)
+SET parameter_value2_1 = parameter(2,1)
+SET parameter_value2_2 = parameter(2,2)
+SET parameter_value2_3 = parameter(2,3)
+SET parameter_value3_1 = parameter(3,1)
+SET parameter_value3_2 = parameter(3,2)
+SET parameter_value3_3 = parameter(3,3)
+CALL ECHO(BUILD2("$1: ",$1))
+CALL ECHO(BUILD2("P_Value1: ",parameter_value1))
+CALL ECHO(BUILD2("$2: ",$2))
+CALL ECHO(BUILD2("P_Value2_1: ",parameter_value2_1))
+CALL ECHO(BUILD2("P_Value2_2: ",parameter_value2_2))
+CALL ECHO(BUILD2("P_Value2_3: ",parameter_value2_3))
+CALL ECHO(BUILD2("$3: ",$3))
+CALL ECHO(BUILD2("P_Value3_1: ",parameter_value3_1))
+CALL ECHO(BUILD2("P_Value3_2: ",parameter_value3_2))
+CALL ECHO(BUILD2("P_Value3_3: ",parameter_value3_3))
+END
+GO
+EXECUTE ccl_parameter_exam "MINE", value("Male", "Female", "Unknown"),
+value(1,2.2,3) GO
+</pre>
+</div></div><p>Using the example shown below,</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>EXECUTE ccl_parameter_exam2 10,20,"test1","longer test2",13.0 GO</pre>
+</div></div><p>the following output is returned:</p><p>$(1)I4=10<br/>$(2)I4=20<br/>$(3)C5=test1<br/>$(4)C12=longer test2<br/>$(5)F8=13.000000<br/>num param=5</p><p>Using the example shown below,</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>EXECUTE ccl_parameter_exam2 value(10,20,"test1"),"longer test2",13.0 GO</pre>
+</div></div><p>the following output is returned:</p><p>$(1)L3<br/>$(1.1)I4=10<br/>$(1.2)I4=20<br/>$(1.3)C5=test1<br/>$(2)C12=longer test2<br/>$(3)F8=13.000000<br/>num param=3</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM ccl_parameter_exam2 GO
+CREATE PROGRAM ccl_parameter_exam2
+DECLARE par = c20
+SET lnum = 0
+SET num=1
+SET cnt = 0
+SET cnt2 = 0
+WHILE (num&gt;0)
+	SET par = reflect(parameter(num,0))
+	IF (par = " ")
+	;no more parameters
+		SET cnt = num-1
+		SET num = 0
+	ELSE
+	;valid parameter
+		IF (substring(1,1,par) = "L") ;this is list type
+			CALL ECHO(build("$(",num,")",par))
+			SET lnum = 1
+			WHILE (lnum&gt;0)
+				SET par = reflect(parameter(num,lnum))
+				IF (par = " ")
+					;no more items in list for parameter
+					SET cnt2 = lnum-1
+					SET lnum = 0
+				ELSE
+					;valid item in list for parameter
+					CALL ECHO(build("$(",num,".",lnum,")",par,"=",parameter(num,lnum)))
+					SET lnum = lnum+1
+				ENDIF
+			ENDWHILE
+		ELSE
+			CALL ECHO(build("$(",num,")",par,"=",parameter(num,lnum)))
+		ENDIF
+		SET num = num+1
+	ENDIF
+ENDWHILE
+CALL ECHO(build("num param=",cnt))
+END GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 572, "requestCorrelationId": "dd100117e2c58f38"}</span>
+</body>
+</html>

@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SORTSEARCH Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SORTSEARCH+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>SORTSEARCH( ) determines if a sort key value exists in the memsort tree. If a memory sort is performed, SORTSEARCH( ) returns one of the following values:</p><ul><li><strong>0</strong> if the sort arguments are not found.</li><li><strong>1</strong> if the sort arguments are found.</li><li><strong>-1</strong> if the sort arguments do not match the actual Order clause list.</li></ul><p>SORTSEARCH( ) returns 0 if a file or RDBMS sort is performed.</p><h2 id="SORTSEARCHUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SORTSEARCH(sort_argument[{,sort_argument}])</pre>
+</div></div><h2 id="SORTSEARCHUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>sort_argument</em></p><p>Value to match each of the items in the Order By clause.</p><h2 id="SORTSEARCHUsingDiscernExplorer-Examples">Examples</h2><p>In the following example, stat is set equal to 1 if a row in the result set exists where the e.module_name is equal to " EKS_ABDOMINAL_XRAY" and the e.active_flag is equal to "A".</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select into $outdev
+	e.module_name
+	, e.active_flag
+	, e.updt_dt_tm
+from
+	eks_module   e
+where e.module_name = "EKS_*"  and e.active_flag = "A"
+
+order by
+	e.module_name
+	, e.active_flag
+
+head report
+	stat = sortsearch("EKS_ABDOMINAL_XRAY","A")
+	col 10 ^Return of SortSearch("EKS_ABDOMINAL_XRAY","A") = ^
+	col +1 stat  ";L"
+	row +2
+	col 10 "Module Name:"  
+	col 40 "Active Flag"
+	col 45 "Update Date Time:"
+	row +1
+detail
+	col 10 e.module_name
+	col 40 e.active_flag 
+	col 45 e.updt_dt_tm
+	row +1
+with nocounter, memsort
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 493, "requestCorrelationId": "c566a04aaec7a970"}</span>
+</body>
+</html>

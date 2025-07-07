@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>ORDERDIR Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/ORDERDIR+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>ORDERDIR is used in the ORDER clause to allow dynamically flexing the direction of the sort.  It was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.7.1.</p><h2 id="ORDERDIRUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>ORDERDIR(expression, order_direction)</pre>
+</div></div><h2 id="ORDERDIRUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>expression</em><br>A field or expression from the select list.</br></p><p><em>order_direction</em></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Option</th><th class="confluenceTh">Description</th></tr><tr><td class="confluenceTd" style="text-align: center;">0</td><td class="confluenceTd">Sort in ascending order</td></tr><tr><td class="confluenceTd" colspan="1" style="text-align: center;">1</td><td class="confluenceTd" colspan="1">Sort in descending order</td></tr></tbody></table></div><h2 id="ORDERDIRUsingDiscernExplorer-Examples">Examples</h2><p>The following example uses the value entered at the $ORDER_DIR prompt to set a variable named A_D_VAR to 0 or 1.  A_D_VAR is then used in the ORDERDIR() function in the ORDER clause to allow flexing the sort to ascending or descending order at run-time.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_TEST_ORDERDIR GO
+CREATE PROGRAM CCL_TEST_ORDERDIR
+ 
+prompt 
+    "Output to File/Printer/MINE" = "MINE"  
+    , "Sort Ascending or Descending" = "A" 
+with OUTDEV, order_dir
+ 
+DECLARE A_D_VAR = I2 WITH PROTECT
+IF(CNVTUPPER(SUBSTRING(1,1,$ORDER_DIR)) = "A")
+    SET A_D_VAR = 0
+ELSE
+    SET A_D_VAR = 1
+ENDIF
+ 
+SELECT INTO $OUTDEV
+    P.PERSON_ID
+    , P.NAME_FULL_FORMATTED
+FROM
+    PERSON   P
+WHERE P.UPDT_DT_TM BETWEEN CNVTLOOKBEHIND("1,D") AND CNVTDATETIME(CURDATE, CURTIME3)
+    AND P.NAME_FULL_FORMATTED &gt; ","
+ORDER ORDERDIR(P.NAME_FULL_FORMATTED,A_D_VAR)
+WITH MAXREC = 1000, NOCOUNTER, SEPARATOR=" ", FORMAT,TIME = 30
+ 
+END
+GO</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 672, "requestCorrelationId": "4382f27db2b672b9"}</span>
+</body>
+</html>

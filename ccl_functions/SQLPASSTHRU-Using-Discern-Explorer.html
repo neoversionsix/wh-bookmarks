@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SQLPASSTHRU Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SQLPASSTHRU+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>SQLPASSTHRU() allows passing SQL directly to the Relational Database Management System (RDBMS). The function should not be used in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> production programs because it could result in non-portable code.</p><h2 id="SQLPASSTHRUUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SQLPASSTHRU(sql_string[,length],[datatype])</pre>
+</div></div><h2 id="SQLPASSTHRUUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>sql_string</em> <br>An SQL command.</br></p><p><em>length</em> <br/>Indicates the data type and length of the value returned by the sql_string. If the length is not specified, the expected return is an I4 value. If 0 (zero) is specified, the expected return is an F8 value. If an integer greater than zero is specified, the expected return is a character string of the specified length.</p><p>datatype</p><p>Introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.13.0 and 9.01.0 to specify the return data type of sql_string.  When the datatype parameter is used, the length parameter is ignored. The datatype must be embedded in quotation characters.</p><h2 id="SQLPASSTHRUUsingDiscernExplorer-Examples">Examples</h2><p>The following example uses SQLPASSTHRU() to return a count of the number of rows on the Request table that were updated on each day of the month:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+    day = sqlpassthru("to_number(to_char(r.updt_dt_tm,'dd'))",13)
+    , day_cnt = count(*)
+FROM
+    request   r
+GROUP BY
+    sqlpassthru("to_number(to_char(r.updt_dt_tm,'dd'))",13)
+order by count(*)
+WITH format, separator = " ",time = 30</pre>
+</div></div><p>The above example can be written to return the same results without SQLPASSTHRU() by using the FORMAT() function.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+    day = format(r.updt_dt_tm,'dd')
+    , day_cnt = count(*)
+FROM
+    request   r
+GROUP BY
+    format(r.updt_dt_tm,'dd')
+order by count(*)
+WITH format, separator = " ",time = 30</pre>
+</div></div><p>The following example uses SQLPASSTHRU() to qualify on multiple fields that are returned by a nested Select statement:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select count(*)
+from pharmacy_notes
+where sqlpassthru("(order_id,action_sequence)") in
+       (select order_id,action_sequence
+    from order_action
+    where updt_dt_tm between CNVTLOOKBEHIND("1,D") AND CNVTDATETIME(CURDATE, curtime3))
+with format, separator = " ",time = 30</pre>
+</div></div><p>The above example can be written to return the same results without SQLPASSTHRU() by using the LIST( ) function.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select count(*)
+from pharmacy_notes
+where list(order_id,action_sequence) in
+       (select order_id,action_sequence
+    from order_action
+    where updt_dt_tm between CNVTLOOKBEHIND("1,D") AND CNVTDATETIME(CURDATE, curtime3))
+with format, separator = " ",time = 30</pre>
+</div></div><p>The following example demonstrates using the length and datatype parameters:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre> SELECT
+    E.REG_DT_TM
+    , trunc_day = SQLPASSTHRU("TRUNC(e.reg_dt_tm,'MM')",11)
+    , trunc_day_time = SQLPASSTHRU("TRUNC(e.reg_dt_tm,'MM')",0,"vc")    
+    , trunc_raw_dq8 = SQLPASSTHRU("TRUNC(e.reg_dt_tm,'MM')",0,"dq8")    
+FROM
+    ENCOUNTER   E
+WHERE E.REG_DT_TM BETWEEN CNVTLOOKBEHIND("1,D") AND CNVTDATETIME(CURDATE, curtime3)
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT</pre>
+</div></div><p>The above example can be written to return the same results without SQLPASSTHRU() by using the DATETIMETRUNC() and FORMAT() functions.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+    E.REG_DT_TM
+    , trunc_day = format(DATETIMETRUNC(e.reg_dt_tm,'MM'),"dd-mmm-yyyy;;d")
+    , trunc_day_time = format(DATETIMETRUNC(e.reg_dt_tm,'MM'),"dd-mmm-yyyy hh:mm:ss;;d")
+    , trunc_raw_dq8 = DATETIMETRUNC(e.reg_dt_tm,'MM')
+FROM
+    ENCOUNTER   E
+WHERE E.REG_DT_TM BETWEEN CNVTLOOKBEHIND("1,D") AND CNVTDATETIME(CURDATE, curtime3)
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 577, "requestCorrelationId": "b5041fd9c66be0c1"}</span>
+</body>
+</html>

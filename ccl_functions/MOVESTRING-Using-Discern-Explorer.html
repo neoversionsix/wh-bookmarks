@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>MOVESTRING( ) Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/MOVESTRING%28+%29+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The MOVESTRING () function copies a character expression into another character expression and returns the number of characters that were copied. The first string expression, starting at the position indicated by source_start, is moved to the second string expression, starting at the position indicated by target_start. The number of characters moved is specified by length. The characters in the target_text are overwritten by the characters from the source_text. No change is made to the source_text.</p><p>An error message is generated if you try to move an expression to a read only variable. The same message is generated if you set a variable to an expression in the Reportwriter section.</p><h2 id="MOVESTRING()UsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>MOVESTRING(source_text,source_start,target_text,target_start,length)</pre>
+</div></div><h2 id="MOVESTRING()UsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em><em>source_text</em><br/></em>The text expression to be copied.<em><br/></em></p><p><em>source_start</em><br/>An integer that defines the beginning position in the source_text.</p><p><em><em>target_text</em><br/></em>The text expression to which the source text is copied.<em><br/></em></p><p><em>target_start</em><br/>An integer that defines the beginning position in the target_text.</p><p><em>length</em><br/>An integer that defines the number of characters to copy.</p><p><br/></p><h2 id="MOVESTRING()UsingDiscernExplorer-Examples">Examples</h2><p>In the example below, LEN is set to <strong>5,</strong> and five asterisks are copied into the variable VARA beginning at position 10. The characters in positions 10 through 15 of VARA are overwritten with the asterisks.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>LEN = MOVESTRING("**********",1,VARA,10,5)</pre>
+</div></div><p>In the example below, LEN is set to <strong>10,</strong> and target_var is changed from <strong>aabbccddeeffgghhiijj</strong> to <strong>aabbcABCDEFGHIJhiijj</strong>. The value of source_var is not changed.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare source_var = c10 with protect, noconstant("ABCDEFGHIJ") go
+declare target_var = vc with protect, noconstant("aabbccddeeffgghhiijj") go
+declare len = i4 with protect go
+call echo(source_var) go
+call echo(target_var) go
+set LEN = MOVESTRING(source_var,1,target_var,6,10) go
+call echo(len) go
+call echo(source_var) go
+call echo(target_var) go</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 524, "requestCorrelationId": "c07aab5d2c2b0a6e"}</span>
+</body>
+</html>

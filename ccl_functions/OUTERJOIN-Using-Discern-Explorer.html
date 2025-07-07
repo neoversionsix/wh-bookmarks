@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>OUTERJOIN Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/OUTERJOIN+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<h1 id="OUTERJOINUsingDiscernExplorer-OUTERJOIN">OUTERJOIN</h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="Two overlapping circles, left one filled in, including the overlapping section." class="confluence-embedded-image confluence-thumbnail confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/23338867/Discern_Explorer_Left-OuterJoin_v1.png?version=1&amp;modificationDate=1749671772000&amp;api=v2" data-linked-resource-container-id="23338867" data-linked-resource-container-version="26" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Discern_Explorer_Left-OuterJoin_v1.png" data-linked-resource-id="3373639581" data-linked-resource-type="attachment" data-linked-resource-version="1" draggable="false" src="/download/thumbnails/23338867/Discern_Explorer_Left-OuterJoin_v1.png?version=1&amp;modificationDate=1749671772000&amp;api=v2" title="Two overlapping circles, left one filled in, including the overlapping section." width="200"/></span></p><p>The OUTERJOIN function allows qualifying rows on a joined table to be optional. By default, selecting fields from more than one table requires qualifying rows to exist on all tables. For example, selecting from the PERSON and ENCOUNTER tables, where the Person_ID fields are equal, requires the same Person_ID to exist on both tables. If Person_ID 12345.0 exists on the PERSON table but no rows exist on the ENCOUNTER table, where the Person_ID is equal to 12345.0, the below query does not return any data.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.PERSON_ID, E.PERSON_ID
+FROM	PERSON P, ENCOUNTER E
+PLAN P	WHERE P.PERSON_ID = 12345.0
+JOIN E	WHERE E.PERSON_ID = P.PERSON_ID</pre>
+</div></div><p>The OUTERJOIN function can be used to retrieve the fields from the PERSON and ENCOUNTER tables when qualifying rows exist on both tables, and retrieve the fields from the PERSON table when no qualifying rows exist on the ENCOUNTER table. </p><p>The OUTERJOIN function must be used around all values that are compared to a field on the table from which the qualifying rows are optional. When subsequent child tables are joined, the OUTERJOIN function must be used around all values that are compared to a field on the child table, in that linear join path. The OUTERJOIN function does not work with IN qualifications or nested Select qualifications. IN qualifications can be converted to OR qualifications to use the OUTERJOIN function. LEFT JOINs can use IN qualifications and nested Select qualifications. The OUTERJOIN function and a LEFT JOIN cannot be used in the same query.</p><p>See OUTERJOIN or LEFT JOIN for more information on which method to use. See JOIN Options for more information on available join options.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>The WITH clause of the SELECT command includes the OUTERJOIN Control Option that enables <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to perform an OUTERJOIN; do not confuse this option with the OUTERJOIN( ) function. In most cases the OUTERJOIN() function is much more efficient than the OUTERJOIN Control Option when working with all RDBMS tables.</p></div></div><h2 id="OUTERJOINUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>OUTERJOIN(expression)</pre>
+</div></div><h2 id="OUTERJOINUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p>expression<br>An expression is the highest level metasymbol among constants, field names, variables, and so on.</br></p><h2 id="OUTERJOINUsingDiscernExplorer-Examples">Examples</h2><p>The below examples use the OUTERJOIN function to return the qualifying records from the PERSON table regardless of whether the CLINICAL EVENT table contains any rows with a matching PERSON_ID value. If rows exist on the CLINICAL_EVENT tables with the same Person_ID value as a row on the PERSON table, the information from both the PERSON and CLINICAL_EVENT tables is returned.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT 	P.PERSON_ID,
+       	P.NAME_FULL_FORMATTED,
+       	C.CLINICAL_EVENT_ID,
+       	C_EVENT_DISP = UAR_GET_CODE_DISPLAY(C.EVENT_CD)
+FROM 	PERSON P, CLINICAL_EVENT C
+WHERE 	P.UPDT_DT_TM BETWEEN CNVTDATETIME(CURDATE-7,0) AND CNVTDATETIME(SYSDATE) AND
+        C.PERSON_ID = OUTERJOIN(P.PERSON_ID)
+
+SELECT 	P.PERSON_ID,
+       	P.NAME_FULL_FORMATTED,
+       	C.CLINICAL_EVENT_ID,
+       	C_EVENT_DISP = UAR_GET_CODE_DISPLAY(C.EVENT_CD)
+FROM 	PERSON P, CLINICAL_EVENT C
+PLAN P  WHERE P.UPDT_DT_TM BETWEEN CNVTDATETIME(CURDATE-7,0) AND CNVTDATETIME(SYSDATE)
+JOIN C  WHERE C.PERSON_ID = OUTERJOIN(P.PERSON_ID)</pre>
+</div></div><p>For OUTERJOIN to work correctly, you must use the OUTERJOIN function on all values used to qualify against the table that might be missing the information. For example, the query below links the ORDERS table to the PERSON table, but also qualifies on O.ORIG_ORDER_DT_TM. Therefore, the OUTERJOIN function was also added around the date qualification.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT  NAME = SUBSTRING(1,30,P.NAME_FULL_FORMATTED),
+        ORDER_MNEM = SUBSTRING(1,20,O.ORDER_MNEMONIC),
+        ORDER_DT = O.ORIG_ORDER_DT_TM
+FROM    PERSON P,
+        ORDERS O
+PLAN P
+JOIN O  WHERE O.PERSON_ID = OUTERJOIN(P.PERSON_ID) AND
+        O.ORIG_ORDER_DT_TM &gt;= OUTERJOIN(CNVTLOOKBEHIND("1,W")) AND
+        O.ORIG_ORDER_DT_TM &lt;= OUTERJOIN(CNVTDATETIME(SYSDATE))</pre>
+</div></div><p>This example provides the following output:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="Query output with data returned in all rows of the NAME column and data returned in some rows of the ORDER_MNE and ORDER_DT columns. The other rows in the ORDER_MNE and ORDER_DT columns are blank." class="confluence-embedded-image confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/23338867/Discern_Explorer_LeftOuterJoin_example1_results_v1.png?version=1&amp;modificationDate=1750862675000&amp;api=v2" data-linked-resource-container-id="23338867" data-linked-resource-container-version="26" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Discern_Explorer_LeftOuterJoin_example1_results_v1.png" data-linked-resource-id="3378818080" data-linked-resource-type="attachment" data-linked-resource-version="1" draggable="false" src="/download/attachments/23338867/Discern_Explorer_LeftOuterJoin_example1_results_v1.png?version=1&amp;modificationDate=1750862675000&amp;api=v2" title="Query output with data returned in all rows of the NAME column and data returned in some rows of the ORDER_MNE and ORDER_DT columns. The other rows in the ORDER_MNE and ORDER_DT columns are blank." width="400"/></span></p><p>This next example uses the OUTERJOIN function on multiple tables. The ORDER_COMMENT table is added to the query path. Because the ORDER_COMMENT table is linked to the ORDERS table, which has an OUTERJOIN. The OUTERJOIN function must also be used on the ORDER_COMMENT table. The output might include some rows where an order comment does not exist for the order. If the OUTERJOIN function was not used on this table, the only rows returned are those rows that had an order comment. Because you must have an order to have an order comment, the OUTERJOIN function on the ORDERS table does not work without also adding the OUTERJOIN function to the ORDER_COMMENT table.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	NAME = SUBSTRING(1,30,P.NAME_FULL_FORMATTED),
+    	ORDER_MNEM = SUBSTRING(1,20,O.ORDER_MNEMONIC),
+	    ORDER_DT = O.ORIG_ORDER_DT_TM,
+	    OC.LONG_TEXT_ID
+FROM	PERSON P,
+	ORDERS O,
+	ORDER_COMMENT OC
+PLAN P
+JOIN O	WHERE O.PERSON_ID = OUTERJOIN(P.PERSON_ID) AND
+	O.ORIG_ORDER_DT_TM &gt;= OUTERJOIN(CNVTLOOKBEHIND("1,W")) AND
+	O.ORIG_ORDER_DT_TM &lt;= OUTERJOIN(CNVTDATETIME(SYSDATE))
+JOIN OC	WHERE OC.ORDER_ID = OUTERJOIN(O.ORDER_ID)</pre>
+</div></div><p>The example above provides the following output:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="Query output with data returned in all rows of the NAME column and data returned in some rows of the ORDER_MNE, ORDER_DT, and LONG_TEXT_ID columns. Data was returned in some rows in the LONG_TEXT_ID column when those same rows also had data returned for the ORDER_MNE and ORDER_DT columns. In one row, the LONG_TEXT_ID column had no data returned and the corresponding ORDER_MNE and ORDER_DT rows did contain data. All other rows in the ORDER_MNE, ORDER_DT, and LONG_TEXT_ID columns are blank." class="confluence-embedded-image confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/23338867/Discern_Explorer_LeftOuterJoin_example2_results_v1.png?version=1&amp;modificationDate=1750862675000&amp;api=v2" data-linked-resource-container-id="23338867" data-linked-resource-container-version="26" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Discern_Explorer_LeftOuterJoin_example2_results_v1.png" data-linked-resource-id="3378818081" data-linked-resource-type="attachment" data-linked-resource-version="1" draggable="false" height="255" src="/download/attachments/23338867/Discern_Explorer_LeftOuterJoin_example2_results_v1.png?version=1&amp;modificationDate=1750862675000&amp;api=v2" title="Query output with data returned in all rows of the NAME column and data returned in some rows of the ORDER_MNE, ORDER_DT, and LONG_TEXT_ID columns. Data was returned in some rows in the LONG_TEXT_ID column when those same rows also had data returned for the ORDER_MNE and ORDER_DT columns. In one row, the LONG_TEXT_ID column had no data returned and the corresponding ORDER_MNE and ORDER_DT rows did contain data. All other rows in the ORDER_MNE, ORDER_DT, and LONG_TEXT_ID columns are blank." width="600"/></span></p><h1 id="OUTERJOINUsingDiscernExplorer-EXCEPTIONS">EXCEPTIONS</h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="Two overlapping circles, left one filled in, with the exception of the overlapping section." class="confluence-embedded-image confluence-thumbnail confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/23338867/Discern_Explorer_ExceptionJoin_v1.png?version=1&amp;modificationDate=1749671772000&amp;api=v2" data-linked-resource-container-id="23338867" data-linked-resource-container-version="26" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Discern_Explorer_ExceptionJoin_v1.png" data-linked-resource-id="3373639582" data-linked-resource-type="attachment" data-linked-resource-version="1" draggable="false" src="/download/thumbnails/23338867/Discern_Explorer_ExceptionJoin_v1.png?version=1&amp;modificationDate=1749671772000&amp;api=v2" title="Two overlapping circles, left one filled in, with the exception of the overlapping section." width="200"/></span></p><p>The OUTERJOIN function can also be used with a qualification on a field = null. That field is from the table being outer joined to and needs to always be populated, like the primary key field. That qualification does not use the OUTERJOIN function. Using the OUTERJOIN function captures the matches and exceptions. Then, using the field = null only retains the values that are the exceptions. The following example returns information about people that do not have a row on the CLINICAL_EVENT tables.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.PERSON_ID,
+	    P.NAME_FULL_FORMATTED
+FROM	PERSON P, CLINICAL_EVENT C
+PLAN P	WHERE P.UPDT_DT_TM BETWEEN CNVTDATETIME(CURDATE-7,0) AND CNVTDATETIME(SYSDATE)
+JOIN C	WHERE C.PERSON_ID = OUTERJOIN(P.PERSON_ID) AND
+    	C.CLINICAL_EVENT_ID = NULL</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 693, "requestCorrelationId": "31e05acc4ef6dab3"}</span>
+</body>
+</html>

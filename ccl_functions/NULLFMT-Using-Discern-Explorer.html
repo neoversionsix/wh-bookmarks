@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>NULLFMT Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/NULLFMT+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The NULLFMT() function allows you to return the value from an RDBMS table.field attribute as a character value or return a character string that indicates the attribute is NULL. The display width is the larger of the formatted attribute or the null_expression. The NULLFMT() function is introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.15.0 and 9.03.0.</p><h2 id="NULLFMTUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NULLFMT(attribute[,null_expression[,mode]])</pre>
+</div></div><h2 id="NULLFMTUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>attribute</em></p><p>An RDBMS table.field<em>.<br/></em></p><p><em>null_expression</em></p><p>A character value to return if the attribute is NULL. If the null_expression is not specified, <strong>&lt;null&gt;</strong> is returned. </p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions before 8.15.2 and 9.03.2 ignore null_expression and return <strong>&lt;null&gt;</strong> if the mode is specified. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.15.2, 9.03.2, and later use null_expression when a mode is specified.   </p><p><em>mode</em></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Mode</th><th class="confluenceTh">Description</th></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">Do not remove leading spaces from numeric expressions. If a converted numeric expression exceeds 14 characters, it is truncated. (default)</td></tr><tr><td class="confluenceTd">2</td><td class="confluenceTd">Do not remove leading spaces from numeric expressions. If a converted numeric expression exceeds 14 characters, it is replaced with asterisks (*).</td></tr><tr><td class="confluenceTd">3</td><td class="confluenceTd">Remove leading spaces from numeric expressions. If a converted numeric expression exceeds 14 characters, it is truncated.</td></tr><tr><td class="confluenceTd">4</td><td class="confluenceTd"><p>Remove leading spaces from numeric expressions. If a converted numeric expression exceeds 14 characters, it is replaced with asterisks.</p></td></tr></tbody></table></div><h2 id="NULLFMTUsingDiscernExplorer-Examples">Examples</h2><p>The example below creates a custom table and inserts rows with and without assigning values to the table fields. Unassigned fields are NULL. The example demonstrates the use of the NULLFMT() function when selecting from the custom table.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program ccl_test_nullfmt go
+create program ccl_test_nullfmt
+
+prompt 
+    "Output to File/Printer/MINE" = "MINE"
+with OUTDEV
+
+drop table cust_ccl_table
+select into table cust_ccl_table
+     ID = type("f8")
+    ,i4_fld = type("i4")
+    ,f8_fld = type("f8")
+    ,dq8_fld = type("dq8")
+    ,c20_fld = type("c20")
+    ,vc_fld = type("vc")
+from dummyt 
+with organization = P
+    ,synonym = "cust_ccl_table"
+    
+insert into cust_ccl_table
+    set id = 1.0
+    ,i4_fld = 1
+    ,f8_fld = 1.0
+    ,dq8_fld = cnvtdatetime(sysdate)
+    ,c20_fld = "One"
+    ,vc_fld = "One more vc"
+with nocounter
+
+insert into cust_ccl_table
+    set id = 2.0 ;all fields are null except id
+with nocounter
+
+
+select into $outdev
+    c.*
+    ,i4_null = nullfmt(c.i4_fld)
+    ,i4_null_e = nullfmt(c.i4_fld,"null_i4")
+    ,i4_null_1 = nullfmt(c.i4_fld,"null_i4_1",1)
+    ,i4_null_2 = nullfmt(c.i4_fld,"null_i4_2",2)
+    ,i4_null_3 = nullfmt(c.i4_fld,"null_i4_3",3)
+    ,i4_null_4 = nullfmt(c.i4_fld,"null_i4_4",4)
+    
+    ,f8_null = nullfmt(c.f8_fld)
+    ,f8_null_e = nullfmt(c.f8_fld,"null_f8")
+    ,f8_null_1 = nullfmt(c.f8_fld,"null_f8_1",1)
+    ,f8_null_2 = nullfmt(c.f8_fld,"null_f8_2",2)
+    ,f8_null_3 = nullfmt(c.f8_fld,"null_f8_3",3)
+    ,f8_null_4 = nullfmt(c.f8_fld,"null_f8_4",4)
+
+    ,dq8_null = nullfmt(c.dq8_fld)
+    ,dq8_null_e = nullfmt(c.dq8_fld,"null_dq8")
+    ,dq8_null_1 = nullfmt(c.dq8_fld,"null_dq8_1",1)
+    ,dq8_null_2 = nullfmt(c.dq8_fld,"null_dq8_2",2)
+    ,dq8_null_3 = nullfmt(c.dq8_fld,"null_dq8_3",3)
+    ,dq8_null_4 = nullfmt(c.dq8_fld,"null_dq8_4",4)
+
+    ,c20_null = nullfmt(c.c20_fld)
+    ,c20_null_e = nullfmt(c.c20_fld,"null_c20")
+    ,c20_null_1 = nullfmt(c.c20_fld,"null_c20_1",1)
+    ,c20_null_2 = nullfmt(c.c20_fld,"null_c20_2",2)
+    ,c20_null_3 = nullfmt(c.c20_fld,"null_c20_3",3)
+    ,c20_null_4 = nullfmt(c.c20_fld,"null_c20_4",4)
+
+    ,vc_null = nullfmt(c.vc_fld)
+    ,vc_null_e = nullfmt(c.vc_fld,"null_vc")
+    ,vc_null_1 = nullfmt(c.vc_fld,"null_vc_1",1)
+    ,vc_null_2 = nullfmt(c.vc_fld,"null_vc_2",2)
+    ,vc_null_3 = nullfmt(c.vc_fld,"null_vc_3",3)
+    ,vc_null_4 = nullfmt(c.vc_fld,"null_vc_4",4)
+
+from cust_ccl_table c
+with format, separator = " "
+
+end
+go
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 563, "requestCorrelationId": "9f594a6f6dd2f4c6"}</span>
+</body>
+</html>

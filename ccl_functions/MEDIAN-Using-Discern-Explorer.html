@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>MEDIAN Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/MEDIAN+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The MEDIAN( ) function displays the middle value of the aggregate list. If the list contains an even number of values, MEDIAN( ) returns the sum of the two middle values divided by two.</p><p>You can use MEDIAN( ) in the FOOT REPORT or FOOT group_expression section of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Select command. When using MEDIAN( ) in a FOOT REPORT or FOOT group_expression section, an ORDER clause is required. The MEDIAN( ) function returns the middle value based on the ORDER clause. For example, using the following data:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Name</p></th><th class="confluenceTh"><p>Hour</p></th><th class="confluenceTh"><p>Result</p></th></tr><tr><td class="confluenceTd"><p>Sue</p></td><td class="confluenceTd"><p>09:00</p></td><td class="confluenceTd"><p>8</p></td></tr><tr><td class="confluenceTd"><p>Sue</p></td><td class="confluenceTd"><p>10:00</p></td><td class="confluenceTd"><p>9</p></td></tr><tr><td class="confluenceTd"><p>Sue</p></td><td class="confluenceTd"><p>11:00</p></td><td class="confluenceTd"><p>7</p></td></tr></tbody></table></div><p>With the above data, the following select sets Mid_Val equal to 9 because 9 is the middle value when the results are sorted by Name and Hour.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Select Name, Hour, Result
+From Table
+Order Name, Hour
+Foot Name
+     Mid_Val= Median(Result)
+</pre>
+</div></div><p>With the above data, the following select sets Mid_Val equal to 8 because 8 is the middle value when the results are sorted by Name and Result.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Select Name, Hour, Result
+From Table
+Order Name, Result
+Foot Name
+     Mid_Val= Median(Result)
+</pre>
+</div></div><p>MEDIAN( ) can be used in the select list in an aggregate or group by query if you are using <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.8.0 or higher and Oracle 10g or higher.</p><p>You can use MEDIAN( ) in the select list as an OLAP expression using the OVER( ) clause if you are using <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.8.0 or higher and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> 10g or higher. When you use MEDIAN( ) as an OLAP expression, PARTITION BY( ) is allowed in the OVER( ) clause, but ORDER BY( ) is not allowed in the OVER( ) clause.</p><p>Non-RDBMS tables should not be used in the FROM clause when you use the MEDIAN() function in the Select list. When using non-RDBMS tables, MEDIAN() should only be used in the FOOT REPORT or FOOT group_expression section of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Select command.</p><h2 id="MEDIANUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>MEDIAN(expression [WHERE qualification]) ["template;display_qualifier;display_format"]
+
+
+MEDIAN(expression) OVER (
+  [PARTITION BY expression{,expression}]
+  [RANGE|ROWS BETWEEN UNBOUNDED|int PRECEDING  |  UNBOUNDED|int FOLLOWING  |  CURRENT ROW
+          AND BETWEEN UNBOUNDED|int PRECEDING  |  UNBOUNDED|int FOLLOWING  |  CURRENT ROW ]
+      )
+</pre>
+</div></div><h2 id="MEDIANUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p>For a description of template, display_qualifier, and display format, see the metasymbols help topic.</p><p><em>expression</em><br>An expression is the highest level metasymbol among constants, column names, variables, and so on. You must use a numeric expression to calculate the median.</br></p><p><em>exp_name</em><br/>The name to use as the column heading and select expression of the value returned by the AVG() function.</p><p><em>int</em><br/>An integer value.</p><h2 id="MEDIANUsingDiscernExplorer-Examples">Examples</h2><p>In the following example, median1 is set equal to the median value of all the results and median2 is set equal to the median value of all results that were greater than 50.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select
+	result = cnvtint(substring(1,11,C.RESULT_VAL))
+from
+	clinical_event c
+order by result
+detail
+	col 1 result row +1
+foot report
+	median1 = median(result)
+	median2 = median(result where result &gt; 50)
+	col 1 median1
+	col +1 median2
+	row +1
+with maxrec = 10</pre>
+</div></div><p>In the following example, MID is set equal to the median of the RESULT_VALUE_NUMERIC values that were updated in the past month.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+	MID = MEDIAN(P.RESULT_VALUE_NUMERIC)
+FROM
+	PERFORM_RESULT   P
+WHERE P.UPDT_DT_TM BETWEEN CNVTLOOKBEHIND("1,M") AND CNVTDATETIME(CURDATE, CURTIME3)
+	AND P.RESULT_VALUE_NUMERIC &gt; 0.0
+WITH SEPARATOR=" ", FORMAT
+</pre>
+</div></div><p>The following example returns the median of the RESULT_VALUE_NUMERIC values that were updated on each day of the past month and the date on which they were updated.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+	DAY = DATETIMETRUNC(P.UPDT_DT_TM,"DD") "@SHORTDATE"
+	,MID = MEDIAN(P.RESULT_VALUE_NUMERIC)
+FROM
+	PERFORM_RESULT   P
+WHERE P.UPDT_DT_TM BETWEEN CNVTLOOKBEHIND("1,M") AND CNVTDATETIME(CURDATE, CURTIME3)
+	AND P.RESULT_VALUE_NUMERIC &gt; 0.0
+GROUP BY
+	DATETIMETRUNC(P.UPDT_DT_TM,"DD")
+ORDER BY
+	DAY
+WITH SEPARATOR=" ", FORMAT
+</pre>
+</div></div><p>The following example returns the RESULT_VALUE_NUMERIC values that were updated on each day of the past month, the median of those RESULT_VALUE_NUMERIC values, and the date on which they were updated.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+	DAY = DATETIMETRUNC(P.UPDT_DT_TM,"DD") "@SHORTDATE"
+	,P.RESULT_VALUE_NUMERIC
+	,MID = MEDIAN(P.RESULT_VALUE_NUMERIC) OVER(PARTITION BY DATETIMETRUNC(P.UPDT_DT_TM,"DD"))
+FROM
+	PERFORM_RESULT   P
+WHERE P.UPDT_DT_TM BETWEEN CNVTLOOKBEHIND("1,M") AND CNVTDATETIME(CURDATE, CURTIME3)
+	AND P.RESULT_VALUE_NUMERIC &gt; 0.0
+ORDER BY
+	DAY
+	,P.RESULT_VALUE_NUMERIC
+WITH SEPARATOR=" ", FORMAT
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 595, "requestCorrelationId": "829beda99d4b773b"}</span>
+</body>
+</html>

@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>DATETIMEZONEBYINDEX Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/DATETIMEZONEBYINDEX+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The DATETIMEZONEBYINDEX function returns the time zone name using the time zone index. Optionally, the function returns the offset and daylight adjustments in milliseconds. (1 second = 1,000 milliseconds). DATETIMEZONEBYNAME is the converse of DATETIMEZONEBYINDEX.</p><h2 id="DATETIMEZONEBYINDEXUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DATETIMEZONEBYINDEX(&lt;timezone_index&gt;[,&lt;offset&gt;[,&lt;daylight&gt;[,&lt;mode&gt;[,&lt;datetime&gt;]]]])</pre>
+</div></div><p><strong><br/></strong></p><h2 id="DATETIMEZONEBYINDEXUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>timezone_index</em><br/>An integer representing the time zone. If <strong>timezone_index</strong> is zero, the application time zone is returned.</p><p><em>offset</em><br/>A variable or record structure member that is assigned the difference (in milliseconds) between the standard time and the coordinated universal time (UTC). Define the variable or record structure member with an integer data type. Do not use Reserved Variables and variables declared as Constant. Beginning with <em><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span></em> versions 8.14.4 and 9.2.4, using a reserved variable or variable declared as a Constant generates a CCL-E-399 error. When using Modes 0 - 5, offset is assigned the difference in milliseconds between the timezone_index specified as the first parameter and UTC. Beginning with <em><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span></em> versions 8.14.3 and 9.2.3, if Mode 6 or 7 is used and the optional datetime parameter is specified, the offset is assigned the difference (in milliseconds) between the local datetime and the UTC time based on daylight saving time being on or off for the datetime specified as the fifth parameter. This accounts for daylight saving time being on or off for the specified datetime. Before <em><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span></em> versions 8.14.3 and 9.2.3, the offset that is returned does not account for daylight saving time being on or off for the specified datetime.</p><p><em>daylight</em><br/>Used for Mode 6 or 7. A variable or record structure member that is assigned the difference (in milliseconds) between the standard time and daylight saving time for the time zone. Define the variable or record structure member with an integer data type. Do not use Reserved Variables and variables declared as Constant. Beginning with <em><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span></em> versions 8.14.4 and 9.2.4, using a reserved variable or variable declared as a Constant generates a CCL-E-399 error.</p><p><em>mode</em><br/>The format for displaying the time zone name.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Mode</p></th><th class="confluenceTh"><p>Returns</p></th></tr><tr><td class="confluenceTd"><p>0</p></td><td class="confluenceTd"><p>This mode returns the long display name.</p></td></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>This mode returns the short display name.</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p>This mode returns the long standard name.</p></td></tr><tr><td class="confluenceTd"><p>3</p></td><td class="confluenceTd"><p>This mode returns the short standard name.</p></td></tr><tr><td class="confluenceTd"><p>4</p></td><td class="confluenceTd"><p>This mode returns the long daylight name.</p></td></tr><tr><td class="confluenceTd"><p>5</p></td><td class="confluenceTd"><p>This mode returns the short daylight name.</p></td></tr><tr><td class="confluenceTd"><p>6</p></td><td class="confluenceTd"><p>This mode returns the long daylight name if daylight is on, else the long standard name.</p></td></tr><tr><td class="confluenceTd"><p>7</p></td><td class="confluenceTd"><p>This mode returns the short daylight name if daylight is on, else the short standard name.</p></td></tr><tr><td class="confluenceTd"><p>8</p></td><td class="confluenceTd"><p>This mode returns the default time zone name (the default if not specified).</p></td></tr></tbody></table></div><p>Before<em> <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span></em> version 8.12.6, Modes 6 and 7 might return the incorrect timezone during the ambiguous hour change from daylight saving time to standard time. This issue is resolved in <em> <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span></em> version 8.12.6. <em><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span></em> versions 8.12.6 and 9.00.0 included daylight saving time changes to support uptime requirements. Those changes require passing a datetime value when using Modes 6 or 7. <em><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span></em> versions 8.14.0 and 9.2.0 remove this requirement.</p><p><em>datetime</em><br/>A datetime value.</p><h2 id="DATETIMEZONEBYINDEXUsingDiscernExplorer-Examples">Examples</h2><p>In the following example, APP_ZONE_NAME is set to the time zone name for the application, and SYS_ZONE_NAME is set to the time zone name for the system.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET APP_ZONE_NAME = DATETIMEZONEBYINDEX(CURTIMEZONEAPP)
+SET SYS_ZONE_NAME = DATETIMEZONEBYINDEX(CURTIMEZONESYS)</pre>
+</div></div><p><br/>In the following example, ZONE_S is set to CST, ZONE_D is set to CDT because daylight saving time went into effect at 2:00 a.m. on April 6, 2003 in Time Zone 91, OFFSET_VAR is set to -21600000, and DAYLIGHT_VAR is set to 3600000:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DECLARE OFFSET_VAR = I4
+DECLARE DAYLIGHT_VAR = I4
+SET ZONE_S = DATETIMEZONEBYINDEX(75, OFFSET_VAR, DAYLIGHT_VAR,7, CNVTDATETIME("06-APR-2003 01:59:59"))
+SET ZONE_D = DATETIMEZONEBYINDEX(75, OFFSET_VAR, DAYLIGHT_VAR,7, CNVTDATETIME("06-APR-2003 02:01:00"))</pre>
+</div></div><p><br/></p><p>The following program uses the time zone index of 75 to retrieve the time zone name. The variable ZONE_NAME is either set to<strong> CDT</strong>, if it is currently daylight saving; <strong>CST</strong> otherwise.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM ZONE_TEST GO
+CREATE PROGRAM ZONE_TEST
+DECLARE OFFSET_VAR = I4
+DECLARE DAYLIGHT_VAR = I4
+SET ZONE_NAME = DATETIMEZONEBYINDEX(75,OFFSET_VAR,DAYLIGHT_VAR,7)
+CALL ECHO(ZONE_NAME)
+END GO</pre>
+</div></div><p>.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 652, "requestCorrelationId": "845235f8c0ba33d4"}</span>
+</body>
+</html>

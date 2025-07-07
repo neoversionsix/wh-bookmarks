@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>TABLEREF Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/TABLEREF+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The TABLEREF function handles table object references for a single- or multiple-column join. You can use this function instead of the EXPAND() function, and it provides more direct control of table reference qualifications. This function is introduced with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3 and 9.02.3. Initially, it allowed multiple-column joins for noncharacter columns, but only a single-column join for character columns. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.4 and 9.02.4 introduce the ability to use character columns in multiple-column joins.</p><p>The TABLEREF function requires the existence of a TABLEREF table. The RDB command can be used to execute the relational database management system (RDBMS) commands to create the TABLEREF table. These commands should be executed once from a standalone process. The TABLEREF table name should begin with CCLOBJ_.</p><h2 id="TABLEREFUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>TABLEREF(mode,record_name)</pre>
+</div></div><h2 id="TABLEREFUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>mode<br/></em></p><p>Indicates the table reference operation.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Mode</th><th class="confluenceTh">Description</th></tr><tr><td class="confluenceTd" colspan="1">O</td><td class="confluenceTd" colspan="1">Open the table</td></tr><tr><td class="confluenceTd" colspan="1">A</td><td class="confluenceTd" colspan="1">Add rows to the table</td></tr><tr><td class="confluenceTd">B</td><td class="confluenceTd">Bind values from the table row</td></tr><tr><td class="confluenceTd" colspan="1">C</td><td class="confluenceTd" colspan="1">Close the table</td></tr><tr><td class="confluenceTd" colspan="1">D</td><td class="confluenceTd" colspan="1">Delete rows from the table</td></tr></tbody></table></div><p><strong><span style="color: rgb(51,51,51);"><br/></span></strong><em>record_name</em></p><p>The name of the record structure to use for the table reference. The record structure must be predefined with the following items:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Level</th><th class="confluenceTh">Name</th><th class="confluenceTh">Data Type</th><th class="confluenceTh">Description</th></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">ID</td><td class="confluenceTd">I4</td><td class="confluenceTd"><p>The internal ID that is assigned by the TABLEREF function. Set the ID to <strong>1</strong>, and increment by one for each unique TABLEREF call in a program or process.</p></td></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">TABLE_NAME</td><td class="confluenceTd">VC</td><td class="confluenceTd">The uppercase name of the TABLEREF table. The TABLE_NAME is limited to a maximum of 20 characters and should begin with CCLOBJ_.</td></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">Opt</td><td class="confluenceTd">I4</td><td class="confluenceTd"> A bitmap option.  Setting the Opt item is not required. The default value is <strong>0</strong>. When set to <strong>0</strong>, the TABLEREF function implicitly closes the table. When set to <strong>1</strong>, the function requires an explicit close using TABLEREF("C", <em>record_name</em>).</td></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">Qual</td><td class="confluenceTd">[*]</td><td class="confluenceTd"><p>A varying list of columns to select from the TABLEREF table. Create a Level 2 item in the Qual list with a name and data type that match the columns on the TABLEREF table.</p></td></tr></tbody></table></div><h2 id="TABLEREFUsingDiscernExplorer-Examples">Examples</h2><p>The example below uses the RDB command to create a TABLEREF table named CCLOBJ_TEST1_TAB. This program should be executed once to create the CCLOBJ_TEST1_TAB table.  The CCLOBJ_TEST1_TAB table must be created before running the examples that use the table.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program ccl_create_cclobj_test1 go
+create program ccl_create_cclobj_test1
+
+rdb drop type cclobj_test1_tab force end 
+rdb drop type cclobj_test1 force end
+rdb create or replace type cclobj_test1 as object (code_value NUMBER,code_set NUMBER) end 
+rdb create or replace type cclobj_test1_tab as table of cclobj_test1 end 
+
+end
+go</pre>
+</div></div><p>The following example uses the TABLEREF function to insert values into the CCLOBJ_TEST1_TAB table and then qualify on those values:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program ccl_tableref go
+create program ccl_tableref
+
+prompt
+    "Output to File/Printer/MINE" = "MINE"
+with OUTDEV
+
+record rec (
+  1 id = i4 ;The ID is the internal ID that is assigned by the tableref function.  
+            ;Set the first one to 1, and if using multiple tableref then add 1 to the ID to make it unique.
+  1 table_name = vc ;must be in uppercase
+  1 opt = i4     ;bitmap options  
+                 ;0 implicitly close tableref object after select
+                 ;1 explicit close with tableref('C',&lt;rec&gt;) 
+  1 qual [*]   ;varlist of columns to select from tableref object
+    2 code_value = f8
+    2 code_set = i4
+)  with protect
+
+declare num = i4 with protect
+
+set modify recordalter
+set num = 1
+set rec-&gt;qual[num].code_set   = 50
+set rec-&gt;qual[num].code_value  = 196.0
+
+set num += 1
+set rec-&gt;qual[num].code_set   = 50
+set rec-&gt;qual[num].code_value  = 197.0
+
+set num += 1
+set rec-&gt;qual[num].code_set   = 52
+set rec-&gt;qual[num].code_value  = 201.0
+
+set num += 1
+set rec-&gt;qual[num].code_set   = 52
+set rec-&gt;qual[num].code_value  = 202.0
+
+set rec-&gt;id = 1 
+set rec-&gt;opt = 1 
+set rec-&gt;table_name = "CCLOBJ_TEST1_TAB"  ;the name of the object type table (20 char limit) ;must be uppercase
+
+set stat = tableref("O",rec)       ;open tableref
+call echo(build("tableref stat open=",stat))
+set stat = tableref("A",rec)       ;add rows from rec-&gt;qual to tableref
+ 
+SELECT INTO $outdev
+    c.code_set
+    , c.code_value
+    , c.cdf_meaning
+    , c.display
+    , c.description
+FROM
+    code_value   c
+where list(c.code_value,c.code_set);,c.cdf_meaning)
+   in (select t.code_value,t.code_set from (tableref('B',rec) t))
+WITH nocounter, format, separator = " "
+
+set stat = tableref("C",rec)      ;close tableref
+
+end
+go</pre>
+</div></div><p>The example below uses multiple character column qualifications and requires <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.4, 9.02.4, or later. The example assumes that a record structure named PREC, with the following definition, has been created and populated with first and last names.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record prec (
+    1 list[*]
+        2 name_last = vc
+        2 name_first = vc
+)  with protect</pre>
+</div></div><p>The example also assumes that a tableref table named CCLOBJ_NAMES_TAB has been created using the following RDB commands:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>rdb drop type cclobj_names_tab force end 
+rdb drop type cclobj_names force end
+rdb create or replace type cclobj_names as object (name_last VARCHAR2(30),name_first VARCHAR2(30)) end 
+rdb create or replace type cclobj_names_tab as table of cclobj_names end </pre>
+</div></div><p>The example uses the MOVERECLIST() function to copy the names from PREC-&gt;LIST into the REC- &gt;QUAL list and the TABLEREF() function to qualify on those names.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record rec (
+  1 id = i4 
+  1 table_name = vc
+  1 opt = i4
+  1 qual [*]   ;varlist of columns to select from tableref object
+    2 name_last = vc
+    2 name_first = vc
+)  with protect
+
+set rec-&gt;id = 1 
+set rec-&gt;opt = 1 
+set rec-&gt;table_name = "CCLOBJ_NAMES_TAB"  ;name of object type table (20 char limit) ;must be uppercase
+
+;copy names from prec-&gt;list into rec-&gt;qual
+set stat = movereclist(prec-&gt;list,rec-&gt;qual,1,0,size(prec-&gt;list,5),true)
+
+set stat = tableref("O",rec)       ;open tableref
+call echo(build("tableref stat open=",stat))
+set stat = tableref("A",rec)       ;add rows from rec-&gt;qual to tableref
+ 
+SELECT INTO $outdev
+    p.person_id
+    ,p.name_last_key
+    ,p.name_first_key
+FROM
+    person p
+where list(p.name_last_key,p.name_first_key)
+   in (select t.name_last,t.name_first from (tableref('B',rec) t))
+WITH nocounter, format, separator = " "
+
+set stat = tableref("C",rec)      ;close tableref</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 495, "requestCorrelationId": "c10cb7ab182db054"}</span>
+</body>
+</html>

@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>YEAR Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/YEAR+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>YEAR allows you to return the integer year component of an expression that is a Julian date or rdb_date_time.</p><h2 id="YEARUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>YEAR(julian_date)
+YEAR(rdb_date_time)</pre>
+</div></div><h2 id="YEARUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>julian_date</em></p><p>An expression that is an Internal System Date.</p><p><em>rdb_date_time</em></p><p>A column that stores a datetime or function that returns a datetime.</p><h2 id="YEARUsingDiscernExplorer-Examples">Examples</h2><p>In this example, if the date in the P.BIRTH_DT_TM column equals October 7, 1997, W1 is set to 1997. If the current date is December 24, 1998, W2 is set to 1998.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>W1 = YEAR(P.BIRTH_DT_TM)
+W2 = YEAR(CURDATE)</pre>
+</div></div><p>In this example, if the active_status_dt_tm is on 15-Aug-2023, active_year is set to <strong>2023</strong>. If the current date is 15-Aug-2023, cur_year and fun_year are set to <strong>2023</strong>. 2023_year is set to <strong>2023</strong>.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select
+	date = P.ACTIVE_STATUS_DT_TM,
+	active_year = year(P.ACTIVE_STATUS_DT_TM),
+	cur_year = year(curdate),
+	fun_year = year(cnvtdatetime(curdate,curtime3)),
+	2023_year = year(cnvtdate(08152023))
+from
+	person p
+with maxrec = 10</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 572, "requestCorrelationId": "006857c24a2b2626"}</span>
+</body>
+</html>

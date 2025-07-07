@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>MAP Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/MAP+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The MAP ( ) function provides associative hash map support. It was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.8.1. The current implementation supports only one value per key. The MAP( ) function must be declared using the WITH MAP="HASH" option in the DECLARE command.</p><h2 id="MAPUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Declare map_name(mode=vc,mapkey=data_type,mapval = data_type) = i4 with map="HASH"
+</pre>
+</div></div><p>The <em>mapkey</em> and <em>mapval</em> can be any <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> datatype, but the <em>mode</em> should be a character data type. The return type of the hash map function is an integer, so the data type of the DECLARE command should be i4.</p><h2 id="MAPUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>MAP_NAME</em><br>The name of a map function that has been declared using the WITH MAP="HASH" option in the DECLARE command.</br></p><p><em>mode</em><br/>A map action. A <em>mode</em> can expect specific parameters and can be abbreviated to one character. The following table describes the modes and their expected parameters:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Mode</p></th><th class="confluenceTh"><p>Parameters</p></th><th class="confluenceTh"><p>Description</p></th><th class="confluenceTh"><p>Return</p></th></tr><tr><td class="confluenceTd"><p>"ADD"</p></td><td class="confluenceTd"><p>,<em>mapkey</em>, <em>mapval</em></p></td><td class="confluenceTd"><p>Add the key.</p></td><td class="confluenceTd"><p>1:success, -1:error, 0:invalid due to duplicate key</p></td></tr><tr><td class="confluenceTd"><p>"ADDREP"</p></td><td class="confluenceTd"><p>,<em>mapkey</em>, <em>mapval</em></p></td><td class="confluenceTd"><p>Add the key if the key does not exist; otherwise, replace the key.</p></td><td class="confluenceTd"><p>1:success, -1:error</p></td></tr><tr><td class="confluenceTd"><p>"COUNT"</p></td><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>A count of the items in map.</p></td><td class="confluenceTd"><p>The number of items in the map</p></td></tr><tr><td class="confluenceTd"><p>"DEL"</p></td><td class="confluenceTd"><p>[,<em>mapkey</em>]</p></td><td class="confluenceTd"><p>Delete the key or delete all if no mapkey is specified.</p></td><td class="confluenceTd"><p>1:success, 0:invalid</p></td></tr><tr><td class="confluenceTd"><p>"FIND"</p></td><td class="confluenceTd"><p>,<em>mapkey</em> ,<em>mapval_var</em></p></td><td class="confluenceTd"><p>Find a value by the key.</p></td><td class="confluenceTd"><p>1:success, 0:invalid</p></td></tr><tr><td class="confluenceTd"><p>"LOC"</p></td><td class="confluenceTd"><p>,<em>loc</em>,<em>mapkey_var</em> ,<em>mapval_var</em></p></td><td class="confluenceTd"><p>Locate by positions; use a &lt;loc&gt; of <strong>0</strong> for the current location.</p></td><td class="confluenceTd"><p>1:success, 0:invalid</p></td></tr><tr><td class="confluenceTd"><p>"NEXT"</p></td><td class="confluenceTd"><p>,<em>mapkey_var</em> ,<em>mapval_var</em></p></td><td class="confluenceTd"><p>Find next.</p></td><td class="confluenceTd"><p>1:success, 0:invalid</p></td></tr><tr><td class="confluenceTd"><p>"PRINT"</p></td><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>Print the map.</p></td><td class="confluenceTd"><p>1:success, 0:invalid</p></td></tr><tr><td class="confluenceTd"><p>"REP"</p></td><td class="confluenceTd"><p>,<em>mapkey</em>,<em>mapval</em></p></td><td class="confluenceTd"><p>Replace the value for the key.</p></td><td class="confluenceTd"><p>1:success, -1:error, 0:invalid due to duplicate key</p></td></tr><tr><td class="confluenceTd"><p>"SORT"</p></td><td class="confluenceTd"><p>,<em>sort_dir</em>,[<em>sort_mode</em>]</p></td><td class="confluenceTd"><p>Sort the map.</p></td><td class="confluenceTd"><p>1:success, 0:invalid</p></td></tr></tbody></table></div><p><em>mode_parameter</em><br/>The following table describes the mode parameters:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Parameter</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>loc</p></td><td class="confluenceTd"><p>The location in the hash map.</p></td></tr><tr><td class="confluenceTd"><p>mapkey</p></td><td class="confluenceTd"><p>The key in the map.</p></td></tr><tr><td class="confluenceTd"><p>mapkey_var</p></td><td class="confluenceTd"><p>A variable with the same data type as mapkey.</p></td></tr><tr><td class="confluenceTd"><p>mapval</p></td><td class="confluenceTd"><p>A value in the map.</p></td></tr><tr><td class="confluenceTd"><p>mapval_var</p></td><td class="confluenceTd"><p>A variable with the same data type as mapval.</p></td></tr><tr><td class="confluenceTd"><p>sort_dir</p></td><td class="confluenceTd"><p>Sort direction; 0=ascending, 1=descending.</p></td></tr><tr><td class="confluenceTd"><p>sort_mode</p></td><td class="confluenceTd"><p>Sort type; 0=sort by value, 1=sort by key ID.</p></td></tr></tbody></table></div><h2 id="MAPUsingDiscernExplorer-Examples">Examples</h2><p>The following example declares and uses a hash map function named map1:</p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">drop program ccl_test_map go
+  create program ccl_test_map
+    declare mapval = vc
+    declare mapkey = i4
+    ;declare &lt;map_name&gt;(&lt;mode&gt;=vc,&lt;key_name&gt;=i4,&lt;value_name&gt;=&lt;value_type&gt;) = i4 with map="HASH"
+    declare map1(mode=vc,mapkey=i4,mapval=vc) = i4 with map="HASH"
+    set stat = Map1("A",1,"test1")
+    set stat = Map1("A",2,"test2")
+    set stat = Map1("A",3,"test3")
+    set stat = Map1("A",4,"test4")
+    ;find by key in map
+    set mapkey = 1
+    while (mapkey&gt;0)
+        set stat = Map1("F",mapkey,mapval)
+        if (stat=1)  
+            call echo(build("find stat=",stat,",key=",mapkey,",value=",mapval))
+            set mapkey=mapkey+1  ;set to get next map item in list
+        else      
+            call echo(build("find stat=",stat,",key=",mapkey))
+            set mapkey=0  ;done with map list
+        endif
+    endwhile
+    call echo(build("map1 count=",Map1("C")))
+    set stat = Map1("S",0)
+    set stat = Map1("P")
+    call echo("Replace value in key 2, Delete key 1, Resort the map")
+    set stat = Map1("R",2,"z_test20")
+    set stat = Map1("D",1)
+    set stat = Map1("S",0,0)
+    set stat = Map1("P")
+    call echo(build("map1 count=",Map1("C")))
+end go</pre>
+</div></div><p>The example below uses a hash map function to temporarily store a count of the number of orders a person has. The hash map is then sorted and used to display the count of the number of orders each person has, with the order with the highest count listed first.</p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">drop program ccl_test_map2 go
+create program ccl_test_map2
+
+prompt
+	"Output to File/Printer/MINE" = "MINE"
+with OUTDEV
+
+declare mapkey_var = vc
+declare mapval_var = i4
+;declare the hash map
+declare ord_map(mode=c1,mapkey=vc,mapval=i4) = i4 with map="HASH"
+
+select into $outdev
+	p.person_id
+	, name = substring(1,30,p.name_full_formatted)
+	, cat_disp = uar_get_displaykey(o.catalog_cd)
+
+from
+	person   p
+	, orders   o
+
+plan o where o.orig_order_dt_tm between cnvtlookbehind("1,d")
+	and cnvtdatetime(curdate,curtime3)
+join p where p.person_id = o.person_id
+order by
+	p.name_full_formatted
+	, p.person_id
+	, cat_disp
+
+head p.person_id
+	;reset the map each time there is a new person
+	stat = ord_map("d")
+	mapval_var = 0
+	col  0 p.person_id
+	col +1 name
+	row +1
+detail
+	stat = ord_map("f",trim(cat_disp),mapval_var)
+	if(stat = 0) ;the cat_disp was not found in map so add it with a value of 1
+		stat = ord_map("a",trim(cat_disp),1)
+		mapval_var = 0
+	else ;the cat_disp was found in the map so increment the mapval
+		stat = ord_map("r",trim(cat_disp),mapval_var +1)
+	endif
+foot p.person_id
+	;sort the map in descending order by mapval
+	stat = ord_map("s",1,0)
+	;get count of items in map
+	map_cnt = ord_map("c")
+	;display mapkeys (orders) and mapvalues (count of each order)
+	for(lcnt = 1 to map_cnt)
+		stat = ord_map("l",lcnt,mapkey_var,mapval_var)
+		col 10 mapkey_var
+		col 25 mapval_var
+		row +1
+	endfor
+with nocounter, separator=" ", format, time = 30, maxrec = 2000
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 533, "requestCorrelationId": "b28427e35726b72e"}</span>
+</body>
+</html>

@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>AESDECRYPTFILE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/AESDECRYPTFILE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The AESDECRYPTFILE( ) function decrypts a file that was encrypted using AESENCRYPTFILE().</p><h2 id="AESDECRYPTFILEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>AESDECRYPTFILE(aeskeyid, infile, outfile, password [,mode])</pre>
+</div></div><h2 id="AESDECRYPTFILEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>Aeskeyid</em><br>Integer value in the range of 1 - 5, must match the value that was used when the file was encrypted using AESENCRYPTFILE()</br></p><p><em>Infile</em><br/>Name of encrypted file</p><p><em>Outfile</em><br/>Name of decrypted file to create</p><p><em>Password</em><br/>Nonblank password or blank password. If a nonblank password was used when the file was encrypted using AESENCRYPTFILE(), the same nonblank password must be used to decrypt the file using AESDECRYPTFILE().</p><p><em>Mode</em><br/>Integer value - Limited to 0 (for base 10) or 1 (for base 16)</p><h2 id="AESDECRYPTFILEUsingDiscernExplorer-Examples">Examples</h2><p>The following example creates a file named CCL_TEST.DAT using a SELECT INTO command. The AESENCRYPTFILE() function is then used to create file named CCL_ENCRYPT.DAT that will contain the encrypted data from the CCL_TEST.DAT file. The AESDECRYPTFILE() function is then used to create a file named CCL_DECRYPT.DAT that will contain the decrypted data from the CCL_ENCRYPT.DAT file.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO CCL_TEST
+	P.PERSON_ID,
+	NAME = SUBSTRING(1,40,P.NAME_FULL_FORMATTED)
+FROM PERSON P	
+WITH FORMAT, MAXREC = 10
+
+SET STAT = AESENCRYPTFILE(1,"CCL_TEST.DAT","CCL_ENCRYPT.DAT","PWD",0)
+SET STAT = AESDECRYPTFILE(1,"CCL_ENCRYPT.DAT","CCL_DECRYPT.DAT","PWD",0)</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 550, "requestCorrelationId": "40a15b655c3d6a2b"}</span>
+</body>
+</html>

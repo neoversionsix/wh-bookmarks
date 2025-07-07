@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>NTILE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/NTILE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The NTILE( ) function divides the qualifying rows into the number of groups represented by <em style="color: rgb(28,31,33);font-size: 14.0px;">int</em><span style="color: rgb(28,31,33);"> and assigns a number from 1 to </span><em style="color: rgb(28,31,33);font-size: 14.0px;">int </em><span style="color: rgb(28,31,33);"> to each group. If 25 rows are in the partition, NTILE(4) returns four groups numbered 1 through 4. Three groups would contain six rows, and one group would contain seven rows. NTILE( ) can be used in the Select list as an OLAP expression using the OVER( ) clause if using </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span style="color: rgb(28,31,33);"> versions 8.8.0 and higher, and </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span><span style="color: rgb(28,31,33);"> 10g or higher. NTILE( ) requires an ORDER BY in the OVER( ) clause.</span></p><h2 id="NTILEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>exp_name = NTILE(int) OVER (
+  [PARTITION BY expression{,expression}]
+  ORDER BY expression[DESC],{expression[DESC]}
+  )</pre>
+</div></div><h2 id="NTILEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>expression</em><br>An expression is the highest level metasymbol among constants, column names, variables, and so on.</br></p><p><em>exp_name</em><br/>The name to use as the column heading and Select expression of the value returned by the NTILE( ) function.</p><p><em>int</em><br/>An integer value.</p><h2 id="NTILEUsingDiscernExplorer-Examples">Examples</h2><p>In the example below, NTILE_4 is set to <strong>1</strong>, <strong>2</strong>, <strong>3</strong>, or <strong>4</strong>, with each value representing one quartile of the person's orders. An NTILE_4 of 1 represents the quartile of the most recent orders. NTILE_10 is set to <strong>1</strong> through <strong>10</strong>, with each value representing one tenth of the person's orders. An NTILE_10 of 1 represents the tenth of the most recent orders.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+	P.PERSON_ID
+	, NAME = SUBSTRING(1,30,P.NAME_FULL_FORMATTED)
+	, O.ORDER_ID
+	, O.ORIG_ORDER_DT_TM "@SHORTDATETIME"
+	, NTILE_4 = NTILE(4) OVER(PARTITION BY P.PERSON_ID ORDER BY O.ORIG_ORDER_DT_TM DESC)
+	, NTILE_10 = NTILE(10) OVER(PARTITION BY P.PERSON_ID ORDER BY O.ORIG_ORDER_DT_TM DESC)
+	, CAT_DISP = UAR_GET_CODE_DISPLAY(O.CATALOG_CD)
+FROM
+	PERSON   P
+	, ORDERS   O
+PLAN O WHERE O.ORIG_ORDER_DT_TM BETWEEN CNVTLOOKBEHIND("2,W") AND  CNVTDATETIME(CURDATE ,CURTIME3)
+JOIN P WHERE P.PERSON_ID = O.PERSON_ID
+ORDER BY 
+	NAME
+	,P.PERSON_ID
+	,NTILE_4
+WITH FORMAT, SEPARATOR = " "</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 531, "requestCorrelationId": "80d82f5ffb97b9cd"}</span>
+</body>
+</html>

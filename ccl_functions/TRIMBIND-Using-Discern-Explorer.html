@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>TRIMBIND Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/TRIMBIND+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The TRIMBIND function can be used to optionally control the bind parameter string length and maximize binding in the shared pool cache since the RDBMS creates a new shared pool cache instance based on the length. This reduces the RDBMS bind mismatch due to varying string lengths.</p><h2 id="TRIMBINDUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>TRIMBIND(expression, bindmode)</pre>
+</div></div><h2 id="TRIMBINDUsingDiscernExplorer-Metasymbol">Metasymbol</h2><p><em>expression</em><br>A character data type value.</br></p><p><em>bindmode</em></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Mode</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>Use small bind length to pad</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p>Use medium bind length to pad</p></td></tr><tr><td class="confluenceTd"><p>3</p></td><td class="confluenceTd"><p>Use medium large bind length to pad</p></td></tr><tr><td class="confluenceTd"><p>4</p></td><td class="confluenceTd"><p>Use large bind length to pad</p></td></tr><tr><td class="confluenceTd"><p><em>-length</em></p></td><td class="confluenceTd"><p>Use absolute length for the bind length</p></td></tr></tbody></table></div><h2 id="TRIMBINDUsingDiscernExplorer-Examples">Examples</h2><p>The below example displays using different bindmodes with the TrimBind() function. Using Set Trace RDBDEBUG echoes the query that is passed to the RDBMS from <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>. For each of the example selects, the following query is passed to the RDBMS:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT  R.DESCRIPTION FROM  REQUEST R  
+WHERE R.DESCRIPTION =     RTRIM( :1 )
+</pre>
+</div></div><p>In the above query, :1 is a bind variable. Using Set Trace RDBBIND echoes information about the bind variables that are passed in the query to the RDBMS. The TrimBind() function causes the length of the bind variable to change based on the specified bindmode.</p><p>In the following query, using bindmode -3, :1 is a Char[3]:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>	
+	set trace rdbdebug go
+	set trace rdbbind go
+
+	SELECT INTO "nl"
+		r.description
+	FROM request   r
+	WHERE r.description = trimbind("ABC",-3)
+	WITH nocounter 
+	GO
+</pre>
+</div></div><p>In the following query, using bindmode 1, :1 is a Char[32]:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>	SELECT INTO "nl"
+		r.description
+	FROM request   r
+	WHERE r.description = trimbind("ABC",1)
+	WITH nocounter
+	GO
+</pre>
+</div></div><p>In the following query, using bindmode 2, :1 is a Char[128]:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>	SELECT INTO "nl"
+		r.description
+	FROM request   r
+	WHERE r.description = trimbind("ABC",2)
+	WITH nocounter 
+	GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 527, "requestCorrelationId": "9f4b75df9a41db9a"}</span>
+</body>
+</html>

@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>REPLACE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/REPLACE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The REPLACE( ) function performs a case-sensitive search and replace.</p><h2 id="REPLACEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>REPLACE(original_string,search_string,replace_string,[mode])
+</pre>
+</div></div><h2 id="REPLACEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>original string</em> <br>The original string to be searched.</br></p><p><em>search string</em> <br/>The textual string for which to search.</p><p><em>replace string</em> <br/>The textual string to replace the search string.</p><p><em>mode</em></p><p>What mode to use in replacing the string.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Mode</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>0</p></td><td class="confluenceTd"><p>Replace all occurrences (default).</p></td></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>Replace the first occurrence.</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p>Replace the last occurrence.</p></td></tr><tr><td class="confluenceTd"><p>3</p></td><td class="confluenceTd"><p>Replace character by character. Requires the search and replace strings to contain the same number of characters. Each character in the original string that matches a character in the search string is replaced with the corresponding character from the replace string.  Any characters in the original string that are not listed in the search string are removed.</p></td></tr><tr><td class="confluenceTd"><p>4</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Replace all occurrences of the search string with the replace string and restart the search at beginning of the replace string after each substitution. <span>Beginning with </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span> version 8.12.6, a maximum of 1000 iterations, restarting at the beginning of the search string, are performed to avoid an endless loop.</span></p></div></td></tr></tbody></table></div><h2 id="REPLACEUsingDiscernExplorer-Examples">Examples</h2><p>The following example returns <strong>ABCZZZDEFZZZGHIZZZJKL</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHO(REPLACE("ABCXXXDEFXXXGHIXXXJKL","XXX","ZZZ",0)) GO</pre>
+</div></div><p>The following example returns <strong>ABCZZZDEFXXXGHIXXXJKL</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHO(REPLACE("ABCXXXDEFXXXGHIXXXJKL","XXX","ZZZ",1)) GO</pre>
+</div></div><p>The following example returns <strong>ABCXXXDEFXXXGHIZZZJKL</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHO(REPLACE("ABCXXXDEFXXXGHIXXXJKL","XXX","ZZZ",2)) GO</pre>
+</div></div><p>The following example returns <strong>abcdefghiXXXjkl</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHO(REPLACE("abcxxxdefxxxghiXXXjkl","xxx","",0)) GO</pre>
+</div></div><p>The following example returns <strong>9ZZZ999</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHO(REPLACE("1-ABC-234",
+          "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+          9999999999ZZZZZZZZZZZZZZZZZZZZZZZZZZ",3))
+</pre>
+</div></div><p>The following example replaces each occurrence of the combination of a carriage return (char(13)) and linefeed (char(10)) in the variable named comment_var with a single space:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>set crlf_to_sp = replace (comment_var, concat(char(13),char(10)), " ",0)
+</pre>
+</div></div><p>The example below replaces each occurrence of a carriage return (char(13)) and each occurrence of a linefeed (char(10)) in the variable named comment_var with a single space. The combination of the carriage return and linefeed is replaced by two spaces:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>set cr_or_lf_to_sp = replace(replace(comment, char(13), " " ,0), char(10), " ",0) 
+</pre>
+</div></div><p>The example below echoes BCC. Since Mode 4 is used, the <strong>AB</strong> in AABCC is replaced with B resulting in <strong>ABCC</strong>. Since Mode 4 restarts the search at the beginning of the string, it finds <strong>AB</strong> in ABCC and replaces it with <strong>B</strong> resulting in <strong>BCC</strong>. Since AB does not exist in that result, <strong>BCC</strong> is returned.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHO(REPLACE("AABCC","AB","B",4)) GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 529, "requestCorrelationId": "800020309c7b6b61"}</span>
+</body>
+</html>

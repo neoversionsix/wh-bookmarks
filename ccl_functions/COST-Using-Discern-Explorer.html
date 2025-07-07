@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>COST( ) Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/COST%28+%29+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The COST( ) function allows you to view the cost of a program in terms of system resources. The following example shows the return of the COST( ) function and explanations of its components.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>72704:112151 CCLHELP Cost 10.97 Cpu 3.14 Ela 46 Bio 1041 Dio 203 S1,44 I0,0 U0,0 D0,0 O0M0R0 P2 Q13285 R13408
+</pre>
+</div></div><p><span class="conf-macro output-inline" data-hasbody="true" data-macro-name="table-plus"><div class="table-wrap"><table class="confluenceTable" id="TBL1750482850221"><colgroup class=""><col class=""/><col class=""/></colgroup><tbody class=""><tr class=""><th class="confluenceTh"><p>Component</p></th><th class="confluenceTh"><p>Definition</p></th></tr><tr class=""><th class="confluenceTh"><p>72704</p></th><td class="confluenceTd"><p>Julian date.</p></td></tr><tr class=""><th class="confluenceTh"><p>112151</p></th><td class="confluenceTd"><p>Julian time.</p></td></tr><tr class=""><th class="confluenceTh"><p>CCLHELP</p></th><td class="confluenceTd"><p>Program name.</p></td></tr><tr class=""><th class="confluenceTh"><p>Cost</p></th><td class="confluenceTd"><p>Rates program efficiency.</p></td></tr><tr class=""><th class="confluenceTh"><p>Cpu</p></th><td class="confluenceTd"><div class="content-wrapper"><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> processing time in seconds.</p></div></td></tr><tr class=""><th class="confluenceTh"><p>Ela</p></th><td class="confluenceTd"><p>Total elapsed time in seconds.</p></td></tr><tr class=""><th class="confluenceTh"><p>Bio</p></th><td class="confluenceTd"><div class="content-wrapper"><p>Buffed system reads. Removed in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.11.5.</p></div></td></tr><tr class=""><th class="confluenceTh"><p>Dio</p></th><td class="confluenceTd"><p>Direct system reads.</p></td></tr><tr class=""><th class="confluenceTh"><p>S</p></th><td class="confluenceTd"><div class="content-wrapper"><p>Number of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Selects. Number of R<span>elational Database Management System</span> (RDBMS) Selects.</p></div></td></tr><tr class=""><th class="confluenceTh"><p>I</p></th><td class="confluenceTd"><div class="content-wrapper"><p>Number of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Inserts. Number of RDBMS Inserts.</p></div></td></tr><tr class=""><th class="confluenceTh"><p>U</p></th><td class="confluenceTd"><div class="content-wrapper"><p>Number of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Updates.  Number of RDBMS Updates.</p></div></td></tr><tr class=""><th class="confluenceTh"><p>D</p></th><td class="confluenceTd"><div class="content-wrapper"><p>Number of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Deletes. Number of RDBMS Deletes.</p></div></td></tr><tr class=""><th class="confluenceTh"><p>O</p></th><td class="confluenceTd"><p>Number of operating system sorts</p></td></tr><tr class=""><th class="confluenceTh"><p>M</p></th><td class="confluenceTd"><p>Number of memory sorts</p></td></tr><tr class=""><th class="confluenceTh"><p>R</p></th><td class="confluenceTd"><p>Number of RDBMS sorts</p></td></tr><tr class=""><th class="confluenceTh"><p>P</p></th><td class="confluenceTd"><p>Number of programs run</p></td></tr><tr class=""><th class="confluenceTh"><p>Q</p></th><td class="confluenceTd"><p>Number of qualifying rows</p></td></tr><tr class=""><th class="confluenceTh"><p>R</p></th><td class="confluenceTd"><div class="content-wrapper"><p>Number of rows in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span></p></div></td></tr></tbody></table></div>
+
+</span></p><h2 id="COST()UsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>COST(option)
+</pre>
+</div></div><h2 id="COST()UsingDiscernExplorer-Metasymbol">Metasymbol</h2><p>option<br>An expression that is an integer.</br></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh" scope="row"><p>Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><th class="confluenceTh" scope="row"><p>1</p></th><td class="confluenceTd"><p>This option returns the last cost message as 132-byte string.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>2</p></th><td class="confluenceTd"><p>This option starts the cost.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>3</p></th><td class="confluenceTd"><p>This option ends the cost and returns the last cost message as 132-byte string.</p></td></tr></tbody></table></div><h2 id="COST()UsingDiscernExplorer-Examples">Examples</h2><p>The following example returns the cost of the last program run:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHO(COST(1))
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 653, "requestCorrelationId": "3d095e7fea2d5a84"}</span>
+</body>
+</html>

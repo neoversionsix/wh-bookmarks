@@ -1,0 +1,253 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>STDDEV Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/STDDEV+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The STDDEV ( ) function returns the standard deviation of an integer or a real number expression across the specified break.</p><p>STDDEV( ) can be used in the FOOT REPORT or FOOT group_expression sections of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Select command.</p><p>STDDEV( ) can be used in the select list in an aggregate or group by query if using <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.8.0 or higher and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> 10g or higher.</p><p>STDDEV( ) can be used in the select list as an OLAP expression using the OVER( ) clause if using <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.1 or higher and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> 10g or higher.</p><p>Non-RDBMS tables should not be used in the FROM clause when you use STDDEV() in the Select list. When you use non-RDBMS tables, the STDDEV() function should only be used in the FOOT REPORT or FOOT group_expression section of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Select command. </p><p>The KEEP option requires <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.1 or higher.</p><p>When used in the FOOT REPORT or FOOT group_expression sections of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Select command, STDDEV( ) can either use a biased or unbiased formula. The default is biased. To view the formulas and to see how to change the default, see the SET MODIFY AGGUNBIASED and SET MODIFY NOAGGUNBIASED help topics.</p><h2 id="STDDEVUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>STDDEV(expression [WHERE qualification]) ["template;display_qualifier;display_format"]
+
+exp_name = STDDEV([param{,param}]) [KEEP(DENSE_RANK FIRST|LAST ORDER BY expression[DESC])]
+  OVER (
+  [PARTITION BY expression{,expression}]
+  [ORDER BY expression[DESC],{expression[DESC]}]
+  [RANGE|ROWS BETWEEN UNBOUNDED|int PRECEDING  |  UNBOUNDED|int FOLLOWING  |  CURRENT ROW
+          AND BETWEEN UNBOUNDED|int PRECEDING  |  UNBOUNDED|int FOLLOWING  |  CURRENT ROW ]
+      )
+</pre>
+</div></div><h2 id="STDDEVUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p>For a description of template, display_qualifier, and display_format, see the METASYMBOLS Using <em>Discern Explorer</em> help topic.</p><p><em>expression</em><br>An expression is the highest level metasymbol among constants, column names, variables, and so on. A numeric expression must be used to calculate the standard deviation.</br></p><p><em>exp_name</em><br/>The name to use as the column heading and select expression of the value returned by the STDDEV() function.</p><p><em>int</em><br/>An integer value.</p><h2 id="STDDEVUsingDiscernExplorer-Examples">Examples</h2><p>The following example selects temperature results. Each temperature is displayed in the DETAIL section. The STDDEV( ) function is used in the FOOT C.ENCNTR_ID section to display the standard deviation of the temperatures that were returned for each encounter.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare TEMP_VAR = f8 with Constant(uar_get_code_by("DISPLAYKEY",72,"TEMPERATURETYMPANIC")),protect
+SELECT  INTO $OUTDEV
+	C.ENCNTR_ID
+	, TEMP_REAL = CNVTREAL(C.RESULT_VAL)
+	, C.PERFORMED_DT_TM
+
+FROM
+	CLINICAL_EVENT   C
+	, DUMMYT   D1
+
+PLAN C WHERE C.PERFORMED_DT_TM BETWEEN CNVTLOOKBEHIND("1,W") AND CNVTDATETIME(CURDATE,CURTIME3)
+	AND C.EVENT_CD = TEMP_VAR
+JOIN D1 WHERE CNVTREAL(C.RESULT_VAL) &gt; 0.0
+
+ORDER BY
+	C.ENCNTR_ID
+	, C.PERFORMED_DT_TM
+HEAD C.ENCNTR_ID
+	COL 0 C.ENCNTR_ID
+DETAIL
+	COL 20 TEMP_REAL
+	ROW +1
+FOOT C.ENCNTR_ID
+	COL 10 "STDDEV Temp:"
+	COL +1 STDDEV(TEMP_REAL) "###.##"
+	ROW +1
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT
+</pre>
+</div></div><p>The following example selects blood pressure results. Each result is displayed in the DETAIL section. The STDDEV( ) function with a WHERE clause is used in the FOOT C.ENCNTR_ID section to display the standard deviation for the systolic and diastolic values returned for each encounter.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare SYS_VAR = f8 with Constant(uar_get_code_by("DISPLAYKEY",72,"SYSTOLICBLOODPRESSURE")),protect
+declare DIAS_VAR = f8 with Constant(uar_get_code_by("DISPLAYKEY",72,"DIASTOLICBLOODPRESSURE")),protect
+
+SELECT INTO $OUTDEV
+	C.ENCNTR_ID
+	, REAL_RESULT = CNVTREAL(C.RESULT_VAL)
+	, C.PERFORMED_DT_TM
+	, C_EVENT_DISP = UAR_GET_CODE_DISPLAY(C.EVENT_CD)
+FROM
+	CLINICAL_EVENT   C
+	, DUMMYT   D1
+PLAN C WHERE C.PERFORMED_DT_TM BETWEEN CNVTLOOKBEHIND("1,W") AND CNVTDATETIME(CURDATE,CURTIME3)
+	AND C.EVENT_CD IN(SYS_VAR,DIAS_VAR)
+JOIN D1 WHERE CNVTREAL(C.RESULT_VAL) &gt; 0.0
+ORDER BY
+	C.ENCNTR_ID
+	, C.PERFORMED_DT_TM
+	, C_EVENT_DISP
+HEAD C.ENCNTR_ID
+	COL 0 C.ENCNTR_ID
+DETAIL
+	COL 20 C_EVENT_DISP
+	COL +1 REAL_RESULT
+	ROW +1
+FOOT C.ENCNTR_ID
+	COL 10 "Standard Deviation DIAS:"
+	COL +1 STDDEV(REAL_RESULT WHERE C.EVENT_CD = DIAS_VAR) "###.##"
+	COL +1 "Standard Deviation SYS:"
+	COL +1 STDDEV(REAL_RESULT WHERE C.EVENT_CD = SYS_VAR) "###.##"
+	ROW +1
+WITH SEPARATOR=" ", FORMAT
+</pre>
+</div></div><p>The following example returns the standard deviation of the result_value_numeric values for rows that were updated in the past month.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+    STDDEV_SE = STDDEV(P.RESULT_VALUE_NUMERIC)
+FROM
+    PERFORM_RESULT   P
+WHERE P.UPDT_DT_TM BETWEEN CNVTLOOKBEHIND("1,M") AND CNVTDATETIME(CURDATE, CURTIME3)
+    AND P.RESULT_VALUE_NUMERIC &gt; 0.0
+
+WITH SEPARATOR=" ", FORMAT
+</pre>
+</div></div><p>The following example returns the standard deviation of the result_value_numeric values from rows that were updated on each day in the past month.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+    DAY = DATETIMETRUNC(P.UPDT_DT_TM,"DD") "@SHORTDATE"
+    ,STDDEV_SE = STDDEV(P.RESULT_VALUE_NUMERIC)
+FROM
+    PERFORM_RESULT   P
+WHERE P.UPDT_DT_TM BETWEEN CNVTLOOKBEHIND("1,M") AND CNVTDATETIME(CURDATE, CURTIME3)
+    AND P.RESULT_VALUE_NUMERIC &gt; 0.0
+GROUP BY
+    DATETIMETRUNC(P.UPDT_DT_TM,"DD")
+ORDER BY
+    DAY
+WITH SEPARATOR=" ", FORMAT
+</pre>
+</div></div><p>In the following example, ALL_STDDEV is the standard deviation of all the result_value_numeric values returned by the query. DAY_STDDEV is the standard deviation for each day. CUM_STDDEV is the standard deviation of the values that have been returned up to that record for the day. ROLL_STDDEV is the standard deviation of the current row, the preceding row, and the following row, on that day.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+    DAY = DATETIMETRUNC(P.UPDT_DT_TM,"DD") "@SHORTDATE"
+    ,P.RESULT_VALUE_NUMERIC
+    ,ALL_STDDEV = STDDEV(P.RESULT_VALUE_NUMERIC) OVER( )
+    ,DAY_STDDEV = STDDEV(P.RESULT_VALUE_NUMERIC) OVER(
+            PARTITION BY DATETIMETRUNC(P.UPDT_DT_TM,"DD"))
+    ,CUM_STDDEV = STDDEV(P.RESULT_VALUE_NUMERIC) OVER(
+            PARTITION BY DATETIMETRUNC(P.UPDT_DT_TM,"DD")
+            ORDER BY P.RESULT_VALUE_NUMERIC)
+    ,ROLL_STDDEV = STDDEV(P.RESULT_VALUE_NUMERIC) OVER(
+            PARTITION BY DATETIMETRUNC(P.UPDT_DT_TM,"DD")
+            ORDER BY P.RESULT_VALUE_NUMERIC
+            ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING)
+FROM
+    PERFORM_RESULT   P
+WHERE P.UPDT_DT_TM BETWEEN CNVTLOOKBEHIND("1,M") AND CNVTDATETIME(CURDATE, CURTIME3)
+    AND P.RESULT_VALUE_NUMERIC &gt; 0.0
+ORDER BY
+    DAY
+    ,P.RESULT_VALUE_NUMERIC
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 621, "requestCorrelationId": "10cb4c98d55d98b2"}</span>
+</body>
+</html>

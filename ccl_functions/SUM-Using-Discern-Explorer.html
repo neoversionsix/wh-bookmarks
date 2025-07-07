@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SUM Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SUM+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The SUM( ) function displays the total value of an expression across the specified break.</p><p>SUM( ) can be used in the FOOT REPORT or FOOT group_expression sections of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Select command.</p><p>SUM( ) can be used in the select list in an aggregate or group by query if using <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.8.0 or higher and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> 10g or higher.</p><p>SUM( ) can be used in the select list as an OLAP expression using the OVER() clause if you are using <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.8.0 or higher and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> 10g or higher.</p><p>Non-RDBMS tables should not be used in the FROM clause when you use SUM() in the Select list.  When using non-RDBMS tables, SUM() should only be used in the FOOT REPORT or FOOT group_expression section of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Select command.</p><p>The KEEP option requires <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.10.3 or higher.</p><h2 id="SUMUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SUM(expression [WHERE qualification]) ["template;display_qualifier;display_format"]
+
+exp_name = SUM([param{,param}])  [KEEP(DENSE_RANK FIRST|LAST ORDER BY expression[DESC])]
+  OVER (
+  [PARTITION BY expression{,expression}]
+  [ORDER BY expression[DESC],{expression[DESC]}]
+  [RANGE|ROWS BETWEEN UNBOUNDED|int PRECEDING  |  UNBOUNDED|int FOLLOWING  |  CURRENT ROW
+          AND BETWEEN UNBOUNDED|int PRECEDING  |  UNBOUNDED|int FOLLOWING  |  CURRENT ROW ]
+      )
+</pre>
+</div></div><h2 id="SUMUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p>See the metasymbols help topic for descriptions of: template, display_qualifier, and display_format.</p><p><em>expression</em> <br>An expression is the highest level metasymbol among constants, column names, variables, and so on. A numeric expression must be used to calculate the sum.</br></p><p><em>exp_name</em><br/>The name to use as the column heading and select expression of the value returned by the SUM( ) function.</p><p><em>int</em><br/>An integer value.</p><h2 id="SUMUsingDiscernExplorer-Examples">Examples</h2><p>The below example selects result values. Each value is displayed in the DETAIL section. The SUM( ) function is used in the FOOT REPORT section to display the total of the result values and the total of the result values that are greater than 50.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO $OUTDEV
+	P.RESULT_VALUE_NUMERIC
+FROM
+	PERFORM_RESULT   P
+
+WHERE P.UPDT_DT_TM BETWEEN CNVTLOOKBEHIND("3,M") AND CNVTDATETIME(CURDATE, CURTIME3)
+    AND P.RESULT_VALUE_NUMERIC &gt; 0.0
+HEAD REPORT
+	ROW +0
+DETAIL
+	COL 0 P.RESULT_VALUE_NUMERIC ROW +1
+FOOT REPORT
+	COL 10 SUM(P.RESULT_VALUE_NUMERIC)
+	COL +1 SUM(P.RESULT_VALUE_NUMERIC WHERE P.RESULT_VALUE_NUMERIC &gt; 50.0)
+	ROW +1
+WITH SEPARATOR=" ", FORMAT
+</pre>
+</div></div><p>The following example returns the sum of all the result_value_numeric values from rows that were updated in the past month:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+    SUM_SE = SUM(P.RESULT_VALUE_NUMERIC)
+FROM
+    PERFORM_RESULT   P
+WHERE P.UPDT_DT_TM BETWEEN CNVTLOOKBEHIND("1,M") AND CNVTDATETIME(CURDATE, CURTIME3)
+    AND P.RESULT_VALUE_NUMERIC &gt; 0.0
+
+WITH SEPARATOR=" ", FORMAT
+</pre>
+</div></div><p>The following example returns the sum of result_value_numeric values from rows that were updated on each day of the past month and the date on which the records were updated:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+    DAY = DATETIMETRUNC(P.UPDT_DT_TM,"DD") "@SHORTDATE"
+    ,SUM_SE = SUM(P.RESULT_VALUE_NUMERIC)
+FROM
+    PERFORM_RESULT   P
+WHERE P.UPDT_DT_TM BETWEEN CNVTLOOKBEHIND("1,M") AND CNVTDATETIME(CURDATE, CURTIME3)
+    AND P.RESULT_VALUE_NUMERIC &gt; 0.0
+GROUP BY
+    DATETIMETRUNC(P.UPDT_DT_TM,"DD")
+ORDER BY
+    DAY
+WITH SEPARATOR=" ", FORMAT
+</pre>
+</div></div><p>In the below example, ALL_SUM is the sum of all the result_value_numeric values returned by the query. DAY_SUM is the sum for each day. CUM_SUM is the sum of the values that have been returned up to that record for the day. ROLL_SUM is the sum of the current row, the preceding row, and the following row, on that day.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+    DAY = DATETIMETRUNC(P.UPDT_DT_TM,"DD") "@SHORTDATE"
+    ,P.RESULT_VALUE_NUMERIC
+    ,ALL_SUM = SUM(P.RESULT_VALUE_NUMERIC) OVER( )
+    ,DAY_SUM = SUM(P.RESULT_VALUE_NUMERIC) OVER(
+            PARTITION BY DATETIMETRUNC(P.UPDT_DT_TM,"DD"))
+    ,CUM_SUM = SUM(P.RESULT_VALUE_NUMERIC) OVER(
+            PARTITION BY DATETIMETRUNC(P.UPDT_DT_TM,"DD")
+            ORDER BY P.RESULT_VALUE_NUMERIC)
+    ,ROLL_SUM = SUM(P.RESULT_VALUE_NUMERIC) OVER(
+            PARTITION BY DATETIMETRUNC(P.UPDT_DT_TM,"DD")
+            ORDER BY P.RESULT_VALUE_NUMERIC
+            ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING)
+FROM
+    PERFORM_RESULT   P
+WHERE P.UPDT_DT_TM BETWEEN CNVTLOOKBEHIND("1,M") AND CNVTDATETIME(CURDATE, CURTIME3)
+    AND P.RESULT_VALUE_NUMERIC &gt; 0.0
+ORDER BY
+    DAY
+    ,P.RESULT_VALUE_NUMERIC
+WITH MAXREC = 1000, NOCOUNTER, SEPARATOR=" ", FORMAT, TIME = 30
+
+</pre>
+</div></div><p>The example below retrieves information about a person's three most recent encounters when the reg_dt_tm for the encounter was in the past month. The Sum() function is used to get the total length of stay, in days, for each encounter type. The Keep option is also used with Sum() to get the total length of stay for all of the first encounters per encounter type.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select
+   e.person_id,
+   e.encntr_id,
+   e.e_rank,
+   e.los,
+   sum_los = sum(e.los) over(partition by e.encntr_type_cd),    
+   sum_los_1st_encntr = sum(e.los) 
+                           keep (dense_rank first order by e.e_rank) 
+                           over(partition by e.encntr_type_cd),
+   encntr_type_disp = uar_get_code_display(e.encntr_type_cd)
+from  /* inline select to create table e */
+ 	((select
+		e2.person_id
+		, e2.reg_dt_tm
+		, e2.disch_dt_tm
+		, e2.encntr_id
+		, e_rank = rank() over(partition by e2.person_id order by e2.encntr_id desc)
+		, los = datetimediff(e2.disch_dt_tm, e2.reg_dt_tm)
+		, e2.encntr_type_cd
+	from
+		encounter   e2
+	where e2.reg_dt_tm between cnvtlookbehind("1,m") and cnvtdatetime(curdate,curtime3)
+		and e2.disch_dt_tm is not null
+		and e2.encntr_type_cd != 0.0
+	
+	order by
+		e2.person_id
+		, e2.encntr_id
+	
+	with sqltype("f8","dq8","dq8","f8","i4","f8","f8"))
+			 e)
+	
+plan e where e.e_rank in (1.0, 2.0, 3.0) ;get the three most recent encounters for each person
+order by  
+	encntr_type_disp
+	,e.person_id
+	,e.e_rank desc
+
+with format,separator = " ",time = 30
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 599, "requestCorrelationId": "b81224da3dc1e75d"}</span>
+</body>
+</html>

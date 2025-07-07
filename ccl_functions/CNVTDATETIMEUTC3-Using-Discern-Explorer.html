@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CNVTDATETIMEUTC3 Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CNVTDATETIMEUTC3+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>CNVTDATETIMEUTC3() converts a string that represents a date and a time to and from a Universal Coordinated Time (UTC) <code>datetime</code> value. A space is required between the date and time components of the string. Fractional seconds are ignored.</p><p>CNVTDATETIMEUTC3() was released with version 8.9.2 of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>. Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.13.3 and 9.01.3, an information message is returned if the length of the datetime_string is less than the length of the datetime_format and SET TRACE Warning2 is enabled. </p><h2 id="CNVTDATETIMEUTC3UsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CNVTDATETIMEUTC3(datetime_string, datetime_format, [option [,timezone_index]])</pre>
+</div></div><h2 id="CNVTDATETIMEUTC3UsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>datetime_string</em><br>A character string that represents a date and time. A space is required between the date and time components of the string.</br></p><p>Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.16.0|9.04.0 the first three characters of the month abbreviation or full month name must match one of the values in the CURLOCALE("MONTHABBREV") string. CNVTDATETIMEUTC3()<code> </code>performs a case and accent insensitive comparison of the first three characters of the month abbreviation or full month name to the CURLOCALE("MONTHABBREV") string to determine the month. If a match is not found, the month with the closest match is returned. Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.16.0|9.04.0, if the first three characters of the month abbreviation or full month name do not match one of the values in the CURLOCALE("MONTHABBREV") string, the first four characters of the month abbreviation or full month name are compared to the values in the CURLOCALE("MONTHABBREV2") string. If a match is not found, the full month name is compared to the values in the CURLOCALE("MONTFULL") string. If a match is still not found, the month with the closest match is returned.</p><p><em>datetime_format</em><br/>A template that describes the format of the datetime_string.</p><p><code><em>option</em></code></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh" scope="row"><p><code>Option</code></p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><th class="confluenceTh" scope="row"><p>0</p></th><td class="confluenceTd"><p><code>Noop</code> so just return <code>datetime</code> with no conversion.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>1</p></th><td class="confluenceTd"><p>Convert the <code>datetime</code> from local to UTC if UTC mode is on. Otherwise, return as is.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>2</p></th><td class="confluenceTd"><p>Convert the <code>datetime</code> from UTC to local if UTC mode is on. Otherwise, return as is.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>3</p></th><td class="confluenceTd"><p>Convert the <code>datetime</code> from local to UTC regardless of UTC mode.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>4</p></th><td class="confluenceTd"><p>Convert the <code>datetime</code> from UTC to local regardless of UTC mode.</p></td></tr></tbody></table></div><p><code><em>timezone_index</em></code><br/>The index number of the time zone to use for the conversion. Defaults to local time zone. This option allows emulating another target time zone for <code>datetime</code> conversions.</p><h2 id="CNVTDATETIMEUTC3UsingDiscernExplorer-Examples">Examples</h2><p>If the CurTimeZoneApp is America/Chicago, the Call Echo() command in the following example returns 11-Mar-2007 05:30:00 Central Daylight Time if UTC is on:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>set my_dt_tm = cnvtdatetimeutc3("20070311 023000","YYYYMMDD HHMMSS",1,35)
+call echo(datetimezoneformat(my_dt_tm,curtimezoneapp,"DD-MMM-YYYY HH:mm:ss ZZZZZZ"))</pre>
+</div></div><p>If the CurTimeZoneApp is America/Chicago, and UTC is on, the <code>Call Echo()</code> command in the following example returns the following based on each iteration of the for loop, changing the value of the option parameter used by CNVTDATETIMEUTC3():</p><p>10-Mar-2007 20:30:00 Central Standard Time<br/>11-Mar-2007 05:30:00 Central Daylight Time<br/>10-Mar-2007 12:30:00 Central Standard Time<br/>11-Mar-2007 05:30:00 Central Daylight Time<br/>10-Mar-2007 12:30:00 Central Standard Time</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>for (opt = 1 to 5)
+	set option = opt -1
+	set my_dt_tm = cnvtdatetimeutc3("20070311 023000","YYYYMMDD HHMMSS",option,35)
+	call echo(datetimezoneformat(my_dt_tm,curtimezoneapp,"DD-MMM-YYYY HH:mm:ss ZZZZZZ"))
+endfor
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 569, "requestCorrelationId": "1992e695782912d9"}</span>
+</body>
+</html>

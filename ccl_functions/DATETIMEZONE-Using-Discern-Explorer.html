@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>DATETIMEZONE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/DATETIMEZONE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The DATETIMEZONE( ) function returns the adjusted datetime based on the Time Zone index.</p><p>Use DATETIMEZONEFORMAT() to display a datetime value adjusted to a timezone other than the local timezone. Use DATEBIRTHFORMAT() or DATEDECEASEDFORMAT() to display the birth date or deceased date.</p><p>When using the Format( ) function or a Display Option to display the adjusted datetime value, the Display Qualifier <strong>4</strong> must be used.</p><h2 id="DATETIMEZONEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DATETIMEZONE(&lt;datetime&gt;,&lt;timezone_index&gt;[,&lt;option&gt;])</pre>
+</div></div><h2 id="DATETIMEZONEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>datetime</em> <br>    A datetime value.</br></p><p><em>timezone_index</em> <br/>    An integer representing the time zone. If timezone_index is zero, then the application time zone is returned.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> has adopted a Windows standard that has defined time zone names and their associated index numbers.</p></div></div><p><em>option</em><br/>    1 - To convert the Coordinated Universal Time (UTC) datetime to local datetime using the index (default if omitted).<br/>    2 - To convert the local datetime to UTC datetime using the index.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>If UTC mode is off, then the function returns the datetime as is and performs no conversion.</p></div></div><h2 id="DATETIMEZONEUsingDiscernExplorer-Examples">Examples</h2><p>When the following example is executed in an environment set to CST(Central Standard Time) with UTC activated, the Call Echo displays "05-MAY-2002 10:00:00.00", since 43 is the time zone index for Pacific Standard Time:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET P_DT_TM = DATETIMEZONE(CNVTDATETIME("05-MAY-2002 12:00"),43,1) GO
+CALL ECHO(FORMAT(P_DT_TM,";4;Q")) GO</pre>
+</div></div><p>In the following example, APP_TIME displays the updated time converted to the time zone of the application. SYS_TIME displays the updated time converted to the system's time zone:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+      APP_TIME = DATETIMEZONE( P.UPDT_DT_TM ,CURTIMEZONEAPP,1)"HH:MM;4;D",
+      SYS_TIME = DATETIMEZONE( P.UPDT_DT_TM,CURTIMEZONESYS,1) "HH:MM;4;D"
+FROM PERSON P
+WITH MAXREC = 100
+
+</pre>
+</div></div><p><br/></p><p><br/></p><p><br/></p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 1279, "requestCorrelationId": "f8a48e63a9299974"}</span>
+</body>
+</html>

@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SELECTIVITY Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SELECTIVITY+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The Selectivity( ) function can be used to influence which index the DB2 optimizer uses when a table is read. Selectivity( ) is applied to DB2 and ignored for SQL-Server and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span>.</p><h2 id="SELECTIVITYUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECTIVITY(expr , selectivity_value)</pre>
+</div></div><h2 id="SELECTIVITYUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>Expr</em><br>A value to be compared to an indexed field on a table.</br></p><p><em>Selectivity_value</em><br/>A character data type value representing a number between 0.0 and 1.0 The selectivity value is the percentage of rows on the table that qualifies using the expr. For example, the selectivity value of the Primary Key field would be close to 0.0 because each row on the table has a unique value. The selectivity value of the Active Indicator field would be 0.5 because, in theory, half of the rows will be active and the other half will be inactive. The higher the selectivity value, the less likely the index is selected by the optimizer.</p><h2 id="SELECTIVITYUsingDiscernExplorer-Examples">Examples</h2><p>The following example causes the DB2 or <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> optimizer to select the index on the O.Orig_Order_dt_tm field instead of the O.Last_Update_Provider_ID index:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO $OUTDEV
+     O_CATALOG_DISP = UAR_GET_CODE_DISPLAY(O.CATALOG_CD)
+     , O.LAST_UPDATE_PROVIDER_ID
+     , O.ORIG_ORDER_DT_TM
+FROM ORDERS   O
+WHERE O.LAST_UPDATE_PROVIDER_ID +0 = Selectivity(doc_var,'1.0')
+     and O.ORIG_ORDER_DT_TM &gt;= cnvtdatetime(start_date)
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT
+</pre>
+</div></div><p>The following example causes the DB2 or <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> optimizer to select the index on the P.Updt_dt_tm field instead of the P.Name_Last_Key index:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO $OUTDEV
+     P.NAME_LAST_KEY
+     , P.UPDT_DT_TM
+FROM PERSON   P
+WHERE cnvtupper(P.NAME_LAST_KEY) = Selectivity($LNAME, "1.0")
+         and P.UPDT_DT_TM &gt;= cnvtdatetime(curdate - 7,0)
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT
+</pre>
+</div></div><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> implicitly builds the selectivity with a value of 1.0 when<br/>Field_name +0<br/>Trim(Field_name)<br/>Cnvtupper(Field_name)<br/>Cnvtlower(Field_name)<br/>is used on the left side of the following operators:<br/>=<br/>!=<br/>&lt;<br/>&lt;=<br/>&gt;<br/>&gt;=<br/>and a bind variable is used on the right side of the operator in the query that is passed to the RDBMS. For example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>P.Updt_dt_tm + 0 &gt;= CnvtDateTime(curdate -90,curtime3) 
+</pre>
+</div></div><p>would be passed to DB2 as</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>P.Updt_dt_tm &gt;= Selectivity(:1, "1.0") 
+</pre>
+</div></div><p>where :1 is a bind variable equal to the datetime value that represents 90 days in the past.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 560, "requestCorrelationId": "948b67c86b71a04a"}</span>
+</body>
+</html>

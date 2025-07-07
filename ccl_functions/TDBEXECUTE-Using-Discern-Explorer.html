@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>TDBEXECUTE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/TDBEXECUTE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The TDBEXECUTE( ) function traverses a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span style="color: rgb(28,31,33);">, JSON, or XML record and executes a TDB request. TDBEXECUTE( ) calls CrmBeginApp if it is executed from interactive </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span style="color: rgb(28,31,33);"> or </span><em style="color: rgb(28,31,33);font-size: 14.0px;">appid</em><span style="color: rgb(28,31,33);"> is not 0, else it calls CrmGetAppHandle to retrieve an application handle. Calling CrmBeginApp updates the Application_Context table. TDBEXECUTE() returns 0 if successful and 1 if an error occurred. TDBDEBUG trace can be used to debug the request from interactive </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span style="color: rgb(28,31,33);"> or </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern</span><span style="color: rgb(28,31,33);"> Visual Developer to show implicit crm and srv calls. TDBDEBUG2 trace can be used to create a test record and populate it with the request crm record using the test output record. Use the optional mode parameter to show errors if declared record omits fields defined in TDB. TDBEXECUTE( ) was introduced in </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span style="color: rgb(28,31,33);"> version 8.6.1. The initial version supported the "REC" type only. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.6.5 included an enhancement to support the "JSON" and "XML" types. <span style="color: rgb(28,31,33);"> </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.6 included an enhancement to allow record structures with namespaces.<br/></span></p><h2 id="TDBEXECUTEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>TDBEXECUTE(appid, taskid, reqid, request_from_type, request_from, reply_to_type, reply_to[,mode[[,flexmode]])</pre>
+</div></div><h2 id="TDBEXECUTEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>appid</em><br/>The application id.</p><p><em>taskid</em><br/>The task id.</p><p><em>reqid</em><br/>The request id.</p><p><em>request_from_type</em><br/>"REC" | "JSON" | "XML"</p><p><em>request_from</em><br/>The input record for type "REC" or the input buffer for type "JSON" or type "XML". The request_from must provide the information that is expected by the TDB request.</p><p><em>reply_to_type</em><br/>"REC" | "JSON" | "XML"</p><p><em>reply_to</em><br/>The output record for type "REC", or the output buffer for type "JSON" or "XML". The reply created by the execution of the TDB request is assigned to reply_to. For "JSON" and "XML" types, the output buffer must be defined before executing TDBEXECUTE( ). When "REC" type is used, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> creates the reply_to record structure. If TDBEXECUTE() is called in a loop and the TDB does not always populate all reply items, or the possibility for variance in the reply exits, the reply_to record should either be declared prior to the loop or freed before each execution of TDBDEXECUTE() in the loop.</p><p><em>mode</em><br/>Introduced in version 8.8.1 of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>, it allows Modes 0 and 1.  <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.1 added Modes 2, 3, 4, and 5.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd" colspan="1">0</td><td class="confluenceTd" colspan="1"><div class="content-wrapper"><p>No persist and show errors. The default mode before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.5.</p></div></td></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><div class="content-wrapper"><p>No persist and suppresses errors for set of &lt;reply_to&gt; (warning3 trace can be used to show them).<br/>By declaring the &lt;reply_out&gt; record before the tdbexecute call, it only sets the fields that are specified in the definition and ignores the list of fields in the srv structure. The default mode beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.5.</p></div></td></tr><tr><td class="confluenceTd" colspan="1">2</td><td class="confluenceTd" colspan="1">Persist output record &lt;reply_to&gt; and show errors.</td></tr><tr><td class="confluenceTd" colspan="1">3</td><td class="confluenceTd" colspan="1"><p>Persist output record &lt;reply_to&gt; and suppress errors.</p></td></tr><tr><td class="confluenceTd" colspan="1">4</td><td class="confluenceTd" colspan="1">Persistscript output record &lt;reply_to&gt; and show errors.</td></tr><tr><td class="confluenceTd" colspan="1">5</td><td class="confluenceTd" colspan="1">Persistscript output record &lt;reply_to&gt; and suppress errors.</td></tr></tbody></table></div><p><strong><br/></strong><em>flexmode</em></p><p>Introduced in <em><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span></em> versions 8.14.0 and 9.02.0<em>.</em></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Option</th><th class="confluenceTh">Description</th></tr><tr><td class="confluenceTd">0</td><td class="confluenceTd">Default.</td></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">Retain binary values, and do not convert to backslash (\) for JSON.</td></tr></tbody></table></div><h2 id="TDBEXECUTEUsingDiscernExplorer-Examples">Examples</h2><p>The below example executes TDB Request 3091001: Expert Event. Since request_from_type and reply_to_type are "REC", a record structure named ReplyOut is created. The contents of the reply record that is created by TDB Request 3091001 are copied to the ReplyOut record structure.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record REQUESTin (
+ 1 expert_trigger    = vc
+    1 qual[*]
+      2 person_id       = f8
+      2 sex_cd          = f8
+      2 birth_dt_tm     = dq8
+      2 encntr_id       = f8
+      2 accession_id    = f8
+      2 order_id        = f8
+      2 data[*]
+        3 vc_var        = vc
+        3 double_var    = f8
+        3 long_var      = i4
+        3 short_var     = i2
+   )
+   set stat = alterlist(requestin-&gt;qual,1)
+   set stat = alterlist(requestin-&gt;qual[1]-&gt;data,2)
+   set requestin-&gt;expert_trigger = "expert trigger test1"
+   set requestin-&gt;qual[1]-&gt;person_id = 123456
+   set requestin-&gt;qual[1]-&gt;birth_dt_tm = cnvtdatetime("01-jan-2010 08:30")
+   set stat = tdbexecute(3055000,4801,3091001,"REC",requestin,"REC",ReplyOut)
+   call echo(build("tdbexecute=",stat))
+   call echorecord(requestin)
+   call echorecord(replyout)
+</pre>
+</div></div><p>The below example executes TDB request 3053000: CCL_RUN_PROGRAM_FROM_OPS. That request is typically used to execute a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program from OpsView Scheduler (OpsViewScheduler.exe). Since request_from_type is "REC", the REQUESTin <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> record defined in the program is used as the input record. Since reply_to_type is "JSON", the contents of the reply record that is created by TDB request 3053000 is copied to the JSONout variable that is declared in the program.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record REQUESTin (1 batch_selection = vc  ) ;matches request for 3053000
+set REQUESTin-&gt;batch_selection  = "CCL_TEST_PROG"
+declare JSONout = vc
+set stat = tdbexecute(4600,4801,3053000,"REC",requestin,"JSON",JSONout)
+call echo(build("tdbexecute=",stat))
+call echo(JSONout)
+</pre>
+</div></div><p>The below example executes TDB request 3053000: CCL_RUN_PROGRAM_FROM_OPS. That request is typically used to execute a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program from DB OpsView Scheduler. Since request_from_type and reply_to_type are "JSON", the variable JSONin is set to a JSON string in the program and then passed to the TDBEXECUTE() function. The contents of the reply record that is created by TDB request 3053000 is copied to the JSONout variable that is declared in the program.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare JSONout = vc
+declare JSONin = vc
+set JSONin = ^{"REQUESTIN":{"BATCH_SELECTION":" "CCL_TEST_PROG"}}^
+set stat = tdbexecute(4600,4801,3053000,"JSON",JSONin,"JSON",JSONout)
+call echo(build("tdbexecute=",stat))
+call echo(JSONout)
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 674, "requestCorrelationId": "37d28678585b62f2"}</span>
+</body>
+</html>

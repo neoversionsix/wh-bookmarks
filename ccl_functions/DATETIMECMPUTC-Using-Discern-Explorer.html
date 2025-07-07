@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>DATETIMECMPUTC Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/DATETIMECMPUTC+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The DATETIMECMPUTC( ) function returns the number of days between two rdb_date_time columns. The time is ignored.</p><h2 id="DATETIMECMPUTCUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DATETIMECMPUTC(rdb_date_time1, rdb_date_time2, conversion_option)</pre>
+</div></div><h2 id="DATETIMECMPUTCUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>rdb_date_time1</em><br>A column that stores the higher Julian date value.</br></p><p><em>rdb_date_time2</em><br/>A column that stores the lower Julian date value.</p><p><em>Conversion_option</em></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>0</p></td><td class="confluenceTd"><p>No conversion, returns difference in days</p></td></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>Adjust the datetime from local to UTC if UTC mode is on, else return as is</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p>Adjust the datetime from UTC to local if UTC mode is on, else return as is</p></td></tr><tr><td class="confluenceTd"><p>3</p></td><td class="confluenceTd"><p>Adjust the datetime from local to UTC regardless of UTC mode</p></td></tr><tr><td class="confluenceTd"><p>4</p></td><td class="confluenceTd"><p>Adjust the datetime from UTC to local regardless of UTC mode</p></td></tr></tbody></table></div><h2 id="DATETIMECMPUTCUsingDiscernExplorer-Examples">Examples</h2><p>The following examples assume that the time zone is America / Chicago during daylight savings, making the UTC offset equal to -5 hours:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>cmp0 = datetimecmputc(cnvtdatetime(curdate, 0630), cnvtdatetime(curdate-1, 2359),0)</pre>
+</div></div><p>In the above example, cmp0 would be set equal to 0 (zero).</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>cmp0 = datetimecmputc(cnvtdatetime(curdate, 0630), cnvtdatetime(curdate-1, 1200),0)</pre>
+</div></div><p>In the above example, cmp0 would be set equal to 1 (one).</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>cmp1 = datetimecmputc(cnvtdatetime(curdate, 0630), cnvtdatetime(curdate-1, 2359),1)</pre>
+</div></div><p>In the above example, cmp1 would be set equal to 0 (zero).</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>cmp1 = datetimecmputc(cnvtdatetime(curdate, 0630), cnvtdatetime(curdate-1, 1200),1)</pre>
+</div></div><p>In the above example, cmp1 would be set equal to 1 (one).</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>cmp2 = datetimecmputc(cnvtdatetime(curdate, 0630), cnvtdatetime(curdate-1, 2359),2)</pre>
+</div></div><p>In the above example, cmp2 would be set equal to 1 (one).</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>cmp2 = datetimecmputc(cnvtdatetime(curdate, 0630), cnvtdatetime(curdate-1, 1200),2)</pre>
+</div></div><p>In the above example, cmp2 would be set equal to 1 (one).</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>cmp3 = datetimecmputc(cnvtdatetime(curdate, 0630), cnvtdatetime(curdate-1, 2359),3)</pre>
+</div></div><p>In the above example, cmp3 would be set equal to 0 (zero).</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>cmp3 = datetimecmputc(cnvtdatetime(curdate, 0630), cnvtdatetime(curdate-1, 1200),3)</pre>
+</div></div><p>In the above example, cmp3 would be set equal to 1 (one).</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>cmp4 = datetimecmputc(cnvtdatetime(curdate, 0630), cnvtdatetime(curdate-1, 2359),4)</pre>
+</div></div><p>In the above example, cmp4 would be set equal to 1 (one).</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>cmp4 = datetimecmputc(cnvtdatetime(curdate, 0630), cnvtdatetime(curdate-1, 1200),4)</pre>
+</div></div><p>In the above example, cmp4 would be set equal to 1 (one).</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 512, "requestCorrelationId": "7d1a52cd4e5bebfb"}</span>
+</body>
+</html>

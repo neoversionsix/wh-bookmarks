@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CNVTB36B10 Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CNVTB36B10+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>CNVTB36B10( )<strong> </strong>converts a base-36 string to a base-10 string with the maximum length defined by length. This function produces values primarily used in bar coding.</p><h2 id="CNVTB36B10UsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CNVTB36B10(base36_string,length[,mode])</pre>
+</div></div><h2 id="CNVTB36B10UsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>base36_string</em></p><p>An expression that is a base-36 string.</p><p><em>length</em></p><p>An integer that defines the number of bytes in a string.</p><p><em>mode</em></p><p>Mode is used to flex the base-36 sequence. Modes 2 and 3 were added in <span class="conf-solution-name"><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span></span> versions 8.13.3 and 9.01.3.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Mode</th><th class="confluenceTh">Description</th></tr><tr><td class="confluenceTd">0</td><td class="confluenceTd">Use the base-36 sequence of ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789. Each group of 6 digits is converted separately. This mode is the default as is primarily used for bar codes.</td></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd"><p>Use the base-36 sequence of 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ. Each group of 6 digits is converted separately. This mode is primarily used for bar codes.</p></td></tr><tr><td class="confluenceTd" colspan="1">2</td><td class="confluenceTd" colspan="1"><p>Use base-36 sequence of ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 and convert from base-36 to base-10 as one value.</p></td></tr><tr><td class="confluenceTd" colspan="1">3</td><td class="confluenceTd" colspan="1">Use base-36 sequence of 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ and convert from base-36 to base-10 as one value.</td></tr></tbody></table></div><p><br/></p><h2 id="CNVTB36B10UsingDiscernExplorer-Examples">Examples</h2><p>In this example, C is set to 023001019.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>C = CNVTB36B10("ANY9ZH",9)</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 556, "requestCorrelationId": "98767a6a0493d563"}</span>
+</body>
+</html>

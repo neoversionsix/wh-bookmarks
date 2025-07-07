@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>LOCATEVALSORT Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/LOCATEVALSORT+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The LocateValSort () function performs a binary search for a value (search expression) in a record structure list or scalar array. The record structure list members or scalar array values must be sorted in ascending order. It returns a positive number indicating the index to the list segment or scalar array where the search item is found. If the search item exists in multiple index locations, the index location where the value was found is returned. Because LocateValSort() does a binary search the first place where it finds a duplicate value, may not be the first occurrence of that value in the list. If the search item is not found, a value of zero or a negative number is returned. A value of zero indicates that the search expression is less than the first item in the list or array. When a negative number is returned, the absolute value of that negative number indicates the index to the list segment or array that contains the greatest value that is less than the searched-for value. For example, if the following record definition is used:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record rec (
+  1 list [*]
+    2 num = i4
+)</pre>
+</div></div><p><br>With the following values:</br></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>rec-&gt;list[1].num = 1
+rec-&gt;list[2].num = 3
+rec-&gt;list[3].num = 5
+rec-&gt;list[4].num = 6
+rec-&gt;list[5].num = 6
+rec-&gt;list[6].num = 6
+rec-&gt;list[7].num = 7
+rec-&gt;list[8].num = 7
+rec-&gt;list[9].num = 9</pre>
+</div></div><p><br/>Using LocateValSort() to search for the value <strong>3</strong> returns 2 because 3 is found at index 2. Using LocateValSort() to search for the value <strong>4</strong> returns <strong>-2</strong> because 4 is not found. Because the value 3 exists at index 2, and 3 is the greatest value in the list that is less than 4, -2 is returned.</p><p>Using the binary search, LocateValSort() looks at the value halfway between the starting index and the stopping index. If the value at that location is less than the searched-for value, LocateValSort() looks at the value that is halfway between the current location and the starting index. It continues to look at the value that is halfway between two possible locations until the searched-for value is found or determined not to exist in the list.</p><p>Using LocateValSort() to search all of the rec-&gt;list[ ].num for the value <strong>6</strong> returns 5. Because index 5 is halfway between index 1 and index 9, LocateValSort() first looks for the value in index 5. Because the value <strong>6</strong> exists at index 5, index 5 is returned. If the values in the record structure list are not unique, LocateValSort() returns the index where it first finds the searched-for value. Additional occurrences of the value could be before or after the occurrence that was found.</p><p>If the record structure list contains values that are not sorted in ascending order, use the LocateVal() function to perform a sequential search of the record structure list.</p><p>If you use multiple search expressions and record member pairs within LocateValSort(), the search expressions must be listed in a sequence that matches the sort order of the record member items. For example, if a record structure list member contains person_id and encntr_id values that are sorted by person_id and then encntr_id, the person_id needs to be used first and the encntr_id used second in the LocateValSort() function call.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Take care when using the value returned by the LocateValSort() function as an index to a record structure list segment. Record structure list indexes begin with 1. Referring to index 0 (zero)  or a negative index defaults to index 1. In most cases, use an IF statement to verify that the value returned by the LocateValSort() function is greater than 0 (zero).</p></div></div><h2 id="LOCATEVALSORTUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>locatevalsort(index_variable,index_start,index_end,{search_expr, record_member|scalar_array})</pre>
+</div></div><h2 id="LOCATEVALSORTUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>index_variable</em><br/>An integer data type variable. When Locatevalsort() is used in a SELECT command the index_variable must be declared before the Select.</p><p><em>index_start</em><br/>The index position of the record structure list at which to start the search.</p><p><em>index_end</em><br/>The index position of the record structure list at which to stop the search.</p><p><em>search_item</em><br/>The item you are searching for.</p><p><em>record_member</em><br/>The record list member to be searched.</p><p><em>scalar_array</em></p><p>The scalar array to be searched.</p><h2 id="LOCATEVALSORTUsingDiscernExplorer-Examples">Examples</h2><p>In the example below, the LocateValSort() function is used to search the PERSON_LOC record structure. The ORDERS list is searched looking for the value 14.0 in the ORDER_ID field. It finds the first occurrence of 14.0 where the index is equal to 3, so POS is set to <strong>3</strong>.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_LOCATEVALSORT GO
+CREATE PROGRAM CCL_LOCATEVALSORT
+
+RECORD PERSON_LOC (
+	1 ORDERS[5]
+	  2 ORDER_ID = F8
+)
+
+DECLARE NUM = I4 WITH NOCONSTANT(0),PUBLIC
+DECLARE START = I4 WITH NOCONSTANT(1),PUBLIC
+
+SET PERSON_LOC-&gt;ORDERS[1]-&gt;ORDER_ID = 12.0
+SET PERSON_LOC-&gt;ORDERS[2]-&gt;ORDER_ID = 13.0
+SET PERSON_LOC-&gt;ORDERS[3]-&gt;ORDER_ID = 14.0
+SET PERSON_LOC-&gt;ORDERS[4]-&gt;ORDER_ID = 15.0
+SET PERSON_LOC-&gt;ORDERS[5]-&gt;ORDER_ID = 16.0
+
+SET POS = LOCATEVALSORT(NUM, START, SIZE(PERSON_LOC-&gt;ORDERS,5), 14.0, PERSON_LOC-&gt;ORDERS[NUM]-&gt;ORDER_ID)
+
+CALL ECHO(BUILD("The item was found at position:",POS))
+
+END
+GO</pre>
+</div></div><p>The example below uses the LocateValSort() function to search for <strong>W2</strong> in the array_x scalar array. <strong>W2</strong> is found in the ninth position of the array so found_idx is set to 9.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program test_locatevalsort_array go
+create program test_locatevalsort_array
+
+declare array_x[10] = c2 with noconstant("3D","B1","C2","HI","K9","M5","N0","VX","W2","XX") ,protect
+declare idx = i4 with protect
+declare found_idx = i4 with protect
+set found_idx = locatevalsort(idx,1,size(array_x,5),"W2",array_x[idx])
+call echo(found_idx)
+
+end
+go</pre>
+</div></div><p><br/>The example below uses the LocateValSort() function to search the ORDER_ENC-&gt;LIST, where the ORDER_ID equals <strong>13.0</strong>, and the ENCNTR_ID equals <strong>24</strong>. These values are found in the fourth position of the list, so POS is set equal to <strong>4</strong>.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_LOCATEVALSORT GO
+CREATE PROGRAM CCL_LOCATEVALSORT
+
+RECORD ORDER_ENC (
+	1 LIST[5]
+	  2 ENCNTR_ID = F8
+	  2 ORDER_ID  = F8
+)
+
+DECLARE NUM = I4 WITH NOCONSTANT(0),PUBLIC
+
+SET ORDER_ENC-&gt;LIST[1]-&gt;ORDER_ID   = 12.0
+SET ORDER_ENC-&gt;LIST[1]-&gt;ENCNTR_ID = 21.0
+SET ORDER_ENC-&gt;LIST[2]-&gt;ORDER_ID   = 12.0
+SET ORDER_ENC-&gt;LIST[2]-&gt;ENCNTR_ID = 22.0
+SET ORDER_ENC-&gt;LIST[3]-&gt;ORDER_ID   = 13.0
+SET ORDER_ENC-&gt;LIST[3]-&gt;ENCNTR_ID = 23.0
+SET ORDER_ENC-&gt;LIST[4]-&gt;ORDER_ID   = 13.0
+
+SET ORDER_ENC-&gt;LIST[4]-&gt;ENCNTR_ID = 24.0
+SET ORDER_ENC-&gt;LIST[5]-&gt;ORDER_ID   = 13.0
+SET ORDER_ENC-&gt;LIST[5]-&gt;ENCNTR_ID = 25.0
+
+SET POS = LOCATEVALSORT(NUM, 1, 5,
+		13.0, ORDER_ENC-&gt;LIST[NUM]-&gt;ORDER_ID,
+				24.0, ORDER_ENC-&gt;LIST[NUM]-&gt;ENCNTR_ID)
+
+CALL ECHO(BUILD("The item was found at position:", POS))
+
+END
+GO</pre>
+</div></div><p><br/></p><p>In the following example, POS is set equal to <strong>2,</strong> and POS2 is set equal to <strong>-3</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_LOCATEVALSORT GO
+CREATE PROGRAM CCL_LOCATEVALSORT
+
+RECORD REC (
+  1 LIST [*]
+    2 NAME = C10
+)
+
+SET STAT = ALTERLIST(REC-&gt;LIST,5)
+DECLARE NUM = I4
+DECLARE POS = I4
+DECLARE POS2 = I4
+
+SET REC-&gt;LIST[1].NAME = "ANDY"
+SET REC-&gt;LIST[2].NAME = "BARB"
+SET REC-&gt;LIST[3].NAME = "BARNEY"
+SET REC-&gt;LIST[4].NAME = "CHARLES"
+SET REC-&gt;LIST[5].NAME = "CINDY"
+
+SET POS = LOCATEVALSORT(NUM,1,5,"BARB",REC-&gt;LIST[NUM].NAME)
+CALL ECHO(POS)
+
+SET POS2 = LOCATEVALSORT(NUM,1,5,"CANDICE",REC-&gt;LIST[NUM].NAME)
+
+CALL ECHO(POS2)
+
+END
+GO</pre>
+</div></div><p><br/>The example below uses LocateValSort() to find an occurrence of the string "VALUE" in the REC-&gt;LIST[ ].FLD. It then uses WHILE loops to find the first and last occurrence of the string "VALUE" in the REC-&gt;LIST[ ].FLD.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>;find an occurrence of "VALUE" in the list
+SET START = LOCATEVALSORT(NUM,1,SIZE(REC-&gt;LIST,5),"VALUE",REC-&gt;LIST[NUM].FLD)
+SET LAST = START
+CALL ECHO(START)
+SET PREV = START -1
+SET NEXT = START +1
+;find the subsequent occurrences of "VALUE" in the list
+IF(NEXT &lt;= SIZE(REC-&gt;LIST,5))
+	WHILE(NEXT &lt;= SIZE(REC-&gt;LIST,5)
+			AND REC-&gt;LIST[START].FLD = REC-&gt;LIST[NEXT].FLD )
+		CALL ECHO(NEXT)
+		SET NEXT = NEXT +1
+	ENDWHILE
+ENDIF
+SET LAST = NEXT -1
+;find the prior occurrences of "VALUE" in the list
+
+WHILE(REC-&gt;LIST[START].FLD = REC-&gt;LIST[PREV].FLD AND PREV != 0)
+	CALL ECHO(PREV)
+	SET PREV = PREV -1
+ENDWHILE
+SET FIRST = PREV +1</pre>
+</div></div><p><br/></p><p>The following example uses LocateValSort() to find the location in the enc-&gt;qual list, where the <strong>person_id</strong> and <strong>encntr_id</strong> list items are equal to the person_id and encntr_id values that were selected from the Orders table. For this example to work, the query that loads the person_ids and encntr_ids into the enc-&gt;qual list must be sorted by person_id and then encntr_id.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT  INTO $outdev
+    o.person_id
+    , o.encntr_id
+    , o.order_id
+FROM
+    orders   o
+
+where expand(num,1,size(enc-&gt;qual,5)
+            ,o.person_id ,enc-&gt;qual[num].person_id
+            ,o.encntr_id ,enc-&gt;qual[num].encntr_id )
+
+ORDER BY
+    o.person_id
+    ,o.encntr_id
+
+detail
+    pos = locatevalsort(num,1,size(enc-&gt;qual,5)
+            ,o.person_id ,enc-&gt;qual[num].person_id
+            ,o.encntr_id ,enc-&gt;qual[num].encntr_id )
+    col 0 pos
+    col +1 o.encntr_id
+    col +1 enc-&gt;qual[pos].encntr_id
+    col +1 o.person_id
+    col +1 enc-&gt;qual[pos].person_id
+    row +1
+
+WITH format, separator = " "</pre>
+</div></div><p>The following example demonstrates using an IF() command to verify that the value returned from LOCATEVAL() is greater than zero and flex the output when the searched-for value is found or not found.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program ccl_test_negative_rec_list go
+create program ccl_test_negative_rec_list
+
+record rec(
+    1 list[2]
+        2 fld = i4
+    ) with protect
+
+declare pos = i4 with protect, noconstant(0)
+declare idx = i4 with protect, noconstant(0)
+declare s_item = i4 with protect, noconstant(0)
+    
+set rec-&gt;list[1].fld = 1
+set rec-&gt;list[2].fld = 2
+
+for(lcnt = 1 to 3)
+    set s_item = lcnt
+    set pos = locatevalsort(idx,1,size(rec-&gt;list,5),s_item,rec-&gt;list[idx].fld)
+    call echo(build("Pos=",pos))
+    if(pos &gt; 0)
+        call echo(concat("Found ", trim(cnvtstring(s_item)), " in rec-&gt;list[",trim(cnvtstring(pos)), "].fld"))
+    else
+        call echo(concat(trim(cnvtstring(s_item)), " not found"))
+    endif
+endfor
+
+end
+go</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 572, "requestCorrelationId": "f3389aa112fef677"}</span>
+</body>
+</html>

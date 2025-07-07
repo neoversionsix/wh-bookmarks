@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>MOVERECLIST Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/MOVERECLIST+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The MOVERECLIST() function allows you to move values from one or more positions in one record structure list, into a list in another record structure or into a different list in the same record structure. Do not use MOVERECLIST() to move values from one position in a list to another position in the same list in the same record structure. Doing so results in loss of data or other unexpected results. The insert mode can be set to overwrite existing values in the move to record structure, or add positions to the move to record structure and insert the values into those positions. The LocateValSort() function often is used with the MoveRecList() function to maintain sorting in a record structure list. The list names and item names in the list can be different, but the layout and data types of the items in the lists must be the same.</p><h2 id="MOVERECLISTUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>MOVERECLIST(from_record_list, to_record_list, from_list_index, to_list_index, num_occurs, insert_mode)
+</pre>
+</div></div><h2 id="MOVERECLISTUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>from_record_list</em></p><p>A record structure list that contains the values to be moved. In the Record command, an item at any level that is given a name, followed by square brackets enclosing an asterisk (*) or an integer but not assigned a data type is a record list. In the following example, Qual is a record list:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Record Temp_1 (
+     1 Qual[*]
+	2 ID = f8
+	2 Name = VC )
+</pre>
+</div></div><p><em>to_record_list</em></p><p>A record structure list, with a definition that matches the from_record_list.</p><p><em>from_list_index</em></p><p>An integer value representing the position of the from_record_list that contains the values to be moved.</p><p><em>to_list_index</em></p><p>An integer value representing the position of the to_record_list to which the values are moved. If False is used for the insert_mode, the values are moved to the position of the to_record_list specified by the to_list_index. If True is used for the insert_mode, the values will be inserted into the position of the to_record_list that is after the position specified by the to_list_index.</p><p><em>num_occurs</em></p><p>The number of positions to move from the from_record_list to the to_record_list.</p><p><em>insert_mode</em></p><p><strong>True (1):</strong> Insert the values from the from_record_list into the to_record_list. When using true, the size of the to_record_list is increased by the num_occurs value and the from_record_list values are inserted after the to_list_index position.</p><p><strong>False (0):</strong> Copy the values from the from_record_list into the to_record_list. When using false, the values that currently exist beginning at the to_list_index position is overwritten by the values from the from_record_list.</p><h2 id="MOVERECLISTUsingDiscernExplorer-Examples">Examples</h2><p>Assuming the following record commands are used to define record Arec and Brec:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record Arec (
+  1 Atitle = c10
+  1 Alist [*]
+    2 id = f8
+    2 name = vc
+)
+
+record Brec (
+  1 Btitle = c10
+  1 Blist [*]
+    2 id = f8
+    2 name = vc
+)
+</pre>
+</div></div><p>The command below inserts the ID and name values from position 1 and 2 of Arec-&gt;Alist into positions 1 and 2 of Brec-&gt;Blist. The values that are in Brec-&gt;Blist are moved two positions down the list.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>set stat = movereclist(Arec-&gt;Alist, Brec-&gt;Blist, 1, 0, 2, true)</pre>
+</div></div><p>The command below inserts the ID and name values from position 1 and 2 of Arec-&gt;Alist into positions 2 and 3 of Brec-&gt;Blist. The values that are in position 2 or higher of Brec-&gt;Blist are moved two positions down the list.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>set stat = movereclist(Arec-&gt;Alist, Brec-&gt;Blist, 1, 1, 2, true)</pre>
+</div></div><p>The following command overwrites the ID and name values in position 1 and 2 of Brec-&gt;Blist with the values that are in position 1 and 2 of Arec-&gt;Alist:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>set stat = movereclist(Arec-&gt;Alist, Brec-&gt;Blist, 1, 1, 2, false)</pre>
+</div></div><p>Assuming:</p><ul><li>The following record commands are used to define the EvenRec and OddRec record structures.</li><li>That the ID values in the EvenRec-&gt;EvenList are even numbers sorted in ascending order.</li><li>That the ID values in the OddRec-&gt;OddList are odd numbers sorted in ascending order.</li></ul><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record EvenRec (
+  1 EvenList [*]
+    2 id = i4
+    2 name = vc)
+
+ record OddRec (
+  1 OddList [*]
+    2 id = i4
+    2 name = vc)
+</pre>
+</div></div><p>The commands below look for the values 1 through 10 in each of the record structure lists. The even ID numbers and corresponding names that exist in the EvenRec are moved to the OddRec. The ID values in the OddRec-&gt;OddList are maintained in sorted ascending order.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>for(SearchNum = 1 to 10)
+	;look for SearchNum in the OddList
+	set opos = locatevalsort(num,1,size(OddRec-&gt;OddList,5),
+					SearchNum,OddRec-&gt;OddList[num].id)
+	if(opos &lt; 0) ;SearchNum is not in the OddList, look for it in the EvenList
+		;convert the negative value returned by  locatevalsort() to a positive value
+		set opos = abs(opos)
+		set epos = locatevalsort(num,1,size(EvenRec-&gt;EvenList,5),
+				SearchNum,EvenRec-&gt;EvenList[num].id)
+		if(epos &gt; 0) ;SearchNum is in EvenList so move it to OddList
+			set stat = moveReclist(EvenRec-&gt;EvenList, OddRec-&gt;OddList,epos,opos,1,true)
+		endif
+	endif
+endfor
+</pre>
+</div></div><p>Assuming the following record commands are used to define record Temp and Temp2:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>  	RECORD TEMP2(
+    	1 LIST1[*]
+    	  2 LIST2[*]
+    	    3 ORD_PROVIDER[*]
+    	      4 ID_NBR=VC  )
+
+	  RECORD TEMP(
+	    1 ORD_PROVIDER[*]
+	      2 ID_NBR=VC)
+</pre>
+</div></div><p>The following command moves the content of the TEMP-&gt;ORD_PROVIDER list to the TEMP2-&gt;LIST1[1] -&gt;LIST2[1] -&gt;ORD_PROVIDER list:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>	SET STAT = MOVERECLIST(TEMP-&gt;ORD_PROVIDER,
+			TEMP2-&gt;LIST1[1]-&gt;LIST2[1]-&gt;ORD_PROVIDER,  1,1,1,FALSE)
+</pre>
+</div></div><p>In the following example the definitions of the record structure lists match, but the list names are different and the names of the individual list items are reversed. Because the MOVCERECLIST() function does not consider the names of the items when performing a move, the output of the CALL ECHORECORD commands is:</p><p>&gt;&gt;&gt;Begin EchoRecord AREC   ;AREC</p><p> 1 ALIST[1,1*]</p><p>  2 <strong>NAME_1</strong>=VC8   {<strong>Name One</strong>}</p><p>  2 NAME_2=VC8   {Name Two}</p><p>&gt;&gt;&gt;End EchoRecord AREC Varchar=2, Varlist=1, Fixsize=8, Varsize=40</p><p>&gt;&gt;&gt;Begin EchoRecord BREC   ;BREC</p><p> 1 BLIST[1,1*]</p><p>  2 <strong>NAME_2</strong>=VC8   {<strong>Name One</strong>}</p><p>  2 NAME_1=VC8   {Name Two}</p><p>&gt;&gt;&gt;End EchoRecord BREC Varchar=2, Varlist=1, Fixsize=8, Varsize=40</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record AREC (
+  1 ALIST[*]
+    2 NAME_1 = VC
+    2 NAME_2 = VC
+)
+ 
+record BREC (
+  1 BLIST[*]
+    2 NAME_2 = VC
+    2 NAME_1 = VC
+)
+CALL ALTERLIST(AREC-&gt;ALIST,1) 
+ 
+set AREC-&gt;ALIST[1].NAME_1 = "Name One"
+set AREC-&gt;ALIST[1].NAME_2 = "Name Two"
+ 
+set STAT = MOVERECLIST(AREC-&gt;ALIST,BREC-&gt;BLIST,1,0,1,true)
+call echorecord(AREC) 
+call echorecord(BREC)</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 591, "requestCorrelationId": "52e8d40c9001aa22"}</span>
+</body>
+</html>

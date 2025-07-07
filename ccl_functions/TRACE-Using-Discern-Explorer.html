@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>TRACE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/TRACE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The TRACE function returns <strong>0</strong> if the trace is off, <strong>1</strong> if the trace is on, or <strong>-1</strong> for an unknown trace.</p><h2 id="TRACEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>TRACE(trace_option [,opt_pos])</pre>
+</div></div><h2 id="TRACEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>trace_option</em></p><p>A text expression representing a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> trace option. It must be specified in uppercase letters.</p><p><em>opt_pos</em></p><p>The optional position to return the value for multiple value traces. This was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.0 and 9.02.0.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Opt_Pos</th><th class="confluenceTh">Description</th></tr><tr><td class="confluenceTd">0</td><td class="confluenceTd">Return <strong>1</strong> if trace is on, and <strong>0</strong> if trace is off (default).</td></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd"><p>Return the value for Position 1 for the following traces:</p><p>CLASSVER</p><p>DEPRECATED</p><p>FLUSH</p><p>QUALPREDCHK</p><p>QUERYTIMEOUT</p><p>RDBARRAYFETCH</p><p>RDBARRAYINSERT</p><p>RDBSTMTCACHE</p><p>RDBTHREADSAFE</p><p>REFLOG</p><p>TIMEDRIFT</p></td></tr><tr><td class="confluenceTd" colspan="1">2</td><td class="confluenceTd" colspan="1"><p>Return the value for Position 2 for the RDBEXPAND and DTTMCALC traces. </p><p>The RDBEXPANDGTTDMIN trace sets the second position for RDBEXPAND, and the DTTMCALCFLEX trace sets the second position for DTTMCALC.</p></td></tr></tbody></table></div><h2 id="TRACEUsingDiscernExplorer-Examples">Examples</h2><p>The following example echoes <strong>1</strong> if the Warning trace is active, and <strong>0</strong> if the Warning trace is not active:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHO(TRACE("WARNING")) GO
+</pre>
+</div></div><p>Since "NOTATRACE" is not a valid trace option, the following example echoes <strong>-1:</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHO(TRACE("NOTATRACE")) GO
+</pre>
+</div></div><p>The following example uses the opt_pos option:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echo(build("WARNING=",trace("WARNING"))) go
+call echo(build("RDBARRAYFETCH=",trace("RDBARRAYFETCH"))) go
+call echo(build("RDBARRAYFETCH pos1=",trace("RDBARRAYFETCH",1))) go
+call echo(build("DTTMCALC=",trace("DTTMCALC"))) go
+call echo(build("DTTMCALC pos1=",trace("DTTMCALC",1))) go
+call echo(build("DTTMCALC pos2=",trace("DTTMCALC",2))) go    
+call echo(build("RDBEXPAND=",trace("RDBEXPAND"))) go
+call echo(build("RDBEXPAND pos1=",trace("RDBEXPAND",1))) go
+call echo(build("RDBEXPAND pos2=",trace("RDBEXPAND",2))) go    </pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 554, "requestCorrelationId": "07455a9c85778734"}</span>
+</body>
+</html>

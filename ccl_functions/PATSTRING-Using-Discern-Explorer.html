@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>PATSTRING Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/PATSTRING+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The PATSTRING( ) function treats an expression as a pattern-matching literal string. For example, when qualifying on records that have a field equal to TEST*, the function finds all instances that start with the letters "TEST" followed by any combination of characters. This allows the index to be read when pattern matching in qualifications or conditionals.</p><p>This function can be used in DELETE, INSERT, SELECT, and UPDATE commands that are invoked multiple times in the same Discern Explorer program. Because the pattern-matching characters "*" and "?" are recognized only in literal string constants, PATSTRING() can be used for global variables using pattern-matching characters. PATSTRING cannot include columns on the SELECT tables. Because only parameters ($1, $2, and so on) or literals are checked for pattern-matching characters, the PATSTRING( ) function is needed for variables with pattern characters.  When using the PATSTRING( ) function on non-character expressions, the ASIS( ) function is interpreted.</p><h2 id="PATSTRINGUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PATSTRING(expression, mode)</pre>
+</div></div><h2 id="PATSTRINGUsingDiscernExplorer-Metasymbol">Metasymbol</h2><p><em>expression</em></p><p>A value of any data type.</p><p><em>mode</em></p><p>If the optional mode argument is used, the pattern match is applied during the processing phase (dynamic patstring); otherwise, this is done during the semantic phase.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Mode</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>0</p></td><td class="confluenceTd"><p>Converts the expression to a Discern Explorer pattern-matching string</p></td></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>Converts the expression to an RDBMS pattern-matching string</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Converts the expression to a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> pattern-matching string using escape ( "\" )</p></div></td></tr><tr><td class="confluenceTd"><p>3</p></td><td class="confluenceTd"><p>Converts the expression to an RDBMS pattern-matching string using escape ( "\" )</p></td></tr></tbody></table></div><h2 id="PATSTRINGUsingDiscernExplorer-Examples">Examples</h2><p>In the following example:</p><p>    If STR_VAR = "TEST1", "STR_VAR begins with 'TEST'" is echoed.<br>    If STR_VAR = "NOTEST1", "STR_VAR begins with 'NOTEST'" is echoed<br/>    Otherwise "NOT FOUND" is echoed</br></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CASE(STR_VAR) 
+	OF ( PATSTRING("TEST*",0)): CALL ECHO("STR_VAR begins with 'TEST' ")
+	OF ( PATSTRING("NOTEST*",0)): CALL ECHO("STR_VAR begins with 'NOTEST' ")
+ELSE  CALL ECHO("NOT FOUND")
+ENDCASE
+</pre>
+</div></div><p>In the following example, if you enter <strong>SMITH*</strong> at the prompt, the PATSTRING is used to find all instances that begin with SMITH. Without the PATSTRING function, the query looks for all instances of the literal "SMITH%".</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Prompt "Enter Patient Name ( Default = All): " = "*"
+Select
+p.name_last_key,
+p.person_id
+From person p
+Where p.name_last_key = patstring(cnvtupper($1))
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 589, "requestCorrelationId": "fbe5f973fd5224b2"}</span>
+</body>
+</html>

@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CNVTNLS Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CNVTNLS+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>CNVTNLS() provides implicit use of _NLS or _A_NLS columns for qualifications and sorting in non-English locales. CNVTNLS() has no effect in English locales.</p><p>The _NLS columns account for differences in character sets and sort orders between English and other languages. Additionally the _A_NLS columns provide accent insensitivity for qualifications and sorting in non-English languages. Corresponding _NLS and _A_NLS columns are created for columns that are often used in qualifications and sorting. For example, the PERSON table contains a NAME_LAST_KEY field and the corresponding NAME_LAST_KEY_NLS and NAME_LAST_KEY_A_NLS columns. Database triggers populate the _NLS and _A_NLS fields in non-English environments.</p><p>When used in a qualification, the following clause performs an implicit conversion to use the _NLS column if it exists.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;column&gt;|cnvtnls(&lt;expr&gt;) between &lt;expr&gt; and &lt;expr&gt;</pre>
+</div></div><p>When used in a qualification, the following clauses perform an implicit conversion to use the _A_NLS column if it exists.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>    Operator(&lt;column&gt;|cnvtnls(&lt;expr&gt;),"LIKE",&lt;patstring&gt;)
+    Operator(&lt;column&gt;|cnvtnls(&lt;expr&gt;),"ESCAPELIKE",&lt;patstring&gt;)
+    &lt;column&gt;|cnvtnls(&lt;expr&gt;) between &lt;expr&gt; and &lt;expr&gt;
+    &lt;column&gt;|cnvtnls(&lt;expr&gt;) like &lt;expr&gt;
+    cnvtnls(&lt;function&gt;(&lt;expr&gt;)) between &lt;expr&gt; and &lt;expr&gt;
+    cnvtnls(&lt;function&gt;(&lt;expr&gt;)) like &lt;patstring&gt;
+</pre>
+</div></div><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.7.2 introduced the ability to use CNVTNLS() in the ORDER [BY] clause. No implicit conversion to use the _NLS column or _A_NLS column will be performed on fields used in the ORDER [BY] clause. You must explicitly use the CNVTNLS() function to have the results sorted by the _NLS column or _A_NLS column.</p><h2 id="CNVTNLSUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CNVTNLS(expr)</pre>
+</div></div><h2 id="CNVTNLSUsingDiscernExplorer-Metasymbol">Metasymbol</h2><p><em>expr</em></p><p>A character expression. Generally the expression includes a column name.</p><h2 id="CNVTNLSUsingDiscernExplorer-Examples">Examples</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT P.NAME_LAST_KEY
+FROM PERSON P
+WHERE P.UPDT_DT_TM &gt; CNVTLOOKBEHIND("1,W")
+	AND P.NAME_LAST_KEY BETWEEN "R*" AND "S"
+</pre>
+</div></div><p>In a non-English environment the above query would be passed to the RDBMS as follows:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT P.NAME_LAST_KEY
+FROM PERSON P
+WHERE P.UPDT_DT_TM &gt; :1
+ AND P.NAME_LAST_KEY_NLS BETWEEN  NLSSORT('R%') AND  NLSSORT('S')
+</pre>
+</div></div><p>Note the implicit use the P.NAME_LAST_KEY_NLS column in the query that is passed to the RDBMS. If the TRIM() function was added around the P.NAME_LAST_KEY qualification in the example as shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT P.NAME_LAST_KEY
+FROM PERSON P
+WHERE P.UPDT_DT_TM &gt; CNVTLOOKBEHIND("1,W")
+	AND TRIM(P.NAME_LAST_KEY) BETWEEN "R*" AND "S"
+</pre>
+</div></div><p>The query that is passed to the RDBMS would not use the P.NAME_LAST_KEY_NLS column. In a non-English environment the above query would be passed to the RDBMS as follows:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT P.NAME_LAST_KEY
+FROM  PERSON P
+WHERE P.UPDT_DT_TM &gt;  :1
+	 AND  RTRIM(P.NAME_LAST_KEY) BETWEEN 'R%' AND 'S'
+</pre>
+</div></div><p>To ensure the use of the _NLS column the CNVTNLS() function can be used. For example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT P.NAME_LAST_KEY
+FROM PERSON P
+WHERE P.UPDT_DT_TM &gt; CNVTLOOKBEHIND("1,W")
+	AND CNVTNLS(TRIM(P.NAME_LAST_KEY)) BETWEEN "R*" AND "S"
+</pre>
+</div></div><p>In a non-English environment the above query would be passed to the RDBMS as follows:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT P.NAME_LAST_KEY
+FROM  PERSON P
+WHERE P.UPDT_DT_TM &gt;  :1
+	AND  RTRIM(P.NAME_LAST_KEY_NLS) BETWEEN  NLSSORT('R%') AND  NLSSORT('S')
+</pre>
+</div></div><p>To have the results sorted by the _NLS column or _A_NLS column the CNVTNLS() function must be used in the ORDER [BY] clause. For example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>ORDER BY P.NAME_LAST_KEY
+</pre>
+</div></div><p>In an English locale, the above sort would be performed using the P.NAME_LAST_KEY field. In a non-English locale, the above sort would be converted to use the P.NAME_LAST_KEY_A_NLS field.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>In English language environments, all of the above examples would use the P.NAME_LAST_KEY column in the query that is passed to the RDBMS. Also, since the P.NAME_LAST_KEY column is a VC data type. One might ask, "Why the TRIM() function would be used in the above examples?". Functions are often used to prevent the RDBMS optimizer from using a specific index. In the above examples, the TRIM() function would prevent the optimizer from using an index that begins with P.NAME_LAST_KEY. In effect forcing the optimizer to use an index that begins with P.UPDT_DT_TM since both P.NAME_LAST_KEY and P.UPDT_DT_TM are indexed fields on the PERSON table.</p></div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 561, "requestCorrelationId": "666606fbe3dc1eeb"}</span>
+</body>
+</html>

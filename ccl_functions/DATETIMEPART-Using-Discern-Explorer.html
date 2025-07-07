@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>DATETIMEPART Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/DATETIMEPART+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The DATETIMEPART() function allows you to return the year, month, day, hour, or minute part of a datetime value as an integer.</p><p>When Coordinated Universal Time (UTC) is turned on and DATETIMEPART() is used; outside of a SELECT, in the selection list, or in a reportwriter section of a SELECT, the DATETIMEPART() function assumes the datetime value is in UTC and converts it to a local datetime before returning the part. If UTC is turned on and DATETIMEPART() is used in a query in a way that causes it to be processed at the RDBMS level, the part is returned from the UTC datetime value before it is adjusted to the local time zone.</p><p>DATETIMEPART() cannot be used in a nested Select command.</p><h2 id="DATETIMEPARTUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DATETIMEPART(datetime, part_type)
+</pre>
+</div></div><h2 id="DATETIMEPARTUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>datetime</em></p><p>A datetime value</p><p><em>part_type</em></p><p>Determines the part to be returned from the datetime value</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh" colspan="1">Part_type</th><th class="confluenceTh" colspan="1">Description </th></tr><tr><td class="confluenceTd" style="text-align: center;"><p>1</p></td><td class="confluenceTd"><p>year component</p></td></tr><tr><td class="confluenceTd" style="text-align: center;"><p>2</p></td><td class="confluenceTd"><p>month component</p></td></tr><tr><td class="confluenceTd" style="text-align: center;"><p>3</p></td><td class="confluenceTd"><p>day component</p></td></tr><tr><td class="confluenceTd" style="text-align: center;"><p>4</p></td><td class="confluenceTd"><p>hour component</p></td></tr><tr><td class="confluenceTd" style="text-align: center;"><p>5</p></td><td class="confluenceTd"><p>minute component</p></td></tr></tbody></table></div><h2 id="DATETIMEPARTUsingDiscernExplorer-Examples">Examples</h2><p>The following example echos <strong>2016</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echo(datetimepart(cnvtdatetime("20-Jun-2016 13:45:00"),1)) go</pre>
+</div></div><p>The following example echos <strong>6</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echo(datetimepart(cnvtdatetime("20-Jun-2016 13:45:00"),2)) go</pre>
+</div></div><p>The following example echos <strong>20</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echo(datetimepart(cnvtdatetime("20-Jun-2016 13:45:00"),3)) go</pre>
+</div></div><p>The following example echos <strong>13</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echo(datetimepart(cnvtdatetime("20-Jun-2016 13:45:00"),4)) go</pre>
+</div></div><p>The following example echos <strong>45</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echo(datetimepart(cnvtdatetime("20-Jun-2016 13:45:00"),5)) go</pre>
+</div></div><p>The following example echos <strong>year is        2016</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echo(build2("year is ", datetimepart(cnvtdatetime("20-Jun-2016 13:45:00"),1))) go</pre>
+</div></div><p>The following example echos <strong>2016</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>set year = datetimepart(cnvtdatetime("20-Jun-2016 13:45:00"),1) go
+call echo(year) go</pre>
+</div></div><p>The following example returns rows from the Person table that were updated on the 15th day of any month in the past year:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+    P.UPDT_DT_TM
+FROM
+    PERSON   P
+WHERE P.UPDT_DT_TM BETWEEN CNVTLOOKBEHIND("1,Y") AND CNVTDATETIME(CURDATE, curtime3)
+    AND datetimepart(P.UPDT_DT_TM,3) = 15
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT</pre>
+</div></div><p>The following example will generate errors because DATETIMEPART() cannot be used in nested Select commands:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+    O.MONTH
+FROM
+    OMF_DATE   O
+WHERE O.MONTH = 
+    (select o2.month
+     from omf_date o2
+     where datetimepart(o2.updt_dt_tm,2) = o2.month)
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 961, "requestCorrelationId": "1fd33cdaba369a0c"}</span>
+</body>
+</html>

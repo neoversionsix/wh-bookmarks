@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>TIMESTAMPDIFF( ) Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/TIMESTAMPDIFF%28+%29+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The TIMESTAMPDIFF() function returns the difference between two datetime values or two timestamp values. The difference is returned as a floating point number in the format of number_of_seconds.fraction. TIMESTAMPDIFF() was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.8.0. The initial release only returned the difference between two timestamp values. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.10.0 expanded the functionality to return the difference between two datetime values.</p><p>Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3 and 9.02.3, TIMESTAMPDIFF() occasionally returned an incorrect fractional second difference between two timestamp values. This is corrected in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3 and 9.02.3. </p><p>Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.16.0 and 9.04.0, TIMESTAMPDIFF() right justifies the fractional seconds to six digits to the right of the decimal point.</p><h2 id="TIMESTAMPDIFF()UsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>TIMESTAMPDIFF(datetime|timestamp, datetime|timestamp[,opt[,mode]])
+</pre>
+</div></div><h2 id="TIMESTAMPDIFF()UsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>datetime</em><br>A datetime value that represents the current date and time.</br></p><p><em>timestamp</em><br/>A DM12 data type value that represents the current date, time, and fractional seconds. The CNVTTIMESTAMP() function returns a timestamp value. The SYSTIMESTAMP variable is equal to the current timestamp.</p><p><em>opt</em><br/>Determines the unit of the value that is returned.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>Number of seconds.fraction (default)</p></td></tr></tbody></table></div><p><em>mode</em></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Mode</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>0</p></td><td class="confluenceTd"><p>If a UTC timestamp, then convert the timestamp to local before applying the calculation.</p></td></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>If a local timestamp, then convert the timestamp to UTC before applying the calculation.</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p>If UTC on and a local timestamp, then convert the timestamp to UTC before applying the addition.</p></td></tr></tbody></table></div><p>If mode is omitted, the DTTMCALC trace flexes the default mode. If DTTMCALC is disabled, Mode 0 is used. If DTTMCALC is enabled and the addition is more than 1 day, Mode 1 is used; otherwise, Mode 0 is used.</p><h2 id="TIMESTAMPDIFF()UsingDiscernExplorer-Examples">Examples</h2><p>The following Call Echo returns 0.050000:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echo(timestampdiff(cnvttimestamp(cnvtlookahead("5,hun")),
+      cnvttimestamp(cnvtdatetime(curdate,curtime3)),1,0)) go
+</pre>
+</div></div><p>The following example uses TIMESTAMPDIFF() to return the difference between the SysTimeStamp before and after a Select command is executed:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program ccl_test_timestampdiff go
+create program ccl_test_timestampdiff
+
+declare diff = f8
+declare now = dm12
+set now = systimestamp
+
+select into "NL:"
+     p.person_id
+from person p
+where p.updt_dt_tm between cnvtlookbehind("1,m") and cnvtdatetime(curdate,curtime3)
+with nocounter
+
+set diff = timestampdiff(systimestamp,now)
+call echo(build("select execution time:",diff))
+
+end
+go
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 595, "requestCorrelationId": "961f40d5665ed352"}</span>
+</body>
+</html>

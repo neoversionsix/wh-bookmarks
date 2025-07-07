@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>HHFUNCTIONS Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/HHFUNCTIONS+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Functions are programs provided with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> that perform specific tasks. These functions can be divided into the seven categories described below:</p><p>Aggregate functions perform calculations on groups of data. They are useful for displaying running totals and subtotals with Reportwriter FOOT clauses. For example, if COUNT(P.NAME_FULL_FORMATTED) is specified in the FOOT REPORT clause, the total number of qualifying rows for the report is displayed at the end of the report. You can also count rows in a table as in, SELECT COUNT(*) FROM PERSON GO.</p><ul><li><strong>Bit functions:</strong> Bit functions perform bitwise operations on binary columns. They are used to test, set, and clear bits of a status word.</li><li><strong>Math Functions:</strong> Math functions perform operations such as logarithms on binary data (constants, variables, and numeric columns).</li><li><strong>Miscellaneous functions:</strong> Miscellaneous functions are functions that do not fit clearly into one of the other groups.</li><li><strong>String Functions:</strong> String functions perform operations on character strings.</li><li><strong>Temporal functions: </strong>Temporal functions perform operations on date and time values.</li><li><strong>UAR functions: </strong>UAR functions automatically get code descriptions from pre-assigned tables, which is more efficient and avoids the need to join to those tables every time you need to get a description.</li></ul><p>The following <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> functions are described in detail at the end of this section (after the discussion of metasymbols). Each description includes a definition of the function, its syntax, an explanation of the metasymbols used (if appropriate), and examples.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Category</p></th><th class="confluenceTh"><p>Functions</p></th></tr><tr><th class="confluenceTh"><p><strong>Aggregate</strong></p></th><td class="confluenceTd"><ul><li>AVG</li><li>COUNT</li><li>CUBE</li><li>MAX</li><li>MEDIAN</li><li>MIN</li><li>PERCENT</li><li>ROLLUP</li><li>STDDEV</li><li>SUM</li><li>VARIANCE</li></ul></td></tr><tr><th class="confluenceTh"><p>Bit</p></th><td class="confluenceTd"><ul><li>BAND</li><li>BNOT</li><li>BOR</li><li>BTEST</li><li>BXOR</li></ul></td></tr><tr><th class="confluenceTh"><p><strong>Math</strong></p></th><td class="confluenceTd"><ul><li>ABS</li><li>CEIL</li><li>EVEN</li><li>EXP</li><li>FLOOR</li><li>GREATEST</li><li>LEAST</li><li>LOG</li><li>LOG10</li><li>MAXVAL</li><li>MINVAL</li><li>MOD</li><li>RAND</li></ul></td></tr><tr><th class="confluenceTh"><p><strong>Miscellaneous</strong></p></th><td class="confluenceTd"><ul><li>AESDECRYPTFILE</li><li>AESENCRYPTFILE</li><li>ALTER</li><li>ALTER2</li><li>ALTERLIST</li><li>ASIS</li><li>ASSIGN</li><li>ASSIGN2</li><li>ASSIGN3</li><li>CALCPOS</li><li>CALLPRG</li><li>CCLFMT</li><li>CCLIO</li><li>CHAR</li><li>CHECK</li><li>CHECKDIC</li><li>CHECKFUN</li><li>CHECKPRG</li><li>CHECKQUEUE</li><li>CNVTACC</li><li>CNVTALIAS</li><li>CNVTALPHANUM</li><li>CNVTBOOL</li><li>CNVTB10B16</li><li>CNVTB10B36</li><li>CNVTB16B10</li><li>CNVTB36B10</li><li>CNVTHEXRAW</li><li>CNVTINT</li><li>CNVTJSONTOREC</li><li>CNVTPHONE</li><li>CNVTRAWHEX</li><li>CNVTREAL</li><li>CNVTRECTOXML</li><li>CNVTRECTOJSON</li><li>CNVTXMLTOREC</li><li>COST</li><li>CURCODECOVER</li><li>CURPROG</li><li>DECODE</li><li>ERROR</li><li>EVALUATE</li><li>EVALUATE2</li><li>EXPAND</li><li>FINDFILE</li><li>ICHAR</li><li>INITARRAY</li><li>INITREC</li><li>ISNUMERIC</li><li>LIST</li><li>LOCATEVAL</li><li>LOCATEVALSORT</li><li>LOGICAL</li><li>MAXREC</li><li>MEMALLOC</li><li>MEMFREE</li><li>MEMREALLOC</li><li>MODCHECK</li><li>MODIFY</li><li>MOVEREC</li><li>MOVERECLIST</li><li>NEGATE</li><li>NORDBBIND</li><li>NULL</li><li>NULLCHECK</li><li>NULLIND</li><li>NULLTERM</li><li>NULLVAL</li><li>OPERATOR</li><li>OUTERJOIN</li><li>PARAMETER</li><li>PARAMETER2</li><li>PARSER</li><li>PERCENTILE</li><li>PROXYUSER</li><li>RDBBIND</li><li>REFLECT</li><li>REMOVE</li><li>RENAMEREC</li><li>REPORTINFO</li><li>REPORTROW</li><li>ROUND</li><li>SELECTIVITY</li><li>SEQ</li><li>SIZE</li><li>SORT</li><li>SORTSEARCH</li><li>SOUND</li><li>SOUNDEX</li><li>SQLPASSTHRU</li><li>TDBEXECUTE</li><li>TEXT</li><li>TEXTLEN</li><li>TRACE</li><li>TYPE</li><li>VALIDATE</li><li>VALUE</li><li>WTMODCHECK</li></ul></td></tr><tr><th class="confluenceTh"><p><strong>String</strong></p></th><td class="confluenceTd"><ul><li>AESDECRYPT</li><li>AESENCRYPT</li><li>BLOBGET</li><li>BLOBGETLEN</li><li>BUILD</li><li>BUILD2</li><li>BUILD2CHK</li><li>CNVTCAP</li><li>CNVTLOWER</li><li>CNVTNLS</li><li>CNVTNLSSORT</li><li>CNVTSTRING</li><li>CNVTSTRINGCHK</li><li>CNVTUPPER</li><li>CONCAT</li><li>CURFILE</li><li>CURLOCALE</li><li>FILLSTRING</li><li>FINDSTRING</li><li>FORMAT</li><li>MOVESTRING</li><li>NOTRIM</li><li>NOPATSTRING</li><li>PATSTRING</li><li>PIECE</li><li>REPLACE</li><li>SUBSTRING</li><li>TEXT</li><li>TRIM</li><li>TRIMBIND</li></ul></td></tr><tr><th class="confluenceTh"><p><strong>Temporal</strong></p></th><td class="confluenceTd"><ul><li>CNVTAGE</li><li>CNVTAGE2</li><li>CNVTAGEDATETIME</li><li>CNVTDATE</li><li>CNVTDATE2</li><li>CNVTDATETIME</li><li>CNVTDATETIME2</li><li>CNVTDATETIMERDB</li><li>CNVTDATETIMEUTC</li><li>CNVTDATETIMEUTC2</li><li>CNVTLOOKAHEAD</li><li>CNVTLOOKBEHIND</li><li>CNVTMIN</li><li>CNVTMIN2</li><li>CNVTTIME</li><li>CNVTTIME2</li><li>CNVTTIMESTAMP</li><li>DATETIMEADD</li><li>DATETIMECMP</li><li>DATETIMECMPUTC</li><li>DATETIMEDIFF</li><li>DATETIMEFIND</li><li>DATETIMEPART</li><li>DATETIMETRUNC</li><li>DATETIMEZONE</li><li>DATETIMEZONEBYINDEX</li><li>DATETIMEZONEBYNAME</li><li>DATETIMEZONEFORMAT</li><li>DATETIMEZONEUTC</li><li>DAY</li><li>HOUR</li><li>JULIAN</li><li>MINUTE</li><li>MONTH</li><li>WEEKDAY</li><li>YEAR</li></ul></td></tr><tr><th class="confluenceTh"><p><strong>UAR</strong></p></th><td class="confluenceTd"><ul><li>UAR GET CODE BY</li><li>UAR_GET_CODE_DESCRIPTION</li><li>UAR_GET_CODE_DISPLAY</li><li>UAR_GET_CODE_MEANING</li><li>UAR_GET__DEFINITION</li><li>UAR_GET_DISPLAYKEY</li><li>UAR_GET_MEANING_BY_CODESET</li></ul></td></tr></tbody></table></div><h3 id="HHFUNCTIONSUsingDiscernExplorer-ValidFunctionsforVCExpressions">Valid Functions for VC Expressions</h3><ul><li>BLOBGET</li><li>BUILDCNVTACC</li><li>CNVTALPHANUM</li><li>CNVTCAP</li><li>CNVTHEXRAW</li><li>CNVTLOWER</li><li>CNVTRAWHEX</li><li>CNVTUPPER</li><li>CONCAT</li><li>FINDSTRING</li><li>FORMAT</li><li>REPLACE</li><li>SUBSTRING</li><li>TRIM</li></ul><h3 id="HHFUNCTIONSUsingDiscernExplorer-VarCharFunctionsThatCanDynamicallyIncreasebutNotDecreaseinWidthwithaReportwriterSection">VarChar Functions That Can Dynamically Increase but Not Decrease in Width with a Reportwriter Section</h3><ul><li>CNVTALPHANUM</li><li>CNVTCAP</li><li>CNVTLOWER</li><li>CNVTUPPER</li></ul><h3 id="HHFUNCTIONSUsingDiscernExplorer-VarCharFunctionsThatCanDynamicallyDecreaseorIncreaseinSize">VarChar Functions That Can Dynamically Decrease or Increase in Size</h3><ul><li>AESDECRYPT</li><li>AESENCRYPT</li><li>BUILD</li><li>BUILD2</li><li>BUILD2CHK</li><li>CNVTHEXRAW</li><li>CNVTNLSSORT</li><li>CNVTRAWHEX</li><li>CONCAT</li><li>FORMAT</li><li>NULLTERM</li><li>PATSTRING</li><li>REPLACE</li><li>SUBSTRING</li><li>TRIM</li></ul><h3 id="HHFUNCTIONSUsingDiscernExplorer-FunctionsSupportedinRDBMSQueries">Functions Supported in RDBMS Queries</h3><p>Some of these functions may not be supported in all clauses of an RDBMS query.</p><ul><li>ABS</li><li>ASIS</li><li>AVG</li><li>BAND</li><li>BNOT</li><li>BOR</li><li>BTEST</li><li>CEIL</li><li>CHAR</li><li>CHECK</li><li>CNVTALPHANUM</li><li>CNVTBOOL</li><li>CNVTCAP</li><li>CNVTDATE</li><li>CNVTDATE2</li><li>CNVTDATETIME</li><li>CNVTDATETIMERDB</li><li>CNVTDATETIMEUTC</li><li>CNVTDATETIMEUTC2</li><li>CNVTHEXRAW</li><li>CNVTINT</li><li>CNVTLOOKAHEAD</li><li>CNVTLOOKBEHIND</li><li>CNVTLONG</li><li>CNVTLOWER</li><li>CNVTNLS</li><li>CNVTNLSSORT</li><li>CNVTRAWHEX</li><li>CNVTREAL</li><li>CNVTSTRING</li><li>CNVTTIMESTAMP</li><li>CNVTUPPER</li><li>CONCAT</li><li>COUNT</li><li>CUBECURLOB</li><li>DATETIMEADD</li><li>DATETIMECMP</li><li>DATETIMECMPUTC</li><li>DATETIMEDIFF</li><li>DATETIMEPART</li><li>DATETIMETRUNC</li><li>DAY</li><li>EVALUATE</li><li>EVALUATE2</li><li>EXPAND</li><li>FINDSTRING<br/>FLOOR</li><li>FORMAT</li><li>GREATEST</li><li>HOUR</li><li>ICHAR</li><li>ISNUMERIC</li><li>LEAST</li><li>LIST</li><li>MAX</li><li>MAXVAL</li><li>MIN</li><li>MINUTE</li><li>MINVAL</li><li>MOD</li><li>MONTH</li><li>NOTRIM</li><li>NULLCHECK<br/>NULLIND</li><li>NULLVAL</li><li>OPERATOR</li><li>ORDERDIR</li><li>OUTERJOIN</li><li>PATSTRING</li><li>RDBBIND</li><li>REPLACE<br/>SELECTIVITY</li><li>SEQ</li><li>SOUND</li><li>SOUNDEX</li><li>SQLPASSTHRU</li><li>STDDEV</li><li>SUBSTRING</li><li>SUM</li><li>TEXTLEN</li><li>TRIM</li><li>TRIMBIND</li><li>VALIDATE</li><li>VARIANCE</li><li>WEEKDAY</li><li>YEAR</li></ul><p>The following example shows the syntax for using the DUMMYT table with most functions that are not in the above list to qualify on RDB tables:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.UPDT_DT_TM
+FROM	PERSON P,
+	DUMMYT D
+PLAN P
+JOIN D	WHERE MONTH(P.UPDT_DT_TM) = 9
+GO
+</pre>
+</div></div><h3 id="HHFUNCTIONSUsingDiscernExplorer-FunctionsSupportedinOuterSelect">Functions Supported in Outer Select</h3><ul><li>ABS</li><li>ASIS</li><li>BAND</li><li>BNOT</li><li>BOR</li><li>BTEST</li><li>BXOR</li><li>CEIL</li><li>CHAR</li><li>CHECK</li><li>CNVTALPHANUM</li><li>CNVTBOOL</li><li>CNVTCAP</li><li>CNVTDATE</li><li>CNVTDATE2</li><li>CNVTDATETIME</li><li>CNVTDATETIMERDB</li><li>CNVTDATETIMEUTC</li><li>CNVTDATETIMEUTC2</li><li>CNVTTIMESTAMP</li><li>CNVTHEXRAW</li><li>CNVTINT</li><li>CNVTLONG</li><li>CNVTLOOKAHEAD</li><li>CNVTLOOKBEHIND</li><li>CNVTLOWER</li><li>CNVTNLS</li><li>CNVTNLSSORT</li><li>CNVTRAWHEX</li><li>CNVTREAL</li><li>CNVTSTRING</li><li>CNVTUPPER</li><li>CONCAT</li><li>CURLOB</li><li>DATETIMEADD</li><li>DATETIMECMP</li><li>DATETIMECMPUTC</li><li>DATETIMEDIFF</li><li>DATETIMEPART</li><li>DATETIMEZONE</li><li>DATETIMETRUNC</li><li>DAY</li><li>EVALUATE</li><li>EVALUATE2</li><li>EXPAND</li><li>FINDSTRING</li><li>FLOOR</li><li>FORMAT</li><li>GREATEST</li><li>HOUR</li><li>ICHAR</li><li>ISNUMERIC</li><li>LEAST</li><li>LIST</li><li>MAXVAL</li><li>MINVAL</li><li>MINUTE</li><li>MOD</li><li>MONTH</li><li>NOTEXPAND</li><li>NORDBBIND</li><li>NOTOPERATOR</li><li>NOTRIM</li><li>NULLCHECK</li><li>NULLIND</li><li>NULLVAL</li><li>OPERATOR</li><li>ORDERDIR</li><li>OUTERJOIN</li><li>PATSTRING</li><li>RDBBIND</li><li>REPLACE</li><li>SELECTIVITY</li><li>SEQ</li><li>SOUND</li><li>SOUNDEX</li><li>SQLPASSTHRU</li><li>SUBSTRING</li><li>TABLEREF</li><li>TEXTLEN</li><li>TRIM</li><li>TRIMBIND</li><li>VALIDATE</li><li>WEEKDAY</li><li>YEAR</li></ul><h3 id="HHFUNCTIONSUsingDiscernExplorer-FunctionsSupportedinInnerSelect">Functions Supported in Inner Select</h3><ul><li>ABS</li><li>ASIS</li><li>BAND</li><li>BNOT</li><li>BOR</li><li>BTEST</li><li>BXOR</li><li>CEIL</li><li>CHAR</li><li>CHECK</li><li>CNVTALPHANUM</li><li>CNVTBOOL</li><li>CNVTCAP</li><li>CNVTDATE<span class="confluence-link">*</span></li><li>CNVTDATE2<span class="confluence-link">*</span></li><li>CNVTDATETIME*</li><li>CNVTDATETIMERDB</li><li>CNVTDATETIMEUTC<span class="confluence-link">*</span></li><li>CNVTDATETIMEUTC2</li><li>CNVTTIMESTAMP<span class="confluence-link">*</span></li><li>CNVTHEXRAW</li><li>CNVTINT</li><li>CNVTLONG</li><li>CNVTLOOKAHEAD<span class="confluence-link">*</span></li><li>CNVTLOOKBEHIND*</li><li>CNVTLOWER</li><li>CNVTNLS</li><li>CNVTNLSSORT</li><li>CNVTRAWHEX</li><li>CNVTREAL</li><li>CNVTSTRING</li><li>CNVTUPPER</li><li>CONCAT</li><li>CURLOB</li><li>DATETIMEADD</li><li>DATETIMECMP</li><li>DATETIMECMPUTC</li><li>DATETIMEDIFF</li><li>DATETIMEPART<span class="confluence-link">*</span></li><li>DATETIMETRUNC</li><li>DATETIMEZONE<span class="confluence-link">*</span></li><li>DAY</li><li>EVALUATE</li><li>EVALUATE2</li><li>EXPAND</li><li>FINDSTRING</li><li>FLOOR</li><li>FORMAT<span class="confluence-link">*</span></li><li>GREATEST</li><li>HOUR</li><li>ICHAR</li><li>ISNUMERIC</li><li>LIST</li><li>LEAST</li><li>MAXVAL</li><li>MINUTE</li><li>MINVAL</li><li>MOD</li><li>MONTH</li><li>NORDBBIND</li><li>NOTEXPAND</li><li>NOTOPERATOR</li><li>NOTRIM</li><li>NULLCHECK</li><li>NULLIND</li><li>NULLVAL</li><li>OPERATOR</li><li>ORDERDIR</li><li>OUTERJOIN</li><li>PATSTRING</li><li>RDBBIND</li><li>REPLACE</li><li>SELECTIVITY</li><li>SEQ</li><li>SOUND</li><li>SOUNDEX</li><li>SQLPASSTHRU</li><li>SUBSTRING</li><li>TABLEREF</li><li>TEXTLEN</li><li>TRIM</li><li>TRIMBIND</li><li>VALIDATE</li><li>WEEKDAY</li><li>YEAR</li></ul><h3 id="HHFUNCTIONSUsingDiscernExplorer-*FunctionsSupportedinInnerSelectWithNoReferencetoTableAttribute">*Functions Supported in Inner Select With No Reference to Table Attribute</h3><ul><li>CNVTDATE</li><li>CNVTDATE2</li><li>CNVTDATETIME</li><li>CNVTDATETIMEUTC</li><li>CNVTTIMESTAMP</li><li>CNVTLOOKAHEAD</li><li>CNVTLOOKBEHIND</li><li>DATETIMEPART</li><li>DATETIMEZONE</li><li>FORMAT</li></ul>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 865, "requestCorrelationId": "1385513ec85ab13a"}</span>
+</body>
+</html>

@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>MEMALLOC Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/MEMALLOC+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>MEMALLOC () creates a one-dimensional array and allocates dynamic memory to store the array. Dynamic memory arrays can be established for one-dimensional arrays only. A dynamic memory array allows you to establish an array with a set number of elements, but then increase or decrease the number of elements in the array using the MEMREALLOC() function. <br class="atl-forced-newline"><br class="atl-forced-newline"/>Dynamic memory arrays, like static memory arrays, follow standard scoping rules:</br></p><ul><li>If Program A calls Program B, Program B recognizes all dynamic memory arrays defined in Program A, and Program A recognizes any modifications made to the elements in those arrays in Program B.</li><li>Program A does not recognize any dynamic memory arrays defined in Program B.</li></ul><p>You can read and load array elements in dynamic memory arrays just like static memory arrays. For example, the following command loads the value "Hello" into the second element in the array ARRAY_VAR:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET ARRAY_VAR[2] = "Hello"</pre>
+</div></div><p>The MEMALLOC( ) function is similar to the DECLARE command.</p><h2 id="MEMALLOCUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>MEMALLOC(array_name,integer,"data_type")</pre>
+</div></div><h2 id="MEMALLOCUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>array_name</em><br/>The identifier given to the one-dimensional array that is created by the MEMALLOC() function.</p><p><em>data_type</em><br/>Defines the characteristics of a column.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Type</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>Cwidth</p></td><td class="confluenceTd"><p>Character string and length</p></td></tr><tr><td class="confluenceTd"><p>F4</p></td><td class="confluenceTd"><p>Single-precision float</p></td></tr><tr><td class="confluenceTd"><p>F8</p></td><td class="confluenceTd"><p>Double-precision float</p></td></tr><tr><td class="confluenceTd"><p>[U]I1</p></td><td class="confluenceTd"><p>Unsigned/signed 1-byte integer</p></td></tr><tr><td class="confluenceTd"><p>[U]I2</p></td><td class="confluenceTd"><p>Unsigned/signed 2-byte integer</p></td></tr><tr><td class="confluenceTd"><p>[U]I4</p></td><td class="confluenceTd"><p>Unsigned/signed 4-byte integer</p></td></tr><tr><td class="confluenceTd"><p>[U]I8</p></td><td class="confluenceTd"><p>Unsigned/signed 8-byte integer</p></td></tr><tr><td class="confluenceTd"><p>[R]DNwidth</p></td><td class="confluenceTd"><p>Reverse/normal numeric date</p></td></tr><tr><td class="confluenceTd"><p>[R]Nwidth[.precision][sign]</p></td><td class="confluenceTd"><p>Reverse/normal unsigned/signed numeric</p></td></tr><tr><td class="confluenceTd"><p>[R]TNwidth</p></td><td class="confluenceTd"><p>Reverse/normal numeric time</p></td></tr><tr><td class="confluenceTd"><p>[R][U]DPpack</p></td><td class="confluenceTd"><p>Reverse/normal unsigned/signed packed date</p></td></tr><tr><td class="confluenceTd"><p>[R][U]Ppack[.precision]</p></td><td class="confluenceTd"><p>Reverse/normal unsigned/signed packed</p></td></tr><tr><td class="confluenceTd"><p>[R][U]TPpack</p></td><td class="confluenceTd"><p>Reverse/normal unsigned/signed packed time</p></td></tr><tr><td class="confluenceTd"><p>VCwidth</p></td><td class="confluenceTd"><p>Variable-length character string</p></td></tr><tr><td class="confluenceTd"><p>pack</p></td><td class="confluenceTd"><p>Total number of packed digits</p></td></tr><tr><td class="confluenceTd"><p>precision</p></td><td class="confluenceTd"><p>Number of digits to the right of the implied decimal place.</p></td></tr><tr><td class="confluenceTd"><p>sign</p></td><td class="confluenceTd"><p>For COBOL data types where usage is DISPLAY, this type describes whether a sign accompanies the data and if so,<br/>whether it trails or leads the data, and whether it is separate from the data. The syntax is:([TRAIL/LEAD] [,SEPARATE]).</p></td></tr><tr><td class="confluenceTd"><p>width</p></td><td class="confluenceTd"><p>Internal storage width in bytes.</p></td></tr></tbody></table></div><p><em>integer</em><br/>The number of elements to define in the array. It is also described as the number of occurs or positions in the array.</p><h2 id="MEMALLOCUsingDiscernExplorer-Examples">Examples</h2><p>The below example creates a one-dimensional dynamic memory array called ALIAS that has 10 elements, each of which is a 15- character column. STAT is a variable whose value is <strong>1</strong> if the dynamic memory array ALIAS is successfully created, and <strong>0</strong> if it is not successfully created.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program hhtest go
+create program hhtest
+set stat  = memalloc(alias,10,"c15")
+select
+	v_alias = substring(1,15,p.ALIAS)
+from person_alias p
+head report
+	cnt = 0
+	xx =initarray(alias," ")
+	cntx = 0
+	incr  = 10
+detail
+	if (cnt = incr)
+		incr = incr + 10
+		stat = memrealloc(alias,incr,"c15")
+	endif
+	cnt = cnt + 1
+	alias[cnt] = v_alias
+foot report
+	for (lcnt = 1 to cnt)
+	alias[lcnt]
+	row + 1
+	endfor
+with maxrec = 100
+end
+go</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 695, "requestCorrelationId": "fa3299027f75fd0d"}</span>
+</body>
+</html>

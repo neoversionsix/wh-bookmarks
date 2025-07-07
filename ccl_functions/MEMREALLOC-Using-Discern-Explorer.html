@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>MEMREALLOC Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/MEMREALLOC+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>MEMREALLOC () redefines a scalar variable or one-dimensional array and reallocates the dynamic memory in which the array or variable is stored. This function allows you to resize a dynamic memory array by increasing or decreasing the number of elements previously defined using the MEMALLOC( ) function.</p><h2 id="MEMREALLOCUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>MEMREALLOC(array_name,integer,"data_type")</pre>
+</div></div><h2 id="MEMREALLOCUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>array_name</em><br>The name of the one-dimensional array or scalar variable to redefine.</br></p><p><em>data_type</em><br/>Defines the characteristics of a column.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Type</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>Cwidth</p></td><td class="confluenceTd"><p>Character string and length</p></td></tr><tr><td class="confluenceTd"><p>F4</p></td><td class="confluenceTd"><p>Single-precision float</p></td></tr><tr><td class="confluenceTd"><p>F8</p></td><td class="confluenceTd"><p>Double-precision float</p></td></tr><tr><td class="confluenceTd"><p>[U]I1</p></td><td class="confluenceTd"><p>Unsigned/signed 1-byte integer</p></td></tr><tr><td class="confluenceTd"><p>[U]I2</p></td><td class="confluenceTd"><p>Unsigned/signed 2-byte integer</p></td></tr><tr><td class="confluenceTd"><p>[U]I4</p></td><td class="confluenceTd"><p>Unsigned/signed 4-byte integer</p></td></tr><tr><td class="confluenceTd"><p>[U]I8</p></td><td class="confluenceTd"><p>Unsigned/signed 8-byte integer</p></td></tr><tr><td class="confluenceTd"><p>[R]DNwidth</p></td><td class="confluenceTd"><p>Reverse/normal numeric date</p></td></tr><tr><td class="confluenceTd"><p>[R]Nwidth[.precision][sign]</p></td><td class="confluenceTd"><p>Reverse/normal unsigned/signed numeric</p></td></tr><tr><td class="confluenceTd"><p>[R]TNwidth</p></td><td class="confluenceTd"><p>Reverse/normal numeric time</p></td></tr><tr><td class="confluenceTd"><p>[R][U]DPpack</p></td><td class="confluenceTd"><p>Reverse/normal unsigned/signed packed date</p></td></tr><tr><td class="confluenceTd"><p>[R][U]Ppack[.precision]</p></td><td class="confluenceTd"><p>Reverse/normal unsigned/signed packed</p></td></tr><tr><td class="confluenceTd"><p>[R][U]TPpack</p></td><td class="confluenceTd"><p>Reverse/normal unsigned/signed packed time</p></td></tr><tr><td class="confluenceTd"><p>VCwidth</p></td><td class="confluenceTd"><p>Variable-length character string</p></td></tr><tr><td class="confluenceTd"><p>-</p></td><td class="confluenceTd"><p>-</p></td></tr><tr><td class="confluenceTd"><p>pack</p></td><td class="confluenceTd"><p>Total number of packed digits.</p></td></tr><tr><td class="confluenceTd"><p>precision</p></td><td class="confluenceTd"><p>Number of digits to the right of the implied decimal place.</p></td></tr><tr><td class="confluenceTd"><p>sign</p></td><td class="confluenceTd"><p>For COBOL data types where usage is DISPLAY, this type describes whether a sign accompanies the data and if so,<br/>whether it trails or leads the data, and whether it is separate from the data. The syntax is:([TRAIL/LEAD] [,SEPARATE]).</p></td></tr><tr><td class="confluenceTd"><p>width</p></td><td class="confluenceTd"><p>Internal storage width in bytes.</p></td></tr></tbody></table></div><p><em>integer</em><br/>The number of elements to define in the array. It is also described as the number of occurs or positions in the array.</p><h2 id="MEMREALLOCUsingDiscernExplorer-Examples">Examples</h2><p>The below example creates a one-dimensional dynamic memory array called ALIAS that has 10 elements, each of which is 15-character column. STAT is a variable whose value is <strong>1</strong> if the dynamic memory array ALIAS is created or redefined successfully, and <strong>0</strong> if the dynamic memory array ALIAS is not created or redefined successfully.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program hhtest go
+create program hhtest
+set stat  = memalloc(alias,10,"c15")
+select
+	v_alias = substring(1,15,p.ALIAS)
+from person_alias p
+head report
+	cnt = 0
+	xx =initarray(alias," ")
+	cntx = 0
+	incr  = 10
+detail
+	if (cnt = incr)
+		incr = incr + 10
+		stat = memrealloc(alias,incr,"c15")
+	endif
+	cnt = cnt + 1
+	alias[cnt] = v_alias
+foot report
+	for (lcnt = 1 to cnt)
+	alias[lcnt]
+	row + 1
+	endfor
+with maxrec = 100
+end
+go</pre>
+</div></div><p>The following example uses MEMREALLOC() to redefine the size of the OUTBUF variable:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select lb.long_blob_id
+	,lb.long_blob
+from long_blob lb
+plan lb where lb.long_blob_id = $ID
+detail
+    outbuf = ""
+    imageDataSize = blobgetlen(lb.long_blob)  ;fetch full length of blob
+    stat = MEMREALLOC(outbuf,1,build("C",imageDataSize)) ;resize using full length to fetch with one blobget call
+    fullblob = blobget(outbuf,0,lb.long_blob)
+with rdbarrayfetch=1
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 599, "requestCorrelationId": "b69572c2e7937636"}</span>
+</body>
+</html>

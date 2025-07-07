@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>EVALUATE 2 Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/EVALUATE+2+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The EVALUATE2 () function returns the result of an IF() statement as a function call. Similar to the EVALUATE() function, the EVALUATE2() function is more powerful in that it allows relational operators to be used in the IF() clause.</p><h2 id="EVALUATE2UsingDiscernExplorer-Syntax">Syntax</h2><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">EVALUATE2(if_clause)</pre>
+</div></div><h2 id="EVALUATE2UsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>if_clause</em><br>A valid IF() clause.</br></p><h2 id="EVALUATE2UsingDiscernExplorer-Examples">Examples</h2><p>The following example uses the EVALUATE2() function to set an expression equal to "NURSE" or "DOC " based on multiple position codes:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DECLARE PATH_VAR = F
+WITH CONSTANT(UAR_GET_CODE_BY("MEANING",88,"PATHOLOGIST"))
+DECLARE RES_VAR = F8
+WITH CONSTANT(UAR_GET_CODE_BY("MEANING",88,"RESIDENT"))
+DECLARE LPN_VAR = F8 WITH CONSTANT(UAR_GET_CODE_BY("MEANING",88,"LPN"))
+DECLARE RN_VAR = F8 WITH CONSTANT(UAR_GET_CODE_BY("MEANING",88,"RN"))
+
+SELECT INTO $OUTDEV
+P.PERSON_ID
+, P.POSITION_CD
+, P_POSITION_DISP = UAR_GET_CODE_DISPLAY(P.POSITION_CD)
+, P.NAME_FULL_FORMATTED
+, POSITION_TYPE = EVALUATE2(
+IF(P.POSITION_CD = RN_VAR
+OR P.POSITION_CD = LPN_VAR) "NURSE"
+ELSEIF(P.POSITION_CD = RES_VAR
+OR P.POSITION_CD = PATH_VAR) "DOC  "
+ENDIF)
+FROM PRSNL P
+WHERE P.POSITION_CD IN (LPN_VAR, RN_VAR, RES_VAR, PATH_VAR)
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 551, "requestCorrelationId": "e43b3c344627835d"}</span>
+</body>
+</html>

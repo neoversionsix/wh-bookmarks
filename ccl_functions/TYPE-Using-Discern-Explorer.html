@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>TYPE( ) Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/TYPE%28+%29+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The TYPE( ) function is used to declare the datatype of a field in a table that is created using the SELECT INTO TABLE table_name command.</p><h2 id="TYPE()UsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Type(data_type)
+</pre>
+</div></div><h2 id="TYPE()UsingDiscernExplorer-Metasymbols">Metasymbols</h2><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Data_Type</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>&lt;len&gt;</p></td><td class="confluenceTd"><p>Fixed or maximum length for character</p></td></tr><tr><td class="confluenceTd"><p>C</p></td><td class="confluenceTd"><p>Character</p></td></tr><tr><td class="confluenceTd"><p>V</p></td><td class="confluenceTd"><p>Variable</p></td></tr><tr><td class="confluenceTd"><p>G</p></td><td class="confluenceTd"><p>graphical/raw/long raw</p></td></tr><tr><td class="confluenceTd"><p>Z</p></td><td class="confluenceTd"><p>clob/blob</p></td></tr><tr><td class="confluenceTd"><p>I1</p></td><td class="confluenceTd"><p>integer</p></td></tr><tr><td class="confluenceTd"><p>I2</p></td><td class="confluenceTd"><p>integer</p></td></tr><tr><td class="confluenceTd"><p>I4</p></td><td class="confluenceTd"><p>integer</p></td></tr><tr><td class="confluenceTd"><p>F4</p></td><td class="confluenceTd"><p>real number</p></td></tr><tr><td class="confluenceTd"><p>F8</p></td><td class="confluenceTd"><p>real number</p></td></tr><tr><td class="confluenceTd" colspan="1">DM12</td><td class="confluenceTd" colspan="1">time stamp</td></tr><tr><td class="confluenceTd" colspan="1">DM14</td><td class="confluenceTd" colspan="1">time stamp with time zone</td></tr><tr><td class="confluenceTd"><p>DQ8</p></td><td class="confluenceTd"><p>datetime</p></td></tr><tr><td class="confluenceTd"><p>Q8</p></td><td class="confluenceTd"><p>datetime</p></td></tr><tr><td class="confluenceTd"><p>W8</p></td><td class="confluenceTd"><p>long integer</p></td></tr></tbody></table></div><p>The V and Z data type must be used in combination with the G, C, or C&lt;len&gt; types. Any combination of C, V, G, or Z can be used.</p><p>Prior to <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Version 8.5.6, a C&lt;len&gt; of 32000 or greater must be used in combination with the Z to create a clob/blob field; otherwise, a varchar2 field is created. In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Version 8.5.6, a C&lt;len&gt; of 6000 or greater must be used in combination with the Z to create a clob/blob field; otherwise, a varchar2 field is created. Generally, the RDBMS limits a VC data type to a max of 4000. If the field needs to store larger values, it should be created as a clob or blob using "ZVC32000" or "ZGVC32000" as the datatype. If &lt;len&gt; is not specified when using VC, a length of 100 is used by default. "W8" requires <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Version 8.10.2 or higher. Prior to <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Version 8.11.4, using I1 and I2 created a field with an I4 datatype. Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Version 8.11.4, using I1 and I2 actually creates a field with an I1 or I2 datatype.</p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> limits the combined length of all the fields in the table definition to 35000 or less.</p><p>When creating RDBMS tables, the aforementioned data types are converted to a data type used by the RDBMS. To see the actual data types that are used at the RDBMS level, use SET TRACE RDBDEBUG prior to executing the SELECT INTO TABLE table_name command.</p><h2 id="TYPE()UsingDiscernExplorer-Examples">Examples</h2><p>The following example uses the TYPE( ) function to set the data types of the columns on the custom RDBMS table:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO TABLE CUST_TEMP_EXTRACT                                                                      
+ IONE=TYPE("I1"),
+ ITWO=TYPE("I2"),
+ IFOUR=TYPE("I4"), 
+ FFOUR = TYPE("F4"),
+ FEIGHT=TYPE("F8"),
+ CHAR_TEN=TYPE("C10"), 
+ VAR_CHAR=TYPE("VC"), 
+ VC_SIXTY=TYPE("VC60"),
+ DEIGHT=TYPE("DQ8"),
+ QEIGHT=TYPE("Q8")
+WITH ORGANIZATION = "TEMPRDB"
+</pre>
+</div></div><p>In the example below, the following values are created:</p><ul><li>The VC_FLD is created with a VC100 data type. Since Type("VC") is used, the length defaults to 100.</li><li>The VC200_FLD is created as a VC200 data type.</li><li>The CLOB_FLD is created as a CLOB data type since Z is specified in combination with a VC length of 32000.</li></ul><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO TABLE CUST_TEMP_EXTRACT                                                                    
+	VC_FLD=TYPE("VC"),
+	VC200_FLD=TYPE("VC200"),
+	CLOB_FLD=TYPE("ZVC32000") 
+WITH ORGANIZATION = "TEMPRDB"
+
+</pre>
+</div></div><p>In the following example, BLOB_FLD is created as a BLOB datatype since Z and G are specified in combination with a VC length of 32000:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO TABLE CUST_TEMP_EXTRACT                                                                       
+	BLOB_FLD=TYPE("ZGVC32000") 
+WITH ORGANIZATION = "TEMPRDB"
+
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 599, "requestCorrelationId": "ac7a03f0a653e4b5"}</span>
+</body>
+</html>

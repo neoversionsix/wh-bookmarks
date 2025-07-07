@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>FILLSTRING Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/FILLSTRING+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The FILLSTRING() function defines a repeating string for a defined number of integer positions. For example, to create a line that is 60 characters long, instead of typing the underscore character (_) 60 times, you can use the FILLSTRING( ) function as shown in the below example. You then can call the expression any number of times in your query. This function is especially useful on the Report Layout screen when you want to create headings that are separated from the body of the text by a set of characters, such as a line.</p><h2 id="FILLSTRINGUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FILLSTRING(integer, literal_char)</pre>
+</div></div><h2 id="FILLSTRINGUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>integer</em> <br>An integer indicating the number of literal characters to return. If using a variable, the variable must be wrapped in the VALUE() function.</br></p><p><em>literal_char</em> <br/>A one-character literal. Quotation marks are required.</p><h2 id="FILLSTRINGUsingDiscernExplorer-Examples">Examples</h2><p>In this example, LINE is a 10-character string set to blank spaces, and LINE1 is a 60-character string set to "_".</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>LINE = FILLSTRING(10, " ")
+LINE1 = FILLSTRING(60,"_")</pre>
+</div></div><p>This example uses the VALUE() function to allow using the variable LCNT as the first parameter.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare lcnt = i4 with protect
+declare str = vc with protect
+for(lcnt = 1 to 10)
+	set str = fillstring(value(lcnt),"a")
+	call echo(str)
+endfor</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 599, "requestCorrelationId": "aa9a26cefffead71"}</span>
+</body>
+</html>

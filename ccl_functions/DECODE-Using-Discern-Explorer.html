@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>DECODE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/DECODE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The DECODE( ) function is used with a PLAN clause that uses ORJOIN or a SELECT that uses the DONTCARE or OUTERJOIN control options. DECODE( ) can be used to determine which side of the ORJOIN a row in the result set is from or if the row in the result set contains values from the DONTCARE or OUTERJOIN tables. DECODE( ) returns the first result following a table_name.column_name value that is not a placeholder in the result set. The last result is returned if all the expressions from the first to the <strong>nth</strong> are placeholders. When <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> creates the result set, placeholders are used for columns that are from the other side of the ORJOIN or from tables that are a part of the DONTCARE or OUTERJOIN that do not have a qualifying record.</p><h2 id="DECODEUsingDiscernExplorer-Syntax">Syntax</h2><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">DECODE(table_name.column_name, result{,table_name.column_name, result}[,result])</pre>
+</div></div><h2 id="DECODEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>column_name</em></p><p>The name of the column from the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Data Dictionary to be updated, inserted, or read.<br><em>result</em></br></p><p>An expression that can be returned from the DECODE( ) function.<br/><em>table_name</em></p><p>The name of the table from the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Data Dictionary to be updated, deleted, or read.</p><h2 id="DECODEUsingDiscernExplorer-Examples">Examples</h2><p>In the following example, VAL is set to <strong>1</strong> if table A contains a non-placeholder value in the pseudo column SEQ. If A.SEQ is a placeholder, and B.SEQ is not a placeholder, VAL is set to 2.If A.SEQ and B.SEQ are placeholders and C.SEQ is not a placeholder, VAL is set to 3.If A.SEQ, B.SEQ, and C.SEQ are all placeholders, VAL is set to 0.</p><p>VAL is set equal to the value following the first table (reading from left to right) that has a non-placeholder value in the SEQ column. If none of the tables have a non-placeholder value in the SEQ column, VAL is set to <strong>0</strong>.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>VAL = DECODE(A.SEQ,1,B.SEQ,2,C.SEQ,3,0) </pre>
+</div></div><p>In the following example, CHECK is set to <strong>C</strong> if the row in the result set is from the Order_Comment side of the ORJOIN. CHECK is set to <strong>R</strong> if the row is from the Result side of the ORJOIN.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+NAME = SUBSTRING(1,30,P.NAME_FULL_FORMATTED),
+ORDER_MNEMONIC = SUBSTRING(1,30,O.ORDER_MNEMONIC),
+CHECK = DECODE(OC.SEQ,"C",R.SEQ,"R"),
+R.RESULT_ID,
+OC.LONG_TEXT_ID
+
+FROM PERSON P,
+ORDERS O,
+ORDER_COMMENT OC,
+RESULT R,
+DUMMYT D1,
+DUMMYT D2
+
+PLAN P WHERE P.PERSON_ID &gt;0
+
+JOIN O WHERE O.PERSON_ID = P.PERSON_ID
+AND O.ORDER_ID &gt;0
+
+JOIN D1
+JOIN (OC WHERE OC.ORDER_ID = O.ORDER_ID)
+
+ORJOIN D2
+JOIN (R WHERE R.ORDER_ID = O.ORDER_ID)</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 632, "requestCorrelationId": "90b6133ba777b367"}</span>
+</body>
+</html>

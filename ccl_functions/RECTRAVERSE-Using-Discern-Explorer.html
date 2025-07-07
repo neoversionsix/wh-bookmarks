@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>RECTRAVERSE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/RECTRAVERSE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The RecTraverse function dynamically traverses a record structure to display names, types, and values, in addition to setting values in the record structure. This kind of structure is a tree data structure, and the modes listed below are used to traverse it. This function was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.11.3.</p><h2 id="RECTRAVERSEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>RecTraverse(mode,rec,buf[,expr1[,expr2]])  
+</pre>
+</div></div><h2 id="RECTRAVERSEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>mode</em> <br>An integer value that indicates the performed operation.</br></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Mode</p></th><th class="confluenceTh"><p>Description</p></th><th class="confluenceTh"><p>Parameters (:r - Read Only, :w - Write Only, :rw - Read and Write)</p></th><th class="confluenceTh"><p>Notes</p></th></tr><tr><td class="confluenceTd"><p>0</p></td><td class="confluenceTd"><p>Init</p></td><td class="confluenceTd"><p>mode:r, rec:r, buf:rw</p></td><td class="confluenceTd"><p>Initialize the RecTraverse function.</p></td></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>First</p></td><td class="confluenceTd"><p>mode:r, rec:r, buf:rw</p></td><td class="confluenceTd"><p>Set to the first child node of the parent.</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p>Next</p></td><td class="confluenceTd"><p>mode:r, rec:r, buf:rw</p></td><td class="confluenceTd"><p>Set to the next sibling node of the parent.</p></td></tr><tr><td class="confluenceTd"><p>3</p></td><td class="confluenceTd"><p>SetPar</p></td><td class="confluenceTd"><p>mode:r, rec:r, buf:rw, dim:r</p></td><td class="confluenceTd"><p>Set to the parent node for this child node.</p></td></tr><tr><td class="confluenceTd"><p>4</p></td><td class="confluenceTd"><p>GetTotDim</p></td><td class="confluenceTd"><p>mode:r, rec:r, buf:rw, totdim:w</p></td><td class="confluenceTd"><p>Get the total dimension (size) of the segment.</p></td></tr><tr><td class="confluenceTd"><p>5</p></td><td class="confluenceTd"><p>SetDim</p></td><td class="confluenceTd"><p>mode:r, rec:r, buf:rw, dim:r</p></td><td class="confluenceTd"><p>Set to the position (occur) you want for the segment.</p></td></tr><tr><td class="confluenceTd"><p>6</p></td><td class="confluenceTd"><p>GetName</p></td><td class="confluenceTd"><p>mode:r, rec:r, buf:rw, name:w, type:w</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Get the node name and type.</p><ul><li>The node type is set to a string in the format of <em>segment type|field type|full field type</em>.</li></ul><p><em>segment type</em></p><ul><li>Set to <strong>S</strong> if the current node is a record structure segment item. In the RECORD command, a segment item is an item that is not assigned a data type and uses an integer value inside square brackets ([ ]). For example, 1 Seg_List[10].</li><li>Set to <strong>L</strong> if the current node is a record structure list item. In the RECORD command, a list item is an item that is not assigned a data type and uses an asterisks (*) inside square brackets. For example, 1 List[*].</li><li>Set to <strong>G</strong> if the current node is a record structure group item. In the RECORD command, a group item is an item that is not assigned a data type, and does not use an integer value or an asterisk inside square brackets. For example, 1 Group_Item.</li><li>Set to <strong>F</strong> if the current node is a record structure field item. In the RECORD command, a field item is an item that is assigned a data type. For example, 1 Int_Fld = I4.</li></ul><p><em>field type</em></p><p>Set <em>field type</em> based on the data type of the field item.</p><ul><li>Set to <strong>C</strong> for character fields.</li><li>Set to<strong> I </strong>for integer fields.</li><li>Set to <strong>F</strong> for float fields.</li><li>Set to <strong>M</strong> for timestamp fields in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.12.0 and higher.</li><li>Set to <strong>Q</strong> for datetime fields.</li><li>Set to <strong>W</strong> for long-64 fields.</li></ul><p><em>full field type</em></p><p>Set to the full data type of the field item. For example C10, VC, I4, F8, DF8, DM12, W8.</p></div></td></tr><tr><td class="confluenceTd"><p>7</p></td><td class="confluenceTd"><p>GetValue</p></td><td class="confluenceTd"><p>mode:r, rec:r, buf:rw, value:w</p></td><td class="confluenceTd"><p>Get the value of the node.</p></td></tr><tr><td class="confluenceTd"><p>8</p></td><td class="confluenceTd"><p>SetValue</p></td><td class="confluenceTd"><p>mode:r, rec:r, buf:rw, value:r</p></td><td class="confluenceTd"><p>Set the value of the node.</p></td></tr><tr><td class="confluenceTd"><p>9</p></td><td class="confluenceTd"><p>SetTotDim</p></td><td class="confluenceTd"><p>mode:r, rec:r, buf:rw, totdim:r</p></td><td class="confluenceTd"><p>Set the total dimension (size) of the segment.</p></td></tr></tbody></table></div><p><em>rec</em> <br/>The name of the record structure to traverse.</p><p><em>buf</em> <br/>The internal storage used by Rectraverse. It must be a character data type that is greater than or equal to 250 characters in 32-bit environments. In 64-bit environments, it must be a character data type that is greater than or equal to 300 characters.</p><p><em>expr1</em> <br/>An optional parameter based on the mode. It must be a variable or a record structure field item.</p><p><em>expr2</em> <br/>An optional parameter based on the mode. It must be a variable or a record structure field item.</p><h2 id="RECTRAVERSEUsingDiscernExplorer-Examples">Examples</h2><p>The example below creates a program that accepts a record structure name as a parameter. The program traverses the record structure and echoes the name, type, and value of items from that structure.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program test_rectraversesub go
+create program test_rectraversesub
+   ;RecTraverse(&lt;mode&gt;,&lt;rec&gt;,&lt;buf&gt;[,&lt;expr1&gt;[,&lt;expr2&gt;]]) 
+   ;&lt;mode&gt;::  mode for record traverse
+   ;&lt;rec&gt;::   record name
+   ;&lt;buf&gt;::   internal storage to use for record traverse must be &gt;= 300
+   ;&lt;expr1&gt;:: optional expression based on mode and must be a variable or recfld
+   ;&lt;expr2&gt;:: optional expression based on mode and must be a variable or recfld
+   declare rbuf = c300       with protect
+   declare RTMInit = i1      with protect,constant(0) ;RecTraverse(&lt;mode&gt;,&lt;rec&gt;,&lt;buf&gt;) 
+   declare RTMFirst = i1     with protect,constant(1) ;RecTraverse(&lt;mode&gt;,&lt;rec&gt;,&lt;buf&gt;) 
+   declare RTMNext = i1      with protect,constant(2) ;RecTraverse(&lt;mode&gt;,&lt;rec&gt;,&lt;buf&gt;) 
+   declare RTMSetPar = i1    with protect,constant(3) ;RecTraverse(&lt;mode&gt;,&lt;rec&gt;,&lt;buf&gt;,&lt;dim&gt;) 
+   declare RTMGetTotDim = i1 with protect,constant(4) ;RecTraverse(&lt;mode&gt;,&lt;rec&gt;,&lt;buf&gt;,&lt;totdim&gt;) 
+   declare RTMSetDim = i1    with protect,constant(5) ;RecTraverse(&lt;mode&gt;,&lt;rec&gt;,&lt;buf&gt;,&lt;dim&gt;) 
+   declare RTMGetName = i1   with protect,constant(6) ;RecTraverse(&lt;mode&gt;,&lt;rec&gt;,&lt;buf&gt;,&lt;name&gt;,&lt;type&gt;) 
+   declare RTMGetValue = i1  with protect,constant(7) ;RecTraverse(&lt;mode&gt;,&lt;rec&gt;,&lt;buf&gt;,&lt;value&gt;) 
+   declare RTMSetValue = i1  with protect,constant(8) ;RecTraverse(&lt;mode&gt;,&lt;rec&gt;,&lt;buf&gt;,&lt;value&gt;) 
+   declare RTMSetTotDim = i1 with protect,constant(9) ;RecTraverse(&lt;mode&gt;,&lt;rec&gt;,&lt;buf&gt;,&lt;totdim&gt;) 
+   record recval(
+    1 val_i4 = i4
+    1 val_f8 = f8
+    1 val_w8 = w8
+    1 val_dq8 = dq8
+    1 val_dm12 = dm12
+    1 val_vc = vc
+   )
+   set stat = RecTraverse(RTMInit,$1,rbuf)  ;init record traverse
+   if (stat)
+    set nkid = sub_rectraverse(rbuf,1,1) ;traverse through entire record
+   endif
+   subroutine (sub_rectraverse(rbuf1=vc(value),lev=i4,dim=i4)=i4)
+    declare curdim = i4 with protect
+    declare rbuf2 = c300 with protect
+    record rectrav(
+      1 stat1 = i4 
+      1 stat2 = i4 
+      1 stat3 = i4 
+      1 mode = i4
+      1 nkid = i4 
+      1 numkid = i4 
+      1 recbuf = vc
+      1 rtype = vc
+      1 totdim = i4 
+    ) with protect
+    set rectrav-&gt;mode = RTMFirst  ;init to get first kid
+    set rectrav-&gt;stat1 = 1 ;init
+    ;loop through kids for this parent
+    while (rectrav-&gt;stat1)
+       set rectrav-&gt;stat1 = RecTraverse(rectrav-&gt;mode,$1,rbuf1)  ;get next kid 
+       if (rectrav-&gt;stat1) 
+           set rectrav-&gt;mode = RTMNext 
+           set rectrav-&gt;stat1 = RecTraverse(RTMGetName,$1,rbuf1,rectrav-&gt;recbuf,rectrav-&gt;rtype) 
+           ;type is returned as &lt;segtype&gt;|&lt;fldtype&gt;|&lt;fullfldtype&gt;
+           call echo(build("&gt;&gt;&gt;name=",rectrav-&gt;recbuf,",type=",rectrav-&gt;rtype),1,9)
+           if (substring(1,1,rectrav-&gt;rtype) = 'F')   ;F:fld S:seg G:group L:list
+               case (substring(3,1,rectrav-&gt;rtype))   ;C:char I:int F:float M:timestamp W:long64 Q:quaddatime
+                of 'C':  set rectrav-&gt;stat1 = RecTraverse(RTMGetValue,$1,rbuf1,recval-&gt;val_vc) 
+                         call echo(build("&gt;&gt;&gt;value vc=",recval-&gt;val_vc),1,8)
+                of 'I':  set rectrav-&gt;stat1 = RecTraverse(RTMGetValue,$1,rbuf1,recval-&gt;val_i4) 
+                         call echo(build("&gt;&gt;&gt;value i4=",recval-&gt;val_i4),1,8)
+                of 'F':  set rectrav-&gt;stat1 = RecTraverse(RTMGetValue,$1,rbuf1,recval-&gt;val_f8) 
+                         call echo(build("&gt;&gt;&gt;value f8=",recval-&gt;val_f8),1,8)
+                of 'M':  set rectrav-&gt;stat1 = RecTraverse(RTMGetValue,$1,rbuf1,recval-&gt;val_dm12) 
+                         call echo(build("&gt;&gt;&gt;value dm12=",FORMAT(recval-&gt;val_dm12,"@SHORTDATETIME")),1,8)
+                of 'Q':  set rectrav-&gt;stat1 = RecTraverse(RTMGetValue,$1,rbuf1,recval-&gt;val_dq8) 
+                         call echo(build("&gt;&gt;&gt;value dq8=",FORMAT(recval-&gt;val_dq8,"@SHORTDATETIME")),1,8)
+                of 'W':  set rectrav-&gt;stat1 = RecTraverse(RTMGetValue,$1,rbuf1,recval-&gt;val_w8) 
+                         call echo(build("&gt;&gt;&gt;value w8=",recval-&gt;val_w8),1,8)
+               endcase
+           endif
+           if (rectrav-&gt;stat1) set rectrav-&gt;numkid = rectrav-&gt;numkid+1 endif
+           set rbuf2 = rbuf1  ;use new handle for parent
+           set rectrav-&gt;stat2 = RecTraverse(RTMSetPar,$1,rbuf2,dim)  ;set parent
+           if (rectrav-&gt;stat2)
+              set rectrav-&gt;stat3 = RecTraverse(RTMGetTotDim,$1,rbuf2,rectrav-&gt;totdim)  ;get num of occurs for segment
+              call echo(build("&gt;&gt;&gt;lev=",lev,",totdim=",rectrav-&gt;totdim),1,7)  
+              for (curdim=1 to rectrav-&gt;totdim)
+                  call echo(build("&gt;&gt;&gt;lev=",lev,",setdim=",curdim),1,6)  
+                  set rectrav-&gt;stat3 = RecTraverse(RTMSetDim,$1,rbuf2,curdim)   ;set occur for segment 
+                  set rectrav-&gt;nkid = sub_rectraverse(rbuf2,lev+1,curdim)       ;traverse through kid for this segment
+              endfor
+           endif  
+       endif
+    endwhile
+    call echo(build("&gt;&gt;&gt;lev=",lev,",numkid=",rectrav-&gt;numkid),1,7)  
+    return(rectrav-&gt;numkid)
+   end 
+end go
+</pre>
+</div></div><p>The example below creates a program that defines a record structure named REC. It assigns values to different items in the structure, and then calls the test_rectraversesub program.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program ccl_test_rectraverse go
+create program ccl_test_rectraverse
+
+record rec(
+	1 i4_fld = i4
+	1 f8_fld = f8
+	1 dq8_fld = dq8
+	1 dm12_fld = dm12
+	1 w8_fld = w8
+	1 c10_fld = c10
+	1 vc_fld = vc
+	1 group
+		2 gfld1 = i4
+		2 gfld2 = dq8
+		2 gfld3 = vc
+	1 seg[2]
+		2 sfld1 = i4
+		2 sfld2 = dq8
+		2 sfld3 = vc
+	1 list[*]
+		2 lfld1 = i4
+		2 lfld2 = dq8
+		2 lfld3 = vc
+		)
+	
+set rec-&gt;i4_fld = 1
+set rec-&gt;f8_fld = 2.0
+set rec-&gt;dq8_fld = cnvtdatetime("03-Feb-2016 12:45:30")
+set rec-&gt;dm12_fld = cnvttimestamp("03-Feb-2016 12:45:30.50")
+set rec-&gt;w8_fld = cnvtlong("1234567890123456")
+set rec-&gt;c10_fld = "HelloThere"
+set rec-&gt;vc_fld = "Hello my friend! How are you?"
+set rec-&gt;group.gfld1 = 11
+set rec-&gt;group.gfld2 = cnvtdatetime("01-Feb-2016 12:45:30")
+set rec-&gt;group.gfld3 = "Group Field 3"
+set rec-&gt;seg[1].sfld1 = 22
+set rec-&gt;seg[1].sfld2 = cnvtdatetime("02-Feb-2016 12:45:30")
+set rec-&gt;seg[1].sfld3 = "Seg[1] Field 3"
+set rec-&gt;seg[2].sfld1 = 33
+set rec-&gt;seg[2].sfld2 = cnvtdatetime("03-Feb-2016 12:45:30")
+set rec-&gt;seg[2].sfld3 = "Seg[2] Field 3"
+set stat = alterlist(rec-&gt;list,3)
+set rec-&gt;list[1].lfld1 = 44
+set rec-&gt;list[1].lfld2 = cnvtdatetime("04-Feb-2016 12:45:30")
+set rec-&gt;list[1].lfld3 = "List[1] Field 3"
+set rec-&gt;list[2].lfld1 = 55
+set rec-&gt;list[2].lfld2 = cnvtdatetime("05-Feb-2016 12:45:30")
+set rec-&gt;list[2].lfld3 = "List[2] Field 3"
+set rec-&gt;list[3].lfld1 = 66
+set rec-&gt;list[3].lfld2 = cnvtdatetime("06-Feb-2016 12:45:30")
+set rec-&gt;list[3].lfld3 = "List[3] Field 3"
+call echorecord(rec)
+
+execute test_rectraversesub rec
+
+end go
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 549, "requestCorrelationId": "1f60b8dfbc7e13e3"}</span>
+</body>
+</html>

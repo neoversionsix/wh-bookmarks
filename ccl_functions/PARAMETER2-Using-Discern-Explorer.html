@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>PARAMETER2 Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/PARAMETER2+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The Parameter2( ) function returns the parameter number for the $param_name. It is often used within the Parameter( ) function, which requires the parameter number. The Parameter2() function was introduced in version 8.7.0 of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>.</p><h2 id="PARAMETER2UsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Parameter2($param_name)</pre>
+</div></div><h2 id="PARAMETER2UsingDiscernExplorer-Metasymbols">Metasymbols</h2><p>$<em>param_name</em></p><p>param_name is the name assigned to a prompt using the With option of the Prompt clause within the Create Program command.</p><h2 id="PARAMETER2UsingDiscernExplorer-Examples">Examples</h2><p>In the below example, the variable gender_num is set to 2 because <strong>gender</strong> is the name assigned to the second prompt by the With option of the Prompt clause. If multiple values are passed in an item list from the gender control on the prompt form, the variable lcheck is set to L. If a single value is passed, lcheck is set to I, F, or C based on the data type of the value.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program ccl_test_parameter2 go
+create program ccl_test_parameter2
+
+prompt 
+	"Output to File/Printer/MINE" = "MINE"
+	,"Select the Genders" = 0 
+
+with OUTDEV, gender
+
+;determine the prompt number of the prompt named "gender"
+set gender_num = parameter2($gender)
+
+;check to see if multiple values were selected at the $gender prompt
+set lcheck = substring(1,1,reflect(parameter(parameter2($gender),0)))
+
+call echo(gender_num)
+call echo(lcheck)
+
+
+end
+go</pre>
+</div></div><p><br><br/></br></p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 582, "requestCorrelationId": "e6d451908eb180f8"}</span>
+</body>
+</html>

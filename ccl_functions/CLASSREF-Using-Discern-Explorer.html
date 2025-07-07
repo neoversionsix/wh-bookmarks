@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CLASSREF Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CLASSREF+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The CLASSREF() function has multiple modes, and is used to create a reference to a class instance or save the address to a class instance used to reference a class instance in the future. The function returns 0 for an error, 1 for success. The CLASSREF function was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.11.3. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.13.2 and 9.01.2 introduce the ability to pass a class instance by reference.</p><h2 id="CLASSREFUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CLASSREF(classins_ref_to,classins_from [,mode])    ;mode=1
+CLASSREF(classins_addr_to,classins_from,mode)      ;mode=2
+CLASSREF(classins_ref_to,classins_addr_from,mode)  ;mode=3
+CLASSREF(&lt;classins_ref_to&gt;,0,&lt;mode&gt;)               ;mode=4 
+CLASSREF(&lt;classins_addr_to&gt;,0,&lt;mode&gt;)              ;mode=5  </pre>
+</div></div><h2 id="CLASSREFUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>classins_addr_from</em> <br>The address for a reference from a class instance.</br></p><p><em>classins_addr_to</em> <br/>The address for a reference to a class instance.</p><p><em>classins_from</em> <br/>The name of the class instance creating a reference for.</p><p><em>classins_ref_to</em> <br/>The name of the reference that refers to a class instance.</p><p><em>mode</em></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Mode</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>set classins_ref_to = classins_from</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p>set classins_addr_to = classins_from</p></td></tr><tr><td class="confluenceTd"><p>3</p></td><td class="confluenceTd"><p>set classins_ref_to = classins_addr_from</p></td></tr><tr><td class="confluenceTd" colspan="1">4</td><td class="confluenceTd" colspan="1">clear classins_ref_to</td></tr><tr><td class="confluenceTd" colspan="1">5</td><td class="confluenceTd" colspan="1">set classins_addr_to = curinstance (used in the class definition to get the current instance address)</td></tr></tbody></table></div><h2 id="CLASSREFUsingDiscernExplorer-Examples">Examples</h2><p>The following example uses the CLASSREF function:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre> drop program ccl_classref go
+ create program ccl_classref
+  ;classref(classins_to_var,classins_from_var[,mode])
+  execute ccl_classrefa
+  declare m1::i_rush = null with class(class_rush)
+  declare m1::i_cheaptrick = null with class(class_cheaptrick)
+  declare m1::i_gen = null ;generic class ref instance variable
+  declare stat = i4
+  declare gcnt = i4 
+  declare i_genarray[2] = i4
+  set stat = classref(i_genarray[1],m1::i_rush,2)        ;save generic instance ref in array for class instance
+  set stat = classref(i_genarray[2],m1::i_cheaptrick,2)  ;save generic instance ref in array for class instance
+  for (gcnt=1 to size(i_genarray,5))
+       if (i_genarray[gcnt] and classref(m1::i_gen,i_genarray[gcnt],3) != 0) ;set generic instance ref to class instance ref
+           call echo(build("&gt;&gt;&gt;generic array classref=",gcnt))
+           call m1::i_gen.show(2) 
+       endif
+  endfor
+  if (classref(m1::i_gen,m1::i_rush) != 0)  ;set generic instance ref to class instance
+      call echo(build("&gt;&gt;&gt;generic var classref"))
+      call m1::i_gen.show(2) 
+  endif
+ end go
+ drop program ccl_classrefa go
+ create program ccl_classrefa
+  CREATE CLASS CLASS_BAND
+    INIT ;class constructor
+      CALL echo("CLASS_TEST.INIT",1,2)
+      declare _::x = i4
+      subroutine (_::show(p1=i4(value)) = null)
+         case (p1)
+          of 1: call echorecord(_::rec1)
+          of 2: for (_::x = 1 to size(_::rec1-&gt;qual,5))
+                 call echo(build(_::rec1-&gt;qual[_::x].first_name,"|",
+                                  _::rec1-&gt;qual[_::x].last_name,"|",
+                                 _::rec1-&gt;qual[_::x].instrument))
+                endfor
+         endcase
+      end
+    END
+    FINAL ;class destructor
+      CALL echo("CLASS_TEST.FINAL",1,2)
+    END
+  with copy=1
+  CREATE CLASS CLASS_RUSH FROM CLASS_BAND
+    INIT ;class constructor
+      CALL echo("CLASS_TEST.INIT",1,2)
+      record _::rec1(
+         1 band_name = vc
+         1 qual[*]
+           2 first_name = vc
+           2 last_name = vc
+           2 instrument = vc
+      )
+      declare _::stat = i4
+      declare _::jsonbuf = vc with noconstant(concat(
+       ^{"REC2":{"BAND_NAME":"RUSH","QUAL":[^,
+       ^{"FIRST_NAME":"Neil","LAST_NAME":"Peart","INSTRUMENT":"Drum"},^,
+       ^{"FIRST_NAME":"Alex","LAST_NAME":"Lifeson","INSTRUMENT":"Lead Guitar"},^,
+       ^{"FIRST_NAME":"Geddy","LAST_NAME":"Lee","INSTRUMENT":"Bass Guitar"}]}}^))
+      set _::stat = cnvtjsontorec(_::jsonbuf)
+      set _::stat = moverec(rec2,_::rec1)
+    END
+    FINAL ;class destructor
+      CALL echo("CLASS_TEST.FINAL",1,2)
+    END
+  with copy=1
+  CREATE CLASS CLASS_CHEAPTRICK FROM CLASS_BAND
+    INIT ;class constructor
+      CALL echo("CLASS_TEST.INIT",1,2)
+      record _::rec1(
+         1 band_name = vc
+         1 qual[*]
+           2 first_name = vc
+           2 last_name = vc
+           2 instrument = vc
+      )
+      declare _::stat = i4
+      declare _::jsonbuf = vc with noconstant(concat(
+          ^{"REC2":{"BAND_NAME":"Cheap Trick","QUAL":[^,
+          ^{"FIRST_NAME":"Daxx","LAST_NAME":"Nielsen","INSTRUMENT":"Drum"},^,
+          ^{"FIRST_NAME":"Rick","LAST_NAME":"Nielsen","INSTRUMENT":"Lead Guitar"},^,
+          ^{"FIRST_NAME":"Tom","LAST_NAME":"Petersson","INSTRUMENT":"Bass Guitar"},^,
+          ^{"FIRST_NAME":"Robin","LAST_NAME":"Zander","INSTRUMENT":"Rhythm Guitar"}]}}^))
+      set _::stat = cnvtjsontorec(_::jsonbuf)
+      set _::stat = moverec(rec2,_::rec1)
+    END
+    FINAL ;class destructor
+      CALL echo("CLASS_TEST.FINAL",1,2)
+    END
+  with copy=1
+ end go
+ ccl_classref go
+</pre>
+</div></div><p>The following example passes a class instance by reference:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre> drop program ccl_class_pass_by_reference go 
+ create program ccl_class_pass_by_reference
+  create class myclass1            
+   INIT                            
+    subroutine (_::method1(arg1=vc) = null)
+      call echo (build("inside myclass1.method1. arg1: ", arg1))
+      return
+    end     
+  END       
+  with COPY 
+  create class myclass2
+   INIT                
+    subroutine (_::use_class(arg1=i4(ref)) = null)
+      call echo("inside myclass2::use_class")      ;;; Instantiate *new* instance. WORKS.
+      declare my_ns::myclass1_i2 = NULL WITH CLASS(myclass1)
+      call my_ns::myclass1_i2.method1("invoked from myclass2 using myclass1_i2")
+      declare my_ns::myclass1_i3 = null
+      set xstat = CLASSREF(my_ns::myclass1_i3, arg1, 3)
+      call my_ns::myclass1_i3.method1("invoked from myclass2 using myclass1_i3")
+      return
+    end     
+   END      
+  with COPY 
+  declare my_ns::myclass1_i1 = NULL WITH CLASS(myclass1)              ;Get class1 instance ref
+  declare my_ns::myclass1_i1_ref = h                                  ;Use h instead of i4
+  set stat = CLASSREF(my_ns::myclass1_i1_ref, my_ns::myclass1_i1, 2)  ;Instantiate class2
+  declare my_ns::myclass2_i1 = NULL WITH CLASS(myclass2)              ;Invoke method on class2, passing reference to class1 instance
+  call my_ns::myclass2_i1.use_class(my_ns::myclass1_i1_ref)
+  call sub1(my_ns::myclass1_i1_ref)
+  subroutine (sub1(arg1=i4(ref)) = null)
+    declare my_ns::myclass1_i3 = null
+    set xstat = CLASSREF(my_ns::myclass1_i3, arg1, 3)
+    call my_ns::myclass1_i3.method1("invoked from sub1 using myclass1_i3") 
+    return
+  end  
+ end go</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 747, "requestCorrelationId": "f7c2cbf6039113d5"}</span>
+</body>
+</html>

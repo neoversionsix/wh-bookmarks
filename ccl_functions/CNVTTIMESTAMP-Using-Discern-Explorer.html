@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CNVTTIMESTAMP( ) Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="General Review"/><input id="hoverDescription" type="hidden" value="General Review"/><input id="finalState" type="hidden" value="false"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="General Review"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CNVTTIMESTAMP%28+%29+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View published version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>CNVTTIMESTAMP( ) converts a datetime and fractional seconds to a timestamp, which is a DM12 data type value that represents the current date, time, and fractional seconds. CNVTTIMESTAMP() was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.6.3. Use the SYSTIMESTAMP variable for the current timestamp instead of using this function.</p><h2 id="CNVTTIMESTAMP()UsingDiscernExplorer-Syntax">Syntax</h2><div class="table-wrap"><table class="confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh" scope="row">Syntax</th><th class="confluenceTh" scope="col">Description</th></tr><tr><th class="confluenceTh" scope="row">CNVTTIMESTAMP(datetime,fractsec)</th><td class="confluenceTd">Convert a datetime and fractional seconds to a timestamp.</td></tr><tr><th class="confluenceTh" scope="row">CNVTTIMESTAMP(timestamp)</th><td class="confluenceTd">Convert a timestamp to a timestamp.</td></tr><tr><th class="confluenceTh" scope="row">CNVTTIMESTAMP(datetime)</th><td class="confluenceTd">Convert a datetime to a timestamp.</td></tr><tr><th class="confluenceTh" scope="row">CNVTTIMESTAMP(timestamp_string)</th><td class="confluenceTd">Convert a timestamp string to a timestamp.</td></tr></tbody></table></div><p><span style="font-size: 36.0px;font-weight: 900;letter-spacing: -0.008em;">Metasymbols</span></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh" scope="row"><p>Metasymbols</p></th><th class="confluenceTh" scope="col"><p>Description</p></th></tr><tr><th class="confluenceTh" scope="row"><p><em>datetime</em></p></th><td class="confluenceTd"><p>A column or value that stores the date and time.</p></td></tr><tr><th class="confluenceTh" scope="row"><p><em>fractsec</em></p></th><td class="confluenceTd"><p>A nine-digit, right-justified number representing fractional seconds. For example, 1 is 000000001 and 123 is 000000123.</p></td></tr><tr><th class="confluenceTh" scope="row"><p><em>timestamp</em></p></th><td class="confluenceTd"><p>A DM12 data type value that represents the current date, time, and fractional seconds.</p></td></tr><tr><th class="confluenceTh" scope="row"><p><em>timestamp_string</em></p></th><td class="confluenceTd"><div class="content-wrapper"><p>A string in "dd-mmm-yyyy hh:mm:ss.ccccccccc" format. The timestamp_string was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.8.0. The fractional seconds value (ccccccccc) can be from 1 to 9 digits. Leading zeros in the fractional seconds value (ccccccccc) are ignored.</p></div></td></tr></tbody></table></div><h2 id="CNVTTIMESTAMP()UsingDiscernExplorer-Examples">Examples</h2><p>In the following example, TIMESTAMP_VAR is set equal to the timestamp value representing 1 hour, 45 minutes, 59 seconds, and 1 fractional second after noon on 05-APR-2012. TS_STR_2C is set equal to 05-APR-2012 13:45:59.10 and TS_STR_9C is set equal to 05-APR-2012 13:45:59.100000000</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DECLARE TIMESTAMP_VAR = DM12    
+DECLARE TS_STR_2C = VC
+DECLARE TS_STR_9C = VC
+SET TIMESTAMP_VAR = CNVTTIMESTAMP("05-APR-2012 13:45:59.1")
+SET TS_STR_2C = FORMAT(TIMESTAMP_VAR,” DD-MMM-YYYY HH:MM:SS.CC;;D")
+SET TS_STR_9C = FORMAT(TIMESTAMP_VAR,” DD-MMM-YYYY HH:MM:SS.CCCCCCCCC;;D")
+</pre>
+</div></div><p>In the following example, TIMESTAMP_VAR is set equal to the timestamp value representing 1 hour, 45 minutes, 59 seconds, and 123 fractional seconds after noon on 05-APR-2012. TS_STR_9C is set equal to 05-APR-2012 13:45:59.123000000 and TS_STR_2C is set equal to 05-APR-2012 13:45:59.12. Notice that the display template used when setting the TS_STR_2C variable is truncating the fractional seconds to two digits.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DECLARE TIMESTAMP_VAR = DM12    
+DECLARE TS_STR_2C = VC
+DECLARE TS_STR_9C = VC
+SET TIMESTAMP_VAR = CNVTTIMESTAMP("05-APR-2012 13:45:59.123")
+SET TS_STR_2C = FORMAT(TIMESTAMP_VAR, "DD-MMM-YYYY HH:MM:SS.CC;;D")
+SET TS_STR_9C = FORMAT(TIMESTAMP_VAR, "DD-MMM-YYYY HH:MM:SS.CCCCCCCCC;;D")
+</pre>
+</div></div><p>If the following example is executed 4 hours, 26 minutes, and 49 seconds after noon on 12-Apr-2012, the TIMESTAMP_VAR is set to the timestamp value representing 4 hours, 26 minutes, 49 seconds, and 1 fractional second after noon on 12-Apr-2012. TS_STR_2C is set equal to 12-APR-2012 16:26:49.10 and TS_STR_9C is set equal to 12-APR-2012 16:26:49.100000000.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DECLARE TIMESTAMP_VAR = DM12    
+DECLARE TS_STR_2C = VC
+DECLARE TS_STR_9C = VC
+SET TIMESTAMP_VAR = CNVTTIMESTAMP(CNVTDATETIME(CURDATE,CURTIME3),1)
+SET TS_STR_2C = FORMAT(TIMESTAMP_VAR, "DD-MMM-YYYY HH:MM:SS.CC;;D")
+SET TS_STR_9C = FORMAT(TIMESTAMP_VAR, "DD-MMM-YYYY HH:MM:SS.CCCCCCCCC;;D")
+</pre>
+</div></div><p>If the following example is executed 4 hours, 26 minutes, and 49 seconds after noon on 12-Apr-2012, the TIMESTAMP_VAR is set to the timestamp value representing 4 hours, 26 minutes, 49 seconds, and 123 fractional seconds after noon on 12-Apr-2012. TS_STR_9C is set equal to 12-APR-2012 16:26:49.123000000 and TS_STR_2C is set equal to 12-APR-2012 16:26:49.12. Notice that the display template used when setting the TS_STR_2C variable truncates the fractional seconds to two digits.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DECLARE TIMESTAMP_VAR = DM12    
+DECLARE TS_STR_2C = VC
+DECLARE TS_STR_9C = VC
+SET TIMESTAMP_VAR = CNVTTIMESTAMP(CNVTDATETIME(CURDATE,CURTIME3),1)
+SET TS_STR_2C = FORMAT(TIMESTAMP_VAR, "DD-MMM-YYYY HH:MM:SS.CC;;D")
+SET TS_STR_9C = FORMAT(TIMESTAMP_VAR, "DD-MMM-YYYY HH:MM:SS.CCCCCCCCC;;D")
+</pre>
+</div></div><p><br/></p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 686, "requestCorrelationId": "19faca02a995e6ae"}</span>
+</body>
+</html>

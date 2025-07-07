@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CNVTLOOKBEHIND Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CNVTLOOKBEHIND+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The CNVTLOOKBEHIND( ) function returns a DQ8 or DM12 value that is a number of units (hundredths of seconds, seconds, minutes, hours, days, weeks, months, or years) in the past. If the &lt;datetime&gt; is omitted, the current datetime is assumed. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.14.3 or 9.02.3 introduced the ability to pass a DM12 timestamp value as the second parameter to CNVTLOOKBEHIND(). If the second parameter is omitted or a DQ8 datetime value is used for the second parameter, CNVTLOOKBEHIND() returns a DQ8 value. If a DM12 timestamp value is used for the second parameter, CNVTLOOKBEHIND() returns a DM12 timestamp value.</p><p>See the DTTMCALC description in the SET TRACE topic for information about flexing the behavior of the CNVTLOOKBEHIND() function.</p><p>The CNVTLOOKAHEAD() function is used to return a datetime value that is in the future.</p><h2 id="CNVTLOOKBEHINDUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CNVTLOOKBEHIND("{units, interval_type}"[,datetime[,mode]])
+</pre>
+</div></div><h2 id="CNVTLOOKBEHINDUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>units</em><br>An integer representing the number of units to look back. A positive integer is expected. The absolute value of a negative the integer is used to look back that number of units.</br></p><p><em>interval_type</em><br/>The time interval measured as HUN[SEC] S[EC] MIN H[OUR] D[AY] W[EEK] M[ONTH] Y[EAR].</p><p><em>datetime</em><br/>The datetime or timestamp value from which to look back. If omitted, the current date and time are assumed. Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.14.3 or 9.02.3, only a DQ8 datetime value was accepted. Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.14.3 or 9.02.3, a DQ8 datetime or DM12 timestamp value can be used. Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.15.0 or 9.03.0, a variable that is declared as a DQ8 and assigned an internal date value can be used.</p><p><em>mode</em><br/>Introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.7.2.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Mode</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>0</p></td><td class="confluenceTd"><p>If a Coordinated Universal Time (UTC) datetime, convert the datetime to local before applying the calculation.</p></td></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>If a UTC datetime and the look behind is more than the DTTMCALCFLEX trace, use the UTC for the calculation; otherwise, use the local datetime for the calculation.</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p>Same as Mode 1, but for the BSD extension.</p></td></tr></tbody></table></div><p>If mode is omitted, the DTTMCALC trace flexes the default mode. If DTTMCALC is disabled, Mode 0 is used. If DTTMCALC is enabled and the look behind is more than DTTMCALCFLEX trace, Mode 1 is used; otherwise, Mode 0 is used. By default, the DTTMCALCFLEX is 24 hours.</p><h2 id="CNVTLOOKBEHINDUsingDiscernExplorer-Examples">Examples</h2><p>The following example echoes <strong>22-DEC-1999 11:30:00.00</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHO(FORMAT(CNVTLOOKBEHIND("10,D",CNVTDATETIME("01-JAN-2000 11:30")), ";;Q"))</pre>
+</div></div><p>CNVTLOOKBEHIND( ) can be used in a qualification on a Relational Database (RDBMS) table, provided the return value can be converted to a bind variable in the query that <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> passes to the RDBMS. The following example returns people who are less than 18 years old at the time the query is executed:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+     P.NAME_FULL_FORMATTED
+     ,P.BIRTH_DT_TM
+FROM PERSON P
+WHERE P.BIRTH_DT_TM &gt; CNVTLOOKBEHIND("18,Y")
+WITH MAXREC = 1000
+</pre>
+</div></div><p>If the return value cannot be converted to a bind variable in the query, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> passes to the RDBMS, the CNVTLOOKBEHIND() can be used in a qualification on the DUMMYT table.</p><p>The following example returns encounters that were registered in the past month when the person was 18 years or older at the time of registration:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+     P.NAME_FULL_FORMATTED
+     ,P.BIRTH_DT_TM
+     ,E.REG_DT_TM
+FROM PERSON P
+     ,ENCOUNTER E
+     ,DUMMYT D
+PLAN E WHERE E.REG_DT_TM BETWEEN CNVTLOOKBEHIND("1,M") AND CNVTDATETIME(CURDATE,CURTIME3)
+JOIN P WHERE P.PERSON_ID = E.PERSON_ID AND P.BIRTH_DT_TM IS NOT NULL
+/*passing e.reg_dt_tm prevents the return value of cnvtlookbehind() from being converted to a bind variable*/
+JOIN D WHERE P.BIRTH_DT_TM &lt; CNVTLOOKBEHIND("18,Y",E.REG_DT_TM)
+WITH MAXREC = 1000
+</pre>
+</div></div><p>The following example uses the optional <em>mode</em> parameter. If the example is executed in an environment in the America/Chicago time zone, the Call Echo commands return 09-MAR-2014 00:00:00.00 and 09-Mar-2014 06:00:00 UTC in both UTC and non-UTC environments.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>set start_dt_tm = cnvtdatetime("09-Mar-2014 03:00:00") 
+
+set end_dt_tm = cnvtlookbehind("3, H",start_dt_tm,0) 
+call echo(format(end_dt_tm,";;q")) 
+call echo( datetimezoneformat(end_dt_tm,datetimezonebyname("UTC")
+                       ,"dd-MMM-yyyy HH:mm:ss ZZZ",curtimezonedef) ) 
+</pre>
+</div></div><p>The following example uses the optional <em>mode</em> parameter. If the example is executed in an environment in the America/Chicago time zone, the Call Echo commands return 08-MAR-2014 23:00:00.00 and 09-Mar-2014 05:00:00 UTC in both UTC and non-UTC environments.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>set start_dt_tm = cnvtdatetime("09-Mar-2014 03:00:00") 
+
+set end_dt_tm = cnvtlookbehind("3, H",start_dt_tm,1) 
+call echo(format(end_dt_tm,";;q")) 
+call echo( datetimezoneformat(end_dt_tm,datetimezonebyname("UTC")
+                       ,"dd-MMM-yyyy HH:mm:ss ZZZ",curtimezonedef) ) 
+</pre>
+</div></div><p>The following example uses the optional <em>mode</em> parameter. If the example is executed in an environment in the America/Chicago time zone and UTC is enabled, the Call Echo commands return 08-MAR-2014 23:00:00.00 and 09-Mar-2014 05:00:00 UTC. If the example is executed in an environment in the America/Chicago time zone and UTC is not enabled, the Call Echo commands return 09-MAR-2014 00:00:00.00 and 09-Mar-2014 06:00:00 UTC. In the America/Chicago time zone, daylight saving time began at 2:00 AM local time on 09-Mar-2014.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>set start_dt_tm = cnvtdatetime("09-Mar-2014 03:00:00") 
+
+set end_dt_tm = cnvtlookbehind("3, H",start_dt_tm,2) 
+call echo(format(end_dt_tm,";;q")) 
+call echo( datetimezoneformat(end_dt_tm,datetimezonebyname("UTC")
+                       ,"dd-MMM-yyyy HH:mm:ss ZZZ",curtimezonedef) ) 
+</pre>
+</div></div><p>The following example requires <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.14.3 or 9.02.3 or later. It returns a DM12 timestamp value that is one-hundredth of a second before the current system timestamp:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echo(format(cnvtlookbehind("1,hun",systimestamp),"dd-mmm-yyyy hh.mm.ss.cc;;d")) go</pre>
+</div></div><p>The following example requires <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.15.0, 9.03.0, or later:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare date_var = dq8 with protect go
+set date_var = cnvtdate(3292019) go
+call echo(format(cnvtlookbehind("1,d",date_var),";;d")) go</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 645, "requestCorrelationId": "3afd60b2c1d4b49a"}</span>
+</body>
+</html>

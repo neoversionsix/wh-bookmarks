@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>LIST( ) Function Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/LIST%28+%29+Function+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>This page contains instructions for using the LIST function in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>. See LIST Using <em>Discern Explorer</em> Debugger f<span>or information about using the LIST command in the </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span> Debugger.</span></p></div></div><p>LIST( ) is used in the Where clause of an outer (parent) query to allow comparing multiple fields to the values returned from a nested select.</p><h2 id="LIST()FunctionUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>LIST(Field_Name {,Field_Name})</pre>
+</div></div><h2 id="LIST()FunctionUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>Field_Name<br/></em>The name of a field from one of the tables in the outer query.</p><p>The number of field names in the List( ) function must equal the number of items in the Select list of the nested select, and the data types of the field names must be the same as the data types of the items in the Select list of the nested select.</p><h2 id="LIST()FunctionUsingDiscernExplorer-Examples">Examples</h2><p>The below example uses the List( ) function to compare the person_id and encntr_id from the Person and Encounter tables in the outer query to the person_id and encntr_id on the Orders table in the nested select. The select returns person and encounter information for people, where the name_last_key is equal to the value the user entered at the prompt ($Lname), when the person has an encounter with an order that was ordered in the past 24 hours.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select into $outdev
+	p.person_id
+	, p.name_last_key
+	, e.encntr_id
+	, e_encntr_type_disp = uar_get_code_display(e.encntr_type_cd)
+from
+	person   p
+	, encounter   e
+plan p where p.name_last_key = $lname
+join e where p.person_id = e.person_id
+	and list(p.person_id, e.encntr_id) = 
+		(select	 o.person_id
+			, o.encntr_id
+ 		from	 orders  o
+ 		where o.orig_order_dt_tm &gt;= cnvtdatetime(curdate-1,curtime))
+with nocounter, separator=" ", format
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 594, "requestCorrelationId": "343c55336d2d90cc"}</span>
+</body>
+</html>

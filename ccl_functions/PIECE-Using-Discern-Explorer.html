@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>PIECE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/PIECE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>PIECE( ) returns the specific piece of a delimited text string. If the piece_num does not exist, the default is returned.</p><p>Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.13.0 and 9.01.0, the first call of the function begins the search at the start of the source string. Subsequent calls start the search at the end of the last piece that was returned. This makes getting the pieces in sequential order more efficient than getting the pieces in random order. Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.13.3 and 9.01.3, if the length of the source string changes, the delimiter changes, or the subsequent call does not get the next sequential piece, the search starts at the beginning of the source instead of at the end of the last piece that was returned.</p><h2 id="PIECEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PIECE(source, delimiter, piece_num, default [,mode])</pre>
+</div></div><h2 id="PIECEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>source</em></p><p>A delimited text string.</p><p><em>delimiter</em></p><p>A single character that separates the source string into pieces. This can be any character, including the string quote characters: <strong>'</strong> or <strong>"</strong> or <strong>^</strong> or <strong>~</strong> or <strong>|</strong></p><p><em>piece_num</em></p><p>An integer value indicating which piece of the source to return. A value of <strong>1</strong> returns the data from the beginning of the source to the first delimiter. A value of <strong>2</strong> returns the data between the first and second delimiters. A value of <strong>3</strong> returns the data from between the second and third delimiters, and so on. The delimiters are not returned.</p><p><em>default</em></p><p>A value to return if the piece_num does not exist.</p><p><em>mode</em></p><p>Allows removal of leading blanks between quoted pieces, and embedding the delimiter in a quoted piece.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh" colspan="1">Value</th><th class="confluenceTh" colspan="1">Description</th></tr><tr><td class="confluenceTd"><p><strong>0</strong></p></td><td class="confluenceTd"><p>Does not remove surrounding quotes from a piece and retains lead blanks from a non-quote piece (default).</p></td></tr><tr><td class="confluenceTd"><p><strong>1</strong></p></td><td class="confluenceTd"><p>Removes surrounding quotes from a piece and retains lead blanks from a non-quote piece.</p></td></tr><tr><td class="confluenceTd"><p><strong>2</strong></p></td><td class="confluenceTd"><p>Does not remove surrounding quotes from a piece and trims lead blanks from a non-quote piece.</p></td></tr><tr><td class="confluenceTd"><p><strong>3</strong></p></td><td class="confluenceTd"><p>Removes surrounding quotes from a piece and trims lead blanks from a non-quote piece.</p></td></tr><tr><td class="confluenceTd"><p><strong>4</strong></p></td><td class="confluenceTd"><p>Ignores any quote characters that surround the delimiter character and looks for the delimiter character to separate the pieces. It also retains lead blanks.</p></td></tr><tr><td class="confluenceTd"><p><strong>5</strong></p></td><td class="confluenceTd"><p>Ignores any quote characters that surround the delimiter character and looks for the delimiter character to separate the pieces. It also trims lead blanks.</p></td></tr></tbody></table></div><p>If any piece begins with a quote character and does not have a corresponding closing quote character, use Mode 4 or 5. Otherwise, everything from the quote character to the end of the line is considered one piece. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> treats <strong>'</strong> or <strong>"</strong> or <strong>^</strong> or <strong>~</strong> or <strong>|</strong> as a quote character.</p><h2 id="PIECEUsingDiscernExplorer-Examples">Examples</h2><p>In the following example, the values are set as follows:</p><ul><li>lname is set to <strong>Doe.</strong></li><li>fname is set to <strong>John.</strong></li><li>phone is set to <strong><span class="baec5a81-e4d6-4674-97f3-e9220f0136c1" style="white-space: nowrap;">816-221-1024</span>.</strong></li><li>work is set to <strong>Not Found</strong>.</li></ul><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>set source = "Doe;John;Kansas City;MO;64117;816-221-1024" 
+set lname = piece(source, ";",1,"Not Found") 
+set fname = piece(source, ";",2,"Not Found") 
+set phone = piece(source, ";",6,"Not Found") 
+set work = piece(source, ";",7,"Not Found") 
+</pre>
+</div></div><p>In the following example, the values are set as follows:</p><p>lname is set to <strong>Doe.</strong><br>fname is set to <strong>'John'.</strong><br/>zip1 is set to <strong>'64117'.</strong><br/>zip2 is set to <strong>64117</strong>.</br></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>set source = "'Doe','John','Kansas City','MO','64117','816-221-1024'" 
+set lname = piece(source, ",",1,"Not Found",1) 
+set fname = piece(source, ",",2,"Not Found",0) 
+set zip1 = piece(source, ",",5,"Not Found",0 )
+set zip2 = piece(source, ",",5,"Not Found",1 )
+</pre>
+</div></div><p>The following example echoes out each item in the text string, "Doe;John;Kansas City;MO;64117;816-221-1024", in the following format:</p><p>piece1=Doe<br/>piece2=John<br/>piece3=Kansas City<br/>piece4=MO<br/>piece5=64117<br/>piece6=816-221-1024<br/>piece7=&lt;not_found&gt;</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program ccl_piece go
+create program ccl_piece
+  declare str = vc with noconstant("")
+  declare notfnd = vc with constant("&lt;not_found&gt;")
+  declare num = i4 with noconstant(1)
+  declare data = vc 
+  set data = "Doe;John;Kansas City;MO;64117;816-221-1024"
+  while (str != notfnd)
+      set str = piece(data,';',num,notfnd)  
+      call echo(build("piece",num,"=",str))
+      set num = num+1
+  endwhile
+ end go  
+</pre>
+</div></div><p><span class="inline-comment-marker" data-ref="24668be5-32c2-4347-8c75-61e91208b38e">In the example below, the quote character at the beginning of "John does not have a corresponding closing quote. This causes the system to set fname1 to <strong>"John;G</strong>, and mname1 to <strong>Not Found</strong>; however, fname4 is set to <strong>"John</strong> and mname4 is set to <strong>G</strong>.</span></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>set source = ^Doe;"John;G^ go
+set fname1 = piece(source, ";",2,"Not Found",1)  go
+set mname1 = piece(source, ";",3,"Not Found",1)  go
+set fname4 = piece(source, ";",2,"Not Found",4)  go
+set mname4 = piece(source, ";",3,"Not Found",4)  go
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 603, "requestCorrelationId": "c7db9b3944d41923"}</span>
+</body>
+</html>

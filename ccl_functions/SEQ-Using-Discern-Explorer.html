@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SEQ Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SEQ+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The SEQ( ) function is used to define a unique identifier when inserting new records into a table. The function returns the current or the next value in the sequence that is specified. Unlike other functions, SEQ( ) can only be used in the following three ways:</p><ol><li>Select list in a SELECT command</li><li>Set clause of an insert</li><li>Set clause of an update</li></ol><p>The SEQ( ) function must be used with an <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> table. It cannot be used with an ISAM (non-<span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span>) table. For example, use DUAL not DUMMYT.</p><h2 id="SEQUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SEQ(seq_name, val)
+</pre>
+</div></div><h2 id="SEQUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>seq_name</em><br>A sequence name for a specified table.</br></p><p><em>val</em><br/>CURRVAL or NEXTVAL are used to determine which sequence number to return.</p><h2 id="SEQUsingDiscernExplorer-Examples">Examples</h2><p>The following example uses SEQ() to set the ID field when inserting records into a custom RDBMS table:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>INSERT INTO CUST_TABLE C
+	(C.ID, C.DT, C.NAME)
+	(SELECT
+	  SEQ(PERSON_CUSTOM_SEQ,NEXTVAL),;SEQUENCE NUMBER
+	  CNVTDATETIME(CURDATE,CURTIME3),
+	  CNVTUPPER(P.NAME_LAST)
+    	FROM PERSON P
+    	WHERE P.UPDT_DT_TM &gt; CNVTDATETIME(CURDATE -2,0)
+    	WITH NOCOUNTER)</pre>
+</div></div><p>The following example uses a Select from Dual to set a global variable equal to the value returned from the SEQ() function:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare gv_next_id = f8
+
+select into "nl:"
+	se_id = seq(person_cust_seq,nextval)
+from dual
+detail
+	gv_next_id = se_id
+with nocounter
+
+call echo(gv_next_id)</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 569, "requestCorrelationId": "43df46f4303491d4"}</span>
+</body>
+</html>

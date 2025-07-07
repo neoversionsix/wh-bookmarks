@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>VALUE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="General Review"/><input id="hoverDescription" type="hidden" value="General Review"/><input id="finalState" type="hidden" value="false"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="General Review"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/VALUE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View published version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Before a command is executed, the VALUE( ) function converts a variable or expression to a literal value before it is substituted for a parameter. By default, variables are passed by the actual name, not the value represented by the variable name. The VALUE( ) function overrides the default and passes the value of the variable or expression.</p><p>When VALUE() is used in the EXECUTE command to pass a variable to a program, the variable replaces the $ symbol in the program.</p><p>The VALUE( ) function can be used to pass a list of literal values as a single parameter in the EXECUTE command. When the $ symbol for that parameter is used in an equality qualification, it is treated as an IN statement. For example, in the qualification:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Where p.sex_cd = $gender</pre>
+</div></div><p><span style="letter-spacing: 0.0px;">The VALUE( ) function can be used in any portion of a </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span style="letter-spacing: 0.0px;"> program that does not recognize variables (for example, in a WITH clause or a SELECT INTO clause). In addition, it can be used in DELETE, INSERT, SELECT, and UPDATE commands that are called multiple times in the same </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span style="letter-spacing: 0.0px;"> program. Ensure that you do not use the VALUE() function in the Plan, Join, Where, or Reportwriter clauses of a SELECT command. When used in a Reportwriter clause of a SELECT command, the variable or expression enclosed in the VALUE() function is converted to a literal value before the SELECT is executed. That value is not changed by subsequent executions of the Reportwriter clauses. </span>If $gender is equal to value(123.0, 124.0, 125.0), the qualification is treated as Where p.sex_cd in (123.0, 124.0, 125.0).</p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.3 introduced an enhancement that generates a warning if the length of the expression exceeds the maximum declared length, and the SET TRACE WARNING is enabled.  </p><h2 id="VALUEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>VALUE(expression[,expression])</pre>
+</div></div><h2 id="VALUEUsingDiscernExplorer-Metasymbol">Metasymbol</h2><p><em>expression</em></p><p>A value of any data type.</p><h2 id="VALUEUsingDiscernExplorer-Examples">Examples</h2><p>The SET SPOOL command expects a literal file name and printer queue name to be passed as parameters. For example: SET SPOOL = "TURN_RPT.DAT" LP01 GO. If a program prompts for the file name and printer queue name, the VALUE() function can be used to convert the $ symbols for the prompts to literal values.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET SPOOL = VALUE($Filename) VALUE($Outdev) GO</pre>
+</div></div><p>In this example, $req_nums is set equal to "VALUE(1029,1030,1037,1038,1051,1052)" by the EXECUTE command. When $req_nums is used in the where clause is treated as WHERE R.REQUEST_NUMBER IN (1029,1030,1037,1038,1051,1052).</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program test:dba go
+create program test:dba
+   prompt "enter the name of an output device" = MINE
+	,"enter a request number : " = 0
+with outdev, req_nums
+select into $outdev
+ r.request_number,
+r.request_name
+from request r
+ where r.request_number = $req_nums
+ end go
+execute test:dba noforms, value(1029,1030,1037,1038,1051,1052) go</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 610, "requestCorrelationId": "5d636efd08dc9ed8"}</span>
+</body>
+</html>

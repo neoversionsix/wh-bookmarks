@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>VARIANCE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/VARIANCE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The VARIANCE ( ) function returns the variance of an expression that is an integer or real number, across the specified break.</p><p>VARIANCE( ) can be used in the FOOT REPORT or FOOT group_expression sections of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Select command.</p><p>VARIANCE( ) can be used in the select list in an aggregate or group by query if you are using <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.8.0 or higher and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> 10g or higher.</p><p>VARIANCE( ) can be used in the select list as an OLAP expression using the OVER( ) clause if using <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.1 or higher and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> 10g or higher.</p><p>Non-RDBMS tables should not be used in the FROM clause when you use VARIANCE() in the Select list.  When using non-RDBMS tables, VARIANCE() should only be used in the FOOT REPORT or FOOT group_expression section of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Select command.</p><p>When used in the FOOT REPORT or FOOT group_expression sections of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Select command, VARIANCE( ) can either use a biased or unbiased formula. The default is biased. To view the formulas and to see how to change the default, see SET MODIFY AGGUNBIASED and SET MODIFY NOAGGUNBIASED help topics.</p><p>The KEEP option requires <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.1 or higher.</p><h2 id="VARIANCEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>VARIANCE(expression [WHERE qualification]) ["template;display_qualifier;display_format"]
+
+exp_name = VARIANCE([param{,param}]) [KEEP(DENSE_RANK FIRST|LAST ORDER BY expression[DESC])]
+  OVER (
+  [PARTITION BY expression{,expression}]
+  [ORDER BY expression[DESC],{expression[DESC]}]
+  [RANGE|ROWS BETWEEN UNBOUNDED|int PRECEDING  |  UNBOUNDED|int FOLLOWING  |  CURRENT ROW
+          AND BETWEEN UNBOUNDED|int PRECEDING  |  UNBOUNDED|int FOLLOWING  |  CURRENT ROW ]
+      )
+</pre>
+</div></div><h2 id="VARIANCEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p>For a description of template, display_qualifier, and display_format, see the metasymbols help topic.</p><p><em>expression</em> <br>An expression is the highest level metasymbol among constants, column names, variables, and so on. A numeric expression must be used to calculate the variance.</br></p><p><em>exp_name</em><br/>The name to use as the column heading and select expression of the value returned by the VARIANCE( ) function.</p><p><em>int</em><br/>An integer value.</p><h2 id="VARIANCEUsingDiscernExplorer-Examples">Examples</h2><p>The following example selects temperature results. Each temperature is displayed in the DETAIL section. The VARIANCE( ) function is used in the FOOT C.ENCNTR_ID section to display the variance of the temperature results that were returned for each encounter.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare TEMP_VAR = f8 with Constant(uar_get_code_by("DISPLAYKEY",72,"TEMPERATURETYMPANIC")),protect
+SELECT  INTO $OUTDEV
+	C.ENCNTR_ID
+	, TEMP_REAL = CNVTREAL(C.RESULT_VAL)
+	, C.PERFORMED_DT_TM
+
+FROM
+	CLINICAL_EVENT   C
+	, DUMMYT   D1
+
+PLAN C WHERE C.PERFORMED_DT_TM BETWEEN CNVTLOOKBEHIND("1,W") AND CNVTDATETIME(CURDATE,CURTIME3)
+	AND C.EVENT_CD = TEMP_VAR
+JOIN D1 WHERE CNVTREAL(C.RESULT_VAL) &gt; 0.0
+
+ORDER BY
+	C.ENCNTR_ID
+	, C.PERFORMED_DT_TM
+HEAD C.ENCNTR_ID
+	COL 0 C.ENCNTR_ID
+DETAIL
+	COL 20 TEMP_REAL
+	ROW +1
+FOOT C.ENCNTR_ID
+	COL 10 "Variance:"
+	COL +1 VARIANCE(TEMP_REAL) "###.##"
+	ROW +1
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT
+</pre>
+</div></div><p>The following example selects blood pressure results. Each result is displayed in the DETAIL section. The VARIANCE( ) function with a WHERE clause is used in the FOOT C.ENCNTR_ID section to display the variance of the systolic and diastolic values that were returned for each encounter.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO $OUTDEV
+	C.ENCNTR_ID
+	, REAL_RESULT = CNVTREAL(C.RESULT_VAL)
+	, C.PERFORMED_DT_TM
+	, C_EVENT_DISP = UAR_GET_CODE_DISPLAY(C.EVENT_CD)
+FROM
+	CLINICAL_EVENT   C
+	, DUMMYT   D1
+PLAN C WHERE C.PERFORMED_DT_TM BETWEEN CNVTLOOKBEHIND("3,M") AND CNVTDATETIME(CURDATE,CURTIME3)
+	AND C.EVENT_CD IN(SYS_VAR,DIAS_VAR)
+JOIN D1 WHERE CNVTREAL(C.RESULT_VAL) &gt; 0.0
+ORDER BY
+	C.ENCNTR_ID
+	, C.PERFORMED_DT_TM
+	, C_EVENT_DISP
+HEAD C.ENCNTR_ID
+	COL 0 C.ENCNTR_ID 
+DETAIL
+	COL 20 C_EVENT_DISP
+	COL +1 REAL_RESULT
+	ROW +1
+FOOT C.ENCNTR_ID
+	COL 10 "Variance DIAS:"
+	COL +1 VARIANCE(REAL_RESULT WHERE C.EVENT_CD = DIAS_VAR) "####.##"
+	COL +1 "Variance SYS:"
+	COL +1 VARIANCE(REAL_RESULT WHERE C.EVENT_CD = SYS_VAR) "####.##"
+	ROW +1
+WITH SEPARATOR=" ", FORMAT
+</pre>
+</div></div><p>The following example returns the variance of the result_value_numeric values from records that were updated in the past month.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+    VARIANCE_SE = VARIANCE(P.RESULT_VALUE_NUMERIC)
+FROM
+    PERFORM_RESULT   P
+WHERE P.UPDT_DT_TM BETWEEN CNVTLOOKBEHIND("1,M") AND CNVTDATETIME(CURDATE, CURTIME3)
+    AND P.RESULT_VALUE_NUMERIC &gt; 0.0
+WITH SEPARATOR=" ", FORMAT
+</pre>
+</div></div><p>The following example returns the variance of result_value_numeric values from rows that were updated on each day of the past month and the date on which the records were updated.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+    DAY = DATETIMETRUNC(P.UPDT_DT_TM,"DD") "@SHORTDATE"
+    ,VARIANCE_SE = VARIANCE(P.RESULT_VALUE_NUMERIC)
+FROM
+    PERFORM_RESULT   P
+WHERE P.UPDT_DT_TM BETWEEN CNVTLOOKBEHIND("1,M") AND CNVTDATETIME(CURDATE, CURTIME3)
+    AND P.RESULT_VALUE_NUMERIC &gt; 0.0
+GROUP BY
+    DATETIMETRUNC(P.UPDT_DT_TM,"DD")
+ORDER BY
+    DAY
+WITH SEPARATOR=" ", FORMAT
+</pre>
+</div></div><p>In the following example, ALL_VARIANCE is the variance of all the result_value_numeric values returned by the query. DAY_VARIANCE is the variance for each day. CUM_VARIANCE is the variance of the values that have been returned up to that record for the day. ROLL_VARIANCE is the variance of the current row, the preceding row, and the following row, on that day.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+    DAY = DATETIMETRUNC(P.UPDT_DT_TM,"DD") "@SHORTDATE"
+    ,P.RESULT_VALUE_NUMERIC
+    ,ALL_VARIANCE = VARIANCE(P.RESULT_VALUE_NUMERIC) OVER( )
+    ,DAY_VARIANCE = VARIANCE(P.RESULT_VALUE_NUMERIC) OVER(
+            PARTITION BY DATETIMETRUNC(P.UPDT_DT_TM,"DD"))
+    ,CUM_VARIANCE = VARIANCE(P.RESULT_VALUE_NUMERIC) OVER(
+            PARTITION BY DATETIMETRUNC(P.UPDT_DT_TM,"DD")
+            ORDER BY P.RESULT_VALUE_NUMERIC)
+    ,ROLL_VARIANCE = VARIANCE(P.RESULT_VALUE_NUMERIC) OVER(
+            PARTITION BY DATETIMETRUNC(P.UPDT_DT_TM,"DD")
+            ORDER BY P.RESULT_VALUE_NUMERIC
+            ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING)
+FROM
+    PERFORM_RESULT   P
+WHERE P.UPDT_DT_TM BETWEEN CNVTLOOKBEHIND("3,M") AND CNVTDATETIME(CURDATE, CURTIME3)
+    AND P.RESULT_VALUE_NUMERIC &gt; 0.0
+ORDER BY
+    DAY
+    ,P.RESULT_VALUE_NUMERIC
+WITH SEPARATOR=" ", FORMAT
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 638, "requestCorrelationId": "d8a8f68f79f04ed5"}</span>
+</body>
+</html>

@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CURMEM Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CURMEM+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Returns memory information for the current process.</p><h2 id="CURMEMUsingDiscernExplorer-Syntax">Syntax</h2><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">CURMEM(mode)</pre>
+</div></div><h2 id="CURMEMUsingDiscernExplorer-Metasymbol">Metasymbol</h2><p><em>mode<br/></em></p><p>An integer value that indicates the memory item to return.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh" style="text-align: center;">Option</th><th class="confluenceTh" colspan="1">Item</th><th class="confluenceTh">Desc</th></tr><tr><td class="confluenceTd" style="text-align: center;">1</td><td class="confluenceTd" colspan="1">rlim_cur</td><td class="confluenceTd">Soft rlimit</td></tr><tr><td class="confluenceTd" style="text-align: center;">2</td><td class="confluenceTd" colspan="1">rlim_max</td><td class="confluenceTd">Hard rlimit</td></tr><tr><td class="confluenceTd" style="text-align: center;">3</td><td class="confluenceTd" colspan="1">arena</td><td class="confluenceTd">Non-mmapped space allocated in bytes</td></tr><tr><td class="confluenceTd" style="text-align: center;">4</td><td class="confluenceTd" colspan="1">ordblks</td><td class="confluenceTd">Number of free chunks</td></tr><tr><td class="confluenceTd" style="text-align: center;">5</td><td class="confluenceTd" colspan="1">smblks</td><td class="confluenceTd">Number of free fastbin blocks</td></tr><tr><td class="confluenceTd" colspan="1" style="text-align: center;">6</td><td class="confluenceTd" colspan="1">hblks</td><td class="confluenceTd" colspan="1">Number of mmapped regions</td></tr><tr><td class="confluenceTd" colspan="1" style="text-align: center;">7</td><td class="confluenceTd" colspan="1">hblkhd</td><td class="confluenceTd" colspan="1">Space allocated in mmapped regions in bytes</td></tr><tr><td class="confluenceTd" colspan="1" style="text-align: center;">8</td><td class="confluenceTd" colspan="1">usmblks</td><td class="confluenceTd" colspan="1">Maximum total allocated space in bytes</td></tr><tr><td class="confluenceTd" colspan="1" style="text-align: center;">9</td><td class="confluenceTd" colspan="1">uordblks</td><td class="confluenceTd" colspan="1">Total allocated space in bytes</td></tr></tbody></table></div><p><br/></p><h2 id="CURMEMUsingDiscernExplorer-Examples">Examples</h2><p>The below example echoes the value of all the memory items for the current process.<strong><br/></strong></p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">For(lcnt = 1 to 9)
+    call echo(curmem(lcnt))
+endfor
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 553, "requestCorrelationId": "25535ac0ac05a7ca"}</span>
+</body>
+</html>

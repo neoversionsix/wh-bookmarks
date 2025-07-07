@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>FORMAT Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/FORMAT+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>FORMAT( ) transforms an expression into a string using a user-specified format. The format is made up of three elements; the display_template, display_qualifier, and display_format, enclosed in quotations marks. The elements are separated by a semicolon (;). At least one of the elements is required. If the display_template is not used, a leading semicolon must be used as a placeholder. If neither the display_template nor display_qualifier are used, two leading semicolons must be used as placeholders. This function is useful for formatting expressions to be displayed on the Report Layout screen. When passing a decimal value, FORMAT() rounds to the number of decimals based on the display qualifier. Use ROUND() with the prerequisite precision for reliable rounding of floats.</p><p>If Universal Coordinated Time (UTC) is turned on and FORMAT() is used either outside of a SELECT command, in the selection list of an outermost SELECT, or in a Reportwriter section of a SELECT, the FORMAT() function assumes that a datetime value is in UTC and converts it to a local datetime before formatting. If UTC is turned on and FORMAT() is used in a query in a way that causes FORMAT() to be processed at the Relational Database Management System (RDBMS) level, the formatting is performed on the UTC datetime value before it is adjusted to the local time zone. Using FORMAT() in the Where clause, Order By clause, Group By clause, or in an OLAP expression are some of the cases where the formatting is performed on the UTC datetime value before it is adjusted to the local time zone.</p><h2 id="FORMATUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FORMAT(expression,["display_template;display_qualifier;display_format"])</pre>
+</div></div><h2 id="FORMATUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>expression</em></p><p>The item to format.</p><p>See display_template , display_qualifier, and display_format.</p><h2 id="FORMATUsingDiscernExplorer-Examples">Examples</h2><p>The example below incorporates the FORMAT( ) function. If the current date is January 10, 1998, D1 is displayed as 01/10/98. D2 is displayed as 10-JAN-1998 10:37:13.00</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>D1 = FORMAT(CURDATE,"MM/DD/YY ;;D" )
+D2 = FORMAT(E.DISCH_DT_TM, ";;Q" )
+</pre>
+</div></div><p>The following is a three-digit display of the current page padded with zeros:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>RPAGE = FORMAT(CURPAGE, "###;P0")
+</pre>
+</div></div><p>The FORMAT( ) function can also be used to format the real number to days, hours, minutes, and seconds. If the order date and time is December 3, 1998 17:46:00.0, and the verified date and time is January 7, 1999 10:55:57.0, D3 equals 34 days 17:09:57.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>D3= format(DATETIMEDIFF(R.VERIFIED_DT_TM,O.ORDER_DT_TM), "DD days HH:MM:SS;;Z")
+</pre>
+</div></div><p>If the order date and time is December 1, 1998 14:00:0, and the verified date and time is December 1, 1998 14:58:00.0, D4 equals 00:58. Using the format below limits the display to hours and minutes. If the difference between the verified date and time and the order date and time is greater than 24 hours, the number of days is not displayed.  If the order date and time is January 1, 2017 01:00:0, and the verified date and time is January 2, 2017 17:45:00.0, D4 equals 16:45.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>D4 = format(DATETIMEDIFF(R.VERIFIED_DT_TM,O.ORDER_DT_TM), "HH:MM;;Z")
+</pre>
+</div></div><p>If the order date and time is December 1, 1998 14:00:00.0, D5 equals 12/01/98 14:00:00, D6 equals DEC/01/98, and D7 equals December 1, 1998. If you use a template, as in the below (@SHORTDATETIME), the template name must be in uppercase.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>D5 = format(O.ORDER_DT_TM, "@SHORTDATETIME")
+D6 = format(O.ORDER_DT_TM, CCLFMT-&gt;MEDIUMDATE)
+D7 = format(O.ORDER_DT_TM, "@LONGDATE;L")
+</pre>
+</div></div><p>By default, numeric values are right-justified. The following example left-justifies the Person_ID:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PID_Left = format(P.PERSON_ID, ";L")
+</pre>
+</div></div><p>In a UTC environment, for the example below, the P.UPDT_DT_TM is adjusted to the local time before it is formatted and assigned to the FORMAT_DAY select expression. When used in the GROUP BY clause, the FORMAT(P.UPDT_DT_TM,"DD-MMM-YYYY") formats the P.UPDT_DT_TM UTC value without first adjusting it to the local time zone.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+	FORMAT_DAY = FORMAT(P.UPDT_DT_TM,"DD-MMM-YYYY")
+	, DAY_CNT = COUNT(*)
+
+FROM	PERSON   P
+
+WHERE P.UPDT_DT_TM BETWEEN CNVTLOOKBEHIND("1,D") AND CNVTDATETIME(CURDATE, curtime3)
+
+GROUP BY FORMAT(P.UPDT_DT_TM,"DD-MMM-YYYY")
+
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 590, "requestCorrelationId": "2992bc7bf34bbd50"}</span>
+</body>
+</html>

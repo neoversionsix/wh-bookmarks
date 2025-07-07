@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>FINDFILE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/FINDFILE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>FINDFILE( )<br>Determines if a specific file exists and if you have access to the file. Returns a 1 if the file is found and you have access to the file. Returns a 0 if the file is not found or you do not have read access to the file. </br></p><h2 id="FINDFILEUsingDiscernExplorer-Syntax">Syntax</h2><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">FINDFILE(file_name[,mode,[casemode]])</pre>
+</div></div><h2 id="FINDFILEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>file_name</em> </p><p>The file name to be searched for. By default, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> looks for the file in CCLUSERDIR, unless a path for the file location is included in the <em>file_name</em>.  By default, the <em>file_name </em> is implicitly converted to lowercase on Unix file systems and uppercase on AXP file systems.  The <em>casemode </em> option can be used to override the implicit case conversion. Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.17.5 and 9.05.5, spaces are allowed in the <em>file_name</em>.<span class="conf-macro output-inline" data-hasbody="true" data-macro-name="table-plus"><div class="table-wrap"><table class="confluenceTable" id="TBL1750482850223"><colgroup class=""><col class=""/><col class=""/></colgroup><tbody class=""><tr class=""><th class="confluenceTh"><p><em>mode</em></p></th><th class="confluenceTh"><p>Description</p></th></tr><tr class=""><th class="confluenceTh"><p>0</p></th><td class="confluenceTd"><p>Check if the file exists (default).</p></td></tr><tr class=""><th class="confluenceTh"><p>1</p></th><td class="confluenceTd"><p>Check if the file exists and execute access is allowed.</p></td></tr><tr class=""><th class="confluenceTh"><p>2</p></th><td class="confluenceTd"><p>Check if the file exists and write access is allowed.</p></td></tr><tr class=""><th class="confluenceTh"><p>3</p></th><td class="confluenceTd"><p>Check if the file exists and execute and write access is allowed.</p></td></tr><tr class=""><th class="confluenceTh"><p>4</p></th><td class="confluenceTd"><p>Check if the file exists and read access is allowed.</p></td></tr><tr class=""><th class="confluenceTh"><p>5</p></th><td class="confluenceTd"><p>Check if the file exists and execute and read access is allowed.</p></td></tr><tr class=""><th class="confluenceTh"><p>6</p></th><td class="confluenceTd"><p>Check if the file exists and write and read access is allowed.</p></td></tr><tr class=""><th class="confluenceTh"><p>7</p></th><td class="confluenceTd"><p>Check if the file exists and execute, write, and read access is allowed.</p></td></tr></tbody></table></div>
+
+</span></p><div class="confluence-information-macro confluence-information-macro-tip conf-macro output-block" data-hasbody="true" data-macro-name="tip"><p class="title conf-macro-render">Release Consideration</p><span class="aui-icon aui-icon-small aui-iconfont-approve confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p><em>casemode</em> is available in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.7.2 and higher.</p></div></div><p><em>casemode</em></p><p>Can be used to override the implicit case conversion of the <em>file_name</em>.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh" scope="row"><p>Mode</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><th class="confluenceTh" scope="row"><p>0</p></th><td class="confluenceTd"><p>Find lowercase file on Unix domains or uppercase file on AXP domains (default).</p></td></tr><tr><th class="confluenceTh" scope="row"><p>1</p></th><td class="confluenceTd"><p>Find file using exact match of file name on Unix domains else uppercase file on AXP domains.</p></td></tr></tbody></table></div><h2 id="FINDFILEUsingDiscernExplorer-Examples">Examples</h2><p>If the file test.prg is found in CCLUSERDIR, stat is set to 1.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET STAT = FINDFILE("TEST.PRG") GO
+</pre>
+</div></div><p>If the file test_report.prg is found in cust_script, and you have read access to test_report.prg, stat is set to 1.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET STAT = FINDFILE("CUST_SCRIPT:TEST_REPORT.PRG",4) GO
+</pre>
+</div></div><p>The following example uses mode 1 for the <em>casemode</em> parameter to perform a case sensitive search for the the Test.prg file.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET STAT = FINDFILE("Test.prt",0,1) GO</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 577, "requestCorrelationId": "872db0f63deb9def"}</span>
+</body>
+</html>

@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>MAXREC Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/MAXREC+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The MaxRec( ) function is used in a Where clause to dynamically adjust the number of occurs to loop through in a join to a dummyt table. When using multi-level lists within a record structure, the MaxRec( ) function should be used to dynamically control the number of internal loops <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> performs in order to traverse a second level list.</p><h2 id="MAXRECUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>MAXREC(Range_Name, Newdim_Expr)</pre>
+</div></div><h2 id="MAXRECUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>Range_Name</em><br>The alias of a reference to the Dummyt table</br></p><p><em>Newdim_Expr</em><br/>The number of times to execute the internal loop</p><h2 id="MAXRECUsingDiscernExplorer-Examples">Examples</h2><p>The following example assumes that the Person_Encounter record structure shown in the comment already has been created and populated with information about people and their encounters. There could be any number of people in the plist. Each person in the plist could have any number of encounters in the elist. The example joins to the Orders table to get order information for each of the encounters.<br/>The From clause contains the following:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>(DUMMYT   D1 WITH SEQ =  VALUE(SIZE(PERSON_ENCOUNTER-&gt;plist, 5)))</pre>
+</div></div><p>Using the above, D1.seq is incremented until it reaches the number of people that exist in the plist. D1.seq can then be used to reference each person in the plist to set expressions in the selection list and to join to the Orders table.</p><p>The Plan/Join clause contains the following:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PLAN D1 WHERE MAXREC(D2, SIZE(PERSON_ENCOUNTER-&gt;plist[D1.SEQ].elist, 5))</pre>
+</div></div><p>In the previous example, the MaxRec( ) function is used to determine how many encounters are in the elist for each person in the plist. Then D2.seq is dynamically incremented until it reaches the number of encounters in the elist for each person in the plist. D2.seq then can be used to set expressions in the selection list and to join to the Orders table.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>/*****
+record person_encounter (
+  1 plist [*]
+    2 person_id = f8
+    2 name = vc
+    2 elist [*]
+      3 encntr_id = f8
+      3 type = vc
+)
+*****/
+SELECT INTO $outdev
+     PLIST_PERSON_ID = PERSON_ENCOUNTER-&gt;plist[D1.SEQ].person_id
+    ,PLIST_NAME = SUBSTRING(1, 30, PERSON_ENCOUNTER-&gt;plist[D1.SEQ].name)
+    ,ELIST_ENCNTR_ID = PERSON_ENCOUNTER-&gt;plist[D1.SEQ].elist[D2.SEQ].encntr_id
+    ,ELIST_TYPE =  SUBSTRING(1,30, PERSON_ENCOUNTER-&gt;plist[D1.SEQ].elist[D2.SEQ].type)
+
+    ,O.ORDER_ID
+    ,O_CATALOG_DISP = UAR_GET_CODE_DISPLAY(O.CATALOG_CD)
+    ,O.CATALOG_CD
+FROM
+	(DUMMYT   D1  WITH SEQ =  VALUE(SIZE(PERSON_ENCOUNTER-&gt;plist, 5)))
+	;increments d1.seq up to the number of people in the plist
+	, (DUMMYT   D2  WITH SEQ =  1)
+	, ORDERS   O
+PLAN D1 WHERE MAXREC(D2, SIZE(PERSON_ENCOUNTER-&gt;plist[D1.SEQ].elist, 5))
+
+/* Planning on d1 creates an internal loop to look at each position of the plist.
+The MaxRec( ) function determines the number of encounters in the elist. */
+
+JOIN D2
+
+/* Joining to d2 creates a second level internal loop to look at each position of the elist.
+Since MaxRec( ) was used, this second loop will only be executed the number of  times needed. */
+
+JOIN O WHERE O.ENCNTR_ID = PERSON_ENCOUNTER-&gt;plist[D1.SEQ].elist[D2.SEQ].encntr_id
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 603, "requestCorrelationId": "ed9b643d64273bd9"}</span>
+</body>
+</html>

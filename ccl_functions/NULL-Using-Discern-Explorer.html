@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>NULL Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/NULL+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>NULL () is only valid in a Report Writer clause of a SELECT that is using an ORJOIN, or the OUTERJOIN or DONTCARE control options. It returns 0 if the field contains a valid value, 1 if the field is NULL or undefined. The DECODE() function is preferred, and it should be used instead of NULL().</p><h2 id="NULLUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NULL(field_name)</pre>
+</div></div><h2 id="NULLUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>Field_name</em><br>A field from a table used in the ORJOIN, OUTERJOIN, or DONTCARE control options.</br></p><h2 id="NULLUsingDiscernExplorer-Examples">Examples</h2><p>In the following example, ISNULL is equal to 1 if there is no matching row on the ENCOUNTER table.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO $OUTDEV
+	P.PERSON_ID
+	, E.ENCNTR_ID
+FROM
+	PERSON   P
+	, ENCOUNTER   E
+	, DUMMYT D
+PLAN P WHERE P.UPDT_DT_TM &gt; CNVTDATETIME(CURDATE-7,0)
+JOIN D
+JOIN E WHERE E.PERSON_ID = P.PERSON_ID
+
+DETAIL
+	COL 0 P.PERSON_ID
+	COL +1 E.ENCNTR_ID
+	ISNULL = NULL(E.ENCNTR_ID)
+	COL +1 ISNULL
+	ROW +1
+WITH OUTERJOIN = D 
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 559, "requestCorrelationId": "78bdf1b245629079"}</span>
+</body>
+</html>

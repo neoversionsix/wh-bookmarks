@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>FINDSTRING Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/FINDSTRING+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The FINDSTRING( ) function allows you to return the position at which the search_expression begins in the source_expression. The start_pos can be used to perform a search for the next occurrence of the search text. The FINDSTRING( ) function is case-sensitive, therefore only like characters are found. When no matches are found, a zero is returned.</p><h2 id="FINDSTRINGUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FINDSTRING(search_expression,source_expression[,start_pos[,find_mode]])</pre>
+</div></div><h2 id="FINDSTRINGUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>search_expression</em></p><p>The text expression to be searched for.</p><p>Use NOPATSTRING() around the <em>search_expression</em> when the <em>source_expression</em> is an RDBMS field and finding a literal character that can also be treated as a wildcard character.</p><p><em>source_expression</em> </p><p>The source text in which the search expression should be located.</p><p><em>start_pos</em></p><p>The position in the source expression where the search should begin. The default is 1.</p><p><em>find_mode</em> </p><p>The number representing the find mode.   </p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Mode</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>0</p></td><td class="confluenceTd"><p>Find first occurrence</p></td></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>Find last occurrence</p></td></tr></tbody></table></div><h2 id="FINDSTRINGUsingDiscernExplorer-Examples">Examples</h2><p>In this example, LAST is set to 10.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>LAST = FINDSTRING("xxx","abcxxxdefxxx",1,1) </pre>
+</div></div><p>The following example sets the variable POS equal to 4:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre> SET POS = FINDSTRING("|", "abc|xyz") </pre>
+</div></div><p>The following example uses the NOPATSTRING() function around the <em>search_expression</em> when searching for <strong>A*C</strong> in the l.long_text field.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>if(findstring(nopatstring("A*C"),l.long_text,1,0) &gt; 0) 
+	col 0 "Found" 
+else 
+	col 0 "Not Found"
+endif </pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 562, "requestCorrelationId": "f7e1c515fc5eaf6d"}</span>
+</body>
+</html>

@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>MOVEREC( ) Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/MOVEREC%28+%29+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The MOVEREC ( ) function performs the following</p><ul><li>Moves the values from one record structure to another record structure that has the same definition.</li><li>Moves the values from one record structure segment to another record structure that has a definition that matches the segment of the first record structure.</li><li>Moves the values from one record structure segment to another record structure segment that has the same definition.</li><li>Moves a record read from a <em>Discern Explorer</em> database file, table, or memory structure to a record structure. Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.2 and 9.02.2, this option could not be used to move values from a RDBMS table to a record structure. Beginning  with<span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.2 and 9.02.2, this option allows moving values from a RDBMS table to a record structure. If using Reportwriter clauses in the SELECT, use <strong>REPORTHELP</strong> in the WITH clause. Use <strong>table_alias.*</strong> in the selection list to select all columns from the table.</li></ul><p>A record structure is defined with the RECORD command. The names of the items in the record structures can be different but the layout and data types of the items must be the same. </p><h2 id="MOVEREC()UsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>MOVEREC(record_name[-&gt;record_segement], record_name[-&gt;record_segment])
+MOVEREC(table_name.SEQ,record_name)
+</pre>
+</div></div><h2 id="MOVEREC()UsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>record_name</em><br>The name of a record structure that previously was defined using the record command or the name of the record that <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> generates a definition in the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Data Dictionary.</br></p><p><em>record_segment</em><br/>A record structure item that was defined with a dimension in the Record command. In the Record command, an item at any level that is given a name followed by square brackets, enclosing an asterisk or integer but not assigned a data type is a record segment. In the following example Qual is a record segment:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>	Record Temp_1 (
+		1 Qual[*]
+			2 ID = f8
+			2 Name = VC )</pre>
+</div></div><p><em>table_name</em><br/>The name of the table from the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Data Dictionary or an alias defined in the From clause for a table.</p><h2 id="MOVEREC()UsingDiscernExplorer-Examples">Examples</h2><p>Assuming the following record commands are used to define record Arec and Brec:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>	RECORD AREC (
+ 	 1 ATITLE = C10
+ 	 1 ALIST [*]
+ 	   2 ID = F8
+ 	   2 NAME = VC
+	)
+
+ 	RECORD BREC (
+ 	 1 BTITLE = C10
+ 	 1 BLIST [*]
+  	  2 ID = F8
+  	  2 NAME = VC
+	) </pre>
+</div></div><p>The following command copies the entire content of Arec into Brec:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>	SET STAT = MOVEREC(AREC,BREC)</pre>
+</div></div><p>The following command copies the content of Arec-&gt;Alist into Brec-&gt;Blist but does not change the value of Brec-&gt;Btitle:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>	SET STAT = MOVEREC(AREC-&gt;ALIST,BREC-&gt;BLIST)</pre>
+</div></div><p>The following example moves records selected from the non-RDBMS table with an alias of <strong>A</strong> to the Rec1-&gt;Qual record segment. This option cannot be used for a RDBMS table, and is therefore rarely used in Cerner Millennium.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>	STAT = MOVEREC(A.SEQ,REC1-&gt;QUAL[NUMREC])</pre>
+</div></div><p>In the following example, the record structure definitions match but the names of the individual items are reversed. Since the MOVEREC() function does not consider the names of the items when performing a move, the output the CALL ECHORECORD commands is</p><p>&gt;&gt;&gt;Begin EchoRecord AREC   ;AREC</p><p> 1 <strong>NAME_1=VC8   {Name One}</strong></p><p> 1 NAME_2=VC8   {Name Two}</p><p>&gt;&gt;&gt;End EchoRecord AREC Varchar=2, Varlist=0, Fixsize=16, Varsize=32</p><p>&gt;&gt;&gt;Begin EchoRecord BREC   ;BREC</p><p> 1<strong> NAME_2=VC8   {Name One}</strong></p><p> 1 NAME_1=VC8   {Name Two}</p><p>&gt;&gt;&gt;End EchoRecord BREC Varchar=2, Varlist=0, Fixsize=24, Varsize=32</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record AREC (
+  1 NAME_1 = VC   
+  1 NAME_2 = VC   
+) 
+record BREC (
+  1 NAME_2 = VC   
+  1 NAME_1 = VC  
+) 
+set AREC-&gt;NAME_1 = "Name One"
+set AREC-&gt;NAME_2 = "Name Two"
+
+set STAT = MOVEREC(AREC,BREC)
+
+call echorecord(AREC) 
+call echorecord(BREC)</pre>
+</div></div><p>The following example requires <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.14.2, 9.02.2, or later. It uses the RECORD command to create a record structure named REC1 from the Person table definition. The Moverec() function is used to write the values selected from the Person table to the items in the REC1 record structure.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>;create the rec1 record structure from the person table definition
+record rec1 from v500, person, person with protect, dimension=2 ;use a value greater than 1 
+
+declare pseq = i4 with noconstant(0)    
+
+SELECT INTO "NL:"
+    p.*  ;select all fields from the person table
+    , x1 = alter(rec1-&gt;person,assign(pseq,pseq+1)) ;allocate memory in the rec1-&gt;person list 
+    , stat = moverec(p.seq,rec1-&gt;person[pseq]) ;assign all fields from the person table to the rec1 record structure
+FROM    person   p
+WHERE p.updt_dt_tm between cnvtlookbehind("1,w") and cnvtdatetime(sysdate)
+DETAIL      
+ call echo(p.person_id)
+WITH nocounter,reporthelp, time = 30     
+
+call echorecord(rec1)</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 660, "requestCorrelationId": "19e29f9c82bc77a9"}</span>
+</body>
+</html>

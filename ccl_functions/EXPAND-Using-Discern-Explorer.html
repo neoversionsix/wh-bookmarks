@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>EXPAND Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/EXPAND+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The EXPAND( ) function creates a qualification in the query that is passed to the Relational Database Management System (RDBMS). It is generally used to compare the values from a Level 1 record structure list item to a field on an RDBMS table. A <strong>1</strong> is returned if at least one item in the Record Member Item list is equal to the search expression. By default, an IN clause is created in the query that is passed to the RDBMS. The EXPAND Control Option can be used in the WITH clause to override the default behavior of the EXPAND() function. Select commands that use the EXPAND() function should be tested for efficiency using EXPAND = 0, EXPAND = 1, and EXPAND = 2 in the With clause to determine which option results in the most efficient processing of the query by the RDBMS.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>The Expand( ) function can only be used on level 1 record structure lists. To qualify on values from a level 2 or lower record structure list, use a combination of the DUMMYT table and the Maxrec() function. For more information, see MAXREC using <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> MAXREC Using Discern Explorer.</p></div></div><h2 id="EXPANDUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>expand(index_variable,index_start,index_end,{search_expr, record_member}[,bind_cnt])</pre>
+</div></div><h2 id="EXPANDUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>index_variable</em><br>An integer data type variable. When Expand() is used in a SELECT command, the index_variable must be declared before the Select.</br></p><p><em>index_start</em><br/>The position of the record structure list that contains the first value to be used in the qualification.</p><p><em>index_end</em><br/>The position of the record structure list that contains the last value to be used in the qualification.</p><p><em>search_expr</em><br/>Table_alias.Field_name that is used in the qualification.</p><p><em>record_member</em><br/>An expression. Generally a record structure list member that contains values that are compared to the <em>search_expr</em> in the qualification</p><p><em>bind_cnt</em><br/>The number of values up to 200 in the IN clause that are assigned to bind variables in revision 8.2.3 of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>. In later versions of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> the bind_cnt will be ignored, and bind variables will be used for all items in the IN clause if the total number of items in the record_member list is 200 or less.</p><p>Note the following:</p><p>If a single search expression is used, the format of the IN clause is the following:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>search_expr IN (record_member_item1{,record_member_itemn})</pre>
+</div></div><p>If multiple search expressions are used, the format of the IN clause is the following:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>(search_expr1,{search_exprn}) IN ((record_member_item1{,record_member_itemn}) {(,record_member_item1{,record_member_itemn})} )</pre>
+</div></div><p>If the record_member_item list contains a single value, the number of record_member_items passed to the IN clause are not padded. Only that single item is passed in the IN clause. If the record_member_item list contains five or fewer values, the number of record_member_items passed to the IN clause is padded to five. If the record_member_item list contains more than five, and a single search expression is used, the number of record_member_items passed to the IN clause is padded up to the nearest multiple of 20. If multiple search expressions are used, the number of record_member_items passed to the IN clause is padded up to the nearest multiple of 10. The padded items are set equal to the value of the last item in the record structure list. The padding allows for more efficient use of the RDBMS optimizer cache.</p><p>If the record_member_item list contains more than 200 items, multiple IN clauses are created and added to the query that is passed to the RDBMS using the OR operator.</p><p>If the record member item list contains 200 or fewer items, the literal values in the record member item list are assigned to bind variables. The RDBMS query contains the bind variables to allow more efficient use of the RDBMS optimizer cache. If the record member item list contains more than 200 items, the literal values are used in the RDBMS query.</p><p>When the record member item list contains a large number of items, it is probably more efficient to use the EXPAND Control Option in the WITH clause to force using a nested select on the global temp table (option 1) or object array (option 2) instead of the IN clause and bind variables.</p><h2 id="EXPANDUsingDiscernExplorer-Examples">Examples</h2><p>The below example uses the Expand function to select rows from the Person table, where the Person_ID is equal to one of the values previously stored in the record structure. The Expand function is converted to the equivalent of p.person_id IN (1,2,3,4,5,6,7,8,9,10) in the query that is sent to the RDMBS.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_TESTEXPAND GO
+CREATE PROGRAM CCL_TESTEXPAND
+ RECORD REC(
+ 1 QUAL[*]
+ 2 ITEM = F8
+ )
+ DECLARE NUM = I4
+ SET STAT = ALTERLIST(REC-&gt;QUAL,10)
+ FOR (NUM = 1 TO 10)
+  SET REC-&gt;QUAL[NUM].ITEM = NUM
+ ENDFOR
+
+SELECT P.PERSON_ID, P.NAME_FULL_FORMATTED
+FROM PERSON P
+WHERE EXPAND(NUM,1,10,P.PERSON_ID,REC-&gt;QUAL[NUM].ITEM)
+END GO
+</pre>
+</div></div><p>The below example uses the Expand function to select rows from the Person table where the Person_ID is equal to one of the values previously stored in the record structure. In this example, the control option EXPAND = 1 is used in the WITH clause. This causes the values 1 through 10 that were placed in the rec-&gt;qual[num].item list to be inserted into the SHARED_LIST_GTTD table. The query that is passed to the RDBMS then performs an implicit join to the SHARED_LIST_GTTD table.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_TESTEXPAND GO
+CREATE PROGRAM CCL_TESTEXPAND
+ RECORD REC(
+ 1 QUAL[*]
+ 2 ITEM = F8
+ )
+ DECLARE NUM = I4
+ SET STAT = ALTERLIST(REC-&gt;QUAL,10)
+ FOR (NUM = 1 TO 10)
+   SET REC-&gt;QUAL[NUM].ITEM = NUM
+ ENDFOR
+
+ SELECT P.PERSON_ID, P.NAME_FULL_FORMATTED
+ FROM PERSON P
+ WHERE EXPAND(NUM,1,10,P.PERSON_ID,REC-&gt;QUAL[NUM].ITEM)
+ WITH EXPAND = 1
+ END GO
+</pre>
+</div></div><p>The preceding <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> query executes the following INSERT and SELECT statements at the RDBMS level:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>INSERT INTO SHARED_LIST_GTTD(SOURCE_ENTITY_ID,SOURCE_ENTITY_SEQ,SOURCE_ENTITY_VALUE) VALUES( :1 , :2 , :3 )
+
+SELECT P.PERSON_ID, P.NAME_FULL_FORMATTED
+FROM PERSON P WHERE (P.PERSON_ID) IN
+           (SELECT G_1.SOURCE_ENTITY_VALUE
+           FROM SHARED_LIST_GTTD G_1
+           WHERE G_1.SOURCE_ENTITY_ID= :1 )
+</pre>
+</div></div><p>Use the Expand function examples shown above instead of the JOIN to the DUMMYT table as shown below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_TESTEXPAND GO
+CREATE PROGRAM CCL_TESTEXPAND
+ RECORD REC(
+ 1 QUAL[*]
+ 2 ITEM = F8
+ )
+ DECLARE NUM = I4
+ SET STAT = ALTERLIST(REC-&gt;QUAL,10)
+ FOR (NUM = 1 TO 10)
+   SET REC-&gt;QUAL[NUM].ITEM = NUM
+ ENDFOR
+
+SELECT P.PERSON_ID, P.NAME_FULL_FORMATTED
+FROM PERSON P,
+  (DUMMYT D WITH SEQ = VALUE(NUM))
+PLAN D
+JOIN P WHERE P.PERSON_ID = REC-&gt;QUAL[D.SEQ].ITEM
+END GO
+</pre>
+</div></div><p>The below example assumes that the ENC record structure, shown as a comment, has been created and that encounter ids have already been placed in the enc-&gt;qual record member list. This example shows using a single search expression in the Expand( ) function.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>/*
+RECORD ENC
+( 1 QUAL[*]
+        2 ENCNTR_ID = F8)
+*/
+
+DECLARE NUM = I4
+SELECT       INTO $OUTDEV
+             O.PERSON_ID,
+             O.ENCNTR_ID,
+             O.ORDER_ID,
+    O.ORDER_MNEMONIC
+FROM ORDERS O
+WHERE EXPAND(NUM,1,SIZE(ENC-&gt;QUAL,5),
+                 O.ENCNTR_ID ,ENC-&gt;QUAL[NUM].ENCNTR_ID)
+ORDER O.ENCNTR_ID,
+           0
+WITH FORMAT, SEPARATOR = " ", MAXREC = 100
+</pre>
+</div></div><p>If eight positions were in the enc-&gt;qual list, the above query would pass the below query to the RDBMS. The bind variables 8 - 20 would all be equal to the same value. If 18 positions were in the enc-&gt;qual list, the above query would still pass the below query to the RDBMS. In this case, the bind variables 18 - 20 would all equal the same value. The same query is passed to the RDBMS anytime 1 to 20 items are in the enc-&gt;qual list. This allows for more efficient use of the RDBMS optimizer cache.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+     O.PERSON_ID,
+     O.ENCNTR_ID,
+     O.ORDER_ID,
+     O.ORDER_MNEMONIC
+FROM ORDERS O
+WHERE ((O.ENCNTR_ID IN ( :1 , :2 , :3 , :4 , :5 , :6 , :7 ,
+ :8 , :9 , :10 , :11 , :12 , :13 , :14 , :15 , :16 , :17 , :18 , :19 ,
+ :20 )) ) GO
+</pre>
+</div></div><p>The below example assumes that the ENC record structure, shown as a comment, has been created and that encounter ids have already been placed in the enc-&gt;qual record member list. This example shows using a single search expression in the Expand( ) function and the EXPAND = 1 control option in the WITH clause.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>/*
+RECORD ENC
+( 1 QUAL[*]
+        2 ENCNTR_ID = F8)
+*/
+
+DECLARE NUM = I4
+SELECT       INTO $OUTDEV
+             O.PERSON_ID,
+             O.ENCNTR_ID,
+             O.ORDER_ID,
+    O.ORDER_MNEMONIC
+FROM ORDERS O
+WHERE EXPAND(NUM,1,SIZE(ENC-&gt;QUAL,5),
+                 O.ENCNTR_ID ,ENC-&gt;QUAL[NUM].ENCNTR_ID)
+ORDER O.ENCNTR_ID,
+           0
+WITH FORMAT, SEPARATOR = " ", MAXREC = 100, EXPAND = 1
+</pre>
+</div></div><p>Since the above example uses the EXPAND = 1 control option, the below query is always passed to the RDBMS regardless of the number of items in the enc-&gt;qual list. This allows for more efficient use of the RDBMS optimizer cache.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+     O.PERSON_ID,
+     O.ENCNTR_ID,
+     O.ORDER_ID,
+     O.ORDER_MNEMONIC
+FROM ORDERS O
+WHERE (O.ENCNTR_ID) IN (SELECT
+            G_1.SOURCE_ENTITY_VALUE
+            FROM SHARED_LIST_GTTD G_ 1
+            WHERE G_1.SOURCE_ENTITY_ID= :1 )
+</pre>
+</div></div><p>The below example assumes the ENC record structure, shown as a comment, has been created and that encounter ids and person ids have already been placed in the enc-&gt;qual record member list. This example shows using multiple search expressions in the Expand( ) function.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>/*
+RECORD ENC
+( 1 QUAL[*]
+        2 ENCNTR_ID = F8
+        2 PERSON_ID = F8)
+*/
+DECLARE NUM = I4
+SELECT       INTO $OUTDEV
+             O.PERSON_ID,
+             O.ENCNTR_ID,
+             O.ORDER_ID,
+    O.ORDER_MNEMONIC
+FROM ORDERS O
+WHERE EXPAND(NUM,1,SIZE(ENC-&gt;QUAL,5),
+                 O.ENCNTR_ID ,ENC-&gt;QUAL[NUM].ENCNTR_ID,
+                 O.PERSON_ID ,ENC-&gt;QUAL[NUM].PERSON_ID )
+ORDER O.ENCNTR_ID,
+           0
+WITH FORMAT, SEPARATOR = " ", MAXREC = 100
+</pre>
+</div></div><p>If 8 positions were in the enc-&gt;qual list, the above query would pass the below query to the RDBMS. The bind variables 15, 17, and 19 would all be equal to the same value. Likewise bind variables 16, 18, and 20 would all be equal to the same value. This same query is passed to the RDBMS any time 1 to 10 items are in the enc-&gt;qual list. This allows for more efficient use of the RDBMS optimizer cache.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT       O.PERSON_ID,
+             O.ENCNTR_ID,
+             O.ORDER_ID,
+             O.ORDER_MNEMONIC FROM
+ORDERS O
+WHERE ((O.ENCNTR_ID,O.PERSON_ID) IN (( :1 , :2 ),
+     ( :3 , :4 ),
+     ( :5 , :6 ),
+     ( :7 , :8 ),
+     ( :9 , :10 ),
+     ( :11 , :12 ),
+     ( :13 , :14 ),
+     ( :15 , :16 ),
+     ( :17 , :18 ),
+     ( :19 , :20 )) )
+GO
+</pre>
+</div></div><p>The below example assumes the ENC record structure, shown as a comment, has been created and that encounter ids and person ids have already been placed in the enc-&gt;qual record member list. This example shows using multiple search expressions in the Expand( ) function and uses the EXPAND = 1 control option in the WITH clause.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>/*
+RECORD ENC
+( 1 QUAL[*]
+       2 ENCNTR_ID = F8
+       2 PERSON_ID = F8)
+*/
+DECLARE NUM = I4
+SELECT       INTO $OUTDEV
+             O.PERSON_ID,
+             O.ENCNTR_ID,
+             O.ORDER_ID,
+       O.ORDER_MNEMONIC
+FROM ORDERS O
+WHERE EXPAND(NUM,1,SIZE(ENC-&gt;QUAL,5),
+                 O.ENCNTR_ID ,ENC-&gt;QUAL[NUM].ENCNTR_ID,
+                 O.PERSON_ID ,ENC-&gt;QUAL[NUM].PERSON_ID )
+ORDER O.ENCNTR_ID,
+           0
+WITH FORMAT, SEPARATOR = " ", MAXREC = 100, EXPAND = 1
+</pre>
+</div></div><p>Since the above example uses the EXPAND = 1 control option, the below query is always passed to the RDBMS regardless of the number of items in the enc-&gt;qual list. This allows for more efficient use of the RDBMS optimizer cache.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+      O.PERSON_ID,
+      O.ENCNTR_ID,
+      O.ORDER_ID,
+      O.ORDER_MNEMONIC
+FROM ORDERS O WHERE (O.ENCNTR_ID, O.PERSON_ID) IN
+           (SELECT G_1.SOURCE_ENTITY_VALUE,
+                   G_2.SOURCE_ENTITY_VALUE
+           FROM SHARED_LIST_GTTD G_1,
+                   SHARED_LIST_GTTD G_2
+                   WHERE G_1.SOURCE_ENTITY_ID=G_2.SOURCE_ENTITY_ID
+                   AND G_1.SOURCE_ENTITY_SEQ=G_2.SOURCE_ENTITY_SEQ
+                   AND G_1.SOURCE_ENTITY_ID= :1 )
+</pre>
+</div></div><p>Before executing the above select, the values from the</p><p>     ENC-&gt;QUAL[NUM].ENCNTR_ID and</p><p>     ENC-&gt;QUAL[NUM].PERSON_ID </p><p>Lists would first be inserted into the SHARED_LIST_GTTD global temp table.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 659, "requestCorrelationId": "e3bf14194220dce3"}</span>
+</body>
+</html>

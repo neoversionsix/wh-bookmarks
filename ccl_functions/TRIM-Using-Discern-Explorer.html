@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>TRIM Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/TRIM+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>TRIM () returns a result of type String that is a specified text expression stripped of any leading, embedded, or trailing characters that are less than or equal to spaces. TRIM() is a varchar function.</p><h2 id="TRIMUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>TRIM(text_expr[,trim_option])</pre>
+</div></div><h2 id="TRIMUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>text_expr</em><br>A text expression.</br></p><p><em>trim_option</em><br/>An integer that determines which spaces are stripped from an expression. If omitted, Option 1 is used by default. The following options are valid:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh" scope="row"><p>Option</p></th><th class="confluenceTh"><p>Description</p></th><th class="confluenceTh"><p>Definition</p></th><th class="confluenceTh"><p>Passed to RDBMS Query As</p></th></tr><tr><th class="confluenceTh" scope="row"><p>1</p></th><td class="confluenceTd"><p>Trim trailing characters that are less than or equal to a space (default).</p></td><td class="confluenceTd"><p>Trim trailing char(0) and char(3) to char(32)</p></td><td class="confluenceTd"><p>RTRIM(text_expr)</p></td></tr><tr><th class="confluenceTh" scope="row"><p>2</p></th><td class="confluenceTd"><p>Trim leading characters that are less than or equal to a space.</p></td><td class="confluenceTd"><p>Trim leading char(0) and char(3) to char(32)</p></td><td class="confluenceTd"><p>LTRIM(text_expr)</p></td></tr><tr><th class="confluenceTh" scope="row"><p>3</p></th><td class="confluenceTd"><p>Trim trailing and leading characters that are less than or equal to a space.</p></td><td class="confluenceTd"><p>Trim leading and trailing char(0) and char(3) to char(32)</p></td><td class="confluenceTd"><p>RTRIM(LTRIM(text_expr))</p></td></tr><tr><th class="confluenceTh" scope="row"><p>4</p></th><td class="confluenceTd"><p>Trim leading and embedded characters that are less than or equal to a space.</p></td><td class="confluenceTd"><p>Trim leading and embedded char(0) to char(32)</p></td><td class="confluenceTd"><p>Unsupported RDBMS command or command in error</p></td></tr><tr><th class="confluenceTh" scope="row"><p>5</p></th><td class="confluenceTd"><p>Trim trailing spaces.</p></td><td class="confluenceTd"><p>Trim trailing char(32)</p></td><td class="confluenceTd"><p>RTRIM(text_expr)</p></td></tr><tr><th class="confluenceTh" scope="row"><p>6</p></th><td class="confluenceTd"><p>Trim leading spaces.</p></td><td class="confluenceTd"><p>Trim leading char(32)</p></td><td class="confluenceTd"><p>RTRIM(text_expr)</p></td></tr><tr><th class="confluenceTh" scope="row"><p>7</p></th><td class="confluenceTd"><p>Trim leading and trailing spaces.</p></td><td class="confluenceTd"><p>Trim leading and trailing char(32)</p></td><td class="confluenceTd"><p>RTRIM(text_expr)</p></td></tr><tr><th class="confluenceTh" scope="row"><p>8</p></th><td class="confluenceTd"><p>Trim leading and embedded spaces.</p></td><td class="confluenceTd"><p>Trim leading and embedded char(32)</p></td><td class="confluenceTd"><p>RTRIM(text_expr)</p></td></tr><tr><th class="confluenceTh" scope="row"><p>9</p></th><td class="confluenceTd"><p>Trim embedded characters that are less than or equal to a space but not leading spaces.</p></td><td class="confluenceTd"><p>Trim embedded char(0) to char(32)</p></td><td class="confluenceTd"><p>RTRIM(text_expr)</p></td></tr><tr><th class="confluenceTh" scope="row"><p>10</p></th><td class="confluenceTd"><p>Trim embedded spaces but not leading spaces.</p></td><td class="confluenceTd"><p>Trim embedded char(32)</p></td><td class="confluenceTd"><p>RTRIM(text_expr)</p></td></tr></tbody></table></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p><strong>Space</strong> references Char(32); the pattern-matching character <strong>?</strong> is Char(1), the pattern-matching character<strong> *</strong> is Char(2), and so on. Use the Check() function around the expression if you want to remove the pattern-matching characters when using Options 1 through 3.</p><p>See RDBMS documentation for information on the application of RTRIM() and LTRIM(). Generally, RTRIM() trims trailing spaces and LTRIM() trims leading spaces.</p></div></div><h2 id="TRIMUsingDiscernExplorer-Examples">Examples</h2><p>In the below example, the printed result is: * ABCD *.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CONCAT("  *  " , TRIM("AB    " ,1) , TRIM("CD  ") , " *  ")</pre>
+</div></div><p>The below example is displayed: Last Name, First Name (for example, Smith, James). The SUBSTRING( ) function is used to limit the number of spaces used, while the CONCAT( ) function is used to combine the two columns.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NAME = SUBSTRING(1,40,CONCAT(TRIM(P.NAME_LAST_KEY),", ",( P.NAME_FIRST_KEY)))</pre>
+</div></div><p>The following example trims the embedded spaces and returns: "ABCDEFGHI":</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>STRING = TRIM("ABC  DEF  GHI",4)</pre>
+</div></div><p>When used to create Select expressions, the TRIM() function has no effect unless it is used in the context of another function like CONCAT(). In the below example, the Select expressions, TLNAME and LNAME are both displayed as fixed-width columns of the same width. The Select expression CNAME has trailing spaces between the first and last names, whereas CTNAME has a single space between the first and last names, and a trailing space after the last name. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> uses a temporary table with fixed column widths to display the output of a Select command that does not use Report Writer clauses. The TRIM() function has no effect on the width of the column.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO $OUTDEV
+	TLNAME = TRIM(P.NAME_LAST)
+	, LNAME =  P.NAME_LAST
+	, CNAME = CONCAT(P.NAME_FIRST, " ", P.NAME_LAST)
+	, CTNAME = CONCAT(TRIM(P.NAME_FIRST), " ", TRIM(P.NAME_LAST))
+
+FROM
+	PERSON   P
+
+WITH MAXREC = 100, FORMAT, SEPARATOR = " "
+</pre>
+</div></div><p>The below example removes the pattern-matching characters "?" and "*", and any leading or trailing characters that are less than or equal to a space from $LNAME before that value is compared to the P.NAME_LAST field. Any leading or trailing characters that are less than or equal to a space are removed from $FNAME, but the pattern-matching characters are not removed.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>IF(TRIM(CHECK($LNAME),3) = P.NAME_LAST AND TRIM($FNAME,3) = P.NAME_FIRST)
+   SET NAME_FOUND = "TRUE"
+ENDIF
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 589, "requestCorrelationId": "19b36854bf4085ab"}</span>
+</body>
+</html>

@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>ROW_NUMBER Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/ROW_NUMBER+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The Row_Number( ) function returns a row number for each row in a group. Similar to the COUNT( ) function, ROW_NUMBER( ) can be used in the Select list as an o<span style="color: rgb(84,84,84);">nline analytical processing</span> (OLAP) expression using the OVER( ) clause if using <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.8.0 or higher, and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> 10g or higher. ROW_NUMBER() requires an ORDER BY in the OVER( ) clause. </p><h2 id="ROW_NUMBERUsingDiscernExplorer-Syntax">Syntax</h2><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">exp_name = ROW_NUMBER( ) OVER (
+  [PARTITION BY expression{,expression}]
+  ORDER BY expression[DESC],{expression[DESC]}
+  )
+</pre>
+</div></div><h2 id="ROW_NUMBERUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>expression</em><br>An expression is the highest level metasymbol among constants, column names, variables, and so on.</br></p><p><em>exp_name</em><br/>The name to use as the column heading and Select expression of the value that the ROW_NUMBER() function returns.</p><h2 id="ROW_NUMBERUsingDiscernExplorer-Examples">Examples</h2><p>In the following example, R_ROW_NUMBER is incremented by one for each row returned for a day:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+    DAY = DATETIMETRUNC(P.UPDT_DT_TM,"DD")"@SHORTDATETIME"
+    ,P.RESULT_VALUE_NUMERIC
+    ,R_ROW_NUMBER = ROW_NUMBER() OVER(PARTITION BY DATETIMETRUNC(P.UPDT_DT_TM,"DD")
+                                 ORDER BY P.RESULT_VALUE_NUMERIC )
+FROM
+    PERFORM_RESULT   P
+WHERE P.UPDT_DT_TM BETWEEN CNVTLOOKBEHIND("1,M") AND CNVTDATETIME(CURDATE, CURTIME3)
+        AND P.RESULT_VALUE_NUMERIC &gt; 0.0
+ORDER BY
+    DAY,
+    P.RESULT_VALUE_NUMERIC
+WITH SEPARATOR=" ", FORMAT</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 561, "requestCorrelationId": "0acfd4796ac27f6a"}</span>
+</body>
+</html>

@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>INITARRAY Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/INITARRAY+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>This function allows you to initialize all the elements of an array to a value. It returns <strong>1</strong> if the values in array_name are initialized to the value defined in init_value; otherwise, <strong>0</strong> is returned. Using INITARRAY() to initialize a numeric data type array, all positions in the array are assigned the init_value. Using INITARRAY() to initialize a fixed length character array, all positions in the array are assigned the int_value padded to the full fixed length of the array.</p><div class="confluence-information-macro confluence-information-macro-note conf-macro output-block" data-hasbody="true" data-macro-name="note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>INITARRAY() can be used to reset a variable but Cerner recommends using a simple assignment instead. Using INITARRAY() to initialize a numeric data type variable assigns the init_value to the variable. Using INITARRAY() to initialize a fixed length character variable, assigns the int_value padded to the full fixed length of the variable. Using INITARRAY() to initialize a variable length character variable, assigns the int_value to all non-blank characters in the variable.</p></div></div><h2 id="INITARRAYUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>INITARRAY(array_name,init_value)
+</pre>
+</div></div><h2 id="INITARRAYUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>array_name</em><br>The name of an array created using the array_name[occur{,occur}] = data_type|value syntax. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> allows you to define one-, two-, and three-dimensional arrays. See DECLARE and SET Variable for information on creating arrays.</br></p><p><em>init_value</em><br/>A one-character text, integer, or real value to which an array is initialized.</p><h2 id="INITARRAYUsingDiscernExplorer-Examples">Examples</h2><p>The following example uses INITARRAY() to assign <strong>AAAAAAAAAA</strong> to all three positions of array_c10:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare istat = i4 with protect
+declare array_c10[3] = c10 with protect
+set istat = initarray(array_c10,"A")
+</pre>
+</div></div><p>The following example uses INITARRAY() to assign <strong>123</strong> to all 10 positions of array_i4:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare istat = i4 with protect
+declare array_i4[10] = i4 with protect
+set istat = initarray(array_i4,123)</pre>
+</div></div><p>The following example uses INITARRAY() to assign <strong>123.45</strong> to all 5 positions of array_f8:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare istat = i4 with protect
+declare array_f8[5] = f8 with protect
+set istat = initarray(array_f8,123.45)</pre>
+</div></div><p><span>The following example assigns AAA to vc_var:</span></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare istat = i4 with protect
+declare vc_var = vc with protect
+set vc_var = "ABC" 
+;recommended technique to reset vc_var to AAA
+set vc_var = "AAA"
+;using initarray() to reset vc_var to AAA
+set istat = initarray(vc_var,"A") </pre>
+</div></div><p>The following example does not assign any value to vc_var since vc_var is not assigned any non-blank values prior to the INITARRAY() call:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare istat = i4 with protect
+declare vc_var = vc with protect go
+set istat = initarray(vc_var,"A") go</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 710, "requestCorrelationId": "a9a44febf041dbd2"}</span>
+</body>
+</html>

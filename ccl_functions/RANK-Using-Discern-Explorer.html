@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>RANK Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/RANK+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The RANK( ) function returns a ranking number for each value in a group of rows. RANK( ) can be used in the select list as an OLAP expression using the OVER( ) clause if using <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.8.0 or higher and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> 10g or higher. RANK( ) requires an ORDER BY in the OVER( ) clause. Rows with the same value are given the same rank. The next rank is the number of rows with the same value added to the current row. So if the values to be ranked were 7, 8, 8, 9 the rank values would be 1, 2, 2, 4.  <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.9.2 introduced support for the WITHIN GROUP clause.</p><h2 id="RANKUsingDiscernExplorer-Syntax">Syntax</h2><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">exp_name = RANK( ) OVER (
+  [PARTITION BY expression{,expression}]
+  ORDER BY expression[DESC],{expression[DESC]}
+  )
+
+exp_name =  RANK( constant,{constant} ) WITHIN GROUP ( ORDER BY expression[DESC],{expression[DESC]})</pre>
+</div></div><h2 id="RANKUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em><em>constant</em><br/></em> A hypothetical value.  The rank of the hypothetical value in the group will be returned.</p><p><em>expression</em><br/>An expression is the highest level metasymbol among constants, column names, variables, and so on.</p><p><em>exp_name</em><br/>The name to use as the column heading and select expression of the value returned by the RANK( ) function.</p><h2 id="RANKUsingDiscernExplorer-Examples">Examples</h2><p>The following example assigns a ranking to each row returned by the query based on the alphabetic order of the CDF_MEANING values from CODE_SET 57:</p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">SELECT
+    MEANING_RANK = RANK() OVER(ORDER BY C.CDF_MEANING)
+    ,C.CDF_MEANING
+FROM CODE_VALUE C
+WHERE C.CODE_SET = 57
+WITH FORMAT, SEPARATOR = " "
+</pre>
+</div></div><p>The following example ranks the qualifying encounters for each person. E_rank is 1 for the greatest encntr_id for each person. E_rank is 2 for the next greatest encntr_id for the person. E_rank is 3 for the next greatest encntr_id for the person and so on:</p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">SELECT
+	E.PERSON_ID
+	, E.REG_DT_TM
+	, E.ENCNTR_ID
+	, E_RANK = RANK() OVER(PARTITION BY E.PERSON_ID ORDER BY E.ENCNTR_ID DESC)
+	, E_ENCNTR_TYPE_CLASS_DISP = UAR_GET_CODE_DISPLAY(E.ENCNTR_TYPE_CLASS_CD)
+FROM
+	ENCOUNTER   E
+WHERE E.REG_DT_TM BETWEEN CNVTLOOKBEHIND("1,W") AND CNVTDATETIME(CURDATE,CURTIME3)
+ORDER BY
+	E.PERSON_ID
+	, E.ENCNTR_ID
+WITH FORMAT, SEPARATOR = " "
+</pre>
+</div></div><p>The following example uses the RANK( ) function in a query to create an inline table. It then qualifies on the e_rank field from the inline table to return the three encounters with the highest encntr_ids for each person:</p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">SELECT
+    E.PERSON_ID,
+    E.REG_DT_TM,
+    E.ENCNTR_ID,
+    E.E_RANK,
+    TEMP_TYPE = TRIM(UAR_GET_CODE_DISPLAY(E.ENCNTR_TYPE_CD)),
+    E_ENCNTR_PRSNL_R_DISP = UAR_GET_CODE_DISPLAY(EP.ENCNTR_PRSNL_R_CD),
+    DOC.PERSON_ID,
+    TEMP_DOC  = TRIM(SUBSTRING(1,30,DOC.NAME_FULL_FORMATTED))
+FROM  ENCNTR_PRSNL_RELTN EP,
+      PRSNL DOC,
+      	/* inline select to create table e */
+ 		((select
+			e2.person_id
+			, e2.reg_dt_tm
+			, e2.encntr_id
+			, e_rank = rank() over(partition by e2.person_id order by e2.encntr_id desc)
+			, e2.encntr_type_cd
+		from
+			encounter   e2
+		where e2.reg_dt_tm between cnvtlookbehind("1,M") and  cnvtdatetime(curdate,curtime3)
+		order by
+			e2.person_id
+			,e2.encntr_id
+		with sqltype("f8", "dq8" , "f8", "i4", "f8"))
+		 e)
+PLAN E WHERE E.E_RANK IN (1.0, 2.0, 3.0) ;get the three highest encntr_ids for each person
+JOIN EP WHERE EP.ENCNTR_ID = OUTERJOIN(E.ENCNTR_ID)
+JOIN DOC WHERE OUTERJOIN(EP.PRSNL_PERSON_ID) = DOC.PERSON_ID
+ORDER BY E.PERSON_ID, E.E_RANK
+
+WITH FORMAT,SEPARATOR = " "
+</pre>
+</div></div><p>The following example returns the hypothetical rank of the constant 12 in the p.result_value_numeric values from the perform_result table for each p.perform_personnel_id:</p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">select 
+    p.perform_personnel_id
+    , rank_12 = rank(12) within group (order by p.result_value_numeric )
+from
+    perform_result   p
+ 
+where p.result_value_numeric != 0.0
+    and p.perform_personnel_id != 0.0
+    and p.updt_dt_tm between cnvtlookbehind("1,m") and cnvtdatetime(curdate,curtime3)
+group by p.perform_personnel_id 
+order by p.perform_personnel_id
+with format, separator = " ", time = 30</pre>
+</div></div><p><br/></p><p><br/></p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 575, "requestCorrelationId": "b5d45a3dc6710be1"}</span>
+</body>
+</html>

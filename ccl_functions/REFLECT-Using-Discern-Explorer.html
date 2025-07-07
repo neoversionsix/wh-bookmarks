@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>REFLECT Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/REFLECT+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The Reflect( ) function returns a character string in the format <em>type length</em> that indicates the data type of the expression. If the expression is not found, a space is returned.</p><h2 id="REFLECTUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Reflect(expression[,mode])</pre>
+</div></div><h2 id="REFLECTUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>expression</em></p><p>An expression is the highest level metasymbol among constants, column names, variables, and so on. The following are valid expressions:</p><p>alias.column_name</p><p>array_name [dimension]</p><p>constant</p><p>expression arithmetic_operator expression</p><p>parameter</p><p>record_name{-&gt;column_name}</p><p>table_name.column_name</p><p>variable</p><p><em>mode<strong><br/></strong></em></p><p>Introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.0 and 9.02.0 to flex the value returned by the Reflect( ) function. Using mode 1 on a table attribute in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.0 and 9.02.0 might not return the correct data type. This issue is resolved in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.1 and 9.02.1. Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.17.0 and 9.05.0, mode 1 returns DQ8 for SYSDATE, SYSDATEADJ, CNVTDATETIME(), CNVTDATETIME2(), CNVTDATETIMERDB(), CNVTDATETIMEUTC(), CNVTDATETIMEUTC2() and DM12 for SYSTIMESTAMP and CNVTTIMESTAMP(). Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.17.0 and 9.05.0, mode 1 returns a binary value for SYSDATE, SYSDATEADJ, F8 for CNVTDATETIME(), CNVTDATETIMERDB(), CNVTDATETIMEUTC(), CNVTDATETIMEUTC2(), C8 for CNVTDATETIME2(), and M12 for SYSTIMESTAMP and CNVTTIMESTAMP().</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Mode</p></th><th class="confluenceTh"><p>Description</p></th><th class="confluenceTh"><p><br/></p></th></tr><tr><td class="confluenceTd"><p>0</p></td><td class="confluenceTd"><p>Default; returns one of the following single-character data types and a length:</p></td></tr><tr><td class="confluenceTd" rowspan="9"><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p></td><th class="confluenceTh"><p>Data Type</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>C</p></td><td class="confluenceTd"><p>Character</p></td></tr><tr><td class="confluenceTd"><p>F</p></td><td class="confluenceTd"><p>Float</p></td></tr><tr><td class="confluenceTd"><p>G</p></td><td class="confluenceTd"><p>Null, which indicates that the expression is equal to a null value.</p></td></tr><tr><td class="confluenceTd"><p>I</p></td><td class="confluenceTd"><p>Integer</p></td></tr><tr><td class="confluenceTd"><p>L</p></td><td class="confluenceTd"><p>List Indicates that the expression is an item list passed as a parameter. An item list is a list of values enclosed in the Value( ) function. If the parameter is a single item passed in the Value( ) function, the return type is the type of the item and not a list.</p></td></tr><tr><td class="confluenceTd"><p>M</p></td><td class="confluenceTd"><p>Timestamp</p></td></tr><tr><td class="confluenceTd"><p>U</p></td><td class="confluenceTd"><p>Unsigned integer</p></td></tr><tr><td class="confluenceTd"><p>W</p></td><td class="confluenceTd"><p>Wide integer</p></td></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>Returns the full data type description and length. If the expression is a table field, the full description is returned. If the expression is a record structure item, the full description of the data type is returned followed by the record structure item type.</p></td></tr><tr><td class="confluenceTd" rowspan="14"><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p></td><th class="confluenceTh"><p>Data Type</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>C</p></td><td class="confluenceTd"><p>Character</p></td></tr><tr><td class="confluenceTd"><p>DM</p></td><td class="confluenceTd"><p>Timestamp</p></td></tr><tr><td class="confluenceTd"><p>DQ</p></td><td class="confluenceTd"><p>Date Quad</p></td></tr><tr><td class="confluenceTd"><p>F</p></td><td class="confluenceTd"><p>Float</p></td></tr><tr><td class="confluenceTd"><p>I</p></td><td class="confluenceTd"><p>Integer</p></td></tr><tr><td class="confluenceTd"><p>UI</p></td><td class="confluenceTd"><p>Unsigned integer</p></td></tr><tr><td class="confluenceTd"><p>VC</p></td><td class="confluenceTd"><p>Variable Character</p></td></tr><tr><td class="confluenceTd"><p>W</p></td><td class="confluenceTd"><p>Wide integer</p></td></tr><tr><th class="confluenceTh"><p>Record Structure Type</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>:G</p></td><td class="confluenceTd"><p>Group</p></td></tr><tr><td class="confluenceTd"><p>:L</p></td><td class="confluenceTd"><p>List</p></td></tr><tr><td class="confluenceTd"><p>:S</p></td><td class="confluenceTd"><p>Segment</p></td></tr><tr><td class="confluenceTd"><p>space</p></td><td class="confluenceTd"><p>Field</p></td></tr></tbody></table></div><p><br/></p><h2 id="REFLECTUsingDiscernExplorer-Examples">Examples</h2><p>In the following example, Rvar is set equal to F8:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DECLARE Rvar = C20
+DECLARE Fvar = F8 WITH NOCONSTANT(123.4)
+SET Rvar = REFLECT(Fvar)
+</pre>
+</div></div><p>The following example echoes <strong>C100</strong> and <strong>VC100</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echo(reflect(person.name_full_formatted,0)) 
+call echo(reflect(person.name_full_formatted,1)) </pre>
+</div></div><p>The following example echoes <strong>F8</strong> and <strong>DQ8</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare S_Date = dq8 
+call echo(reflect(S_date,0)) 
+call echo(reflect(S_date,1)) </pre>
+</div></div><p>The following example echoes <strong>C20</strong>, <strong>C20:G</strong>, <strong>C12</strong>, <strong>C12:L</strong>, <strong>C12</strong>, and <strong>C12:S</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record rec(
+  1 grp
+    2 dq8_fld = dq8
+    2 tm_fld = dm12
+  1 list[*]
+    2 vc_fld = vc
+    2 c_fld = c40
+  1 seg[1]
+    2 I4_fld = vc
+) 
+call alterlist(rec-&gt;list,1)
+call echo(reflect(rec-&gt;grp)) 
+call echo(reflect(rec-&gt;grp,1)) 
+call echo(reflect(rec-&gt;list)) 
+call echo(reflect(rec-&gt;list,1)) 
+call echo(reflect(rec-&gt;seg)) 
+call echo(reflect(rec-&gt;seg,1)) </pre>
+</div></div><p><br/></p><p>In the following example, the output of the CALL ECHO is I4:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DECLARE Ivar=I4 WITH CONSTANT(10)
+CALL ECHO(REFLECT(Ivar))
+</pre>
+</div></div><p>In the following example, the output of the CALL ECHO is I4:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DECLARE Avar[3]=I4 WITH NOCONSTANT(10,20,30)
+CALL ECHO(REFLECT(Avar))
+</pre>
+</div></div><p>In the following example, the output of the CALL ECHO is C10:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DECLARE Cvar = C10 WITH NOCONSTANT("TEST VAR3")
+CALL ECHO(REFLECT(Cvar))
+</pre>
+</div></div><p>In the following example, the output of the CALL ECHO is C0:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DECLARE VCvar = VC WITH PROTECT
+CALL ECHO(REFLECT(VCvar))
+</pre>
+</div></div><p>In the following example, the output of the CALL ECHO is C5:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET VCvar = "Hello"
+CALL ECHO(REFLECT(VCvar))
+</pre>
+</div></div><p>In the following example, the output of the CALL ECHO is G4:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHO(REFLECT(NULL))
+</pre>
+</div></div><p>In the following example, the output of the CALL ECHO is I4:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHO(REFLECT(1+2))
+</pre>
+</div></div><p>In the following example, the output of the CALL ECHO is F8:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>RECORD rec (
+  1 list [1]
+    2 pid = f8
+)
+CALL ECHO(REFLECT(rec-&gt;list[1].pid))
+</pre>
+</div></div><p>In the following example, if the parameter passed for $GENDER was VALUE(12345.0, 56789.0), the output of the CALL ECHO is L2. If the parameter passed for $GENDER was VALUE(12345.0), the output of the CALL ECHO is F8.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHO(REFLECT(PARAMETER(PARAMETER2($GENDER),0)))
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 617, "requestCorrelationId": "1927cf2856cb8253"}</span>
+</body>
+</html>

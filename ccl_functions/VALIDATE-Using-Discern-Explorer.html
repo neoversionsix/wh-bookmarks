@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>VALIDATE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/VALIDATE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The VALIDATE( ) function verifies whether a variable or record structure, or record structure item exists. This function can accept one or two arguments. If only one argument is used, the VALIDATE( ) function returns <strong>1</strong> if the expression exists, or <strong>0</strong> if the expression does not exist. When two arguments are used, if the first expression exists, the value of the first expression is returned; otherwise, the value of the second expression is returned. This eliminates an error if the expression is not valid. The function only verifies the existence - it does not verify that data exists in the expression. The VALIDATE( ) function checks user-defined variables and special reserved variables such as CURREV and CURTIME3.</p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3 and 9.02.3 introduce the ability to pass a function to VALIDATE(). If the function does not generate an error, a warning, or informational message, VALIDATE() returns <strong>1</strong>. If the function generates an error, a warning, or informational message, VALIDATE() returns<strong> 0,</strong> but the messages are suppressed. This option is often used to determine if a function returns a valid date or datetime value.</p><p><span class="confluence-link">The CHECKFUN() function </span> is used to determine if a function exists.</p><h2 id="VALIDATEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>VALIDATE(expression1[, expression2])</pre>
+</div></div><h2 id="VALIDATEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>expression1</em> </p><p>Any variable or record structure item. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3, 9.02.3, and higher allow a function for expression1.</p><p><em>expression2</em></p><p>Any variable, record structure item, or literal value.</p><h2 id="VALIDATEUsingDiscernExplorer-Examples">Examples</h2><p>The program below defines a record structure, REC1. Even though the sub_item is not set with a value, the record item exists; therefore X = "". The record REC2 is not defined; therefore Y = "N". The variable VAR_X is defined, and A = "Y". The variable VAR_Y is not defined, and B = "N".</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_VALIDATE GO
+CREATE PROGRAM CCL_VALIDATE
+
+RECORD REC1
+ (1   QUAL[1]
+        2 SUB_ITEM = C2 )
+
+SET VAR_X = "Y"
+
+SELECT  D.SEQ
+FROM DUMMYT D
+DETAIL
+     COL 0   "REC1-&gt;QUAL[1]: "
+     X = VALIDATE(REC1-&gt;QUAL[1].SUB_ITEM,"N")
+     COL+1   X
+     ROW+2
+     COL 0   "REC2-&gt;QUAL[1]: "
+     Y = VALIDATE(REC2-&gt;QUAL[1].SUB_ITEM,"N")
+     COL+1   Y
+     ROW+2
+     COL 0   "VAR_X: "
+     A = VALIDATE(VAR_X,"N")
+     COL+1   A
+     ROW+2
+     COL 0   "VAR_Y: "
+     B = VALIDATE(VAR_Y,"N")
+     COL+1   B
+     ROW+2
+WITH NOCOUNTER
+END
+GO
+</pre>
+</div></div><p>The following example requires <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3, 9.02.3, or higher:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echo(validate(cnvtdatetime("30-Nov-2018"))) ;echoes 1 because 30-Nov-2018 is a valid date string.
+call echo(validate(cnvtdatetime("31-Nov-2018"))) ;echoes 0 because 31-Nov-2018 is an invalid date string.
+call echo(validate(cnvtdate2("11-30-2018","MM-DD-YYYY"))) ;echoes 1 because 11-30-2018 is a valid date string.
+call echo(validate(cnvtdate2("11-31-2018","MM-DD-YYYY"))) ;echoes 0 because 11-31-2018 is an invalid date string.
+call echo(validate(findstring("b","abcd"))) ;echoes 1 because the find string function call is valid.
+call echo(validate(findstring("e","abcd"))) ;echoes 1 because the find string function call is valid even though "e" is not found in "abcd".</pre>
+</div></div><p>The below example requires <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3, 9.02.3, or higher.  In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3 and 9.02.3, the example echoes <strong>1</strong> even though "11-31-2018" is an invalid date string. Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.4 and 9.02.4, passing an invalid date string to CNVTDATETIME() does not generate an error, warning, or informational message.  Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.4 and 9.02.4, passing an invalid date string to CNVTDATETIME() generates an informational message, and the below example echoes <strong>0</strong>.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echo(validate(cnvtdatetime("11-31-2018")))</pre>
+</div></div><p><br/></p><p>The following example requires <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3, 9.02.3, or higher, and demonstrates flexing the behavior of a program based on the validity of a date string that is passed as a parameter.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program ccl_test_validate_function go
+create program ccl_test_validate_function
+
+declare dateIn = vc with protect,noconstant($1)
+declare formatted_date = vc with protect
+if(validate(cnvtdatetime(dateIn)) = 1)
+    set formatted_date = (format(cnvtdatetime(dateIn),"@SHORTDATETIME"))
+else
+    set formatted_date = "In valid input date."
+endif
+call echo(concat("formatted_date:",formatted_date))
+end 
+go</pre>
+</div></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Using Validate() may not prevent a run-time error from occurring if an invalid item is referenced in a Head, Detail, or Foot section of a SELECT.</p></div></div><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> uses a two-step process to execute a SELECT command. The first step is a semantic check, which verifies that items that are assigned a value are valid. Even if the assignment is embedded in an IF statement that uses Validate(), a run-time error still may occur because the semantic check does not execute the IF. It simply checks for the existence of the item that is assigned a value. This issue can be avoided by using Validate() in the ASSIGN() function in the Head, Detail, or Foot section. Placing Validate() and the assignment in a SUBROUTINE, and calling the subroutine in the Head, Detail, or Foot section is another option for avoiding the issue.</p><p>The following example demonstrates using Validate() in the ASSIGN() function to prevent invalid item errors from occurring in the semantic check.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program 1_ccl_test_validate_and_assign go
+create program 1_ccl_test_validate_and_assign
+
+record temp (
+  1 qual [1]  
+    2 some_field = vc   
+) 
+
+/*  The following select will cause invalid record structure item errors even though the 
+	validate() function is used to check for the existence of the record structure items.
+	Items in the head, detail and foot sections are semantically checked so they have to be 
+	valid items before the select begins.
+	Put the validate within a subroutine instead and then call the subroutine from the head, 
+	detail or foot sections to resolve this issue. */
+
+;select into "nl:"
+;from dummyt
+;detail
+;          if(validate(temp-&gt;qual[1].some_other_field)=1)
+;            temp-&gt;qual[1].some_other_field = "Exists"
+;	   else
+;	     temp-&gt;qual[1].some_other_field = "Does Not Exist"
+;          endif
+;with nocounter
+
+
+
+select into "nl:"
+from dummyt
+detail
+	 ;if temp-&gt;qual[1].some_other_field exists set it equal to 1
+     stat = assign(validate(temp-&gt;qual[1].some_other_field),1)
+with nocounter
+
+end
+go
+
+</pre>
+</div></div><p>The ASSIGN() function returns the data type of the assigned value. If you are using the above example to assign values with different data types, you need to set variables of different data types or use ASSIGN() in another function that returns the same data type for each assignment. The following example demonstrates using different variables and the ASSIGN() function in the SIZE() function:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program 1_ccl_test_validate_and_assign go
+create program 1_ccl_test_validate_and_assign
+
+record temp (
+  1 qual [1]  
+    2 some_field = vc   
+) 
+
+select into "nl:"
+from dummyt
+detail
+    stat1 = assign(validate(temp-&gt;qual[1].some_other_field1),1)
+    stat2 = assign(validate(temp-&gt;qual[1].some_other_field2),"two")
+    stat = size(assign(validate(temp-&gt;qual[1].some_int_field),1))
+    stat = size(assign(validate(temp-&gt;qual[1].some_char_field),"Not Exists"))
+    stat = size(assign(validate(temp-&gt;qual[1].some_field),"Exists"))
+with nocounter
+
+end
+go</pre>
+</div></div><p>The following example demonstrates using Validate() and the assignment in a subroutine to prevent invalid item errors from occurring in the semantic check:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program 1_ccl_test_validate_and_sub go
+create program 1_ccl_test_validate_and_sub
+
+record temp (
+  1 qual [1]  
+    2 some_field = vc   
+) 
+
+/*	The following select uses a subroutine to eliminate the invalid record structure item errors 
+	that resulted from the semantic checking in the above select. */
+
+select into "nl:"
+from dummyt
+detail
+          call ValidateSub(null)
+with nocounter
+
+subroutine ValidateSub(null)
+          if(validate(temp-&gt;qual[1].some_other_field)=1)
+            set temp-&gt;qual[1].some_other_field = "Exists"
+	   else
+	    set temp-&gt;qual[1].some_other_field = "Does Not Exist"
+          endif
+end ;ValidateSub
+
+end
+go</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 653, "requestCorrelationId": "99e7602e15aa38a8"}</span>
+</body>
+</html>

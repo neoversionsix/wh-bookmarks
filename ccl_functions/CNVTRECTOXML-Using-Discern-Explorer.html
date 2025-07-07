@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CNVTRECTOXML( ) Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CNVTRECTOXML%28+%29+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The CNVTRECTOXML( ) function converts a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> record structure to an XML record structure. The XML record structure is returned as a VC data type.</p><p>For information about writing the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> record structure to the displayer, default log or listing file, or to a user-defined file as an XML stream, see CALL ECHOXML.</p><h2 id="CNVTRECTOXML()UsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CNVTRECTOXML(record_name[,case_mode[,datemode[,flexmode]]])
+</pre>
+</div></div><h2 id="CNVTRECTOXML()UsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>record_name</em><br>The name of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> record structure.</br></p><p><em>case_mode</em></p><p>Introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.0 and 9.02.0. The only mode for the initial release is 0. Additional options may be supported in future releases.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Mode</th><th class="confluenceTh">Description</th></tr><tr><td class="confluenceTd">0</td><td class="confluenceTd">The default mode.</td></tr></tbody></table></div><p><em>date_mode</em></p><p>Introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.0 and 9.02.0 to allow controlling the use of Date() for ISO dates.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Mode</th><th class="confluenceTh">Description</th></tr><tr><td class="confluenceTd">0</td><td class="confluenceTd">Use Date(<em>iso_date</em>) for DQ8 or DM12 (default).</td></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">Use <em>iso_date</em> without Date() for DQ8 or DM12.</td></tr><tr><td class="confluenceTd">2</td><td class="confluenceTd">Use Date(<em>iso_date</em>) for DQ8 or DM12 (default), and convert the Coordinated Universal Time (UTC) to the local time, regardless of the CURUTC.</td></tr><tr><td class="confluenceTd">3</td><td class="confluenceTd">Use <em>iso_date</em> without Date() for DQ8 or DM12, and convert the UTC to the local time, regardless of the CURUTC.</td></tr></tbody></table></div><p>flex_mode</p><p>Introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.0 and 9.02.0. The only mode for the initial release is 0. Additional options may be supported in future releases.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Mode</th><th class="confluenceTh">Description</th></tr><tr><td class="confluenceTd">0</td><td class="confluenceTd">The default mode.</td></tr></tbody></table></div><p><br/></p><h2 id="CNVTRECTOXML()UsingDiscernExplorer-Examples">Examples</h2><p>The example below creates and populates a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> record structure named REC1. The contents of the record structure are then written as an XML stream to a variable named REC_XML.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program CCL_CnvtRecToXml go
+create program CCL_CnvtRecToXml
+record rec1(
+  1 qual[*]
+    2 f1 = i4
+    2 qual2[*]
+      3 f2 = i4
+      3 f3 = vc)
+declare rec_xml = vc
+
+set stat = alterlist(rec1-&gt;qual,3)
+for (num1=1 to size(rec1-&gt;qual,5))
+    set rec1-&gt;qual[num1].f1 = num1
+    set stat = alterlist(rec1-&gt;qual[num1].qual2,1)
+    set num2 = 1
+    set rec1-&gt;qual[num1].qual2[num2].f2=100+num1
+    set rec1-&gt;qual[num1].qual2[num2].f3=build("test:",num1,":",num2)
+endfor
+call echorecord(rec1)
+;convert ccl record to xml string
+set rec_xml = CnvtRecToXml(rec1)
+
+END GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 681, "requestCorrelationId": "b336fee8b8d235e4"}</span>
+</body>
+</html>

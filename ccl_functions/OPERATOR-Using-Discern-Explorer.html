@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>OPERATOR Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/OPERATOR+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The OPERATOR( ) function allows you to construct a dynamic relational clause.</p><h2 id="OPERATORUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>OPERATOR( expr, operator  {,expr } )
+
+NOTOPERATOR( expr, operator  {,expr } )
+</pre>
+</div></div><h2 id="OPERATORUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>expr</em><br>An expression.</br></p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.11.2 introduced the ability to use the Value() function to pass a list of values for the third parameter {,expr} when the IN or NOT IN operators are used. Also, the equal to operator ( = ) is converted to IN, and the not equal operator (!=) is converted to NOT IN if the third parameter is using the Value() function to pass a list of values.</p><p><em>operator</em><br/>A relational operator.</p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.8.2 and earlier support the following operators:</p><p>=, !=, &lt;, &lt;=, &gt;, &gt;=, like, escapelike, between, in, regexplike</p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.8.3 and later support for the following operators:</p><p>not regexplike, not =, not !=, not &lt;, not &lt;=, not &gt;, not &gt;=, not like, not escapelike, not between, not in</p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.11.5 and later also provide support for the IS and NOT IS operators to check for NULL values.</p><p><em>notoperator</em><br/>Negates the operator; for example, OPERATOR(expression1, != ,expression2) and NOTOPERATOR(expression1, = ,expression2) are equivalent.</p><h2 id="OPERATORUsingDiscernExplorer-Examples">Examples</h2><p>The example below uses the OPERATOR() function to perform a pattern-matching qualification using values from a record structure that contains literal asterisks. Using LIKE as the operator with the PatString() function allows the literal asterisks (*) to be passed as pattern-matching characters in the query to the Relational Databse Management System (RDBMS).</p><div class="panel conf-macro output-block" data-hasbody="true" data-macro-name="panel" style="border-width: 1px;"><div class="panelHeader" style="border-bottom-width: 1px;"><b>Example 1</b></div><div class="panelContent">
+<pre>drop program hhtest go
+create program hhtest
+      record rec(
+        1 cnt = i4
+        1 qual[3]
+          2 name = vc
+      )
+      set rec-&gt;cnt = 3
+      set rec-&gt;qual[1].name = ("MB_EXP*")
+      set rec-&gt;qual[2].name = "RAD*"
+      set rec-&gt;qual[3].name = "EKS_ALERT*"
+      set dseq=0
+      select into noforms
+        e.module_name
+        from eks_module e, (dummyt d with seq=value(rec-&gt;cnt))
+        plan d where initarray(dseq,d.seq)
+        join e where e.active_flag = "A"
+        and operator(e.module_name,"LIKE",notrim(patstring(rec-&gt;qual[dseq].name,1)))
+    end go</pre>
+</div></div><p><br/>The example below uses the functionality introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.11.2 to flex the qualification to retrieve all genders when the Any(*) option is selected at the gender prompt, or only the genders that are selected at the prompt when the Any(*) option is not selected at the gender prompt.</p><div class="panel conf-macro output-block" data-hasbody="true" data-macro-name="panel" style="border-width: 1px;"><div class="panelHeader" style="border-bottom-width: 1px;"><b>Example 2</b></div><div class="panelContent">
+<pre>drop program ccl_operator_value_list go
+create program ccl_operator_value_list
+
+prompt 
+	"Output to File/Printer/MINE " = "MINE"   
+	, "Select the Genders" = 0 
+with OUTDEV, gender
+
+declare opr_var = c2
+
+/*
+The $gender prompt is set up to allow the Any(*) option.  
+The define any option is used to pass 0.0 to the program when Any(*)is selected.
+*/
+
+if(substring(1,1,reflect(parameter(parameter2($gender),0))) = "L")   ;multiple genders were selected at $gender prompt
+	set opr_var = "IN"
+elseif(parameter(parameter2($gender),1)= 0.0) ;any was selected at $gender prompt
+	set opr_var = "!=" 
+else ;a single value was selected at the $gender prompt
+	set opr_var = "="
+endif
+
+SELECT distinct INTO $outdev
+	P.PERSON_ID,
+	P.NAME_FULL_FORMATTED,
+	P.SEX_CD,
+	P_SEX_DISP = UAR_GET_CODE_DISPLAY( P.SEX_CD )
+
+FROM
+	PERSON  P
+
+WHERE  p.updt_dt_tm between cnvtlookbehind("1,D") and cnvtdatetime(curdate,curtime3)
+	and  operator(p.sex_cd,opr_var,$gender)
+order by P_SEX_DISP
+WITH MAXREC = 10000 , NOCOUNTER, SEPARATOR=" ", FORMAT
+
+
+
+end
+go</pre>
+</div></div><p><br/></p><p>In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.6.5 and higher, the REGEXPLIKE and NOT REGEXPLIKE operators are applied using the POSIX metacharacter set by default. SET MODIFY REGEXPBSD can be used to switch to the BSD metacharacter set for most uses. However, the POSIX metacharacter set is still used in qualifications on an RDBMS table using <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> 10g or higher even if the SET MODIFY REGEXPBSD command has been issued. Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.13.0 and 9.01.0, SET MODIFY REGEXPBSD is obsolete. Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.13.0 and 9.01.0, only the POSIX metacharacter set is allowed for regular expression qualifications. </p><p>In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions before 8.6.5, the REGEXPLIKE and NOT REGEXPLIKE operators were applied using the BSD metacharacter set by default. In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions before 8.6.5, the REGEXPLIKE and NOT REGEXPLIKE operators used the POSIX metacharacter set in qualifications on an RDBMS table using <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> 10g or higher.</p><p>The following table lists the regular expression rules for the POSIX metacharacter set:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Rule</p></th><th class="confluenceTh"><p>Metacharacter</p></th><th class="confluenceTh"><p>Description</p></th><th class="confluenceTh"><p><br/></p></th></tr><tr><td class="confluenceTd"><p>[1]</p></td><td class="confluenceTd"><p>[ ]</p></td><td class="confluenceTd"><p>This rule matches anything inside of the square brackets for one character position only once. For example, [12] means match the target to either 1 or 2, while [0123456789] means match to any character in the range 0 to 9.</p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p>[2]</p></td><td class="confluenceTd"><p>-</p></td><td class="confluenceTd"><p>The dash (-) inside of the square brackets is the range separator and defines a range; for example, [0123456789] could be rewritten as [0-9]. Multiple ranges can be used in the brackets.</p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p>[3]</p></td><td class="confluenceTd"><p>?</p></td><td class="confluenceTd"><p>The question mark (?) matches the preceding character zero times or one time only; for example, colou?r finds both color and colour.</p></td><td class="confluenceTd"><p>Not supported in BSD</p></td></tr><tr><td class="confluenceTd"><p>[4]</p></td><td class="confluenceTd"><p>*</p></td><td class="confluenceTd"><p>The asterisk or star (*) matches the preceding character zero or more times; for example, tre* finds tree, tread, and trough.</p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p>[5]</p></td><td class="confluenceTd"><p>+</p></td><td class="confluenceTd"><p>The plus (+) matches the previous character one or more times; for example, tre+ finds tree and tread but not trough.</p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p>[6]</p></td><td class="confluenceTd"><p>{n}</p></td><td class="confluenceTd"><p>This rule matches the preceding character exactly n times. For example, using [0-9]{3}-[0-9]{4} finds any value that contains three digits followed by a dash, followed by four digits. To find a local phone number in the form of 123-4567, use ^[0-9]{3}-[0-9]{4}$. This finds three digits followed by a dash, followed by four digits with no additional leading or trailing characters.</p></td><td class="confluenceTd"><p>Not supported in BSD</p></td></tr><tr><td class="confluenceTd"><p>[7]</p></td><td class="confluenceTd"><p>{n,m}</p></td><td class="confluenceTd"><p>This rule matches the preceding character at least n times but no more than m times. For example, ba{2,3}b finds baab and baaab, but not bab or baaaab. Values are enclosed in braces (curly brackets).</p></td><td class="confluenceTd"><p>Not supported in BSD</p></td></tr><tr><td class="confluenceTd"><p>[8]</p></td><td class="confluenceTd"><p>.</p></td><td class="confluenceTd"><p>The period (.) means any characters in this position. For example, <strong>ton.</strong> finds tons and tonneau but not wanton because it has no following character.</p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p>[9]</p></td><td class="confluenceTd"><p>( )</p></td><td class="confluenceTd"><p>The open and closed parentheses ( ) can be used to group (or bind) parts of a search expression.</p></td><td class="confluenceTd"><p>Not supported in BSD</p></td></tr><tr><td class="confluenceTd"><p>[10]</p></td><td class="confluenceTd"><p>|</p></td><td class="confluenceTd"><p>The vertical bar or pipe ( | ) is named Alternation. It means find the left or right values; for example, gr(a|e)y finds gray or grey.</p></td><td class="confluenceTd"><p>Not supported in BSD</p></td></tr><tr><td class="confluenceTd"><p>[11]</p></td><td class="confluenceTd"><p>$</p></td><td class="confluenceTd"><p>The dollar sign ($) means to look only at the end of the target string. For example, fox$ finds a match in the string "silver fox" since fox is at the end of the string.  However, fox$ does not find a match in "the fox jumped over the moon".</p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p>[12]</p></td><td class="confluenceTd"><p>^</p></td><td class="confluenceTd"><p>The circumflex (^) inside of the square brackets negates an expression. For example, [^Ff] means anything except for the uppercase F or lowercase f, and [^a-z] means everything except for the lowercase letters from a to z. Spaces, or the lack of them, between ranges are very important.<br class="atl-forced-newline"/>The circumflex outside of the square brackets means to look only at the beginning of the target string. For example, ^Win does not match on the string "The Windows", but does match on the string "Windows are Open".</p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p>[13]</p></td><td class="confluenceTd"><p>\</p></td><td class="confluenceTd"><p>The escape character for the following character.</p></td><td class="confluenceTd"><p><br/></p></td></tr></tbody></table></div><p>The following table lists the regular expression rules for the BSD metacharacter set:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Rule</p></th><th class="confluenceTh"><p>Metacharacter</p></th><th class="confluenceTh"><p>Description</p></th><th class="confluenceTh"><p><br/></p></th></tr><tr><td class="confluenceTd"><p>[1]</p></td><td class="confluenceTd"><p>Char</p></td><td class="confluenceTd"><p>This rule matches itself, unless it is a special metacharacter (. \ [ ] * + ^ $).</p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p>[2]</p></td><td class="confluenceTd"><p>.</p></td><td class="confluenceTd"><p>This rule matches any character.</p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p>[3]</p></td><td class="confluenceTd"><p>\</p></td><td class="confluenceTd"><p>This rule matches the character following it, except for when it is followed by a left or right round bracket, digits one (1) to nine (9), or a left or right angle bracket. It is used as an escape character for all other metacharacters and itself. When used in a set (for example, [4]), it is treated as an ordinary character.</p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p>[4]</p></td><td class="confluenceTd"><p>[set]</p></td><td class="confluenceTd"><p>This rule matches one of the characters in the set. If the first character in the set is a caret (^), it matches a character that is not in the set; it complements the set. A short-hand S-E is used to specify a set of characters from S to E, inclusive. The special characters ] and - have no special meaning if they are the first characters in a set.<br class="atl-forced-newline"/><strong>[a-z]:</strong> Any lowercase alpha<br class="atl-forced-newline"/><strong>[^]-]:</strong> Any character except for ] and -<br class="atl-forced-newline"/><strong>[^A-Z]:</strong> Any char except for uppercase alpha<br class="atl-forced-newline"/><strong>[a-zA-Z]:</strong> Any alpha</p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p>[5]</p></td><td class="confluenceTd"><p>*</p></td><td class="confluenceTd"><p>Any regular expression of the form [1] to [4] followed by the closure character (*). It matches zero or more matches of that form.</p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p>[6]</p></td><td class="confluenceTd"><p>+</p></td><td class="confluenceTd"><p>Any regular expression of the form [1] to [4] followed by the closure char (*). It matches one or more matches of that form.</p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p>[7]</p></td><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>A regular expression in the form of [1] to [10] enclosed as (form) matches what form matches. The enclosure creates a set of tags used for [8] and pattern substitution. The tagged forms are numbered starting at 1.</p></td><td class="confluenceTd"><p>Not supported in POSIX</p></td></tr><tr><td class="confluenceTd"><p>[8]</p></td><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>A backslash (\) followed by a digit from 1 to 9. It matches whatever a previously tagged regular expression ([7]) matched.</p></td><td class="confluenceTd"><p>Not supported in POSIX</p></td></tr><tr><td class="confluenceTd"><p>[9]</p></td><td class="confluenceTd"><p>\&lt; \&gt;</p></td><td class="confluenceTd"><p>A regular expression starting with a \&lt; construct \&gt; and/or ending with a \&gt; construct restricts the pattern matching to the beginning or ending of a word. A word is defined to be a character string beginning or ending with the characters A-Z, a-z, 0-9, and _. It must also be preceded or followed by any character outside of those mentioned.</p></td><td class="confluenceTd"><p>Not supported in POSIX</p></td></tr><tr><td class="confluenceTd"><p>[10]</p></td><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>A composite regular expression xy, where x and y are in the form of [1] to [10]. It matches the longest match of x followed by a match for y.</p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p>[11]</p></td><td class="confluenceTd"><p>^</p></td><td class="confluenceTd"><p>A regular expression starting with a ^ [character] $ or ending with a $ [character]. It restricts the pattern matching to the beginning or end of the line. [anchors] Elsewhere in the pattern, the caret (^) and dollar sign ($) are treated as ordinary characters.</p></td><td class="confluenceTd"><p><br/></p></td></tr></tbody></table></div><p>The examples below use the REGEXPLIKE operator to perform regular expression pattern-matching qualifications in the WHERE clause on an RDBMS table. These examples assume <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> 10g or higher, or <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> 8.6.5 or later using the POSIX meta-character set.</p><p>The command below searches for last names that begin with GRA or GRE, followed by any number of characters, and an N. The names GRANT, GRAYSON, and GREEN would qualify, but GRAFEL, GRAHAM, GRERE, GROVE, and GRUBB would not.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO $OUTDEV
+	P.NAME_LAST_KEY
+FROM PERSON P
+WHERE OPERATOR(P.NAME_LAST_KEY,"REGEXPLIKE","GR(A|E).*N")</pre>
+</div></div><p><br/></p><p>The command below searches for last names that begin with GR, followed by another character that is not followed by an R. The names GRAFEL, GRAHAM, GRANT, GRAYSON, GREEN, GROVE, and GRUBB would qualify, but GRERE would not.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO $OUTDEV
+	P.NAME_LAST_KEY
+FROM PERSON P
+WHERE OPERATOR(P.NAME_LAST_KEY,"REGEXPLIKE","^GR.{1}[^R]")</pre>
+</div></div><p><br/></p><p>The command below searches for last names that begin with GR and end in E. The names GROVE and GRERE would qualify, but GRAFEL, GRAHAM, GRANT, GRAYSON, GREEN, and GRUBB would not.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO $OUTDEV
+	P.NAME_LAST_KEY
+FROM PERSON P
+WHERE OPERATOR(P.NAME_LAST_KEY,"REGEXPLIKE","^GR.*E$")</pre>
+</div></div><p><br/></p><p>The following example uses the REGEXPLIKE operator in the DETAIL section of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command. In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.6.5 and later, the comparison is made using the POSIX metacharacters by default. In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.6.5 and above, the SET MODIFY REGEXPBSD command can be used to force the BSD metacharacters to be used. In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions before 8.6.5, the BSD metacharacters were used by default. The names GRAYSON, GRAY, and GREY would match, but GRAFEL, GRAHAM, GREEN, and GROVE would not.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DETAIL 
+	IF(OPERATOR(P.NAME_LAST_KEY, "REGEXPLIKE", "GR[AE]Y") = 1)
+		COL +1 ^MATCHED "GR[AE]Y"^
+	ELSE
+		COL +1 "DID NOT MATCH"
+	ENDIF</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 754, "requestCorrelationId": "9e2e76caa28f796c"}</span>
+</body>
+</html>
