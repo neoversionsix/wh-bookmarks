@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Formatting SELECT Expressions Using Display Options Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Formatting+SELECT+Expressions+Using+Display+Options+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><br/></p><p>The information in your system's databases sometimes is not stored in a form that is easily understood or read. For example, the system stores the social security number "495-72-2454" as "495722454" (without the quotes). You can define the format of the information included in the output by using display options in your SELECT expressions. The syntax of the SELECT expressions with display options is shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT select_expression ["template;display_qualifier;display_format"] 
+     {,select_expression ["template;display_qualifier;display_format"] }
+</pre>
+</div></div><p>The display options must follow the SELECT expression to be formatted, be embedded in quotation marks, and be listed in the order shown in the syntax. You can use a single option, but missing options must be replaced with semicolons if the following options are used. Because display options override default column formats, they are <em>not</em> required.</p><p>Three display options can be defined for each column:</p><ul><li>Template</li><li>Display qualifier</li><li>Display format</li></ul><p>Using each of these display options is described below.</p><h2 id="FormattingSELECTExpressionsUsingDisplayOptionsUsingDiscernExplorer-Template">Template</h2><p>For a description of the templates, see Display Template Using Discern Explorer .</p><p>The most common template option is the fill character, which is the pound sign (#). When <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> encounters the fill character, it replaces, or swaps out, the pound sign with one byte of extracted data. For example, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> would swap out #### with a value like 6000 The number of fill characters should be equal to or greater than the number of characters in the column from which information is being extracted. For numeric columns, if the number of fill characters is less than the actual number of digits in the column, no data is output. For character columns, if the number of fill characters is less than the number of characters in the column, the data is truncated to the right.</p><p>Separator characters can be used between the pound signs to make the information more readable. For example, the SELECT command below uses the fill character and a separator character to format the social security number in a more readable fashion.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	PA.ALIAS "###-##-####"
+FROM	PERSON_ALIAS PA
+WHERE	PA.PERSON_ALIAS_TYPE_CD = SSN_VAR ;Code value for SSN's
+GO
+</pre>
+</div></div><p>The social security number stored in the table as "123456789" would be displayed as "123-45-6789".</p><h2 id="FormattingSELECTExpressionsUsingDisplayOptionsUsingDiscernExplorer-DisplayQualifier">Display Qualifier</h2><p>For a description of qualifiers, see Display Qualifier Using Discern Explorer.</p><p>The SELECT command below centers the person identification column under the column heading. The fill character template option is used in the template. The display qualifier "C" is used to center the information. Notice that the template and display qualifier are separated by a semicolon.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT P.PERSON_ID "########;C" FROM PERSON P GO</pre>
+</div></div><p>The information is displayed as in the following example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PERSON_ID
+  37095
+  37098
+ 102691
+ 102692
+ 102694
+ 102695
+</pre>
+</div></div><p>The SELECT command below uses the period template option and the dollar sign display qualifier to format a column for dollars and cents.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT DISTINCT C.ITEM_PRICE "#######.##;$" FROM CHARGE C GO</pre>
+</div></div><p>The information is displayed as in the following example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>ITEM_PRICE
+$78.00
+$125.00
+$300.00
+$450.00
+$678.00
+</pre>
+</div></div><p>To make large numbers more readable, use a floating comma display qualifier, which can be used with a floating dollar sign. For example, the SELECT command below uses the dollar sign and comma display qualifiers to format a number.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT DISTINCT C.ITEM_PRICE "#######.##;$," FROM CHARGE C GO</pre>
+</div></div><p>The information is displayed as in the following:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>ITEM PRICE
+$1,222.33
+$98,342.99
+$1,880,001.00
+$462,577.00
+$100.00
+$3,118.00
+</pre>
+</div></div><p>Use the padding display qualifier to fill out a column with a specific number. For example, by default floating point (F8) values are displayed in a total of 14 digits including the decimal point and 2 digits to the right of the decimal. If your query is selecting person identification numbers and some person identification numbers have more digits than others, you can use fill character and pad with leading zeros to force all the person identification numbers to be displayed using the same number of digits. The SELECT command below uses the padding display qualifier "P0" to pad the person identification numbers with leading zeros and override the two-digit decimal places. Using this option, the person identification numbers are displayed as 0000283679967, 0000003974978, or 0001084780969.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.PERSON_ID "#############;p0"
+FROM 	PERSON P
+GO
+</pre>
+</div></div><p>When you use display qualifiers, remember that more than one display qualifier can be used where appropriate by entering the qualifiers one after another. For example, you can use the floating dollar sign and floating comma together to format large sums of money.</p><h2 id="FormattingSELECTExpressionsUsingDisplayOptionsUsingDiscernExplorer-DisplayFormat">Display Format</h2><p>For a description of display formats, see Display Format Using Discern Explorer.</p><p>The SELECT command below uses the two-digit month, day of month, and four-digit year template options, and the date display format to display a date. Using these options, the date is displayed as "09/05/1994". Notice that the template and display format are separated by two semicolons because the display qualifier was not used.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.UPDT_DT_TM "MM/DD/YYYY;;D"
+FROM	PERSON P
+GO
+</pre>
+</div></div><p>The following output is from this query:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>UPDT_DT_TM
+ 03/23/1963
+ 09/25/1995
+ 12/06/1968
+ 07/01/1980
+ 10/08/1950
+ 03/22/1982
+ 12/17/1918
+</pre>
+</div></div><p>The default display format for date/time columns is MM/DD/YY with no time displayed. The program below illustrates the use of display format options.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.UPDT_DT_TM,	; default format "mm/dd/yy"
+	P.UPDT_DT_TM"DD-MMM-YYYY;;D", ; formats date only
+	P.UPDT_DT_TM"HH:MM:SS;;M",	; formats time only
+	P.UPDT_DT_TM"HH:MM:SS DD-MMM-YYYY;;D", 	; formats both
+	P.UPDT_DT_TM";;Q"; displays as default of ; DD-MMM-YYYY HH:MM:SS.CC
+FROM	PERSON P
+GO
+</pre>
+</div></div><p>The sample output for this program is shown below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>UPDT_DT_TM	UPDT_DT_TM	            UPDT_DT_TM UPDT_DT_TM	UPDT_DT_TM
+09/25/95	25-SEP-1995	19:34:00	19:34:00   25-SEP-1995	25-SEP-1995  19:34:00
+09/25/95	25-SEP-1995	19:35:00	19:35:00   25-SEP-1995	25-SEP-1995  19:35:00
+12/06/68	06-DEC-1968	06:36:00	06:36:00   06-DEC-1968	06-DEC-1968  06:36:00
+</pre>
+</div></div><h2 id="FormattingSELECTExpressionsUsingDisplayOptionsUsingDiscernExplorer-MixingDisplayOptions">Mixing Display Options</h2><p>Display options can be used where needed; you do not need to use all the display options at once. If they are used, however, the display options are position-dependent and separated by a semicolon. The template option must be entered first, the display qualifier second, and the format option third. If you do not use one of the options, you still must use the semicolon to ensure that the correct position of the subsequent option. For example, to format a date column without using a display qualifier, use the following display option:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT E.ARRIVE_DT_TM "MM/DD/YY;;D"</pre>
+</div></div><p>Because a display qualifier is not used, two semicolons are placed together, one after the template option and one to identify the display qualifier position. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> knows to omit the display qualifier and use a default display qualifier instead.</p><p>If you are using a template and a display qualifier, but are not using a format, you do not need to include the last semicolon. For example, to center a currency column and use a floating comma, use the following display option:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT A.CHARGE_BALANCE "#####.##;C,"</pre>
+</div></div><p>If you use only a template and you are not using a display qualifier or a format, semicolons are not required. For example, to format a social security number without using a display qualifier or format, use the following display option:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT PA.ALIAS "###-##-####"</pre>
+</div></div><p>If you are using a format or display qualifier but you are not using a template, omit the template and begin the display option with a semicolon. For example, if you want to center the encounter type class code but want to use the default template and format, use the following display option:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT E.ENCNTR_TYPE_CLASS_CD ";C"</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 616, "requestCorrelationId": "cc31d3e6e2f6e539"}</span>
+</body>
+</html>

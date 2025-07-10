@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Defining Parameters Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Defining+Parameters+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Two run-time parameters are defined in the SELECT clause of the sample program, as shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO $1
+	P.NAME_LAST_KEY
+FROM	PERSON P
+WHERE	P.NAME_LAST_KEY= PATSTRING(CNVTUPPER($2))
+</pre>
+</div></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>The above example is a syntax example. To use run-time parameters, you must create an executable program.</p></div></div><p>The first prompt accepts an output device and assigns the value to the $1 parameter. The second prompt accepts a last name and assigns the value to the $2 parameter. With these parameters, you can specify where the output is directed and what last names qualify. Notice that the CNVTUPPER() and PATSTRING() functions are used on the $2 parameter. Since character data is case sensitive, "SMITH" does not equal "Smith". You can use the CNVTUPPER( ) function on the parameter to convert the user input to uppercase. Suppose that the user wanted to select all names beginning with "SMITH", so the user entered "smith*" at the prompt. The CNVTUPPER( ) function converts the input to uppercase but now does not recognize the "*" as a wildcard. The PATSTRING( ) function allows using the "*" as a wildcard to perform pattern string matches on the data that is converted to uppercase. So entering "smith*" qualifies last names beginning with "SMITH".</p><p>If you are not using prompts in your program, you must specify the run-time parameters following the name of the program when you execute the program from the command line. For example, if we took the prompts out of the above example program, we could use the following command to execute the program and extract people whose last name is "Jones" and save the output in a file.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PAT_NAMES "MY_FILE", "JONES" GO</pre>
+</div></div><p>The first parameter "MY_FILE" is used in place of $1 in the program. Selecting into "MY_FILE" directs the output to a file in the default directory named "MY_FILE.DAT". The second parameter "JONES" is used in place of $2 in the program. Only rows where the NAME_LAST_KEY column is equal to "JONES" qualifies.</p><p>When entering in a string at a prompt, it is not necessary to put quotes around the string. The reason for this is because <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> looks at the default value for the prompt and assumes that you are entering in a value of the same data type. So in the above example, entering in "smith*" or smith* at the second prompt returns the same results.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 550, "requestCorrelationId": "128cc1e8157f05d0"}</span>
+</body>
+</html>

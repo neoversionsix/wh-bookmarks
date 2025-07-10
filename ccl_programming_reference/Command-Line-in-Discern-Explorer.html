@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Command Line in Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Command+Line+in+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>A command-line query means that you are creating an ad hoc query that extracts data from the database when the command is entered. When you sign on to <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>, you are at the single command-line editor; this is where command-line queries are entered. A buffer stores the syntax entered on the command line until you execute the command using GO.</p><p>Sign in to <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>.</p><h2 id="CommandLineinDiscernExplorer-BasicSELECTCommand">Basic SELECT Command</h2><p>The SELECT command is briefly covered here for you to view some of the components of the command line. A more detailed description of SELECT is provided under the SELECT command topic.</p><p>The SELECT command has three required elements; SELECT, FROM, and GO.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+  select_expression
+FROM
+  table_name
+GO
+</pre>
+</div></div><p>A simple <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> query uses only the SELECT, FROM, and GO clauses. The select_expressions define the columns or user-defined variables that you want to extract. The FROM clause defines the table containing those columns. GO executes the query. The simple example below extracts the patient's name from the Person table. The multiple example extracts the patient's name and patient birth date.</p><p>SIMPLE:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT 	PERSON.NAME_FULL_FORMATTED 
+FROM 		PERSON 
+GO
+</pre>
+</div></div><p>MULTIPLE:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT 	PERSON.NAME_FULL_FORMATTED,
+
+PERSON.BIRTH_DT_TM 
+
+FROM		PERSON 
+GO
+</pre>
+</div></div><p>When selecting from a table, separate each select_expression by a comma as shown in the above "multiple" example. The FROM clause follows the select_expressions. Separate each table_name by a comma when accessing more than one table.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT 
+	PERSON.PERSON_ID,
+	ORDERS.ORDER_MNEMONIC
+FROM 
+	PERSON,
+	ORDERS 
+WHERE 
+	PERSON.PERSON_ID = ORDERS.PERSON_ID 
+GO
+</pre>
+</div></div><ol><li>Type SELECT PERSON.NAME_FULL_FORMATTED FROM PERSON GO at the command line.</li><li>Press ENTER.</li></ol><h2 id="CommandLineinDiscernExplorer-DisplayCounter">Display Counter</h2><p>The <em>display counter</em> increments as the query is processing. The first number in the record shows the number of physical records read in the first table. The second number indicates the total number of physical records being read between all tables. The row shows the number of logical records being created--these are the number of rows processed during the select to find the data you want to use to qualify. The qual increments when a record matches the criteria you entered for the report (for example, show only inpatients). Sort only increments when you have an ORDER clause. Len displays the total number of columns that are occupied in the query.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Rec:	14676	 14677	Row:	29352		Qual:	14676		Sort:	0		(Len:	116)
+</pre>
+</div></div><p>Remember that you can press F6, or CTRL+C to interrupt and see the accumulated results without running to completion.</p><p>The display counter redisplays when you exit the displayer.</p><h2 id="CommandLineinDiscernExplorer-Displayer">Displayer</h2><p>The <em>Displayer</em> is the default output device for your <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> programs. Ensure that you now see a line for each person record in the PERSON table. The column name displays at the top of the displayer. The total number of rows and columns are displayed in the highlighted portion at the bottom of the view. </p><p>Use keyboard shortcuts, the first letter of the item, to access the items at the bottom of your screen.</p><ol><li>Press W, (Width) to change between 132 and 80 columns.</li><li>Press M, (Margin) and then the &lt;down_arrow&gt;, to jump to the bottom of the output. Use the arrow keys to jump to the top, bottom, left, or right margins.</li><li>Press F, (Find) and type part of a persons name and press ENTER.</li><li>Press Return key twice to exit the Displayer.</li></ol><h2 id="CommandLineinDiscernExplorer-DisplayTree">Display Tree</h2><p>The <em>display tree</em> defines the tables being accessed. The query uses the PERSON table without a join option. We cover aliases in this tutorial and expand on keys and join options in training.<br>An example of the display tree that is seen when you exit the displayer is illustrated below:</br></p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">0)PERSON:P(N#0)(Rng:0)KEY1&lt;0&gt;Rec&lt;4512&gt;</pre>
+</div></div><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Element</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>0)</p></td><td class="confluenceTd"><p>Indicates first table read.</p></td></tr><tr><td class="confluenceTd"><p>PERSON</p></td><td class="confluenceTd"><p>Table name read.</p></td></tr><tr><td class="confluenceTd"><p>P</p></td><td class="confluenceTd"><p>Alias for the table.</p></td></tr><tr><td class="confluenceTd"><p>(N#0)</p></td><td class="confluenceTd"><p>No special joining options in effect / #0 tells how null tuples are processed.</p></td></tr><tr><td class="confluenceTd"><p>(Rng:0)</p></td><td class="confluenceTd"><p>Identifies number of tables read, 0 is the last table read.</p></td></tr><tr><td class="confluenceTd"><p>KEY&lt;0&gt;</p></td><td class="confluenceTd"><p>The key or index used to drive the query, RMS queries only.</p></td></tr><tr><td class="confluenceTd"><p>Rec&lt;4512&gt;</p></td><td class="confluenceTd"><p>Total number of records read for this table.</p></td></tr></tbody></table></div><p>Use the command-line query when doing troubleshooting, data validation, or initial investigation to determine the columns needed. The example below gives you all of the columns in the PERSON table and aligns the columns under the headings using the WITH CHECK option. This command allows you to see the data stored in each column, rather than just the column name from the Data Dictionary. Use the wildcard as a select_expression for data validation.</p><ol><li>Type, SELECT * FROM PERSON WITH CHECK GO.</li><li>Press ENTER.</li></ol><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>The birth datetime columns are Date Quad 8 byte columns, DQ8. This represents both a date column and a time column but only the date displays here. We learn how to format these dates and times in the "Display Options" section.</p></div></div><p>While at the command line, a buffer holds up to 10 previous lines. To access the buffer, press the UP and DOWN arrow keys. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> stores each line in memory until you issue the GO command. If you make a mistake, you can reset the memory buffer by typing RESET or pressing the F19 key.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>The F19 key varies from keyboard to keyboard depending upon your emulation.</p></div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 685, "requestCorrelationId": "9a88438ff6ad5981"}</span>
+</body>
+</html>

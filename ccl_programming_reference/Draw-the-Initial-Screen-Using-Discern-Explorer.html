@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Draw the Initial Screen Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Draw+the+Initial+Screen+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<h2 id="DrawtheInitialScreenUsingDiscernExplorer-WorkStepsSummary">Work Steps Summary</h2><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Step</th><th class="confluenceTh">Task</th></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">CREATE SELECT</td></tr><tr><td class="confluenceTd">2</td><td class="confluenceTd">DEFINE AS PAINT</td></tr><tr><th class="confluenceTh">3</th><th class="confluenceTh">DRAW BOX, LINES, TEXT</th></tr><tr><td class="confluenceTd">4</td><td class="confluenceTd">INIT VARIABLES</td></tr><tr><td class="confluenceTd">5</td><td class="confluenceTd">PUT IN ACCEPTS &amp; DEFAULTS</td></tr><tr><td class="confluenceTd">6</td><td class="confluenceTd">PUT IN HELP</td></tr><tr><td class="confluenceTd">7</td><td class="confluenceTd">PUT IN VALIDATION</td></tr><tr><td class="confluenceTd" colspan="1">8</td><td class="confluenceTd" colspan="1">ADDITIONAL PROGRAMMING CONSTRUCTS</td></tr></tbody></table></div><p>Screens can be created using the CALL BOX, CALL LINE, and CALL TEXT commands. The program below shows the CALL commands used to create boxes, lines, and text. The program also begins to use labels, identified by the "#", to section or name a piece of code.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_SCREEN3 GO
+CREATE PROGRAM CCL_SCREEN3
+
+PAINT
+
+#DRAW_BOX
+CALL BOX(2,2,20,78)
+CALL LINE(6,2,77,XHOR)
+CALL TEXT(4,25,"EXAMPLE SCREEN APPLICATION!")
+CALL TEXT(8,5,"01 PRINTER:")
+CALL TEXT(10,5,"02 ENTER USERNAME:")
+
+CALL VIDEO(R)
+CALL TEXT(20,20,"PRESS &lt;HOME&gt; TO END, &lt;HELP&gt; FOR INFO")
+CALL VIDEO(N)
+
+CALL PAUSE(5)
+
+SELECT	ACT = EVALUATE(P.ACTIVE_IND,1,"ACTIVE",2,"INACTIVE"),
+	P.PERSON_ID,
+	DEPT = UAR_GET_CODE_DISPLAY(P.DEPARTMENT_CD),
+	POSITION = UAR_GET_CODE_DISPLAY(P.POSITION_CD),
+	P.NAME_FULL_FORMATTED,
+	P.USERNAME,
+	P.EMAIL,
+	P.PHYSICIAN_IND,
+	P.UPDT_DT_TM
+FROM	PRSNL P
+WHERE	P.USERNAME = "ABC123"
+
+WITH NOCOUNTER
+
+END
+GO
+</pre>
+</div></div><p>The label, DRAW_BOX, is used to define this section of code. The program uses the CALL BOX command to draw a box that takes up the top half of the screen. Next, the CALL LINE command is used to draw a line to separate the screen heading from the rest of the box. Last, the CALL TEXT command is used to create prompts telling the user what piece of information must be entered in an input field. Each of these commands is further described below.</p><p><strong>The #label_name Statement</strong></p><p>The #label_name statement names a set of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> instructions that can be branched to with the SET HOME, EXECUTE FROM, or GO TO command. The syntax of the #label_name statement is shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>#label_name</pre>
+</div></div><p>The label_nameshould have no special characters other than an underscore and the pound sign. You can use labels to identify sections of your program for comment purposes, to be able to branch to those labels, or to be able to execute a portion of the program from one label to another using the EXECUTE FROM command.</p><p><strong>CALL BOX</strong></p><p>To draw the box, the CALL BOX command is used. The syntax of this command is shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL BOX (begin_row,begin_col,end_row,end_col)</pre>
+</div></div><p>The most difficult part of this command is defining where the box is placed on the screen and then identifying the appropriate row or column number. Each screen contains 24 horizontal rows. Rows are numbered starting at number 1 as the top line of the screen and number 24 as the bottom line of the screen.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Row 24 typically is reserved for <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> messages, system messages, or <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> messages. If you place anything on row 24, it may be replaced temporarily with one of these messages. The original information is redisplayed after the user presses &lt;Return&gt;.</p></div></div><p>A maximum of 132 vertical columns fit on each screen. Columns are numbered starting at 1 on the left side of the screen and ending at 80 or 132 on the right side of the screen. The default screen width is 80 columns. You can use the CALL VIDEO(W) command to flex the screen to 132 columns.</p><p>The program above used the command CALL BOX(2,2,20,78) to position the screen starting at row 2 and ending at row 20 The screen goes across the page starting at column 2 and ending at column 78.</p><p><strong>CALL LINE</strong></p><p>The next command after the CALL BOX command is the CALL LINE command. The syntax of this command is shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL LINE (begin_row, begin_col, line_length, direction)</pre>
+</div></div><p>In the program above, the CALL LINE(6,2,77,XHOR) command is used to draw a horizontal line on the sixth row of the screen, starting at column 2 and continuing to column 77 This line is used to separate the heading of the screen from the data to be accepted later. The line is defined as an XHOR line, which draws a horizontal line that has crossbars to mesh with the vertical lines of the box drawn earlier. An XHOR line connects the vertical line to any other horizontal line at the point those lines meet. If you do not use this option, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> leaves a space where the horizontal line intersects with the vertical line in the box. Valid values for direction are listed below.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Value</p></th><th class="confluenceTh"><p>Short Form</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>HORIZONTAL</p></td><td class="confluenceTd"><p>HOR</p></td><td class="confluenceTd"><p>Draw line left to right.</p></td></tr><tr><td class="confluenceTd"><p>XHORIZONTAL</p></td><td class="confluenceTd"><p>XHOR</p></td><td class="confluenceTd"><p>Draw line left to right with crossbars at each end.</p></td></tr><tr><td class="confluenceTd"><p>VERTICAL</p></td><td class="confluenceTd"><p>VER</p></td><td class="confluenceTd"><p>Draw line top to bottom.</p></td></tr><tr><td class="confluenceTd"><p>XVERTICAL</p></td><td class="confluenceTd"><p>XVER</p></td><td class="confluenceTd"><p>Draw line top to bottom with crossbars at each end.</p></td></tr></tbody></table></div><p><strong><em>CALL TEXT</em></strong></p><p>The CALL TEXT command creates the text that is used in the headings and as prompts for the data to be accepted from the user through input fields. The syntax of the CALL TEXT command is shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL TEXT (begin_row, begin_col, expression, [text_option])</pre>
+</div></div><p>The text that is displayed is embedded in quotation marks in the CALL TEXT command. The text_option defines the height (in graphics mode) or width of the text. If this option is not used, normal height and width text is used. Two options are available: WIDE, which displays double-wide text, and GRAPHIC, which displays text in special graphics mode (used with graphics terminals only).</p><p>CALL TEXT commands are used in the program to draw the text on the screen. The first CALL TEXT command creates the screen header, which is displayed on the fourth row of the screen, starting at column 25 The second and third CALL TEXT commands create the prompts for the input fields. The input field created by the CALL ACCEPT command is placed on the same row as the text and then pushed over far enough to the right so that it follows the prompt.</p><p><strong><em>CALL VIDEO</em></strong></p><p>The CALL VIDEO command changes characteristics of text displayed using the CALL BOX, CALL CLEAR, CALL LINE, and CALL TEXT commands. CALL VIDEO can change lines, boxes, and text to display as normal, blinking, reverse-underlined video, 80-column, or 132-column. For screen displays, normal mode is bold letters (intense) displayed in the default font and pitch for your terminal. The CALL VIDEO command typically is used in screen application programs to set the video mode back to normal before generating a report. All subsequent displays use this mode until another CALL VIDEO command is issued. The syntax for the CALL VIDEO command is shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL VIDEO (video_option{video_option})</pre>
+</div></div><p>Valid values for the video option are displayed below.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Video Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>B</p></td><td class="confluenceTd"><p>Blink.</p></td></tr><tr><td class="confluenceTd"><p>I</p></td><td class="confluenceTd"><p>High intensity.</p></td></tr><tr><td class="confluenceTd"><p>L</p></td><td class="confluenceTd"><p>Low intensity.</p></td></tr><tr><td class="confluenceTd"><p>N</p></td><td class="confluenceTd"><p>Normal (no blinking, no underline, no reverse). Reset the display to high-intensity-only mode.</p></td></tr><tr><td class="confluenceTd"><p>R</p></td><td class="confluenceTd"><p>Reverse video.</p></td></tr><tr><td class="confluenceTd"><p>S</p></td><td class="confluenceTd"><p>Slender (80-column mode, the default). Using option N does not reset the screen to 80-column mode.</p></td></tr><tr><td class="confluenceTd"><p>U</p></td><td class="confluenceTd"><p>Underline.</p></td></tr><tr><td class="confluenceTd"><p>W</p></td><td class="confluenceTd"><p>Wide (132-column mode).</p></td></tr></tbody></table></div><p><strong>CALL PAUSE</strong></p><p>The CALL PAUSE command causes a wait for the defined number of seconds. This slows the display so that users can read messages or watch information placed on the screen before it is refreshed or cleared with other CALL commands. The syntax is displayed below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL PAUSE (seconds)</pre>
+</div></div><p>This program uses the CALL PAUSE(5) command to display the screen for 5 seconds before continuing with the SELECT command. You can also comment out the SQL statement while building the screen.</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="" class="confluence-embedded-image confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/17982985/de_screen_aps_1_i18n.jpg?version=1&amp;modificationDate=1265678054000&amp;api=v2" data-linked-resource-container-id="17982985" data-linked-resource-container-version="2" data-linked-resource-content-type="image/jpeg" data-linked-resource-default-alias="de_screen_aps_1_i18n.jpg" data-linked-resource-id="16878364" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" draggable="false" height="258" src="/download/attachments/17982985/de_screen_aps_1_i18n.jpg?version=1&amp;modificationDate=1265678054000&amp;api=v2" width="468"/></span></p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 526, "requestCorrelationId": "2b3dfad21f6db0c3"}</span>
+</body>
+</html>

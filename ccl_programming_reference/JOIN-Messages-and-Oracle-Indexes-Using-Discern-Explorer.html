@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>JOIN Messages and Oracle Indexes Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/JOIN+Messages+and+Oracle+Indexes+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> displays a message when you exit the Displayer or after a program has completed if the output did not go to the Displayer. This message is used for ISAM files.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>*0)*PERSON:P(N#0)(Rng:0)KEY1&lt;0&gt;Rec&lt;606&gt;
+   *1)*ENCOUNTER:E(N#5)(Rng:1)Row&lt;606&gt;
+     *2)*ORDERS:O(N#5)(Rng:2)Row&lt;606&gt;
+        *3)*ORDER_CATALOG:OC(N#5)(Rng:3)Row&lt;606&gt;
+</pre>
+</div></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>This message identifies the tables that were read and the order in which you wrote the joins in your program. This is not necessarily the order in which Oracle processed them. The KEY column can be ignored. The Rec number will display the same number of rows all the way down. Most of the time it can also be ignored.</p></div></div><p>For programs that include a PLAN, JOIN, or ORJOIN clause, the first table read is identified in the first line of the message by <strong>0)</strong> and the second table read is identified in the second line of the message by <strong>1)</strong>. If the program reads multiple files using a direct linear path (using a JOIN), the third table read is identified in the third line of the message by <strong>2)</strong>.</p><p>If the program reads multiple files using a nonlinear (disjoint) path (using an ORJOIN), the third table read is identified in the third line of the message by <strong>1)</strong> because ORJOIN redirects the read from a linear path to a nonlinear path. See Creating a Nonlinear JOIN Path Using Discern Explorer to learn more about the ORJOIN message.</p><p>*<span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> Indexes*</p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> tries to optimize the query. In doing so, it may decide to use a full scan instead of an indexed read. Use the DM2_CBO_PLAN_ACUTAL_REPORT to determine which indexes <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> is actually using. See DM2_CBO_PLAN_ACUTAL_REPORT  for more information.</p><p>To search for the description of the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> index, see CCLORAINDEX.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 547, "requestCorrelationId": "fc9950446ee82fed"}</span>
+</body>
+</html>

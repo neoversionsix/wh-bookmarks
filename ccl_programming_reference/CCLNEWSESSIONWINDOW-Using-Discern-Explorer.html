@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CCLNEWSESSIONWINDOW Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CCLNEWSESSIONWINDOW+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><br>The CCLNEWSESSIONWINDOW command is the routine used to open a link in a new <em>DiscernOutputViewer</em> window.</br></p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>For this routine to work, the following META tag must be included in the HEAD of the html file: <strong>&lt;META content='CCLNEWSESSIONWINDOW' name='discern'&gt;</strong></p></div></div><p><strong>Syntax</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CCLNEWSESSIONWINDOW(url,target,features,replaceflag,modalflag)</pre>
+</div></div><p><strong>Metasymbols</strong></p><p><em>url</em></p><p>A textual string representing the URL of the document to display in the new session window. If no URL is specified, a new window with <strong>about:blank</strong> is displayed.</p><p><em>target</em></p><p>A textual string representing the name of the new session window. This name is used as the value for the TARGET attribute on a form or an anchor element.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Value</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>_blank</p></td><td class="confluenceTd"><p>The URL is loaded into a new, unnamed window.</p></td></tr><tr><td class="confluenceTd"><p>_parent</p></td><td class="confluenceTd"><p>The URL is loaded into the current frame's parent. If the frame has no parent, this value acts as the value _self.</p></td></tr><tr><td class="confluenceTd"><p>_search</p></td><td class="confluenceTd"><p>The URL is opened in the browser's search pane.</p></td></tr><tr><td class="confluenceTd"><p>_self</p></td><td class="confluenceTd"><p>The current document is replaced with the specified URL.</p></td></tr><tr><td class="confluenceTd"><p>_top</p></td><td class="confluenceTd"><p>The URL replaces any framesets that might be loaded. If no framesets are defined, this value acts as the value _self</p></td></tr></tbody></table></div><p><em>features</em></p><p>A textual string that represents a list of features the window assumes. The features string contains a list of items separated by commas. Each item consists of an option and a value, separated by an equals sign (=). For example, <em>height=100,width=100</em>. The following features are supported:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Feature</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>height = number</p></td><td class="confluenceTd"><p>Sets the height of the window in pixels.</p></td></tr><tr><td class="confluenceTd"><p>left = number</p></td><td class="confluenceTd"><p>Specifies the left position, in pixels. This value is relative to the upper-left corner of the screen.</p></td></tr><tr><td class="confluenceTd"><p>top = number</p></td><td class="confluenceTd"><p>Specifies the top position, in pixels. This value is relative to the upper-left corner of the screen.</p></td></tr><tr><td class="confluenceTd"><p>width = number</p></td><td class="confluenceTd"><p>Sets the width of the window in pixels.</p></td></tr><tr><td class="confluenceTd"><p>resizable = yes/no/1/0</p></td><td class="confluenceTd"><p>Specifies whether window can be resized.</p></td></tr><tr><td class="confluenceTd"><p>status = yes/no/1/0</p></td><td class="confluenceTd"><p>Specifies whether to add a status bar at bottom of window.</p></td></tr><tr><td class="confluenceTd"><p>toolbar = yes/no/1/0</p></td><td class="confluenceTd"><p>Specifies whether to display the browser toolbar.</p></td></tr><tr><td class="confluenceTd"><p>scrollbars = yes/no/1/0</p></td><td class="confluenceTd"><p>Specifies whether to display scroll bars.</p></td></tr><tr><td class="confluenceTd"><p>fullscreen = yes/no/1/0</p></td><td class="confluenceTd"><p>Specifies whether to display in full-screen mode. (Since the menu bar and task bar are hidden in full-screen mode, the only way to terminate the browser is to press ALT+F4. Therefore, a button or other alternate mechanism should always be provided when the user is ready to close the window.)</p></td></tr></tbody></table></div><p><em>replaceflag</em></p><p>A numeric value that specifies whether the _URL_creates a new entry or replaces the current entry in the window's history list. This parameter only takes effect if the _URL_is loaded into the same window.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh" colspan="1">Value</th><th class="confluenceTh" colspan="1">Description</th></tr><tr><td class="confluenceTd"><p>0</p></td><td class="confluenceTd"><p>Causes the URL to replace the current document in the history list.</p></td></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>Creates a new entry in the history list.</p></td></tr></tbody></table></div><p><em>modalflag</em></p><p>A numeric value that indicates whether the window should be modal; the user cannot switch windows until the popup window is closed. When using nonmodal windows, take extra caution with the data displayed and the application context. For example, it may not be safe to load patient-specific data in a nonmodal window when the patient can be changed.</p><p><strong>Handling Pop-Up Windows</strong></p><p>Three levels of control handle pop-up windows:</p><ul><li><strong>Setting the HTML_POPUP_WINDOW_MODE in Preference Maintenance (PrefMaint.exe).</strong> This is a global setting that applies to the whole tab. If it is set to 1, the internal pop-up windows overrides the window.open() calls.</li><li><strong>Setting the CCLOVERRIDEPOPUPWINDOW in the META tag of a page.</strong> This level allows for the control of session pop-ups per page. If you use this option, the global setting in first option must be set to 0. This allows the internal pop-up windows to override any window.open() call in the page.</li><li><strong>Specifying the CCLNEWSESSIONWINDOW in the META tag of a page.</strong> This level controls the session pop-up per link. If this level of control is used, the global setting in the first option must be set to 0 and the CCLOVERRIDEPOPUPWINDOW in the second option must not be specified in the META tag. An example for this is a web page that needs only one link to open in a session pop-up window and other links to open in a regular browser pop-up window.</li></ul><p><strong>Examples</strong></p><p>The example below illustrates opening the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> homepage in a new session window using CCLNEWSESSIONWINDOW. In this example, the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> homepage is titled <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> in a new OutputViewer window with a height and width of 200. The page replaces the current entry in the history list.</p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;a href='javascript: CCLNEWSESSIONWINDOW("www.cerner.com","_blank","height=200,width=200",1,0)' &gt;Cerner Homepage&lt;/a&gt;</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 561, "requestCorrelationId": "9ddcceffc7ba5491"}</span>
+</body>
+</html>

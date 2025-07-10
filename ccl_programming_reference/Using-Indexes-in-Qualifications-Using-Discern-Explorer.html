@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Using Indexes in Qualifications Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Using+Indexes+in+Qualifications+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>To make the queries run faster, you can qualify on indexed columns in the WHERE clause. Using an indexed column in the qualification enables <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to directly select rows that meet your qualification without having to read all the rows in a table. We can compare looking up a name in the telephone book with qualifying on indexed columns. For example, if you want to find the telephone numbers of people whose last name is Smith, you can flip through large sections of the phone book until you find the first person whose last name is Smith. However, if you want to find all people whose telephone number begins with 765, you have to scan every page in the phone book looking for numbers that begin with 765. Because the phone book is indexed by last names, you can find all people whose last name is Smith much faster than you can find all phone numbers beginning with 765. When looking for rows that meet a certain qualification, using an index enables <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to skip over rows that do not meet the qualification. On the PERSON table, three columns contain the last name, NAME_FULL_FORMATTED, NAME_LAST, and NAME_LAST_KEY. If we want to only select people whose last name is Smith, we can qualify on any of these columns. The following query selects these three columns:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	P.NAME_LAST_KEY,
+	P.NAME_LAST
+FROM	PERSON P
+GO
+</pre>
+</div></div><p>The following is part of the output from the query:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NAME_FULL_FORMATTED	NAME_LAST_KEY	NAME_LAST
+Brown, Alice	        BROWN	        Brown
+BROWN, William	        BROWN	        BROWN
+Jones, Mary	        JONES	        Jones
+smith, Steve	        SMITH	        smith
+Smith, Sue	        SMITH	        Smith
+</pre>
+</div></div><p>Any of the following WHERE statements would allow us to qualify people whose last name is Smith:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE	P.NAME_FULL_FORMATTED = "Smith,*"
+
+WHERE	P.NAME_LAST = "Smith"
+
+WHERE	P.NAME_LAST_KEY = "SMITH"
+</pre>
+</div></div><p>However, qualifying on NAME_FULL_FORMATTED or NAME_LAST causes <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to perform a full table scan or sequential read on the PERSON table. Qualifying on NAME_LAST_KEY allows <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to do an indexed read on the PERSON table. A query that qualifies on an indexed column almost always is a more efficient query than one that does a full table scan.</p><h2 id="UsingIndexesinQualificationsUsingDiscernExplorer-IdentifyingIndexedColumns">Identifying Indexed Columns</h2><p>The CCLORATABLE utility program can be used to identify the columns on a table that are indexed. To use the utility program, enter CCLORATABLE GO at the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command line. Accept the default output device MINE. Enter the name of a table that you want to qualify on. The following is part of the output from CCLORATABLE for the ENCOUNTER table:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>                              DATE: 02-MAR-2023  TIME: 12:01  PAGE:      1  
+DATABASE     TABLE_NAME         ATTRIBUTE                     TYPE   OFFSET 
+=========================================================================== 
+V500         ENCOUNTER                                                      
+                                                                            
+     INDEXES:                                                               
+      1 (XPKENCOUNTER)          ENCNTR_ID                     UNIQUE        
+                                                                            
+      2 (XCERENCOUNTER0077)     INST_ID                       NONUNIQUE     
+                                LAST_UTC_TS                                 
+                                                                            
+      3 (XCERTXNENCOUNTER0077)  TXN_ID_TEXT                   NONUNIQUE     
+                                                                            
+      4 (XIE12ENCOUNTER)        MED_SERVICE_CD                NONUNIQUE     
+                                ENCNTR_TYPE_CLASS_CD                        
+                                                                            
+      5 (XIE13ENCOUNTER)        PERSON_ID                     NONUNIQUE     
+                                DISCH_DT_TM                                 
+                                                                            
+      6 (XIE14ENCOUNTER)        INPATIENT_ADMIT_DT_TM         NONUNIQUE     
+                                                                            
+      7 (XIE15ENCOUNTER)        PLACE_OF_SVC_ORG_ID           NONUNIQUE     
+                                                                            
+      8 (XIE17ENCOUNTER)        ORGANIZATION_ID               NONUNIQUE     
+                                REG_DT_TM                                   
+                                ENCNTR_TYPE_CLASS_CD                        
+                                                                            
+      9 (XIE18ENCOUNTER)        LOC_BED_CD                    NONUNIQUE     
+                                                                            
+     10 (XIE19ENCOUNTER)        LOC_BUILDING_CD               NONUNIQUE     
+                                                                            
+     11 (XIE1ENCOUNTER)         PERSON_ID                     NONUNIQUE     
+                                BEG_EFFECTIVE_DT_TM                         
+                                                                            
+     12 (XIE20ENCOUNTER)        LOC_FACILITY_CD               NONUNIQUE     
+                                                                            
+     13 (XIE21ENCOUNTER)        LOC_NURSE_UNIT_CD             NONUNIQUE     
+                                                                            
+     14 (XIE22ENCOUNTER)        LOC_ROOM_CD                   NONUNIQUE     
+                                                                            
+     15 (XIE23ENCOUNTER)        DISCH_PRSNL_ID                NONUNIQUE     
+                                                                            
+     16 (XIE24ENCOUNTER)        ENCNTR_STATUS_CD              NONUNIQUE     
+                                ENCNTR_TYPE_CD                              
+                                LOC_FACILITY_CD                             
+                                                                            
+     17 (XIE25ENCOUNTER)        COMPLETE_REG_PRSNL_ID         NONUNIQUE     
+                                                                            
+     18 (XIE26ENCOUNTER)        CLIENT_ORGANIZATION_ID        NONUNIQUE     
+                                                                            
+     19 (XIE27ENCOUNTER)        PERSON_ID                     NONUNIQUE     
+                                REG_DT_TM                                   
+                                                                            
+     20 (XIE28ENCOUNTER)        CHART_ACCESS_ORGANIZATION_ID  NONUNIQUE     
+                                                                            
+     21 (XIE29ENCOUNTER)        SERVICE_PROVIDER_ORG_ID       NONUNIQUE     
+                                                                            
+     22 (XIE4ENCOUNTER)         DISCH_DT_TM                   NONUNIQUE     
+                                ORGANIZATION_ID                             
+
+
+</pre>
+</div></div><p>Qualifying against the first column in an index allows <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to perform an indexed search on the table. Using the following WHERE clause, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> most likely performs the SELECT based on index one, the XPKENCOUNTER index, which contains the ENCNTR_ID column:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE E.ENCNTR_ID = 264528.0</pre>
+</div></div><p>Because ENCNTR_ID is the only column in the index.</p><p>Using the following WHERE clause, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> would perform a full table scan:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE BEG_EFFECTIVE_DT_TM BETWEEN CNVTLOOKBEHIND("1,D") AND CNVTDATETIME(CURDATE,CURTIME3)</pre>
+</div></div><p>Because BEG_EFFECTIVE_DT_TM is not the first column in an index.</p><p>Using the following WHERE clause, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> likely performs the select based on index eleven, the XIE1ENCOUNTER index, which is a composite index containing PERSON_ID and BEG_EFFECITVE_DTt-M :</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE BEG_EFFECTIVE_DT_TM BETWEEN CNVTLOOKBEHIND("1,D") AND CNVTDATETIME(CURDATE,CURTIME3)
+  AND	PERSON_ID = 264528.0
+</pre>
+</div></div><h2 id="UsingIndexesinQualificationsUsingDiscernExplorer-ColumnNamesEndingin_KEY">Column Names Ending in _KEY</h2><p>Often the columns in an index are named using the format column_name_KEY. These columns are special columns that have been created to make qualifying easier. The data in _KEY columns have been converted to uppercase and non-alphanumeric characters have been stripped out. For example, if the value in the NAME_LAST column is O'Brien the value in the NAME_LAST_KEY column would be OBRIEN. _KEY columns allow you to qualify on character data without regard to case sensitivity or punctuation. If you qualify on NAME_LAST, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> compares exactly what you entered against exactly what the person entering the data entered. In all likelihood, records that you want to qualify do not qualify because of differences in case sensitivity. Because _KEY fields are converted to uppercase and stripped of non-alphanumeric characters, you can qualify on all records. For example, if one record contained Smith in the NAME_LAST column and another contained SMith in the NAME_LAST column, qualifying WHERE NAME_LAST = "Smith" would only return the first record. In both of those records the NAME_LAST_KEY column would contain SMITH. So qualifying WHERE NAME_LAST_KEY = "SMITH" would return both of the records.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 701, "requestCorrelationId": "3bb245857ef6b63d"}</span>
+</body>
+</html>

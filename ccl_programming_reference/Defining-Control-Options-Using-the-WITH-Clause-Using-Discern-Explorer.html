@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Defining Control Options Using the WITH Clause Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Defining+Control+Options+Using+the+WITH+Clause+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The WITH clause is used to perform specific control operations in a query. The syntax of the WITH clause is shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>[WITH	select_option {,select_option }]</pre>
+</div></div><p>The WITH clause always goes at the end of the query. You can combine control options by separating them with commas.</p><p>The sample query shown below uses two options in the WITH clause.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_LAST_KEY,
+	P.BIRTH_DT_TM,
+	P.SEX_CD
+FROM	PERSON P
+WHERE	P.NAME_LAST_KEY &gt; "S*"
+WITH	FORMAT, SEPARATOR = " "
+GO
+</pre>
+</div></div><p>The following output is from this query:</p><div class="table-wrap"><table class="wrapped confluenceTable"><tbody><tr><th class="confluenceTh"><p>NAME_LAST_KEY</p></th><th class="confluenceTh"><p>BIRTH_DT_TM</p></th><th class="confluenceTh"><p>SEX_CD</p></th></tr><tr><td class="confluenceTd"><p>SALMON</p></td><td class="confluenceTd"><p>08/06/71</p></td><td class="confluenceTd"><p>15075.00</p></td></tr><tr><td class="confluenceTd"><p>SAMPSON</p></td><td class="confluenceTd"><p>08/13/93</p></td><td class="confluenceTd"><p>15080.00</p></td></tr><tr><td class="confluenceTd"><p>SANDERS</p></td><td class="confluenceTd"><p>09/09/80</p></td><td class="confluenceTd"><p>15080.00</p></td></tr><tr><td class="confluenceTd"><p>SAUS</p></td><td class="confluenceTd"><p>09/16/74</p></td><td class="confluenceTd"><p>15080.00</p></td></tr><tr><td class="confluenceTd"><p>SCHIERTS</p></td><td class="confluenceTd"><p>07/17/97</p></td><td class="confluenceTd"><p>15080.00</p></td></tr><tr><td class="confluenceTd"><p>SCHOTT</p></td><td class="confluenceTd"><p>07/08/92</p></td><td class="confluenceTd"><p>15075.00</p></td></tr></tbody></table></div><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> by default separates each column in the output display or report with one blank space. Using the WITH SEPARATOR option, you can use any character to separate the columns for example, WITH SEPARATOR = "|".</p><p><strong>MAXREC / MAXQUAL( )</strong></p><p>Common control options, MAXREC and MAXQUAL, may be used during testing. Both will limit the number of rows returned in the output.</p><p>When only <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> tables are being read in the query, both of these control options will ultimately return the specified number of rows. Normally the MAXREC control option is the recommended method for testing. The qualification rownum = &lt;n&gt; is actually being sent to <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span>. Both SELECT commands below return the first 5 rows that are found.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.PERSON_ID,
+	P.NAME_LAST_KEY,
+	PA.ALIAS
+FROM	PERSON P,
+	PERSON_ALIAS PA
+PLAN P
+JOIN PA	WHERE P.PERSON_ID = PA.PERSON_ID
+WITH	MAXREC = 5
+GO
+
+SELECT	P.PERSON_ID,
+	P.NAME_LAST_KEY,
+	PA.ALIAS
+FROM	PERSON P,
+	PERSON_ALIAS PA
+PLAN P
+JOIN PA	WHERE P.PERSON_ID = PA.PERSON_ID
+WITH	MAXQUAL(P,5)
+GO
+</pre>
+</div></div><p>The following output is from these queries:</p><div class="table-wrap"><table class="wrapped confluenceTable"><tbody><tr><th class="confluenceTh"><p>PERSON_ID</p></th><th class="confluenceTh"><p>NAME_LAST_KEY</p></th><th class="confluenceTh"><p>ALIAS</p></th></tr><tr><td class="confluenceTd"><p>1.00</p></td><td class="confluenceTd"><p>SMITH</p></td><td class="confluenceTd"><p>511045555</p></td></tr><tr><td class="confluenceTd"><p>1.00</p></td><td class="confluenceTd"><p>SMITH</p></td><td class="confluenceTd"><p>4566</p></td></tr><tr><td class="confluenceTd"><p>1.00</p></td><td class="confluenceTd"><p>SMITH</p></td><td class="confluenceTd"><p>132444</p></td></tr><tr><td class="confluenceTd"><p>2.00</p></td><td class="confluenceTd"><p>JONES</p></td><td class="confluenceTd"><p>509555111</p></td></tr><tr><td class="confluenceTd"><p>5.00</p></td><td class="confluenceTd"><p>ADAMS</p></td><td class="confluenceTd"><p>3222</p></td></tr></tbody></table></div><p>Once an ORDER clause is added to the above SELECT command, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> may perform the sort before returning the 5 rows. If <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> performs the sort, all qualifying rows are accumulated and then only the first 5 are returned.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select	p.person_id,
+	p.name_last_key,
+	pa.alias
+from	person p,
+	person_alias pa
+plan p
+join pa	where p.person_id = pa.person_id
+ORDER	P.NAME_LAST_KEY
+with	maxrec = 5
+go
+</pre>
+</div></div><p>The following output is from this query:</p><div class="table-wrap"><table class="wrapped confluenceTable"><tbody><tr><th class="confluenceTh"><p>PERSON_ID</p></th><th class="confluenceTh"><p>NAME_LAST_KEY</p></th><th class="confluenceTh"><p>ALIAS</p></th></tr><tr><td class="confluenceTd"><p>40100.00</p></td><td class="confluenceTd"><p>AARON</p></td><td class="confluenceTd"><p>433336666</p></td></tr><tr><td class="confluenceTd"><p>5.00</p></td><td class="confluenceTd"><p>ADAMS</p></td><td class="confluenceTd"><p>3222</p></td></tr><tr><td class="confluenceTd"><p>1020.00</p></td><td class="confluenceTd"><p>BAXTER</p></td><td class="confluenceTd"><p>4566</p></td></tr><tr><td class="confluenceTd"><p>1020.00</p></td><td class="confluenceTd"><p>BAXTER</p></td><td class="confluenceTd"><p>556635511</p></td></tr><tr><td class="confluenceTd"><p>104.00</p></td><td class="confluenceTd"><p>BRIGGS</p></td><td class="confluenceTd"><p>4466</p></td></tr></tbody></table></div><p>If <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> does not perform the sort, then only 5 rows are read and returned by Oracle. This means, the rows returned will not be the first 5 in any sorted order. Instead, the first 5 rows that are found will be returned.</p><p><strong>TIME</strong><br> Another control option, TIME, may also be used during testing. This option enables you to define the number of seconds the query will process at the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> level. The following SELECT command would process for 1 second and return all rows that were accumulated in that time.</br></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select	p.person_id,
+	p.name_last_key,
+	pa.alias
+from	person p,
+	person_alias PA
+plan p
+join pa	where p.person_id = pa.person_id
+WITH	TIME = 1
+go
+</pre>
+</div></div><p>Once you add an ORDER clause and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> is performing the sort, the processing time increases, and therefore, does not return rows until <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> has accumulated and sorted the rows. In 1 second, the SELECT command below may not return any rows.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.PERSON_ID,
+	P.NAME_LAST_KEY,
+	PA.ALIAS
+FROM	PERSON P,
+	PERSON_ALIAS PA
+PLAN P
+JOIN PA	WHERE P.PERSON_ID = PA.PERSON_ID
+ORDER	P.NAME_LAST_KEY
+WITH	TIME = 1
+GO
+</pre>
+</div></div><p>If TIME is simply being used for testing, you may consider adding the zero at the end of the ORDER clause to allow <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to perform the sort on the rows that are returned from <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span>. By allowing <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to process the ORDER clause, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> processing time is decreased though the rows returned may not be from the beginning of the alphabet.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.PERSON_ID,
+	P.NAME_LAST_KEY,
+	PA.ALIAS
+FROM	PERSON P,
+	PERSON_ALIAS PA
+PLAN P
+JOIN PA	WHERE P.PERSON_ID = PA.PERSON_ID
+ORDER	P.NAME_LAST_KEY, 0
+WITH	TIME = 1
+GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 612, "requestCorrelationId": "e76a7bf7484db3f1"}</span>
+</body>
+</html>

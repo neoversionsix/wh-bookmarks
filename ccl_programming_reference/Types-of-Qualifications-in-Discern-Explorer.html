@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Types of Qualifications in Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Types+of+Qualifications+in+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><span style="letter-spacing: 0.0px;">The WHERE clause allows you to perform the five types of qualifications listed below.</span></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Qualification Type</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>Single</p></td><td class="confluenceTd"><p>Identify rows that are associated with a specific value.</p></td></tr><tr><td class="confluenceTd"><p>Inclusive</p></td><td class="confluenceTd"><p>Identify rows that meet two or more qualifications.</p></td></tr><tr><td class="confluenceTd"><p>Alternative</p></td><td class="confluenceTd"><p>Identify rows that meet one or another qualification.</p></td></tr><tr><td class="confluenceTd"><p>Exclusive</p></td><td class="confluenceTd"><p>Exclude rows that meet the qualification.</p></td></tr><tr><td class="confluenceTd"><p>Combination</p></td><td class="confluenceTd"><p>Multiple qualifications identify rows to be included in the output.</p></td></tr></tbody></table></div><p>Each of these qualifications is described below.</p><h2 id="TypesofQualificationsinDiscernExplorer-SingleQualifications">Single Qualifications</h2><p>A single qualification enables you to extract rows that are associated with a specific value. For example, if you want to extract information for people with active rows on the PERSON table, you would use a single qualification. The query below extracts the person’s name, date of birth, and active indicator where the row is active.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	P.BIRTH_DT_TM,
+	P.ACTIVE_IND
+FROM	PERSON  P
+WHERE	P.ACTIVE_IND  =  1
+GO</pre>
+</div></div><p><span style="letter-spacing: 0.0px;">The output for this program is shown below.</span></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NAME_FULL_FORMATTED	BIRTH_DT_TM	ACTIVE_IND
+Smith, William	        03/23/63	1
+Jones, Sue	        12/06/68	1
+Jones, William	        12/26/58	1
+Brown, John	        07/01/80	1
+Doe, Alice	        05/05/60	1
+Jones, Mary	        01/30/72	1</pre>
+</div></div><p><span style="font-size: 30.0px;letter-spacing: -0.008em;">I</span><span style="font-size: 30.0px;letter-spacing: -0.008em;">nclusive Qualifications</span></p><p>When you use an inclusive qualification, a row must meet two or more qualifications before it can be included in the output. The qualifier AND is used between the qualifications to define the inclusive qualification. For example, if you want to include only people with active rows and last names beginning with "D", you would use an inclusive qualification. The sample query below illustrates this inclusive qualification.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	P.BIRTH_DT_TM,
+	P.ACTIVE_IND
+FROM	PERSON  P
+WHERE	P.ACTIVE_IND  =  1  AND
+	P.NAME_LAST_KEY = "D*"
+GO</pre>
+</div></div><p><span style="letter-spacing: 0.0px;">If you want to include only people with active rows, having last names beginning with "D", and were born after January 1, 1970, you would use the below inclusive qualification.</span></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	P.BIRTH_DT_TM,
+	P.ACTIVE_IND
+FROM	PERSON  P
+WHERE	P.ACTIVE_IND  =  1  AND
+	P.NAME_LAST_KEY = "D*" AND
+	P.BIRTH_DT_TM &gt;= CNVTDATETIME("01-JAN-1970")
+GO</pre>
+</div></div><p><span style="letter-spacing: 0.0px;">Because the BIRTH_DT_TM column is stored as a DQ8 or datetime column, you must use the CNVTDATETIME( ) function to convert the literal date "01-JAN-1970" to a datetime format before you can compare it to the BIRTH_DT_TM column.</span></p><h2 id="TypesofQualificationsinDiscernExplorer-AlternativeQualifications">Alternative Qualifications</h2><p>Use an alternative qualification to extract a row if it meets one of the other qualifications. The qualifier OR is used between the qualifications to define the alternative qualification. For example, the WHERE clause below extracts BUN or LYTES orders.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE 	O.ORDER_MNEMONIC = "BUN" OR
+
+O.ORDER_MNEMONIC = "LYTES"</pre>
+</div></div><p><span style="letter-spacing: 0.0px;">You can define as many alternative qualifications as necessary, but be careful not to rule out a previous qualification. For example, the WHERE clause below does not extract all ENCNTR_IDs between 1000 and 5000 only.</span></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE E.ENCNTR_ID &gt; 1000 OR E.ENCNTR_ID &lt; 5000</pre>
+</div></div><p><span style="letter-spacing: 0.0px;">The above qualifications would extract all ENCNTR_IDs because numbers 5001 and higher are greater than 1000 (E.ENCNTR_ID &gt; 1000), and 1 to 4999 are less than 5000 (E.ENCNTR &lt; 5000). To extract all ENCNTR_IDs between 1000 and 5000, including 1000 and 5000, use the BETWEEN relational operator, as shown in the below WHERE clause.</span></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE E.ENCNTR BETWEEN 1000 AND 5000</pre>
+</div></div><p><span style="letter-spacing: 0.0px;">The above WHERE statement would select ENCNTR_ID 1000 and 5000 because the BETWEEN operator uses the values specified as the upper and lower bounds of the range. To extract all ENCNTR_IDs between 1000 and 5000, excluding 1000 and 5000, you can use the AND relational operator, as shown in the below WHERE clause.</span></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE E.ENCNTR &gt; 1000 AND E.ENCNTR &lt; 5000</pre>
+</div></div><p><span style="letter-spacing: 0.0px;">The IN relational operator enables you to define an alternative qualification using several expressions without using the OR qualifier. The syntax of the IN relational operator is shown below.</span></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>expression IN (expression {,expression}</pre>
+</div></div><p><span style="letter-spacing: 0.0px;">The IN relational operator assumes that the relationship is equal (=) and that you are defining an alternative qualification. For example, the WHERE clause below uses the OR qualifier to define an alternative qualification to extract "BUN", "LYTES", or "GL K".</span></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE	O.ORDER_MNEMONIC = "BUN" OR
+        O.ORDER_MNEMONIC = "LYTES" OR
+	O.ORDER_MNEMONIC = "GL K" </pre>
+</div></div><p><span style="letter-spacing: 0.0px;">With the IN relational operator, you can accomplish the same thing in one line. The WHERE clause below uses the IN relational operator to extract information for "BUN", "LYTES", or "GL K".</span></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE O.ORDER_MNEMONIC IN ("BUN", "LYTES", "GL K")</pre>
+</div></div><p><span style="letter-spacing: 0.0px;">In effect, the IN relational operator means that if the order mnemonic is equal to "BUN", "LYTES", or "GL K", the information is extracted.</span></p><h2 id="TypesofQualificationsinDiscernExplorer-ExclusiveQualifications">Exclusive Qualifications</h2><p>To exclude rows based on a qualification, use an exclusive qualification. If a row matches the qualification, it is excluded from the output. For example, use either of the WHERE clauses below to select all orders except BUNs.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE	O.ORDER_MNEMONIC != "BUN"
+
+WHERE	NOT O.ORDER_MNEMONIC = "BUN"</pre>
+</div></div><p><span style="letter-spacing: 0.0px;">With the IN relational operator, you can exclude more than one order type using one line. The WHERE clause below uses the IN relational operator to exclude information when the order mnemonic is equal to "BUN", "LYTES", or "GL K".</span></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE 	NOT O.ORDER_MNEMONIC IN ("BUN", "LYTES", "GL K")</pre>
+</div></div><p><span style="letter-spacing: 0.0px;">If you are using multiple conditions, you still would use either the AND or OR qualifier, as shown below.</span></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE 	O.ORIG_ORDER_DT_TM &gt;= CNVTDATETIME("12-FEB-1997 00:00:00") AND
+       (NOT O.ORDER_MNEMONIC IN ("BUN", "LYTES", "GL K"))</pre>
+</div></div><p><span style="font-size: 30.0px;letter-spacing: -0.008em;">Combination Qualifications</span></p><p>The preceding descriptions of single, inclusive, alternative, and exclusive qualifications focus on single qualification examples. Any of these qualifications can be used together to form a combination qualification.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>When you combine qualifications, Discern Explorer uses Boolean logic to determine which rows match the qualifications and which ones do not match. Consequently, your results may not be what you expect. The best way to ensure that the query works as you intend is to embed the qualifications in parentheses and link the groups of qualifications together with the AND or OR qualifier.</p></div></div><p>The sample query shown below uses a combination qualification to extract information for males born after February 1, 1985, or all females regardless of birth date. Notice how parentheses are used to distinguish the inclusive qualification P.SEX_CD = 15080 AND P.BIRTH_DT_TM &gt; CNVTDATETIME("01-FEB-1985") from the single qualification P.SEX_CD = 15075.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	P.BIRTH_DT_TM,
+	P.SEX_CD
+FROM	PERSON P
+WHERE	(P.SEX_CD =   15080 AND	
+	P.BIRTH_DT_TM &gt; CNVTDATETIME("01-FEB-1985"))
+	OR
+	(P.SEX_CD =   15075)
+GO</pre>
+</div></div><p><span style="letter-spacing: 0.0px;">The following output is from this query:</span></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NAME_FULL_FORMATTED 	BIRTH_DT_TM	SEX_CD 
+Doe, Mary	        09/25/95	15075.00
+Jones, Alice	        05/05/60	15075.00
+Smith, Jane	        01/30/72	15075.00
+Brown, Steve	        10/26/95	15080.00
+Jones, Steve	        03/24/88	15080.00
+</pre>
+</div></div><p>In the above query, the male sex code is 15080 and the female sex code is 15075. At your site, these codes are different. Use the following SELECT statement to determine the sex codes at your site:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT   *   FROM CODE_VALUE CV WHERE CV.CODE_ SET = 57  GO</pre>
+</div></div><p><span style="letter-spacing: 0.0px;">The column CODE_VALUE contains the sex codes that are defined at your site. Find the code values for male and female and substitute them for 15080 and 15075 in the previous example.</span></p><p>If you are not sure what the code set is, run CCLGLOS for the table and all code sets are specified for _cd columns.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 597, "requestCorrelationId": "f3136cb2d8de9c2e"}</span>
+</body>
+</html>

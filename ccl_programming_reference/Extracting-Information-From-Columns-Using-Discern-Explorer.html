@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Extracting Information From Columns Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Extracting+Information+From+Columns+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>To select all columns from a table, you can use the wildcard * as your SELECT expression. </p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT * FROM PERSON GO</pre>
+</div></div><p>This command selects all the columns from the PERSON table. This type of simple select is very useful for identifying what type of data is in the columns of a table.</p><p>To select a specific column from a table, use the table and column name in your SELECT statement. For example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT PERSON.NAME_FULL_FORMATTED FROM PERSON GO</pre>
+</div></div><p>All columns need to be referenced to the table on which they are located. The table name PERSON and the column name NAME_FULL_FORMATTED are connected using a period.<br> The following output is from this query:</br></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NAME_FULL_FORMATTED
+Brown, Joseph
+Doe, William
+Smith, Sue
+Smith, Jane
+Jones, Steve
+Brown, Mary
+</pre>
+</div></div><p>You can select several columns at once using the SELECT command. The sample query shown below selects the following information from the ENCOUNTER table:</p><ul><li>Encounter identification number</li><li>Person identification number</li><li>Location code</li><li>Arrival date and time</li></ul><p>Notice that a comma separates each column name, and a period connects each column name to a table name. The order in which columns are selected is the order they are displayed or printed.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	ENCOUNTER.ENCNTR_ID,
+	ENCOUNTER.PERSON_ID,
+	ENCOUNTER.LOCATION_CD,
+	ENCOUNTER.ARRIVE_DT_TM
+FROM	ENCOUNTER
+GO
+</pre>
+</div></div><p>The following output is from this query:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>ENCNTR_ID	PERSON_ID	LOCATION_CD	ARRIVE_DT_TM
+283787.00	276043.00	4625377.00	09/19/96
+285663.00	290601.00	5639296.00	09/26/95
+285664.00	290602.00	5639296.00	09/26/95
+285665.00	290603.00	5639296.00	09/26/95
+285666.00	290606.00	5639296.00	09/26/95
+285667.00	290609.00	5639296.00	09/26/95
+285679.00	290621.00	5639296.00	09/26/95
+285680.00	290622.00	5639296.00	09/26/95
+285690.00	290636.00	5591078.00	08/26/96
+285691.00	290637.00	5591078.00	08/26/96
+285693.00	290639.00	5639296.00	09/26/95
+285721.00	290670.00	5639296.00	09/26/95
+285722.00	290671.00	5639296.00	09/26/95
+285723.00	290672.00	5639296.00	09/26/95
+285728.00	290679.00	5639296.00	09/26/95
+285732.00	301042.00	5688156.00	09/20/96
+285733.00	290685.00	5639296.00	09/26/95
+285737.00	290688.00	5639296.00	09/26/95
+285738.00	290689.00	5639296.00	09/26/95
+285739.00	290691.00	5639296.00	09/26/95
+</pre>
+</div></div><p>To interrupt a query that is processing, press <strong>CTRL+C</strong>, which stops the query and returns the data that has been selected up to that point.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 499, "requestCorrelationId": "cc4feeb9f40e36e0"}</span>
+</body>
+</html>

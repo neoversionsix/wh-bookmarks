@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Discern Explorer OUTERJOIN Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Discern+Explorer+OUTERJOIN+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<h1 id="DiscernExplorerOUTERJOINUsingDiscernExplorer-OUTERJOIN">OUTERJOIN</h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="Two overlapping circles, left one filled in, including the overlapping section." class="confluence-embedded-image confluence-thumbnail confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/23338666/Discern_Explorer_Left-OuterJoin_v1.png?version=1&amp;modificationDate=1750694095000&amp;api=v2" data-linked-resource-container-id="23338666" data-linked-resource-container-version="20" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Discern_Explorer_Left-OuterJoin_v1.png" data-linked-resource-id="3378810705" data-linked-resource-type="attachment" data-linked-resource-version="1" draggable="false" src="/download/thumbnails/23338666/Discern_Explorer_Left-OuterJoin_v1.png?version=1&amp;modificationDate=1750694095000&amp;api=v2" title="Two overlapping circles, left one filled in, including the overlapping section." width="200"/></span></p><p>This topic discusses the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> OUTERJOIN Control Option. <span style="color: rgb(22,21,19);">Only use the OUTERJOIN control option with Non-Relational Database Management System (Non-RDBMS) tables.</span> If working with all RDBMS tables, use the OUTERJOIN() function or a LEFT JOIN in the From clause of the SELECT command. See JOIN Options for more information on available join options.</p><p>OUTERJOIN is a join that displays rows from a preceding table, even if information does not exist on subsequent tables that were joined. OUTERJOINs allow you to display a row from the first table, even if the second table does not have any matching rows.</p><p>Use the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> OUTERJOIN Control Option when the table that might not have a matching row is linked to another table. For example, in the join path below, table A is linked to table B, and table B is linked to table C. In this linear path, if table B is missing a match, then table C does not need to be read. Using the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> OUTERJOIN Control Option stops the query from processing through the remainder of the query path.</p><p>A to B to C</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PLAN A
+JOIN B	WHERE A.COLUMN = B.INDEX
+JOIN C	WHERE B.COLUMN = C.INDEX
+</pre>
+</div></div><p>If the table that might not have a matching row is not linked to another table, see Discern Explorer DONTCARE. For example, in the join path below, both tables B and C are linked to Table A. In this nonlinear path, if table B is missing a match, you can continue with the query path because no tables are linked to Table B. You can still link to Table C from the row in Table A. Using a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> DONTCARE continues through the remainder of the query path.</p><p>A to B     A to C</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PLAN A
+JOIN B	WHERE A.COLUMN = B.INDEX
+JOIN C	WHERE A.COLUMN = C.INDEX
+</pre>
+</div></div><h2 id="DiscernExplorerOUTERJOINUsingDiscernExplorer-CreatingtheDiscernExplorerOUTERJOINSyntax">Creating the Discern Explorer OUTERJOIN Syntax</h2><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> OUTERJOINs are created using the OUTERJOIN control option and the DUMMYT table. The DUMMYT table is positioned in the JOIN clause ahead of the table that is missing information. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> OUTERJOINs must be defined using the DUMMYT table alias that is set up in the FROM clause, or, if no alias was defined, the full table name.</p><p>OUTERJOINs rely on the position of the DUMMYT tables in the JOIN clauses to determine which file is OUTERJOINed. For example, the query below extracts rows from the MY_TABLE# table, even if matching information is not found in the ORDERS table. This query displays the rows for all patients, even the ones that do not have matching rows in the ORDERS table. (MY_TABLE# is a user-defined table that is already created in the system.)</p><p>See Using the DUMMYT Table for more information about using the DUMMYT table.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	NAME = SUBSTRING(1,30,M.FULL_NAME),
+	ORDER_MNEM = SUBSTRING(1,20,O.ORDER_MNEMONIC)
+FROM	MY_TABLE1 M,
+	ORDERS O,
+	DUMMYT D
+PLAN M
+JOIN D
+JOIN O	WHERE O.PERSON_ID = M.PERSON_ID
+WITH	OUTERJOIN = D
+</pre>
+</div></div><p>The key to understanding joins is that the only time you see a row is when a match exists from one table to another table. If a matching row does not exist from the MY_TABLE1 table to the ORDERS table, you do not see the row. Using OUTERJOINs enables you to see the rows on the first table (the MY_TABLE1 table) even if they do not have a match on the second table (the ORDERS table). By adding WITH OUTERJOIN = D, the output looks like this:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NAME            ORDER_MNEM
+Jones, John
+Brown, Alice    HEMOGRAM
+Brown, William  HLA Antibody Screen
+Smith, William  HLA Antibody Screen
+Jones, Sue	
+Doe, Mary       Hemogram
+</pre>
+</div></div><p>The rows for Jones, John, and Jones, Sue are displayed even though no ORDERS rows exist for those two encounters. Seeing those rows displayed is the benefit of using the OUTERJOIN option.<br>The JOIN clause establishes the join, and the WITH clause sets the OUTERJOIN on the MY_TABLE1 table. Compare the output of this previous program to the output below, which was created using the same program without the WITH OUTERJOIN option.</br></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NAME            ORDER_MNEM
+Brown, Alice    HEMOGRAM
+Brown, William  HLA Antibody Screen
+Smith, William  HLA Antibody Screen
+Doe, Mary       Hemogram
+</pre>
+</div></div><p>Use OUTERJOIN on the DUMMYT table that is placed above the table that is missing data. In the above example, it does not make sense to use OUTERJOIN on the ORDERS table because you are not joining to any tables after you read the orders. If you set up a join between three tables, however, you could perform an OUTERJOIN on the first two tables being read. For example, if you are reading the MY_TABLE# table first, the ORDERS table second, and the ORDER_COMMENT table third, and you want OUTERJOINs on the MY_TABLE# and ORDERS tables, the WITH clause would be WITH OUTERJOIN=D, OUTERJOIN=D1.</p><p>The query below illustrates this scenario. To display text about the order, we are also going to join to the LONG_TEXT table. Joining the table has no effect on the OUTERJOINs between the other three tables.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	NAME = SUBSTRING(1,25,M.FULL_NAME),
+	ORDER_MNEM = SUBSTRING(1,20,O.ORDER_MNEMONIC),
+	LONG_TEXT = SUBSTRING(1,35,LT.LONG_TEXT)
+FROM	MY_TABLE1 M,
+	ORDERS O,
+	ORDER_COMMENT OC,
+	LONG_TEXT LT,
+	DUMMYT D,
+	DUMMYT D1
+PLAN M
+JOIN D
+JOIN O	WHERE O.PERSON_ID = M.PERSON_ID
+JOIN D1
+JOIN (OC WHERE OC.ORDER_ID = O.ORDER_ID
+JOIN LT	WHERE LT.LONG_TEXT_ID = OC.LONG_TEXT_ID)
+WITH	OUTERJOIN = D, OUTERJOIN = D1
+</pre>
+</div></div><p>A list of patients that do not have any orders, patient that does have orders but no comments, and patient that have orders with comments is returned. See the following output:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NAME         ORDER_MNEM      LONG_TEXT 
+Smith, John		
+Jones, John		
+Smith, Alice 		
+Brown, John  Betadine Spray	
+Doe, Mary    Wound Culture   Call doctor with gram stain results
+Brown, Sue   CBC	
+Brown, Sue   Turn Patient    Turn with abductor pillow
+Brown, Sue   Lytes           Specimen hemolyzed
+</pre>
+</div></div><h2 id="DiscernExplorerOUTERJOINUsingDiscernExplorer-EXCEPTIONS">EXCEPTIONS</h2><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="Two overlapping circles, left one filled in, excluding the overlapping section." class="confluence-embedded-image confluence-thumbnail confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/23338666/Discern_Explorer_ExceptionJoin_v1.png?version=1&amp;modificationDate=1750694096000&amp;api=v2" data-linked-resource-container-id="23338666" data-linked-resource-container-version="20" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Discern_Explorer_ExceptionJoin_v1.png" data-linked-resource-id="3378810706" data-linked-resource-type="attachment" data-linked-resource-version="1" draggable="false" src="/download/thumbnails/23338666/Discern_Explorer_ExceptionJoin_v1.png?version=1&amp;modificationDate=1750694096000&amp;api=v2" title="Two overlapping circles, left one filled in, excluding the overlapping section." width="200"/></span></p><p>The Discern Explorer OUTERJOIN can also be used with the DONTEXIST Control Option to create an exception report.</p><p>The query below illustrates using the DONTEXIST Control Option. Using the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> OUTERJOIN captures the matches and exceptions. Using the DONTEXIST Control Option only retains the values that are the exceptions.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	NAME = SUBSTRING(1,25,M.FULL_NAME)
+FROM	MY_TABLE1 M,
+	ORDERS O
+PLAN M
+JOIN O	WHERE O.PERSON_ID = M.PERSON_ID
+WITH	OUTERJOIN = M, DONTEXIST
+</pre>
+</div></div><p>A list of patients that do not have any orders is returned. See the following output:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NAME
+Smith, John
+Jones, John
+Smith, Alice
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 698, "requestCorrelationId": "6704a74a4a70a812"}</span>
+</body>
+</html>

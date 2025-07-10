@@ -1,0 +1,940 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Selecting Information That is Related to Values Currently in a Record Structure Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Selecting+Information+That+is+Related+to+Values+Currently+in+a+Record+Structure+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<h2 id="SelectingInformationThatisRelatedtoValuesCurrentlyinaRecordStructureUsingDiscernExplorer-QualifyingonLevel1Items"><span style="color: rgb(0,0,0);">Qualifying on Level 1 Items</span></h2><p>Situations might arise in which you need to query for information related to values that are currently stored in a record structure. Suppose the below RECORD command is used to define the Temp_1 record structure, and a query has already been executed to load information about a person, their group orders, and the components of those group orders into the Temp_1 record structure. In addition to the information currently loaded in the Temp_1 record structure, the program now needs to retrieve addresses that belong to the person.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>RECORD TEMP_1 (
+	1 PERSON_ID = F8
+	1 NAME = VC
+	1 ORDERS[*]
+	   2 ORDER_ID = F8
+	   2 ORDER_MNE = VC
+	   2 DETAILS[*]
+	   	3 RESULT_ID = F8
+	   	3 PROC = VC)</pre>
+</div></div><p><br>Since the Person_ID is stored in a level one item in the Temp_1 record structure, you can reference it directly in a qualification. The following example selects the address information for the person_id that is stored in the Temp_1 record structure:</br></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+	  A.ADDRESS_ID
+	, A.STREET_ADDR
+	, A.CITY
+	, A_STATE_DISP = UAR_GET_CODE_DISPLAY(A.STATE_CD)
+	, A.ZIPCODE
+FROM
+	ADDRESS   A
+WHERE A.PARENT_ENTITY_ID = TEMP_1-&gt;PERSON_ID
+	AND A.PARENT_ENTITY_NAME = "PERSON"
+WITH NOCOUNTER</pre>
+</div></div><p><br/>Use the same process to reference a specific value that is stored in a list_item. For example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT OC.* FROM ORDER_COMMENTS OC WHERE OC.ORDER_ID = TEMP_1-&gt;ORDERS[1].ORDER_ID</pre>
+</div></div><h2 id="SelectingInformationThatisRelatedtoValuesCurrentlyinaRecordStructureUsingDiscernExplorer-QualifyingonItemsfromaLevel-1List">Qualifying on Items from a Level-1 List</h2><p>The above example could be used to select order comment information related to the order_id that is stored in the ORDER_ID field_item in the first position of the TEMP_1-&gt;ORDERS list_item. However, if you need to select information related to every order_id stored in the TEMP_1-&gt;ORDERS list_item, you need a method to traverse the entire list and extract each order_id for use in a qualification.</p><p>The following methods are commonly used to traverse record structure list_items to extract values for use in qualifications: a looping statement, the EXPAND( ) function, and joining to the DUMMYT table.</p><p>Occasionally, a query is placed inside a FOR or WHILE loop. This method is inefficient and should not be used. With this method, the loop is used to increment a variable. The variable is used as the subscript to refer to a position of a record structure list_item in a qualification. Placing a query inside a loop is inefficient because each iteration of the loop causes <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to translate and pass the query to the relational database management system (RDBMS).</p><p>Using the EXPAND( ) function is the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> standard method for qualifying on values in a level-1 record structure list_item. By default, the EXPAND( ) function extracts the values from a record structure field_item that is within a level-1 list_item, and places them in an IN clause that is passed to the RDBMS query from <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>. For example, suppose you wrote a report that returns information about people, their encounters, and orders. The report also needs to display the person's person aliases. All of this information could be selected in a single query; however, if a single query is used to select the information, the result set will contain duplicate information. Each order a person has is duplicated for each person alias. One method that is commonly used to eliminate the duplication is to use one Select statement that loads the person, encounter, and order information into a record structure, then use a second Select statement to retrieve the person aliases for each person. Report writer clauses are then added to the second Select statement to display the information from the record structure and the information that is returned in the Select statment's result set.</p><p>The following example demonstrates this method:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_RECORD_EX2 GO
+CREATE PROGRAM CCL_RECORD_EX2
+
+prompt
+	"Output to File/Printer/MINE " = "MINE"
+	, "Enter Last Name" = " "
+	, "Enter First Name" = " "
+
+with OUTDEV, Lname, Fname
+
+/*Record structure to store person, encounter, and orders information */
+record PERSON_REC (
+  1 PLIST [*] ;person list
+    2 PID = f8
+    2 NAME = C30
+    2 ELIST [*] ;encounter list
+      3 EID = f8
+      3 TYPE = C40
+      3 OLIST [*] ;orders list
+        4 OID = f8
+        4 CAT_DISP = C40
+)
+
+/**************************************************************
+Declared Variables
+**************************************************************/
+declare NUM   = I4 with Protect	;index var for expand()
+declare POS   = I4 with Protect	;position var for locateval()
+declare PCNT = I4 with Protect	;count of people
+declare ECNT = I4 with Protect	;count of encounters
+declare OCNT = I4 with Protect	;count of orders
+
+/**************************************************************
+Select person, encounter, orders information and store in record structure
+**************************************************************/
+SELECT INTO "NL:"
+	  P.PERSON_ID
+	, P.NAME_FULL_FORMATTED
+	, E.ENCNTR_ID
+	, E_ENCNTR_TYPE_CLASS_DISP = UAR_GET_CODE_DISPLAY(E.ENCNTR_TYPE_CLASS_CD)
+	, O.ORDER_ID
+	, O_CATALOG_DISP = UAR_GET_CODE_DISPLAY(O.CATALOG_CD)
+
+FROM	  PERSON   P
+	, ENCOUNTER   E
+
+, ORDERS   O
+;$fname and $lname are passed from prompts
+PLAN P WHERE P.NAME_LAST_KEY = $LNAME AND P.NAME_FIRST_KEY = $FNAME
+JOIN E WHERE P.PERSON_ID = E.PERSON_ID
+JOIN O WHERE E.ENCNTR_ID = O.ENCNTR_ID
+
+ORDER BY
+	  P.PERSON_ID
+	, E.ENCNTR_ID
+	, O.ORDER_ID
+
+HEAD REPORT
+	;allocate memory for 100 people in the person list
+	call alterlist(PERSON_REC-&gt;PLIST, 100)
+HEAD P.PERSON_ID
+	;increment count of people
+	PCNT = PCNT +1
+	;check for available memory in the person list
+	IF(MOD(PCNT,10) = 1 AND PCNT &gt;100)
+                ;if needed allocate memory for 10 more people
+		call alterlist(PERSON_REC-&gt;PLIST, PCNT +9)
+	ENDIF
+	;store the person information in the record structure
+	PERSON_REC-&gt;PLIST[PCNT].PID = P.PERSON_ID
+	PERSON_REC-&gt;PLIST[PCNT].NAME = P.NAME_FULL_FORMATTED
+	;reset the count of encounters to zero for this person
+	ECNT = 0
+HEAD E.ENCNTR_ID
+	;increment count of encounters
+	ECNT = ECNT +1
+	;check for available memory in the encounter list
+        IF(MOD(ECNT,10) = 1)
+		;if needed allocate memory for 10 more encounters for the current person
+		call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST, ECNT +9)
+	ENDIF
+	;store the encounter information in the record structure
+	PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].EID = E.ENCNTR_ID
+	PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].TYPE = E_ENCNTR_TYPE_CLASS_DISP
+	;rest the count of orders to zero for this encounter
+	OCNT = 0
+DETAIL
+	;increment the count of orders
+	OCNT = OCNT +1
+        ;check for available memory in the encounter list
+	IF(MOD(OCNT,10) = 1)
+		;if needed allocate memory for 10 more orders for this encounter
+                 call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].OLIST, OCNT +9)
+	ENDIF
+	;store the order information in the record structure
+	PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].OLIST[OCNT].OID = O.ORDER_ID
+	PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].OLIST[OCNT].CAT_DISP = O_CATALOG_DISP
+FOOT E.ENCNTR_ID
+	;free memory that was allocated but not used for orders
+        call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].OLIST, OCNT)
+FOOT P.PERSON_ID
+	;free memory that was allocated but not used for encounters
+	call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST, ECNT)
+FOOT REPORT
+	;free memory that was allocated but not used for people
+	call alterlist(PERSON_REC-&gt;PLIST, PCNT)
+WITH  NOCOUNTER
+
+/**************************************************************
+Select the person aliases for each person_id in the record structure
+**************************************************************/
+SELECT INTO $OUTDEV
+       P.PERSON_ID
+     , P_PERSON_ALIAS_TYPE_DISP = UAR_GET_CODE_DISPLAY(P.PERSON_ALIAS_TYPE_CD)
+     , PA_ALIAS = SUBSTRING(1,30,P.ALIAS)
+
+FROM
+	PERSON_ALIAS   P
+/*
+Using the expand function will cause the following where clause to be translated to
+	where p.person_id IN (:1,:2,:3,...:n)
+in the query that is passed to the RDMBS when this program is executed.
+:1,:2,:3,...:n will be bind variables that are set equal to each of the
+values in the person_rec-&gt;plist[].pid record structure field_item.
+*/
+WHERE EXPAND(NUM,1,PCNT,P.PERSON_ID,PERSON_REC-&gt;PLIST[NUM].PID)
+ORDER BY
+	P.PERSON_ID
+
+HEAD P.PERSON_ID
+	/* Locatevalsort() will perform a binary search to determine which
+	position of person_rec-&gt;plist[].pid field is equal to the current p.person_id.
+	The variable pos will be set equal to that position.
+	Since the person_ids were sorted prior to being stored in the person list (plist) the
+        locatevalsort() function can be used.  If the person_ids were not in sorted order in
+	person list, locateval() would need to be used to perform a sequential search of the
+	person list. */
+	POS = LOCATEVALSORT(NUM,1,PCNT,P.PERSON_ID,PERSON_REC-&gt;PLIST[NUM].PID)
+	;display the person information from the record structure
+	COL  0 PERSON_REC-&gt;PLIST[POS].PID
+	COL +1 PERSON_REC-&gt;PLIST[POS].NAME
+DETAIL
+        ;display the person aliases from the result set of this query
+        COL 70 PA_ALIAS
+	COL +1 P_PERSON_ALIAS_TYPE_DISP
+	ROW +1
+FOOT P.PERSON_ID
+	;display the encounter information from the record structure for this person
+ 	FOR(E_POS = 1 TO SIZE(PERSON_REC-&gt;PLIST[POS].ELIST,5))
+		COL 10  PERSON_REC-&gt;PLIST[POS].ELIST[E_POS].EID
+		COL +1  PERSON_REC-&gt;PLIST[POS].ELIST[E_POS].TYPE
+		ROW +1
+		;display the order information from the record structure for this encounter
+		FOR(O_POS = 1 TO SIZE( PERSON_REC-&gt;PLIST[POS].ELIST[E_POS].OLIST,5))
+                        COL 20 PERSON_REC-&gt;PLIST[POS].ELIST[E_POS].OLIST[O_POS].OID
+			COL +1 PERSON_REC-&gt;PLIST[POS].ELIST[E_POS].OLIST[O_POS].CAT_DISP
+			ROW +1
+		ENDFOR
+	ENDFOR
+	ROW +2
+WITH NOCOUNTER,  MAXCOL = 200
+
+END
+GO
+</pre>
+</div></div><p>By default, the EXPAND( ) function creates and passes an IN clause in the query that is sent to the RDBMS. Often, the RDBMS has problems optimizing a query that has a large IN list. Because of this, early implementations used a combination of the EXPAND( ) function and the DUMMYT table to keep the size of the IN list consistent and small enough to allow the optimizer to efficiently process the query. For more information about this method, see the Legacy Information at the end of this topic. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.5.6 introduced the EXPAND control option which allows flexing the behavior of the EXPAND( ) function. If EXPAND=1 is added to the WITH clause of a query that uses the EXPAND( ) function, the values from the record structure list are inserted into a global temporary table, and the query that is passed to the RDBMS contains a nested Select statement against that table.</p><p>For example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO $OUTDEV
+       P.PERSON_ID
+     , P_PERSON_ALIAS_TYPE_DISP = UAR_GET_CODE_DISPLAY(P.PERSON_ALIAS_TYPE_CD)
+     , PA_ALIAS = SUBSTRING(1,30,P.ALIAS)
+
+FROM
+	PERSON_ALIAS   P
+WHERE EXPAND(NUM,1,PCNT,P.PERSON_ID,PERSON_REC-&gt;PLIST[NUM].PID)
+WITH NOCOUNTER ;;;Not using the Expand=1 control option</pre>
+</div></div><p>Since the above example does not use the EXPAND=1 control option in the WITH clause, the query that is passed to the RDBMS uses the following WHERE clause:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE P.PERSON_ID IN (:1, :2, :3, ... :n)</pre>
+</div></div><p>The following example is the above example with the addition of the EXPAND=1 control option:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO $OUTDEV
+       P.PERSON_ID
+     , P_PERSON_ALIAS_TYPE_DISP = UAR_GET_CODE_DISPLAY(P.PERSON_ALIAS_TYPE_CD)
+     , PA_ALIAS = SUBSTRING(1,30,P.ALIAS)
+
+FROM
+	PERSON_ALIAS   P
+WHERE EXPAND(NUM,1,PCNT,P.PERSON_ID,PERSON_REC-&gt;PLIST[NUM].PID)
+WITH NOCOUNTER
+     ,EXPAND=1  ;Using the Expand=1 control option</pre>
+</div></div><p>Since the above example uses the EXPAND=1 control option in the WITH clause, the query that is passed to the RDBMS uses a nested Select statement to perform the qualification on Person_ID. A simplified example of that query would look something like the following:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE P.PERSON_ID = (SELECT G.VALUE FROM GLOBAL_TEMP_TABLE G)
+</pre>
+</div></div><p>In the above example, the values from the PERSON_REC-&gt;PLIST[ ].PID field are first inserted into the VALUE field in the GLOBAL_TEMP_TABLE. The above is a simplified example that shows the concept. To see the actual query that is generated when the EXPAND = 1 control option is used, see SET TRACE RDBDEBUG before executing the query.</p><p>The process used to retrieve that information is different, but the final result set is the same in both versions of the example. The general guideline is to test queries that use the EXPAND( ) function with and without using the EXPAND=1 control option. Determine which version provides better performance and use that in your final program.</p><h2 id="SelectingInformationThatisRelatedtoValuesCurrentlyinaRecordStructureUsingDiscernExplorer-QualifyingonItemsfromaLevel-2orLowerList">Qualifying on Items from a Level-2 or Lower List</h2><p>There are two common techniques that are used to qualify values from a level 2 or lower record structure list:</p><ul><li>Dummyt Tables and the<span> </span>MAXREC()<span> </span>function</li><li>A<span> </span>FOR<span> </span>or<span> </span>WHILE<span> </span>loop and the<span> </span>EXPAND()<span> </span>function</li></ul><p><span style="color: rgb(28,31,33);">You should not attempt to use the Dummyt table and the<span> </span></span>EXPAND()<span style="color: rgb(28,31,33);"><span> </span>function to qualify on values from a level 2 or lower list.  Doing so will almost always result in an incomplete qualification getting sent to the RDBMS. Let's look at the two techniques that should be used.</span></p><h3 id="SelectingInformationThatisRelatedtoValuesCurrentlyinaRecordStructureUsingDiscernExplorer-DummytTablesandtheMAXREC()function">Dummyt Tables and the<span> </span>MAXREC()<span> </span>function</h3><p style="text-align: left;">The advantage of using Dummyt Tables and the<span> </span>MAXREC()<span> </span>function is that you get a single result set that contains all the qualifying records.  You can then use all of the functionality of the Select command including reportwriter sections to process that result set.</p><p style="text-align: left;">The disadvantage is that behind the scenes Discern Explorer creates and sends a query to the RDBMS for each item in the record structure list. If you have 100 items in the list, 100 queries are sent to the RDBMS.  The individual result sets that are returned from the execution of those queries are combined into a single result set.  Once all those queries have been executed, Discern Explorer returns the final combined results as a single result set.  The execution of each of those individual queries and the compilation of the final result set can be inefficient.</p><p>For example, suppose you are writing a report that returns information about people, their encounters, and orders. The report also needs to display the person's encounter aliases. All of this information could be selected in a single query. However, if a single query is used to select the information, the result set would contain duplicate information. Each order a person has would be duplicated for each encounter alias. A method that is commonly used to eliminate the duplication is to use a Select statement that loads the person, encounter, and orders information into a record structure, then use a second Select statement to retrieve the encounter aliases for each encounter. Report writer clauses are then added to the second Select statement to display the information from the record structure and the information that is returned in the Select statement's result set. The following example uses the SEQ Pseudo Column and the DUMMYT table to demonstrate how to select information that is related to values in a level-2 record structure list:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_RECORD_EX4 GO
+CREATE PROGRAM CCL_RECORD_EX4
+
+prompt
+	"Output to File/Printer/MINE" = "MINE"
+	, "Enter Last Name" = " "
+	, "Enter First Name" = " "
+
+with OUTDEV, LNAME, FNAME
+
+/* Record structure to store person, encounter, and orders information */
+record PERSON_REC (
+  1 PLIST [*]  	;person list
+    2 PID = f8
+    2 NAME = C30
+    2 ELIST [*] ;encounter list - note that this is a level 2 list
+      3 EID = f8
+      3 TYPE = C40
+      3 OLIST [*]  ;orders list - note that this is a level 3 list
+        4 OID = f8
+        4 CAT_DISP = C40
+)
+
+/**************************************************************
+Declared Variables
+**************************************************************/
+declare PCNT = I4 with Protect ;count of people
+declare ECNT = I4 with Protect ;count of encounters
+declare OCNT = I4 with Protect ;count of orders
+
+/**************************************************************
+Select person, encounter, orders information and store in record structure
+**************************************************************/
+SELECT INTO "NL:"
+	  P.PERSON_ID
+	, P.NAME_FULL_FORMATTED
+	, E.ENCNTR_ID
+	, E_ENCNTR_TYPE_CLASS_DISP = UAR_GET_CODE_DISPLAY(E.ENCNTR_TYPE_CLASS_CD)
+	, O.ORDER_ID
+	, O_CATALOG_DISP = UAR_GET_CODE_DISPLAY(O.CATALOG_CD)
+FROM    PERSON   P
+	, ENCOUNTER   E
+	, ORDERS   O
+;$fname and $lname are passed from prompts
+PLAN P WHERE P.NAME_LAST_KEY = $LNAME AND P.NAME_FIRST_KEY = $FNAME
+JOIN E WHERE P.PERSON_ID = E.PERSON_ID
+JOIN O WHERE E.ENCNTR_ID = O.ENCNTR_ID
+
+ORDER BY
+	  P.PERSON_ID
+	, E.ENCNTR_ID
+	, O.ORDER_ID
+HEAD REPORT
+	;allocate memory for 100 people in the person list
+	call alterlist(PERSON_REC-&gt;PLIST, 100)
+HEAD P.PERSON_ID
+	;increment count of people
+	PCNT = PCNT +1
+	;check for available memory in the person list
+	IF(MOD(PCNT,10) = 1 AND PCNT &gt;100)
+		;if needed allocate memory for 10 more people
+		call alterlist(PERSON_REC-&gt;PLIST, PCNT +9)
+	ENDIF
+	;store the person information in the record structure
+	PERSON_REC-&gt;PLIST[PCNT].PID = P.PERSON_ID
+	PERSON_REC-&gt;PLIST[PCNT].NAME = P.NAME_FULL_FORMATTED
+	;reset the count of encounters to zero for this person
+	ECNT = 0
+HEAD E.ENCNTR_ID
+	;increment count of encounters
+	ECNT = ECNT +1
+	;check for available memory in the encounter list
+	IF(MOD(ECNT,10) = 1)
+		;if needed allocate memory for 10 more encounters for the current person
+		call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST, ECNT +9)
+	ENDIF
+	;store the encounter information in the record structure
+	PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].EID = E.ENCNTR_ID
+	PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].TYPE = E_ENCNTR_TYPE_CLASS_DISP
+	;rest the count of orders to zero for this encounter
+	OCNT = 0
+DETAIL
+	;increment the count of orders
+	OCNT = OCNT +1
+	;check for available memory in the encounter list
+	IF(MOD(OCNT,10) = 1)
+		;if needed allocate memory for 10 more orders for this encounter
+		call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].OLIST, OCNT +9)
+	ENDIF
+	;store the order information in the record structure
+	PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].OLIST[OCNT].OID = O.ORDER_ID
+	PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].OLIST[OCNT].CAT_DISP = O_CATALOG_DISP
+FOOT E.ENCNTR_ID
+	;free memory that was allocated but not used for orders
+	call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].OLIST, OCNT)
+FOOT P.PERSON_ID
+	;free memory that was allocated but not used for encounters
+	call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST, ECNT)
+FOOT REPORT
+	;free memory that was allocated but not used for people
+	call alterlist(PERSON_REC-&gt;PLIST, PCNT)
+WITH  NOCOUNTER
+
+/**************************************************************
+Select the encounter aliases for each encntr_id in the record structure
+
+Defining the dummyt d1 with SEQ equal the size of the plist in the FROM
+clause, and planning on d1 causes Discern Explorer to set up an internal
+loop that sets the pseudo field d1.seq equal to 1 and increments it by 1
+until it is equal to the number of positions in the plist.
+
+Using the MaxRec() function and joining to d2 causes the Discern Explorer
+internal loop to look at each position of the plist and set up an internal
+child loop that sets the pseudo field d2.seq equal to 1 and increments it
+by 1 until it is equal to the number of positions in the elist for this person.
+
+Joining to the encntr_alias table and using d1.seq and d2.seq as subscripts
+in the record structure lists, causes Discern Explorer to pull each encntr_id
+out of the elists.  That encntr_id is assigned to a bind variable in a query
+that is passed to the RDBMS to get the information from the encntr_alias table
+for that specific encntr_id.  Using this method, the query will be executed one
+time at the RDBMS level for each encntr_id that is stored in one of the elists.
+Discern Explorer gets the result set from each execution of the query and combines
+them into a single result set.
+
+Since Discern Explorer is using internal looping to increment the pseudo fields
+d1.seq and d2.seq, these values can also be used to reference positions in the
+record structure lists that are related to the encntr_alias fields from the result
+set of the query.
+**************************************************************/
+
+SELECT INTO $OUTDEV
+	  PLIST_PID  = PERSON_REC-&gt;PLIST[D1.SEQ].PID
+	, PLIST_NAME = PERSON_REC-&gt;PLIST[D1.SEQ].NAME
+	, ELIST_EID  = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].EID
+	, ELIST_TYPE = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].TYPE
+	, E.ENCNTR_ID
+	, E.ALIAS
+	, E_ENCNTR_ALIAS_TYPE_DISP = UAR_GET_CODE_DISPLAY(E.ENCNTR_ALIAS_TYPE_CD)
+FROM
+	ENCNTR_ALIAS   E
+	, (DUMMYT   D1  WITH SEQ = VALUE(SIZE(PERSON_REC-&gt;PLIST, 5)))
+	, (DUMMYT   D2  WITH SEQ = 1)
+PLAN D1 WHERE MAXREC(D2, SIZE(PERSON_REC-&gt;PLIST[D1.SEQ].ELIST, 5))
+JOIN D2
+JOIN E WHERE E.ENCNTR_ID = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].EID
+ORDER BY
+	PLIST_PID,
+	E.ENCNTR_ID
+HEAD PLIST_PID
+	;display person information from the record structure
+	;the select expressions PLIST_PID and PLIST_NAME were created in the select list above
+	COL  0 PLIST_PID
+	COL +1 PLIST_NAME
+	;you could reference the record structure field items here as well i.e.
+	;col  0 person_rec-&gt;plist[d1.seq].pid
+	;col +1 person_rec-&gt;plist[d1.seq].name
+	ROW +1
+HEAD E.ENCNTR_ID
+	;display encounter information from the record structure
+	;the select expressions ELIST_PID and ELIST_TYPE were created in the select list above
+	COL 10 ELIST_EID
+	COL +1 ELIST_TYPE
+	ROW +1
+DETAIL
+	;display the encounter alias information from the result set
+	ALIAS = SUBSTRING(1, 30, E.ALIAS)
+	COL 20 ALIAS
+	COL +1 E_ENCNTR_ALIAS_TYPE_DISP
+	ROW +1
+FOOT E.ENCNTR_ID
+	;display the orders for each encounter
+	FOR(O_POS = 1 TO SIZE(PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].OLIST,5))
+		COL 30 	PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].OLIST[O_POS].OID
+		COL +1 	PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].OLIST[O_POS].CAT_DISP
+		ROW +1
+	ENDFOR
+FOOT PLIST_PID
+	ROW +1
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT
+
+END
+GO
+</pre>
+</div></div><p>The query builder can be used to quickly generate the code to qualify on values from a level-2 or lower record structure list. The preceding example loads encntr_ids into the EID item within the level-2 ELIST list. It then uses the combination of the DUMMYT table and MAXREC( ) function in a second Select statement to qualify rows from the ENCNTR_ALIAS table, where the Encntr_ID is equal to one of the encntr_ids stored in the list.</p><p>Assuming you have the following record command defined, complete the following steps to have the query builder create that syntax:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record PERSON_REC (
+  1 PLIST [*]  	;person list
+    2 PID = f8
+    2 NAME = C30
+    2 ELIST [*] ;encounter list - note that this is a level 2 list
+      3 EID = f8
+</pre>
+</div></div><ol><li>Open the Query Builder.</li><li>In the Tables tab, expand the Record Structures list and select the <strong>User Defined</strong> category.</li><li>Move PERSON_REC from the Available Tables list to the Selected Tables list.</li><li>In the Fields tab, expand the <strong>PERSON_REC</strong>, <strong>PLIST</strong>, and <strong>ELIST</strong> items.</li><li><p>Double-click the EID item to move it to the Selected Fields list. The following code is generated:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+	ELIST_EID = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].EID
+FROM
+	(DUMMYT   D1  WITH SEQ = VALUE(SIZE(PERSON_REC-&gt;PLIST, 5)))
+	, (DUMMYT   D2  WITH SEQ = 1)
+PLAN D1 WHERE MAXREC(D2, SIZE(PERSON_REC-&gt;PLIST[D1.SEQ].ELIST, 5))
+JOIN D2
+
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT
+</pre>
+</div></div></li></ol><p>The ELIST_EID expression contains a reference to the EID item. The internal loops that are created by <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> when the above query is executed increments the D1.SEQ and D2.SEQ fields to look at all the encntr_id values that are stored in the record structure.  <br/>Complete the following steps to finish retrieving information from the ENCOUNTER_ALIAS table:</p><ol><li>In the Tables tab, add the Encounter_Alias table to the Selected Tables list.</li><li>In the Fields tab, select the fields you want from the ENCOUNTER_ALIAS table.</li><li>In the Qualifications tab, add JOIN E WHERE E.ENCNTR_ID = to the end of the current Plan/Join clause.</li><li><p>From the Fields list in the Qualifications tab, double-click the ELIST_EID field. Code similar to the following is generated:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+	ELIST_EID = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].EID
+	, E.ALIAS
+	, E_ENCNTR_ALIAS_TYPE_DISP = UAR_GET_CODE_DISPLAY(E.ENCNTR_ALIAS_TYPE_CD)
+
+FROM
+	(DUMMYT   D1  WITH SEQ = VALUE(SIZE(PERSON_REC-&gt;PLIST, 5)))
+	, (DUMMYT   D2  WITH SEQ = 1)
+	, ENCNTR_ALIAS   E
+
+PLAN D1 WHERE MAXREC(D2, SIZE(PERSON_REC-&gt;PLIST[D1.SEQ].ELIST, 5))
+JOIN D2
+JOIN E WHERE E.ENCNTR_ID = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].EID
+
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT
+</pre>
+</div></div></li></ol><p>Any additional qualifications that are needed on the ENCNTR_ALIAS table could be added to the JOIN E WHERE clause. Any additional tables that need to be linked to the table could be added as well.</p><h3 id="SelectingInformationThatisRelatedtoValuesCurrentlyinaRecordStructureUsingDiscernExplorer-AFORorWHILEloopandtheEXPAND()function">A<span> </span>FOR<span> </span>or<span> </span>WHILE<span> </span>loop and the<span> </span>EXPAND()<span> </span>function</h3><p style="text-align: left;"><span>The advantage of using a FOR or WHILE loop and the EXPAND() function is that it sends fewer individual queries to the RDBMS. Generally placing a query in a FOR or WHILE loop is not recommended. Doing so causes Discern Explorer to generate the RDBMS query syntax for each iteration of the loop.  However, in the case of qualifying on values from a second level list, it is generally more efficient than using multiple dummyt tables.  When using multiple dummyt tables a query is sent to the RDBMS for each value in each of the level 2 lists. Using a FOR or WHILE loop and the EXPAND() function only sends a query to the RDBMS for each position of the level 1 list.  Sending fewer queries to the RDBMS will generally be more efficient.</span></p><p style="text-align: left;"><span>The disadvantage of using a FOR or WHILE loop and the EXPAND() function is that you get separate result sets for each query that is sent to the RDBMS.  You have to manually manage those result sets by sending them to a file, printer, loading them into a record structure, or some other process. </span></p><p style="text-align: left;"><span>The following example uses a FOR loop to traverse the level 1 PLIST list. Inside that FOR loop, the EXPAND() function is used to qualify on the encntr_id values from each of the level 2 elist.  <br/></span></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_RECORD_EX4 GO
+CREATE PROGRAM CCL_RECORD_EX4
+
+prompt 
+	"Output to File/Printer/MINE" = "MINE"
+	, "Enter Last Name" = "EXPLORER"
+	, "Enter First Name" = "*" 
+
+with OUTDEV, LNAME, FNAME
+
+/* 
+Record structure to store person, encounter, and orders information.
+Using a For loop to traverse the level 1 plist and execute a select to get encounter aliases for each person
+returns a separate result set for each person. Add a new level 3 list to store the encounter alias information.
+*/
+record PERSON_REC (
+  1 PLIST [*]  	;person list
+    2 PID = f8
+    2 NAME = C30
+    2 ELIST [*] ;encounter list - note that this is a level 2 list
+      3 EID = f8
+      3 TYPE = C40
+      3 OLIST [*]  ;orders list - note that this is a level 3 list
+        4 OID = f8
+        4 CAT_DISP = C40
+      3 ealist[*]  ;new list - note that this is a level 3 list to store aliases for the encounters
+      	4 eaid = f8
+      	4 alias = c20
+      	4 type = c20
+) with protect
+
+/**************************************************************
+Declared Variables
+**************************************************************/
+declare PCNT = I4 with Protect ;count of people
+declare ECNT = I4 with Protect ;count of encounters
+declare OCNT = I4 with Protect ;count of orders
+declare eacnt = i4 with protect ;count of encounter aliases
+declare idx = i4 with protect  ;predefined index variable for expand() and locatevalsort()
+declare pos = i4 with protect  ;position returned by locatevalsort()
+
+/**************************************************************
+Select person, encounter, orders information and store in record structure
+**************************************************************/
+SELECT INTO "NL:"
+	  P.PERSON_ID
+	, P.NAME_FULL_FORMATTED
+	, E.ENCNTR_ID
+	, E_ENCNTR_TYPE_CLASS_DISP = UAR_GET_CODE_DISPLAY(E.ENCNTR_TYPE_CLASS_CD)
+	, O.ORDER_ID
+	, O_CATALOG_DISP = UAR_GET_CODE_DISPLAY(O.CATALOG_CD)
+FROM    PERSON   P
+	, ENCOUNTER   E
+	, ORDERS   O
+;$fname and $lname are passed from prompts
+PLAN P WHERE P.NAME_LAST_KEY = $LNAME AND P.NAME_FIRST_KEY = $FNAME
+JOIN E WHERE P.PERSON_ID = E.PERSON_ID
+JOIN O WHERE E.ENCNTR_ID = O.ENCNTR_ID
+
+ORDER BY
+	  P.PERSON_ID
+	, E.ENCNTR_ID ;sort by person_id and encntr_id to allow using locatevalsort() 
+	, O.ORDER_ID
+HEAD REPORT
+	;allocate memory for 100 people in the person list
+	call alterlist(PERSON_REC-&gt;PLIST, 100)
+HEAD P.PERSON_ID
+	;increment count of people
+	PCNT = PCNT +1
+	;check for available memory in the person list
+	IF(MOD(PCNT,10) = 1 AND PCNT &gt;100)
+		;if needed allocate memory for 10 more people
+		call alterlist(PERSON_REC-&gt;PLIST, PCNT +9)
+	ENDIF
+	;store the person information in the record structure
+	PERSON_REC-&gt;PLIST[PCNT].PID = P.PERSON_ID
+	PERSON_REC-&gt;PLIST[PCNT].NAME = P.NAME_FULL_FORMATTED
+	;reset the count of encounters to zero for this person
+	ECNT = 0
+HEAD E.ENCNTR_ID
+	;increment count of encounters
+	ECNT += 1
+	;check for available memory in the encounter list
+	IF(MOD(ECNT,10) = 1)
+		;if needed allocate memory for 10 more encounters for the current person
+		call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST, ECNT +9)
+	ENDIF
+	;store the encounter information in the record structure
+	PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].EID = E.ENCNTR_ID
+	PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].TYPE = E_ENCNTR_TYPE_CLASS_DISP
+	;rest the count of orders to zero for this encounter
+	OCNT = 0
+DETAIL
+	;increment the count of orders
+	OCNT += 1
+	;check for available memory in the encounter list
+	IF(MOD(OCNT,10) = 1)
+		;if needed allocate memory for 10 more orders for this encounter
+		call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].OLIST, OCNT +9)
+	ENDIF
+	;store the order information in the record structure
+	PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].OLIST[OCNT].OID = O.ORDER_ID
+	PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].OLIST[OCNT].CAT_DISP = O_CATALOG_DISP
+FOOT E.ENCNTR_ID
+	;free memory that was allocated but not used for orders
+	call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].OLIST, OCNT)
+FOOT P.PERSON_ID
+	;free memory that was allocated but not used for encounters
+	call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST, ECNT)
+FOOT REPORT
+	;free memory that was allocated but not used for people
+	call alterlist(PERSON_REC-&gt;PLIST, PCNT)
+WITH  NOCOUNTER, MAXREC = 1000, TIME = 30
+
+/*
+Use a FOR loop to traverse the level 1 PLIST list. 
+Inside the FOR loop, use the EXPAND() function To qualify on the encntr_id values from each of the level 2 elist
+*/
+for(pcnt = 1 to size(PERSON_REC-&gt;PLIST,5)) ;traverse plist
+	select into "NL:"
+		 e.encntr_id
+		, e.alias
+		, e_encntr_alias_type_disp = uar_get_code_display(e.encntr_alias_type_cd)
+	from
+		encntr_alias   e
+	;use Expand() to qualify on encntr_id values from PERSON_REC-&gt;PLIST[pcnt].ELIST
+	plan e where expand(idx,1,size(PERSON_REC-&gt;PLIST[pcnt].ELIST,5),e.encntr_id, person_rec-&gt;plist[pcnt].elist[idx].eid)
+	order by
+		e.encntr_id
+	head e.encntr_id
+		;find the encntr_id in the person_rec-&gt;plist[pcnt].elist
+		;since the query that populated PERSON_REC-&gt;PLIST[pcnt].ELIST sorted by person_id then encntr_id in ascending order
+		;can use locatevalsort() to find the encntr_id in the person_rec-&gt;plist[pcnt].elist
+		pos = locatevalsort(idx,1,size(PERSON_REC-&gt;PLIST[pcnt].ELIST,5),e.encntr_id, person_rec-&gt;plist[pcnt].elist[idx].eid)
+		eacnt = 0 ;reset encounter alias count to zero for this encntr_id
+	detail
+		;store the encounter alias information in the record structure
+		eacnt +=1
+		;if needed add 5 positions to the PERSON_REC-&gt;PLIST[pcnt].ELIST[pos].ealist 
+		if(mod(eacnt,5) = 1)
+			call alterlist(PERSON_REC-&gt;PLIST[pcnt].ELIST[pos].ealist,eacnt+4)
+		endif
+		;store the encounter alias information in the record structure
+		PERSON_REC-&gt;PLIST[pcnt].ELIST[pos].ealist[eacnt].eaid = e.encntr_alias_id
+		PERSON_REC-&gt;PLIST[pcnt].ELIST[pos].ealist[eacnt].alias = e.alias
+		PERSON_REC-&gt;PLIST[pcnt].ELIST[pos].ealist[eacnt].type = e_encntr_alias_type_disp
+	foot e.encntr_id
+		;remove any unused positions from PERSON_REC-&gt;PLIST[pcnt].ELIST[pos].ealist
+		call alterlist(PERSON_REC-&gt;PLIST[pcnt].ELIST[pos].ealist,eacnt)
+	with nocounter, separator=" ", format
+	/* 
+	Should test using
+		,expand = 0
+	    ,expand = 1
+		,expand = 2
+	in the With clause of the above query to determine which option is most efficient. 
+	Then use that option in the final version of the program.
+	*/
+endfor
+;Final select to display all data from the record structure
+;Use query builder to create query that uses dummyt and maxrec() to extract person, encounter, and orders information 
+;from the record structure.
+;DO NOT attempt to use dummyt and maxrec() to ALSO extract the encounter alias information. Doing so will result in duplicate
+;or missing data in the final output.
+SELECT into $outdev
+	PLIST_PID = PERSON_REC-&gt;PLIST[D1.SEQ].PID
+	, PLIST_NAME = PERSON_REC-&gt;PLIST[D1.SEQ].NAME
+	, ELIST_EID = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].EID
+	, ELIST_TYPE = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].TYPE
+	, OLIST_OID = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].OLIST[D3.SEQ].OID
+	, OLIST_CAT_DISP = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].OLIST[D3.SEQ].CAT_DISP
+
+FROM
+	(DUMMYT   D1  WITH SEQ = SIZE(PERSON_REC-&gt;PLIST, 5))
+	, (DUMMYT   D2  WITH SEQ = 1)
+	, (DUMMYT   D3  WITH SEQ = 1)
+
+PLAN D1 WHERE MAXREC(D2, SIZE(PERSON_REC-&gt;PLIST[D1.SEQ].ELIST, 5))
+JOIN D2 WHERE MAXREC(D3, SIZE(PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].OLIST, 5))
+JOIN D3
+ORDER BY
+	PLIST_PID,
+	ELIST_EID
+HEAD PLIST_PID
+	;display person information from the record structure
+	;the select expressions PLIST_PID and PLIST_NAME were created in the select list above
+	COL  0 PLIST_PID
+	COL +1 PLIST_NAME
+	;you could reference the record structure field items here as well i.e.
+	;col  0 person_rec-&gt;plist[d1.seq].pid
+	;col +1 person_rec-&gt;plist[d1.seq].name
+	ROW +1
+HEAD ELIST_EID
+	;display encounter information from the record structure
+	;the select expressions ELIST_PID and ELIST_TYPE were created in the select list above
+	COL 10 ELIST_EID
+	COL +1 ELIST_TYPE
+	ROW +1
+	;use For loop to display the encounter alias information from the record structure for this encntr_id (elist_eid)
+	for(eacnt = 1 to size(PERSON_REC-&gt;PLIST[d1.seq].ELIST[d2.seq].ealist,5))
+		col 20 PERSON_REC-&gt;PLIST[d1.seq].ELIST[d2.seq].ealist[eacnt].alias 
+		col +1 PERSON_REC-&gt;PLIST[d1.seq].ELIST[d2.seq].ealist[eacnt].type
+		row +1
+	endfor 
+detail
+	;display the order information from the record structure
+		COL 30 	PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].OLIST[d3.seq].OID
+		COL +1 	PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].OLIST[d3.seq].CAT_DISP
+		ROW +1	
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT
+
+
+END
+GO</pre>
+</div></div><p style="text-align: left;"><br/></p><h2 id="SelectingInformationThatisRelatedtoValuesCurrentlyinaRecordStructureUsingDiscernExplorer-LegacyInformation">Legacy Information</h2><div class="confluence-information-macro confluence-information-macro-tip conf-macro output-block" data-hasbody="true" data-macro-name="tip"><p class="title conf-macro-render">Release Consideration</p><span class="aui-icon aui-icon-small aui-iconfont-approve confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Between the introduction of the EXPAND( ) function and the introduction of the EXPAND Control Option, the method discussed in the remainder of this topic was used to control the size of the IN list in the query that is passed to the RDBMS. <strong>With the introduction of the EXPAND Control Option, this technique is no longer needed or recommended.</strong> Expand = 1 or Expand = 2 is used in the With clause instead of this technique. However, since this technique will be seen in old code, the documentation for using this technique is retained in this topic for legacy purposes.</p></div></div><p>Since the EXPAND( ) function creates an IN clause that is passed in the query to the RDBMS, a few factors must be considered. First, how much variance is in the number of items that are stored in the record structure list_item? Second, is the number of items that are passed in the IN clause too large for the RDBMS optimizer to efficiently retrieve the related data? Finally, is the number of items in the record structure list_item greater than 200?</p><p>When a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> query is executed, the query is translated and passed to the RDBMS. The RDBMS determines a plan for executing that query and caches that plan. If the RDBMS receives the exact same query again, it executes the query using the cached plan. A finite number of plans can be kept in the cache. If the RDBMS receives a new query that does not have a cached execution plan, it determines a plan for the new query, pushes the plan for the query with the oldest most recent execution out of the cache, and places the plan for the new query in the cache. The cache always contains the plans for the most recently executed queries. Any variance in a query, including the number of items in the IN clause or the value of the items in the IN causes the RDBMS to cache a new plan for the query. To prevent this, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> assigns the values from the record structure list_item to bind variables and passes the bind variables in the IN clause to the RDBMS. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> also pads the number of items passed in the IN clause up to the nearest multiple of 20. If you have the following values when using the person list from the earlier example:</p><p>PERSON_REC-&gt;PLIST[1].PID = 11.0<br/>PERSON_REC-&gt;PLIST[2].PID = 22.0<br/>PERSON_REC-&gt;PLIST[3].PID = 33.0<br/>PERSON_REC-&gt;PLIST[4].PID = 44.0<br/>PERSON_REC-&gt;PLIST[5].PID = 55.0<br/>PERSON_REC-&gt;PLIST[6].PID = 66.0<br/>PERSON_REC-&gt;PLIST[7].PID = 77.0<br/>PERSON_REC-&gt;PLIST[8].PID = 88.0<br/>PERSON_REC-&gt;PLIST[9].PID = 99.0</p><p>The IN clause that would be passed to the RDBMS from using WHERE EXPAND(NUM,1,PCNT,P.PERSON_ID,PERSON_REC-&gt;PLIST[NUM].PID)<br/>Would be WHERE P.PERSON_ID IN( :1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :19, :20)<br/>In the above, the bind variables would be set a follows:</p><p>:1 = 11.0<br/>:2 = 22.0<br/>:3 = 33.0<br/>:4 = 44.0<br/>:5 = 55.0<br/>:6 = 66.0<br/>:7 = 77.0<br/>:8 = 88.0<br/>:9 through :20 = 99.0</p><p>If you add a 10th value to the PERSON_REC-&gt;PLIST[ ].PID, the bind variables :10 through :20 would be set equal to that value. If 21 values are placed in the person list, 40 bind variables would be passed in the IN clause to the RDBMS. Bind variables :21 through :40 would all be set equal to the same value. Using bind variables and padding the number of items in the IN clause up to the next multiple of 20 reduces the number of plans that could be stored in the cache for this program. Without this method, any variance in the number of items in the person list would cause a new plan to be generated and cached. However, if the number of items that need to be passed in the IN clause is greater than 200, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> passes them as literal values instead of using bind variables. Using the literal values causes a new plan to be cached for each execution of the program, since most likely one or more of the literal values will be different for multiple executions of the program. Often, when the number of items in an IN clause is greater than 200, the RDBMS has issues with efficiently processing the query. To prevent this, the DUMMYT table can be used to break the number of items passed in the IN clause into groups of 200 and execute the query at the RDBMS level multiple times. The example below uses this method.</p><p>The example initializes the below variables that are used to control the number of elements that are passed in the IN clause generated by the Expand( ) function. These variables must be an integer data type.</p><ul><li>Actual_Size is the actual size of the record structure list_item.</li><li>Expand_Total is the actual_size padded up to the next multiple of 200.</li><li>Expand_Start is passed to the EXPAND( ) function, and it is used as the starting position of the record structure list_item. Expand_Start must be initialized to value greater than zero. It is generally initialized to <strong>1</strong>, and is then reset using the Assign( ) function in the join to the DUMMYT. The internal processing that <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> uses to build the IN clause and reset Expand_Start requires that Expand_Start be initialized to the starting value before executing the Select statement that uses it.</li><li>Expand_Stop is passed to the EXPAND( ) function, and it is used as the stop position of the record structure list. Expand_Stop must be initialized to a value greater than zero. It is generally initialized to <strong>200</strong>, and is then reset using the Assign( ) function in the join to the DUMMYT. The internal processing that <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> uses to build the IN clause and reset Expand_Stop requires that Expand_Stop be initialized to the stop value before executing the Select statement.</li></ul><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_RECORD_EX3 GO
+CREATE PROGRAM CCL_RECORD_EX3
+
+prompt
+"Output to File/Printer/MINE " = "MINE"
+     , "Enter Last Name" = " "
+     , "Enter First Name" = " "
+
+with OUTDEV, Lname, Fname
+
+/*Record structure to store person and encounter information*/
+record PERSON_REC (
+1 PLIST [*] ;person list
+2 PID = f8
+2 NAME = C30
+2 ELIST [*] ;encounter list
+3 EID = f8
+3 TYPE = C40
+)
+
+/**************************************************************
+Declared Variables
+**************************************************************/
+declare NUM  = I4 with Protect ;index var for expand()
+declare POS  = I4 with Protect ;position var for locateval()
+declare PCNT = I4 with Protect ;count of people
+declare ECNT = I4 with Protect ;count of encounters
+
+;the following variables will be used to always pass 200 items in the IN clause when using expand()
+declare ACTUAL_SIZE   = I4 with Protect
+declare EXPAND_TOTAL  = I4 with Protect
+declare EXPAND_START  = I4 with NoConstant(1), Protect
+declare EXPAND_STOP   = I4 with NoConstant(200), Protect
+
+/**************************************************************
+Select person and encounter information and store in record structure
+**************************************************************/
+SELECT INTO "NL:"
+     P.PERSON_ID
+     , P.NAME_FULL_FORMATTED
+     , E.ENCNTR_ID
+     , E_ENCNTR_TYPE_CLASS_DISP = UAR_GET_CODE_DISPLAY(E.ENCNTR_TYPE_CLASS_CD)
+FROM
+     PERSON   P
+     , ENCOUNTER   E
+;$fname and $lname are passed from prompts
+PLAN P WHERE P.NAME_LAST_KEY = $LNAME AND P.NAME_FIRST_KEY = $FNAME
+JOIN E WHERE P.PERSON_ID = E.PERSON_ID
+ORDER BY
+     P.PERSON_ID
+     , E.ENCNTR_ID
+HEAD REPORT
+     ;allocate memory for 100 people in the person list
+     call alterlist(PERSON_REC-&gt;PLIST, 100)
+HEAD P.PERSON_ID
+     ;increment count of people
+     PCNT = PCNT +1
+     ;check for available memory in the person list
+     IF(MOD(PCNT,10) = 1 AND PCNT &gt;100)
+          ;if needed allocate memory for 10 more people
+          call alterlist(PERSON_REC-&gt;PLIST, PCNT \+9)
+     ENDIF
+     ;store the person information in the record structure
+     PERSON_REC-&gt;PLIST[PCNT].PID = P.PERSON_ID
+     PERSON_REC-&gt;PLIST[PCNT].NAME = P.NAME_FULL_FORMATTED
+     ;reset the count of encounters to zero for this person
+     ECNT = 0
+DETAIL
+     ;increment count of encounters
+     ECNT = ECNT +1
+     ;check for available memory in the encounter list
+     IF(MOD(ECNT,10) = 1)
+          ;if needed allocate memory for 10 more encounters for the current person
+          call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST, ECNT \+9)
+     ENDIF
+     ;store the encounter information in the record structure
+     PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].EID = E.ENCNTR_ID
+     PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].TYPE = E_ENCNTR_TYPE_CLASS_DISP
+FOOT P.PERSON_ID
+     ;free memory that was allocated but not used for encounters
+     call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST, ECNT)
+FOOT REPORT
+     ;free memory that was allocated but not used for people
+     call alterlist(PERSON_REC-&gt;PLIST, PCNT)
+WITH NOCOUNTER
+
+/**************************************************************
+Select the person aliases for each person_id in the record structure
+using the dummyt method to keep the size of the IN clause = 200 items
+**************************************************************/
+;actual_size is the actual number of person_ids in the person_rec-&gt;plist
+SET ACTUAL_SIZE  = SIZE(PERSON_REC-&gt;PLIST,5)
+;if actual_size is not a multiple of 200, increase the size of the list to
+;the next multiple of 200 to allow always passing 200 bind variables in
+;the IN clause that is generated by the expand()
+IF(MOD(ACTUAL_SIZE,200) != 0)
+     ;set expand_total to the next multiple of 200
+     SET EXPAND_TOTAL = ACTUAL_SIZE \+(200 - MOD(ACTUAL_SIZE,200))
+     ;increase the list size to the next multiple of 200
+     SET call alterlist(PERSON_REC-&gt;PLIST, EXPAND_TOTAL)
+     ;set the added positions of list equal to the last person_id in the list
+     FOR(IDX = ACTUAL_SIZE+1 TO EXPAND_TOTAL)
+          SET PERSON_REC-&gt;PLIST[IDX].PID = PERSON_REC-&gt;PLIST[ACTUAL_SIZE|ACTUAL_SIZE].PID
+     ENDFOR
+ELSE
+     SET EXPAND_TOTAL = ACTUAL_SIZE
+ENDIF
+
+SELECT INTO $OUTDEV
+     P.PERSON_ID
+     , P_PERSON_ALIAS_TYPE_DISP = UAR_GET_CODE_DISPLAY(P.PERSON_ALIAS_TYPE_CD)
+     , PA_ALIAS = SUBSTRING(1,30,P.ALIAS)
+FROM
+     PERSON_ALIAS   P
+     ,(DUMMYT D WITH SEQ = VALUE(EXPAND_TOTAL/200))
+/*Use dummyt to execute the query with 200 items in the IN clause.
+Expand_total/200 returns the number of times the query will be executed at the RDBMS level.
+Expand_start and expand_stop are set using assign().  The first time the query is executed at the
+RDBMS level, expand_start will be set to 1 and expand_stop will be set to 200.  The second time the
+query is executed at the RDBMS level expand_start will be set to 201 and expand_stop will be set to 400.
+Expand_start and expand_stop will continue to be incremented in blocks of 200 until all of the person_ids
+in the person_list have been passed in the IN clause of the query at the RDBMS level. */
+PLAN D WHERE ASSIGN(EXPAND_START,EVALUATE(D.SEQ,1,1,EXPAND_START+200))
+     AND ASSIGN(EXPAND_STOP,EXPAND_START+(199))
+JOIN P WHERE EXPAND(NUM,EXPAND_START,EXPAND_STOP,P.PERSON_ID,PERSON_REC-&gt;PLIST[NUM].PID)
+ORDER BY
+     P.PERSON_ID
+HEAD P.PERSON_ID
+     \* Locatevalsort() will perform a binary search to determine which
+     position of person_rec-&gt;plist[ ].pid field is equal to the current p.person_id.
+     The variable pos will be set equal to that position.
+     Since the person_ids were sorted prior to being stored in the person list (plist) the
+     locatevalsort() function can be used.  If the person_ids were not in sorted order in the
+     person list, locateval() would need to be used to perform a sequential search of the
+     person list. */
+     POS = LOCATEVALSORT(NUM,1,PCNT,P.PERSON_ID,PERSON_REC-&gt;PLIST[NUM].PID)
+     ;display the person information from the record structure
+     COL  0 PERSON_REC-&gt;PLIST[POS].PID
+     COL +1 PERSON_REC-&gt;PLIST[POS].NAME
+DETAIL
+     ;display the person aliases from the result set of this query
+     COL 70 PA_ALIAS
+     COL +1 P_PERSON_ALIAS_TYPE_DISP
+     ROW +1
+FOOT P.PERSON_ID
+     ;display the encounter information from the record structure for this person
+     FOR(E_POS = 1 TO SIZE(PERSON_REC-&gt;PLIST[POS].ELIST,5))
+          COL 10  PERSON_REC-&gt;PLIST[POS].ELIST[E_POS|E_POS].EID
+          COL +1  PERSON_REC-&gt;PLIST[POS].ELIST[E_POS|E_POS].TYPE
+          ROW +1
+     ENDFOR
+     ROW +2
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT, MAXCOL = 200
+
+END
+GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 740, "requestCorrelationId": "23d2379205251ac6"}</span>
+</body>
+</html>

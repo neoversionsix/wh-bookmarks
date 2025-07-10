@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Data Types Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Data+Types+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Data used by <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> can be stored in several ways. The data type defines the data's characteristics. For instance, datetime columns can be formatted in many ways, code values can display information about the code or its meaning, and character data can be shortened or lengthened using the  SUBSTRING( ) function.</p><p>The data type of a column can be determined by running TABLEDEF2 or CCLORATABLE on the column's table.</p><p>Care must be taken not to confuse data types with display formats.</p><p>The following are valid data types:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh" colspan="1"><p>Type</p></th><th class="confluenceTh"><p>Usage<br>T = Table column declaration<br/>R = Record structure declaration<br/>V = Variable Declaration</br></p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><th class="confluenceTh" colspan="1"><p>C&lt;len&gt;</p></th><td class="confluenceTd"><p>T,R,V</p></td><td class="confluenceTd"><p>A fixed-length character string</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>VC&lt;len&gt;</p></th><td class="confluenceTd"><p>T</p></td><td class="confluenceTd"><p>A variable-length character string with a maximum of 32,767 characters</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>VC</p></th><td class="confluenceTd"><p>R,V</p></td><td class="confluenceTd"><p>A variable-length character string with a maximum of 524,288 characters (set modify maxvarlen &lt;size&gt; to increase)</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>GC&lt;len&gt;</p></th><td class="confluenceTd"><p>T,R,V</p></td><td class="confluenceTd"><p>A fixed-length raw character string</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>GVC&lt;len&gt;</p></th><td class="confluenceTd"><p>T</p></td><td class="confluenceTd"><p>A variable-length raw character string with a maximum of 32,767 characters</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>GVC</p></th><td class="confluenceTd"><p>R,V</p></td><td class="confluenceTd"><p>A variable-length raw character string with a maximum of 524,288 characters (set modify maxvarlen &lt;size&gt; to increase)</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>ZC&lt;len&gt;</p></th><td class="confluenceTd"><p>T,R,V</p></td><td class="confluenceTd"><p>A fixed-length Character Large Object (CLOB) string</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>ZVC&lt;len&gt;</p></th><td class="confluenceTd"><p>T</p></td><td class="confluenceTd"><p>A variable-length character CLOB with a maximum of 32,767 characters</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>ZVC</p></th><td class="confluenceTd"><p>R,V</p></td><td class="confluenceTd"><p>A variable-length character CLOB with a maximum of 524,288 characters (set modify maxvarlen &lt;size&gt; to increase)</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>ZGC&lt;len&gt;</p></th><td class="confluenceTd"><p>T,R,V</p></td><td class="confluenceTd"><p>A fixed-length raw character blob</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>ZGVC&lt;len&gt;</p></th><td class="confluenceTd"><p>T</p></td><td class="confluenceTd"><p>A variable-length raw character blob with a maximum of 32,767 characters</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>ZGVC</p></th><td class="confluenceTd"><p>R,V</p></td><td class="confluenceTd"><p>A variable-length raw character blob with a maximum of 524,288 characters (set modify maxvarlen &lt;size&gt; to increase)</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>H</p></th><td class="confluenceTd"><p>R,V</p></td><td class="confluenceTd"><p>I4 if CURSYSBIT=32, and W8 if CURSYSBIT=64</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>I1</p></th><td class="confluenceTd"><p>T,R,V</p></td><td class="confluenceTd"><p>A signed 1-byte integer (-128 to +127)</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>UI1</p></th><td class="confluenceTd"><p>T,R,V</p></td><td class="confluenceTd"><p>An unsigned 1-byte integer (0 to 255)</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>I2</p></th><td class="confluenceTd"><p>T,R,V</p></td><td class="confluenceTd"><p>A signed 2-byte integer (-32,768 to +32,767)</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>UI2</p></th><td class="confluenceTd"><p>T,R,V</p></td><td class="confluenceTd"><p>An unsigned 2-byte integer (0 to 65,535)</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>I4</p></th><td class="confluenceTd"><p>T,R,V</p></td><td class="confluenceTd"><p>A signed 4-byte integer (-2,147,483,648 to +2,147,483,647)</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>UI4</p></th><td class="confluenceTd"><p>T,R,V</p></td><td class="confluenceTd"><div class="content-wrapper"><p>An unsigned 4-byte integer (0 to 4,294,967,295). Full support for UI4 variables was added in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.18.0 and 9.06.0.</p></div></td></tr><tr><th class="confluenceTh" colspan="1"><p>W8</p></th><td class="confluenceTd"><p>T,R,V</p></td><td class="confluenceTd"><p>A signed 8-byte integer (-9,223,372,036,854,775,808 to +9,223,372,036,854,775,807)</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>UW8</p></th><td class="confluenceTd"><p>T,R,V</p></td><td class="confluenceTd"><p>An unsigned 8-byte integer (0 to 18,446,744,073,709,551,615)</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>F4</p></th><td class="confluenceTd"><p>T,R,V</p></td><td class="confluenceTd"><p>A single-precision float (0.29**10-38 to 1.7**10+38; approximately 6-7 digits of precision)</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>F8</p></th><td class="confluenceTd"><p>T,R,V</p></td><td class="confluenceTd"><p>double precision float (0.29**10-38 to 1.7**10+38; approximately 15-16 digits of precision)</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>DQ8</p></th><td class="confluenceTd"><p>T,R,V</p></td><td class="confluenceTd"><p>A quadword used for date and time</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>DM12</p></th><td class="confluenceTd"><p>T,R,V</p></td><td class="confluenceTd"><p>12-byte used for timestamp</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>DM14</p></th><td class="confluenceTd"><p>T</p></td><td class="confluenceTd"><p>14-byte used for timestamp with time zone</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>N&lt;len&gt;[<span class="confluence-link">.&lt;prec&gt;]</span>&lt;sign&gt;</p></th><td class="confluenceTd"><p>T,R</p></td><td class="confluenceTd"><p>Signed numeric</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>N&lt;len&gt;<span class="confluence-link">.[&lt;prec&gt;]</span></p></th><td class="confluenceTd"><p>T,R</p></td><td class="confluenceTd"><p>Unsigned numeric</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>P&lt;pack&gt;[<span class="confluence-link">.&lt;prec&gt;]</span></p></th><td class="confluenceTd"><p>T,R</p></td><td class="confluenceTd"><p>Pack</p></td></tr></tbody></table></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Numbers are infinite but the storage structure used to store F8 and F4 floating point values is finite. In some cases a value that is as close to the actual value as possible is stored in the finite structure. By default,<span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> displays F8 and F4 values rounded to 2 or 6 digits of precision. <span style="color: rgb(28,31,33);"><strong>The recommended guideline is to use raw F8 or F4 values for all calculations but then round the final number to a reasonable precision before displaying, using the value in a qualification, or converting the F8 or F4 to another data type.</strong><span><strong> </strong>For example:</span></span></p><p>declare f8_var = f8 with protect, noconstant( 1.15 / 0.05) go</p><p>call echo(f8_var) go</p><p>Echoes 23<span style="color: rgb(28,31,33);">.000000 </span></p><p><span style="color: rgb(28,31,33);">But:</span></p><p>declare i4_var = i4 with protect go</p><p>set i4_var = cnvtint(f8_var) go</p><p>call echo(i4_var) go</p><p>Echoes 22</p><p>When converting an F8 or F4 value to an integer, CNVTINT() drops the precision and returns the number that is to the left of the decimal point. Using the FORMAT() function to override the default rounding to 6 digits of precision shows that f8_var is actually storing a value that is very close to 23<span style="color: rgb(28,31,33);">.0 but not exactly 23.0. </span></p><p>call echo(format(f8_var ,"###.################" )) go</p><p>Echoes 22.9999999999999964</p><p>Using the ROUND() function to round f8_var to a more reasonable precision before using CNVTINT() to convert the F8 to an integer returns 23<span style="color: rgb(28,31,33);">.</span></p><p><span style="color: rgb(28,31,33);">call echo(cnvtint(round(f8_var,10))) go</span></p><p><span style="color: rgb(28,31,33);">Returns 23.</span></p></div></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>The data type may also include an L field modifier to indicate that the Character column in the database has a linked NLS column. This is an internal method for identifying global environments. It does not change the data type of this column. If you run TABLEDEF2 on the PERSON table, LVC100 is displayed on the NAME_LAST_KEY column to indicate that it is a global VC100 column. Use NAME_LAST_KEY to qualify and sort queries. In the International environment, the L modifier indicates to the system to automatically use the NLS column to avoid language issues on character strings.</p></div></div><p>The following field modifiers are available to supplement the Field data type:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh" colspan="1"><p>Modifier</p></th><th class="confluenceTh"><p>Usage</p><p>T = Table column declaration</p><p>R = Record structure declaration</p></th><th class="confluenceTh"><p>Types</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><th class="confluenceTh" colspan="1"><p>A</p></th><td class="confluenceTd"><p>T,R</p></td><td class="confluenceTd"><p>All</p></td><td class="confluenceTd"><p>Access code</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>B</p></th><td class="confluenceTd"><p>T,R</p></td><td class="confluenceTd"><p>All</p></td><td class="confluenceTd"><p>User code</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>D</p></th><td class="confluenceTd"><p>T,R</p></td><td class="confluenceTd"><p>I,Q</p></td><td class="confluenceTd"><p>Date if I4, or date and time if DQ8 (also valid for SQL function return type)</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>E</p></th><td class="confluenceTd"><p>T,R</p></td><td class="confluenceTd"><p>P</p></td><td class="confluenceTd"><p>Even packed type</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>G</p></th><td class="confluenceTd"><p>T,R</p></td><td class="confluenceTd"><p>C,VC</p></td><td class="confluenceTd"><p>Graphical raw type</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>L</p></th><td class="confluenceTd"><p>T,R</p></td><td class="confluenceTd"><p>C,VC</p></td><td class="confluenceTd"><p>Linked key field for global NLSSORT</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>R</p></th><td class="confluenceTd"><p>T,R</p></td><td class="confluenceTd"><p>P</p></td><td class="confluenceTd"><p>Reverse</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>S</p></th><td class="confluenceTd"><p>T,R</p></td><td class="confluenceTd"><p>Q</p></td><td class="confluenceTd"><p>System date and time</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>T</p></th><td class="confluenceTd"><p>T,R</p></td><td class="confluenceTd"><p>I</p></td><td class="confluenceTd"><p>Time</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>U</p></th><td class="confluenceTd"><p>T,R</p></td><td class="confluenceTd"><p>I,P</p></td><td class="confluenceTd"><p>Unsigned</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>W</p></th><td class="confluenceTd"><p>T,R</p></td><td class="confluenceTd"><p>All</p></td><td class="confluenceTd"><p>Low cardinality column</p></td></tr><tr><th class="confluenceTh" colspan="1"><p>Z</p></th><td class="confluenceTd"><p>T,R</p></td><td class="confluenceTd"><p>C,VC</p></td><td class="confluenceTd"><p>CLOB or <span style="color: rgb(34,34,34);">Binary Large Object</span>(BLOB) type</p></td></tr></tbody></table></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 566, "requestCorrelationId": "b7fd902a06b9e0e5"}</span>
+</body>
+</html>

@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Building Web Pages Using XMLCclRequest Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Building+Web+Pages+Using+XMLCclRequest+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>XMLCclRequest is a JavaScript class that works similar to the XmlHttpRequest used by AJAX. It allows sections of a web page to be reloaded with Cerner Command Language (CCL) program content without you having to refresh the entire page.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>To create an XMLCclRequest object, the following META tag must be included in the HEAD of the html file: <br><strong>&lt;META content='XMLCCLREQUEST' name='discern'&gt;</strong></br></p></div></div><h2 id="BuildingWebPagesUsingXMLCclRequestUsingDiscernExplorer-Attributes">Attributes</h2><p><em>readyState</em><br/>The state of the XMLCclRequest.</p><ul><li><strong>0:</strong> Uninitialized</li><li><strong>1:</strong> Loading</li><li><strong>2:</strong> Loaded</li><li><strong>3:</strong> Interactive</li><li><strong>4:</strong> Completed</li></ul><p><em>responseText</em><br/>The text of the XMLCclRequest response.</p><p><em>status</em><br/>The status code of the XMLCclRequest.</p><ul><li><strong>200:</strong> Success</li><li><strong>405:</strong> Method not allowed</li><li><strong>409:</strong> Invalid state</li><li><strong>492:</strong> Non-Fatal error</li><li><strong>493:</strong> Memory error</li><li><strong>500:</strong> Internal server exception</li></ul><h2 id="BuildingWebPagesUsingXMLCclRequestUsingDiscernExplorer-Methods">Methods</h2><p><em>open ( method , name [, async] )</em><br/>Initializes a XMLCclRequest.</p><ul><li><strong>method:</strong> The HTTP method used by the transaction.</li><li><strong>name:</strong> The name of the program to execute.</li><li><strong>async:</strong> Indicator of whether the operation is asynchronous.</li></ul><p><em>send ( params )</em><br/>Sends a XMLCclRequest.</p><p><strong>params:</strong> The parameters for the program being executed.</p><h2 id="BuildingWebPagesUsingXMLCclRequestUsingDiscernExplorer-Events">Events</h2><p><em>onreadystatechange ( )</em><br/>This indicates that the ready state of the XMLCclRequest has changed.</p><h2 id="BuildingWebPagesUsingXMLCclRequestUsingDiscernExplorer-Example">Example</h2><p>This example HTML file demonstrates usage of XMLCclRequest. Two programs are being executed at the same time; the first one is asynchronous and the second one is synchronous.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;html&gt;
+&lt;head&gt;
+&lt;META content="XMLCCLREQUEST" name="discern"/&gt;
+&lt;script type="text/javascript"&gt;
+ 
+   var requestAsync = new XMLCclRequest ();   
+   var requestSync = new XMLCclRequest ();
+      
+   requestAsync.onreadystatechange = function () {
+      if (requestAsync.readyState == 4 &amp;&amp; requestAsync.status == 200) {
+ 	  document.getElementById("element2").innerHTML = "&lt;h1&gt;"+requestAsync.responseText+"&lt;/h1&gt;";
+      }
+   };
+ 
+   function abc(){
+      var dt = new Date();
+   
+      requestAsync.open("GET","lvp_get_names:group1");
+      requestSync.open("GET","lvp_get_names:group1",0);
+      
+      requestAsync.requestBinding = "cpmscript_ipaea1"; // optional
+      requestSync.requestBinding = "cpmscript_ipaea2";  // optional
+ 	  
+      document.getElementById("element1").innerHTML = "&lt;h1&gt;"+dt.toUTCString()+"&lt;/h1&gt;";
+      document.getElementById("element2").innerHTML = "&lt;h1&gt;"+dt.toUTCString()+"&lt;/h1&gt;";
+ 
+      requestAsync.send('MINE,~SMITH~');
+      requestSync.send('MINE,~PEREZ~');
+	  
+      if (requestSync.status == 200) {
+ 	  document.getElementById("element1").innerHTML = "&lt;h1&gt;"+requestSync.responseText+"&lt;/h1&gt;";
+      }
+   }
+ 
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body &gt;
+&lt;h1&gt;Hello World!&lt;/h1&gt;&lt;br&gt;&lt;a href="javascript:abc()"&gt;CLICK ME&lt;/a&gt;&lt;br&gt;
+&lt;div id="element1"&gt;&lt;/div&gt;&lt;br&gt;test&lt;br&gt;
+&lt;div id="element2"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</div></div><p><br/></p><p>The HTML page above calls a Discern Explorer program named "lvp_get_names" with a prompt for an output device named OUTDEV and an additional prompt for username. The following source code can be used to create that program. Ensure that you change the program name to match your system's naming conventions in the HTML and source code.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program lvp_get_names:group1 go
+create program lvp_get_names:group1
+
+prompt 
+	"Output to File/Printer/MINE" = "MINE"   ;* Enter or select the printer or file name to send this report to.
+	, "User Name" = "TEST"                  ;* Enter your username 
+with OUTDEV, UserName
+
+select into $OUTDEV
+FROM DUMMYT
+DETAIL
+  msg = CNVTLOWER($UserName)
+  col 0 "The username is: ", msg
+WITH counter, maxcol=1001
+
+end
+go</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 615, "requestCorrelationId": "5da59908ab0c98a1"}</span>
+</body>
+</html>

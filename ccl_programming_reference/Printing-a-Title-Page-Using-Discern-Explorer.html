@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Printing a Title Page Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Printing+a+Title+Page+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Use the BREAK command at the end of the HEAD REPORT clause to place the output of the HEAD REPORT clause on a separate title page. When you force a page break in the HEAD REPORT clause, you must create a flag to prevent <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> from processing the HEAD PAGE clause twice on the page after the HEAD REPORT. If you eliminate the flag, the second page of the report has a HEAD PAGE for the first page (created by the HEAD REPORT clause), and the HEAD PAGE for the second page. The following example shows how to create and use the flag to prevent the HEAD PAGE clause from executing twice.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>HEAD REPORT
+	PG_BREAK = "N"	;initialize the flag
+	;additional HEAD REPORT commands go here
+	BREAK
+HEAD PAGE
+       IF (PG_BREAK = "Y")
+           ;additional HEAD PAGE commands go here
+       ENDIF
+	PG_BREAK = "Y"
+</pre>
+</div></div><p>In this example, the flag PG_BREAK is initialized to "N" in the HEAD REPORT clause. The IF( ) statement in the HEAD PAGE clause does not qualify on the first pass through the HEAD PAGE. At the end of the HEAD PAGE, outside of the IF( ) statement, the flag PG_BREAK is set to "Y". PG_BREAK equals "Y" for each subsequent pass through the HEAD PAGE clause and process it once for every page after the HEAD REPORT page.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 661, "requestCorrelationId": "bd5e9ce4634c174f"}</span>
+</body>
+</html>

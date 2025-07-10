@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>APPLINK Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/APPLINK+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>APPLINK is the routine used to open an application or a patient's chart.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>For this routine to work, the following META tag must be included in the HEAD of the html file: <strong>&lt;META content='APPLINK' name='discern'&gt;</strong></p></div></div><p><strong>Syntax</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>APPLINK (linkmode,launchobject,commandlineargs)</pre>
+</div></div><p><strong>Metasymbols</strong></p><p><em>linkmode</em> <br> A numeric value representing the mode to start the application link.</br></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh" colspan="1">Mode</th><th class="confluenceTh" colspan="1">Description</th></tr><tr><td class="confluenceTd"><p>0</p></td><td class="confluenceTd"><p>Used for starting a solution by executable name.</p></td></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Used for starting a solution by the application object, such as <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Analytics 2.0</span> (DA2.exe).</p></div></td></tr><tr><td class="confluenceTd"><p>100</p></td><td class="confluenceTd"><p>Used for launching a file, link, or executable through a shell execute. Use this to open a URL or link if you have <em>Citrix</em> configured for server-to-client redirection.</p></td></tr></tbody></table></div><p><em>launchobject</em></p><p>A textual string representing the executable name, application object, file, or link to start based on the linkmode value. Context variables, when supported by the solution, can be substituted into the APPLINK launchobject. Using the context variable $APP_AppName$ in place of the executable name is useful if you want to open a patient chart into the current solution.</p><p><em>commandlineargs</em></p><p>A textual string representing the command line arguments that are to be passed to the solution. The arguments provided are dependent on the specifications of the parameters expected by the executable. A special command line argument /FIRSTTAB="TABNAME" can be added to the list of arguments if the solution provided matches the solution that is opening the link and a /PERSONID and /ENCNTRID argument is provided with a valid person id and encounter id. This opens the patient chart of the provided person id within the current solution and default to the tab provided in the FIRSTTAB argument. The TABNAME corresponds to the first-matching REPORT_PARAM field of the Discern Report preferences configured in Preference Maintenance (PrefMaint.exe). Additionally, when the /FIRSTTAB parameter is used, a plus sign (+) can be added to the end of the TABNAME to launch into the Quick Add dialog if supported by the tab. This is only supported when Enhanced Navigation is enabled in the solution. Context variables, when supported by the solution, can be substituted into the APPLINK commandlineargs.</p><p><strong>Examples</strong></p><p>The following example illustrates the launching of a patient chart. If the link is clicked when the user is already in <em>PowerChart</em>, the patient's chart specified by the PERSONID with the encounter specified by ENCNTRID opens in the current solution and defaults to the DISCERN REPORT tab. If the link is clicked from a solution other than <em>PowerChart</em>, the <em>PowerChart</em> solution starts a new <em>PowerChart</em> executable with the provided PERSONID and ENCNTRID but does not default to the tab provided.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;a href='javascript:APPLINK(0,"Powerchart.exe","/PERSONID=589848 /ENCNTRID=5960967 /FIRSTTAB=^DISCERN REPORT^")'&gt;Launch Patient Chart in Discern Report tab&lt;/a&gt;
+
+</pre>
+</div></div><p>This example illustrates opening a web page through a shell execute. When _Citrix_is configured for server-to-client redirection and the link is clicked, your local default web browser opens and is directed to the link provided.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;a href='javascript:APPLINK(100,"http://www.cerner.com","")'&gt;Launch "http://www.cerner.com" in local web browser&lt;/a&gt;
+
+</pre>
+</div></div><p>The following example illustrates the launching of a patient chart. If the link is clicked when the user is in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerChart</span> or any of the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerChart</span> clones, the patient chart specified by the PERSONID with the encounter specified by ENCNTRID opens in the current solution and defaults to the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerOrders</span> tab. Since the plus sign + is added to the end of the TABNAME, the Add Order dialog box associated with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerOrders</span> also opens.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;a href='javascript:APPLINK(0,"$APP_APPNAME$","/PERSONID=589848 /ENCNTRID=5960967 /FIRSTTAB=^PowerOrders+^")'&gt;Open a patient's chart directed to the PowerOrders tab with the Add Order dialog open&lt;/a&gt;
+
+</pre>
+</div></div><p>The following example shows how to use <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern</span> Report Viewer (DiscernReportViewer.exe) with APPLINK rather than CCLLINK. The program name, program prompts, and location values are passed in as command line arguments.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;a href="javascript:APPLINK(0,'discernreportviewer.exe','/PARAMS=%22MINE%22 /PROGRAM=mjp_html_test /LEFT=100 /TOP=100 /WIDTH=400 /HEIGHT=800')"&gt;
+
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 643, "requestCorrelationId": "2b4e845d5be1f1c5"}</span>
+</body>
+</html>

@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Defining a Record Structure Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Defining+a+Record+Structure+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Use the RECORD command to define a record structure.</p><p><strong>Record Command Syntax</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>RECORD record_name (
+	{level group_item}
+	{level list_item[occurs]}
+	{level field_item = data_type}
+	{level field_item[occurs] = data_type}
+	) [WITH scope]</pre>
+</div></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>The square brackets ([ ]) surrounding "occurs" are part of the syntax. The square brackets and an occurs value are required when defining a list_item. It is optional when defining a field_item.</p></div></div><p>The simple definition below creates a record structure named ENC. This record structure can be used to store four pieces of information; one number that could have a decimal point and three character strings. Each character string can have up to 40 characters. Presumably, this record structure would be used to store an encounter ID, the display value of the nursing unit, room and bed location codes.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Record ENC
+	(1 ENCNTR_ID = F8
+	 1 NURSE_UNIT_DISP = C40
+	 1 ROOM_DISP = C40
+	 1 BED_DISP = C40)</pre>
+</div></div><p>A list item is used in a record structure to store an array or a list of values. The definition below creates a record structure named ENC. A list item named QUAL is used to allow the record structure to store multiple encounter IDs. Any number of encounter IDs can be stored in the QUAL list. The actual encounter IDs are stored in the ENCOUNTER field item.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Record ENC
+	(1 QUAL[*]
+	     2 ENCOUNTER = F8)</pre>
+</div></div><p>The definition below creates a record structure named ORD_STAT. The list items of CANCELLED, COMPLETED, and FUTURE are used to store information about a person's orders broken down by status. For any one person, any number of cancelled, completed, and future orders can be stored in the record structure. This record structure is used to allow printing a person's orders in three columns going down a page. When selected, the orders are sorted by status and loaded into the record structure list items. Once all of the orders are stored in the record structure, the first cancelled, first completed, and first future orders are printed on the same line, and the row advances.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Record ORD_STAT
+	(1 PERSON_ID = F8
+	1 NAME = VC
+	1 CANCELLED[*]
+	     2 ORDER_ID = F8
+	     2 MNEMONIC = C40
+	1 COMPLETED[*]
+	     2 ORDER_ID = F8
+	     2 MNEMONIC = C40
+	1 FUTURE[*]
+	     2 ORDER_ID = F8
+	     2 MNEMONIC = C40)</pre>
+</div></div><p>The example below creates a record structure named TEMP_1 which stores a person's name and ID at Level 1. A list item named ORDERS is used at Level 1 to store the order IDs and mnemonics for the person's group orders. A list item named DETAILS is used at Level 2 to store the result IDs and display values of the task assay codes for the components that make up the group order. For example, a complete blood count (CBC) is a group order. Some of the individual components of the CBC would be a red blood count (RBC), a white blood count (WBC), a hemoglobin (HGB), and a hematocrit (HCT). The TEMP_1 record structure could be used to store any number of group orders for one specific person. For any one group order, any number of components could be stored.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>RECORD TEMP_1
+	(1 PERSON_ID = F8
+	1 NAME = VC
+	1 ORDERS[*]
+	     2 ORDER_ID = F8
+	     2 ORDER_MNE = VC
+	     2 DETAILS[*]
+	          3 RESULT_ID = F8
+	          3 PROC = VC)</pre>
+</div></div><p>When defining a list_item, "occurs" is either an asterisk (*) or an integer. If an asterisk is used, the list is stored as a linked list in memory. If an integer is used, the list is stored as a contiguous list in memory. Unless you know the exact number of items that will be stored in the list, the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> standard is to use an asterisk when defining a list_item.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 595, "requestCorrelationId": "dc11d5c0c5fa5b15"}</span>
+</body>
+</html>

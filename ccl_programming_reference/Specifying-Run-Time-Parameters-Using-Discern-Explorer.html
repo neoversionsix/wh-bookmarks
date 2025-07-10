@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Specifying Run-Time Parameters Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Specifying+Run-Time+Parameters+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> recommends storing a program and execute it repeatedly for a variety of purposes. By using <em>run-time parameters</em>, you can prompt the user to enter variable information when executing the program. Run-time parameters allow you to use a single program in a number of ways.</p><p>The following components are available in your executable program when passing parameters during execution:</p><ul><li>The actual parameter defined in the program ($n).</li><li>The prompt_string, text the user will see on the screen.</li><li>The default value, what the parameter will be set equal to if the user just presses enter at the prompt.</li></ul><p><strong>Prompt String</strong></p><p>The sections below discuss each of these components. The program below contains all three components: parameters, prompts, and defaults.<br> <span class="confluence-embedded-file-wrapper"><img alt="" class="confluence-embedded-image" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/17982985/de_tut_prompt_i18n.jpg?version=1&amp;modificationDate=1265678053000&amp;api=v2" data-linked-resource-container-id="17982985" data-linked-resource-container-version="2" data-linked-resource-content-type="image/jpeg" data-linked-resource-default-alias="de_tut_prompt_i18n.jpg" data-linked-resource-id="16878356" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" draggable="false" src="/download/attachments/17982985/de_tut_prompt_i18n.jpg?version=1&amp;modificationDate=1265678053000&amp;api=v2"/></span></br></p><p><strong>Parameters</strong></p><p>Executable programs can use run-time parameters, which take the form of $n. Parameters range from $1 to $99 and correspond directly to a prompt string. In the above example, the value entered for output device takes the place of $1, the first parameter in the program. The last name replaces the $2 parameter.</p><p><strong>Setting Up Prompts for Parameters</strong></p><p>The PROMPT clause allows you to define text to display on the screen, which prompts the user for input when you execute the program. The following example is the syntax of the PROMPT clause:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PROMPT	"&lt;prompt_string&gt;" 	[= &lt;default&gt;]{,
+        "&lt;prompt_string&gt;" 	[= &lt;default&gt;]}
+</pre>
+</div></div><p>The PROMPT clause can only be used in executable programs. The PROMPT clause is issued once, following the CREATE PROGRAM command and is placed before the SELECT command. Separate each prompt_string by a comma.</p><p>The order of the prompt_strings determines the parameters they correspond to. The first prompt_string relates to parameter one ($1); the second prompt_string relates to parameter two ($2). When you execute the program, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> assigns the value input at the first prompt_string to $1, the input from the second prompt_string to $2, and so on.</p><p>The only information displayed to the user when executing the program is what you enter in the prompt_string. You must tell the user how to enter the data and what the default will be.</p><p><strong>Setting Up Defaults for Prompts</strong></p><p>Set up <em>default</em> values for prompts so the user can press RETURN to accept the default. If the user presses ENTER without entering a response, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> runs the program using the defaults you set up. The user will not see the default displayed on the screen. This is why you should include the default as part of the text in the prompt_string. Defining defaults also defines the data type for the parameter.</p><p>To execute a program that has parameters, prompts, and defaults defined, at the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command line, enter the following command:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>1) &lt;object_name&gt; GO</pre>
+</div></div><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> prompts you for the first parameter and then waits for you to enter a response and press RETURN. If you press RETURN without entering a response, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> uses the default. You are then prompted for additional parameters. You can enter a response or press RETURN to accept the default. This process continues for all prompt strings.</p><p>You can use wildcards for the default. For example, if you want to give the user the ability to select a specific last name or just press enter to select all last names, you can use a wildcard (also known as an asterisk<strong> *</strong> ) as the default.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PROMPT	"Enter last name (RETURN = ALL):"	=	"*"</pre>
+</div></div><p>This allows the user to enter SMITH if the user only wants to select records where the last name is SMITH, or press ENTER if the user wants to select records with any last name.</p><ol><li>At the command line, edit your source code using the %R directive, <strong>%R &lt;your_init&gt;_EXEC.PRG. </strong>You can add parameters, prompts, and defaults to this executable program.</li><li><p>Below your CREATE PROGRAM command, enter the following command:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PROMPT	"Enter an output device (return = displayer) :" = MINE,*
+"Enter Last Name (return = all): "  =  "*",
+"Enter First Name (return = all): " = "*"
+</pre>
+</div></div></li><li>After SELECT, enter <strong>INTO $1</strong>.</li><li>In the WHERE clause, add the qualifications <strong>P.NAME_LAST_KEY = $2 and P.NAME_FIRST_KEY = $3</strong>.</li><li>Save the source code.</li><li>Exit the file.</li></ol><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM ZXY_EXEC GO
+CREATE PROGRAM ZXY_EXEC 
+PROMPT	"Enter an output device (return = terminal) :" = MINE,
+	"Enter Last Name(return = all):" = "*",
+	"Enter First Name(return = all):" = "*"
+SELECT INTO $1
+	P.NAME_FULL_FORMATTED,
+	P.BIRTH_DT_TM,
+	P.ACTIVE_IND
+FROM	PERSON P
+WHERE	P.ACTIVE_IND = # AND
+	P.NAME_LAST_KEY  = $# AND
+P.NAME_FIRST_KEY = $3
+END
+GO
+</pre>
+</div></div><p>You do not need to put your parameters inside quotations in the WHERE clause because the defaults define the data type of character. The message <strong>Command executed!</strong> is displayed if you have no syntactical errors.</p><ol><li>At the command line, enter <strong>&lt;your_init&gt;_EXEC GO</strong> to execute the program.</li><li>Press ENTER when prompted for an output device.</li><li>Press ENTER when prompted for a last name.</li><li>Press ENTER when prompted for a first name.</li><li>Write down some first and last names.</li><li><p>Run the program several more times using valid first and last names to test.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>1) ZXY_EXEC GO
+	MINE
+	*
+	*
+1) ZXY_EXEC GO
+	P371
+	SMITH
+	SALLY
+</pre>
+</div></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>In testing your program, you may have tried to enter a last name of Smith. The column P.NAME_LAST_KEY is a character column that is converted to uppercase for qualifying and sorting. The character data stored in your database is case sensitive. Therefore, SMITH does not equal Smith. You can use the CNVTUPPER( ) function on the parameter to convert the user input to uppercase.</p></div></div></li></ol><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE P.NAME_LAST_KEY = CNVTUPPER( $2 )</pre>
+</div></div><p>This function converts the input to uppercase but now does not recognize the asterisk ( * ) as a wildcard. The PATSTRING( ) function is used to allow pattern string matches on data that is converted to uppercase.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE P.NAME_LAST_KEY = PATSTRING( CNVTUPPER($2))</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 725, "requestCorrelationId": "c0bcd5c8918d9f4c"}</span>
+</body>
+</html>

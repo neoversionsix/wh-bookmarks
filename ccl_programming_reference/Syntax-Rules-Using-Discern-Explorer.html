@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Syntax Rules Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Syntax+Rules+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> is described as a nonprocedural language because the rules of syntax that you must follow are few and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> is tolerant of variations in how programs are formatted. The nonprocedural aspect of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> gives you great flexibility in how you format or visually arrange your source code. Because spaces and blank lines generally have no effect on <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> processing, they can be used to make source code understandable for reading, editing, and debugging.</p><p>Although <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> is a nonprocedural language, certain syntax rules exist that must be followed for a program to run correctly. These rules are listed in the following table.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Element</p></th><th class="confluenceTh"><p>Interpretation</p></th></tr><tr><th class="confluenceTh"><p>/* */</p></th><td class="confluenceTd"><div class="content-wrapper"><p>The /* indicates the start of a block comment in a source code file and the */ indicates the end of the block comment. This enables <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to distinguish between comments and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> commands. Comments can be included in a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> source code file, and in no way affect the execution of the program. Block comments cannot be nested in block comments.</p></div></td></tr><tr><th class="confluenceTh"><p>;</p></th><td class="confluenceTd"><p>The semicolon and everything to the end of the line is treated as a comment. If the semicolon is not the first character on the line, a backslash <strong>\</strong> at the end of the line is treated as a continuation character. If the semicolon is used as the first character of a line, and the backslash <strong>\</strong> is placed at the end of the line, the backslash is part of the comment.</p></td></tr><tr><th class="confluenceTh"><p>!</p></th><td class="confluenceTd"><p>When used as the first character of a line, the exclamation point and everything to the end of a line is treated as a comment. If the backslash <strong>\</strong> is placed at the end of the line it is treated as part of the comment. When an exclamation mark <strong>!</strong> is immediately followed by an equal sign <strong>=</strong>, that combination of characters is treated as a not equal operator instead of the beginning of a comment.</p></td></tr><tr><th class="confluenceTh"><p>,</p></th><td class="confluenceTd"><p>Commas separate column names, table names, and options. Certain reserved words also serve as separators (for example, FROM, WHERE, and ORDER BY).</p></td></tr><tr><th class="confluenceTh"><p>%</p></th><td class="confluenceTd"><div class="content-wrapper"><p>The percent sign indicates a directive command in the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program (such as %EDIT or%HELP).</p></div></td></tr><tr><th class="confluenceTh"><p>( )</p></th><td class="confluenceTd"><div class="content-wrapper"><p>Parentheses alter the precedence that the system follows when executing <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> commands. Standard algebraic precedence is followed unless parentheses are used to change it. Parentheses also denote that an argument must be used with a function, such as CNVTDATE().</p></div></td></tr><tr><th class="confluenceTh"><p>" "</p></th><td class="confluenceTd"><p>Quotation marks denote character data, as opposed to numeric data. Quotation marks are not required for numeric entries; they are required for character strings. The following delimiters can be used to denote character strings.<br class="atl-forced-newline">' single quote<br class="atl-forced-newline"/>" double quote<br class="atl-forced-newline"/>^ flex<br class="atl-forced-newline"/>~ wave<br class="atl-forced-newline"/>| bar<br class="atl-forced-newline"/>@<em>len</em>:<em>string</em>@ where <em>len</em> is the number of characters to treat as a string and <em>string</em> is the actual character string.</br></p></td></tr><tr><th class="confluenceTh"><p>\</p></th><td class="confluenceTd"><div class="content-wrapper"><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> limits the length of a line in a source code file to a maximum of 132 characters. The backslash <strong>\</strong> is used as a continuation character at the end of a line in a source code file in the Create Program command. When used this way the backslash indicates that the line continues onto the next line of the file. This is helpful when you try to assign a long character string to a variable or record structure item.</p><p>If a semicolon <strong style="letter-spacing: 0.0px;">;</strong><span style="letter-spacing: 0.0px;"> or an exclamation mark </span><strong style="letter-spacing: 0.0px;">!</strong><span style="letter-spacing: 0.0px;"> is used as the first character of a line and the backslash </span><strong style="letter-spacing: 0.0px;">\</strong><span style="letter-spacing: 0.0px;"> is placed at the end of the line, the backslash </span><strong style="letter-spacing: 0.0px;">\</strong><span style="letter-spacing: 0.0px;"> is part of the comment. The next line is not a continuation of the comment.</span></p><p>If the backslash <strong style="letter-spacing: 0.0px;">\</strong><span style="letter-spacing: 0.0px;"> is placed at the end of the line in a comment that begins with the </span><strong style="letter-spacing: 0.0px;">;</strong><span style="letter-spacing: 0.0px;"> or </span><strong style="letter-spacing: 0.0px;">!</strong><span style="letter-spacing: 0.0px;"> indented, not as the first character of a line, the backslash </span><strong style="letter-spacing: 0.0px;">\</strong><span style="letter-spacing: 0.0px;"> is a continuation character. The next line is a continuation of the comment.</span></p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span style="letter-spacing: 0.0px;"> version 8.12.3 increases the maximum size of a literal string symbol from 32,767 characters to 65,535 characters. Before </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span style="letter-spacing: 0.0px;"> version 8.12.3, the maximum size of a string that could be created using the continuation character in a compile was 32,767 characters. In </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span style="letter-spacing: 0.0px;"> versions 8.12.3 and later, this size is 65,535 characters.</span></p><p><span style="letter-spacing: 0.0px;">Beginning in </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span style="letter-spacing: 0.0px;"> versions 8.17.0 and 9.05.0 compiling with </span>SET TRACE<span style="letter-spacing: 0.0px;"> WARNING3 enabled, places </span><strong style="letter-spacing: 0.0px;">CONTINUATION:</strong><span style="letter-spacing: 0.0px;"> at the beginning of lines in the listing that are continued from using the backslash </span><strong style="letter-spacing: 0.0px;">\</strong><span style="letter-spacing: 0.0px;"> at the end of the previous line.</span></p><p><span style="letter-spacing: 0.0px;">When qualifying on character strings, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> treats the * and ? as wildcards. The backslash can be used to qualify on a literal * or ? character. For example, Where O.Order_Mnemonic = "*TCOUNT" would qualify any Order_Mnemonic that ended with " TCOUNT". Using Where O.Order_Mnemonic = "\ * TCOUNT" would qualify any Order_Mnemonic that began with "* TCOUNT". That is the literal * followed by TCOUNT. Two backslashes are used to qualify on a literal backslash. For example Where O.Order_Mnemonic = "\ \ R*" would qualify any Order_Mnemonic that began with the literal backslash character followed by the letter R followed by any number of characters.</span></p></div></td></tr><tr><th class="confluenceTh"><p>GO</p></th><td class="confluenceTd"><div class="content-wrapper"><p>Use GO after a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command to execute the command. GO is not used after Directive commands (such as %EDIT or%HELP). GO is not used after commands that are in a CREATE PROGRAM command. Instead the GO is used at the end of the CREATE PROGRAM command.</p></div></td></tr><tr><th class="confluenceTh"><p>CAPS</p></th><td class="confluenceTd"><div class="content-wrapper"><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> is not case-sensitive with respect to commands. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> is case-sensitive only when processing character strings.</p></div></td></tr><tr><th class="confluenceTh" colspan="1"><em>integer</em>.W</th><td class="confluenceTd" colspan="1"><div class="content-wrapper"><p>Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span> version 8.1</span>3.0, using .w at the end of an integer causes the integer to be treated as a W8 data type. For example:</p><p>declare var1 = W8</p><p>set var1 = 123456789012345678.w</p><p>Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span> version 8.1</span>3.0, CNVTLONG() is needed to assign a value to a W8 data type item. For example:</p><p>declare var1 = W8</p><p>set var1 = cnvtlong("123456789012345678")</p></div></td></tr></tbody></table></div><p>To make your source code more readable, you can use blank lines between each major section. Using spaces and tabs effectively also can make source code more readable. An example of such formatting is used in the source code presented below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	P.BIRTH_DT_TM,
+	P.PERSON_ID,
+	P.LANGUAGE_CD,
+	P.SEX_CD
+
+FROM	PERSON P
+
+WHERE	P.BIRTH_DT_TM &gt; CNVTDATETIME("01-JAN-1997")
+
+GO
+</pre>
+</div></div><p>This source code is easier to read than it would be if all the tabs were deleted, as is the case in the following example.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT  P.NAME_FULL_FORMATTED, P.BIRTH_DT_TM, P.PERSON_ID, P.LANGUAGE_CD, P.SEX_CD
+FROM  PERSON P WHERE P.BIRTH_DT_TM &gt; CNVTDATETIME("01-JAN-1997") GO
+</pre>
+</div></div><p>You may see variations in how spaces are used in the sample programs throughout the Help Page topics, but you need not use the spacing re-created here. Develop your own standards that make the source code understandable to you and to other users.</p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> commands are not case-sensitive. Commands written in uppercase or lowercase are treated the same. In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>, text embedded in quotations, stored in character fields, variables, and record structures are case-sensitive.</p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> commands can be continued across multiple lines. This provides further flexibility in how programs are formatted and increases readability. The following examples illustrate three possible ways to enter the same <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command. Note, also, the variation in spacing and capitalization in these examples.</p><h1 id="SyntaxRulesUsingDiscernExplorer-Examples">Examples</h1><p>Example 1</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+p.name_last_key
+FROM
+person p
+GO
+</pre>
+</div></div><p>Example 2</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select	P.NAME_LAST_KEY from	PERSON P go
+</pre>
+</div></div><p>Example 3</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_LAST_KEY
+
+FROM	person p
+
+go
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 697, "requestCorrelationId": "3fa1a3c4c54aa2ce"}</span>
+</body>
+</html>

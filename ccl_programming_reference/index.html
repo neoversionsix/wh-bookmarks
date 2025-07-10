@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programming Reference Help in Discern Explorer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for better aesthetics */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Ensure links within panels are styled nicely */
+        .panel-content a {
+            @apply text-blue-600 hover:text-blue-800 transition-colors duration-200;
+        }
+        .panel-content a:hover {
+            @apply underline;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
+    <div class="w-full max-w-6xl bg-white shadow-lg rounded-xl p-6 sm:p-8 lg:p-10">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight">
+                Programming Reference Help
+            </h1>
+            <p class="mt-2 text-lg text-gray-600">
+                Discern Explorer - Comprehensive Guide
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Column 1 -->
+            <div class="space-y-6">
+                <!-- Discern Explorer Basics -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Discern Explorer Basics
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Discern-Explorer-Basics.html">Discern Explorer Basics</a></p>
+                        <p><a href="Discern-Explorer-Version-Numbers-Using-Discern-Explorer.html">Discern Explorer Version Numbers</a></p>
+                        <p><a href="Command-Syntax-Using-Discern-Explorer.html">Command Syntax</a></p>
+                        <p><a href="Syntax-Rules-Using-Discern-Explorer.html">Syntax Rules</a></p>
+                        <p><a href="Accessing-Discern-Explorer-Using-Discern-Explorer.html">Accessing Discern Explorer</a></p>
+                        <p><a href="Exiting-Discern-Explorer-Using-Discern-Explorer.html">Exiting Discern Explorer</a></p>
+                        <p><a href="The-Discern-Explorer-Banner-Using-Discern-Explorer.html">The Discern Explorer Banner</a></p>
+                        <p><a href="Command-Line-in-Discern-Explorer.html">Command Line</a></p>
+                        <p><a href="The-Recall-Buffer-Using-Discern-Explorer.html">The Recall Buffer</a></p>
+                        <p><a href="The-Help-Feature-in-Discern-Explorer.html">The Online Help Feature</a></p>
+                        <p><a href="Using-Directives-in-Discern-Explorer.html">Using Directives</a></p>
+                        <p><a href="The-Journal-File-Using-Discern-Explorer.html">The Journal File</a></p>
+                        <p><a href="File-Naming-Conventions-Using-Discern-Explorer.html">File Naming Conventions</a></p>
+                        <p><a href="Using-an-Editor-Using-Discern-Explorer.html">Using an Editor</a></p>
+                        <p><a href="Including-Comments-in-Queries-Using-Discern-Explorer.html">Including Comments in Queries</a></p>
+                        <p><a href="Accessing-the-Data-Dictionary-Using-Discern-Explorer.html">Accessing the Data Dictionary</a></p>
+                        <p><a href="Standard-Column-Types-Using-Discern-Explorer.html">Standard Column Types</a></p>
+                        <p><a href="Data-Types-Using-Discern-Explorer.html">Data Types</a></p>
+                        <p><a href="Using-the-DUMMYT-Table-in-Discern-Explorer.html">Using the DUMMYT Table</a></p>
+                        <p><a href="The-SEQ-Pseudo-Column-Using-Discern-Explorer.html">The SEQ Pseudo Column</a></p>
+                        <p><a href="Arithmetic-Operators-Using-Discern-Explorer.html">Arithmetic Operators</a></p>
+                        <p><a href="Operators-in-Discern-Explorer.html">Operators</a></p>
+                    </div>
+                </div>
+
+                <!-- Running Discern Explorer Programs -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Running Discern Explorer Programs
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Running-Discern-Explorer-Programs-using-Discern-Explorer.html">Running Discern Explorer Programs</a></p>
+                        <p><a href="Running-Discern-Explorer-Programs-From-the-Explorer-Menu-Using-Discern-Explorer.html">Running Discern Explorer Programs From the Explorer Menu</a></p>
+                        <p><a href="Discern-Reporting-Portal-Help.html">Running Discern Explorer Program From Discern Reporting Portal</a></p>
+                        <p><a href="viewpage.action.html">Running Discern Explorer Programs From Discern Analytics 2.0</a></p>
+                        <p><a href="Running-Discern-Explorer-Programs-From-System-Operations-Using-Discern-Explorer.html">Running Discern Explorer Programs From System Operations</a></p>
+                        <p><a href="Running-Discern-Explorer-Programs-From-Other-Cerner-Applications-Using-Discern-Explorer.html">Running Discern Explorer Programs From Other Cerner Applications</a></p>
+                        <p><a href="Running-Discern-Explorer-Programs-From-the-Operating-System-Using-Discern-Explorer.html">Running Discern Explorer Programs From the Operating System</a></p>
+                        <p><a href="Running-Discern-Explorer-Programs-From-the-VMS-Operating-System-Using-Discern-Explorer.html">Running Discern Explorer Programs From the VMS Operating System</a></p>
+                        <p><a href="Running-Discern-Explorer-Programs-From-the-UNIX-Operating-System-Using-Discern-Explorer.html">Running Discern Explorer Programs From the UNIX Operating System</a></p>
+                        <p><a href="Running-Discern-Explorer-Programs-as-MPages-Using-Discern-Explorer.html">Running Discern Explorer Programs as MPages</a></p>
+                    </div>
+                </div>
+
+                <!-- The SELECT Command -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        The SELECT Command
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="The-Simple-SELECT-Command-Using-Discern-Explorer.html">The Simple SELECT Command</a></p>
+                    </div>
+                </div>
+
+                <!-- Select Expressions -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Select Expressions
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="SELECT-Expressions-Using-Discern-Explorer.html">SELECT Expressions</a></p>
+                        <p><a href="Extracting-Information-From-Columns-Using-Discern-Explorer.html">Extracting Information From Columns</a></p>
+                        <p><a href="Formatting-SELECT-Expressions-Using-Display-Options-Using-Discern-Explorer.html">Formatting SELECT Expressions Using Display Options</a></p>
+                        <p><a href="User-Defined-Select-Expression-Using-Discern-Explorer.html">User-Defined Select Expression</a></p>
+                    </div>
+                </div>
+
+                <!-- The From Clause -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        The From Clause
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="The-FROM-Clause-Using-Discern-Explorer.html">The FROM Clause</a></p>
+                        <p><a href="Abbreviating-Table-Names-Using-Discern-Explorer.html">Abbreviating Table Names</a></p>
+                    </div>
+                </div>
+
+                <!-- Qualifying a Query Using WHERE -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Qualifying a Query Using WHERE
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Qualifying-a-Query-Using-the-WHERE-Clause-Using-Discern-Explorer.html">Qualifying a Query Using the WHERE Clause</a></p>
+                        <p><a href="Using-Character-Columns-in-Qualifications-Using-Discern-Explorer.html">Using Character Columns in Qualifications</a></p>
+                        <p><a href="Using-Numeric-Columns-in-Qualifications-Using-Discern-Explorer.html">Using Numeric Columns in Qualifications</a></p>
+                        <p><a href="Using-Date-Columns-in-Qualifications-Using-Discern-Explorer.html">Using Date Columns in Qualifications</a></p>
+                        <p><a href="Types-of-Qualifications-in-Discern-Explorer.html">Types of Qualifications</a></p>
+                        <p><a href="Using-Indexes-in-Qualifications-Using-Discern-Explorer.html">Using Indexes in Qualifications</a></p>
+                        <p><a href="Qualifying-on-Code-_CD-Columns-Using-Discern-Explorer.html">Qualifying on Code _CD Columns</a></p>
+                        <p><a href="Where-Clause-Relational-Operators-Using-Discern-Explorer.html">Where Clause Relational Operators</a></p>
+                    </div>
+                </div>
+
+                <!-- Summarize Using GROUP BY and HAVING -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Summarize Using GROUP BY and HAVING
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Using-Aggregates-as-Select-Expressions-in-Discern-Explorer.html">Using Aggregates as Select Expressions</a></p>
+                        <p><a href="GROUP-BY-Clause-in-Discern-Explorer.html">GROUP BY Clause</a></p>
+                        <p><a href="HAVING-Clause-in-Discern-Explorer.html">HAVING Clause</a></p>
+                    </div>
+                </div>
+
+                <!-- Organizing Output Using ORDER -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Organizing Output Using ORDER
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Organizing-Output-Using-the-ORDER-Clause-Using-Discern-Explorer.html">Organizing Output Using the ORDER Clause</a></p>
+                        <p><a href="Subsorts-Using-Discern-Explorer.html">Subsorts</a></p>
+                        <p><a href="Sorting-on-User-Defined-Variables-Using-Discern-Explorer.html">Sorting on User-Defined Variables</a></p>
+                    </div>
+                </div>
+
+                <!-- Defining Control Options using WITH -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Defining Control Options using WITH
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Defining-Control-Options-Using-the-WITH-Clause-Using-Discern-Explorer.html">Defining Control Options Using the WITH Clause</a></p>
+                    </div>
+                </div>
+
+                <!-- Omitting Duplicate Information With DISTINCT -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Omitting Duplicate Information With DISTINCT
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Omitting-Duplicate-Information-With-Distinct-Using-Discern-Explorer.html">Omitting Duplicate Information With Distinct</a></p>
+                    </div>
+                </div>
+
+                <!-- Directing Output Using the INTO Option -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Directing Output Using the INTO Option
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Directing-Output-Using-the-INTO-Option-Using-Discern-Explorer.html">Directing Output Using the INTO Option</a></p>
+                        <p><a href="SELECT-INTO-MINE-Using-Discern-Explorer.html">SELECT INTO MINE</a></p>
+                        <p><a href="SELECT-INTO-file_name-Using-Discern-Explorer.html">SELECT INTO file_name</a></p>
+                        <p><a href="SELECT-INTO-Printer_Name-Using-Discern-Explorer.html">SELECT INTO printer_name</a></p>
+                    </div>
+                </div>
+
+                <!-- Final Reminders -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Final Reminders
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Final-Reminders-for-a-Simple-Query-Using-Discern-Explorer.html">Final Reminders for a Simple Query</a></p>
+                    </div>
+                </div>
+
+                <!-- Executable Programs -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Executable Programs
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Executable-Programs-Using-Discern-Explorer.html">Executable Programs</a></p>
+                        <p><a href="Executable-Basics-Using-Discern-Explorer.html">Executable Basics</a></p>
+                        <p><a href="Two-Basic-Terms-Using-Discern-Explorer.html">Two Basic Terms</a></p>
+                        <p><a href="An-Overview-of-the-Process.html">An Overview of the Process</a></p>
+                        <p><a href="The-Object-Library-Using-Discern-Explorer.html">The Object Library</a></p>
+                        <p><a href="Updating-Objects-Using-Discern-Explorer.html">Updating Objects</a></p>
+                        <p><a href="Discern-Explorer-Security-Groups-Using-Discern-Explorer.html">Discern Explorer Security Groups</a></p>
+                        <p><a href="Creating-Executable-Programs-Using-Discern-Explorer.html">Creating Executable Programs</a></p>
+                        <p><a href="Accessing-the-Editor-Using-Discern-Explorer.html">Accessing the Editor</a></p>
+                        <p><a href="Writing-the-Program-Using-Discern-Explorer.html">Writing the Program</a></p>
+                        <p><a href="Saving-the-Program-and-Exiting-the-Editor-Using-Discern-Explorer.html">Saving the Program and Exiting the Editor</a></p>
+                        <p><a href="Including-the-Program-in-the-Object-Library-Using-Discern-Explorer.html">Including the Program in the Object Library</a></p>
+                        <p><a href="Executing-the-Program-Using-Discern-Explorer.html">Executing the Program</a></p>
+                    </div>
+                </div>
+
+                <!-- Specifying Run-Time Parameters -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Specifying Run-Time Parameters
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Specifying-Run-Time-Parameters-Using-Discern-Explorer.html">Specifying Run-Time Parameters</a></p>
+                        <p><a href="Defining-Parameters-Using-Discern-Explorer.html">Defining Parameters</a></p>
+                        <p><a href="Defining-Prompts-Using-Discern-Explorer.html">Defining Prompts</a></p>
+                        <p><a href="Defining-Defaults-Using-Discern-Explorer.html">Defining Defaults</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 2 -->
+            <div class="space-y-6">
+                <!-- PLANS and JOINS -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        PLANS and JOINS
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="PLANS-and-JOINS-Using-Discern-Explorer.html">PLANS and JOINS</a></p>
+                        <p><a href="Multiple-Table-JOINS-Using-Discern-Explorer.html">Multiple Table JOINS</a></p>
+                        <p><a href="Joining-to-a-Table-Twice-Using-Discern-Explorer.html">Joining to a Table Twice</a></p>
+                        <p><a href="Using-a-SUBQUERY-Using-Discern-Explorer.html">Using a SUBQUERY</a></p>
+                        <p><a href="Stepping-Through-JOINS-Using-Discern-Explorer.html">Stepping Through JOINS</a></p>
+                        <p><a href="Creating-a-Nonlinear-JOIN-Path-Using-Discern-Explorer.html">Creating a Nonlinear JOIN Path</a></p>
+                        <p><a href="JOIN-Options-Using-Discern-Explorer.html">JOIN Options</a></p>
+                        <p><a href="Additional-JOIN-Examples-Using-Discern-Explorer.html">Additional JOIN Examples</a></p>
+                        <p><a href="JOIN-Messages-and-Oracle-Indexes-Using-Discern-Explorer.html">JOIN Messages and Oracle Indexes</a></p>
+                        <p><a href="OUTERJOIN-or-LEFT-JOIN-Using-Discern-Explorer.html">OUTERJOIN or LEFT JOIN</a></p>
+                        <p><a href="Discern-Explorer-DONTCARE-Using-Discern-Explorer.html">Discern Explorer DONTCARE</a></p>
+                        <p><a href="Discern-Explorer-OUTERJOIN-Using-Discern-Explorer.html">Discern Explorer OUTERJOIN</a></p>
+                    </div>
+                </div>
+
+                <!-- Reportwriter -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Reportwriter
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Introduction-to-Reportwriter-Using-Discern-Explorer.html">Introduction to Reportwriter</a></p>
+                        <p><a href="The-First-Step-Using-Discern-Explorer.html">The First Step</a></p>
+                        <p><a href="Reportwriter-Syntax-Using-Discern-Explorer.html">Reportwriter Syntax</a></p>
+                        <p><a href="Report-Items-Using-Discern-Explorer.html">Report Items</a></p>
+                        <p><a href="Reportwriter-Clauses-Using-Discern-Explorer.html">Reportwriter Clauses</a></p>
+                        <p><a href="Absolute-Versus-Relative-References-Using-Discern-Explorer.html">Absolute Versus Relative References</a></p>
+                        <p><a href="The-HEAD-REPORT-Clause-Using-Discern-Explorer.html">The HEAD REPORT Clause</a></p>
+                        <p class="pl-4"><a href="Initializing-Expressions-Using-Discern-Explorer.html">Initializing Expressions</a></p>
+                        <p class="pl-4"><a href="Defining-Macros-Using-Discern-Explorer.html">Defining Macros</a></p>
+                        <p class="pl-4"><a href="Defining-a-Report-Title-Using-Discern-Explorer.html">Defining a Report Title</a></p>
+                        <p class="pl-4"><a href="Printing-a-Title-Page-Using-Discern-Explorer.html">Printing a Title Page</a></p>
+                        <p><a href="The-HEAD-PAGE-Clause-Using-Discern-Explorer.html">The HEAD PAGE Clause</a></p>
+                        <p class="pl-4"><a href="Printing-Page-Headers-and-Column-Headings-Using-Discern-Explorer.html">Printing Page Headers and Column Headings</a></p>
+                        <p><a href="The-HEAD-Group_Expression-Clause-Using-Discern-Explorer.html">The HEAD Group_Expression Clause</a></p>
+                        <p class="pl-4"><a href="Logical-Groups-of-Information-Using-Discern-Explorer.html">Logical Groups of Information</a></p>
+                        <p class="pl-4"><a href="Nesting-Group-Expressions-Using-Discern-Explorer.html">Nesting Group Expressions</a></p>
+                        <p><a href="The-DETAIL-Clause-Using-Discern-Explorer.html">The DETAIL Clause</a></p>
+                        <p><a href="The-FOOT-Group_Expression-Clause-Using-Discern-Explorer.html">The FOOT Group_Expression Clause</a></p>
+                        <p class="pl-4"><a href="Aggregate-Functions-Using-Discern-Explorer.html">Aggregate Functions</a></p>
+                        <p><a href="The-FOOT-PAGE-Clause-Using-Discern-Explorer.html">The FOOT PAGE Clause</a></p>
+                        <p><a href="The-FOOT-REPORT-Clause-Using-Discern-Explorer.html">The FOOT REPORT Clause</a></p>
+                        <p><a href="Reportwriter-Examples-Using-Discern-Explorer.html">Reportwriter Examples</a></p>
+                        <p class="pl-4"><a href="Complete-Reportwriter-Example-Using-Discern-Explorer.html">Complete Example</a></p>
+                        <p class="pl-4"><a href="Multiple-Group_Expressions-Example-Using-Discern-Explorer.html">Multiple Group_Expressions Example</a></p>
+                        <p class="pl-4"><a href="Summary-Report-Example-Using-Discern-Explorer.html">Summary Report Example</a></p>
+                    </div>
+                </div>
+
+                <!-- Using DIO Commands -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Using DIO Commands
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Using-DIO-Commands-Overview-Using-Discern-Explorer.html">Using DIO Commands Overview</a></p>
+                        <p><a href="General-DIO-Syntax-Rules-Using-Discern-Explorer.html">General DIO Syntax Rules</a></p>
+                        <p><a href="Row-and-Column-References-Versus-the-POSITION-Command-Using-Discern-Explorer.html">Row and Column References Versus the POSITION Command</a></p>
+                        <p><a href="Processing-DIO-Commands-Using-Discern-Explorer.html">Processing DIO Commands</a></p>
+                        <p><a href="Color-Selections-Using-Discern-Explorer.html">Color Selections</a></p>
+                        <p><a href="Supported-Fonts-Using-Discern-Explorer.html">Supported Fonts</a></p>
+                        <p><a href="Sample-DIO-Programs-Using-Discern-Explorer.html">Sample DIO Programs</a></p>
+                        <p><a href="Final-Reminders-for-DIO-Commands-Using-Discern-Explorer.html">Final Reminders for DIO Commands</a></p>
+                    </div>
+                </div>
+
+                <!-- Using HTML Output -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Using HTML Output
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Building-Discern-Explorer-CCL-Programs-to-Display-HTML-Output-Using-Discern-Explorer.html">Building Discern Explorer CCL Programs to Display HTML Output</a></p>
+                        <p><a href="Building-Web-Pages-Using-XMLCclRequest-Using-Discern-Explorer.html">Building Web Pages Using XMLCclRequest</a></p>
+                        <p><a href="Context-Variables-Available-Using-Discern-Explorer.html">Context Variables Available</a></p>
+                        <p><a href="Using-a-Discern-Explorer-CCL-Program-to-Display-HTML-Content-Using-Discern-Explorer.html">Using a Discern Explorer CCL Program to Display HTML Content</a></p>
+                    </div>
+                </div>
+
+                <!-- Discern HTML Link Markup -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Discern HTML Link Markup
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="CCLLINK-Using-Discern-Explorer.html">CCLLINK</a></p>
+                        <p><a href="APPLINK-Using-Discern-Explorer.html">APPLINK</a></p>
+                        <p><a href="CCLEVENT-Using-Discern-Explorer.html">CCLEVENT</a></p>
+                        <p><a href="CCLNEWSESSIONWINDOW-Using-Discern-Explorer.html">CCLNEWSESSIONWINDOW</a></p>
+                        <p><a href="CCLLINKPOPUP-Using-Discern-Explorer.html">CCLLINKPOPUP</a></p>
+                        <p><a href="MPAGES_EVENT-Using-Discern-Explorer.html">MPAGES_EVENT</a></p>
+                        <p><a href="MPAGES_SVC_EVENT-Using-Discern-Explorer.html">MPAGES_SVC_EVEN</a></p>
+                    </div>
+                </div>
+
+                <!-- Using Record Structures -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Using Record Structures
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Record-Structures-Using-Discern-Explorer.html">Record Structures</a></p>
+                        <p><a href="Defining-a-Record-Structure-Using-Discern-Explorer.html">Defining a Record Structure</a></p>
+                        <p><a href="Accessing-a-Record-Structure-Using-Discern-Explorer.html">Accessing a Record Structure</a></p>
+                        <p><a href="Populating-or-Loading-Data-Into-a-Record-Structure-Using-Discern-Explorer.html">Populating or Loading Data Into a Record Structure</a></p>
+                        <p><a href="Selecting-Information-That-is-Related-to-Values-Currently-in-a-Record-Structure-Using-Discern-Explorer.html">Selecting Information That is Related to Values Currently in a Record Structure</a></p>
+                        <p><a href="Displaying-Information-That-is-Currently-in-a-Record-Structure-Using-Discern-Explorer.html">Displaying Information That is Currently in a Record Structure</a></p>
+                        <p><a href="Capturing-Record-Structure-Status-Using-Discern-Explorer.html">Capturing Record Structure Status</a></p>
+                        <p><a href="Related-Topics-Using-Discern-Explorer.html">Related Topics</a></p>
+                        <p><a href="Final-Thoughts-Using-Discern-Explorer.html">Final Thoughts</a></p>
+                    </div>
+                </div>
+
+                <!-- Database Management -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Database Management
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Database-Management-Overview-Using-Discern-Explorer.html">Database Management Overview</a></p>
+                        <p><a href="Creating-an-ISAM-User-Defined-File-Using-Discern-Explorer.html">Creating an ISAM User-Defined File</a></p>
+                        <p><a href="Creating-the-C-ISAM-Data-File-Using-Discern-Explorer.html">Creating the C-ISAM Data File</a></p>
+                        <p><a href="The-SELECT-INTO-TABLE-Command-Using-Discern-Explorer.html">The SELECT INTO TABLE Command</a></p>
+                        <p><a href="Creating-an-Empty-File-Using-Discern-Explorer.html">Creating an Empty File</a></p>
+                        <p><a href="Modifying-a-User-Defined-File-Using-Discern-Explorer.html">Modifying a User-Defined File</a></p>
+                        <p><a href="Adding-Rows-to-an-ISAM-User-Defined-File-Using-Discern-Explorer.html">Adding Rows to an ISAM User-Defined File</a></p>
+                        <p><a href="Updating-Rows-in-a-User-Defined-File-Using-Discern-Explorer.html">Updating Rows in a User-Defined File</a></p>
+                        <p><a href="Deleting-Rows-From-a-User-Defined-File-Using-Discern-Explorer.html">Deleting Rows From a User-Defined File</a></p>
+                        <p><a href="Creating-Complex-Files-Using-DDL-Using-Discern-Explorer.html">Creating Complex Files Using DDL</a></p>
+                        <p><a href="Creating-a-Single-Level-Table-With-Multiple-Indexes-Using-Discern-Explorer.html">Creating a Single Level Table with Multiple Indexes</a></p>
+                        <p><a href="Creating-a-Multilevel-Table-Using-Discern-Explorer.html">Creating a Multilevel Table</a></p>
+                    </div>
+                </div>
+
+                <!-- Building Host Screen Applications -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Building Host Screen Applications
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Screen-Applications-Overview-Using-Discern-Explorer.html">Screen Applications Overview</a></p>
+                        <p><a href="CALL-Commands-Using-Discern-Explorer.html">CALL Commands</a></p>
+                        <p><a href="SET-Commands-Using-Discern-Explorer.html">SET Commands</a></p>
+                        <p><a href="SQL-Commands-Using-Discern-Explorer.html">SQL Commands</a></p>
+                        <p><a href="Programming-Constructs-Using-Discern-Explorer.html">Programming Constructs</a></p>
+                    </div>
+                </div>
+
+                <!-- Creating Programs Using Screen Applications -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Creating Programs Using Screen Applications
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Creating-Programs-Using-Screen-Applications-Using-Discern-Explorer.html">Creating Programs Using Screen Applications</a></p>
+                        <p><a href="Define-SQL-Commands-Using-Discern-Explorer.html">Define SQL Commands</a></p>
+                        <p><a href="Define-the-PAINT-Clause-Using-Discern-Explorer.html">Define the PAINT Clause</a></p>
+                        <p><a href="Draw-the-Initial-Screen-Using-Discern-Explorer.html">Draw the Initial Screen</a></p>
+                        <p><a href="Declare-Variables-Using-Discern-Explorer.html">Declare Variables</a></p>
+                        <p><a href="Accept-Input-Using-Discern-Explorer.html">Accept Input</a></p>
+                        <p><a href="Using-SET-HELP-Using-Discern-Explorer.html">Using SET HELP</a></p>
+                        <p><a href="Validating-Data-Using-Discern-Explorer.html">Validating Data </a></p>
+                        <p><a href="Performing-Additional-Programming-Constructs-Using-Discern-Explorer.html">Performing Additional Programming Constructs</a></p>
+                    </div>
+                </div>
+
+                <!-- UTC (Coordinated Universal Time) -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        UTC (Coordinated Universal Time)
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="UTC-Coordinated-Universal-Time-Using-Discern-Explorer.html">UTC Coordinated Universal Time</a></p>
+                    </div>
+                </div>
+
+                <!-- Creating and Maintaining Custom Programs -->
+                <div class="panel bg-white border border-blue-900 rounded-lg shadow-md overflow-hidden">
+                    <div class="panel-header bg-blue-900 text-white font-bold py-3 px-4 rounded-t-lg">
+                        Creating and Maintaining Custom Programs
+                    </div>
+                    <div class="panel-content p-4 space-y-1">
+                        <p><a href="Custom-Program-Naming-Standard-Using-Discern-Explorer.html">Custom Program Naming Standard</a></p>
+                        <p><a href="File-Naming-Standard-Using-Discern-Explorer.html">File Naming Standard</a></p>
+                        <p><a href="Development-Process-Using-Discern-Explorer.html">Development Process</a></p>
+                        <p><a href="Source-Code-Archiving-and-Maintenance-Using-Discern-Explorer.html">Source Code Archiving and Maintenance</a></p>
+                        <p><a href="Images-and-Include-Files-Using-Discern-Explorer.html">Images and Include Files</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

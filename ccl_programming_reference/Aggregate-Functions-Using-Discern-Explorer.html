@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Aggregate Functions Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Aggregate+Functions+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Aggregate functions are special functions that you can use to calculate values based on groups of elements. They can be used in the FOOT group_expression and FOOT REPORT clauses of the Reportwriter, and in select expressions with some restrictions.</p><p>The syntax for using an aggregate function in the FOOT group_expression and FOOT REPORT clauses is displayed below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>{aggregate_function (expression [WHERE qualification])
+	["template; display_qualifier, display_format"]}
+</pre>
+</div></div><p>Valid aggregate functions in the FOOT group_expression and FOOT REPORT clauses are:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Function</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><th class="confluenceTh"><p>AVG</p></th><td class="confluenceTd"><p>Returns the average of two or more values.</p></td></tr><tr><th class="confluenceTh"><p>COUNT</p></th><td class="confluenceTd"><p>Returns the count of an expression.</p></td></tr><tr><th class="confluenceTh"><p>MAX</p></th><td class="confluenceTd"><p>Returns the largest value of an expression.</p></td></tr><tr><th class="confluenceTh"><p>MEDIAN</p></th><td class="confluenceTd"><p>Returns the middle value of an aggregate list.</p></td></tr><tr><th class="confluenceTh"><p>MIN</p></th><td class="confluenceTd"><p>Returns the smallest value of an expression.</p></td></tr><tr><th class="confluenceTh"><p>PERCENT</p></th><td class="confluenceTd"><p>Returns the specified percentage value of an aggregate list. The default value is 50%.</p></td></tr><tr><th class="confluenceTh"><p>STDDEV</p></th><td class="confluenceTd"><p>Returns the standard deviation of an expression.</p></td></tr><tr><th class="confluenceTh"><p>SUM</p></th><td class="confluenceTd"><p>Returns the sum of two or more values.</p></td></tr><tr><th class="confluenceTh"><p>VARIANCE</p></th><td class="confluenceTd"><p>Returns the variance of an expression.</p></td></tr></tbody></table></div><p>The most common aggregate function is the COUNT( ) function. This function enables you to count the number of rows extracted for a particular FOOT clause. You can use a WHERE clause to identify which rows to count. The following example counts the total number of patients and the number of patients with lengths of stay over five days for each nursing unit.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FOOT NURSE_UNIT
+	ROW +1
+	COL 45 "Total number of patients for this nursing unit: "
+	COL 95 COUNT(NAME)
+	ROW +1
+	COL 45 "Patients with LOS &gt; 5 for this nursing unit: "
+	COL 95 COUNT(NAME WHERE LOS &gt;5)
+</pre>
+</div></div><p>The following example uses the Sum( ) and Avg( ) functions to calculate the total number of days and average number of days that patients have been in the nursing unit.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FOOT NURSE_UNIT
+	ROW +1
+	COL 45 "Total number of days for this nursing unit: "
+	COL 95 SUM(LOS)
+	ROW +1
+	COL 45 "Average length of stay for this nursing unit: "
+	COL 95 AVG(LOS)
+
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 598, "requestCorrelationId": "2058ac2db48a1d9a"}</span>
+</body>
+</html>

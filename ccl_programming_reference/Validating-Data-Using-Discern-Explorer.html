@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Validating Data Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Validating+Data+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<h2 id="ValidatingDataUsingDiscernExplorer-WorkStepsSummary">Work Steps Summary</h2><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Step</th><th class="confluenceTh">Task</th></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">CREATE SELECT</td></tr><tr><td class="confluenceTd">2</td><td class="confluenceTd">DEFINE AS PAINT</td></tr><tr><td class="confluenceTd">3</td><td class="confluenceTd">DRAW BOX, LINES, TEXT</td></tr><tr><td class="confluenceTd">4</td><td class="confluenceTd">INIT VARIABLES</td></tr><tr><td class="confluenceTd">5</td><td class="confluenceTd">PUT IN ACCEPTS &amp; DEFAULTS</td></tr><tr><td class="confluenceTd">6</td><td class="confluenceTd">PUT IN HELP</td></tr><tr><th class="confluenceTh">7</th><th class="confluenceTh">PUT IN VALIDATION</th></tr><tr><td class="confluenceTd" colspan="1">8</td><td class="confluenceTd" colspan="1">ADDITIONAL PROGRAMMING CONSTRUCTS</td></tr></tbody></table></div><p><br/></p><p>You can validate the data entered by the users when running the program. This allows more control and restricts the user from running a program against an invalid value. Validation is now included in the program below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_SCREEN7 GO
+CREATE PROGRAM CCL_SCREEN7
+
+PAINT
+
+#INITS
+SET PRINTER = FILLSTRING(20," ")
+SET PRINTER = "MINE"
+SET USER_NAME = "ABC123"
+
+#DRAW_BOX
+CALL BOX(2,2,20,78)
+CALL LINE(6,2,77,XHOR)
+CALL TEXT(4,25,"EXAMPLE SCREEN APPLICATION!")
+CALL TEXT(8,5,"01  PRINTER:")
+CALL TEXT(10,5,"02  ENTER USERNAME:")
+
+CALL VIDEO(R)
+CALL TEXT(8,28,PRINTER)
+CALL TEXT(10,28,USER_NAME)
+CALL TEXT(20,20,"PRESS &lt;HOME&gt; TO END, &lt;HELP&gt; FOR INFO")
+CALL VIDEO(N)
+
+#LINE1
+;SET HELP = "LP01 - IS,  LP02 - LAB,  MINE - TERMINAL"
+SET HELP = FIX('P353,LP01,LP02,LP03,MINE')
+
+CALL ACCEPT(8,28,"P(20);CU",PRINTER
+
+WHERE CURACCEPT IN ("P353","LP01","LP02","LP03","MINE"))
+
+SET PRINTER = CURACCEPT
+
+#LINE2
+
+SET HELP =	SELECT INTO "NL:"
+
+USER = SUBSTRING(1,6,P.USERNAME),
+NAME = SUBSTRING(1,50,P.NAME_FULL_FORMATTED)
+
+FROM	PRSNL P
+WHERE	P.USERNAME &gt;= CNVTUPPER(CURACCEPT)
+ORDER	P.USERNAME
+WITH NOCOUNTER,MAXQUAL(P,50)
+
+SET VALIDATE =	SELECT INTO "NL:"
+
+USER = SUBSTRING(1,6,P.USERNAME)
+
+FROM	PRSNL P
+WHERE	P.USERNAME = CURACCEPT
+WITH NOCOUNTER
+
+SET VALIDATE = 2
+
+CALL ACCEPT(10,28,"P(6);CUP",USER_NAME)
+SET USER_NAME = CURACCEPT
+
+#CORRECT_YN
+CALL VIDEO(N)
+SET HELP OFF
+SET VALIDATE OFF
+CALL CLEAR(24,1)
+CALL TEXT(24,1,"CORRECT? (Y/N)")
+
+CALL ACCEPT(24,18,"P;CU","Y" WHERE CURACCEPT IN ("Y","N"))
+
+IF(CURACCEPT = "Y")
+CALL VIDEO(RB)
+  CALL CLEAR(24,1)
+  CALL TEXT(24,1,"PROCESSING ... ")
+  CALL VIDEO(N)
+ELSE
+  GO TO LINE1
+ENDIF
+
+SELECT INTO VALUE(PRINTER)
+
+ACT = EVALUATE(P.ACTIVE_IND,1,"ACTIVE",2,"INACTIVE"),
+P.PERSON_ID,
+DEPT = UAR_GET_CODE_DISPLAY(P.DEPARTMENT_CD),
+POSITION = UAR_GET_CODE_DISPLAY(P.POSITION_CD),
+P.NAME_FULL_FORMATTED,
+P.USERNAME,
+P.EMAIL,
+P.PHYSICIAN_IND,
+P.UPDT_DT_TM
+
+FROM	PRSNL P
+WHERE	P.USERNAME = PATSTRING(CNVTUPPER(USER_NAME))
+
+WITH NOCOUNTER
+
+END
+GO
+</pre>
+</div></div><p>Two methods are available for validating data that is entered in an input field.</p><ul><li>You can use a CALL ACCEPT command and a WHERE clause.</li><li>You can use a SET VALIDATE command before the CALL ACCEPT command.</li></ul><p>Both of these methods are described below.</p><p><strong><em>Using the WHERE Clause</em></strong></p><p>To validate data using the CALL ACCEPT command, use the WHERE clause defined in the syntax of the command:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT (begin_row, begin_col,
+	"picture[;{modifier}]" [,default]
+[WHERE qualification])
+</pre>
+</div></div><p>For example, to validate that a user has entered only "LP01", "LP02", "LP03", or "MINE" when the CALL ACCEPT command for printers is performed, include the WHERE clause shown below in the CALL ACCEPT command.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT(5,38,"PPPP;CUP","MINE" WHERE CURACCEPT IN ("LP01","LP02","LP03","MINE"))
+</pre>
+</div></div><p>This WHERE clause forces <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to check the value of CURACCEPT against the values defined with the IN statement. If the user enters anything other than these values, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> redisplays the default value in the input field and does not allow the user to bypass the field until one of the valid values is entered.</p><p>While this is a quick way to validate data, you are limited to a few hard-coded values against which validation can be performed. If you want to flex the valid values based on data stored in the system, use the SET VALIDATE command.</p><p><strong><em>Using SET VALIDATE</em></strong></p><p>The SET VALIDATE command is similar to the SET HELP command because you can read any table and validate the input against values stored on that table. The syntax of the SET VALIDATE command is shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET VALIDATE = validate_option</pre>
+</div></div><p>Five options are available with the SET VALIDATE command.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>Qual_num</p></td><td class="confluenceTd"><p>A qualifying number. When the SELECT option is used with the SET VALIDATE command, ensure that a second SET VALIDATE is issued to identify what action to take when input is entered for a CALL ACCEPT command. The following options are valid: <br class="atl-forced-newline"/> 0 Validate the data if no matches are found on the table. This is the default. <br class="atl-forced-newline"/> 1 Validate the data when only one record on the table matches the entered value. <br class="atl-forced-newline"/> 2 Validate the data if it occurs one or more times on the table.</p></td></tr><tr><td class="confluenceTd"><p>OFF</p></td><td class="confluenceTd"><p>Turns validation off.</p></td></tr><tr><td class="confluenceTd"><p>OPTIONAL</p></td><td class="confluenceTd"><p>The user can press &lt;Return&gt; through the prompt.</p></td></tr><tr><td class="confluenceTd"><p>REQUIRED</p></td><td class="confluenceTd"><p>The user must respond to the prompt with a valid value.</p></td></tr><tr><td class="confluenceTd"><p>SELECT command</p></td><td class="confluenceTd"><p>Any valid Discern Explorer query reading tables from the Data Dictionary.</p></td></tr></tbody></table></div><p>The options OFF, OPTIONAL, and REQUIRED are self-explanatory; only the SELECT command and qual_num options are described below.</p><p>To use the SELECT command option, you must identify a table and the value to be validated, similar to how you use the SELECT command in the SET HELP command. One difference between these two commands is that you <em>must</em> use the WHERE clause in the SET VALIDATE command because <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> needs to know what you are validating against (that you are checking the value of the CURACCEPT variable against the value of a field in a particular table). Be sure to use the equal (=) relational operator in the WHERE clause. If you use the greater than or equal to (&gt;=) relational operator, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> validates only that the value entered is greater than or equal to a value in the table.</p><p>The example below validates the input against the PRSNL table.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET VALIDATE =	SELECT INTO "NL:"
+USER = SUBSTRING(1,6,P.USERNAME)
+FROM	PRSNL P
+WHERE	P.USERNAME = CURACCEPT
+WITH NOCOUNTER
+SET VALIDATE = 2
+</pre>
+</div></div><p>When you use a SET VALIDATE command to perform validation, do not use a WHERE clause in the CALL ACCEPT command. Also, when you use the SET VALIDATE command and you do not plan to validate other data in the program, place a SET VALIDATE = OFF command after the CALL ACCEPT command to deactivate validation. Otherwise, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> continues to validate everything the user enters against the table defined in the SET VALIDATE command.</p><p>Another important option of the SET VALIDATE command is qual_num. Ensure that the SET VALIDATE = qual_num command <em>always</em> follows a SET VALIDATE command. The qual_num option identifies how <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> validates the data and can be either "0", "1", or "2". If you do not use the qual_num option after the SET VALIDATE command, the default is zero.</p><p>When you use SET VALIDATE = 0, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> allows <em>any</em> value to be entered and, in effect, will not validate against the table you identified in the SELECT portion of the command. Therefore, do not use the SET VALIDATE = 0 command when you are validating against tables you are reading.</p><p>Using "1" in the SET VALIDATE command indicates that you want to validate the data when only one record on the table matches the entered value. Using "2" in the SET VALIDATE command tells <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to accept the data if it occurs one or more times in the file. SET VALIDATE = 2 is typically used.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 605, "requestCorrelationId": "9f8a78a3bcc8ed4c"}</span>
+</body>
+</html>

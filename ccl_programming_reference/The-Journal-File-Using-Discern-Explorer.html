@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>The Journal File Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/The+Journal+File+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>As you enter commands at the command line during a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session, all your keystrokes except directives are saved in a journal file. By capturing the keystrokes you enter, the journal file enables you to save the keystrokes as a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> file, even if you did not intend to do so originally. For example, if you use <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to create an ad hoc query that extracts patient names. If you decide that you want to reuse the particular sequence of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> commands, you can access the journal file using the %JOURNAL directive. You then can save the commands as a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> script file, which can be accessed and edited like any other script. When accessing the journal file, it is not necessary to specify a file name. Enter <strong>%J</strong> and press ENTER. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> opens the journal file using the default editor.</p><p>To copy the journal file to a new file, use the following editor commands.</p><p><strong>For VMS/EDT</strong></p><ol><li>Press CTRL+ Z. The system displays the * prompt.</li><li>To return to the journal file, press C at the * prompt.</li><li>To copy the journal file, enter <strong>EXIT file_name</strong> and press ENTER on the numeric keypad. The system copies the file and returns to the Command Line mode.</li><li>To close the file without saving the changes, enter <strong>PF1 Q</strong>.</li></ol><p><strong>For UNIX/Emacs</strong></p><ol><li>To copy the journal file, press <strong>PF1 W</strong>. Enter the new file name at the prompt. The system copies the file and returns to the Command Line mode.</li><li>To close the file without saving the changes, enter <strong>PF1 Q</strong>.</li></ol><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>When you exit or quit the journal file, all commands in the file will be executed.</p></div></div><p>Enter <strong>%CLEAR</strong> (%C) at the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command line to turn off journaling if it is on, and on if it is off (%C is a toggle). This also clears the journal file of keystrokes from the current session.<br> The journal file is re-created automatically each time you use <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>. Each time you access a journal file (by entering "%J" and pressing &lt;Return&gt;) it relates to the current session only.</br></p><p>The journal file is assigned a filename that is a combination of the letters <strong>HIS</strong>, the process name (usually your answer back if you are using an <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> sign-on from the terminal from which the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session was run), and the letters <strong>CCL</strong> for the extension. When you exit <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>, the journal file is deleted.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 630, "requestCorrelationId": "e2a16bef82149782"}</span>
+</body>
+</html>

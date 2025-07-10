@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Subsorts Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Subsorts+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>You can sort data first by a primary column, and then in the primary column by a secondary column, and then in the secondary column by a tertiary column, and so on, up to ten deep. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> determines which column is primary and which is secondary, by the order in which the sort columns are listed in the ORDER clause. The first listed column is the primary column; the second listed column is secondary, and so forth. Each column listed in the ORDER clause is a subsort of the column listed before it.</p><p>The following sample query sorts first by birth date, sex code in each birth date, and then by patient name in birth date. In this example, the BIRTH_DT_TM column is the primary sort column, the SEX_CD column is the secondary sort column, and the NAME_LAST_KEY column is the tertiary sort column.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	P.BIRTH_DT_TM "MM/DD/YYYY",
+	P.SEX_CD
+FROM	PERSON P
+WHERE	P.NAME_LAST_KEY &gt; "A" 
+	AND P.BIRTH_DT_TM &gt; CNVTDATETIME("01-JAN-1940")
+ORDER	P.BIRTH_DT_TM,
+	P.SEX_CD,
+	P.NAME_LAST_KEY
+GO
+</pre>
+</div></div><p>The following is sample output from this query:</p><div class="table-wrap"><table class="wrapped confluenceTable"><tbody><tr><th class="confluenceTh"><p>NAME_FULL_FORMATTED</p></th><th class="confluenceTh"><p>BIRTH_DT_TM</p></th><th class="confluenceTh"><p>SEX_CD</p></th></tr><tr><td class="confluenceTd"><p>Smith, Jane</p></td><td class="confluenceTd"><p>01/04/1990</p></td><td class="confluenceTd"><p>15075.00</p></td></tr><tr><td class="confluenceTd"><p>Brown, William</p></td><td class="confluenceTd"><p>04/01/1990</p></td><td class="confluenceTd"><p>15080.00</p></td></tr><tr><td class="confluenceTd"><p>Doe, Alice</p></td><td class="confluenceTd"><p>05/23/1990</p></td><td class="confluenceTd"><p>15075.00</p></td></tr><tr><td class="confluenceTd"><p>Jones, Mary</p></td><td class="confluenceTd"><p>06/06/1990</p></td><td class="confluenceTd"><p>15075.00</p></td></tr><tr><td class="confluenceTd"><p>Doe, John</p></td><td class="confluenceTd"><p>06/06/1990</p></td><td class="confluenceTd"><p>15080.00</p></td></tr><tr><td class="confluenceTd"><p>Jones, Steve</p></td><td class="confluenceTd"><p>06/06/1990</p></td><td class="confluenceTd"><p>15080.00</p></td></tr><tr><td class="confluenceTd"><p>Brown, Mary</p></td><td class="confluenceTd"><p>10/16/1991</p></td><td class="confluenceTd"><p>15075.00</p></td></tr><tr><td class="confluenceTd"><p>Doe, Sue</p></td><td class="confluenceTd"><p>10/16/1991</p></td><td class="confluenceTd"><p>15075.00</p></td></tr><tr><td class="confluenceTd"><p>Jones, William</p></td><td class="confluenceTd"><p>10/16/1992</p></td><td class="confluenceTd"><p>15080.00</p></td></tr></tbody></table></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 484, "requestCorrelationId": "b53c22750e6159fd"}</span>
+</body>
+</html>

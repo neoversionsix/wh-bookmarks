@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Creating a Nonlinear JOIN Path Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Creating+a+Nonlinear+JOIN+Path+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Using the JOIN clause with a PLAN is a common type of join that creates an intersection between the tables being read. However, you might need to create a union to combine multiple sets of rows into one final set. You may need a UNION when a one-to-many relationship exists between the table to be read first for the join and the tables to which the join is being established:</p><ul><li>And no common column exists on the tables to which the join is being established (A to B and A to C).</li><li>Or a common column does exist on the tables to which the join is being established, but the data is in only one of the tables, not both of them. For example, if you are joining from A to B and A to C, the data exists only on B or C, but does not exist on both B and C simultaneously.</li></ul><p><br/></p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Using the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> ORJOIN to create a nonlinear join path with RDBMS tables requires using the DUMMYT table in the middle of the Plan clause. As a general efficiency guideline, you should not use the DUMMYT table in the middle of the Plan/Join clause. Doing so has a negative impact on efficiency. The <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> ORJOIN can be used to crate a nonlinear join path on RDBMS tables but most likely it is more efficient to use the UNION operator. Therefore the general recommendation is to use the UNION or UNION ALL operator to create a nonlinear join on RDBMS tables or use two separate queries and a record structure to manually combine the result sets.</p></div></div><p><strong>Using <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> ORJOIN</strong></p><p>The <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> ORJOIN provides the ability to select different paths of data with unique data sets within one query. If you were to perform a nonlinear join with a normal PLAN and JOIN clause, the result set contains duplicate data. The following example creates a nonlinear join linking table A to table B and table A to table C.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PLAN A
+JOIN B	WHERE A.COLUMN = B.INDEX_COLUMN
+JOIN C	WHERE A.COLUMN = C.INDEX_COLUMN
+</pre>
+</div></div><p>If table A has one row, table B has four rows, and table C has five rows, the result set from the above contains 20 rows. Each of the five rows on table C is linked with each of the four rows on table B. So data from both table B and table C is duplicated in the result set. Eliminate the duplication by using the ORJOIN clause, as shown in the following PLAN:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PLAN A
+JOIN (D1
+JOIN B	WHERE A.COLUMN = B.INDEX_COLUMN)
+ORJOIN (D2
+JOIN C	WHERE A.COLUMN = C.INDEX_COLUMN)
+</pre>
+</div></div><p>Using the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> ORJOIN clause, the result set will only contain nine rows. The ORJOIN reads table A, joins to table B, and gets four rows. It then goes back to table A, joins to table C, and gets five rows. Those two sets of rows are then combined into a single result set containing nine rows. This type of join is also described as a union.</p><p>In the above example, D1 and D2 are aliases referencing the DUMMYT table and must be used to accomplish ORJOINs as shown above.</p><p>Placement of the ORJOIN clause is critical, as is the use of parentheses in the ORJOIN. An ORJOIN cannot be used alone with a PLAN clause; the ORJOIN always must follow a JOIN or ORJOIN clause. Ensure that all of the tables used in the ORJOIN clause are embedded in parentheses. The parentheses indicate that all of the tables are in one group in the join path. The tables listed before the parentheses are in one group of the join path and the tables listed within the parentheses are in the other group of the join path.</p><p>The following sample ORJOIN uses the generic tables A, B, C, and the DUMMYT D1 and D2 tables.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FROM	A_TABLE A,
+
+B_TABLE B,
+	C_TABLE C,
+	DUMMYT D1,
+	DUMMYT D2
+
+PLAN A
+
+JOIN (D1
+JOIN B	WHERE A.COLUMN = B.INDEX_COLUMN)
+ORJOIN (D2
+JOIN C	WHERE A.COLUMN = C.INDEX_COLUMN)
+
+GO
+</pre>
+</div></div><p>When using an ORJOIN, you must use two references to the DUMMYT table. The first DUMMYT table (D1) is placed after the primary table. The second DUMMYT table (D2) is placed before the table that is the logical ORJOIN. The ORJOIN option is used on the second DUMMYT table (D2). When the DUMMYT table is used in the middle of a PLAN clause, the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> query is split into multiple queries that are sent to the RDBMS. When using an ORJOIN, a query that is made up of the items from the tables that are above D1 is sent to the RDBMS. The result set of that query is returned to <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> and held in memory. For each row in that result set, a second query that is made up of the items from the tables that are between D1 and D2 is sent to the RDBMS. This second query is executed once for each row that was returned from the first query. The result set from each execution of the second query is returned to <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> and added to the temporary result set. Finally a third query that is made up of the items from the tables that are after D2 is sent to the RDBMS. This third query is executed once for each row that was returned from the first query. The result set from each execution of the third query is returned to <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> and added to the temporary result set. Once all executions of the second and third queries have completed, the final result set made up of all the rows returned by all of those queries are returned. All the iterations of executing the second and third queries and combining the temporary results sets to create a final result set makes using this process very inefficient. Therefore it is most likely much more efficient to use the UNION or UNION ALL operator to create a nonlinear join on RDBMS tables or use two separate queries and a record structure to manually combine the result sets.</p><p>The following example uses an ORJOIN to create a nonlinear join to get information about people, their orders, and either the order comments or results from those orders.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+
+O.ORDER_MNEMONIC,
+	R.RESULT_ID,
+	OC.LONG_TEXT_ID
+
+FROM	PERSON P,
+
+ORDERS O,
+	ORDER_COMMENT OC,
+	RESULT R,
+	DUMMYT D1,
+	DUMMYT D2
+
+PLAN P	WHERE P.PERSON_ID &gt; 0
+JOIN O	WHERE O.PERSON_ID = P.PERSON_ID AND
+	O.ORDER_ID &gt; 0
+JOIN (D1
+JOIN OC	WHERE OC.ORDER_ID = O.ORDER_ID)
+ORJOIN (D2
+JOIN R	WHERE R.ORDER_ID = O.ORDER_ID)
+GO
+</pre>
+</div></div><p>The program reads the PERSON table for names, the ORDERS table for orders, the ORDER_COMMENT table for order comments, and the RESULT table for results. The link is from the PERSON table to the ORDERS table, then from the ORDERS table to either the ORDER_COMMENT table or the RESULT table. It is done this way because it is possible that the order may, or may not, have rows on either the ORDER_COMMENT or the RESULT tables at any time.</p><p><strong>The ORJOIN Message</strong></p><p>After a program that includes a join is run, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> displays a message similar to the one shown below. This message is described in JOIN messages.</p><p>0)TABLE_A:A(N#0)(Rng:0)KEY1&lt;0&gt;Rec&lt;2069&gt;<br/> 1)DUMMYT:D1(N#8)(Rng:3)Row&lt;2069&gt;<br/> 2)TABLE_B:B(N#2)(Rng:1)KEY1&lt;0&gt;Rec&lt;15&gt;<br/> 1)DUMMYT:D2(N#8)(Rng:4)Row&lt;2069&gt;<br/> 2)TABLE_C:C(N#2)(Rng:2)KEY1&lt;0&gt;Rec&lt;392&gt;</p><p>The first table read is identified by 0); the next table read is identified by 1). The third table read is identified in the third line of the message by 2). For an ORJOIN, the fourth table read is also identified by a 1) because ORJOIN redirects the read from a linear path to a nonlinear path. The next table read is identified by 2).</p><p><strong>Using the DECODE( ) Function</strong></p><p>When you create an ORJOIN, ensure that you use the DECODE( ) function to identify from which group of the join path the data originated. Without the DECODE( ) function, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> cannot determine whether the data came from table B or table C.</p><p>To understand the need for the DECODE( ) function, you first must understand how a report is created. When you create a SELECT and print the data using the Reportwriter, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> gathers all the data into a result set before it is printed. After all of the rows of data from all of the tables have been accumulated, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> then reads the result set to create the output. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> does not know where the data in the result set originated because one row of data in the result set is a combination of columns from one or more tables. The DECODE( ) function is used to identify where the data originated.</p><p>The DECODE( ) function is like an IF( ) statement that is used in the SELECT portion of your program. The syntax of the DECODE( ) function within the SELECT command is shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select_expression = DECODE(table_name.column_name, result
+{,table_name.column_name, result} [,result])
+</pre>
+</div></div><p>The DECODE( ) function returns a value based on whether data is found in a table and column listed in the parentheses. The select_expression is set to equal the result of the DECODE( ) function. That select_expression is equal to the result for the first table and column that has valid data. If none of the tables and columns listed in the DECODE( ) function has valid data, the select_expression is set to the last result listed in the DECODE( ) function. The select_expression can be set to a result that is the contents of a column, a character string, a number, and so on.</p><p>For example, in A JOIN B, A ORJOIN C, the DECODE( ) function could look like this:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DEC_EXP = DECODE(B.SEQ, "B", C.SEQ, "C", "Z")</pre>
+</div></div><p>This line would be interpreted as follows:</p><p>IF a valid value exists in the column B.SEQ, DEC_EXP is set equal to B.</p><p>ELSE IF a valid value exists in the column C.SEQ, DEC_EXP is set equal to C.</p><p>ELSE, DEC_EXP is set equal to Z.</p><p>The Seq Pseudo column is used in the above example. To learn more about Seq, click here .</p><p>The DECODE( ) function determines whether the data was read from table B or table C. If the data was not read from either table, DEC_EXP is set to a default value, in this case Z.<br/>Ensure that the following three rules are followed when you use the DECODE( ) function as part of an ORJOIN.</p><ol><li>Always include an ELSE option.</li><li>The select expression must be set to the same length and data type of all the result values (such as all ten-byte character strings, all real numbers, all integers, and so on).</li><li>List the exception tables first. For example, if you want to include data from table B even if data is on table C, list the column on table B first.</li></ol><p>The select expression used with the DECODE( ) function also can be used to sort the data to ensure that the data from each table is grouped together. The program below illustrates this.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	A.COLUMN,
+	B.COLUMN,
+	C.COLUMN,
+	DEC_EXP = DECODE(B.SEQ,"B",C.SEQ,"C","Z")
+
+FROM	A_TABLE A,
+	B_TABLE B,
+	C_TABLE C,
+	DUMMYT D1,
+	DUMMYT D2
+
+PLAN A
+JOIN (D1
+JOIN B	WHERE A.COLUMN = B.INDEX_COLUMN)
+ORJOIN (D2
+JOIN C	WHERE A.COLUMN = C.INDEX_COLUMN)
+ORDER	DEC_EXP
+
+GO
+</pre>
+</div></div><p>The following example pulls similar information from each path of the query. The DECODE( ) function is used to create an expression that flexes the column from each of the query paths. This is helpful to initialize each column in the query when using this type of ORJOIN.</p><p>This example shows an ORJOIN with the PERSON table as the primary table. The PERSON table is either joined to the PERSON_ALIAS table or joined to the ENCOUNTER table. The PERSON_ALIAS table contains information used to identify a person (for example, medical rec number, social security number, and so on). There can be many rows in the PERSON_ALIAS table that are related to a single row in the PERSON table. The ENCOUNTER table is joined to the ENCNTR_ALIAS table to obtain the aliases at the patient level. The rows returned are a patient listing of both person and encounter level aliases.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM EX_ALIAS:DBA GO
+CREATE PROGRAM EX_ALIAS:DBA
+
+PROMPT	"Output to File/Printer/MINE "  =  MINE
+	,"Enter the First Name " = "*"
+	,"Enter the Last Name " = "*"
+SELECT INTO $1
+	PATIENT = P1.NAME_FULL_FORMATTED,
+	SIDE = DECODE(PA.SEQ,"PA",E.SEQ,"EA","ZZ"),
+	ALIAS = DECODE(PA.SEQ,PA.ALIAS,E.SEQ,EA.ALIAS," "),
+	ALIAS_TYPE = DECODE(PA.SEQ,UAR_GET_CODE_DISPLAY(PA.PERSON_ALIAS_TYPE_CD),
+		E.SEQ,UAR_GET_CODE_DISPLAY(EA.ENCNTR_ALIAS_TYPE_CD)," ")
+FROM	PERSON P1,
+	PERSON_ALIAS PA,
+	DUMMYT D1,
+	DUMMYT D2,
+	ENCOUNTER E,
+	ENCNTR_ALIAS EA
+
+PLAN P1	WHERE P1.NAME_FIRST_KEY = $2 AND
+	P1.NAME_LAST_KEY = $3
+JOIN (D1
+JOIN PA	WHERE P1.PERSON_ID = PA.PERSON_ID)
+
+ORJOIN (D2
+JOIN E	WHERE P1.PERSON_ID = E.PERSON_ID
+JOIN EA	WHERE E.ENCNTR_ID = EA.ENCNTR_ID)
+
+WITH	MAXCOL = 300
+END GO
+</pre>
+</div></div><p>This program provides the following output:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PATIENT	        SIDE	ALIAS	     ALIAS_TYPE
+Abner, Alice	PA	111663333	SSN
+Abner, Alice	PA	555999	        MRN
+Abner, Alice	EA	1234	        FIN NBR
+Brothers, Mike	PA	111994444	SSN
+Smith, George	PA	555777999	SSN
+Smith, George	EA	2455	        FIN NBR
+Smith, George	EA	16654	        Visit ID
+</pre>
+</div></div><p>This second example pulls completely different information from each path of the query. One path pulls person aliases; the other pulls personnel related to the patient. The DECODE( ) function is used to create an expression in the select list (SIDE) which is used to sort and flex what prints in Reportwriter.</p><p>The example shows an ORJOIN with the PERSON table as the primary table. The PERSON table is either joined to the PERSON_ALIAS table or joined to the ENCOUNTER table. The PERSON_ALIAS table contains information used to identify a person (for example, medical rec number, social security, and so on). There can be many rows in the PERSON_ALIAS table that are related to a single row in the PERSON table. The ENCOUNTER table is joined to the encounter-personnel relationship ENCNTR_PRSNL_RELTN table to obtain the physicians. The ENCNTR_PRSNL_RELTN table contains pointers to related personnel in the personnel table. The kind of relationship (for example, admitting physician, attending, and so on) defines how the encounter and personnel are related. The next join to the PRSNL table is looking up the physician's name.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM EX_ALIAS_DOC2:DBA GO
+CREATE PROGRAM EX_ALIAS_DOC2:DBA
+
+PROMPT	"Output to File/Printer/MINE "  =  MINE
+
+SELECT INTO $1
+	PATIENT = SUBSTRING(1,40,P.NAME_FULL_FORMATTED),
+	SIDE = DECODE(PA.SEQ,1,E.SEQ,2,3),
+	ALIAS = SUBSTRING(1,25,PA.ALIAS),
+	PERSON_ALIAS_TYPE_DISP = UAR_GET_CODE_DISPLAY( PA.PERSON_ALIAS_TYPE_CD ),
+	ENCNTR_PRSNL_R_DISP = UAR_GET_CODE_DISPLAY( EP.ENCNTR_PRSNL_R_CD ),
+	PHYSICIAN = SUBSTRING(1,40,PR.NAME_FULL_FORMATTED)
+FROM	PERSON P,
+	PRSNL  PR,
+	ENCOUNTER  E,
+	PERSON_ALIAS  PA,
+	ENCNTR_PRSNL_RELTN  EP,
+	DUMMYT  D1,
+	DUMMYT  D2
+PLAN P	WHERE P.PERSON_ID &gt; 0
+JOIN (D1
+JOIN PA	WHERE P.PERSON_ID = PA.PERSON_ID)
+ORJOIN (D2
+JOIN E	WHERE P.PERSON_ID = E.PERSON_ID
+JOIN EP	WHERE E.ENCNTR_ID = EP.ENCNTR_ID
+JOIN PR	WHERE EP.PRSNL_PERSON_ID = PR.PERSON_ID)
+
+ORDER	PATIENT,
+	SIDE
+HEAD PAGE
+	ROW + 1
+	COL 69  "PAGE:"
+	COL 75  CURPAGE "##"
+	ROW + 2
+HEAD PATIENT
+	COL 13 PATIENT
+	ROW + 2
+HEAD SIDE
+	ROW + 1
+	COL 19 IF ( SIDE = 1 )
+	  "ALIAS: "
+	ELSEIF(SIDE = 2)
+	  "PHYSICIAN:"
+	ENDIF
+DETAIL
+	IF ((ROW + 4) &gt;= MAXROW)  BREAK ENDIF
+	COL 38  IF ( SIDE = 1 )
+	  ALIAS
+	ELSEIF(SIDE = 2)
+	  PHYSICIAN
+	ENDIF
+	COL 57  IF ( SIDE = 1 )
+	  PERSON_ALIAS_TYPE_DISP
+	ELSEIF(SIDE = 2)
+	  ENCNTR_PRSNL_R_DISP
+	ENDIF
+	ROW + 1
+FOOT PATIENT
+	ROW+1
+END
+GO
+</pre>
+</div></div><p>This program provides the following output:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Abner, Alice
+              ALIAS:	111663333	SSN
+                        555999	        MRN
+             PHYSICIAN:	Lawrence, John	Admitting
+Brothers, Mike
+              ALIAS:	111994444	SSN
+Smith, George
+              ALIAS:	555777999	SSN
+              PHYSICIAN: Johnson, Michael	Admitting
+                         Jones, Rebecca	        Consulting
+</pre>
+</div></div><p><strong>Using the UNION operator</strong></p><p>When working with RDBMS tables, the UNION operator generally is much more efficient than an ORJOIN. The UNION operator provides the ability to combine the result sets of multiple queries into a single result set.</p><p>The following program demonstrates using the UNION operator to return one data set, which contains all people with the first and last name entered by the user, and each of their person and encounter aliases.</p><p>For a more in-depth look at using the UNION operator, click here.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_UNION GO
+CREATE PROGRAM CCL_UNION
+
+PROMPT	"ENTER OUTPUT DEVICE: " = MINE,
+	"ENTER FIRST NAME: " = "FIRST",
+	"ENTER LAST NAME: " = "LAST"
+
+SELECT INTO $1
+	NAME = P1.NAME_FULL_FORMATTED,
+	ALIAS = PA.ALIAS,
+	TYPE_CD = PA.PERSON_ALIAS_TYPE_CD,
+	SIDE = "PA"
+FROM	PERSON P1,
+	PERSON_ALIAS PA
+PLAN P1	 WHERE P1.NAME_FIRST_KEY = $2 AND
+	P1.NAME_LAST_KEY = $3
+JOIN PA	WHERE P1.PERSON_ID = PA.PERSON_ID
+
+UNION
+
+(SELECT NAME = P2.NAME_FULL_FORMATTED,
+	ALIAS = EA.ALIAS,
+	TYPE_CD = EA.ENCNTR_ALIAS_TYPE_CD,
+	SIDE = "EA"
+FROM	PERSON P2,
+	ENCOUNTER E,
+	ENCNTR_ALIAS EA
+WHERE	P2.PERSON_ID = E.PERSON_ID AND
+	E.ENCNTR_ID = EA.ENCNTR_ID AND
+	P2.NAME_FIRST_KEY = $2 AND P2.NAME_LAST_KEY = $3)
+DETAIL
+	COL 0 NAME
+	COL 40 ALIAS
+	DISP = UAR_GET_CODE_DISPLAY(TYPE_CD)
+	COL 60 DISP
+	COL 100 SIDE
+	ROW +1
+WITH	MAXREC = 100,
+	MAXCOL = 300,
+	RDBUNION,
+	FORMAT,
+	SEPARATOR = " "
+END
+GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 1358, "requestCorrelationId": "21732ec98d7044db"}</span>
+</body>
+</html>

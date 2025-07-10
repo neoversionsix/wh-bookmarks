@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Creating Executable Programs Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Creating+Executable+Programs+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Before you create an executable program, check the object library to determine whether the program name you plan to use, has been used previously. This will eliminate the possibility of overriding someone else's object code in your group. To list the programs by name in a group, use CCLPROG or CCLPROT. If a program exists with the indicated name, it will be displayed.</p><p>Complete the following steps to create and run an executable program:</p><ol><li>Access the editor.</li><li>Write the source code.</li><li>Save the source code and exit the editor.</li><li>Include the source code to create the object in the object library.</li><li>Execute the program.</li></ol><p>Complete the following steps to create and run an executable program:</p><ol><li>Run CCLPROG to check that the object name you plan to use does not already exist.</li><li>Write the source code, including DROP and CREATE PROGRAM commands in the editor. Save and include the file.</li><li>Execute the program.</li></ol><p>It is a good habit to check the object library before creating a new executable program using the DROP PROGRAM and the CREATE PROGRAM commands. This eliminates overriding someone else's object code in your group. To view program names by group, use the program CCLPROG and enter the object name you want to define. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>® displays the object name if one exists. Complete the following steps to view program names by group:</p><ol><li>Sign on to <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>. At the command line, type in <strong>CCLPROG GO.</strong></li><li>Press<strong> ENTER</strong>.</li><li>Press <strong>ENTER</strong> to accept MINE.</li><li>Press<strong> P</strong> for program.</li><li>Press <strong>ENTER</strong>.</li><li>Type in the object name <strong>TABLEDEF2.</strong></li><li>Press <strong>ENTER</strong>.<br> 1) CCLPROG GO<br/> MINE<br/> P<br/> TABLEDEF2<br/> The object name, TABLEDEF2, is displayed under the DBA group.</br></li><li>Run CCLPROG before creating executable programs to ensure that the object name does not already exist.</li><li>Click <strong>Exit</strong> to exit the Displayer.</li><li>Run the <strong>CCLPROG</strong> program again using <strong>&lt;your_init&gt;_EXEC</strong> as the object name.</li><li>Click <strong>Exit</strong> to exit the Displayer.</li></ol><p>If no records qualify, the object name does not exist and is available for you to use. If an object has already been created with the name &lt;your_init&gt;_exec, run CCLPROG again using a different set of initials until you find an object name that is not in use.</p><p>For the second part of the process, use an editor to create a text file containing the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> commands. Two new commands are introduced in the following topics:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM &lt;object_name&gt; GO
+CREATE PROGRAM &lt;object_name&gt;
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 554, "requestCorrelationId": "ff5e0abec77ec1d5"}</span>
+</body>
+</html>

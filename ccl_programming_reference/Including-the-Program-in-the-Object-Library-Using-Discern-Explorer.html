@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Including the Program in the Object Library Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Including+the+Program+in+the+Object+Library+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><br>When the source code is created using the editor, it must be included in the object library before it can be run as an executable program. If you use the %EDIT directive to create the source code, use the %INCLUDE directive to include the program in the object library (such as %I source_name, where source_name is the name of the text file to be translated into an executable program). For example, if you enter <strong>%E TESTPROGRAM.CCL</strong> on the command line to enter your <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program through the editor, you would then include the program in the object library by entering <strong>%I TESTPROGRAM.CCL</strong>.</br></p><p>The %I directive tells <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to perform the following steps:</p><ol><li>Check the file for errors in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> grammar and syntax, and flag any it finds.</li><li>Translate (or compile) the file into executable form.</li><li>Add the executable program (the new object) to the object library if the CREATE PROGRAM command is used in the program.</li></ol><p>If you use the %RUN directive to edit the source code, it is included automatically in the object library when you exit the editor. Using this directive, it is not necessary to include the file with the %INCLUDE directive after saving the file.</p><p>The operating system (<span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Linux</span>, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">AIX</span>, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">HP-UX</span>) ulimit quotas should be considered for user accounts that are granted access to command-line <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to compile programs and perform other tasks. This includes executing ORAGEN3, SELECT INTO TABLE Table_Name, CREATE CCLUSER, and other commands which update the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> dictionary files. The ulimit file quota is required to have a higher limit than the size of the dic.dat file, which may exceed 1 GB (1,073,741,824 bytes) in size. See the man ulimit operating system help command, and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">AIX</span> and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Linux</span> resources for additional ulimit documentation.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 608, "requestCorrelationId": "18fada1e2816c33d"}</span>
+</body>
+</html>

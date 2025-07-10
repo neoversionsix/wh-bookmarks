@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CCLLINKPOPUP Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CCLLINKPOPUP+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><br> CCLLINKPOPUP is the routine used to open a HTML-supported, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> (CCL) report in a new <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Internet Explorer</span> window.</br></p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>For this routine to work, the following META tag must be included in the HEAD of the html file: <strong>&lt;META content='CCLLINKPOPUP' name='discern'&gt;</strong></p></div></div><p><strong>Syntax</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CCLLINKPOPUP(reportname,prompts,target,features,replaceflag)</pre>
+</div></div><p><strong>Metasymbols</strong></p><p><em>reportname</em> <br/> A textual string representing the name of the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> (CCL) report to be run.</p><p><em>prompts</em></p><p>A textual string representing the values that are passed into the prompt values associated with the report specified in reportname. These individual parameters need to be comma-delimited. Encryption of data is supported beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.4.4.</p><p><em>target</em></p><p>A textual string representing the name of the new session window. This name is used as the value for the TARGET attribute on a form or an anchor element.</p><p><em>features</em></p><p>A textual string that represents a list of features the window assumes. The features string contains a list of items separated by commas. Each item consists of an option and a value, separated by an equal (=) sign. For example: <em>height=100, width=100</em>. The following features are supported:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Feature</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>height = number</p></td><td class="confluenceTd"><p>Sets the height of the window in pixels.</p></td></tr><tr><td class="confluenceTd"><p>left = number</p></td><td class="confluenceTd"><p>Specifies the left position, in pixels. This value is relative to the upper-left corner of the screen.</p></td></tr><tr><td class="confluenceTd"><p>top = number</p></td><td class="confluenceTd"><p>Specifies the top position, in pixels. This value is relative to the upper-left corner of the screen.</p></td></tr><tr><td class="confluenceTd"><p>width = number</p></td><td class="confluenceTd"><p>Sets the width of the window in pixels.</p></td></tr><tr><td class="confluenceTd"><p>resizable = yes/no/1/0</p></td><td class="confluenceTd"><p>Specifies whether window can be resized.</p></td></tr><tr><td class="confluenceTd"><p>status = yes/no/1/0</p></td><td class="confluenceTd"><p>Specifies whether to add a status bar at bottom of window.</p></td></tr><tr><td class="confluenceTd"><p>toolbar = yes/no/1/0</p></td><td class="confluenceTd"><p>Specifies whether to display the browser toolbar.</p></td></tr></tbody></table></div><p><em>replaceflag</em></p><p>A numeric value that specifies whether the URL creates a new entry or replaces the current entry in the window's history list. This parameter only takes effect if the _URL_is loaded into the same window.</p><div class="table-wrap"><table class="confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Value</th><th class="confluenceTh">Description</th></tr><tr><td class="confluenceTd"><strong>0</strong></td><td class="confluenceTd">Causes the URL to replace the current document in the history list.</td></tr><tr><td class="confluenceTd"><strong>1</strong></td><td class="confluenceTd">Creates a new entry in the history list.</td></tr></tbody></table></div><p><strong><br/>Example</strong></p><p>The following example illustrates opening a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> (CCL) program in an <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Internet Explorer</span> window:</p><p>REPORTNAME is the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> (CCL) program that is linked to, and it accepts seven prompts. The report output opens in a new <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Internet Explorer</span> window with a height and width of 200.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;a href='javascript:CCLLINKPOPUP("REPORTNAME",  "^MINE^, ^PROMPT2^, value($pat_personid$), PROMPT4, value($VIS_ENCNTRID$), value($usr_personid$)",
+"_blank","height=200,width=200",0)' &gt; Patient Summary Report &lt;/a&gt;</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 600, "requestCorrelationId": "b9ea1e3bda0d2ce6"}</span>
+</body>
+</html>

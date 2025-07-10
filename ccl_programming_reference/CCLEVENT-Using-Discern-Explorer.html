@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CCLEVENT Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CCLEVENT+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>CCLEVENT is the routine used to evoke special solution-specific events from within a web page.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>For this routine to work, the following META tag must be included in the HEAD of the html file: <strong>&lt;META content='CCLEVENT' name='discern'&gt;</strong></p></div></div><p><strong>Syntax</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CCLEVENT(eventname)</pre>
+</div></div><p><strong>Metasymbols</strong></p><p><em>eventname</em></p><p>A textual string representing the name of the solution-specific event that is to be triggered. The following options are valid:</p><div class="table-wrap"><table class="confluenceTable"><tbody><tr><th class="confluenceTh"><p>EVENT_EKS_OK</p></th><td class="confluenceTd"><p>Specifies that the <em>DiscernOutputViewer</em> window navigates to the home page in the navigation history. This is valid in the context of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">MPages</span> and Discern Notification (DiscernNotify.exe).</p></td></tr><tr><th class="confluenceTh" colspan="1">EVENT_NOTIFY_DELETE_HTMLONLY</th><td class="confluenceTd" colspan="1">Specifies that the Discern Notification message from which the event was evoked is deleted from the viewer. The &lt;delete&gt; key is disallowed, and only the HTML form containing this event can delete the message. This is valid only in the context of Discern Notification.</td></tr><tr><th class="confluenceTh"><p>EVENT_NOTIFY_DELETE</p></th><td class="confluenceTd"><p>Specifies that the Discern Notification message from which the event was evoked is deleted from the viewer. This is valid only in the context of Discern Notification.</p></td></tr><tr><th class="confluenceTh"><p>EVENT_NOTIFY_MINIMIZE</p></th><td class="confluenceTd"><p>Specifies that the Discern Notification viewer is minimized. This is valid only in the context of Discern Notification.</p></td></tr></tbody></table></div><p><strong>Examples</strong></p><p>The below example illustrates the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> (CCL) event EVENT_EKS_OK that is evoked when you click the button. This is a method to navigate back to the home page in the navigation history.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;a href='javascript:CCLEVENT("EVENT_EKS_OK")'&gt;
+Navigate Home&lt;/a&gt;</pre>
+</div></div><p> </p><p>The below example illustrates the CCL event EVENT_NOTIFY_DELETE that is evoked when you click the button. In Discern Notification, this event deletes the Discern Notification message from which the event was evoked after you perform another action.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;button onclick='javascript:CCLEVENT("EVENT_NOTIFY_DELETE");'&gt;Button Delete and Minimize&lt;/button&gt;
+</pre>
+</div></div><p> </p><p>The below example illustrates the CCL event EVENT_NOTIFY_DELETE_HTMLONLY that is evoked when you click the button. The button deletes the message similar to the EVENT_NOTIFY_DELETE event; however, the message cannot be deleted by any other method.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre> &lt;button onclick='javascript:CCLEVENT("EVENT_NOTIFY_DELETE_HTMLONLY");'&gt;Button Delete&lt;/button&gt;
+</pre>
+</div></div><p>  </p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 579, "requestCorrelationId": "e9be1858244a5720"}</span>
+</body>
+</html>

@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Capturing Record Structure Status Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Capturing+Record+Structure+Status+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><br> The STATUS( ) control option captures the status of each operation while processing through a record structure list on an insert, update, or delete. The STATUS( ) control option sets the record item equal to 0 if the operation failed or 1 if it is successful.</br></p><p>The program below attempts to insert two rows in a custom RDBMS table named TEST_TABLE. If both inserts are successful, R1-&gt;QUAL[1].STAT and R1-&gt;QUAL[2].STAT is set equal to 1. If a unique index on the TEST_TABLE.ID field exists, attempting to set the TEST_TABLE.ID to the same value on two different rows causes a unique constraint violation, causing the second attempt to fail. In this case, R1-&gt;QUAL[1].STAT is set equal to 1 and R1-&gt;QUAL[2].STAT is set equal to 0.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM TEST_INS GO
+CREATE PROGRAM TEST_INS
+
+RECORD R1(
+     1 LOAD_CNT   = I4
+     1 TOTAL_QUAL = I4
+     1 QUAL[10]
+          2 STAT  = I1  	;=0 the insert failed, =1 the insert succeeded
+          2 ID  = I4
+          2 PNAME  = C40
+)
+
+SET R1-&gt;QUAL[1].ID = 55
+SET R1-&gt;QUAL[1].PNAME = "TEST55"
+SET R1-&gt;QUAL[2].ID = 55
+SET R1-&gt;QUAL[2].PNAME = "TEST56"
+SET R1-&gt;LOAD_CNT = 2
+
+
+INSERT FROM
+	TEST_TABLE M,
+	(DUMMYT D WITH SEQ=VALUE(R1-&gt;LOAD_CNT))
+SET M.ID = R1-&gt;QUAL[D.SEQ].ID,
+    M.PNAME = R1-&gt;QUAL[D.SEQ].PNAMEL[D.SEQ].DATE2)
+PLAN D
+JOIN M
+WITH	NOCOUNTER, STATUS(R1-&gt;QUAL[D.SEQ].STAT) ;CAPTURING STATUS OF INSERT
+
+END
+GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 557, "requestCorrelationId": "334d6ece13ace759"}</span>
+</body>
+</html>

@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Declare Variables Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Declare+Variables+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<h2 id="DeclareVariablesUsingDiscernExplorer-WorkStepsSummary">Work Steps Summary</h2><div class="table-wrap"><table class="confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Step</th><th class="confluenceTh">Task</th></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">CREATE SELECT</td></tr><tr><td class="confluenceTd">2</td><td class="confluenceTd">DEFINE AS PAINT</td></tr><tr><td class="confluenceTd">3</td><td class="confluenceTd">DRAW BOX, LINES, TEXT</td></tr><tr><th class="confluenceTh">4</th><th class="confluenceTh">INIT VARIABLES</th></tr><tr><td class="confluenceTd">5</td><td class="confluenceTd">PUT IN ACCEPTS &amp; DEFAULTS</td></tr><tr><td class="confluenceTd">6</td><td class="confluenceTd">PUT IN HELP</td></tr><tr><td class="confluenceTd">7</td><td class="confluenceTd">PUT IN VALIDATION</td></tr><tr><td class="confluenceTd" colspan="1">8</td><td class="confluenceTd" colspan="1">ADDITIONAL PROGRAMMING CONSTRUCTS</td></tr></tbody></table></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>This page discusses declaring variables in the context of a backend screen application. For information and examples of creating variables in non-screen application programs, see the Declare command.</p></div></div><p>The next step is to declare and initialize user variables. Only two variables are required in the program example. They are used to store the data that is accepted when the user runs the program (printer and username). The program below defines the printer as a character string using the FILLSTRING( ) function and then sets the default to "MINE". The username is initialized and the default set to "ABC123" in one command.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_SCREEN4 GO
+CREATE PROGRAM CCL_SCREEN4
+
+PAINT
+
+#INITS
+SET PRINTER = FILLSTRING(20," ")
+SET PRINTER = "MINE"
+SET USER_NAME = "ABC123"
+
+#DRAW_BOX
+CALL BOX(2,2,20,78)
+CALL LINE(6,2,77,XHOR)
+CALL TEXT(4,25,"EXAMPLE SCREEN APPLICATION!")
+CALL TEXT(8,5,"01 PRINTER:")
+CALL TEXT(10,5,"02 ENTER USERNAME:")
+
+CALL VIDEO(R)
+CALL TEXT(20,20,"PRESS &lt;HOME&gt; TO END, &lt;HELP&gt; FOR INFO")
+CALL VIDEO(N)
+
+CALL PAUSE(5)
+
+SELECT	ACT = EVALUATE(P.ACTIVE_IND,1,"ACTIVE",2,"INACTIVE"),
+	P.PERSON_ID,
+	DEPT = UAR_GET_CODE_DISPLAY(P.DEPARTMENT_CD),
+	POSITION = UAR_GET_CODE_DISPLAY(P.POSITION_CD),
+	P.NAME_FULL_FORMATTED,
+	P.USERNAME,
+	P.EMAIL,
+	P.PHYSICIAN_IND,
+	P.UPDT_DT_TM
+FROM	PRSNL P
+WHERE	P.USERNAME = "ABC123"
+
+WITH NOCOUNTER
+
+
+END
+GO
+</pre>
+</div></div><p><strong>SET Variable Command</strong></p><p>The variables are declared and initialized using the SET variable command. The syntax of this command is shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET variable = expression [GO]</pre>
+</div></div><p>The variable name can be any combination of letters or numbers. Ensure that you do not use names that are already in use by <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> (any command like SELECT or SET, or any reserved variables like CURDATE or CURACCEPT). The expression to which you set a variable can be any alphabetic, numeric, or mathematics equation, an array, or a function (like the FILLSTRING( ) function).</p><p>The word "GO" is optional based on whether the command is contained inside an executable program or not. The word "GO" is not used in the CREATE PROGRAM command; it is used only as a stand-alone command outside the constructs of CREATE PROGRAM and END.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 559, "requestCorrelationId": "54d6f87b7c550e09"}</span>
+</body>
+</html>

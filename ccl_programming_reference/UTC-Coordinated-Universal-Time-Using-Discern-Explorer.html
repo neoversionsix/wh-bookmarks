@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>UTC Coordinated Universal Time Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/UTC+Coordinated+Universal+Time+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><span style="color: rgb(23,43,77);">Coordinated Universal Time (</span>UTC) is the time at zero degrees longitude. The acronym UTC is a compromise between the English CUT and French TUC acronyms. This longitude is by definition that of a line engraved in a brass plate in the floor of the Old Royal Observatory at Greenwich, England. Purists will correctly state that a difference between UTC and Greenwich Mean Time (GMT) exists. This difference is the result of how time is synchronized with the rotation and tilt of the earth. But for most intents and purposes UTC time can be considered to be equivalent to GMT.</p><p>In contrast to local time, UTC does not implement time zones. If I am in London and you are in New York, and we speak on the telephone, we could both record the start time of the call at 6:00 UTC. Whereas if we used local time to record the start time, the call would have started at six o'clock standard time in London compared to one o'clock standard time in New York.</p><p>When healthcare organizations have facilities in multiple local time zones, UTC is used to store dates and times as a standard time. The UTC can then be formatted to be displayed in local time.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Generally you do not need to adjust the time to account for different time zones when writing a datetime to the data base. Instead the UTC datetime is written to the data base. When the datetime is selected from the data base it is formatted to display in the local time zone. If needed the DATETIMEZONEFORMAT function is used to format the datetime to a time zone other than the current local time zone.</p></div></div><p><br>Below is a summary of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> and UTC.</br></p><h2 id="UTCCoordinatedUniversalTimeUsingDiscernExplorer-BehaviorofSelectStatements">Behavior of Select Statements</h2><p>By default <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> select statements format datetime fields to local datetime.</p><p>RDB select statements format datetime fields as UTC. The RDB command does not perform any implicit datetime conversions.</p><h2 id="UTCCoordinatedUniversalTimeUsingDiscernExplorer-ReservedVariablesRelatedtoUTC">Reserved Variables Related to UTC</h2><p>Reserved variable CURUTC returns 0 (zero) if UTC is disabled and 1 if UTC is enabled.</p><p>Reserved variable CURUTCDIFF returns the difference in seconds between UTC and local time if UTC is enabled, 0 (zero) if UTC is disabled.</p><p>Reserved variable CURTIMEZONE returns the current local time zone name.</p><p>Reserved variable CURTIMEZONEAPP returns the timezone index for the calling application regardless of UTC mode.</p><p>Reserved variable CURTIMEZONESYS returns the timezone index for the back-end system regardless of UTC mode.</p><p>SYSDATE variable returns the UTC datetime.</p><p>SYSTIMESTAMP variable returns the UTC datetime with fractional seconds.</p><p>CURDATE variable returns the local date as an Internal System Date.</p><p>CURTIME variable returns the local time in hhmm.</p><p>CURTIME2 variable returns the local time in hhmmss.</p><p>CURTIME3 variable returns the local time in 10-milliseconds.</p><h2 id="UTCCoordinatedUniversalTimeUsingDiscernExplorer-BehaviorofDatetimeFunctions">Behavior of Datetime Functions</h2><p>CNVTDATETIME, CNVTDATETIME2, CNVTAGEDATETIME, CNVTTIMESTAMP, functions:</p><ol><li>Assume a literal string is in local and convert to UTC.<br/>cnvtdatetime("01-JAN-2003 13:27:50") or cnvtdatetime("01-JAN-2003") converts from local to UTC datetime</li><li>Assume a datetime is already in UTC and returns asis.<br/>cnvtdatetime(p.updt_dt_tm) does not convert because p.updt_dt_tm is already in UTC</li><li>Assume a separate date and time is in local and converts to UTC.<br/>cnvtdatetime(curdate,curtime3) converts from local to UTC datetime</li><li>If less than 02-Jan-1800, then this is a special begin date and the datetime is returned unadjusted.</li><li>If greater than 02-Jan-2100, then this is a special end date and the datetime is returned unadjusted.</li></ol><h2 id="UTCCoordinatedUniversalTimeUsingDiscernExplorer-BehaviorofFormattingFunctions">Behavior of Formatting Functions</h2><p>FORMAT function formats a UTC datetime to the local time zone because the assumption is that all formatted datetimes are to be displayed as local datetimes.</p><p>DATETIMEZONEFORMAT function formats a UTC datetime to an indicated time zone.</p><p>DATEBIRTHFORMATfunction formats the birth datetime to the birth time zone.</p><p>DATEDECEASEDFORMAT function formats the deceased datetime to the deceased time zone.</p><h2 id="UTCCoordinatedUniversalTimeUsingDiscernExplorer-WhenaDatetimeisPassedasanArgumenttotheFollowingFunctions">When a Datetime is Passed as an Argument to the Following Functions</h2><p>DAY, HOUR, JULIAN, MINUTE, MONTH, WEEKDAY, YEAR, CNVTDATE, CNVTTIME, CNVTMIN, CNVTLOOKAHEAD, CNVTLOOKBEHIND</p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> first converts the datetime to a local datetime before processing the function.</p><h2 id="UTCCoordinatedUniversalTimeUsingDiscernExplorer-UTC-RelatedFunctions">UTC-Related Functions</h2><p>CNVTDATETIMEUTC function can be used to change datetime expressions to and from UTC.</p><p>CNVTDATETIMEUTC2 function can be used to convert a string that represents a date and a string that represents a time to and from a UTC datetime value.</p><p>CNVTDATETIMEUTC3 function can be used to convert a string that represents a date and a time to and from a UTC datetime value.</p><p>CNVTDATETIMERDB function can be used to convert datetime expressions to and from UTC. Valid in the Where clause or Group By queries on RDBMS tables.</p><p>DATETIMEZONEFORMAT returns the adjusted datetime based on the time zone index and formats it into a meaningful display.</p><p>DATETIMECMPUTC function can be used to adjust rdb_date_time columns from local to UTC or UTC to local, and return the number of days between two rdb_date_time columns.</p><p>DATETIMEZONEBYINDEX function returns the timezone name for the timezone index.</p><p>DATETIMEZONEBYNAME function returns timezone index for the timezone name.</p><p>DATETIMEZONE function returns the adjusted datetime based on the timezone index.</p><p>DATETIMEZONEUTC function returns the adjusted datetime based on the timezone index.</p><h2 id="UTCCoordinatedUniversalTimeUsingDiscernExplorer-UTC-RelatedFormatMasks">UTC-Related Format Masks</h2><p>The FORMAT function displays the timezone with the ZZZ or ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ mask.</p><p>The ZZZ format mask displays the three character abbreviated time zone.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echo(format(sysdate,"MMM-dd-yyyy HH:MM:SS ZZZ;3;q"))
+MAY-19-2003 12:42:03 Ame
+</pre>
+</div></div><p>The ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ format mask displays the 30-character time zone name.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echo(format(sysdate,"MMM-dd-yyyy HH:MM:SS ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ;3;q"))
+MAY-19-2003 12:42:03 America/Chicago
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 694, "requestCorrelationId": "517de6a98b409425"}</span>
+</body>
+</html>

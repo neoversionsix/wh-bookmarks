@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Source Code Archiving and Maintenance Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Source+Code+Archiving+and+Maintenance+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The recommendations below for source code archiving and maintenance assume that the recommendations for Custom Program Naming and File Naming have been followed. Most importantly that program names used in the drop program/create program commands are the same as the file name without the extension. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> recommends that clients establish a standard back-end location for storing files that are used to create custom programs, queries, and reports. Define a logical or environment variable such as CUST_SCRIPT to point to the standard back-end location. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> uses logicals or environment variables named CER_SCRIPT or CCLSOURCE to store the files for standard <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> programs. Clients must not store the files for their custom programs in those locations. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> recommends that you create a standard front-end location for storing .VCL files and the files used to move programs with layouts or prompt forms from one environment to another.</p><p>Note that the recommendation to have a standard front-end and back-end location for storing files results in some redundancies. The redundancies allow for the following:</p><ul><li>Mass move or upgrade procedures to include program objects from a custom warehouse (standard back-end location).</li><li>Facilitate easy movement of programs with prompt forms or layouts from one environment to another.</li><li>Ensure that the ability to visually edit layouts or layout programs created using Discern Visual Developer (DiscernVisualDeveloper.exe) or programs created using Visual Explorer (VisualExplorer.exe).</li></ul><h3 id="SourceCodeArchivingandMaintenanceUsingDiscernExplorer-SavingFilesForProgramsCreatedUsingVE(VE)"><strong>Saving Files For Programs Created Using VE (VE)</strong></h3><p>Once a program has been created or modified, and tested for efficiency and accuracy, save the .VCL file to the standard front-end location. VE also creates a .PRG file with the same name as the .VCL file. By default the .PRG file is written to the CCLUSERDIR: directory on the back end. The .PRG file should be saved to the standard back-end location.</p><p>To make modifications to the program using the VE editor, you must use the .VCL file. The program can be modified using a text editor or DVDev to modify and include/compile the .PRG file; however, any modifications made to the .PRG file are not reflected in VE when editing the .VCL file. Using Run Query, Run Report, or File &gt; Include/Compile in VE will create a new version of the program in the object library. This new version will not include any changes that previously were made using a .PRG file.</p><h3 id="SourceCodeArchivingandMaintenanceUsingDiscernExplorer-SavingFilesForProgramsCreatedWithDiscernVisualDeveloper(DVDev)"><strong>Saving Files For Programs Created With Discern Visual Developer (DVDev)</strong></h3><p>DVDev gives the programmer flexibility and provides multiple methods for creating <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> programs. For example, a .PRG file, containing the drop and create program commands, can be used to create a program and the prompt builder can be used to associate a prompt form with that program. The layout builder can be used to visually create free form label or layout programs. The layout builder can be used to visually create layout section subroutines and a .PRG file can be used to create a program that makes calls to those subroutines. The files that need to be saved to make future modifications or move a program to a different environment varies depending on the method that was used to create the program. Once a program has been created or modified, and tested for efficiency and accuracy, save the appropriate files to the standard back-end and or front-end location.</p><h3 id="SourceCodeArchivingandMaintenanceUsingDiscernExplorer-ProgramsWithoutPromptFormsorLayouts"><strong>Programs Without Prompt Forms or Layouts</strong></h3><p>For programs created using a .PRG file with the drop/create program commands that do not have prompt forms or layouts, save the .PRG file to the standard back-end location and use the Export option on the File menu to export the .PRG file to the standard front-end location.</p><h3 id="SourceCodeArchivingandMaintenanceUsingDiscernExplorer-ProgramsWithPromptForms"><strong>Programs With Prompt Forms</strong></h3><p>For programs created using a .PRG file with the drop/create program commands where the prompt builder has been used to create a prompt form, save the .PRG file to the standard back-end location. Use the Export option on the File menu to export the .PRG file to the standard front-end location. The export creates a .DPB file in the standard front-end location with the same name as the .PRG file. The .DPB file contains the prompt form definition in binary format. The import process uses the .DPB file to re-create the prompt form.</p><h3 id="SourceCodeArchivingandMaintenanceUsingDiscernExplorer-FreeFormLabelPrograms"><strong>Free Form Label Programs</strong></h3><p>The layout builder uses database tables instead of a file to store the code that is used to create free form label programs. By default a prompt form is created and associated with the free form label when the free form label program is created. Use the Export option on the File menu to export the free form label definition to an .FFL file in the standard front-end location.</p><p>The .FFL file can be imported to create the rows on the database tables that are used to visually edit the free form label using the layout builder. Importing the .FFL file also creates the prompt form that is associated with the free form label.</p><p>The .FFL file contains the information that is used to create the database table rows for the free form label and associated prompt form. The .FFL file does not contain the free form label program or the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> code that is used to create the free form label program. Like any other <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program, the actual free form label program is stored as a compiled object in the object library. When the free form label program is executed, it is the compiled object that actually gets executed. The layout builder temporarily generates the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> source code that is compiled to create the compiled program object in the object library. The Layout Code... option on the Layout menu in the layout builder can be used to see the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> code that is compiled to create the free form label program object. The layout code could be saved to a file, edited, and compiled to make changes to the compiled free form label program object. However, any changes made in this manner are not reflected in the layout builder. Any subsequent editing of the free form label program using the layout builder would overwrite any changes made using the file. The general recommendation is to use the layout builder to make all changes to the free form label program.</p><h3 id="SourceCodeArchivingandMaintenanceUsingDiscernExplorer-LayoutPrograms"><strong>Layout Programs</strong></h3><p>The layout builder uses database tables instead of a file to store the source code that is used to create layout programs. By default, a prompt form is created and associated with the layout program when the layout program is created. Use the Export option on the File menu to export the layout program definition to a .DVT file in the standard front-end location.</p><p>The .DVT file can be imported to create the rows on the database tables that are used to visually edit the layout program using the layout builder. Importing the .DVT file also creates the prompt form that is associated with the layout program.</p><p>The .DVT file contains the information that is used to create the database table rows for the layout program and associated prompt form. The .DVT does not contain the layout program or the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> code that is used to create the layout program. Like any other <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program, the actual layout program is stored as a compiled object in the object library. When the layout program is executed, it is the compiled object that actually gets executed. The layout builder temporarily generates the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> code that is compiled to create the compiled program object in the object library. The Layout Code... option on the Layout menu in the layout builder can be used to see the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> code that is compiled to create the layout program object. The layout code could be saved to a file, edited, and compiled to make changes to the compiled layout program object. However any changes made in this manner are not reflected in the layout builder and any subsequent editing of the layout program using the layout builder would overwrite any changes made using the file. The general recommendation is to use the layout builder to make all changes to the layout program.</p><h3 id="SourceCodeArchivingandMaintenanceUsingDiscernExplorer-ProgramsThatCallSubroutinesThatWereGeneratedUsingLayoutBuilder"><strong>Programs That Call Subroutines That Were Generated Using Layout Builder</strong></h3><p>When a layout section is created the layout builder generates <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> subroutines that contain the commands that are used to create the output. When creating a layout program, the layout builder generates the subroutines and the code to call the subroutines. Because the layout builder creates the subroutines, it is possible to visually define how the output looks using the layout builder and to then manually write the code to call the subroutines from a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program. This method is generally more difficult than using a layout program but does provide the programmer with the greatest amount of control.</p><p>When editing the .PRG file that contains the code to create the program that calls the subroutines, use the Export option on the File menu, to export the .PRG file to the standard front-end location. The export also creates a .DVT file in the standard front-end location. If the program created by the .PRG file has a prompt associated with it, the export also creates a .DPB file in the standard front-end location.</p><p>The import process uses the .DPB file to re-create the prompt form. The import process uses the information in the .DVT file to create the visual representation of the layout. Having the .DVT file allows you to import the layout and edit it using the layout builder.</p><p>See the following topics for more information:</p><ul><li>Custom Program Naming Standard</li><li>File Naming Standard</li><li>Development Process</li><li>Image and Include Files</li></ul>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 673, "requestCorrelationId": "70a5454304c63e9d"}</span>
+</body>
+</html>

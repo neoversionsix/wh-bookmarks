@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>The SEQ Pseudo Column Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/The+SEQ+Pseudo+Column+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The SEQ pseudo column exists in the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> table definition of every table in the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> system, but is never listed as an actual column on any Data Dictionary report (like TABLEDEF2). SEQ is not listed because it is created by <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to keep track of the number of occurs for each row.</p><p>On RDBMS tables the column, SEQ, would be equal to 1 for each row. Some ISAM tables may actually have repeating data where the value for the SEQ column may be incremented. This SEQ column is commonly used in the following situations:</p><p>The SEQ pseudo column is an ideal column to use in the DECODE( ) function although you can use any valid column on the table you are checking.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM DONTCARE_EX GO
+CREATE PROGRAM DONTCARE_EX
+
+SET ADMIT_DOC = 0.0
+SET STAT = UAR_GET_MEANING_BY_CODESET(333,"ADMITDOC",1,ADMIT_DOC)
+
+SELECT	E.ARRIVE_DT_TM,
+	E.DISCH_DT_TM,
+	O.ORDER_ID,
+	ADM_DOC = DECODE(EP.SEQ, EP.PRSNL_PERSON_ID, 0.0)
+
+FROM	ENCOUNTER E,
+	ENCNTR_PRSNL_RELTN EP,
+	ORDERS O,
+	DUMMYT D1,
+	DUMMYT D2
+PLAN E
+JOIN D1
+JOIN EP	WHERE E.ENCNTR_ID =  EP.ENCNTR_ID  AND
+	EP.ENCNTR_PRSNL_R_CD = ADMIT_DOC
+JOIN D2
+JOIN O	WHERE E.ENCNTR_ID = O.ENCNTR_ID
+WITH	DONTCARE = EP
+
+END
+GO
+</pre>
+</div></div><p>The SEQ column is used to define the number of elements in a record structure and identify the elements you are accessing when using the DUMMYT table to read through the record structure or an array. See the following statement from the example program below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FROM (DUMMYT D WITH SEQ = VALUE(NBR_OF_ITEMS))</pre>
+</div></div><p>If NBR_OF_ITEMS is equal to 4 in the previous statement, the DUMMYT table would simulate a table with 4 rows to process. In the following example, this functionality allows the record structure to be treated similar to a table that contains 2 columns (REC_ID and REC_DESC) and has a total of 4 rows. The pseudo column, D.SEQ, automatically increments from 1 to 4 as each row is processed by the SELECT command.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM RECORD_SEQ:DBA GO
+CREATE PROGRAM RECORD_SEQ:DBA
+
+FREE DEFINE REC1
+
+RECORD REC1
+( 1 QUAL[4]
+    2 REC_ID = I2
+    2 REC_DESC = VC)
+
+SET REC1-&gt;QUAL[1]-&gt;REC_ID = 1221
+SET REC1-&gt;QUAL[1]-&gt;REC_DESC = "FIRST ITEM"
+
+SET REC1-&gt;QUAL[2]-&gt;REC_ID = 2311
+SET REC1-&gt;QUAL[2]-&gt;REC_DESC = "SECOND ITEM"
+
+SET REC1-&gt;QUAL[3]-&gt;REC_ID = 1193
+SET REC1-&gt;QUAL[3]-&gt;REC_DESC = "THIRD ITEM"
+
+SET REC1-&gt;QUAL[4]-&gt;REC_ID = 2199
+SET REC1-&gt;QUAL[4]-&gt;REC_DESC = "FOURTH ITEM"
+
+SET NBR_OF_ITEMS = SIZE(REC1-&gt;QUAL,5)
+;SETTING THE SIZE OF THE ARRAY
+
+SELECT
+;USE D.SEQ TO READ THROUGH EACH ELEMENT OF THE ARRAY
+  ITEM_NBR = D.SEQ,
+  REC_ID	= REC1-&gt;QUAL[D.SEQ].REC_ID,
+  REC_DESC	= REC1-&gt;QUAL[D.SEQ].REC_DESC
+
+FROM (DUMMYT D WITH *SEQ* = VALUE(NBR_OF_ITEMS))
+;SETTING THE NUMBER OF OCCURS FOR THE ARRAY
+
+ORDER REC_DESC
+
+END
+GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 518, "requestCorrelationId": "b2aa84645d44c916"}</span>
+</body>
+</html>

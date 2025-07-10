@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>User-Defined Select Expression Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/User-Defined+Select+Expression+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>User-defined Select expressions are created by the programmer in the selection list of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> SELECT command. These Select expressions are most often assigned the value that a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> function or an arithmetic expression returns. User-defined select expressions can also be assigned a value from a column in the database, a constant value, or a system reserved variable. To create a user-defined select expression, you must define the expression with a unique name and set it equal to a value. Below are some examples of user-defined select expressions that could be used in your query.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><td class="confluenceTd"><p><strong>TODAY</strong> = CURDATE</p></td><td class="confluenceTd"><p>TODAY is set equal to the system-reserved variable CURDATE.</p></td></tr><tr><td class="confluenceTd"><p><strong>ONE</strong> = 1</p></td><td class="confluenceTd"><p>ONE is set equal to the constant 1.</p></td></tr><tr><td class="confluenceTd"><p><strong>AGE</strong> = cnvtage(p.birth_dt_tm).</p></td><td class="confluenceTd"><p>Age is set equal to value returned by the CNVTAGE( ) function.</p></td></tr><tr><td class="confluenceTd"><p><strong>NAME</strong>= PERSON.NAME_FULL_FORMATTED</p></td><td class="confluenceTd"><p>NAME is set equal to the full formatted name on the PERSON table.</p></td></tr></tbody></table></div><p>When creating a user-defined select expression, you do not reference the table name or alias when naming the select expression.</p><p><strong>Not Valid</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	PERSON.NAME_FULL_FORMATTED,
+	PERSON.AGE = CNVTAGE(P.BIRTH_DT_TM)
+</pre>
+</div></div><p><strong>Valid</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	PERSON.NAME_FULL_FORMATTED,
+	AGE = CNVTAGE(P.BIRTH_DT_TM)
+</pre>
+</div></div><p>User-defined select expressions can be used within the ORDER clause, and Reportwriter sections. The WHERE clause cannot use the user-defined select expressions. You cannot use a select expression within another select expression, for example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	PID=CNVTSTRING (E.PERSON_ID)
+	EID=CNVTSTRING (E.ENCNTR_ID)
+	P_E_ID=CONCAT(TRIM(PID),"/",TRIM(EID))
+FROM	ENCOUNTER E
+GO
+</pre>
+</div></div><p>Appropriate syntax might be:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P_E_ID = CONCAT(TRIM(CNVTSTRING(E.PERSON_ID)), "/", TRIM(CNVTSTRING(E.ENCNTR_ID)))
+FROM	ENCOUNTER E
+GO
+</pre>
+</div></div><p>Or use the BUILD( ) function. It takes all data types and trims spaces.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P_E_ID = BUILD(E.PERSON_ID, "/", E.ENCNTR_ID)</pre>
+</div></div><p>In both of the above examples, P_E_ID might be "1234/334435".</p><p><strong>Functions</strong></p><p><em>Functions</em> are "mini-programs" that accept specific parameters, process those parameters, and return a value. You can set a user-defined select expression to be equal to the value returned by a function. For example, the CNVTAGE( ) function shown above automatically calculates a person's age based upon their birth date and time. The user-defined select expression "Age" is set equal to the age calculated by the function. Without this function, you would have to create an arithmetic expression in your program to do that calculation. The Command Reference section defines the syntax for all functions that are available.</p><p>As an example of how functions can be used, the following SELECT statement uses the CNVTUPPER( ) function to convert a lowercase string to uppercase.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	PERSON.NAME_FULL_FORMATTED,
+	NAME = CNVTUPPER(PERSON.NAME_FULL_FORMATTED)
+FROM	PERSON
+GO
+</pre>
+</div></div><p>The following output is from this query:</p><div class="table-wrap"><table class="wrapped confluenceTable"><tbody><tr><th class="confluenceTh"><p>NAME_FULL_FORMATTED</p></th><th class="confluenceTh"><p>NAME</p></th></tr><tr><td class="confluenceTd"><p>Jones, Steve</p></td><td class="confluenceTd"><p>JONES, STEVE</p></td></tr><tr><td class="confluenceTd"><p>Doe, Sue</p></td><td class="confluenceTd"><p>DOE, SUE</p></td></tr><tr><td class="confluenceTd"><p>Smith, Joseph</p></td><td class="confluenceTd"><p>SMITH, JOSEPH</p></td></tr><tr><td class="confluenceTd"><p>Brown, Alice</p></td><td class="confluenceTd"><p>BROWN, ALICE</p></td></tr><tr><td class="confluenceTd"><p>Brown, William</p></td><td class="confluenceTd"><p>BROWN, WILLIAM</p></td></tr><tr><td class="confluenceTd"><p>Smith, Mary</p></td><td class="confluenceTd"><p>SMITH, MARY</p></td></tr></tbody></table></div><p><strong>Date and Time Conversion Functions</strong></p><p>The functions shown below can be used to convert, manipulate, or perform calculations on date/time columns. (These and other date and time conversion functions are described in more detail in the Functions Reference Help.</p><p>CNVTDATE ( )<br> CNVTDATE2 ( )<br/> CNVTDATETIME ( )<br/> CNVTLOOKAHEAD ( )<br/> CNVTLOOKBEHIND ( )<br/> CNVTMIN ( )<br/> CNVTMIN2 ( )<br/> CNVTTIME ( )<br/> DATETIMEADD( )<br/> DATETIMECMP( )<br/> DATETIMEDIFF( )<br/> DAY ( )<br/> HOUR ( )<br/> MINUTE ( )<br/> MONTH ( )<br/> WEEKDAY ( )<br/> YEAR ( )</br></p><p>The following example, uses the YEAR( ) function to determine the year from the BIRTH_DT_TM column.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	YEAR = YEAR(PERSON.BIRTH_DT_TM)
+FROM	PERSON
+GO
+</pre>
+</div></div><p>Calculating the difference between two points in time is a common use for using <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> functions. To determine the total number of days between two date_time columns, you can use the function below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>LOS = DATETIMECMP(E.DISCHG_DT_TM, E.ARRIVE_DT_TM)</pre>
+</div></div><p>The DATETIMECMP( ) function ignores time. In the above example, if the discharge date is 10-JAN-1998 12:40:20 and the arrival date is 05-JAN-1998 10:20:55, <strong>LOS</strong> is set equal to <strong>5</strong>.</p><p>To determine the turn-around time between an order and a result, you can use the function below. DATETIMEDIFF( ) calculates the difference between the two dates and times displaying a real number that is the number of days and a fraction of the time.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>TAT1 = DATETIMEDIFF(R.PENDING_DT_TM, O.ORDER_DT_TM)</pre>
+</div></div><p>If the pending date is 20-JAN-1999 12:10:39 and the order date is 01-DEC-1998 13:50:22, <strong>TAT1</strong> is set equal to <strong>49.93</strong>.</p><p>Use the FORMAT( ) function to display in days, hours, minutes, and seconds as in:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>TAT2 = FORMAT(DATETIMEDIFF(R.PENDING_DT_TM, O.ORDER_DT_TM), "DD days HH:MM:SS;;Z")</pre>
+</div></div><p>Using the dates from the TAT1 example above, in this example, <strong>TAT2</strong> is set equal to <strong>49 days 22:20:17</strong>.</p><p><strong>CODE_VALUE Display Routine</strong></p><p>Most of the tables in the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> system use CODE_VALUE columns. CODE_VALUE columns allow the system to store standard values one time on the CODE_VALUE table. When a table needs the standard value, instead of storing the standard values multiple times only a code that relates to the standard value is stored. All column names ending with "_CD" are CODE_VALUE columns. The down side of CODE_VALUE columns is that when you select the column from a table the code is not meaningful. For example, if you select the SEX_CD column from the PERSON table, instead of getting "MALE" and "FEMALE" you would get codes like "15080" or "15075". For a description of what these codes mean, you can join to the CODE_VALUE table or use the UAR_GET_CODE_DISPLAY( ) routine. Using the UAR_GET_CODE_DISPLAY( ) routine is the preferred method unless you need more details from the CODE_VALUE table. This routine is more efficient and avoids the need to join to the CODE_VALUE table every time you need to get a description.</p><p>UAR_GET_CODE_DISPLAY( ) uses the DECODE server and requires that you sign on to the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> environment. You only need to sign on one time during your <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session before using the UAR_GET_CODE_DISPLAY( ) routine. If you do not sign on, your user-defined select expression may be blank. The following command runs a log-in conversation.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>EXECUTE CCLSECLOGIN GO</pre>
+</div></div><p>The following script creates the user-defined expression "SEX", and uses the UAR_GET_CODE_DISPLAY( ) routine to display the sex code display value instead of the numeric code:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	P.SEX_CD,
+	SEX = UAR_GET_CODE_DISPLAY( P.SEX_CD )
+FROM	PERSON P
+GO
+</pre>
+</div></div><p>The output would look something like:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><td class="confluenceTd"><p>Smith, Joseph</p></td><td class="confluenceTd"><p>15075.0</p></td><td class="confluenceTd"><p>Male</p></td></tr><tr><td class="confluenceTd"><p>Jones, Mary</p></td><td class="confluenceTd"><p>15080.0</p></td><td class="confluenceTd"><p>Female</p></td></tr><tr><td class="confluenceTd"><p>Doe, Jane</p></td><td class="confluenceTd"><p>15080.0</p></td><td class="confluenceTd"><p>Female</p></td></tr></tbody></table></div><p><strong>Arithmetic Operations</strong></p><p>You can perform arithmetic operations on numeric columns and numeric expressions (or variables). The result of the arithmetic operation can be assigned to a user-defined select expression.</p><p>See Arithmetic Operators for the arithmetic operators you can use.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 869, "requestCorrelationId": "be80a46ecea4f0a8"}</span>
+</body>
+</html>

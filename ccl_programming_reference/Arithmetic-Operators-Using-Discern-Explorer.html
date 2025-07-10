@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Arithmetic Operators Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Arithmetic+Operators+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Arithmetic operators can be used on numeric fields and numeric expressions.</p><p>The arithmetic operators you can use are listed below.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Operator</p></th><th class="confluenceTh"><p>Operation</p></th><th class="confluenceTh"><p>Example</p></th></tr><tr><td class="confluenceTd"><p>+</p></td><td class="confluenceTd"><p>Unary Plus</p></td><td class="confluenceTd"><p>NBR_OF_DAYS = +10</p></td></tr><tr><td class="confluenceTd"><p>-</p></td><td class="confluenceTd"><p>Unary Negate</p></td><td class="confluenceTd"><p>NBR_OF_DAYS = -10</p></td></tr><tr><td class="confluenceTd"><p>+</p></td><td class="confluenceTd"><p>Add</p></td><td class="confluenceTd"><p>P.RESULT_VALUE_NUMERIC + 5</p></td></tr><tr><td class="confluenceTd"><p>-</p></td><td class="confluenceTd"><p>Subtract</p></td><td class="confluenceTd"><p>P.NORMAL_HIGH - P.RESULT_VALUE_NUMERIC</p></td></tr><tr><td class="confluenceTd"><p>/</p></td><td class="confluenceTd"><p>Divide</p></td><td class="confluenceTd"><p>TOT_PATS / TOT_NUR_STA</p></td></tr><tr><td class="confluenceTd"><p>*</p></td><td class="confluenceTd"><p>Multiply</p></td><td class="confluenceTd"><p>NBR_OF_DAYS * 7</p></td></tr><tr><td class="confluenceTd"><p>**</p></td><td class="confluenceTd"><p>Raise to the power</p></td><td class="confluenceTd"><p>10 ** PS.DEC</p></td></tr></tbody></table></div><p>To calculate a square root, raise a value to the power of 0.5 For example, to calculate the square root of 25 you would use 25**0.5.</p><p>The following table represents the order of precedence for the arithmetic operators.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Order of Precedence</p></th><th class="confluenceTh"><p>Operator</p></th></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>+(unary plus) -(unary negate)</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p>* multiply / divide</p></td></tr><tr><td class="confluenceTd"><p>3</p></td><td class="confluenceTd"><p>+ add - subtract</p></td></tr><tr><td class="confluenceTd"><p>4</p></td><td class="confluenceTd"><p>** Raise to the power</p></td></tr></tbody></table></div><p>Parentheses can be used override the default order of precedence. For example, 1 + 2 * 3 would evaluate to 7. Because the precedence of * multiply is before the precedence of + add, 1 + 2 * 3 is evaluated by multiplying 2 and 3 then adding 1. So the result is 7. Adding parentheses causes, (1 +2) * 3, to evaluate to 9. In this example 1 is added to 2 and then multiplied by 3, so the final result evaluates to 9.</p><p>You might use arithmetic operations to determine how far from the normal high a result value is. To calculate the difference, subtract the result value from the normal high value. The following example performs this arithmetic operation using two columns on the PERFORM_RESULT table to create an expression named DIFFERENCE.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DIFFERENCE = P.NORMAL_HIGH - P.RESULT_VALUE_NUMERIC</pre>
+</div></div><p>This expression could be placed in a SELECT command as shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	DIFFERENCE = P.RESULT_VALUE_NUMERIC - P.NORMAL_HIGH,
+	P.NORMAL_HIGH,
+	P.RESULT_VALUE_NUMERIC
+FROM	PERFORM_RESULT P
+GO
+</pre>
+</div></div><p>The query returns the following output:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DIFFERENCE	NORMAL_HIGH	RESULT_VALUE_NUMERIC
+50.00	        200.00	        150.00
+115.00	        90.00	        205.00
+103.00	        200.00	        303.00
+-58.00	        288.00	        230.00
+-4.20	        7.20	        3.00
+-0.10	        2.10	        2.00
+-0.30	        8.30	        8.00
+-2.00	        5.00	        3.00
+-1.90	        5.90	        4.00
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 521, "requestCorrelationId": "65c92281f4ff6c0d"}</span>
+</body>
+</html>

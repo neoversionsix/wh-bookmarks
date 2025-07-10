@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Accept Input Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Accept+Input+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<h2 id="AcceptInputUsingDiscernExplorer-WorkStepsSummary">Work Steps Summary</h2><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Step</th><th class="confluenceTh">Task</th></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">CREATE SELECT</td></tr><tr><td class="confluenceTd">2</td><td class="confluenceTd">DEFINE AS PAINT</td></tr><tr><td class="confluenceTd">3</td><td class="confluenceTd">DRAW BOX, LINES, TEXT</td></tr><tr><td class="confluenceTd">4</td><td class="confluenceTd">INIT VARIABLES</td></tr><tr><th class="confluenceTh">5</th><th class="confluenceTh">PUT IN ACCEPTS &amp; DEFAULTS</th></tr><tr><td class="confluenceTd">6</td><td class="confluenceTd">PUT IN HELP</td></tr><tr><td class="confluenceTd">7</td><td class="confluenceTd">PUT IN VALIDATION</td></tr><tr><td class="confluenceTd" colspan="1">8</td><td class="confluenceTd" colspan="1">ADDITIONAL PROGRAMMING CONSTRUCTS</td></tr></tbody></table></div><p>When you enter information in a field on a screen, the system "accepts" your input. The reverse-video box, blinking reverse-video box, or underlined area (depending on how you define this field) where you actually enter the answer is the input field. The CALL ACCEPT command is used to define an input field on the screen.</p><p>The program below accepts input, sets a variable equal to the current input, and accepts more data. Notice the two CALL TEXT commands that place the default values at the same position as the CALL ACCEPTs. This allows the screen to be filled in immediately when the screen is painted. Without those CALL TEXT commands, the default in the CALL ACCEPTs would not be displayed until the CALL ACCEPT is executed.</p><p>The label, #CORRECT_YN, is added to allow the user to change their prompt responses before running the program. The video is changed, the correct prompt is displayed, if the user enters <strong>Y</strong>, a new message is displayed on line 24 and the program executes. Otherwise the program goes back up to the #line1 label.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_SCREEN5 GO
+CREATE PROGRAM CCL_SCREEN5
+
+PAINT
+
+#INITS
+SET PRINTER = FILLSTRING(20," ")
+SET PRINTER = "MINE"
+SET USER_NAME = "ABC123"
+
+#DRAW_BOX
+CALL BOX(2,2,20,78)
+CALL LINE(6,2,77,XHOR)
+CALL TEXT(4,25,"EXAMPLE SCREEN APPLICATION!")
+CALL TEXT(8,5,"# PRINTER:")
+CALL TEXT(10,5,"# ENTER USERNAME:")
+
+CALL VIDEO(R)
+CALL TEXT(8,28,PRINTER)
+CALL TEXT(10,28,USER_NAME)
+CALL TEXT(20,20,"PRESS &lt;HOME&gt; TO END, &lt;HELP&gt; FOR INFO")
+CALL VIDEO(N)
+
+#LINE1
+CALL ACCEPT(8,28,"P(20);CU",PRINTER)
+SET PRINTER = CURACCEPT
+
+#LINE2
+CALL ACCEPT(10,28,"P(6);CUP",USER_NAME)
+SET USER_NAME = CURACCEPT
+
+#CORRECT_YN
+CALL VIDEO(N)
+CALL CLEAR(24,1)
+CALL TEXT(24,1,"CORRECT (Y/N)")
+CALL ACCEPT(24,18,"P;CU","Y")
+
+IF(CURACCEPT = "Y")
+CALL VIDEO(RB)
+CALL CLEAR(24,1)
+CALL TEXT(24,1,"PROCESSING ... ")
+CALL VIDEO(N)
+ELSE
+GO TO LINE1
+ENDIF
+
+SELECT INTO VALUE(PRINTER)
+	ACT = EVALUATE(P.ACTIVE_IND,1,"ACTIVE",2,"INACTIVE"),
+	P.PERSON_ID,
+	DEPT = UAR_GET_CODE_DISPLAY(P.DEPARTMENT_CD),
+	POSITION = UAR_GET_CODE_DISPLAY(P.POSITION_CD),
+	P.NAME_FULL_FORMATTED,
+	P.USERNAME,
+	P.EMAIL,
+	P.PHYSICIAN_IND,
+	P.UPDT_DT_TM
+FROM	PRSNL P
+WHERE	P.USERNAME = USER_NAME
+
+WITH NOCOUNTER
+
+END
+GO
+</pre>
+</div></div><p><strong><em>CALL CLEAR</em></strong></p><p>The CALL CLEAR command clears any portion of a display or the whole display. The syntax of the CALL CLEAR command is:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL CLEAR (begin_row,begin_col[,clear_length])</pre>
+</div></div><p><strong><em>GO TO</em></strong></p><p>The GO TO command directs program control to the set of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> instructions under a specified label. The GO TO command starts an unconditional branch so that program execution moves to the label and begins processing commands starting at that label. Program execution does not automatically return to the point where the branch occurred. (To perform a branch that returns, use the EXECUTE command.)</p><p>GO TO has two forms, a basic directional form and an arithmetic form that can be used to direct program control based on a user's response to a prompt. The syntax of the GO TO command is:</p><p><strong>Basic GO TO</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>GO TO label_name</pre>
+</div></div><p><strong>Arithmetic GO TO</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>GO TO (label_name{,label_name}) variable</pre>
+</div></div><p><strong><em>IF( ) Statement</em></strong></p><p>Using IF() statements, you can process information based on a condition you define. The IF( ) statement allows you to define unique paths for the program to follow based on a conditional statement. You can define multiple conditions by using the IF( ) and ELSEIF( ) statements and an ELSE statement to define the default if none of the conditional statements are true. The syntax of the IF( ) statement is shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>[IF (qualification)
+	if_item {,if_item }
+{ELSEIF(qualification)
+	if_item {,if_item }}
+[ELSE
+	if_item {,if_item }]
+ENDIF]
+</pre>
+</div></div><p><strong><em>CALL ACCEPT</em></strong></p><p>The CALL ACCEPT command is used to accept data from a user and then display that data in an input field next to a prompt that is defined using the CALL TEXT command.<br> The syntax of the user-defined CALL ACCEPT command is:</br></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT (begin_row, begin_col, "mask[;{modifier}]" [,default]
+[WHERE qualification])</pre>
+</div></div><p>The CALL ACCEPT command can perform up to six different functions:</p><ul><li>Define the row and column position where the input field will be displayed.</li><li>Define the data type, or <em>mask</em>, of the input field.</li><li>Define options that enable you to change the accepted input into another format.</li><li>Define the default value to be displayed in the input field.</li><li>Validate the data entered by the user.</li><li>Capture the value entered by the user and save it in a special variable called CURACCEPT.</li></ul><p>The information accepted from an input field is assigned to the reserved variable CURACCEPT.</p><p><strong>Defining the Row and Column Position</strong></p><p>The input field should be positioned so that it is displayed on the same line as the prompt that you created using the CALL TEXT command, but does not overlay any of the prompt. Since the prompt and the input field are displayed on the same line of the screen, ensure that the begin_row in the CALL ACCEPT command is same as the begin_row in the CALL TEXT command.</p><p>Define the beginning column for the input field at least one column greater than the ending column of the prompt to allow space between the prompt and the input. For example, the prompt, <strong>01 Printer:</strong>, created in the program example with the CALL TEXT command, began in column five. The prompt contains 12 characters so it ends in column 17. If you allow at least one space to separate the prompt from the input field, the input field could begin in column 18.</p><p><strong>Defining the Mask</strong></p><p>After you define where the input field will be displayed, you must define the data type (or mask) that will be accepted (such as text, number, or date), as well as how many bytes will be accepted. Data types and their identifying characters are shown below.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Value</p></th><th class="confluenceTh"><p>Data Type</p></th></tr><tr><td class="confluenceTd"><p>9</p></td><td class="confluenceTd"><p>Numeric.</p></td></tr><tr><td class="confluenceTd"><p>9(n)</p></td><td class="confluenceTd"><p>Repeat the 9 mask for the number of times indicated by (n).</p></td></tr><tr><td class="confluenceTd"><p>A</p></td><td class="confluenceTd"><p>Alpha (uppercase and lowercase letters).</p></td></tr><tr><td class="confluenceTd"><p>A(n)</p></td><td class="confluenceTd"><p>Repeat the A mask for the number of times indicated by (n).</p></td></tr><tr><td class="confluenceTd"><p>D</p></td><td class="confluenceTd"><p>Display. Use the corresponding default character in the default clause and skip over for accept.</p></td></tr><tr><td class="confluenceTd"><p>N</p></td><td class="confluenceTd"><p>Numeric or punctuation (0 through 9, period, or minus sign).</p></td></tr><tr><td class="confluenceTd"><p>N(n)</p></td><td class="confluenceTd"><p>Repeat the N mask for the number of times indicated by (n).</p></td></tr><tr><td class="confluenceTd"><p>P</p></td><td class="confluenceTd"><p>Any printable ASCII character.</p></td></tr><tr><td class="confluenceTd"><p>P(n)</p></td><td class="confluenceTd"><p>Repeat the P mask for the number of times indicated by (n).</p></td></tr><tr><td class="confluenceTd"><p>X</p></td><td class="confluenceTd"><p>Alphanumeric (letters or numbers).</p></td></tr></tbody></table></div><p>When you define a mask for a byte, you must consider all possible combinations that could be accepted in that byte. For example, if you are sure that the only valid input a user can type is a number up to five digits long, the mask should look like this: "99999".</p><p>Notice that you always embed the mask in quotation marks in the CALL ACCEPT command. The CALL ACCEPT command below creates an input field on row 5 beginning at column 13, using the "99999" mask.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT (5,13,"99999")</pre>
+</div></div><p>If a user might type up to four numbers or letters in any position (like the procedure mnemonic 1BLK), the command would look like the one below (using the same starting row and column as above).</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT (5,13,"XXXX;C")</pre>
+</div></div><p>(The "C" in this command is a format option.)</p><p>If you are certain the first two bytes are always letters and the last two positions are always numbers (such as printer names like "LP02"). The command, using the same starting row and column as above, would look like the following example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT (5,13,"AA99;C")</pre>
+</div></div><p>For a long mask that uses the same data type, you can enter the mask item for as many bytes as necessary as shown below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT(5,13,"PPPPPPPPPPPPPPP;CU")</pre>
+</div></div><p>(The "U" in this command is a format option.)</p><p>You also can indicate the number of times the mask is repeated as shown below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT(5,13,"P(15);CU")</pre>
+</div></div><p><strong>Defining Format Options</strong></p><p>The CALL ACCEPT command also can include a modifier to change the user's input into another format. <em>You must use a modifier if the mask contains anything other than</em>"<em>9</em>"<em>or</em>"<em>N</em>". One example of using a modifier is to change the input from lowercase to uppercase letters. This enables the user to enter the information either way. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> then converts it to a standard format like uppercase. For example, to change an accepted printer name from lowercase to uppercase, use the modifier "U" following the mask, as shown in the example below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT (5,13,"AA99;CU")</pre>
+</div></div><p>Notice that you embed the modifier in the quotation marks along with the mask. You can use several modifiers at one time. For example, to let a user enter any valid printer name or use the logical "MINE", the mask changes. You can use the "C" modifier to change the accepted input into a character string as shown in the example below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT (5,13,"PPPP;CU")</pre>
+</div></div><p>A list of valid modifiers that can be used to change the format of the user's input is shown below.</p><div class="table-wrap"><table class="wrapped confluenceTable"><tbody><tr><th class="confluenceTh"><p>Value</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>C</p></td><td class="confluenceTd"><p>Character string (if 1024 were entered for the picture 9999, accept this as a character string).</p></td></tr><tr><td class="confluenceTd"><p>F</p></td><td class="confluenceTd"><p>Force help from the current SET HELPSET_HELP command to invoke the Help function automatically for the CALL ACCEPT without the user pressing the HELP key.</p></td></tr><tr><td class="confluenceTd"><p>H</p></td><td class="confluenceTd"><p>Hide the default. The default value is not displayed, but pressing RETURN uses that default anyway.</p></td></tr><tr><td class="confluenceTd"><p>P</p></td><td class="confluenceTd"><p>Prompt the user for a starting value for Help on this input field.</p></td></tr><tr><td class="confluenceTd"><p>S</p></td><td class="confluenceTd"><p>Scroll window accept. An existing scroll window allows the user to use the special-purpose keys to scroll through the Help window.</p></td></tr><tr><td class="confluenceTd"><p>U</p></td><td class="confluenceTd"><p>Force to uppercase.</p></td></tr></tbody></table></div><p><strong>Defining a Default Value</strong></p><p>The CALL ACCEPT command also can be used to define a value that is displayed in the input field, which the user either can accept by pressing RETURN, or change by entering another value. The default value is defined immediately after the mask and modifier. Embed the default value in quotation marks only if the default is a character string (like a printer name or patient type). If the default value is a number or date, you do not need to use quotation marks for the default value. For example, to define the default printer "MINE" for the input field, the CALL ACCEPT command would look like the one below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT(5,38,"PPPP;CU","MINE")</pre>
+</div></div><p>The system displays "MINE" in the input field, but the user can enter a new value if necessary.</p><p>To create a default for the username that allows all usernames to be selected, the CALL ACCEPT command would look like the one shown below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT(7,50,"P(6);CU","*")</pre>
+</div></div><p>To accept an asterisk as a wildcard, use the PATSTRING( ) function in the SELECT command when you use the variable in the select, as shown below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE P.USERNAME=PATSTRING(V_PAT_TYPE)</pre>
+</div></div><p>The PATSTRING( ) function is valid only with variables that contain character strings. PATSTRING( ) accepts any pattern-matching string as a wildcard (* or ?) or a literal ( \ ). You also can use a variable as part of your default in the CALL ACCEPT command. This variable should be initialized using the SET command before the CALL ACCEPT command is issued. For example, if the variable PRINTER has been initialized to "MINE", you can use the command, CALL ACCEPT(5,5,"PPPP;CU",PRINTER), to display "MINE" in the input field as the default.</p><p>Occasionally, you may want to define a default value for a date or some other value that is stored differently in the system than how you want it to be displayed. You can format the date for the input field using the FORMAT( ) function as part of the default. The syntax of the FORMAT( ) function is shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FORMAT (expression, "template;display_qualifier;display_format")</pre>
+</div></div><p>The template, display_qualifier, and display_format are exactly the same as those used as display options in the SELECT command, or as part of the Reportwriter to change the way data looks before it is printed. For example, the CALL ACCEPT command below is used to capture a date and use the current date as the default.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT(9,27,"999999;C",FORMAT(CURDATE,"MMDDYY;;D"))</pre>
+</div></div><p>The FORMAT( ) function tells <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to take the current date (CURDATE) and display it in a format that the user will understand as part of the default value in the input field box.</p><p>If you want to make the default date a specific date (such as October 1, 1999), you do not need to use the FORMAT( ) function because you can enter the date as an integer. For example, the CALL ACCEPT command below captures a default date other than the current date.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT(9,27,"999999",100199)</pre>
+</div></div><p>To display a default date with slashes (such as "10/01/94"), you can use the FORMAT( ) function and the "D" mask item. The example below takes the variable START_DATE, which has been initialized to CURDATE, and formats the date as "11/25/94" in the default.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT(6,25,"NNDNNDNN;C",FORMAT(START_DATE,"MM/DD/YY;;D"))</pre>
+</div></div><p>This example uses the mask "NNDNNDNN" to map to the FORMAT( ) function MM/DD/YY.</p><p><strong>Validating the Data Input by the User</strong></p><p>The last use for the CALL ACCEPT command is to validate that data entered by the user is acceptable. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> automatically checks some parameters, such as the type of data that the user enters and the length of the input field. If you have defined an accept to be numeric only, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> will not allow the user to press RETURN and advance to the next field if anything other than numbers is entered. Also, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> will not allow the user to type in more bytes than the space you have defined for the input field.<br/> You also can ensure that the user does not type any invalid printer names or invalid patient types or dates. This can be accomplished in one of two ways:</p><ul><li>You can perform some validation using the CALL ACCEPT command.</li><li>You can use the SET VALIDATE command to check the data entered by the user.</li></ul><p>If you want to validate the input against a dynamic table value, use the SET VALIDATE command. While the SET VALIDATE is a far more powerful option, a lot of validation can be done using the CALL ACCEPT command.</p><p>If you know the exact values against which you want to validate, use the WHERE clause in the CALL ACCEPT command to perform the validation. For example, if you want to let the user <em>only</em> print to certain locations, the CALL ACCEPT would look like the example below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL TEXT(7,5, "Printer* ")
+CALL ACCEPT(7,50,"P(4);CU","MINE" WHERE CURACCEPT IN ("P351","P353","MINE"))
+</pre>
+</div></div><p>To validate a date that has been entered using a default format of MM/DD/YY, you must use the WHERE clause to convert the input so it can be compared to an internal date. The example below uses the CNVTALPHANUM( ) function to strip the slashes from the default format and then uses the CNVTDATE( ) function to convert the input field to an internal date.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT(6,25,"NNDNNDNN;C",FORMAT(START_DATE,"MM/DD/YY;;D")
+	WHERE FORMAT(CNVTDATE(CNVTALPHANUM(CURACCEPT)),"MM/DD/YY;;D") =
+	CURACCEPT)
+</pre>
+</div></div><p><strong>CURACCEPT and the SET Command</strong></p><p>The reserved variable CURACCEPT contains the data entered in any input field by the user. If you want to validate the information, print it out, or save it, you must use CURACCEPT as the initial value. You can save the value from CURACCEPT into another variable, which you define using the SET variable command. Typically, if you do not save the information before you perform another CALL ACCEPT command, you will lose the value input from the previous CALL ACCEPT command. CURACCEPT is equal to the input from the last CALL ACCEPT command.</p><p>A good example of how to use CURACCEPT is to accept the name of a printer to be used to print the report. A CALL TEXT command is used first to define the prompt to be displayed. Next, a CALL ACCEPT command is used to define the input field. These commands will look like the ones below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL TEXT(5,5, "What printer do you want to use?")
+CALL ACCEPT (5,38,"AA99")
+</pre>
+</div></div><p>When the user enters a value, like LP02, this value is temporarily assigned to the variable CURACCEPT. If you then create another prompt (for example, to prompt for the admission date for which the program should search) this date replaces the printer name in CURACCEPT.</p><p>To save the value LP02, use the SET variable command to set V_PRINTER to equal CURACCEPT immediately after the CALL ACCEPT command. The program example below initializes the variable V_PRINTER to "MINE", creates a prompt, and then sets V_PRINTER equal to whatever the user enters in response to the prompt.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET V_PRINTER = "MINE"	;declare user variables
+CALL TEXT(5,5, "What printer do you want to use?")
+CALL ACCEPT(5,20,"PPPP;CU",V_PRINTER)	;accept printer name
+</pre>
+</div></div><p><strong>SET V_PRINTER = CURACCEPT</strong></p><p>When you use the FORMAT( ) function as part of a CALL ACCEPT command,you might need to convert the data from CURACCEPT into another format, such as an integer, date, or numeric format. When you use the FORMAT( ) function, the resulting value is always a character string. If the variable you are using is not a character string, you must use some conversion function to change the data to the variable's format. One example of this is when you use a CALL ACCEPT for a date, as shown below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT(9,27,"999999;C",FORMAT(CURDATE,"MMDDYY;;D"))</pre>
+</div></div><p>The SET command used to capture the date should convert the character string CURACCEPT to an integer and then convert that integer to an internal date. The CNVTINT( ) and CNVTDATE( ) functions can be used to do this.</p><p>The date is stored as an internal date integer in a variable, such as V_ADM_BEGIN. This variable can be used in a WHERE clause to identify the admission date for which the system will search.</p><p>If you do not use the FORMAT( ) function to format the date in the CALL ACCEPT command, you simply have to convert the input into a date using the CNVTDATE( ) function. The commands below show how to accept a default date of October 1, 1990, and then convert this date and assign it to the variable V_ADM_BEGIN.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT (9,27,"999999",100190)
+SET V_ADM_BEGIN = CNVTDATE(CURACCEPT)
+</pre>
+</div></div><p>If you formatted the date as in MM/DD/YY format, you need to strip the slashes from the CURACCEPT variable, and then convert the data to an internal date format. The following example shows the commands to capture a date with a default MM/DD/YY format in CALL ACCEPT.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT(6,25,"NNDNNDNN;C",FORMAT(START_DATE,"MM/DD/YY;;D")
+	WHERE FORMAT(CNVTDATE(CNVTALPHANUM(CURACCEPT)),"MM/DD/YY;;D") = CURACCEPT)
+SET START_DATE = CNVTDATE(CNVTALPHANUM(CURACCEPT))
+</pre>
+</div></div><p>It is not necessary to convert the data using the CNVTINT( ) function because the CNVTALPHANUM( ) function automatically converts the data to integer and strips the slashes from the input field.</p><p>Another common application is to display a number and pad it with zeros. For example, you might want to display a client number as "00001" instead of just "1". You can use the FORMAT( ) function to do this. Use the left-justify display qualifier in the default when you are displaying numbers in help using the display options. The example below shows a CALL ACCEPT command that displays the default client number as "00000".</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET V_CLIENT = 0
+CALL ACCEPT(5,5,"99999;C",FORMAT(V_CLIENT,"#####;P0"))
+SET V_CLIENT = CNVTINT(CURACCEPT)
+</pre>
+</div></div><p>In this example, the V_CLIENT variable is initialized to "0" and then displayed using the FORMAT( ) function with the pad-with-zero display qualifier (FORMAT(V_CLIENT,"#####;P0")). Because the FORMAT( ) function turns the default into a string and the mask "99999;C" is used to convert CURACCEPT to a string, the CNVTINT( ) function is used in the SET command to convert the CURACCEPT to an integer when it is stored in the V_CLIENT variable.</p><p><strong>Adding Parameters Into Program</strong></p><p>Once the parameters are accepted from the user and variables set, the variables are then used in the program. This portion of the program uses the variables that have been defined to capture the input from the accept commands as part of the SELECT command. For example, printer ID is accepted and assigned to the variable PRINTER. This variable is then used in the SELECT INTO command to indicate where the program output will be sent. The variable USER_NAME is used in the WHERE clause to qualify against the PRSNL table. The SELECT command used in the program example is shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO VALUE(PRINTER)
+	ACT = EVALUATE(P.ACTIVE_IND,1,"ACTIVE",2,"INACTIVE"),
+	P.PERSON_ID,
+	DEPT = UAR_GET_CODE_DISPLAY(P.DEPARTMENT_CD),
+	POSITION = UAR_GET_CODE_DISPLAY(P.POSITION_CD),
+	P.NAME_FULL_FORMATTED,
+	P.USERNAME,
+	P.EMAIL,
+	P.PHYSICIAN_IND,
+	P.UPDT_DT_TM
+FROM	PRSNL P
+WHERE	P.USERNAME = PATSTRING(CNVTUPPER(USER_NAME))
+
+WITH NOCOUNTER
+</pre>
+</div></div><p>In this example, the VALUE( ) function is used as part of the SELECT INTO command to tell <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to look at the character string accepted for the printer name as a printer name rather than as a literal string. If <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> looked at "LP02" as a literal string, it would create a file in the CCLUSERDIR directory called LP02.DAT that would contain the results of the report. The VALUE( ) function tells <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> not to create a file, but to look for an operating system logical to be used to direct the output (that logical might be a printer device name like "LP02" or a terminal device name like "MINE").</p><p>The PATSTRING( ) function is used in the WHERE clause to allow a pattern matching string such as an asterisk, question mark, or backslash to be used in a CALL ACCEPT command as either the default or as a valid response to a prompt. The CNVTUPPER( ) function is used to make sure the data entered by the user is the same case as the value in the table.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 637, "requestCorrelationId": "91f7a6b65bd79881"}</span>
+</body>
+</html>

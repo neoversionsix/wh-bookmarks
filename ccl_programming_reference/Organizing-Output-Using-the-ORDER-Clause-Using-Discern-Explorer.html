@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Organizing Output Using the ORDER Clause Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Organizing+Output+Using+the+ORDER+Clause+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><br> You can sort and display data in the sequence you choose by using the ORDER clause in the SELECT command. Sorting is performed after data is extracted, but before it is displayed. The syntax of the ORDER clause is shown below:</br></p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">[ORDER	expression [DESC] {,expression [DESC] }]</pre>
+</div></div><p>The ORDER clause follows the WHERE clause in the SELECT command, or the FROM clause if the WHERE clause is not used. Rows are sorted in the order in which they are listed in the ORDER clause. The sample query below uses the ORDER clause to sort the information extracted from the PERSON table by the last name.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	P.BIRTH_DT_TM,
+	P.SEX_CD
+FROM	PERSON P
+ORDER	P.NAME_LAST_KEY
+GO
+</pre>
+</div></div><p>The following example is the output from the query:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NAME_FULL_FORMATTED    BIRTH_DT_TM    SEX_CD
+Brown, Alice           08/06/77     15075.00
+Brown, Jane            06/01/54     15075.00
+Brown, John            02/05/59     15080.00
+Brown, Joseph          06/27/66     15080.00
+Brown, Mary            09/20/68     15075.00
+Brown, Steve           09/18/79     15080.00
+Brown, Sue             08/06/77     15075.00
+Brown, William         08/07/91     15080.00
+</pre>
+</div></div><p>The ORDER clause displayed in the query above uses the NAME_LAST_KEY column to organize the information alphabetically by the person's name. This column is not one of the columns from which data is extracted. You do not need to include the sort column in the SELECT command unless you want the column included in the result display.</p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> sorts information in ascending order unless you specify otherwise by entering "DESC" (for descending) after the name of the column that is used for sorting. For example, to sort the information in descending order by NAME_LAST_KEY, use:</p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">ORDER	P.NAME_LAST_KEY DESC</pre>
+</div></div><p>You can also use the column number instead of using the column name if you are ordering on a column from your select. This has to be used for Select Union queries that use an order by clause. The following example uses the PERSON_ID to order the output in descending order:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT 	P.NAME_FULL_FORMATTED,
+	P.PERSON_ID,
+	P.SEX_CD
+FROM 	PERSON P
+ORDER   	2 DESC
+GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 526, "requestCorrelationId": "1faeccd37afe1bc8"}</span>
+</body>
+</html>

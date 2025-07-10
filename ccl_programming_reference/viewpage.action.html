@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+"http://www.w3.org/TR/html4/frameset.dtd">
+
+<!-- conflunce-rp -->
+<html>
+<head>
+
+
+
+
+
+<style>
+        #security-loading.overlay {
+            background: white;
+            display: none;
+        }
+
+        #security-loading .indicator {
+            color: #2F3337;
+        }
+    </style>
+</head>
+<body>
+<input id="userTokenURL" name="userTokenURL" type="hidden" value="https://businesslogin.cerner.com/user/token"/>
+<input id="idpLoginURL" name="idpLoginURL" type="hidden" value="https://businesslogin.cerner.com?ReturnUrl=https%3A%2F%2Fwiki.cerner.com%2Flogin.action%3Fos_destination%3D%252Fpages%252Fviewpage.action%253FpageId%253D1046159526"/>
+<form action="/plugins/servlet/openid" id="tokenValidationForm" method="POST" style="display: hidden">
+<input id="token" name="token" type="hidden" value=""/>
+<input id="expiry" name="expiry" type="hidden" value=""/>
+<input id="destination" name="destination" type="hidden" value="https%3A%2F%2Fwiki.cerner.com%2Fpages%2Fviewpage.action%3FpageId%3D1046159526"/>
+</form>
+<div class="overlay" id="security-loading">
+<div class="indicator">
+<span class="fa fa-spinner fa-spin"></span>
+<p id="error-message"></p>
+</div>
+</div>
+
+</body>
+</html>

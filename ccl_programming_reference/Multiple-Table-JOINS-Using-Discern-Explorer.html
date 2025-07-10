@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Multiple Table JOINS Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Multiple+Table+JOINS+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>When you join multiple tables, you must take into account factors like the number of rows on each table to which you are joining, whether the join is a direct linear read or a potential nonlinear read, and how performance is affected. Ensure that the rules for joining and the step-by-step joining process is followed.</p><p>This section cannot cover all the potential aspects of joining due to the dynamic nature of the programs that you write, the qualifications on each table, and the tables that are read. It does, however, provide an example that covers joining three tables. Additional examples of joins between multiple tables using joins are included in the "Additional Join Examples " section.</p><p>In the JOIN statement, it does not matter which side of the equal sign the COLUMN or the INDEX_COLUMN are on. The link in the JOIN statements can be written like this:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PLAN A
+JOIN B	WHERE B.INDEX_COLUMN = A.COLUMN
+JOIN C	WHERE C.INDEX_COLUMN = B.COLUMN
+</pre>
+</div></div><p>OR</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PLAN A
+JOIN B	WHERE A.COLUMN = B.INDEX_COLUMN
+JOINC	WHERE B.COLUMN = C.INDEX_COLUMN
+</pre>
+</div></div><p>In the sample program, three tables are used: A, B, and C. The join is a direct linear path where A joins to B and B joins to C. When establishing a JOIN, the common column in that table should be an indexed column. An example of a JOIN that might look like this is shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	E.DISCH_DT_TM,
+	O.ORDER_MNEMONIC
+FROM	PERSON P,
+	ENCOUNTER E,
+	ORDERS O
+PLAN P
+JOIN E	WHERE E.PERSON_ID = P.PERSON_ID
+JOIN O	WHERE O.ENCNTR_ID = E.ENCNTR_ID
+GO
+</pre>
+</div></div><p>This program creates a query with person name (P.NAME_FULL_FORMATTED, which is a 100-byte column), the discharge date (E.DISCH_DT_TM which is a DQ8 column that can also be formatted as date and time), and the ordering mnemonic (O.ORDER_MNEMONIC which is a VC100 column). The links between each table are explicit from the PERSON to the ENCOUNTER to the ORDERS tables. You can use CCLORATABLE to list the index columns. Many times the common columns end in "_ID" or "_CD".</p><p>The PERSON_ID column matches between the PERSON and the ENCOUNTER tables. It is also an index on each table. This may be confusing since you are expecting a TABLE.COLUMN = TABLE.INDEX_COLUMN join. Therefore, TABLE.COLUMN can be a column that is not in an index or a column that is in an index.</p><p>When you join an indexed column to another indexed column, you must decide which table you want to read first. The easiest way to determine which table to read first is to determine what the total number of rows is that are read by writing the join either way. For example, in case of 20,000 rows in the ENCOUNTER table and 100,000 rows in the ORDERS table, it may make sense to read all of the 20,000 ENCOUNTER rows first and then join to read all of the 100,000 ORDERS rows. The goal is to do an indexed read on each table, if possible, and exclude as many rows as possible before joining to the next table. If you read all 20,000 ENCOUNTER rows and then all 100,000 matching ORDERS rows, it may not matter which table you read first. If you qualify on the ENCOUNTER table and find only 5,000 ENCOUNTER rows and then join to the matching ORDERS rows, it probably makes more sense to read the ENCOUNTER table first.</p><p>If you are not sure which file to read first, write your join both ways and test the program. Record which program takes the longest to run and the total number of rows read for each table. The total number of rows read is displayed after you exit the Displayer, as illustrated below.<br> Rec: 329 330 Row: 658 Qual: 329 Len: 302<br/> These counters indicate that 329 rows were read between all tables, 658 logical rows of data were created for the query, and 329 rows qualified for the query. The goal is to read the least number of rows.</br></p><p>The next join between the ENCOUNTER and the ORDERS table uses the ENCNTR_ID to link the tables. If you run CCLORATABLE for each of these tables, you will see that the ENCNTR_ID is an index to these ORACLE tables. <br/> This is a fairly common type of join and if you had additional tables to join based upon a column in the ORDERS table, you could add another table using yet another JOIN clause linking a column in the ORDERS table to an index column in the next table.</p><p>The example below can be used when the link is not from A to B to C, but rather from A to B and then from A to C.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FROM	A_TABLE A,
+	B_TABLE B,
+	C_TABLE C
+PLAN A
+JOIN B	WHERE A.COLUMN = B.INDEX_COLUMN
+JOIN C	WHERE A.COLUMN = C.INDEX_COLUMN
+</pre>
+</div></div><p>This type of join may or may not be best written in this manner. A key to deciding how you should write your program lies in the number of corresponding rows on B and C in relationship to A. For example, if each row on A has only one matching row on B and then only one matching row on C, then the example above is appropriate. The most reads you would do for any row on A would be two corresponding rows, one on B and one on C.</p><p>If each row on A has seven matching rows on B but only one matching row on C, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> would perform fifteen reads (A once, B seven times, C seven times). The join as written indicates that for each matching row on B, <em>join to each matching row on C</em>. Even though only one row on C matches the rows on A, C would be read seven times because the join instructs <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to read the rows on B before reading the rows on C.</p><p>To write this program more efficiently, you can read table A first, table C second, and then read table B. This is acceptable because the link for both tables B and C is to table A. The join would look like the example below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FROM	A_TABLE A,
+	B_TABLE B,
+	C_TABLE C
+PLAN A
+JOIN C	WHERE A.COLUMN = C.INDEX_COLUMN
+JOIN B	WHERE A.COLUMN = B.INDEX_COLUMN
+</pre>
+</div></div><p>This example is more efficient and results in fewer reads because <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> reads the one row on table C that matches a row on table A and then reads the seven rows that match on table B.</p><p>Examining only one row does not make a big impression, but if you were reading 100,000 rows on A, seven corresponding rows on B for each row on A, and one corresponding row on C for each row on A, the impact becomes more apparent. Joining from A to B to C results in 1,500,000 reads while joining from A to C to B results in 900,000 reads. Decreasing the number of times <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> must access the disk drive creates a significant difference in the length of time required to run the report.</p><p>The program below illustrates a join to four tables. We have added a join to the ORDER_CATALOG table to obtain the DESCRIPTION. We have also used the SUBSTRING command to decrease the size of the columns so that they fit on the screen or printout.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	NAME = SUBSTRING(1,25,P.NAME_FULL_FORMATTED),
+	E.DISCH_DT_TM,
+	ORDER_MNEMONIC = SUBSTRING(1,15,O.ORDER_MNEMONIC),
+	DESCRIPTION = SUBSTRING(1,25,OC.DESCRIPTION)
+FROM	PERSON P,
+	ENCOUNTER E,
+	ORDERS O,
+	ORDER_CATALOG OC 
+PLAN P
+JOIN E	WHERE E.PERSON_ID = P.PERSON_ID
+JOIN O	WHERE O.ENCNTR_ID = E.ENCNTR_ID
+JOIN OC	WHERE OC.CATALOG_CD= O.CATALOG_CD
+GO
+</pre>
+</div></div><p>The output for this query is displayed in the following example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NAME_FULL_FORMATTED	DISCH_DT_TM	ORDER_MNEMONIC	DESCRIPTION
+Doe, John	        04/26/98	Urine	Urine
+Smith, John	        03/13//97	DIET	DIET
+Smith, Lisa	        10/28/97	Handheld Neb	Handheld Neb
+Smith, Lisa	        10/28/97	O2	O2
+Brown, William		                AMYLASE	AMYLASE 
+Brown, William		                CREATININE	CREATININE
+Brown, William		                BLOOD CULTURE	FUNGAL BLOOD CULTURE
+Doe, Jane	        07/18/98	LITHIUM SERUM	LITHIUM SERUM
+Jones, Mary	        11/29/96	CBC	Complete Blood Count
+</pre>
+</div></div><p>The following program displays two additional columns, the encounter type and the nursing unit. These columns are code values in the ENCOUNTER table. Since the code values are not meaningful, you must use a User Access Routine (UAR) to retrieve meaningful information from the CODE_VALUE table. This example demonstrates using a UAR twice to obtain the ENCNTR_TYPE and the NURSE_LOC from the CODE_VALUE table.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM TEST GO
+CREATE PROGRAM  TEST
+
+EXECUTE CCLSECLOGIN 
+
+SELECT	NAME = SUBSTRING(1,20,P.NAME_FULL_FORMATTED),
+	ENCNTR_TYPE = UAR_GET_CODE_DISPLAY(E.ENCNTR_TYPE_CD),
+	NURSE_LOC= UAR_GET_CODE_DISPLAY(E.LOC_NURSE_UNIT_CD),
+	ORDER_MNEM = SUBSTRING(1,10,O.ORDER_MNEMONIC),
+	OC_DESC = SUBSTRING(1,20,OC.DESCRIPTION)
+FROM	PERSON P,
+	ENCOUNTER E,
+	ORDERS O,
+	ORDER_CATALOG OC 
+PLAN P
+JOIN E	WHERE E.PERSON_ID = P.PERSON_ID
+JOIN O	WHERE O.ENCNTR_ID = E.ENCNTR_ID
+
+JOIN OC	WHERE OC.CATALOG_CD = O.CATALOG_CD
+END
+GO
+</pre>
+</div></div><p>The following output is from this query:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NAME	        ENCNTR_TYPE	NURSE_LOC	ORDER_MNEM	OC_DESC
+Jones, Steve	Inpatient	2N	        Diabetic T	Diabetic Teaching
+Brown, Sue	Inpatient	2W	        Gyn Request	Gyn Request
+Brown, Sue	Inpatient	2W	        GYF	        Final Report Gyn Cyt
+Smith, Joseph	Inpatient	2N	        RC Incenti	RC Incentive Spirome
+Doe, Alice	Outpatient		        Blood Cult	Fungal Blood Culture
+Brown, Jane	Emergency	2N	        Tissue Req	Tissue Pathology Req
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 540, "requestCorrelationId": "10f78fb80510ed39"}</span>
+</body>
+</html>

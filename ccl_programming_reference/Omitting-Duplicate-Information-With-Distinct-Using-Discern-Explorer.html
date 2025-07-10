@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Omitting Duplicate Information With Distinct Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Omitting+Duplicate+Information+With+Distinct+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The DISTINCT option of the SELECT command filters duplicate rows of output using one of two methods:</p><ul><li>When the DISTINCT is applied at the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> level, only the fields and expressions listed in the ORDER clause are used to filter out duplicate records.</li><li><p>When the DISTINCT is applied at the <span style="color: rgb(22,21,19);">relational database management system (</span>RDBMS) level, all fields in the selection list are used to filter out duplicate records.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>The fields in the selection list of the RDBMS query may be different from the fields in the selection list of the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> query. When <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> generates the RDBMS query, it looks at the fields that are used in the Report Writer sections, the fields that are referenced in the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> selection list, and the fields in the ORDER clause, and passes the appropriate fields in the selection list of the RDBMS query. Use SET TRACE RDBDEBUG to see the RDBMS query.</p></div></div></li></ul><p>Using the DISTINCT clause in a query that has a non-RDBMS table (for example DUMMYT) causes the distinct to only be applied at the <em>Discern Explorer</em> level.</p><p>Using the DISTINCT clause in a query that only uses RDBMS tables cause the distinct to be applied at the RDBMS level.</p><p>Using the DISTINCT clause in a query that only uses RDBMS tables but also meets one of the following criteria causes the distinct to be applied at the RDBMS level and again at the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> level.</p><ul><li>Using an expression in the ORDER clause</li><li>MEMSORT or FILESORT select options are used</li><li>Append 0 to the end of the ORDER clause</li></ul><h2 id="OmittingDuplicateInformationWithDistinctUsingDiscernExplorer-Rationale:">Rationale:</h2><p>It is important to understand how the DISTINCT option functions to ensure that the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program always returns the expected results. When using the DISTINCT option, changes to the ORDER clause, the SELECT fields or expressions, or the items used in the report writer clauses do not cause the program to fail, but can cause the program to return unexpected results.</p><h2 id="OmittingDuplicateInformationWithDistinctUsingDiscernExplorer-Examples">Examples</h2><p>In this example, filter using SELECT expressions or ORDER expressions.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select distinct
+	abc.blob_identifier
+
+	from ap_blob_cleanup abc
+
+	where abc.updt_id &gt; 0
+
+   order abc.updt_id
+with nocounter
+RDB
+ SELECT  /*+  CCL&lt;CCL:R001:Q01 &gt; */  
+    DISTINCT ABC.BLOB_IDENTIFIER,
+    ABC.UPDT_ID 
+FROM  AP_BLOB_CLEANUP ABC  
+WHERE (ABC.UPDT_ID &gt;=  :1 )  
+ORDER BY ABC.UPDT_ID 
+GO
+</pre>
+</div></div><p>The previous code sample suppresses all duplicate rows based on the value of the blob_identifier and updt_id columns. Because the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> query does not contain any of the items that cause the Distinct to be applied at the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> level, the Distinct is applied at the RDBMS level only. The query that was passed to the RDBMS level contains the blob_identifier and updt_id fields in the selection list, so if the values in those two fields are the same for two or more rows, only one of the rows is returned by the query.</p><p>If you want to change the above select to suppress all duplicate rows based on the ORDER expression you can change the ORDER clause to the following:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>order abc.updt_id, 0</pre>
+</div></div><p>This causes <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to also apply the Distinct to the rows returned by the RDBMS query. If two or more rows contain the same updt_id, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> returns only one of those rows.</p><p>In this example, filter using ORDER expressions.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select distinct
+	abc.blob_identifier
+	
+	from ap_blob_cleanup abc
+          ,dummyt d 
+
+  plan abc where abc.updt_id &gt; 0
+  join d
+
+  order abc.updt_id
+with nocounter
+
+RDB
+  SELECT  /*+  CCL&lt;CCL:R001:Q01&gt; */ 
+     ABC.BLOB_IDENTIFIER,
+     ABC.UPDT_ID 
+FROM  AP_BLOB_CLEANUP ABC  
+WHERE (ABC.UPDT_ID &gt;=  :1 ) 
+GO
+
+</pre>
+</div></div><p>The previous code sample suppresses all duplicate rows based on the value of the updt_id column. Because the non-RDBMS DUMMYT table is used, neither the DISTINCT clause nor the ORDER clause is passed in the RDBMS query. The RDBMS query returns all qualifying rows to <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>, which then, sorts the rows. If two or more rows have the same updt_id, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> only returns one of the rows in the output set.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 674, "requestCorrelationId": "bd7ba1de1ecaf49d"}</span>
+</body>
+</html>

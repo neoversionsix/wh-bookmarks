@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Additional JOIN Examples Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Additional+JOIN+Examples+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>This topic contains additional examples of using PLANs, JOINs, and ORJOINs in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> programs.</p><p><strong>ORDER_SERV_RES_CONTAINER, PERFORM_RESULT </strong></p><p>Joining to six tables to produce a simple results turnaround report is displayed in the example below. The PERSON table is used to get person demographics. It is joined to the ORDERS table, which is joined to the Order Service Resource Container (ORDER_SERV_RES_CONTAINER) table to get the in-lab date and time (IN_LAB_DT_TM). In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span>, date and time data is stored in one column with a data type of DQ8. It is important to remember to use functions that are compatible with the DQ8 data type when doing date and time comparisons and calculations. The ORDER_SERV_RES_CONTAINER table controls all of the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Laboratory</span> features surrounding in-lab processing. It also, along with the container table, drives specimen transfer lists. It is joined to the RESULT table in which each row of the table represents one task assay of an ordered procedure. The RESULT table is joined to the PERFORM_RESULT table, which stores result values and corresponding information relating to the result. If a result is performed multiple times, a new entry into the table is added. A qualification is on the RESULT_STATUS_CD field to include only verified results.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>/* example turnaround report from in lab to result verified */
+
+DROP PROGRAM EX_TURNAROUND:DBA GO
+CREATE PROGRAM EX_TURNAROUND:DBA
+
+EXECUTE CCLSECLOGIN
+
+; get the code value for verified results
+SET VERIFIED_VAR = 0.0
+SET RESULT = UAR_GET_MEANING_BY_CODESET(1901,"VERIFIED",1,VERIFIED_VAR)
+
+SELECT	NAME = SUBSTRING(1,15,P.NAME_FULL_FORMATTED),
+	TASK_DESC = UAR_GET_CODE_DESCRIPTION(R.TASK_ASSAY_CD),
+	OSRC.IN_LAB_DT_TM "DD-MMM-YYYY HH:MM:SS;;D",
+	TAT_DAYS = DATETIMECMP(PR.PERFORM_DT_TM, OSRC.IN_LAB_DT_TM),
+	TAT_HRS = MOD((CNVTMIN(PR.PERFORM_DT_TM)-
+	CNVTMIN(OSRC.IN_LAB_DT_TM))/60,24),
+	TAT_MINS = MOD(MOD((CNVTMIN(PR.PERFORM_DT_TM)-
+	CNVTMIN(OSRC.IN_LAB_DT_TM)),1440),60)
+FROM	PERSON P,
+	ORDERS O,
+	ORDER_SERV_RES_CONTAINER OSRC,
+ 	RESULT R,
+	PERFORM_RESULT PR
+PLAN P
+JOIN O	WHERE O.PERSON_ID = P.PERSON_ID
+JOIN OSRC	WHERE OSRC.ORDER_ID = O.ORDER_ID AND
+	OSRC.IN_LAB_DT_TM &gt; CNVTDATETIME("01-JAN-1997 00:00")
+JOIN R	WHERE R.ORDER_ID = OSRC.ORDER_ID
+JOIN PR	WHERE PR.RESULT_ID = R.RESULT_ID AND
+	PR.RESULT_STATUS_CD = VERIFIED_VAR
+ORDER	CNVTDATETIME(OSRC.IN_LAB_DT_TM), NAME
+
+END
+GO
+</pre>
+</div></div><p>The output looks like this:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NAME	TASK_DESC	IN_LAB_DT_TM	TAT_DAYS	TAT_HRS	TAT_MINS
+Jones, John	Gen Lab BU	25-JUL-1998 14:12:00	28	1	54
+Brown, Alice	MIN COLL	25-AUG-1998 10:41:00	0	0	18
+Brown, Alice	HEIGHT	25-AUG-1998 10:41:00	0	0 	18
+Brown, Alice	MIN COLL	25-AUG-1998 10:41:00	0	0	18
+Brown, Alice	U CREAT	25-AUG-1998 10:41:00	0	0	18
+Brown, Alice	GL AMY	26-AUG-1998 11:03:01	7	5	57
+Smith, William	Gen Lab CO	04-SEP-1998 16:16:01	0	1	17
+Smith, Joseph	Cholestero	06-SEP-1998 13:34:01	0	0	0
+Doe, Steve	Gen Lab So	17-SEP-1998 17:07:02	0	0	14
+Doe, Steve	Calcium	17-SEP-1998 17:07:02	0	0	14
+Doe, Steve	Gen Lab Po	17-SEP-1998 17:07:02	0	0	14
+Doe, Steve	Gen Lab Po	17-SEP-1998 17:07:02	0	0	14
+Doe, Steve	 Gen Lab Po	18-SEP-1998 17:07:02	0	0	14
+Jones, Jane,	Gen Lab An	01-NOV-1998 10:44:05	52	5	13
+Jones, Jane	Gen Lab Ch	01-NOV-1998 10:44:05	52	5	13
+Smith, Mary	Gen Lab Po	20-NOV-1998 13:52:05	1	23	8
+</pre>
+</div></div><p><strong>NURSE_UNIT, ROOM, BED</strong></p><p>This program demonstrates the location data model. In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Cerner Classic</span>, the location hierarchy consists of organization, location, nursing unit, room and bed. The ORGANIZATION table is a reference of the business entities in the system. Examples of some types of organizations are as follows: employer, client, hospital, blood center, IHO, insurance co., medical review organization, reference laboratory, and so on. The ORGANIZATION table is joined to the LOCATION table. The LOCATION table is a reference of all locations in the system. Examples of some types of locations include facility (institution), building, nurse unit, room bed, outpatient, inventory, laboratory, pharmacy, and so on. The LOCATION table is joined to the NURSE_UNIT table by LOCATION_CD. The NURSE_UNIT table is an extension to the LOCATION table that contains information specific to a nurse unit type of location. A nurse unit is a hospital inpatient grouping of rooms and beds. The NURSE_UNIT table is joined to the ROOM table by the unique NURSE_UNIT index of LOCATION_CD and the nonunique room index of LOC_NURSE_UNIT_CD, because the relationship is one (NURSE_UNIT) to many (ROOM). (Remember to use CCLORATABLE to list the indexes.) The ROOM table is joined to the BED table by the unique ROOM key of LOCATION_CD and the nonunique BED key of LOC_ROOM_CD.</p><p>It is important to note, that in each of these tables, starting with the LOCATION table, the LOCATION_CD is the unique and primary identifier. It matches and is used in the join between the LOCATION and the NURSE_UNIT. However, starting with the ROOM table, the LOCATION_CD value is different for each table. Because of that, even though it may look like a common column name, you cannot use it on <strong>both sides</strong> of the join when joining the ROOM to the NURSE_UNIT and the BED to the ROOM.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>/* example report to list nursing units, rooms and beds
+demonstrates location data model */
+
+DROP PROGRAM EX_NURSE_UNIT GO
+CREATE PROGRAM EX_NURSE_UNIT
+
+EXECUTE CCLSECLOGIN
+
+SELECT	ORG_DESC = 
+	SUBSTRING(1,15,O.ORG_NAME),
+	LOC_TYPE = 
+	SUBSTRING(1,15,UAR_GET_CODE_DISPLAY(L.LOCATION_TYPE_CD)),
+	LOC_DESC = SUBSTRING(1,15,UAR_GET_CODE_DISPLAY(L.LOCATION_CD)),
+	ROOM_DESC = SUBSTRING(1,15,UAR_GET_CODE_DISPLAY(R.LOCATION_CD)),
+	BED_DESC = SUBSTRING(1,15,UAR_GET_CODE_DISPLAY(B.LOCATION_CD)),
+	CLASS = SUBSTRING(1,15,UAR_GET_CODE_DISPLAY(R.CLASS_CD))
+
+FROM	ORGANIZATION O,
+	LOCATION L,
+	NURSE_UNIT NU,
+	ROOM R,
+	BED B
+PLAN O	WHERE O.ACTIVE_IND = 1 
+JOIN L	WHERE L.ORGANIZATION_ID = O.ORGANIZATION_ID AND
+	L.ACTIVE_IND = 1
+JOIN NU	WHERE NU.LOCATION_CD = L.LOCATION_CD AND
+	NU.ACTIVE_IND = 1
+JOIN R	WHERE R.LOC_NURSE_UNIT_CD = NU.LOCATION_CD AND
+	R.ACTIVE_IND = 1
+JOIN B	WHERE B.LOC_ROOM_CD = R.LOCATION_CD
+ORDER	ORG_DESC, LOC_TYPE, LOC_DESC
+
+END
+GO
+</pre>
+</div></div><p>This results in the following output:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>ORG_DESC	LOC_TYPE	LOC_DESC	ROOM_DESC	BED_DESC	CLASS
+East Medical Center	Ambulatory	Emergency	Exam 2	Bed 1	
+East Medical Center	Nurse Unit(s)	2E	2001	A	Semi-Private
+East Medical Center	Nurse Unit(s)	2E	2001	B	Semi-Private
+East Medical Center	Nurse Unit(s)	2E	2002	A	Semi-Private
+East Medical Center	Nurse Unit(s)	2E	2002	B	Semi-Private
+East Medical Center	Nurse Unit(s)	3W	3001	B	Semi-Private
+East Medical Center	Nurse Unit(s)	3W	3002	A	Semi-Private
+East Medical Center	Nurse Unit(s)	3W	3002	B	Semi-Private
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 535, "requestCorrelationId": "37dcb3bced98a449"}</span>
+</body>
+</html>

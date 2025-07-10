@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Sample DIO Programs Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Sample+DIO+Programs+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The programs below demonstrate the use of DIO commands in a Reportwriter program. The first program uses row and column references along with DIO commands. Using the ROW and COL commands is not the preferred method when DIO commands are used, but may be appropriate if you are using DIO commands for headings or for a complete line of text only. Remember that proportional fonts may not line up correctly and that if you use a larger text size, 60 rows may not fit on one page.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO P342
+	P.PERSON_ID,
+	NAME = SUBSTRING(1,30,P.NAME_FULL_FORMATTED),
+	LOC_NURSE_UNIT_DISP = UAR_GET_CODE_DISPLAY(E.LOC_NURSE_UNIT_CD),
+	LOC_ROOM_DISP = UAR_GET_CODE_DISPLAY(E.LOC_ROOM_CD),
+	LOC_BED_DISP = UAR_GET_CODE_DISPLAY(E.LOC_BED_CD)
+FROM	PERSON P,
+	ENCOUNTER E
+PLAN P
+JOIN E	WHERE P.PERSON_ID = E.PERSON_ID AND
+	E.ARRIVE_DT_TM &lt;= CNVTDATETIME(CURDATE-7,0)
+ORDER	LOC_NURSE_UNIT_DISP,
+	P.NAME_FULL_FORMATTED
+HEAD PAGE
+
+COL 0	"NAME"
+	COL 40	"PERSON ID"
+	COL 74	"ROOM"
+	COL 80	"BED"
+	ROW+1
+HEAD LOC_NURSE_UNIT_DISP
+	COL 0	"{COLOR/0}{F/0}{B}{CPI/6}{LPI/4}"
+	ROW +1	LOC_NURSE_UNIT_DISP
+	COL +1	"{ENDB}{CPI/10}{LPI/6}"
+	ROW +2
+DETAIL
+	COL 0	P.NAME_FULL_FORMATTED
+	COL 40	P.PERSON_ID
+	COL +0	"{COLOR/20}"
+	COL 74	LOC_ROOM_DISP
+	COL 80	LOC_BED_DISP
+	ROW +1
+
+WITH	DIO = POSTSCRIPT,
+	MAXCOL = 250,
+	MAXROW = 50
+GO
+</pre>
+</div></div><p>The output for this query is shown below.</p><p><span class="confluence-embedded-file-wrapper"><img alt="" class="confluence-embedded-image" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/17982985/de_diorpt_4_i18n.jpg?version=1&amp;modificationDate=1265678057000&amp;api=v2" data-linked-resource-container-id="17982985" data-linked-resource-container-version="2" data-linked-resource-content-type="image/jpeg" data-linked-resource-default-alias="de_diorpt_4_i18n.jpg" data-linked-resource-id="16878381" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" draggable="false" src="/download/attachments/17982985/de_diorpt_4_i18n.jpg?version=1&amp;modificationDate=1265678057000&amp;api=v2"/></span></p><p>This program creates a patient list by nursing station. The HEAD LOC_NURSE_UNIT_DISP clause is used to print a heading for each nursing station. The DETAIL clause then is used to print patient demographics.<br> The first report_item in the HEAD LOC_NURSE_UNIT_DISP clause prints a combination of DIO commands starting at column 0 These commands are listed below:</br></p><div class="table-wrap"><table class="wrapped confluenceTable"><tbody><tr><th class="confluenceTh"><p>Command</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>{COLOR/0}</p></td><td class="confluenceTd"><p>The color is set to "0".</p></td></tr><tr><td class="confluenceTd"><p>{F/0}</p></td><td class="confluenceTd"><p>The font is set to "0".</p></td></tr><tr><td class="confluenceTd"><p>{B} </p></td><td class="confluenceTd"><p>The text is set to bold.</p></td></tr><tr><td class="confluenceTd"><p>{CPI/6}</p></td><td class="confluenceTd"><p>The characters per inch is set to "6".</p></td></tr><tr><td class="confluenceTd"><p>{LPI/4}</p></td><td class="confluenceTd"><p>The lines per inch is set to "4".</p></td></tr></tbody></table></div><p>The ROW +1 command is issued to print the heading beginning on the next row at column one. The DIO commands actually are storing the command in the buffer along with the data so if the heading was printed after the DIO commands without issuing ROW+1, the DIO command would be overlaid.</p><p>After the heading is printed, the next DIO command turns off the bold and resets the characters per inch and lines per inch back to the defaults. The DETAIL clause uses the DIO command {COLOR/20} to print the room and bed in a shaded area. Remember that enough space must be defined between the P.PERSON_ID and the E.LOC_ROOM_CD fields to store the DIO command in the buffer.</p><p>The program below prints a current patient list using the Reportwriter and DIO commands to make the report more readable. This program is more complicated and uses the POSITION command to eliminate any problems in positioning the data on the page. The POSITION command defines the X- and Y-axis locations to print the data. The placement is not dependent on anything but those coordinates.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO P342
+	P.PERSON_ID,
+	NAME = SUBSTRING(1,30,P.NAME_FULL_FORMATTED),
+	NURSE_UNIT = UAR_GET_CODE_DISPLAY(E.LOC_NURSE_UNIT_CD),
+	ROOM = UAR_GET_CODE_DISPLAY(E.LOC_ROOM_CD),
+	BED = UAR_GET_CODE_DISPLAY(E.LOC_BED_CD)
+FROM	PERSON P,
+	ENCOUNTER E
+PLAN P
+JOIN E	WHERE P.PERSON_ID = E.PERSON_ID AND
+	E.ARRIVE_DT_TM &lt;= CNVTDATETIME(CURDATE-7,0)
+ORDER	NURSE_UNIT,
+	ROOM,
+	BED
+
+HEAD REPORT
+	Y_POS = 0
+	"{CPI/5}{LPI/3}"
+	"{POS/160/36}CURRENT PATIENT LIST"
+	"{CPI/10}{LPI/6}"
+	ROW+1
+HEAD PAGE
+	"{POS/24/45}{COLOR/31}{BOX/76/58}"
+	ROW+1
+	"{F/12}{CPI/10}{LPI/6}{POS/515/55}"
+	"PAGE:" CURPAGE "###"
+	ROW+1
+	Y_POS = 72
+	"{F/5}"
+	CALL PRINT(CALCPOS(108,Y_POS))"{U}" "NAME"
+	CALL PRINT(CALCPOS(315,Y_POS)) "P.PERSON_ID"
+	CALL PRINT(CALCPOS(414,Y_POS)) "ROOM"
+	CALL PRINT(CALCPOS(468,Y_POS)) "BED""{ENDU}"
+	ROW+1
+HEAD NURSE_UNIT
+	IF(Y_POS&gt;600) BREAK
+	ENDIF
+	Y_POS = Y_POS + 36
+	CALL PRINT(CALCPOS(72,Y_POS))
+	"{COLOR/31}{LPI/8}{BOX/10/1/1}"
+	ROW+1
+	"{B}{F/12}{LPI/6}"
+	CALL PRINT(CALCPOS(86,Y_POS+12))
+	NURSE_UNIT
+	ROW+1
+	Y_POS = Y_POS + 36
+DETAIL
+	IF(Y_POS&gt;720) BREAK
+	ENDIF
+	"{F/0}"
+	CALL PRINT(CALCPOS(108,Y_POS)) P.NAME_FULL_FORMATTED
+	CALL PRINT(CALCPOS(288,Y_POS)) P.PERSON_ID
+	CALL PRINT(CALCPOS(414,Y_POS)) ROOM
+	CALL PRINT(CALCPOS(468,Y_POS)) BED
+	ROW+1
+	Y_POS = Y_POS + 12
+FOOT NURSE_UNIT
+	Y_POS = Y_POS + 36
+	IF(Y_POS&gt;720) BREAK
+	ENDIF
+	NURSE_TOT = COUNT(P.NAME_FULL_FORMATTED)
+	NURSE = CNVTSTRING(NURSE_TOT)
+	TOT = CONCAT("TOTAL PATIENTS ON ", TRIM
+	(NURSE_UNIT),": ",NURSE)
+	"{B}{F/12}"
+	CALL PRINT(CALCPOS(196,Y_POS))
+	"{COLOR/30}{LPI/8}{BOX/30/1/1}"
+	ROW+1
+	"{COLOR/0}{LPI/6}"
+	CALL PRINT(CALCPOS(230,Y_POS+12))
+	TOT
+	ROW+1
+FOOT REPORT
+	IF(Y_POS&gt;528) BREAK
+	ENDIF
+	Y_POS = Y_POS + 144
+	"{CPI/8}{LPI/4}"
+	CALL PRINT(CALCPOS(72,Y_POS))
+	"REPORT SUMMARY:"
+	"{CPI/10}{LPI/6}"
+	ROW+1
+	CALL PRINT(CALCPOS(196,Y_POS+36))
+	"{COLOR/30}{LPI/8}{BOX/30/1/1}"
+	ROW+1
+	"{COLOR/0}{LPI/6}"
+	CALL PRINT(CALCPOS(216,Y_POS+48))
+	"{B}{F/12}" "TOTAL NUMBER OF PATIENTS: "
+	COUNT(P.NAME_FULL_FORMATTED) "###"
+	ROW+1
+WITH	DIO=POSTSCRIPT,
+	MAXCOL = 300
+
+GO
+</pre>
+</div></div><p>The output for this query is shown below.</p><p><span class="confluence-embedded-file-wrapper"><img alt="" class="confluence-embedded-image" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/17982985/de_diorpt_5_i18n.jpg?version=1&amp;modificationDate=1265678057000&amp;api=v2" data-linked-resource-container-id="17982985" data-linked-resource-container-version="2" data-linked-resource-content-type="image/jpeg" data-linked-resource-default-alias="de_diorpt_5_i18n.jpg" data-linked-resource-id="16878380" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" draggable="false" src="/download/attachments/17982985/de_diorpt_5_i18n.jpg?version=1&amp;modificationDate=1265678057000&amp;api=v2"/></span></p><p>This program uses the CALCPOS( ) function to perform an equation to determine the vertical (Y-axis) coordinate. The variable Y_POS is used to track the position on the Y-axis and to control the page breaks. The CALL PRINT command prints the data at the position determined by the CALCPOS( ) function. Remember that the ROW+1 command only increments the lines in the buffer because the POSITION command is being used.</p><p>A larger font is used in the HEAD REPORT clause to print the report heading, which is printed at position 160 across the page and position 36 down from the top (a half inch down the page: 72/2=36). The characters and lines per inch are then reset back to their default values and a ROW+1 command is issued to increment the DIO buffer.</p><p>The HEAD PAGE clause moves the position to 24/45, changes the color to 31, and prints a box 76 characters across the page and 58 lines down. The font is changed to "12" (AvantGarde Book) and the characters and lines per inch are set to the defaults. The position is changed to 515/55 to print the page number. After the report_items in the HEAD PAGE clause are performed, the Y_POS variable is set to 72 (one inch). Then the font is changed to 5 (Times Bold) for the column headers. The headers are also underlined.</p><p>In each of the remaining Reportwriter clauses, the current position is checked using the Y_POS variable to determine when to force a page break. This controls the placement of data.</p><p>The HEAD NURSE_UNIT clause prints a box starting one inch over and a half inch from the previous Y_POS value, changes the color to 31, and increases the lines per inch to eight. The bold feature is activated, the font is changed to 12, and the lines per inch are reset to the default before the nursing station ID is printed inside the box. The Y_POS variable then is reset to the previous value plus 72 (one inch).</p><p>The DETAIL clause changes the font back to the default (Courier), and starts printing at the current Y_POS value. Each of the CALL PRINT commands use the X-axis value to determine in what position the item begins printing on the row. To calculate the X-axis value, determine the length of the field to be printed and divide it into or multiply it by the characters per inch. For example, if the field is five characters and the characters per inch is set to ten, you need a half inch, or 36 (10 CPI / 5 = 2 and 72 / 2 = 36). You also must add the number of characters to be left between each field. The total number is then added to the previous X-axis position. If you are using proportional fonts, this number may need to be tested to determine the exact position to leave enough space for the variation in character spacing. After each detail record is printed, the Y_POS variable is incremented by "12" or one line (72 / 6 LPI = 12).</p><p>At the end of each group of patients for the nursing station, the FOOT NURSE_UNIT clause is performed. This clause increments the Y_POS variable by a half inch. The aggregate function, COUNT( ) is used to count the total number of patients at each nursing station. The bold feature is activated and the font is changed to 12. The position is changed to 196/Y_POS. The color is changed to 30 and the lines per inch are increased to eight before a shaded box is printed. The color and lines per inch are then reset and the variable TOT is printed at the specified position.</p><p>After the data that was extracted by the program is printed, the final Reportwriter clause, FOOT REPORT , is performed. The Y_POS variable is incremented and the characters and lines per inch are changed. After the text is printed, the X- and Y-axis positions are incremented and the patient totals based on the entire report are printed.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 622, "requestCorrelationId": "f36d0fc25acd15e0"}</span>
+</body>
+</html>

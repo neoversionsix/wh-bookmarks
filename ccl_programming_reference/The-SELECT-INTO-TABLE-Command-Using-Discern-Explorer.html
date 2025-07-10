@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>The SELECT INTO TABLE Command Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/The+SELECT+INTO+TABLE+Command+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>This topic discusses creating custom ISAM (non-RDMBS) tables. Custom ISAM tables were widely used by clients to create custom tables in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Cerner Classic</span>. This functionality was carried forward into<span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span>.  <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.3.9 and 8.3.10 introduced the ability to create temporary and permanent custom RDBMS tables. In most cases, using a custom RDBMS table is a better option than using a custom ISAM table. See SELECT INTO TABLE Table_Name for more information on creating custom RDBMS tables  .</p><p>The Select Into Table <em>table_name</em> command should only be used to create custom tables. It should not be used by <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> development teams to create <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> production tables. </p></div></div><p>The SELECT INTO TABLE command builds an extract file and creates a definition for the table in the Data Dictionary. The table definition points to the extract file and allows treating the file as if it were a table. The extract file is written to your default directory, which typically is CCLUSERDIR. Following is the syntax of the SELECT INTO TABLE command:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO TABLE table_name select_command [GO]
+</pre>
+</div></div><p>The table name should be unique and should not conflict with any current table name. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> recommends that you run the program, CCLPROT, to determine if the table name already exists. Non-RDBMS Table names are limited to 12 characters. Custom non-RDBMS table names should begin with a digit.</p><p>The SELECT INTO TABLE Table_Name command creates an extract file that is organized sequentially and has a fixed format. You can create an indexed field using the WITH ORGANIZATION = "I" clause in conjunction with the ORDER clause that identifies the indexes to the file.</p><p>The following program creates a table that has five fields; this table is a subset of data from the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> system.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO TABLE 1PATREG
+	P.NAME_LAST_KEY,
+	P.NAME_FIRST_KEY,
+ 	P.NAME_FULL_FORMATTED,
+	SEX = UAR_GET_CODE_DISPLAY(P.SEX_CD),
+	P.BIRTH_DT_TM
+FROM	PERSON P
+GO
+</pre>
+</div></div><p>This program creates a sequentially organized file called 1PATREG.DAT that is stored in the CCLUSERDIR directory (the default <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> directory). A corresponding table is added to the Data Dictionary and you can run one of the reports (like TABLEALL or TABLEDEF) to see the table definition, as shown in the following: <br class="atl-forced-newline"><br class="atl-forced-newline"/><span class="confluence-embedded-file-wrapper"><img alt="" class="confluence-embedded-image" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/17982985/DiscernSelectIntoTableCommand.jpg?version=1&amp;modificationDate=1266528072000&amp;api=v2" data-linked-resource-container-id="17982985" data-linked-resource-container-version="2" data-linked-resource-content-type="image/jpeg" data-linked-resource-default-alias="DiscernSelectIntoTableCommand.jpg" data-linked-resource-id="18909494" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" draggable="false" src="/download/attachments/17982985/DiscernSelectIntoTableCommand.jpg?version=1&amp;modificationDate=1266528072000&amp;api=v2"/></span></br></p><p>This file has no indexes, so as more rows are added using the WITH APPEND clause the larger the file becomes and the slower the programs that reads it become. The INSERT, UPDATE, and DELETE commands are not valid on a non-indexed table. If you want to add one or more indexes to this table, use the WITH ORGANIZATION and ORDER clauses as shown in the following program:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO TABLE 1PATREG
+	PERSON = CNVTSTRING(P.PERSON_ID),
+	P.NAME_LAST_KEY,
+	P.NAME_FIRST_KEY,
+	P.NAME_FULL_FORMATTED,
+	P.BIRTH_DT_TM
+FROM	PERSON P
+ORDER	PERSON,
+	P.NAME_LAST_KEY
+WITH	ORGANIZATION = I,
+	MAXREC = 10
+GO
+</pre>
+</div></div><p>This program creates an indexed file called 1PATREG.DAT that is stored in the default directory. If you run this program after the previous program, the original .DAT file and table definition are replaced with the updated file and definition. A corresponding table is added to the Data Dictionary. You can run one of the reports (like TABLEALL or TABLEDEF) to see the TABLE definition, as shown in the following example:</p><p><span class="confluence-embedded-file-wrapper"><img alt="" class="confluence-embedded-image" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/17982985/DiscernSelectIntoTableCommand2.jpg?version=1&amp;modificationDate=1266528168000&amp;api=v2" data-linked-resource-container-id="17982985" data-linked-resource-container-version="2" data-linked-resource-content-type="image/jpeg" data-linked-resource-default-alias="DiscernSelectIntoTableCommand2.jpg" data-linked-resource-id="18909495" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" draggable="false" src="/download/attachments/17982985/DiscernSelectIntoTableCommand2.jpg?version=1&amp;modificationDate=1266528168000&amp;api=v2"/></span></p><p>The 1PATREG file is now an indexed file with two keys (NAME_LAST_KEY and PERSON). You can also create indexes that are concatenations of two or more fields or expressions. Doing this actually does not create an index with multiple fields since the concatenation will still be called one field in the index, but it can be convenient if you understand the implications. The following program illustrates how to concatenate the first and last name into a single key called NAME:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO TABLE 1PATREG
+	PERSON = CNVTSTRING(P.PERSON_ID),
+	NAME = CONCAT(TRIM(P.NAME_LAST_KEY),", ", P.NAME_FIRST_KEY),
+	P.NAME_LAST_KEY,
+	P.NAME_FIRST_KEY,
+	P.NAME_FULL_FORMATTED,
+	P.BIRTH_DT_TM
+FROM	PERSON P
+ORDER	PERSON,
+	NAME
+WITH	ORGANIZATION = I,
+	MAXREC = 10
+GO
+</pre>
+</div></div><p>The CONCAT( ) function is used to create an index, NAME. Because the ORDER clause is limited to ten items, you can create a maximum of ten indexes in the table. Using CONCAT( ), you can create a key from multiple fields and, in effect, increase the number of fields in the indexes.</p><p>Follow these guidelines when using the SELECT INTO TABLE command to create tables and definitions:</p><ul><li>When you create the SELECT command, list the fields that will be used in the ORDER clause first and in the same order as in the ORDER clause. For example, NAME is listed first in the ORDER clause above and also is the first field in the SELECT command.</li><li>Integer columns should not be used as indexes unless converted to a character string.</li><li>Make sure that the first index that you create is unique for each row in the table. UNIX treats the first index as unique.</li></ul><p>You may need to create an expression in the SELECT command using the CNVTSTRING( ), FORMAT( ), or other function to create a character string sort expression.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO TABLE 1PATREG
+	PERSON = CNVTSTRING(P.PERSON_ID),
+	P.UPDT_DT_TM,
+	P.NAME_LAST
+FROM	PERSON P
+ORDER	PERSON
+WITH	ORGANIZATION = I,
+	MAXREC = 10
+GO
+</pre>
+</div></div><p>See SELECT INTO TABLE Table_Name for more information on the SELECT INTO TABLE Command.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 857, "requestCorrelationId": "b5236a3dac367b00"}</span>
+</body>
+</html>

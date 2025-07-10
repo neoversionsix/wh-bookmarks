@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Running Discern Explorer Programs From the UNIX Operating System Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Running+Discern+Explorer+Programs+From+the+UNIX+Operating+System+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Running a program in the background in the UNIX operating system allows you to free up your terminal.</p><p>Complete the following steps to run a program in background:</p><ol><li>Create a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> executable program.</li><li>Use the SELECT INTO option to define an output file.</li><li>Create a .ksh file to execute in background that will:<ol><li>Run <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>.</li><li>Run your <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> executable program.</li><li>Print the data file if necessary, or use the set spool command inside the program.</li><li>Exit.</li></ol></li><li>Submit your file to background by entering the following command:</li></ol><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>nohup $cer_proc/ccl_pgms.ksh &amp;</pre>
+</div></div><p>See your operating system for details on the nohup command. The log file can be directed to a specific file using &lt;filename&gt;.</p><p><strong>Examples</strong></p><p>Example 1 uses a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> executable program and a Unix file to execute the program.</p><p><strong>Program Name:unix_pgm.prg</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM UNIX_PGM GO
+CREATE PROGRAM UNIX_PGM
+
+SELECT	INTO "cer_temp:unix_pgm"
+	P.NAME_FULL_FORMATTED,
+	P.USERNAME
+FROM	PRSNL P
+
+ORDER	P.NAME_LAST_KEY,
+	P.NAME_FIRST_KEY
+
+SET SPOOL = "cer_temp:unix_pgm.dat" &lt;printer&gt;
+
+END
+GO
+</pre>
+</div></div><p><strong>Test Program</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>1) UNIX_PGM GO</pre>
+</div></div><p><strong>Unix File:$cer_proc/unix_pgm.ksh</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>$cer_exe/cclora &lt;&lt;!
+unix_pgm go
+exit
+!
+</pre>
+</div></div><p><strong>Test or Run in the Background</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>$ nohup $cer_proc/unix_pgm.ksh &amp;</pre>
+</div></div><p>Example 2 shows a Unix file to execute multiple <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> programs in background. Program PGM2 passes in two parameters, one for the output device and the second for date. Those two parameters are passed into the program upon execution. The output from PGM2 is also sent to two separate printers using the LP command.</p><p><strong>Unix File:$cer_proc/unix_pgm.ksh</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>$cer_exe/cclora &lt;&lt;!
+pgm1 go
+pgm2 "cer_temp:pgm2", 01011999 go
+exit
+lp -dp364 $cer_temp/pgm1.dat
+lp -dp353 $cer_temp/pgm2.dat
+lp -dp364 $cer_temp/pgm2.dat
+!
+</pre>
+</div></div><p><strong>Test or Run in the Background</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>$ nohup $cer_proc/unix_pgm.ksh &amp;</pre>
+</div></div><p><strong>Considerations</strong></p><p>Running <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> programs from the operating system with no interaction can have two drawbacks.</p><ol><li>Execute CCLSECLOGIN to gain access to the code translations.</li><li>Sign on to the RDBMS.</li></ol><p>Accomplishing this can require a file to contain the username and password for the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> system and the RDB. For example, the previous examples need to add these commands to the UNIX file after running $cer_exe/cclora&lt;&lt;!.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DEFINE ORACLESYSTEM "&lt;USER&gt;/&lt;PASSWORD&gt;" GO
+SET STAT = UAR_SEC_LOGIN("&lt;USER&gt;","&lt;DOMAIN&gt;","&lt;PASSWORD&gt;") GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 637, "requestCorrelationId": "77f856cc17578bd1"}</span>
+</body>
+</html>

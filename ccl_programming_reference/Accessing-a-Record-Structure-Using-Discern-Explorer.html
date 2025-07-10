@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Accessing a Record Structure Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Accessing+a+Record+Structure+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>To refer to or access a Level 1 record structure item, use the record structure name, followed by the dash ( - ), and the greater than sign (&gt;). When used together, the -&gt; symbol is referred to as the record connector. After the record connector, use the name of the item. For example, the following RECORD command is used to define the Temp_1 record structure:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>RECORD TEMP_1
+	(1 PERSON_ID = F8
+	 1 NAME = VC
+	 1 ORDERS[*]
+	     2 ORDER_ID = F8
+	     2 ORDER_MNE = VC
+	     2 DETAILS[*]
+	          3 RESULT_ID = F8
+	          3 PROC = VC)</pre>
+</div></div><p>The following command can be used to set the field item named PERSON_ID equal to <strong>12345.0:</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET TEMP_1-&gt;PERSON_ID = 12345.0</pre>
+</div></div><p><br>The following command can be used in a report writer section to display the value stored in the PERSON_ID field item in column 10 of the output:</br></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>COL 10 TEMP_1-&gt;PERSON_ID</pre>
+</div></div><p>To reference a list item, use an integer value inside of square brackets ( [ ] ) to specify the position of the list. The integer value can be a literal or a variable. For example, run the following command to refer to the first position of the ORDERS list in the TEMP_1 record structure:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>TEMP_1-&gt;ORDERS[1]</pre>
+</div></div><p>The record connector ( -&gt; ) must be used between the record structure name and a Level 1 item. To reference items at subsequent levels, you can use either the record connector ( -&gt; ) or a period (.). Both of the following examples refer to the ORDER_ID in the first position of the ORDERS list:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>TEMP_1-&gt;ORDERS[1].ORDER_ID
+TEMP_1-&gt;ORDERS[1]-&gt;ORDER_ID</pre>
+</div></div><p>The following command displays the ORDER_ID values that are in the first three positions of the ORDERS list in a report writer section:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FOR(X = 1 TO 3)
+	COL 10 TEMP_1-&gt;ORDERS[X].ORDER_ID ROW +1
+ENDFOR</pre>
+</div></div><p>To access the first four detail procedures for the first order, use the following:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>TEMP_1-&gt;ORDERS[1].DETAILS[1].PROC
+TEMP_1-&gt;ORDERS[1]-&gt;DETAILS[2].PROC
+TEMP_1-&gt;ORDERS[1].DETAILS[3]-&gt;PROC
+TEMP_1-&gt;ORDERS[1]-&gt;DETAILS[4]-&gt;PROC</pre>
+</div></div><p>The SET CURALIAS command can be used to create a shortcut instead of using the list_items when referencing record structure field_items. The following example displays the first four items in the TEMP_1-&gt;ORDERS[<em>n</em>].ORDER_MNE field:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET CURALIAS = ORDS TEMP_1-&gt;ORDERS[OCNT]
+FOR(OCNT = 1 TO 4)
+	 COL 10 ORDS-&gt;ORDER_MNE
+	ROW +1
+ENDFOR</pre>
+</div></div><p>Although it is not good programming practice, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> lets you omit the name of a group_item when referring to items that are under that group. For example, the following Record command is used to define a record structure named REC:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>RECORD REC
+	(1 GROUP
+	     2 FIELD = F8)</pre>
+</div></div><p>Either of the following commands can be used to refer to the value in the field_item named FIELD:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>REC-&gt;GROUP.FIELD
+REC-&gt;FIELD</pre>
+</div></div><p> Omitting group_item names can lead to creating record structure items that are inaccessible. For example, the following Record command is used to define a record structure named BAD:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>RECORD BAD
+	(1 GROUP
+	     2 BAD_FIELD = F8
+	 1 BAD_FIELD = C10)</pre>
+</div></div><p>By default, the Level 1 field_item BAD_FIELD is not accessible. Using BAD-&gt;BAD_FIELD assumes that the group_item GROUP is omitted, so the Level 2 field_item named BAD_FIELD is referenced. You can resolve this inaccessibility issue using two methods. The first method is to change the name of one of the field_items named BAD_FIELD to eliminate the ambiguity. The second method is to issue the SET MODIFY RECORDGROUP command to require using group_item names when referring to items that are under that group.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 505, "requestCorrelationId": "772c2832952fa656"}</span>
+</body>
+</html>

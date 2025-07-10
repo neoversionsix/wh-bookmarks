@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>PLANS and JOINS Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/PLANS+and+JOINS+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Data can be extracted from multiple tables at one time by joining the tables together using a common column. The term join refers to a link established between two or more tables whose rows typically share a common column.</p><p>For example, you can link the ENCOUNTER table to the ORDERS table using the ENCNTR_ID. To do this, indicate in your <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> query that each time an ENCNTR_ID in the ENCOUNTER table is equal to an ENCNTR_ID in the ORDERS table, then the information from both tables are displayed together. Because each patient visit has a unique ENCNTR_ID, rows with ENCNTR_ID "00000020" in both the ENCOUNTER and the ORDERS tables relate to the same patient.</p><p>A JOIN between two tables results in an intersection of those tables. This is referred to as a <em>linear join path</em>. An ORJOIN results in a union between the tables. This is referred to as a <em>nonlinear join path</em>.<br> <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> uses PLAN and JOIN clauses to establish the links between tables. The PLAN clause identifies the table to read first and the following JOIN clauses identify additional tables to read. The join_operator can be a JOIN or an ORJOIN. You will have one PLAN clause and as many JOIN clauses as needed to complete the query path. Every JOIN clause is followed with a qualification linking that table to a previous table. Any additional qualifications are defined as each table is read in the PLAN and JOIN clauses. The syntax and an example follow.</br></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>[PLAN range [WHERE qualification]
+{join_operator range [WHERE qualification]}]
+</pre>
+</div></div><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	E.ARRIVE_DT_TM
+FROM	PERSON P,
+	ENCOUNTER E
+PLAN P
+JOIN E	WHERE P.PERSON_ID = E.PERSON_ID AND
+	E.ARRIVE_DT_TM &gt;= CNVTDATETIME("01-JAN-1998")
+GO
+</pre>
+</div></div><p>In the simplest form, you can use the PLAN and JOIN clauses to link two tables together without making any additional qualifications on either table. The example below reads the PERSON table and then links to the ENCOUNTER table by PERSON_ID. That means the common column in each table is PERSON_ID. You will first read a row in the PERSON table and then find any matches for that person on the ENCOUNTER table.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PLAN P
+JOIN E	WHERE E.PERSON_ID = P.PERSON_ID
+</pre>
+</div></div><p>When defining your query, the order of the tables you select is not vital. What is vital is the way your PLAN and JOIN clauses are set up. When defining your PLAN and JOIN clauses, the most efficient method is to PLAN on the table, which qualifies on an indexed column on that table. That way the first table you read does an indexed read and each link is based on an index. If no index is used on any of the tables, the RDB optimizes the query when reading through the tables. Be aware that a query that performs a full table scan might take a significant amount of time to run.</p><p>You can qualify on the PERSON table or have additional qualifications on the ENCOUNTER table. Each PLAN, JOIN, or ORJOIN clause can have a WHERE clause. Verify that the columns used in the qualifications match the table that is being planned or joined. For example, to qualify on "Mary Smith" with an arrival date and time on or after January 1, 1998, the PLAN and JOIN clause would look like the following example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PLAN P	WHERE P.NAME_LAST_KEY = "SMITH" AND
+	P.NAME_FIRST_KEY = "MARY"
+JOIN E	WHERE E.PERSON_ID = P.PERSON_ID AND
+	E.ARRIVE_DT_TM &gt;= CNVTDATETIME("01-JAN-1998")
+</pre>
+</div></div><p>The program above reads the PERSON table first and qualifies on NAME_LAST_KEY and NAME_FIRST_KEY. Both are indexed columns. After the ENCOUNTER table is read, the ARRIVE_DT_TM is then qualified on. This is the most efficient way to read the tables because you are using an index to qualify on the PERSON table.</p><p>If you are reading only two tables, it is simple to determine which table will be used in the PLAN and JOIN clause. When you are reading more than two tables, the task becomes more difficult. The process is the same, but instead of a single JOIN clause, you need to create two or more JOIN clauses (or JOIN and ORJOIN clauses).</p><p>Once you establish which table you will start with in the PLAN clause, you must determine how to read the remaining tables.</p><ol><li>Define which tables are linked to the table in the PLAN clause.</li><li>Establish a JOIN for each one of those tables.</li><li>If any additional tables are linked to the existing tables, establish a JOIN for each.</li><li>Repeat Steps 1 through 3 until all tables are read.</li></ol><p>As a general rule, read one-to-one relationships before one-to-many. That means if you are reading the PERSON, PERSON_ALIAS, and ENCOUNTER tables, you can read the tables in that order. Both tables are linked to the PERSON table but if you are only pulling the Social Security Number (SSN) from PERSON_ALIAS, that is a one-to-one relationship because a person only has one SSN. When you link to the PERSON to the ENCOUNTER tables, a person might have many encounters or a one-to-many relationship. Following this process can make the program more efficient.</p><p>The following example is a portion of code from a longer program. SSN_CD would have already been set in the original program.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PLAN P
+JOIN PA	WHERE P.PERSON_ID = PA.PERSON_ID AND 
+	PA.PERSON_ALIAS_TYPE_CD = SSN_CD
+JOIN E	WHERE P.PERSON_ID = E.PERSON_ID
+</pre>
+</div></div><p>Just as using an indexed column in the PLAN to make your query run more efficiently, using one in the JOIN is also suggested. The most efficient query would PLAN on an indexed column and JOIN to an indexed column.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 584, "requestCorrelationId": "d33c9c27356e23fa"}</span>
+</body>
+</html>

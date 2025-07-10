@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Populating or Loading Data Into a Record Structure Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Populating+or+Loading+Data+Into+a+Record+Structure+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>To assign a value to a Level 1 record structure item, simply set the field_item equal to the value. The following RECORD command is used to define the Temp_1 record structure:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>RECORD TEMP_1 (
+	1 PERSON_ID = F8
+	1 NAME = VC
+	1 ORDERS[*]
+	     2 ORDER_ID = F8
+	     2 ORDER_MNE = VC
+	     2 DETAILS[*]
+	          3 RESULT_ID = F8
+	          3 PROC = VC)</pre>
+</div></div><p><br>The following command is used to set the field item named PERSON_ID equal to <strong>12345.0</strong>:</br></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET TEMP_1-&gt;PERSON_ID = 12345.0</pre>
+</div></div><p><br/>In a report writer section, the SET command is not used. For example, the following command sets the field item named PERSON_ID equal to <strong>12345.0</strong>:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DETAIL
+	TEMP_1-&gt;PERSON_ID = 12345.0</pre>
+</div></div><p>Before setting a field_item within a list_item equal to a value, allocate memory to store the list_items. When a RECORD command that defines a list_item using an integer inside the square brackets ([ ]) is executed, memory to store that number of positions in the list is allocated. If additional positions are needed for the list, the ALTER( ) function is used to increase the total size of the list. Since a contiguous block of memory is used, the ALTER( ) function allocates a new block of memory that is large enough to hold the items that are currently in the list, as well as the additional items. The items currently in the list are then moved to this new memory location. This process represents a significant memory management operation. Therefore, when you know the exact number of positions that the list will need, the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> standard is to allocate memory for that number of positions using an integer inside of the square brackets in the RECORD command. However, in most cases, the exact number of positions that are needed is unknown. Generally, an asterisk (*) is used inside of the square brackets when defining the record structure.</p><p>If the exact number of positions is unknown, the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> standard is to define the list_item using an asterisk inside of the square brackets in the RECORD command and allocate memory for the list using the ALTERLIST( ) function. The ALTERLIST( ) function allocates a block of memory in a linked list to store information in a record structure list_item that was defined in the RECORD command using an asterisk inside of the square brackets. When a RECORD command that defines a list_item using an asterisk inside of the square brackets is executed, no memory is allocated to store the positions of the list. The ALTERLIST( ) function must be used to allocate an initial block of memory before assigning values to field_items under the list_item. The general recommendation is to initially allocate a block of memory that is reasonably large enough to store the number of positions needed for the list. After the initial allocation is used, subsequent executions of the ALTERLIST( ) function should be used to allocate additional memory in reasonable sized blocks. For example, if a Select statement is used to retrieve a list of person_ids that need to be stored in a record structure and you expect about 1,000 person_ids to be returned, it would be reasonable to initially use the ALTERLIST( ) function to allocate memory to store 1,000 positions in the list. If needed, subsequent executions of the ALTERLIST( ) function could be used to allocate memory for an additional 100 positions in the list. If you expected the Select statement to return about 20 person_ids, it would be reasonable to initially use the ALTERLIST( ) function to allocate enough memory to store 20 positions in the list. If needed, subsequent executions of the ALTERLIST( ) function could be used to allocate memory for an additional 10 positions in the list. Since the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span>standard is to allocate memory in reasonable-sized blocks, it is possible that more memory will be allocated than used. Therefore, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> recommends that once a record structure list is fully populated, execute the ALTERLIST( ) function a final time to reduce the size of the list to the actual number of positions that were used.</p><p>The following example creates a record structure called TEMP_1 which stores a person's name and ID at Level 1. A list item named ORDERS is used at Level 1 to store the order IDs and mnemonics for the person's group orders. A list item named DETAILS is used at Level 2 to store the result IDs and display values of the task_assay_cds for the components that make up the group order. For example, a complete blood count (CBC) is a group order. Some of the individual components of the CBC would be a red blood count (RBC), a white blood count (WBC), a hemoglobin (HGB), and a hematocrit (HCT). The TEMP_1 record structure could be used to store any number of group orders for one specific person. For any one group order, any number of components could be stored. The program selects data from the PERSON, ORDERS, and RESULT tables and loads it into the record structure by assigning record structure field items equal to the items from the Select statement. The variables CNT_ORD and CNT_DET are used to keep track of the number of positions that are needed in the ORDERS and DETAILS list_items. The ALTERLIST( ) function is used to incrementally increase the size of the list_items as needed.</p><p>The program assumes that, on average, the person will have about 100 group orders. In the HEAD REPORT section, the person's ID and name are stored in the TEMP_1 record structure, and the ALTERLIST( ) function is used to allocate memory to store 100 positions in the ORDERS list_item.</p><p>The HEAD O.ORDER_ID section is used to increment the CNT_ORD variable. An IF( ) statement is used to determine if additional memory must be allocated to store more positions in the ORDERS list_item. When the IF( ) statement evaluates to <strong>TRUE</strong>, the ALTERLIST( ) function is used to allocate memory to store 10 more positions in the list. The order_id and mnemonic from the orders table are then stored in the respective fields in the ORDERS list_item. The CNT_DET variable is set to <strong>0,</strong> so it can be used to count the number of components for the current group order. The program assumes that, on average, each group order has about 10 components; therefore, the ALTERLIST( ) function is used to allocate memory to store 10 positions in the DETAILS list_item within the current ORDERS list_item.</p><p>In the DETAIL section, the CNT_DET variable is incremented. An IF( ) statement is used to determine if memory needs to be allocated to store more positions in the DETAILS list_item. When the IF( ) statement evaluates to <strong>TRUE</strong>, the ALTERLIST( ) function is used to allocate memory to store 10 more positions in the list. The result_id and display value of the task_assay_cd (proc) from the result table are then stored in the respective fields in the DETAILS list_item.</p><p>The FOOT O.ORDER_ID section executes the ALTERLIST( ) function to deallocate memory that was allocated but not used, and to store components of the group order.</p><p>The FOOT REPORT section executes the ALTERLIST( ) function to deallocate memory that was allocated but not used, and to store group orders for the person.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM EX_RECORD GO
+CREATE PROGRAM EX_RECORD
+
+;initialize variables to keep track of the number of group orders and components
+Declare CNT_ORD = I4
+DECLARE CNT_DET = I4
+
+;create a record structure to store person, order and component information
+RECORD TEMP_1 (
+     1 PERSON_ID = F8
+     1 NAME = VC
+     1 ORDERS[*]
+          2 ORDER_ID = F8
+          2 ORDER_MNE = VC
+          2 DETAILS[*]
+               3 RESULT_ID = F8
+               3 PROC = VC)
+
+SELECT INTO "NL:"
+	P.PERSON_ID,
+	P.NAME_FULL_FORMATTED,
+	O.ORDER_ID,
+	O.ORDER_MNEMONIC,
+	R.RESULT_ID,
+	PROC = UAR_GET_CODE_DISPLAY(R.TASK_ASSAY_CD)
+FROM	PERSON P,
+	ORDERS O,
+	RESULT R
+PLAN P WHERE P.PERSON_ID = 12345.0
+JOIN O	WHERE P.PERSON_ID = O.PERSON_ID
+JOIN R	WHERE O.ORDER_ID = R.ORDER_ID
+ORDER	O.ORDER_ID,
+        R.RESULT_ID
+HEAD REPORT
+	;store the person_id and name in the record structure
+	TEMP_1-&gt;PERSON_ID = P.PERSON_ID
+	TEMP_1-&gt;NAME = P.NAME_FULL_FORMATTED
+        ;allocate memory to store information for 100 group orders
+	call alterlist(TEMP_1-&gt;ORDERS,100)
+HEAD O.ORDER_ID
+	CNT_ORD = CNT_ORD + 1
+	;if needed, allocate memory to store information for 10 additional group orders
+	IF (MOD(CNT_ORD,10) = 1 AND CNT_ORD &gt; 100)
+             call alterlist(TEMP_1-&gt;ORDERS,CNT_ORD + 9)
+        ENDIF
+	;store information for the current group order in the record structure
+	TEMP_1-&gt;ORDERS[CNT_ORD].ORDER_ID = O.ORDER_ID
+        TEMP_1-&gt;ORDERS[CNT_ORD].ORDER_MNE = O.ORDER_MNEMONIC
+	;set the component count for the current group order to zero
+	CNT_DET = 0
+	;allocate memory to store 10 components for the current group order
+	call alterlist(TEMP_1-&gt;ORDERS[CNT_ORD].DETAILS,10)
+DETAIL
+	CNT_DET = CNT_DET + 1
+	;if needed allocate memory to store 10 additional components
+        IF (MOD(CNT_DET,10) = 1 AND CNT_DET != 1)
+               call alterlist(TEMP_1-&gt;ORDERS[CNT_ORD].DETAILS,CNT_DET + 9)
+        ENDIF
+        ;store information for the current component in the record structure
+        TEMP_1-&gt;ORDERS[CNT_ORD].DETAILS[CNT_DET].RESULT_ID = R.RESULT_ID
+	TEMP_1-&gt;ORDERS[CNT_ORD].DETAILS[CNT_DET].PROC = PROC
+FOOT O.ORDER_ID
+	;free memory that was allocated but not used
+	;for components of the current group order
+	call alterlist(TEMP_1-&gt;ORDERS[CNT_ORD].DETAILS,CNT_DET)
+FOOT REPORT
+	;free memory that was allocated but not used for group orders
+	call alterlist(TEMP_1-&gt;ORDERS,CNT_ORD)
+END
+GO</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 577, "requestCorrelationId": "65913df9deb999ec"}</span>
+</body>
+</html>

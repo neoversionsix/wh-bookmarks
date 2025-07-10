@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>OUTERJOIN or LEFT JOIN Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/OUTERJOIN+or+LEFT+JOIN+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<h1 id="OUTERJOINorLEFTJOINUsingDiscernExplorer-OUTERJOINorLEFTJOIN">OUTERJOIN or LEFT JOIN</h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="Two overlapping circles, left one filled in, including the overlapping section." class="confluence-embedded-image confluence-thumbnail confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/2686333923/Discern_Explorer_Left-OuterJoin_v1.png?version=1&amp;modificationDate=1750179248000&amp;api=v2" data-linked-resource-container-id="2686333923" data-linked-resource-container-version="11" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Discern_Explorer_Left-OuterJoin_v1.png" data-linked-resource-id="3376290098" data-linked-resource-type="attachment" data-linked-resource-version="1" draggable="false" src="/download/thumbnails/2686333923/Discern_Explorer_Left-OuterJoin_v1.png?version=1&amp;modificationDate=1750179248000&amp;api=v2" title="Two overlapping circles, left one filled in, including the overlapping section." width="200"/></span></p><p>The OUTERJOIN() function or a LEFT JOIN allows you to make qualifying rows on an RDBMS table optional. By default, selecting from multiple tables requires qualifying rows to exist on all tables for any data to be returned. <span style="letter-spacing: 0.0px;">For example, selecting from the PERSON and ENCOUNTER tables, where the Person_ID fields are equal, requires the same Person_ID to exist on both tables. If Person_ID 12345.0 exists on the PERSON table but no rows are on the ENCOUNTER table, where the Person_ID is equal to 12345.0, the below query does not return any data.</span></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.PERSON_ID,
+	E.PERSON_ID
+FROM	PERSON P,
+	ENCOUNTER E
+PLAN P	WHERE P.PERSON_ID = 12345.0
+JOIN E	WHERE E.PERSON_ID = P.PERSON_ID</pre>
+</div></div><p>The OUTERJOIN() function or a LEFT JOIN allows you to retrieve the fields from the PERSON and ENCOUNTER tables when qualifying rows exist on both tables, and retrieve the fields from the PERSON table when no qualifying rows exist on the ENCOUNTER table.</p><p>The OUTERJOIN() function must be used around all values that are compared to a field on the table from which the qualifying rows are optional. When subsequent child tables are joined, the OUTERJOIN function must be used around all values that are compared to a field on the child tables.</p><p>A LEFT JOIN is added to the FROM clause of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> SELECT command. A left joined table must immediately follow the table it is linked to or another left joined table.</p><p>The OUTERJOIN() function and a LEFT JOIN cannot be used in the same query.</p><p>The following table lists scenarios where the OUTERJOIN() function and a LEFT JOIN can and cannot be used:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh" scope="row">Scenario</th><th class="confluenceTh">OUTERJOIN() Function</th><th class="confluenceTh">Left Join</th></tr><tr><th class="confluenceTh" scope="row">OUTERJOIN RDBMS Tables</th><td class="confluenceTd">Yes</td><td class="confluenceTd">Yes</td></tr><tr><th class="confluenceTh" scope="row">OUTERJOIN With an IN Qualification</th><td class="confluenceTd">No</td><td class="confluenceTd">Yes</td></tr><tr><th class="confluenceTh" scope="row">OUTERJOIN With OR Qualification</th><td class="confluenceTd">Yes</td><td class="confluenceTd">Yes</td></tr><tr><th class="confluenceTh" scope="row">OUTERJOIN With Nested Select</th><td class="confluenceTd">No</td><td class="confluenceTd">Yes</td></tr><tr><th class="confluenceTh" scope="row">OUTERJOIN With Expand() in Qualification</th><td class="confluenceTd">No</td><td class="confluenceTd">Yes</td></tr></tbody></table></div><p>See JOIN Options for more information on available join options.</p><p><span style="font-size: 30.0px;letter-spacing: -0.008em;">Examples</span></p><p>The following example uses the OUTERJOIN() function to return rows from both the PERSON and ENCOUNTER tables or rows from the PERSON table if no qualifying rows exist on the ENCOUNTER table:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.PERSON_ID,
+	E.PERSON_ID
+FROM	PERSON P,
+	ENCOUNTER E
+PLAN P	WHERE P.PERSON_ID = 12345.0
+JOIN E	WHERE E.PERSON_ID = OUTERJOIN(P.PERSON_ID)</pre>
+</div></div><p>The following example uses a LEFT JOIN to return rows from both the PERSON and ENCOUNTER tables or rows from the PERSON table if no qualifying rows exist on the ENCOUNTER table:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.PERSON_ID,
+	E.PERSON_ID
+FROM	PERSON P,
+	(LEFT JOIN ENCOUNTER E ON (E.PERSON_ID = P.PERSON_ID))
+PLAN P	WHERE P.PERSON_ID = 12345.0
+JOIN E</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 541, "requestCorrelationId": "786f9f11c03c6822"}</span>
+</body>
+</html>

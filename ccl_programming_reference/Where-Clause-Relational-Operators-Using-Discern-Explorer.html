@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Where Clause Relational Operators Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Where+Clause+Relational+Operators+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Relational operators separate the expressions in a WHERE clause.</p><p>The following are valid relational operators:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh" colspan="1">Operator</th><th class="confluenceTh" colspan="1">Description</th><th class="confluenceTh" colspan="1">Example</th></tr><tr><td class="confluenceTd"><p>=</p></td><td class="confluenceTd"><p>Equal to</p></td><td class="confluenceTd"><p>P.NAME_LAST_KEY = "SMITH"</p></td></tr><tr><td class="confluenceTd"><p>!=</p></td><td class="confluenceTd"><p>Not equal to</p></td><td class="confluenceTd"><p>P.NAME_LAST_KEY != "SMITH"</p></td></tr><tr><td class="confluenceTd"><p>&gt;</p></td><td class="confluenceTd"><p>Greater than</p></td><td class="confluenceTd"><p>E.REG_DT_TM &gt; CNVTDATETIME("01-FEB-1999")</p></td></tr><tr><td class="confluenceTd"><p>&lt;</p></td><td class="confluenceTd"><p>Less than</p></td><td class="confluenceTd"><p>E.REG_DT_TM &lt; CNVTDATETIME("01-FEB-1999")</p></td></tr><tr><td class="confluenceTd"><p>&gt;=</p></td><td class="confluenceTd"><p>Greater than or equal to</p></td><td class="confluenceTd"><p>E.REG_DT_TM &gt;= CNVTDATETIME("01-FEB-1999")</p></td></tr><tr><td class="confluenceTd"><p>&lt;=</p></td><td class="confluenceTd"><p>Less than or equal to</p></td><td class="confluenceTd"><p>E.REG_DT_TM &lt;= CNVTDATETIME("01-FEB-1999")</p></td></tr><tr><td class="confluenceTd"><p>BETWEEN</p></td><td class="confluenceTd"><p>Inclusive range</p></td><td class="confluenceTd"><p>Enables you to specify a value between two expressions.<br class="atl-forced-newline">P.NAME_LAST_KEY BETWEEN "A*" AND "C*"</br></p></td></tr><tr><td class="confluenceTd"><p>IN</p></td><td class="confluenceTd"><p>Multiple OR qualification</p></td><td class="confluenceTd"><p>Enables you to specify a value in one or more expressions. P.NAME_LAST_KEY IN ("SMITH", "ROBERTS", "TAYLOR")</p></td></tr></tbody></table></div><p>Compare the same data type when qualifying on expressions. When qualifying on character fields, embed the value in quotes. Also, the character data stored in your <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> system is case-sensitive. It is helpful to perform some data validation before qualifying on columns. Simply select the columns from the tables and add the control option of MAXREC = 100. This retrieves 100 records and allows you to view the actual data stored in those columns.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 509, "requestCorrelationId": "c773db607bf9311a"}</span>
+</body>
+</html>

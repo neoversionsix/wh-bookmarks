@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Using Date Columns in Qualifications Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Using+Date+Columns+in+Qualifications+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>To qualify on a date (DQ8 data types) in the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> system, use one of the convert datetime functions.</p><p>Use the following syntax to find all of the dates after a certain date:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE P.BIRTH_DT_TM &gt; CNVTDATETIME("01-FEB-1996")</pre>
+</div></div><p>To find only a specific date, regardless of the time, your WHERE clause might look like the following:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE P.BIRTH_DT_TM BETWEEN CNVTDATETIME("25-SEP-1995") AND CNVTDATETIME("25-SEP-1995 23:59:59")</pre>
+</div></div><p>Because the P.BIRTH_DT_TM column contains both a date and a time, the BETWEEN qualification is used to qualify all times on the date. The CNVTDATETIME( ) function uses the literal date in DD-MMM-YYYY format and converts it to a datetime value that represents the earliest possible time on the specified date. The CNVTDATETIME( ) function uses the literal date and time in DD-MMM-YYYY HH:MM:SS format and converts it to a datetime value that represents the time on the specified date. The WHERE clause in the example above qualifies all rows with a birth date and time between 25-SEP-1995 00:00:00 and 25-SEP-1995 23:59:59.</p><p>The following examples qualify people who are born at any time on 01-Aug-1995:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE	P.BIRTH_DT_TM BETWEEN CNVTDATETIME("01-AUG-1995 00:00:00") AND 
+	CNVTDATETIME("01-AUG-1995 23:59:59")
+
+WHERE	P.BIRTH_DT_TM BETWEEN CNVTDATETIME(CNVTDATE(080195),0)
+	AND CNVTDATETIME(CNVTDATE(080195),235959)
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 595, "requestCorrelationId": "cd1e6aaa2c24802a"}</span>
+</body>
+</html>

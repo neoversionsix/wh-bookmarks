@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Discern Explorer DONTCARE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Discern+Explorer+DONTCARE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>This topic discusses the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> DONTCARE Control Option. Only use the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> DONTCARE Control Option when reading Non-RDBMS tables. If working with all RDBMS tables, use the OUTERJOIN() function or a LEFT JOIN in the From clause of the SELECT command. See JOIN Options for more information on available join options.</p><p>The <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> DONTCARE joins are useful only when you have joins between three or more tables. DONTCARE joins are used when you want to skip an intermediate table in a join and continue reading the next table even if no rows are present on the intermediate table.</p><p>The tables to which the join is established must link back to a previous table. That way, if you do a DONTCARE on the intermediate table, the join still can be completed from the driver table. For example, in the join path below, both tables B and C are linked to Table A. In this nonlinear path, if table B is missing a match, you can continue with the query path because no tables are linked to Table B. You can still link to Table C from the row in Table A. Using a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> DONTCARE continues through the remainder of the query path.</p><p>A to B     A to C</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PLAN A
+JOIN B WHERE A.COLUMN = B.INDEX
+JOIN C WHERE A.COLUMN = C.INDEX
+</pre>
+</div></div><p>The join must have a DUMMYT table before and after the table that might be missing data. The DONTCARE option is on the actual table that might be missing data. For example, a PLAN and JOIN between the MY_TABLE1, PRSNL, and PERSON_NAME tables are shown in the program below.</p><p>See Using the DUMMYT Table for more information about using the DUMMYT table.</p><p>The SEQ pseudo column is also used in the below programs. To learn more about it, see The SEQ Pseudo Column.</p><p>When you use the DONTCARE option, use the DECODE( ) function to verify that the information in the columns on the DONTCARE table is valid. Without the DECODE( ) function, the data from the table on which you are doing the DONTCARE might not be valid. (MY_TABLE1 is a user-defined table that is already created in the system.)</p><h2 id="DiscernExplorerDONTCAREUsingDiscernExplorer-Example">Example</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	NAME = SUBSTRING(1,25,M.FULL_NAME),
+	PL_ID = DECODE(PL.SEQ, PL.PERSON_ID, 0.0),
+	PL_USER = DECODE(PL.SEQ, PL.USERNAME, " "),
+	ORIG_NAME = SUBSTRING(1,25,PN.NAME_ORIGINAL)
+FROM	MY_TABLE1 M,
+	PRSNL PL,
+	PERSON_NAME PN,
+	DUMMYT D1,
+	DUMMYT D2
+PLAN M
+JOIN D1
+JOIN PL	WHERE M.PERSON_ID = PL.PERSON_ID
+JOIN D2
+JOIN PN	WHERE M.PERSON_ID = PN.PERSON_ID
+WITH	DONTCARE = PL
+</pre>
+</div></div><p>The example above provides the following output:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NAME    	PL_ID	PL_USER	ORIG_NAME
+Doe, Joe	0.0		Doe, Joseph
+Doe, Sue	0.0		Doe, Sue
+Jones, Alice	568.00	ARJRYD	Jones, Alice
+Smith, Steve	1239.00	DLCSSS	Smith, Stephen
+</pre>
+</div></div><p>In this program, the join is created from MY_TABLE1 to PRSNL to PERSON_NAME. DONTCARE is used to obtain the original name even if the person does not exist on the personnel table.</p><p>If the DONTCARE option is not used, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> reads the PERSON_NAME table only if a match is found on the PRSNL table because a pure join must qualify on all tables. The DONTCARE option nullifies that requirement and enables <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to continue joining to the PERSON_NAME table even though a matching row does not exist on the PRSNL table for a patient.</p><p>The DECODE( ) function only fills out the columns on the DONTCARE table if the match was found. The DECODE( ) function is a complex IF( ) statement used in the SELECT portion of your program. Always include an ELSE option of the same data type. The syntax of the DECODE( ) function in the SELECT command is shown below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>EXPRESSION = DECODE(table_name.column_name, result
+{,table_name.column_name, result} [,result])
+</pre>
+</div></div><p>The DECODE( ) function returns a value based on whether data is found in a table and a column listed in parentheses. An expression is set to equal the result of the DECODE( ) function. That expression is equal to the result for the first table and column that has valid data. If the data is not valid, the expression is set to the last result listed in the DECODE( ) function. The expression can be set to a result that is the contents of a column, a character string, a number, and so on.</p><p>The examples below use the DECODE( ) function with the DONTCARE join option.</p><p>The example below is reading the MY_TABLE1, PRSNL, and ORDERS tables. The example below demonstrates how to get all patients with a last name of SMITH, their username if they are on staff, and their orders. Without using the DONTCARE option, you only see orders for patients who had a row in the PRSNL table. You also want to continue with the search to get orders of patients not on staff. Therefore, the DUMMYT table is used to continue the query path when a match is not found on the intermediate table. If you do not use the DECODE( ) function, the data under PL_ID and PL_USER might be filled out with invalid data. For example, as indicated below, Mary Smith does not have a row on the PRSNL table but she does have orders.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P_ID = M.PERSON_ID,
+	M.FULL_NAME,
+	PL_ID = DECODE(PL.SEQ, PL.PERSON_ID, 0.0),
+	PL_USER = DECODE(PL.SEQ, PL.USERNAME, " "),
+	O.ORDER_ID
+FROM	MY_TABLE1 M,
+	PRSNL PL,
+	ORDERS O,
+	DUMMYT D1,
+	DUMMYT D2,
+PLAN M	WHERE M.LAST_NAME = "SMITH"
+JOIN D1
+JOIN PL	WHERE M.PERSON_ID = PL.PERSON_ID
+JOIN D2
+JOIN O	WHERE M.PERSON_ID = O.PERSON_ID
+WITH	DONTCARE = PL
+</pre>
+</div></div><p>This example provides the following output:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>P_ID	FULL_NAME	PL_ID	PL_USER	ORDER_ID
+568.00	Smith, Al	568.00	CERALS	34567.0
+222.00	Smith, Mary	0.00		12341.0
+222.00	Smith, Mary	0.00		12348.0
+222.00	Smith, Mary	0.00		24552.0
+222.00	Smith, Mary	0.00		25662.0
+</pre>
+</div></div><p>The example below links the MY_TABLE2, ENCNTR_PRSNL_RELTN, and ORDERS tables. If the encounter does not have an admitting physician, the query still displays the matching rows between the MY_TABLE2 and ORDERS tables. (MY_TABLE2 is a user-defined table that is already created in the system.)</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	M.ARRIVE_DT_TM ";;D",
+	M.DISCH_DT_TM ";;D",
+	O.ORDER_ID,
+	ADM_DOC = DECODE(EP.SEQ, EP.PRSNL_PERSON_ID, 0.0)
+
+FROM	MY_TABLE2 M,
+	ENCNTR_PRSNL_RELTN EP,
+	ORDERS O,
+	DUMMYT D1,
+	DUMMYT D2
+PLAN M
+JOIN D1
+JOIN EP	WHERE M.ENCNTR_ID = EP.ENCNTR_ID  AND
+	EP.ENCNTR_PRSNL_R_CD = VALUE(UAR_GET_CODE_BY("MEANING",333,"ADMITDOC"))
+JOIN D2
+JOIN O	WHERE M.ENCNTR_ID = O.ENCNTR_ID
+WITH	DONTCARE = EP
+</pre>
+</div></div><p>This example provides the following output:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>ARRIVE_DT_TM	DISCHG_DT_TM	ORDER_ID	ADM_DOC
+04/18/98	04/20/98	11324.00	5438.00
+04/18/98	05/13/98	11326.00	5449.00
+05/17/98	05/18/98	17745.00	5629.00
+10/19/98	12/29/98	22845.00	7493.00
+11/04/98	11/11/98	24437.00	0.00
+11/04/98	11/08/98	24438.00	0.00
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 560, "requestCorrelationId": "f31db70d38d0e266"}</span>
+</body>
+</html>

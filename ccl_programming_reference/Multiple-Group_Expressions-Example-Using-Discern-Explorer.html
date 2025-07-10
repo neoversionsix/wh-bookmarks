@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Multiple Group_Expressions Example Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Multiple+Group_Expressions+Example+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The following example uses multiple group expressions.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM INPATS2 GO
+CREATE PROGRAM INPATS2
+
+EXECUTE CCLSECLOGIN
+/*
+For the UAR functions to work you must log on to the server.  The user only needs to log on to the server once for each Discern Explorer session.  The following command will prompt the user for a user name, password, and domain.  EXECUTE CCLSECLOGIN GO
+*/
+
+;get the code meaning for inpatients
+SET INPATIENT_VAR = 0.0
+SET STAT = UAR_GET_MEANING_BY_CODESET(69, "INPATIENT",1,INPATIENT_VAR)
+
+SELECT
+	NAME = SUBSTRING(1,45,P.NAME_FULL_FORMATTED),
+	SEX_DISP = UAR_GET_CODE_DISPLAY( P.SEX_CD ),
+	P.BIRTH_DT_TM,
+	P.NAME_LAST_KEY, 
+	ENCNTR_TYPE = UAR_GET_CODE_DISPLAY( E.ENCNTR_TYPE_CLASS_CD ),
+	NURSE_UNIT = UAR_GET_CODE_DISPLAY( E.LOC_NURSE_UNIT_CD ),
+	ROOM = UAR_GET_CODE_DISPLAY( E.LOC_ROOM_CD ),
+	BED = UAR_GET_CODE_DISPLAY( E.LOC_BED_CD ),
+	LOS = DATETIMECMP(E.DISCH_DT_TM,E.ARRIVE_DT_TM)
+FROM	ENCOUNTER  E,
+	PERSON  P
+PLAN P
+JOIN E	WHERE P.PERSON_ID = E.PERSON_ID AND
+
+E.ENCNTR_TYPE_CLASS_CD = INPATIENT_VAR
+ORDER	NURSE_UNIT,
+	SEX_DISP,
+	P.NAME_LAST_KEY
+
+/***** Begin Reportwriter Section *****/
+
+
+HEAD REPORT
+	ROOM_BED = FILLSTRING(20," ")	;store the room and bed
+	LINE_D = FILLSTRING(120,"=")	;print double line 
+	LINE_S = FILLSTRING(120,"-")	;print single line 
+	SEX_TEXT = FILLSTRING(100," ")	;a summary line
+	PAT_TEXT = FILLSTRING(100," ")	;a summary line
+	CNT_SEX = 0			;counter
+	CNT_PATS = 0			;counter
+	;create title page
+	ROW 0
+	CALL CENTER("*** CERNER'S INPATIENT REPORT ***",0,120)
+	COL 0 "Report Date: " , CURDATE "MM/DD/YY;;D"
+	COL 100 "Report Time: " , CURTIME "HH:MM;;M"
+
+ROW +1 LINE_D
+	ROW +2
+
+HEAD PAGE
+
+COL 0 "PAGE: "
+	COL 7 CURPAGE "###;L"
+	ROW +1
+	COL 0 "Nursing Unit:"
+	COL 15 "Sex:"
+	COL 25 "Name:"
+	COL 75 "Birth Date:"
+	COL 90 "Room-Bed:"
+	ROW -1
+	COL 105 "Length of Stay"
+	ROW +1
+	COL 105 "In Days:"
+	ROW +1 LINE_S
+	ROW +1
+
+HEAD NURSE_UNIT
+
+COL 0 NURSE_UNIT
+
+HEAD SEX_DISP
+	COL 15 SEX_DISP
+DETAIL
+
+IF(ROW + 1 &gt;= 57)	/*verify there are enough blank 
+
+rows left on the page for 
+processing FOOT clauses*/
+
+BREAK
+	ENDIF
+	COL 25 NAME
+	COL 75 P.BIRTH_DT_TM "MM/DD/YYYY;;D"
+	ROOM_BED = BUILD(ROOM, "-", BED)
+	COL 90 ROOM_BED
+	COL 105 LOS
+	ROW +1
+
+FOOT SEX_DISP
+
+CNT_SEX = COUNT(SEX_DISP)
+	SEX_TEXT = CONCAT(TRIM(SEX_DISP),
+	"Patients for this nursing unit: ",
+	CNVTSTRING(CNT_SEX))
+	COL 15 SEX_TEXT
+	ROW +1
+
+FOOT NURSE_UNIT
+
+CNT_PATS = COUNT(NAME)
+	PAT_TEXT = CONCAT("Total patients for this nursing unit: ",
+	CNVTSTRING(CNT_PATS))
+	COL 15 PAT_TEXT
+	ROW +1
+
+/***** End Reportwriter Section *****/
+
+
+WITH	MAXREC = 500,	;for testing only read 500 rows
+	MAXCOL = 130
+END
+GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 527, "requestCorrelationId": "af69709d04d4ad7a"}</span>
+</body>
+</html>

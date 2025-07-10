@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Running Discern Explorer Programs From the VMS Operating System Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Running+Discern+Explorer+Programs+From+the+VMS+Operating+System+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Running a program in batch in the OpenVMS operating system allows you to specify when a program is to run, or, simply to free up your terminal.</p><p>Complete the following steps to run a program in batch:</p><ol><li>Create a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> executable program.</li><li>Use the SELECT INTO option to define an output file.</li><li>Create a file to execute from a batch that will:<ol><li>Run <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>.</li><li>Run your <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> executable program.</li><li>Print the data file if necessary, or use the set spool command inside the program.</li><li>Exit.</li></ol></li><li><p>Enter the following command at the UAF&gt; prompt:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>MOD XXXXXX/FLAG=(NODEFCLI,NOCAPTIVE)(XXXXXX = your username)</pre>
+</div></div></li><li><p>Check your batch queue for names of batch queues available by entering the following command:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>$ SH QUE/BATCH/ALL</pre>
+</div></div></li><li><p>Submit your file to batch by entering the following command:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SUBMIT/QUEUE=ED$SYSTARTUP XYZ.COM/AFTER="22:00:00"/RESTART</pre>
+</div></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>The /AFTER and /RESTART options are not required. /AFTER specifies the time the program runs. /RESTART enables the program to be rerun if the node goes down during the execution of the program. You also can add the SUBMIT command at the bottom of your program to enable the job to be resubmitted to the next days batch queue. The program runs at the time specified in the /AFTER option. Be sure to enter a valid batch queue (in place of <strong>ED$SYSTARTUP</strong>) and a DCL command file (in place of <strong>XYZ.COM</strong>).</p></div></div></li></ol><p><strong>Examples</strong></p><p>Example 1 uses a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> executable program and a OpenVMS command procedure to execute the program.</p><p><strong>Program Name: CCLEXAM:BATCH_PGM.PRG</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM BATCH_PGM GO
+CREATE PROGRAM BATCH_PGM
+
+SELECT INTO "CER_TEMP:BATCH_PGM"
+	P.NAME_FULL_FORMATTED,
+	P.USERNAME
+
+FROM	PRSNL P
+
+ORDER	P.NAME_LAST_KEY,
+	P.NAME_FIRST_KEY
+
+SET SPOOL = "CER_TEMP:BATCH_PGM.DAT" &lt;printer&gt;
+
+END
+GO
+*Test Program:*
+
+1) BATCH_PGM GO
+*Command Procedure:	CCLEXAM:BATCH_PGM.COM*
+
+$ RUN CER_EXE:CCLORA
+	BATCH_PGM GO
+	EXIT
+$ EXIT
+</pre>
+</div></div><p><strong>Test Command Procedure</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>$ @CCLEXAM:BATCH_PGM</pre>
+</div></div><p>Example 2 uses a command procedure to execute <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> source code.</p><p><strong>Command Procedure:CCLEXAM:BATCH_PGM.COM</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>$ RUN CER_EXE:CCLORA
+
+SELECT	INTO "CER_TEMP:BATCH_PGM"
+	P.NAME_FULL_FORMATTED,
+	P.USERNAME
+FROM	PRSNL P
+
+ORDER	P.NAME_LAST_KEY,
+	P.NAME_FIRST_KEY
+GO
+
+SET SPOOL = "CER_TEMP:BATCH_PGM.DAT" &lt;printer&gt; GO
+
+EXIT
+
+$EXIT
+</pre>
+</div></div><p><strong>Test Command Procedure</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>$ @CCLEXAM:BATCH_PGM</pre>
+</div></div><p>Example 3 shows a OpenVMS command procedure executing multiple <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> programs. Program PGM2 passes in two parameters, one for the output device and the second for date. Those two parameters are passed into the program on execution. The output from PGM2 is printed to two separate printers using the operating system print command.</p><p><strong>Command Procedure: CCLEXAM:BATCH_PGM.COM</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>$ RUN CER_EXE:CCLORA
+	BATCH_PGM GO
+	PGM2 "CER_TEMP:PGM2_OUT", 01011999 GO
+	EXIT
+$ PRINT/QUEUE=LP02 CER_TEMP:BATCH_PGM.DAT
+$ PRINT/QUEUE=LP02 CER_TEMP:PGM2_OUT.DAT
+$ PRINT/QUEUE=LP04 CER_TEMP:PGM2_OUT.DAT
+$ EXIT
+</pre>
+</div></div><p><strong>Test Command Procedure</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>$ @CCLEXAM:BATCH_PGM</pre>
+</div></div><p>Use the SUBMIT command to run the command procedure from the operating system. You can use the /LOG option as part of your SUBMIT command to display batch messages, which are sent to the log file specified in /LOG=CCLUSERDIR:BATCHLOG.LOG.</p><p><strong>Considerations</strong></p><p>Running <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> programs from the operating system with no interaction can have two drawbacks.</p><ol><li>Execute CCLSECLOGIN to gain access to the code translations.</li><li>Sign on to the RDBMS.</li></ol><p>Accomplishing this can require a file to contain the username and password for the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> system and the RDB. For example, the previous examples would need to add these commands into the command procedure after running CER_EXE:CCLORA.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DEFINE ORACLESYSTEM "&lt;USER&gt;/&lt;PASSWORD&gt;" GO
+
+SET STAT = UAR_SEC_LOGIN("&lt;USER&gt;","&lt;DOMAIN&gt;","&lt;PASSWORD&gt;") GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 590, "requestCorrelationId": "e35045d5fbd98aef"}</span>
+</body>
+</html>

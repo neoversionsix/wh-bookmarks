@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>The Simple SELECT Command Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/The+Simple+SELECT+Command+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The SELECT command is the most important command in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>. The SELECT command enables you to do the following actions:</p><ul><li>Perform simple queries.</li><li>Flex a program based on specific conditions.</li><li>Create detailed reports with user-defined headers, footers, and summary pages when combined with Reportwriter.</li><li>Define programs that give the user options on how the information is processed.</li></ul><p>The SELECT command has its own syntax. This section describes the simple SELECT command, along with related clauses.</p><p>Although many examples of how the SELECT command can be used to extract data from system files are included in this section, these examples do not represent all uses for the SELECT command.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>All examples in this section were created by entering the commands on the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command line and then entering GO. See The Command Line in the Introduction section, for additional information about the command line.</p></div></div><p>You also can use the editor to create and execute the commands in a file using the %EDIT, %INCLUDE, or %RUN directives. Longer or more complex SELECT commands should be entered using an editor.</p><p>In a simple query, the SELECT command can perform the following tasks:</p><ul><li>Identify the information that will be extracted from the database, and the tables from which the information will be extracted.</li><li>Format the information to be displayed.</li><li>Establish conditions that must be met before the information can be included in the output.</li><li>Organize the output.</li><li>Define options that control the entire query (such as setting the maximum number of columns or rows to be included in the display, or identifying a character to be displayed between each column).</li><li>Omit duplicate information from the output.</li><li>Direct the output of the query to a printer, a file, or the screen.</li></ul><p>The syntax for the simple SELECT command is shown below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+[DISTINCT]
+[INTO
+	output_device]
+	select_expression["template;display_qualifier;display_format"] {,	select_expression ["template;display_qualifier;display_format"] }
+[FROM
+	table_name [alias] {,	table_name [alias] }]
+[WHERE
+	qualification]
+[GROUP BY
+	expression]
+[HAVING
+	Condition]
+
+[ORDER
+	expression [DESC] {,	expression [DESC] }]
+[WITH
+	select_option {,	select_option }]
+GO
+</pre>
+</div></div><p>The rest of this section is devoted to an explanation of the SELECT command.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 577, "requestCorrelationId": "f9a731d39048ac85"}</span>
+</body>
+</html>

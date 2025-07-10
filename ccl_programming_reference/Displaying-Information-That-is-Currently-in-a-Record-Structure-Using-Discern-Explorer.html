@@ -1,0 +1,464 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Displaying Information That is Currently in a Record Structure Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Displaying+Information+That+is+Currently+in+a+Record+Structure+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<h3 id="DisplayingInformationThatisCurrentlyinaRecordStructureUsingDiscernExplorer-DisplayingInformationfromaRecordStructureAlongwithInformationfromtheResultSetofaSelectThatQualifiedUsingValuesintheRecordStructure:">Displaying Information from a Record Structure Along with Information from the Result Set of a Select That Qualified Using Values in the Record Structure:</h3><p>The Selecting Information That is Related to Values Currently in a Record Structure topic contains an example that qualifies a Select command using values that are currently in a record structure. The report writer sections of that Select command provide examples that pull information from the record structure and display it along with the information that is pulled from the tables by the Select command. If you have not done so already, review that section for help with displaying items from a record structure along with items from the result set of a Select command.</p><h3 id="DisplayingInformationThatisCurrentlyinaRecordStructureUsingDiscernExplorer-DisplayingInformationfromRecordStructuresWhileTroubleshooting:">Displaying Information from Record Structures While Troubleshooting:</h3><p>The Call EchoRecord command can be used to place the contents of a record structure in a specified file, the listing file, or a log file. Many servers disable the Call EchoRecord command to prevent unnecessary writes to the log files in production environments. The server that is used by default to compile files in Discern Visual Developer (DiscernVisualDeveloper.exe), also known as DVDev, does not disable the Call EchoRecord command. For troubleshooting purposes, you can perform the following actions:</p><ul><li>Include the Call EchoRecord command in a program.</li><li>Place commands needed to execute the program in a file in DVDev.</li><li>Compile the file.</li><li>Review the listing file to see the output of the Call EchoRecord command.</li></ul><h3 id="DisplayingInformationThatisCurrentlyinaRecordStructureUsingDiscernExplorer-DisplayingInformationfromRecordStructuresintheOutputofaQueryorReport:">Displaying Information from Record Structures in the Output of a Query or Report:</h3><p>Processes often use multiple Select commands to load data into a record structure. A final Select command is then used to extract the information from the record structure for display. The following example creates a record structure named PERSON_REC to store information about people, their encounters, their orders, and their person aliases. It then uses two Select commands to populate the record structure. The first Select command retrieves the person, encounter, and order information and loads it into the record structure. The second Select command retrieves the person aliases for each Person_ID that was loaded into the record structure by the first Select. The report writer sections of that second Select command could be used to display information from the record structure and the results returned by the Select. The Selecting Information That is Related to Values Currently in a Record Structure Using Discern Explorer topic contains an example that demonstrates that technique. For this example, the second Select command loads the person aliases into the record structure.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_RECORD_EX3 GO
+CREATE PROGRAM CCL_RECORD_EX3
+
+prompt
+	"Output to File/Printer/MINE " = "MINE"
+	, "Enter Last Name" = " "
+	, "Enter First Name" = " "
+with OUTDEV, Lname, Fname
+
+/*Record structure to store person, encounter, orders and alias information */
+record PERSON_REC (
+  1 PLIST [*] ;person list
+    2 PID = f8
+    2 NAME = C30
+    2 ELIST [*] ;encounter list
+      3 EID = f8
+      3 TYPE = C40
+      3 OLIST [*] ;orders list
+        4 OID = f8
+        4 CAT_DISP = C40
+    2 ALIST [*] ;alias list
+      3 ALIAS = C30
+      3 TYPE = C40
+)
+
+/**************************************************************
+Declared Variables
+**************************************************************/
+declare NUM   = I4 with Protect	;index var for expand()
+declare POS   = I4 with Protect	;position var for locateval()
+declare PCNT = I4 with Protect	;count of people
+declare ECNT = I4 with Protect	;count of encounters
+declare OCNT = I4 with Protect	;count of orders
+declare ACNT = I4 with Protect	;count of aliases
+
+/**************************************************************
+Select person, encounter, orders information and store in record structure
+**************************************************************/
+SELECT INTO "NL:"
+	  P.PERSON_ID
+	, P.NAME_FULL_FORMATTED
+	, E.ENCNTR_ID
+	, E_ENCNTR_TYPE_CLASS_DISP = UAR_GET_CODE_DISPLAY(E.ENCNTR_TYPE_CLASS_CD)
+	, O.ORDER_ID
+	, O_CATALOG_DISP = UAR_GET_CODE_DISPLAY(O.CATALOG_CD)
+
+FROM
+	  PERSON   P
+	, ENCOUNTER   E
+	, ORDERS   O
+;$fname and $lname are passed from prompts
+PLAN P WHERE P.NAME_LAST_KEY = $LNAME AND P.NAME_FIRST_KEY = $FNAME
+JOIN E WHERE P.PERSON_ID = E.PERSON_ID
+JOIN O WHERE E.ENCNTR_ID = O.ENCNTR_ID
+
+ORDER BY
+	  P.PERSON_ID
+	, E.ENCNTR_ID
+	, O.ORDER_ID
+HEAD REPORT
+	;allocate memory for 100 people in the person list
+	call alterlist(PERSON_REC-&gt;PLIST, 100)
+HEAD P.PERSON_ID
+	;increment count of people
+	PCNT = PCNT +1
+	;check for available memory in the person list
+	IF(MOD(PCNT,10) = 1 AND PCNT &gt;100)
+                ;if needed allocate memory for 10 more people
+		call alterlist(PERSON_REC-&gt;PLIST, PCNT +9)
+	ENDIF
+	;store the person information in the record structure
+	PERSON_REC-&gt;PLIST[PCNT].PID = P.PERSON_ID
+	PERSON_REC-&gt;PLIST[PCNT].NAME = P.NAME_FULL_FORMATTED
+	;reset the count of encounters to zero for this person
+	ECNT = 0
+HEAD E.ENCNTR_ID
+	;increment count of encounters
+	ECNT = ECNT +1
+	;check for available memory in the encounter list
+        IF(MOD(ECNT,10) = 1)
+		;if needed allocate memory for 10 more encounters for the current person
+		call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST, ECNT +9)
+	ENDIF
+	;store the encounter information in the record structure
+	PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].EID = E.ENCNTR_ID
+	PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].TYPE = E_ENCNTR_TYPE_CLASS_DISP
+	;rest the count of orders to zero for this encounter
+	OCNT = 0
+DETAIL
+	;increment the count of orders
+ 	OCNT = OCNT +1
+        ;check for available memory in the encounter list
+	IF(MOD(OCNT,10) = 1)
+		;if needed allocate memory for 10 more orders for this encounter
+                 call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].OLIST, OCNT +9)
+	ENDIF
+	;store the order information in the record structure
+	PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].OLIST[OCNT].OID = O.ORDER_ID
+	PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].OLIST[OCNT].CAT_DISP = O_CATALOG_DISP
+FOOT E.ENCNTR_ID
+	;free memory that was allocated but not used for orders
+        call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST[ECNT].OLIST, OCNT)
+FOOT P.PERSON_ID
+	;free memory that was allocated but not used for encounters
+	call alterlist(PERSON_REC-&gt;PLIST[PCNT].ELIST, ECNT)
+FOOT REPORT
+	;free memory that was allocated but not used for people
+	call alterlist(PERSON_REC-&gt;PLIST, PCNT)
+WITH  NOCOUNTER
+
+/**************************************************************
+Select the person aliases for each person_id in the record structure
+**************************************************************/
+SELECT INTO "NL:"
+       P.PERSON_ID
+     , P_PERSON_ALIAS_TYPE_DISP = UAR_GET_CODE_DISPLAY(P.PERSON_ALIAS_TYPE_CD)
+     , PA_ALIAS = SUBSTRING(1,30,P.ALIAS)
+FROM
+	PERSON_ALIAS   P
+/*Using the expand function will cause the following where clause to be translated to
+	where p.person_id IN (:1,:2,:3,...:n)
+in the query that is passed to the RDMBS when this program is executed.
+:1,:2,:3,...:n will be bind variables that are set equal to each of the
+values in the person_rec-&gt;plist[].pid record structure field_item.*/
+WHERE EXPAND(NUM,1,PCNT,P.PERSON_ID,PERSON_REC-&gt;PLIST[NUM].PID)
+ORDER BY
+	P.PERSON_ID
+HEAD P.PERSON_ID
+	/* Locatevalsort() will perform a binary search to determine which
+	position of person_rec-&gt;plist[].pid field contains the current p.person_id.
+	The variable pos will be set equal to that position.
+	Since the person_ids were sorted prior to being stored in the person list (plist) the
+        locatevalsort() function can be used.  If the person_ids were not in sorted order in the
+	person list, locateval() would need to be used to perform a sequential search of the
+	person list. */
+	POS = LOCATEVALSORT(NUM,1,PCNT,P.PERSON_ID,PERSON_REC-&gt;PLIST[NUM].PID)
+	;reset the count of aliases to zero for this person
+	ACNT = 0
+DETAIL
+	;Store the aliases for the person in the record structure
+	;increment count of aliases
+	ACNT = ACNT +1
+	;check for available memory in the alias list
+	IF(MOD(ACNT,5) = 1 )
+                ;if needed allocate memory for 5 more aliases
+		call alterlist(PERSON_REC-&gt;PLIST[POS].ALIST, ACNT +4)
+	ENDIF
+	;store the alias information in the record structure
+	PERSON_REC-&gt;PLIST[POS].ALIST[ACNT].ALIAS = PA_ALIAS
+	PERSON_REC-&gt;PLIST[POS].ALIST[ACNT].TYPE = P_PERSON_ALIAS_TYPE_DISP
+FOOT P.PERSON_ID
+	;free memory that was allocated but not used for aliases
+	call alterlist(PERSON_REC-&gt;PLIST[POS].ALIST,ACNT)
+WITH NOCOUNTER
+
+END
+GO
+</pre>
+</div></div><p>You can use the query builder to easily create a Select command to extract information stored in a record structure. To use the query builder to create the syntax to extract information from a record structure, open the query builder in a context where the record structure is known. For example, if you are creating a layout program, the record structure needs to have already been defined using the record builder tool in the layout program. If you are editing the source code from the above example in a .PRG file in DVDev, you could simply place the cursor between the WITH NOCOUNTER and the END GO, and then open the query builder to create a new Select command.</p><h3 id="DisplayingInformationThatisCurrentlyinaRecordStructureUsingDiscernExplorer-UsingtheDUMMYTTableandMaxRec()FunctiontoExtractInformationfromaRecordStructure">Using the DUMMYT Table and MaxRec() Function to Extract Information from a Record Structure</h3><p>You can use the query builder to create the syntax to extract information that is stored in a record structure using multiple levels to represent linear relationships. A linear relationship is represented by a level 1 list, then a level 2 list, then a level 3 list, and so on. In the above example, a linear relationship exists between people, their encounters, and their orders. The following process could be used to have query builder create a query to extract that information:</p><ol><li>Use the query builder to add a new query to the program after the record structure is created and populated.</li><li>In the Tables tab, expand the <strong>Record Structures</strong> category and select <strong>User Defined</strong>.</li><li>Move the record structure from the Tables list to the Selected Tables list.</li><li>In the Fields tab, expand each list in the linear relationship and then select the items from that list that you want to be displayed in the query. For the above example, select the PID and NAME items from the PLIST, the EID and TYPE items from the ELIST, and the OID and CAT_DISP items from the OLIST.</li></ol><p>The above process would generate the following syntax:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+	PLIST_PID = PERSON_REC-&gt;PLIST[D1.SEQ].PID
+	, PLIST_NAME = PERSON_REC-&gt;PLIST[D1.SEQ].NAME
+	, ELIST_EID = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].EID
+	, ELIST_TYPE = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].TYPE
+	, OLIST_OID = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].OLIST[D3.SEQ].OID
+	, OLIST_CAT_DISP = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].OLIST[D3.SEQ].CAT_DISP
+
+FROM
+	(DUMMYT   D1  WITH SEQ = VALUE(SIZE(PERSON_REC-&gt;PLIST, 5)))
+	, (DUMMYT   D2  WITH SEQ = 1)
+	, (DUMMYT   D3  WITH SEQ = 1)
+
+PLAN D1 WHERE MAXREC(D2, SIZE(PERSON_REC-&gt;PLIST[D1.SEQ].ELIST, 5))
+JOIN D2 WHERE MAXREC(D3, SIZE(PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].OLIST, 5))
+JOIN D3
+
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT
+</pre>
+</div></div><p>You are not required to use the query builder to create the above code. It could be manually written just like any other query. Once the query is written, sorting and report writer sections can be added to format the data that is returned by the query.</p><h3 id="DisplayingInformationThatisCurrentlyinaRecordStructureUsingDiscernExplorer-ExtractingInformationfromMultipleListsThatAreattheSameLevel">Extracting Information from Multiple Lists That Are at the Same Level</h3><p>The Dummyt and MaxRec function syntax in the above example can be used to extract information from record structure lists that represent a linear relationship. Generally, that method should not be used to extract information from multiple lists that are at the same level. Multiple lists at the same level generally represent nonlinear relationships between the record items. Using the DUMMYT table and MaxRec function to extract information from multiple lists that are at the same level result in duplicate data in the output. If any of the lists have a size of zero, using the DUMMYT and MaxRec function method can result in some data not being extracted. To extract information from multiple record structure lists that are at the same level, use the DUMMYT table and MaxRec function to extract information from one of the lists. Then use For or While loops in a report writer section to traverse and display the items from the additional lists that are at the same level. </p><p>The PERSON_REC record structure used in the examples of this topic contains two level 2 lists; ELIST, which stores information about the person's encounters, and ALIST, which stores information about the person's aliases. The example below takes the syntax that was generated using the query builder and adds sorting and report writer sections to display the data. A For loop is used in the Head PLIST_PID report writer section to traverse the ALIST and display the ALIAS and TYPE items.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO $outdev
+	PLIST_PID = PERSON_REC-&gt;PLIST[D1.SEQ].PID
+	, PLIST_NAME = PERSON_REC-&gt;PLIST[D1.SEQ].NAME
+	, ELIST_EID = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].EID
+	, ELIST_TYPE = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].TYPE
+	, OLIST_OID = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].OLIST[D3.SEQ].OID
+	, OLIST_CAT_DISP = PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].OLIST[D3.SEQ].CAT_DISP
+
+FROM
+	(DUMMYT   D1  WITH SEQ = VALUE(SIZE(PERSON_REC-&gt;PLIST, 5)))
+	, (DUMMYT   D2  WITH SEQ = 1)
+	, (DUMMYT   D3  WITH SEQ = 1)
+
+PLAN D1 WHERE MAXREC(D2, SIZE(PERSON_REC-&gt;PLIST[D1.SEQ].ELIST, 5))
+JOIN D2 WHERE MAXREC(D3, SIZE(PERSON_REC-&gt;PLIST[D1.SEQ].ELIST[D2.SEQ].OLIST, 5))
+JOIN D3
+
+ORDER BY
+	PLIST_NAME
+	, PLIST_PID
+	, ELIST_TYPE
+	, ELIST_EID
+	, OLIST_CAT_DISP
+
+HEAD PLIST_PID
+	COL 10 PLIST_PID
+	COL +1 PLIST_NAME
+	ROW +1
+	;use a for loop to display the person's aliases
+	;the size function returns the number of positions in a record structure list
+	FOR(LCNT = 1 TO SIZE(PERSON_REC-&gt;PLIST[D1.SEQ].ALIST,5))
+		COL 20  PERSON_REC-&gt;PLIST[D1.SEQ].ALIST[LCNT].ALIAS
+		COL +1  PERSON_REC-&gt;PLIST[D1.SEQ].ALIST[LCNT].TYPE
+		ROW +1
+	ENDFOR
+;display the encounter information
+HEAD ELIST_EID
+	COL 30 ELIST_EID
+	COL +1 ELIST_TYPE
+	ROW +1
+;display the order information
+DETAIL
+	COL 40 OLIST_OID
+	COL +1 OLIST_CAT_DISP
+	ROW +1
+
+
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT
+</pre>
+</div></div><p>The example above creates simple plain-text output. The same concepts could be used in layout builder to create the formatted output. For example, in layout builder you could:</p><ul><li>Define the PERSON_REC record structure using the Record Builder on the Tools menu.</li><li>Create the query to select and load the person, encounter, and order information into the record structure using the query builder. That query could also be manually written in the preprocessing code area or in an include file that is linked to the layout program.</li><li>Create the query to select and load the person alias information into the record structure using the query builder. That query could also be manually written in the preprocessing code area or in an include file that is linked to the layout program.</li><li>Use the query builder to create a query that is associated with the layout to extract the person, encounter, and order information from the record structure. Add sorting to that query.</li><li>Create a Head PLIST_PID report writer section. In that section, use a layout section to display the person information. Use a code segment to start the For loop. Use a layout section to display the alias information and another code segment to close the For loop.</li><li>Create a Head ELSIT_EID report writer section. Use a layout section to display the encounter information.</li><li>Use a Detail report writer section with a detail layout section to display the order information.</li></ul><h3 id="DisplayingInformationThatisCurrentlyinaRecordStructureUsingDiscernExplorer-SelectingVCItemsFromaRecordStructureList">Selecting VC Items From a Record Structure List</h3><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> uses fixed width columns to display the result set of a SELECT command. When a field with a VC data type is selected from a table, the maximum length of the VC field is used for the fixed column width in the result set. For example if a VC100 field is selected from a table, a C100 column is used to display the data in the result set. By default, a record structure item with a data type of VC has a maximum length of 524,288 characters. That default can be changed using the SET MODIFY MAXVARLEN command. Because the maximum length of a VC item is large, it cannot be used as the length of the fixed width column in the internal structure that is used for the result set. Instead <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> uses the text length of the first value for the size of the fixed width column in the result set. If subsequent values are longer than the first value, the display is truncated to the length of the first value. For example, using the following example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record rec (
+  1 list [5]  
+    2 str_fld = vc   
+) with protect
+
+set rec-&gt;list[1].str_fld = "Some Medium Text"
+set rec-&gt;list[2].str_fld = "Less Text"
+set rec-&gt;list[3].str_fld = "Some Longer Text That Will Be Cut Off"
+set rec-&gt;list[4].str_fld = "Some Even Longer Text That Will Be Cut Off"
+set rec-&gt;list[5].str_fld = "Some Much Longer Text That Will Also Be Cut Off.  Actually the text isn't that much longer."
+
+;Uses length of 1st item to set result set column width and results in truncation
+SELECT into $outdev
+ LIST_STR_FLD = REC-&gt;list[D1.SEQ].str_fld
+ ,next_item = "Next Item"
+FROM
+ (DUMMYT   D1  WITH SEQ = VALUE(SIZE(REC-&gt;list, 5)))
+PLAN D1
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT</pre>
+</div></div><p>The value in rec-&gt;list[1].str_fld, <strong>Some Medium Text</strong> contains 16 characters. So, C16 is used for the fixed column width of the result set structure and the above query returns:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">LIST_STR_FLD</th><th class="confluenceTh">NEXT_ITEM</th></tr><tr><td class="confluenceTd">Some Medium Text</td><td class="confluenceTd">Next Item</td></tr><tr><td class="confluenceTd">Less Text</td><td class="confluenceTd">Next Item</td></tr><tr><td class="confluenceTd">Some Longer Text</td><td class="confluenceTd">Next Item</td></tr><tr><td class="confluenceTd">Some Even Longer</td><td class="confluenceTd">Next Item</td></tr><tr><td class="confluenceTd">Some Much Longer</td><td class="confluenceTd">Next Item</td></tr></tbody></table></div><p>Notice that the last three values stored in the record structure are truncated to just the first 16 characters in the displayed output. This is the expected behavior.</p><p>The following highlights the text that is in the record structure that is not displayed in the returned output.</p><ul><li>Some Longer Text <strong>That Will Be Cut Off</strong></li><li>Some Even Longer<strong> Text That Will Be Cut Off</strong></li><li>Some Much Longer<strong> Text That Will Also Be Cut Off.  Actually the text isn't that much longer.</strong></li></ul><h3 id="DisplayingInformationThatisCurrentlyinaRecordStructureUsingDiscernExplorer-CommonProgrammingTechniquestoReduceorEliminatetheTruncationofaVCItem">Common Programming Techniques to Reduce or Eliminate the Truncation of a VC Item</h3><p>There are several common programming techniques that are used to reduce or eliminate the truncation.</p><p>Using the record structure reference in the Reportwriter Clauses is likely the best way to eliminate the truncation:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>;Using record structure reference is likely the best way to prevent the truncation
+SELECT into $outdev
+	next_item = "Next Item"
+FROM
+	(DUMMYT   D1  WITH SEQ = VALUE(SIZE(REC-&gt;list, 5)))
+PLAN D1
+detail
+	col  0 REC-&gt;list[D1.SEQ].str_fld /*referencing the record structure item directly in the reportwriter clause eliminates the truncation*/
+	col +1 next_item
+	row +1
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT</pre>
+</div></div><p>The next option is to use the SUBSTRING() function around the record structure reference when setting the expression in the selection list. Query builder uses SUBSTRING(1,30, record_item) when you select a VC record structure item. If the value exceeds 30 characters, you still see the truncation. If you have a reasonable estimate of the maximum length of the values, you can use that estimate as the size of the substring. But again if the value exceeds that estimated length you will still see the truncation. In the above example, the longest value assigned to rec-&gt;list[ ].str_fld is 91 characters. Using 91 as the length to substring gets around the truncation for this specific example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT into $outdev
+ LIST_STR_FLD = substring(1,91,REC-&gt;list[D1.SEQ].str_fld) ;using substring()
+ ,next_item = "Next Item"
+FROM
+ (DUMMYT   D1  WITH SEQ = VALUE(SIZE(REC-&gt;list, 5)))
+PLAN D1
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT</pre>
+</div></div><p>Another option is to use additional processing to find the maximum length of the items and store it in the record structure or a variable. Then use the VALUE function around that record structure item or variable in the SUBSTRING().</p><p>The following example uses a FOR loop to set a variable equal to the maximum length of the values in the record structure and then uses that variable for the size in the SUBSTRING():</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>;find the maximum length
+declare max_len = i4 with protect
+declare cur_len = i4 with protect
+for(lcnt = 1 to 5)
+	set cur_len = textlen(rec-&gt;list[lcnt].str_fld)
+	if(cur_len &gt; max_len)
+		set max_len = cur_len
+	endif
+endfor
+
+SELECT into $outdev
+	;LIST_STR_FLD = REC-&gt;list[D1.SEQ].str_fld
+	LIST_STR_FLD = SUBSTRING(1, value(max_len), REC-&gt;list[D1.SEQ].str_fld) ;use maximum length in substring
+	,next_item = "Next Item"
+FROM
+	(DUMMYT   D1  WITH SEQ = VALUE(SIZE(REC-&gt;list, 5)))
+PLAN D1
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT</pre>
+</div></div><p>The following example adds a max_str_fld_len item to the record structure. When a value is assigned to the rec-&gt;list[ ].str_fld, the length of the value is compared to the max_str_fld_len item. If that length is greater, the max_str_fld_len item is updated with the larger value:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record rec (
+  1 max_str_fld_len = i4
+  1 list [5]  
+    2 str_fld = vc   
+) 
+declare cur_len = i4 with protect
+set rec-&gt;list[1].str_fld = "Some Medium Text"
+set cur_len = textlen(rec-&gt;list[1].str_fld)
+if( cur_len &gt; rec-&gt;max_str_fld_len)
+	set rec-&gt;max_str_fld_len = cur_len
+endif
+
+set rec-&gt;list[2].str_fld = "Less Text"
+set cur_len = textlen(rec-&gt;list[2].str_fld)
+if( cur_len &gt; rec-&gt;max_str_fld_len)
+	set rec-&gt;max_str_fld_len = cur_len
+endif
+
+set rec-&gt;list[3].str_fld = "Some Longer Text That Will Be Cut Off"
+set cur_len = textlen(rec-&gt;list[3].str_fld)
+if( cur_len &gt; rec-&gt;max_str_fld_len)
+	set rec-&gt;max_str_fld_len = cur_len
+endif
+
+set rec-&gt;list[4].str_fld = "Some Even Longer Text That Will Be Cut Off"
+set cur_len = textlen(rec-&gt;list[4].str_fld)
+if( cur_len &gt; rec-&gt;max_str_fld_len)
+	set rec-&gt;max_str_fld_len = cur_len
+endif
+
+set rec-&gt;list[5].str_fld = "Some Much Longer Text That Will Also Be Cut Off.  Actually the text isn't that much longer."
+set cur_len = textlen(rec-&gt;list[5].str_fld)
+if( cur_len &gt; rec-&gt;max_str_fld_len)
+	set rec-&gt;max_str_fld_len = cur_len
+endif
+
+SELECT into $outdev
+	;LIST_STR_FLD = REC-&gt;list[D1.SEQ].str_fld
+	LIST_STR_FLD = SUBSTRING(1, value(rec-&gt;max_str_fld_len), REC-&gt;list[D1.SEQ].str_fld)
+	,tl = rec-&gt;max_str_fld_len
+	,next_item = "Next Item"
+FROM
+	(DUMMYT   D1  WITH SEQ = VALUE(SIZE(REC-&gt;list, 5)))
+PLAN D1
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 622, "requestCorrelationId": "5d1de05c0a46325d"}</span>
+</body>
+</html>

@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Absolute Versus Relative References Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Absolute+Versus+Relative+References+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>You can make two types of row or column references, absolute and relative. An absolute reference names the position specifically as in, ROW 3 or COL 50. An absolute row movement does not affect the column number. A relative reference describes the position as it relates to some other point as in ROW +1 or COL +5. The reference is relative to the current row or column position. A relative row movement resets the column number to 0.</p><p>A relative reference can move forward using the plus (+) sign, or backward using the minus (-) sign. If the last character was printed at column 30, and you specify the next report item is to be printed at COL +2 the next report item is printed at column 32. Likewise, if the last line is printed on row 20 and you specify the next report item is to be printed at ROW +1 the next report item is be printed on row 21.</p><p>If you do not specify a row number, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> defaults to the current row and prints the next item on the same row as the previous item. To avoid printing report items on top of each other in the DETAIL clause, the row must be incremented after each row is read.</p><p>When you print a select_expression, the length of the expression is fixed. For example, the NAME_LAST_KEY column on the PERSON table is defined as a 100-byte character column. The data stored in the column, may be less than 100 characters, such as JONES. When the NAME_LAST_KEY column is printed on the report starting in column one, the printing stops in column 100, regardless of how many characters are actually stored in the NAME_LAST_KEY column. Therefore, if the next report_item issued is COL +2, the next item starts printing at column 102.</p><p>The following example shows absolute and relative referencing in the DETAIL clause.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DETAIL	COL P.NAME_FULL_FORMATTED
+	COL 50 SEX_DISP
+	COL +2 P.BIRTH_DT_TM
+	ROW +1
+</pre>
+</div></div><p>Keep these points in mind when using ROW and COL commands.</p><ul><li>A relative row movement resets the column number to 0. Therefore, if the current position is row 20, column 30, when you issue a ROW +1 command, the report_item begins printing at row 21, column 0.</li></ul><ul><li>An absolute row movement does not affect the column number. Therefore, if the current position is row 20, column 30, when you issue a ROW 25 command, the report_item begins printing at row 25, column 30.</li></ul>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 872, "requestCorrelationId": "203761e8c2e91c8f"}</span>
+</body>
+</html>

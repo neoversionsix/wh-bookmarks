@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>MPAGES_EVENT Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/MPAGES_EVENT+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The MPAGES_EVENT routine allows you to evoke special conversation events from in a web page.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>This event type is only valid with an <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">MPages</span> license. For this routine to work, the following META tag must be included in the HEAD of the HTML file: <strong>&lt;META content='MPAGES_EVENT' name='discern'&gt;</strong></p></div></div><p><strong>Syntax</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>MPAGES_EVENT(eventname,parameters)</pre>
+</div></div><p><strong>Metasymbols</strong></p><p><em>eventname</em></p><p>A textual string representing the name of the conversation event that is to be triggered. The following options are valid:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Name</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>ALLERGY</p></td><td class="confluenceTd"><p>This element specifies that the Allergy conversation is opened.</p></td></tr><tr><td class="confluenceTd"><p>POWERFORM</p></td><td class="confluenceTd"><div class="content-wrapper"><p>This element specifies that the PowerForm<strong><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerForm</span></strong> conversation is opened.</p></div></td></tr><tr><td class="confluenceTd"><p>POWERNOTE</p></td><td class="confluenceTd"><div class="content-wrapper"><p>This element specifies that the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerNote</span> conversation is opened. This is dependent on the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerNote</span> functionality to support modal windows.</p></div></td></tr><tr><td class="confluenceTd"><p>ORDERS</p></td><td class="confluenceTd"><p>This element specifies that the Modal Order Entry Window is opened.</p></td></tr><tr><td class="confluenceTd"><p>CLINICALNOTE</p></td><td class="confluenceTd"><p>This element specifies that the Clinical Note conversation is opened.</p></td></tr></tbody></table></div><p><strong>Parameters</strong></p><p>A pipe-delimited string representing the parameters fed into the conversation event. When a given parameter requires a list, curly brackets ( <strong>{</strong> and <strong>}</strong> ) must be used to enclose each set of data. Context variables are not supported in the parameters. Provided below are the parameters accepted by each conversation event.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Conversation</p></th><th class="confluenceTh"><p>Parameter</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p><strong>Allergy</strong></p></td><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>personId</p></td><td class="confluenceTd"><p>The person_id of the patient whose Allergy information is to be displayed.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>encntrId</p></td><td class="confluenceTd"><p>The encntr_id of the patient whose Allergy information is to be displayed.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>allergyId</p></td><td class="confluenceTd"><p>The allergy_id of an existing specific patient allergy to be displayed. This information can be pulled from the ALLERGY_ID of the ALLERGY table for the personId and encntrId. When an allergyId is provided, it allows for the modifying of an existing allergy and ignores the nomenId, substanceDisp, conceptId, substanceTypeCd, and substanceTypeDisplay fields. If adding a new allergy, this parameter should be set to # When allergyId, nomenId, substanceDisp, conceptId, substanceTypeCd, and substanceTypeDisplay are all empty, the Allergy Profile for the patient is displayed.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>nomenId</p></td><td class="confluenceTd"><p>The optional nomenclature_id to be associated with a new allergy. This information can be pulled from the NOMENCLATURE_ID of the NOMENCLATURE table<br class="atl-forced-newline"/>substanceDisp The substance display name to be associated with a new allergy. This field is normally associated with the SOURCE_STRING field of the NOMENCLATURE table but can also be a user provided string. This field is required when adding a new allergy. When adding a new allergy, the substanceDisp must always be unique for the patient (otherwise modifying an existing allergyId would be more appropriate). The substanceDisp is always used as the Substance name on the Add Allergy dialog box. If nomenId is not set, the user provided string for substanceDisp is used as the Substance name for the allergy.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>conceptId</p></td><td class="confluenceTd"><p>The optional concept to be associated with a new allergy. This information can be pulled from the CONCEPT_IDENTIFIER field of the NOMENCLATURE table.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>substanceTypeCd</p></td><td class="confluenceTd"><p>The optional code for the type of substance that is to be associated with a new allergy. This field is associated with the CODE_VALUE for Code Set 12020 and works in tandem with the substanceTypeDisplay parameter.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>substanceTypeDisplay</p></td><td class="confluenceTd"><p>The optional display value for the type of substance that is to be associated with a new allergy. This field is associated with the DISPLAY for Code Set 12020 and corresponds to the Category field on the Add Allergy dialog box.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>viewSeq</p></td><td class="confluenceTd"><p>The view sequence for the view level preference of the tab that preferences shall be modeled after. For example, if the Allergy conversation should display with the same preferences that an existing Allergy tab at the Chart level displays, the viewSeq for that tab is set here. A value of 0 loads the Allergy conversation with the default preferences.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>compSeq</p></td><td class="confluenceTd"><p>The component sequence for the component level preference of the tab that preferences shall be modeled after. For example, if the Allergy conversation should display with the same preferences that an existing Allergy tab at the Chart level displays, the compSeq for that tab is set here. A value of 0 loads the Allergy conversation with the default preferences.</p></td></tr></tbody></table></div><p>The following query may be useful in determining the viewSeq and compSeq for a particular tab.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select
+   vcp.view_seq,
+   vcp.comp_seq,
+   application = substring(1,30,trim(a.description)),
+   frame = vp.frame_type,
+   viewname = vcp.view_name,
+   tabname = substring(1,20,nvp.pvc_value),
+   position = uar_get_code_display(vp.position_cd)
+from name_value_prefs nvp,
+     view_prefs vp,
+     view_comp_prefs vcp,
+     application a
+plan vcp where vcp.view_seq &gt; 0 and vcp.view_name = "ALLERGY" and vcp.comp_seq &gt; 0
+  and vcp.comp_name = "ALLERGY" and vcp.position_cd &gt; 0 and vcp.active_ind = 1
+join vp where vp.view_name = vcp.view_name and vp.view_seq = vcp.view_seq
+  and vp.position_cd = vcp.position_cd and vp.active_ind = 1
+join nvp where nvp.parent_entity_id = vp.view_prefs_id and nvp.pvc_name = "VIEW_CAPTION"
+join a where a.application_number = vp.application_number
+order application, frame, viewname, tabname, position
+</pre>
+</div></div><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Conversation</p></th><th class="confluenceTh"><p>Parameter</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><div class="content-wrapper"><p><strong><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerForm</span></strong></p></div></td><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>personId</p></td><td class="confluenceTd"><div class="content-wrapper"><p>The person_id of the patient who loads the <strong><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerForm</span></strong> conversation.</p></div></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>enctrId</p></td><td class="confluenceTd"><div class="content-wrapper"><p>The encntr_id of the patient who loads the <strong><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerForm</span></strong> conversation.</p></div></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>formId</p></td><td class="confluenceTd"><div class="content-wrapper"><p>The form_id for the <strong><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerForm</span></strong> to be viewed or modified. This information can be pulled from the DCP_FORMS_REF_ID field of the DCP_FORMS_REF table. A value of 0 loads the Powerform<strong><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerForm</span></strong> associated with the activityId instead. If both the formId and activityId are set to 0, the Ad Hoc Charting dialog box is displayed.</p></div></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>activityId</p></td><td class="confluenceTd"><div class="content-wrapper"><p>The activity_id for the specific <strong><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerForm</span> </strong>to be viewed or modified. This information can be pulled from the DCP_FORMS_ACTIVITY_ID field of the DCP_FORMS_ACTIVITY table for the personId and encntrId. A valid activityId is always used regardless if formId is set. A value of 0 for the activityId loads the form associated with the formId. If both the formId and activityId are set to 0, the Ad Hoc Charting dialog box is displayed.</p></div></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>chartMode</p></td><td class="confluenceTd"><div class="content-wrapper"><p>The mode associated with the viewing of the <strong><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerForm</span></strong>. A value of 0 is used to view or modify the <strong><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerForm</span></strong>. A value of 0 is used to display the <strong><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerForm</span></strong> in view-only mode. This parameter does not apply if both the formId and activityId are set to 0.</p></div></td></tr><tr><td class="confluenceTd"><div class="content-wrapper"><p><strong><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerForm</span></strong></p></div></td><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>personId</p></td><td class="confluenceTd"><div class="content-wrapper"><p>The person_id of the patient whose <strong><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerForm</span></strong> is to be displayed.</p></div></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>encntrId</p></td><td class="confluenceTd"><div class="content-wrapper"><p>The encntr_id of the patient whose <strong><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerForm</span></strong> is to be displayed.</p></div></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>cki</p></td><td class="confluenceTd"><div class="content-wrapper"><p>A cki value for a new <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerNote</span> that corresponds to an encounter pathway. This can be constructed in the format CKI_SOURCE!CKI_IDENTIFIER from the SCR_PATTERN table where the ENTRY_MODE_CD corresponds to the code value for a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerNote</span>.</p></div></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>eventId</p></td><td class="confluenceTd"><div class="content-wrapper"><p>An event_id for an existing <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerNote</span>to load. This corresponds to the EVENT_ID from the CLINICAL_EVENT table. When eventId is non-zero, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern</span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">MPages</span> attempts to load the existing <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerNote</span>; otherwise a new <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerNote</span> is created corresponding to the cki value.</p></div></td></tr><tr><td class="confluenceTd"><p><strong>Orders</strong></p></td><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>personId</p></td><td class="confluenceTd"><p>The person_id of the patient whose Modal Order Entry Window is to be displayed.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>encntrId</p></td><td class="confluenceTd"><p>The encntr_id of the patient whose Modal Order Entry Window is to be displayed.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>orderLst</p></td><td class="confluenceTd"><p>The list of order actions and properties that define the data that is to be loaded into the Modal Order Entry Window. These are arranged in sets that must be enclosed by curly brackets ( { and } ). Parameters in the sets are pipe-delimited. If you want only to access the Modal Order Entry Window and not to add any new orders or perform any other order actions, an empty orderAction/orderProperties set of {ORDER|0|0|0|0|0} can be used.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>orderAction</p></td><td class="confluenceTd"><p>The type of action to be performed on an order.</p><ul><li><strong>ACTIVATE:</strong> The prototype for activating an existing future order.</li><li><strong>CANCEL DC:</strong> The prototype for canceling and discontinuing an existing order.</li><li><strong>CANCEL REORD:</strong> The prototype for canceling and reordering an existing order.</li><li><strong>CLEAR:</strong> The prototype for clearing the future actions of an existing order.</li><li><strong>CONVERT_INPAT:</strong> The prototype for converting a historical or prescription order into an inpatient order.</li><li><strong>CONVERT_RX:</strong> The prototype for converting an existing non-prescription order to a prescription order.</li><li><strong>MODIFY: </strong>The prototype for modifying an existing order.</li><li><strong>ORDER: </strong>The prototype for placing a new order.</li><li><strong>RENEW: </strong>The prototype for renewing an existing non-prescription order.</li><li><strong>RENEW_RX: </strong>The prototype for renewing an existing prescription order.</li><li><strong>REPEAT: </strong>The prototype for copying an existing order.</li><li><strong>RESUME: </strong>The prototype for resuming an existing suspended order.</li><li><strong>SUSPEND: </strong>The prototype for suspending an existing order.</li></ul></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>orderProperties</p></td><td class="confluenceTd"><p>The properties that define how an order is to be handled. For most orderActions, the API only requires 1 parameter.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>orderId</p></td><td class="confluenceTd"><p>The order_id associated with an existing order. For an "ORDER" type, the API accepts 5 parameters. See the next five rows for this information.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>synonymId</p></td><td class="confluenceTd"><p>The synonym_id to be associated with the new order.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>orderOrigination</p></td><td class="confluenceTd"><p>The type of order to be associated with the new order. A value of represents a normal order. A value of 1 represents a Prescription order. A value of 5 represents a satellite order.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>orderSentenceId</p></td><td class="confluenceTd"><p>The optional order_sentence_id to be associated with the new order.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>nomenId</p></td><td class="confluenceTd"><p>The optional nomenclature_id to be associated with the new order.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>signTimeInteractionFlag</p></td><td class="confluenceTd"><p>A Boolean flag to determine if interaction checking should only be performed at sign-time. If passing in a list of new orders, only the first order's signTimeInteractionFlag is applied to the Modal Order Entry Window.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>customizeFlags</p></td><td class="confluenceTd"><div class="content-wrapper"><p>A set of flags that can be used to define the style of the Modal Order Entry Window. Use a value of 24 to enable <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerPlan</span>s. Otherwise, set this flag to 0.</p></div></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>tabLst</p></td><td class="confluenceTd"><p>The customization data for the different tabs of the Modal Order Entry Window. These are arranged in sets that must be enclosed by the '{' and '}' braces. Parameters within the sets are pipe-delimited.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>tab</p></td><td class="confluenceTd"><p>The tab that is to be modified. Use a value of 2 for customizations to the Order List profile. Use a value of 3 for customizations to the Medication List profile.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>tabDisplayFlags</p></td><td class="confluenceTd"><div class="content-wrapper"><p>A set of flags that can be used to define the style of the tab being altered by 'tab'. For full <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerOrders</span> functionality, a value of 127 needs to be set.</p></div></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>defaultDisplay</p></td><td class="confluenceTd"><p>The view to display by default when launching into the Modal Order Entry Window. A value of 8 defaults to the order search. A value of 16 defaults to the order profile. A value of 32 defaults to the orders for signature.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>silentSignFlag</p></td><td class="confluenceTd"><p>A Boolean flag used to determine if the Modal Order Entry Window should sign orders silently. When this flag is set, and the required details on each new order are pre-populated, it causes the orders to be signed automatically without displaying the Modal Order Entry Window. Orders are signed automatically when existing orders are not already on the scratchpad and no other orderActions are present.</p></td></tr><tr><td class="confluenceTd"><p><strong>ClinicalNote</strong></p></td><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p><br/></p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>personId</p></td><td class="confluenceTd"><p>The person_id of the patient whose Clinical Note is to be displayed.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>encntrId</p></td><td class="confluenceTd"><p>The encntr_id of the patient whose Clinical Note is to be displayed.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>eventId</p></td><td class="confluenceTd"><p>Pipe-delimited list of event_ids of Clinical Notes to display. These can be pulled from the clinical_event table for Event_class_cds of type "DOC", "MDOC", and "RAD" with a view_level = 1.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>windowTitle</p></td><td class="confluenceTd"><p>the text to appears in the first section of the title for the Clinical Notes window</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>viewOptionFlags</p></td><td class="confluenceTd"><p>A set of flags that can be used to define the style of the Clinical Notes window. A value of 1 enables the menu bar. A value of 2 enables the buttons. A value of 4 enables the toolbar. A value of 8 enables the calculator (note: the toolbar must be enabled for this to be visible). A value of 16 sets the clinical note into view-only mode and supersede the pvNotes.ModifyDocument preference. These values can be added together to define the Clinical Notes window style.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>viewName</p></td><td class="confluenceTd"><p>The view name for the view level preference of the tab that preferences shall be modeled after. The viewName, viewSeq, compName, and compSeq must all be set with correct values for an existing preference in order to inherit those preferences. For example, if the Clinical Note should display with the same preferences that an existing Clinical Note tab at the Chart level displays, the viewName, viewSeq, compName, and compSeq for that tab must be set. An invalid viewName loads the Clinical Note with the default preferences.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>viewSeq</p></td><td class="confluenceTd"><p>The view sequence for the view level preference of the tab that preferences shall be modeled after. An invalid viewSeq loads the Clinical Note with the default preferences.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>compName</p></td><td class="confluenceTd"><p>The component name for the component level preference of the tab that preferences shall be modeled after. An invalid compName loads the Clinical Note with the default preferences.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>compSeq</p></td><td class="confluenceTd"><p>The component sequence for the component level preference of the tab that preferences shall be modeled after. An invalid compSeq loads the Clinical Note with the default preferences.</p></td></tr><tr><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p>compSeq (cont'd)</p></td><td class="confluenceTd"><div class="content-wrapper"><p>The following query may be useful in determining the viewName, viewSeq, compName, and compSeq for a particular tab. This query will store all qualifying fields into a record structure clinNotePrefs.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select distinct into "nl:"
+   vp.application_number,
+   vp.position_cd,
+   nvp.pvc_value,
+   vp.frame_type,
+   vcp.view_name,
+   vcp.view_seq,
+   vcp.comp_name,
+   vcp.comp_seq,
+   vp.prsnl_id
+from name_value_prefs nvp,
+     view_prefs vp,
+     view_comp_prefs vcp
+plan vcp where vcp.view_seq &gt; -1 and vcp.comp_seq &gt; -1
+  and vcp.comp_name = "CLINNOTES" and vcp.active_ind = 1
+join vp where vp.view_name = vcp.view_name and vp.view_seq = vcp.view_seq
+  and vp.position_cd = vcp.position_cd and vp.active_ind = 1
+join nvp where nvp.parent_entity_id = vp.view_prefs_id and nvp.pvc_name = "VIEW_CAPTION"
+order vp.application_number, vp.position_cd, vp.frame_type, vcp.view_name, vcp.view_seq, vcp.comp_name, vcp.comp_seq
+detail
+	;Throw out user level prefs
+	if (vp.prsnl_id = 0)
+		clinnoteprefcnt = clinnoteprefcnt + 1
+	   	if (mod(clinnoteprefcnt, 10) = 1)
+	      		stat = alterlist(clinNotePrefs-&gt;qual, clinnoteprefcnt + 9)
+	    	endif
+
+		clinNotePrefs-&gt;qual[clinnoteprefcnt]-&gt;appnum = vp.application_number;appnum
+	   	clinNotePrefs-&gt;qual[clinnoteprefcnt]-&gt;pos = trim(uar_get_code_description(vp.position_cd));poscd
+	    	clinNotePrefs-&gt;qual[clinnoteprefcnt]-&gt;tabname = substring(1,20,nvp.pvc_value);tabname
+	    	clinNotePrefs-&gt;qual[clinnoteprefcnt]-&gt;frame = vp.frame_type
+	    	clinNotePrefs-&gt;qual[clinnoteprefcnt]-&gt;viewname = vcp.view_name
+	    	clinNotePrefs-&gt;qual[clinnoteprefcnt]-&gt;viewseq = vcp.view_seq
+	    	clinNotePrefs-&gt;qual[clinnoteprefcnt]-&gt;compname = vcp.comp_name
+	    	clinNotePrefs-&gt;qual[clinnoteprefcnt]-&gt;compseq = vcp.comp_seq
+ 	endif
+foot report
+	 stat = alterlist(clinNotePrefs-&gt;qual, clinnoteprefcnt)
+with nocounter
+</pre>
+</div></div></div></td></tr></tbody></table></div><p><strong>Examples</strong></p><p>The following example illustrates the special Allergy MPAGES_EVENT that is evoked when the link is clicked. This functions as a way of launching into a patient's Allergy Profile.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;a href='javascript:MPAGES_EVENT("ALLERGY","18668144|5595233|0|0|||0||0|0")'&gt;Display Patient's Allergy Profile&lt;/a&gt;</pre>
+</div></div><p>The following example illustrates the Allergy MPAGES_EVENT that is evoked when the link is clicked. This is an example for a new allergy substance defaulted into the Allergy control with the Allergy control preferences loaded from an existing Allergies tab. The new allergy is associated with a nomenclature and concept and default to "Food" for the Category on the Add Allergy dialog.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;a href='javascript:MPAGES_EVENT("ALLERGY","18668144|5595233|0|5894|shellfish|d03830|3290|Food|591|1")'&gt;Create new allergy&lt;/a&gt;</pre>
+</div></div><p>The following example illustrates the special <strong><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerForm</span></strong> MPAGES_EVENT that is evoked when the link is clicked. This functions as a way of creating a new <strong><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerForm</span></strong> conversation for a patient.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;a href='javascript:MPAGES_EVENT("POWERFORM","733757|701346|15721144|0|0")'&gt;Display Powerform for Patient&lt;/a&gt;</pre>
+</div></div><p>The following example illustrates the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerNote</span> MPAGES_EVENT that is evoked when the link is clicked. This is an example of a new <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerNote</span> created for an encounter pathway corresponding to hair loss.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;a href='javascript:MPAGES_EVENT("POWERNOTE","8316243|12575702|CKI!EPS HAIR LOSS|0")'&gt;Create new PowerNote&lt;/a&gt;</pre>
+</div></div><p>The following example illustrates the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerNote</span> MPAGES_EVENT that is evoked when the link is clicked. This is an example of the loading / modifying of an existing <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerNote</span>.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;a href='javascript:MPAGES_EVENT("POWERNOTE","8316243|12575702||2516864731")'&gt;Load existing PowerNote&lt;/a&gt;</pre>
+</div></div><p>The following example illustrates the Order MPAGES_EVENT that is evoked when the link is clicked. This is a simple example of displaying the Modal Order Entry Window without adding any new orders. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerPlan</span>s are not enabled. The Order list and Medication list profiles allow for full <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerOrders</span> functionality and default to the order search.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;a href='javascript:MPAGES_EVENT("ORDERS","8316243|12575702|{ORDER|0|0|0|0|0}|0|{2|127}{3|127}|8|0")'&gt;Add a new order&lt;/a&gt;</pre>
+</div></div><p>The following example illustrates the Order MPAGES_EVENT that is evoked when the link is clicked. This is an example of adding a new Inpatient order associated with order_sentence_id and nomenclature_id and modifying an existing order in the Modal Order Entry Window. Interaction checking is only performed at sign-time for the orderable and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerPlan</span>s are enabled. The order list profile displays with full <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerOrders</span> functionality and the Modal Order Entry Window is defaulted to the order profile.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;a href='javascript:MPAGES_EVENT("ORDERS","8316243|12575702|{ORDER|672556|0|0|961514|1}
+{MODIFY|12345}|24|{2|127}|16|0")'&gt;Add a new order and modify an existing order&lt;/a&gt;</pre>
+</div></div><p>The following example illustrates the Order MPAGES_EVENT that is evoked when the link is clicked. This is an example of adding two Inpatient orders associated with order_sentence_id and nomenclature_id into the Modal Order Entry Window. The second orderable have three different nomenclature_ids associated with it. Interaction checking is only performed at sign-time for the orderables. If both orders' required details are filled out, it attempts to silently sign the orders. Otherwise, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerPlan</span>s are enabled and the order list profile displays with full <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">PowerOrders</span> functionality and the Modal Order Entry Window is defaulted to the order profile.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;a href='javascript:MPAGES_EVENT("ORDERS","8316243|12575702|{ORDER|672556|0|0|[961514]|1}
+{ORDER|666011|0|0|[1029704|1029801|961514]|1}|24|{2|127}|16|1")'&gt;Silent sign two new orders&lt;/a&gt;</pre>
+</div></div><p>The following example illustrates the ClinicalNote MPAGES_EVENT that is evoked when the link is clicked. This is an example of opening two clinical notes within the Clinical Notes window. The Clinical Notes window inherits the preferences associated with the tab for the viewName, viewSeq, compName, compSeq passed in and have "Clinical Notes" in the window title. The Clinical Note window also has the menu bar enabled, the buttons enabled, the toolbar enabled, the calculator enabled, and be set in view-only mode.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;a href='javascript:MPAGES_EVENT("CLINICALNOTE","8316243|12575702|[155543|345623]
+|Clinical Notes|31|CLINNOTES|341|CLINNOTES|1")'&gt;Open two clinical notes&lt;/a&gt;</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 856, "requestCorrelationId": "b1edf0c1726981f5"}</span>
+</body>
+</html>

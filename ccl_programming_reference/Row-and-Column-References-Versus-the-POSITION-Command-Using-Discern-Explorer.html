@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Row and Column References Versus the POSITION Command Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Row+and+Column+References+Versus+the+POSITION+Command+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>When you use DIO commands, you have two options for determining the position of the data in the report: the POSITION command and row and column references. Row and column references are created using the ROW and COL commands. The row and column references, however, are dependent on the font and size that is used (the characters per inch, and the lines per inch). For example, if you use a font that is proportional, such as Times-Roman, the spacing of the letters is dependent on the proportional size of each character. If you use a font that is nonproportional, such as Courier, the same amount of space is used for each character. The examples below demonstrate the difference in spacing between these two fonts.</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="" class="confluence-embedded-image confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/17982985/FontTest2.PNG?version=1&amp;modificationDate=1417558453000&amp;api=v2" data-linked-resource-container-id="17982985" data-linked-resource-container-version="2" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="FontTest2.PNG" data-linked-resource-id="1289613673" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" draggable="false" height="259" src="/download/attachments/17982985/FontTest2.PNG?version=1&amp;modificationDate=1417558453000&amp;api=v2" width="593"/></span></p><p>If you use a DIO command to change the characters per inch (CPI), or the lines per inch (LPI), you change the number of columns and rows that fit on the page. The examples below use the same monospaced font (Courier), with different CPI and LPI sizes.</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="" class="confluence-embedded-image confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/17982985/FontSizeTest2.PNG?version=1&amp;modificationDate=1417558453000&amp;api=v2" data-linked-resource-container-id="17982985" data-linked-resource-container-version="2" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="FontSizeTest2.PNG" data-linked-resource-id="1289613672" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" draggable="false" height="378" src="/download/attachments/17982985/FontSizeTest2.PNG?version=1&amp;modificationDate=1417558453000&amp;api=v2" width="599"/></span></p><p>You can see by these examples that using row and column references may not be appropriate when using many of the features available with DIO commands. Problems typically occur when you use proportional fonts or multiple CPI or LPI commands. For example, if you indicate in your program that the patient's name should start printing at column 50, the font, CPI, and LPI that were used on the line determines where on the page column 50 starts. The same logic applies when you use the row references. If you indicate in the FOOT PAGE clause that the page number is printed on row 50, and you have used fonts in a multiple of sizes, row 50 is not in the same place on the page at all times.</p><p>The ROW and COL commands should be used only in simple programs. If you are having problems with the placement of data in your report using DIO commands, you should use the POSITION command instead of the ROW and COL commands to allow more control in the placement of the data.</p><p>The POSITION command enables you to specify the x- and y-axis locations in inches. This is not dependent on the font or type size that you are using. If you indicate in your program that the page number is printed eight inches across the page (x-axis) and ten inches down the page (y-axis), the page number is always printed at that same position, regardless of the information printed before it. The syntax of the POSITION command is shown below:</p><p>{POSITION/X/Y}</p><p>where X is an integer that represents the specific X-axis location on the page and Y is an integer that represents the specific Y-axis location on the page, based on 1/72 inch increments.</p><p>For example, the command "{POS/72/144} Page:" issued in the HEAD PAGE clause would print "Page:" one inch over and two inches down on the page. To position the word one and a half inches over and a half inch down the page, you would use the command "{POS/180/36} Page:".</p><p>Advanced programs that use multiple fonts, characters per inch, and lines per inch commands require some calculations to determine correct placement. The default characters per inch is 10. If the CPI is set to "8", eight characters are printed in one inch on the X-axis. Therefore, if you want to print a 40 character field, you must allow at least five inches before the next field is printed on the same line (40 characters divided by 8 CPI equals 5 inches). To determine the X-axis integer for the next field on the line, multiply the five inches times 72 and add the total to the starting position of the 40-character field.</p><p>The commands shown below print the patient name (which is a 40-character field) starting two inches down the page and a half-inch over. Five inches are allowed for the name before the estimated length of stay field is printed (which is a four-character field). Two spaces are provided between the est. length of stay field and the nursing station ID. To determine where the nursing station ID should begin, you must first calculate the representation of the X-axis integer for one character. To do this, divide 72 by the CPI (72/8 = 9). For six positions (the est. length of stay and two additional blank spaces) you would add 54 (6 times 9) to the beginning position of the patient type field to obtain the beginning position of the nursing station ID (396 + 54 = 450).</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>NAME = SUBSTRING(1,40,P.NAME_FULL_FORMATTED)
+EST_LOS = FORMAT(E.EST_LENGTH_OF_STAY,"####")
+"{POS/36/144}"	NAME
+"{POS/396/144}"	EST_LOS
+"{POS/450/144}"	E.LOC_NURSE_UNIT_CD
+</pre>
+</div></div><p>The same logic applies when using the lines per inch (LPI). The default is 6. Using the default in the DETAIL clause, you would need to increase the Y-axis by 12 (72/6 = 12). This would replace the ROW+1 command that normally would be used in the DETAIL clause. If you want to double-space the detail records, you would need to increment the Y-axis by 24.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 557, "requestCorrelationId": "b2deab9cef98d984"}</span>
+</body>
+</html>

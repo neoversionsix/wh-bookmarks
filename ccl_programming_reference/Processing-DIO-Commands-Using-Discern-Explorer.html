@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Processing DIO Commands Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Processing+DIO+Commands+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>When writing Reportwriter clauses you need to understand how <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> interprets and compiles DIO commands. When DIO commands are issued, they are stored in a buffer as part of the output code. This is unlike the column and row statements that determine the position of the data when it is printed. Therefore, if you are using ROW and COL commands, you must allow for room in the buffer to store the DIO commands. For example, if you are using row and column references and you issue the DIO command, COL 0 "{COLOR/20}{B}", the reference for the next print item would be COL 13 to leave room for the DIO commands to be stored in the buffer. The quotation marks around the DIO commands are required to identify how the command is stored in the buffer. You can include multiple DIO commands within the quotation marks.</p><p>You can determine whether any of the DIO commands are being overwritten in the buffer by displaying the output using the Displayer (use SELECT INTO MINE in your program). The data that is extracted along with the DIO commands that are being stored are displayed. If any of the DIO commands are overlaid by data, that command does not execute.</p><p>A maximum of 300 columns can be stored in the buffer when using DIO commands. Therefore, you should issue the command ROW+1 to increment the lines in the buffer. If you are using row and column references in your program, this command affects the position of the data in the report. If you are using the POSITION command, however, this command increments the buffer only and does not affect the position of the data in the report. This is another reason that using the POSITION command is more efficient.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 524, "requestCorrelationId": "cfe38e0f3ebb814c"}</span>
+</body>
+</html>

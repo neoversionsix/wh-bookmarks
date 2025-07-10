@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Stepping Through JOINS Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Stepping+Through+JOINS+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>When you create a join between two tables, you must join the tables based on a common column, using the WHERE clause to link the columns. For example, the program below joins the PERSON and ENCOUNTER tables based on a common column on both tables.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	P.SEX_CD,
+	E.ARRIVE_DT_TM,
+	E.LOC_NURSE_UNIT_CD
+FROM	PERSON P, 
+	ENCOUNTER E
+PLAN	P 
+JOIN	E WHERE P.PERSON_ID = E.PERSON_ID
+GO
+</pre>
+</div></div><p>The following is sample output from this query:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>NAME_FULL_FORMATTED</p></th><th class="confluenceTh"><p>SEX_CD</p></th><th class="confluenceTh"><p>ARRIVE_DT_TM</p></th><th class="confluenceTh"><p>LOC_NURSE_UNIT_CD</p></th></tr><tr><td class="confluenceTd"><p>Doe, Mary</p></td><td class="confluenceTd"><p>196.00</p></td><td class="confluenceTd"><p>09/23/98</p></td><td class="confluenceTd"><p>142.00</p></td></tr><tr><td class="confluenceTd"><p>Smith, John</p></td><td class="confluenceTd"><p>197.00</p></td><td class="confluenceTd"><p>09/24/98</p></td><td class="confluenceTd"><p>53.00</p></td></tr><tr><td class="confluenceTd"><p>Brown, Alice</p></td><td class="confluenceTd"><p>196.00</p></td><td class="confluenceTd"><p>09/23/98</p></td><td class="confluenceTd"><p>47.00</p></td></tr><tr><td class="confluenceTd"><p>Brown, Sue</p></td><td class="confluenceTd"><p>196.00</p></td><td class="confluenceTd"><p>09/23/98</p></td><td class="confluenceTd"><p>53.00</p></td></tr><tr><td class="confluenceTd"><p>Jones, John</p></td><td class="confluenceTd"><p>197.00</p></td><td class="confluenceTd"><p>09/24/98</p></td><td class="confluenceTd"><p>116.00</p></td></tr></tbody></table></div><p>This program reads the PERSON table first (PLAN P) and then reads the ENCOUNTER table (JOIN E). The link between the two tables is based on a common column. Therefore, when the PERSON_ID on the PERSON table matches the PERSON_ID on the ENCOUNTER table, the information from both tables are printed.</p><p>Use the WHERE clause to qualify any PLAN or JOIN clause used in the query. For example, the program below qualifies on the PERSON table used in the PLAN.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	P.SEX_CD,
+	E.ARRIVE_DT_TM,
+	E.LOC_NURSE_UNIT_CD
+FROM	PERSON P, 
+	ENCOUNTER E
+PLAN	P WHERE P.PERSON_ID = 12281.0
+JOIN	E WHERE P.PERSON_ID = E.PERSON_ID
+GO
+</pre>
+</div></div><p>The following is sample output from this query:</p><div class="table-wrap"><table class="wrapped confluenceTable"><tbody><tr><th class="confluenceTh"><p>NAME_FULL_FORMATTED</p></th><th class="confluenceTh"><p>SEX_CD</p></th><th class="confluenceTh"><p>ARRIVE_DT_TM</p></th><th class="confluenceTh"><p>LOC_NURSE_UNIT_CD</p></th></tr><tr><td class="confluenceTd"><p>Brown, Alice</p></td><td class="confluenceTd"><p>196.00</p></td><td class="confluenceTd"><p>09/23/98</p></td><td class="confluenceTd"><p>47.00</p></td></tr></tbody></table></div><p>This program joins the tables based on the PERSON_ID, but also has additional qualifications. Only the row where the P.PERSON_ID is equal to 12281.0 is returned.</p><p>When you create joins using the JOIN or ORJOIN clause, you must follow the rules listed below.</p><ul><li>Use one or more common columns in the WHERE clause to establish the join between two tables. In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span>, these columns often end with _ID or _CD.</li><li>One of the common columns on either table should be in an index. The join still occurs if an indexed column is not used, but the query may take an exceptionally long time to complete.</li><li>All of the tables that are read must be listed in the FROM clause.</li><li>All of the tables must be listed in the PLAN, JOIN, or ORJOIN clauses, even if the WHERE clause is not required to link the tables.</li></ul><p>To create a join, follow these steps:</p><ol><li>Identify the tables to be used in the program and the columns to be included in the output.</li><li>Print the table definitions for each of the files using CCLORATABLE.</li><li>Identify the columns that are common to each table. Common column names often end in _ID or _CD.</li><li>Determine whether one or more of the common columns are included in an index to a table.</li><li>List all of the tables that are read in the FROM clause.</li><li>Build your PLAN and JOIN clauses.</li></ol><p>Each of these steps is described below using the same sample program. The program extracts data from the PERSON and ENCOUNTER tables.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	P.SEX_CD,
+	E.ARRIVE_DT_TM,
+	E.LOC_NURSE_UNIT_CD
+FROM	PERSON P, 
+	ENCOUNTER E
+PLAN	P
+JOIN	E WHERE P.PERSON_ID = E.PERSON_ID
+GO
+</pre>
+</div></div><p><strong>Stepping Through JOINS</strong></p><p>The initial steps in writing your query require some research to determine where the information you need is stored in the database. Using <em>Visual Explorer</em>, a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> application, may help in this process. <em>Visual Explorer</em> allows you to build your basic query and also allows the ability to then open that source code in the host environment. Some of these features include:</p><ul><li>Filtering tables by product so you can see all tables owned by OCF for example.</li><li>Filter tables that contain a certain value. For instance, to display all tables that start with the word PERSON, enter PERSON; to display all tables that contain DIAG somewhere in their title, enter <strong>DIAG</strong>.</li><li>Run a glossary on the table or the columns on a table to see the descriptions.</li><li>See a dictionary on each table and easily select all columns to do some data validation.</li><li>Easily look at columns or indexes for a table.</li><li>Run a code set lookup at the click of a button.</li><li>Use a Qualification wizard to build PLAN and JOINS.</li></ul><p>If you are unfamiliar with <em>Visual Explorer</em>, you may consider running through its online tutorial. The Visual Explorer Help Page and tutorial are contained as part of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Help.</p><p><strong>Step 1:Identify the Files and Columns</strong></p><p>One of the most challenging tasks when writing a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program is determining the tables that are used in your program and the columns that are included in the output. The following questions are good to ask:</p><ul><li>What tables are used by the products specific to your query or report?</li><li>What are the names of the columns you want?</li><li>In what format is the data stored: numeric, date and time, or character?</li><li>Are the columns in an index?</li></ul><p>Information about tables and columns are provided in several different ways. You can use CCLGLOS and select by *T*able to see a description of the table and a description of columns contained in the table. You also can use CCLGLOS and select by *C*olumn to get a list of all of the tables that contain the specified column. If the table is not documented, you can call the Service Center about which tables a product uses, which columns are included in the tables, and their descriptions. The service request should be directed to the actual product team.</p><p><strong>Step 2:Print the Table Definitions</strong></p><p>Use CCLORATABLE, TABLEDEF, or TABLEDEF2 to list the columns in each table and their attributes. The best program to use is CCLORATABLE. It is especially useful because it lists the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> indexes as well as the column names sorted alphabetically. TABLEDEF shows the column names and types. TABLEDEF2 sorts the columns alphabetically.</p><p>As you find the names of the columns you want to use, write down the table name, the exact column name, data type, and the column length. Most of the time you can find the unique index for each table by looking for a column similar to the table name followed with _ID. The data type and length are used to determine the placement of columns and their format when you are creating a report using the Reportwriter clauses. Data types and lengths can also be used to identify common columns between tables since column names may not always have the same name.</p><p>To determine the names of the columns to be used in the sample program, you can use CCLORATABLE to print a list of the columns in the PERSON and ENCOUNTER tables. The following table lists the columns that we want to display from each table for the sample program.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Table	    Column Name	         Type/Length
+PERSON	    NAME_FULL_FORMATTED	   VC100
+PERSON	    SEX_CD	           F8
+ENCOUNTER   ARRIVE_DT_TM	   DQ8
+ENCOUNTER   LOC_NURSE_UNIT_CD	   F8
+</pre>
+</div></div><p><strong>Step 3:Identify the Common Columns</strong></p><p>The link between two tables must be based on a column that contains the same data on both tables. Most of the time the columns that are common between tables have the same name, such as PERSON_ID on the PERSON table and the ENCOUNTER table.</p><p><strong>Step 4:Use an index Column as the Common Column</strong></p><p>Join two tables together based on an index when you are creating joins. You can either join an index column on one table to an index column on another table, or you can join a nonindex column on one table to an index column on another table.</p><p>Whether you join an index column to an index column as in</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>O.PERSON_ID=P.PERSON_ID</pre>
+</div></div><p>or a nonindex column as in</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>JOIN C	WHERE P.SEX_CD = C.CODE_VALUE</pre>
+</div></div><p>it does not matter which column is on the left or right side of the equal sign.</p><p>The following sample CCLORATABLE report lists the Oracle indexes for the ORDERS table. The index columns are identified by the label INDEXES. Non-indexed columns are identified by the label DATA. The first nonindexed column is the ACTIVE_IND.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DATABASE	TABLE_NAME	LEVEL	ATTRIBUTE	TYPE	           OFFSET
+V500	        ORDERS				
+                INDEXES	         1	CATALOG_CD	NONUNIQUE	
+                                 2	ENCNTR_ID	NONUNIQUE	
+                                 3	PERSON_ID	NONUNIQUE	
+                                        CATALOG_CD		
+                                 4	CS_ORDER_ID	NONUNIQUE	
+                                 5	ACTIVITY_TYPE_CD	NONUNIQUE	
+                                        DEPT_STATUS_CD		
+                                 6	LAST_UPDATE_PROVIDER_ID	NONUNIQUE	
+                                        ORDER_STATUS_CD		
+                                 7	PERSON_ID	NONUNIQUE	
+                                        ENCNTR_CD		
+                                        CATALOG_CD		
+                                        CATALOG_TYPE_CD		
+                                        ACTIVITY_TYPE_CD		
+                                 8	PERSON_ID	NONUNIQUE 	
+                                        CATALOG_TYPE_CD		
+                                 9	OE_FORMAT_ID	NONUNIQUE	
+                                10	ENCNTR_FINANCIAL_ID	NONUNIQUE	
+                                11	PRODUCT_ID	NONUNIQUE	
+                                12	ORDER_ID	UNIQUE	
+                    DATA		ACTIVE_IND	I2.0	        639
+                                        ACTIVE_STATUS_CD	F8.0	615
+                                        ACTIVE_STATUS_DT_TM	DQ8.0	623
+                                        ACTIVE_STATUS_PRSNL_ID	8.0	631
+                                        ACTIVITY_TYPE_CD	F8.0	186
+                                        CATALOG_CD	        F8.0	32
+</pre>
+</div></div><p><strong>Start at the Top of the Index</strong></p><p>Most of the indexes that you are using to join in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> have only one column. However, if you do have to join to an index that has multiple columns, you should use the first column in the index. If the common column is in the middle of the index, you must identify the values of the preceding columns in the index before that index is used. For example, on the ORDER_COMMENT table if you qualify on ACTION_SEQUENCE, you do not use Index# unless you also qualify on ORDER_ID because it is the first column in Index1.</p><p>The following sample CCLORATABLE report displays three columns that make up the first index.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DATABASE	TABLE_NAME		LEVEL	ATTRIBUTE	TYPE	OFFSET
+V500	        ORDER_COMMENT					
+                               INDEXES	1	ORDER_ID	UNIQUE	
+                                                ACTION_SEQUENCE		
+                                                COMMENT_TYPE_CD		
+                                DATA		ACTION_SEQUENCE	14.0	8
+                                                COMMENT_DT_TM	DQ8.0	64
+                                                COMMENT_PRSNL_ID	F8.0	56
+                                                COMMENT_TYPE_CD	F8.0	12
+                                                DATAREC	C90.0	0
+</pre>
+</div></div><p><strong>Step 5: List All Tables in the FROM Clause</strong></p><p>All of the tables that are read must be listed in the FROM clause, and also in the PLAN and JOIN clauses. If you do not list a table in the FROM clause, a message is displayed when the program is run indicating that the table name or range is invalid.</p><p><strong>Step 6: Building your PLAN and JOIN Clauses</strong></p><p>The example below links the PERSON and ENCOUNTER tables. The PERSON table is read first with a qualification on the index, NAME_LAST_KEY. Any row with a last name of SMITH is then be linked to the ENCOUNTER table by the PERSON_ID column. The PERSON_ID happens to be an index in both tables. The ARRIVE_DT_TM must be on or after January 1, 1# at zero time.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	E.ARRIVE_DT_TM
+FROM	PERSON P,
+	ENCOUNTER E
+PLAN P	WHERE P.NAME_LAST_KEY = "SMITH"
+JOIN E	WHERE P.PERSON_ID = E.PERSON_ID AND
+	E.ARRIVE_DT_TM &gt;= CNVTDATETIME("01-JAN-1998")
+GO
+</pre>
+</div></div><p>When defining your query, the order of the tables in our FROM clause is not vital. What is vital is the way your PLAN and JOIN clauses are set up. When defining your PLAN and JOIN clauses the most efficient method is to PLAN on the table, which qualifies on an indexed column on that table. That way the first table you read does an indexed read and each link is based on an index. If no index is used on any of the tables, the RMS optimizes the query when reading through the tables. But, be aware that if you do not list a table in the PLAN or JOIN clauses, every row on the first table is joined to every row on the second table. A query that is doing a full table scan may take a significant amount of time to run. The FROM clause and PLAN/JOIN must be consistent.</p><p>If you are reading only two tables, it is simple to determine which table is used in the PLAN and JOIN clause. When you are reading more than two tables, the task becomes more difficult. The process is the same, but instead of a single JOIN clause, you create two or more JOIN clauses (or JOIN and ORJOIN clauses).</p><p>Once you establish which table you start with in the PLAN clause, you must then determine how to read the remainder of the tables.</p><ol><li>To begin, start by defining which tables are linked to the table in the PLAN clause.</li><li>Establish a join for each one of those tables, reading one-to-one relationships before one-to-many.</li><li>If any additional tables are linked to the existing tables, establish a join for each.</li><li>Continue this process until all tables are read.</li></ol>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 585, "requestCorrelationId": "3bccda6a85988350"}</span>
+</body>
+</html>

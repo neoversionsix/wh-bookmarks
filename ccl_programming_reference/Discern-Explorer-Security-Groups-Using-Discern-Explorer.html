@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Discern Explorer Security Groups Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Discern+Explorer+Security+Groups+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Before you include objects in the object library, ensure that you understand how <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> uses groups to provide security. When a user includes or runs an executable program in the object library, the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> group to which the user belongs is important to the process.</p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> security allows access to <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>. Once you access <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>, another level of security is in place. Each user is assigned to one of 100 groups named GROUP0 (DBA) through GROUP99. By default, all users with access to <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> are assigned to GROUP1. Users who are assigned to GROUP1 can run queries and execute programs created by GROUP1 and GROUP0 users. Users who are assigned to GROUP1 can only drop and create programs created by GROUP1 users.</p><p>GROUP0 is a database administrator (DBA) and has a higher security than all the other groups. A DBA has all of the privileges of a GROUP1 user and also can create a user as a DBA, create and drop databases, and assign users to groups.</p><p>A user must be specifically assigned by a GROUP0 (DBA) user to groups 2-99 using the CREATE CCLUSER command. Groups 2-99 have limited access to <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> queries and must be granted privileges (using the GRANT EXECUTE or GRANT SELECT commands) to run programs.</p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> security does not control security to RDBMS tables. Your RDBMS sign-on controls access to the RDBMS tables.</p><p>When you include an executable program, the group to which you belong is associated with the object name in the object library. For example, if a DBA includes the source code TESTPROG.PRG, which contains the command, CREATE PROGRAM TESTPROG, the object is stored in the object library as TESTPROG:DBA. If a GROUP1 user includes the same source code, the object is stored in the object library as TESTPROG:GROUP1 This is not a problem if either user did not modify the source code. But if the GROUP1 user changes the source code before including it in the object library, the object code for TESTPROG is not the same for each group.</p><p>When you run the executable program, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> looks for the object associated with the group assigned to you unless you specify the group associated with the program. For example, the DBA can enter TESTPROG:GROUP1 GO to run the version created for GROUP1 and the GROUP1 user can enter TESTPROG:DBA GO to run the version created for the DBA. Groups 2-99 must be given privileges to execute programs that do not reside in their groups.</p><p>If only a DBA version of the program exists, both DBA and GROUP1 users can execute the DBA version by entering TESTPROG GO. If only a GROUP1 version of the program exists, the GROUP1 users can execute the program by entering TESTPROG GO. The DBA must enter "TESTPROG:GROUP1 GO" to execute the program.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 565, "requestCorrelationId": "b57ec8a34f1e5434"}</span>
+</body>
+</html>

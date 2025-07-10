@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Operators in Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Operators+in+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> provides the operators below.</p><p>Logical Operators</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh" scope="row"><p>Operator</p></th><th class="confluenceTh"><p>Operation</p></th><th class="confluenceTh"><p>Example</p></th></tr><tr><th class="confluenceTh" scope="row"><p>NOT</p></th><td class="confluenceTd"><p>Negation</p></td><td class="confluenceTd"><p>VarA IS NOT VarB</p></td></tr><tr><th class="confluenceTh" scope="row"><p>AND</p></th><td class="confluenceTd"><p>Conjunction</p></td><td class="confluenceTd"><p>VarA = 1 AND VarB = 1</p></td></tr><tr><th class="confluenceTh" scope="row"><p>OR</p></th><td class="confluenceTd"><p>Disjunction</p></td><td class="confluenceTd"><p>VarA = 1 OR VarB = 1</p></td></tr></tbody></table></div><p>The NOT operator has the highest precedence of the three logical operators. The AND and<strong> </strong>OR operators have equal precedence.</p><p>Relational Operators</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh" scope="row"><p>Operator</p></th><th class="confluenceTh"><p>Operation</p></th><th class="confluenceTh"><p>Example</p></th></tr><tr><th class="confluenceTh" scope="row"><p>=</p></th><td class="confluenceTd"><p>Equal to</p></td><td class="confluenceTd"><p>P.NAME_LAST_KEY = "SMITH"</p></td></tr><tr><th class="confluenceTh" scope="row"><p>!=</p></th><td class="confluenceTd"><p>Not equal to</p></td><td class="confluenceTd"><p>P.NAME_LAST_KEY != "SMITH"</p></td></tr><tr><th class="confluenceTh" scope="row"><p>&gt;</p></th><td class="confluenceTd"><p>Greater than</p></td><td class="confluenceTd"><p>E.REG_DT_TM &gt; CNVTDATETIME("01-FEB-1999")</p></td></tr><tr><th class="confluenceTh" scope="row"><p>&lt;</p></th><td class="confluenceTd"><p>Less than</p></td><td class="confluenceTd"><p>E.REG_DT_TM &lt; CNVTDATETIME("01-FEB-1999")</p></td></tr><tr><th class="confluenceTh" scope="row"><p>&gt;=</p></th><td class="confluenceTd"><p>Greater than or equal to</p></td><td class="confluenceTd"><p>E.REG_DT_TM &gt;= CNVTDATETIME("01-FEB-1999")</p></td></tr><tr><th class="confluenceTh" scope="row"><p>&lt;=</p></th><td class="confluenceTd"><p>Less than or equal to</p></td><td class="confluenceTd"><p>E.REG_DT_TM &lt;= CNVTDATETIME("01-FEB-1999")</p></td></tr><tr><th class="confluenceTh" scope="row"><p>BETWEEN</p></th><td class="confluenceTd"><p>Inclusive range</p></td><td class="confluenceTd"><p>Enables you to specify a value between two expressions.<br class="atl-forced-newline">P.UPDT_DT_TM BETWEEN CNVTDATETIME("01-FEB-1999") AND CNVTDATETIME("01-FEB-1999 23:59:59")</br></p></td></tr><tr><th class="confluenceTh" scope="row"><p>IN</p></th><td class="confluenceTd"><p>Multiple OR qualification</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Enables you to specify a value in one or more expressions. P.NAME_LAST_KEY IN ("SMITH", "ROSE", "TATE").  </p><p>By default, an IN clause that uses three or fewer items and pattern-matching wildcard characters is converted to a series of OR clauses using the LIKE operator. If an IN clause is not converted and remains as is, pattern matching is not allowed because the Relational Database Management System (RDBMS) requires the LIKE clause, and LIKE cannot be used with an IN clause. In theory, you should not use pattern-matching strings in an IN clause, even though it is allowed for three or less items. Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.17.5 and 9.05.5 a warning is generated if an IN clause containing wildcard pattern-matching characters is not converted to OR clauses using the LIKE operator. SET TRACE INOPTIMIZEOR <em>int</em> is used to override the default number or items in an IN clause that are converted to OR clauses.</p></div></td></tr><tr><th class="confluenceTh" scope="row"><p>IS</p></th><td class="confluenceTd"><p>Equality</p></td><td class="confluenceTd"><p>E.DISCH_DT_TM IS NULL</p></td></tr><tr><th class="confluenceTh" scope="row"><p>IS NOT</p></th><td class="confluenceTd"><p>Inequality</p></td><td class="confluenceTd"><p>E.DISCH_DT_TM IS NOT NULL</p></td></tr><tr><th class="confluenceTh" scope="row"><p>LIKE</p></th><td class="confluenceTd"><p>Pattern Match</p></td><td class="confluenceTd"><p>P.NAME_LAST_KEY LIKE "SM*" <br class="atl-forced-newline"/>When qualifying on a field from an RDBMS table, you can use the equal operator (=) and a wild card character for pattern matching. For example, P.NAME_LAST_KEY = "SM*" will have the same result as P.NAME_LAST_KEY LIKE "SM*".</p></td></tr></tbody></table></div><p><strong>Arithmetic Operators</strong></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh" scope="row"><p>Operation</p></th><th class="confluenceTh"><p>Operator</p></th><th class="confluenceTh"><p>Example</p></th></tr><tr><th class="confluenceTh" scope="row"><p>Unary Positive</p></th><td class="confluenceTd"><p>+</p></td><td class="confluenceTd"><p>NBR_OF_DAYS = +10.25</p></td></tr><tr><th class="confluenceTh" scope="row"><p>Unary Negative</p></th><td class="confluenceTd"><p>-</p></td><td class="confluenceTd"><p>NBR_OF_DAYS = -10.25</p></td></tr><tr><th class="confluenceTh" scope="row"><p>Add</p></th><td class="confluenceTd"><p>+</p></td><td class="confluenceTd"><p>P.RESULT_VALUE_NUMERIC + 5</p></td></tr><tr><th class="confluenceTh" scope="row"><p>Subtract</p></th><td class="confluenceTd"><p>-</p></td><td class="confluenceTd"><p>P.NORMAL_HIGH - P.RESULT_VALUE_NUMERIC</p></td></tr><tr><th class="confluenceTh" scope="row"><p>Divide</p></th><td class="confluenceTd"><p>/</p></td><td class="confluenceTd"><p>TOT_PATS / TOT_NUR_STA</p></td></tr><tr><th class="confluenceTh" scope="row"><p>Multiply</p></th><td class="confluenceTd"><p>*</p></td><td class="confluenceTd"><p>NBR_OF_DAYS * 7</p></td></tr><tr><th class="confluenceTh" scope="row"><p>Raise to the power</p></th><td class="confluenceTd"><p>**</p></td><td class="confluenceTd"><p>10 ** PS.DEC</p></td></tr></tbody></table></div><p>To calculate a square root, raise a value to the power of 0.5; for example, to calculate the square root of 25, use <strong>25**0.5</strong>.</p><p><strong><br/></strong>Note: When using the division operator in a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program, avoid dividing by a denominator of zero. While the mathematical expression results in an undefined value when dividing by zero, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> automatically checks for the error condition and assigns a value of zero if a denominator of zero is applied in a calculation. This indicates a previous logical failure in the script when this condition occurs. The result of a division by zero is undefined, and programs should validate the input appropriately when performing calculations. Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.15.4 and 9.03.4 a warning message is generated when a divide by zero is attempted.</p><p><br/></p><p><strong>Arithmetic Left Operators</strong></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh" scope="row"><p>Operator</p></th><th class="confluenceTh"><p>Operation</p></th><th class="confluenceTh"><p>Example</p></th></tr><tr><th class="confluenceTh" scope="row"><p>+=</p></th><td class="confluenceTd"><p>Add to left expression</p></td><td class="confluenceTd"><p>SET CNT += 1 ;adds 1 to CNT</p></td></tr><tr><th class="confluenceTh" scope="row"><p>-=</p></th><td class="confluenceTd"><p>Subtract from left expression</p></td><td class="confluenceTd"><p>SET CNT -= 1 ;subtracts 1 from CNT</p></td></tr><tr><th class="confluenceTh" scope="row"><p>/=</p></th><td class="confluenceTd"><p>Division to left expression</p></td><td class="confluenceTd"><p>SET CNT /= 2 ;divides CNT by 2</p></td></tr><tr><th class="confluenceTh" scope="row"><p>*=</p></th><td class="confluenceTd"><p>Multiply to left expression</p></td><td class="confluenceTd"><p>SET CNT *= 2 ;multiplies CNT by 2</p></td></tr></tbody></table></div><p>Arithmetic Left Operators are introduced in version 8.11.3 of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> and can be used to change the value of a variable, an array, or record structure item. The initial functionality does not support using the Arithmetic Left Operators to change the value of an array or record structure item in a Report Writer clause. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.2 extends the functionality to support using the Arithmetic Left Operators to change the value of an array or record structure item in a Report Writer clause. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.1 and 9.02.1 extend the functionality to support using namespaces in a Report Writer clause. Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.15.4 and 9.03.4 using the Arithmetic Left Operators to set a variable that is not previously declared does not set the variable but no warning or error is generated. Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.15.4 and 9.03.4 using the Arithmetic Left Operators to set a variable that is not previously declared generates a report variable has not been initialized error.</p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3 and 9.02.3 extend the functionality to support the Arithmetic Left Operators for W8 data types in 64-bit <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">AIX</span> environments.</p><p><br/></p><p>When a division by zero is attempted in a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program, using left operator syntax or compiled with optimized syntax, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 9.03.3, 8.15.3 and later check for the error condition and assign a value of zero. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> 9.03.2, 8.15.2 and prior versions assign the operating system return value of <strong>NaN</strong>, <strong>-nan</strong>, or <strong>inf</strong>. The result of a division by zero is undefined, and programs should validate the input appropriately when performing calculations. Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.15.4 and 9.03.4 a warning message is generated when a divide by zero is attempted.</p><p><br/></p><p><strong>Operator Precedence</strong></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh" scope="row"><p>Order of Precedence</p></th><th class="confluenceTh"><p>Operator</p></th></tr><tr><th class="confluenceTh" scope="row"><p>1</p></th><td class="confluenceTd"><p>+(unary plus), -(unary negate)</p></td></tr><tr><th class="confluenceTh" scope="row"><p>2</p></th><td class="confluenceTd"><p>* multiply, / divide</p></td></tr><tr><th class="confluenceTh" scope="row"><p>3</p></th><td class="confluenceTd"><p>+ add, - subtract</p></td></tr><tr><th class="confluenceTh" scope="row"><p>4</p></th><td class="confluenceTd"><p>** Raise to the power</p></td></tr><tr><th class="confluenceTh" scope="row"><p>5</p></th><td class="confluenceTd"><p>LIKE, IS, IS NOT, IN, BETWEEN, =, !=, &lt;, &lt;=, &gt;, &gt;=</p></td></tr><tr><th class="confluenceTh" scope="row"><p>6</p></th><td class="confluenceTd"><p>NOT</p></td></tr><tr><th class="confluenceTh" scope="row"><p>7</p></th><td class="confluenceTd"><p>AND, OR</p></td></tr></tbody></table></div><p>Parentheses can be used to override the default order of precedence. For example, 1 + 2 * 3 evaluates to 7 because the precedence of multiply (*) is before the precedence of add (+). The expression 1 + 2 * 3 is evaluated by multiplying 2 and 3, and then adding 1 for a result of 7. Adding parentheses causes the expression of (1 +2) * 3 to evaluate to 9. In this example, 1 is added to 2 and then multiplied by 3, so the final result evaluates to 9.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 643, "requestCorrelationId": "4ced4d6db98f7dd7"}</span>
+</body>
+</html>

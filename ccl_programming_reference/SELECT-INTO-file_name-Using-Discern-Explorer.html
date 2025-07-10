@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SELECT INTO file_name Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SELECT+INTO+file_name+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The SELECT INTO file_name option enables you to store the output in a file after the query has completed. You can store the output from an entire Reportwriter program with headings and data, or from a simple query with data elements only from the SELECT command.</p><p>Use this option in any of the following ways:</p><ul><li>To retain the output on-line.</li><li>If the output is downloaded to a personal computer.</li><li>When the query is included in an operations cycle.</li><li>When the query requires a considerable amount of processing time.</li></ul><p>For example, if you want the output to be sent to a file called "TEST_FILE.DAT", your query resembles the one shown below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO	TEST_FILE
+	P.NAME_FULL_FORMATTED
+FROM	PERSON P
+GO
+</pre>
+</div></div><p>The system performs the query and creates a file called <strong>test_file.dat</strong>, which is stored in the CCLUSERDIR directory. <strong>test_file.dat</strong> contains all of the names extracted from the PERSON table. CCLUSERDIR is a logical or environment variable that points to a directory. To see the operating system directory that the logical or environment variable points to, enter <strong>$env CCLUSERDIR</strong> at the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command line.</p><p>The file name for the file created by the SELECT INTO command is converted to lowercase. For example, "test_file.dat." It is important to remember that at the UNIX operating system level; commands, file names, and directory names are case-sensitive. You can use the VERSION Control Option to enable file versioning that is similar to the versioning. An example of using the with version control option is shown below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO 	TEST_FILE
+	P.NAME_FULL_FORMATTED
+FROM	PERSON P
+WITH VERSION
+GO
+</pre>
+</div></div><p>When using the VERSION Control Option, the first time the above example is executed, the file "test_file.dat" is created. The next time the example is executed the existing "test_file.dat" is renamed "test_file.dat.0001" before the new version of test_file.dat is created. If the above example is executed a third time, the existing "test_file.dat" is renamed "test_file.dat.0002". Every time the above example is executed, the existing "test_file.dat" file is renamed with a version number that is incremented by 1. The output of the above example is then written to a new file named "test_file.dat".</p><p>The combined length of the full path, file name, and extension is limited to 200 characters. You can use a predefined logical like CUST_SCRIPT: or CER_TEMP: for the path. When using a logical, the number of characters in the actual path, not the number of characters in the logical name are applied to the 200 character limit. For example, if CUST_SCRIPT: is defined to point to /cerner/w_custom/kwplay_cust/code/script/ using Select into CUST_SCRIPT:my_file.dat will have a full combined file_name length of 52 characters. The VERSION Control Option appends a five character version number to the end of an existing file_name. Those five characters are applied to the 200 character limit on the file_name.</p><p>If you want the file to be sent to a directory other than CCLUSERDIR, you can use the SET DIR command before the SELECT command. The SET DIR command in not valid when executing from a server. It is only valid in a back end interactive command-line session.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET DIR "CER_TEMP" GO</pre>
+</div></div><p>The SET DIR command changes your default directory to the specified directory.</p><p>You can also identify the directory by including its path, environment variable, or logical in the SELECT INTO command, for example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO "CER_TEMP:TEST_FILE"
+
+SELECT INTO "/usr/home/mydir/test_file"
+</pre>
+</div></div><p>The full directory and filename must be included in quotation marks. The file is sent to the indicated directory. You can send the file to any directory for which you have write privileges.</p><p>Sending the output of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program to a file and then printing the data file also can be useful when you are running a program that requires a considerable amount of processing time. If you send the output directly to a printer and the printer malfunctions, you have to run the program again to reprint the report. By sending the output to a file first, you can control when and where the report is printed, and reprint it if necessary. You also can send the same data file to two different printers in your institution.</p><p>To print the <strong>test_file.dat</strong> file created by the previous program, use the SET SPOOL command. This command can be included in the program, or can be entered at the command line (as illustrated below).</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET SPOOL = "CER_TEMP:TEST_FILE.DAT" P323 GO</pre>
+</div></div><p>If you have operating system privileges, you also can print the file using the operating system print command.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Output that is sent to the temporary directory is deleted on a regular basis, based on the file purge parameters defined for your system. If you send the output to other directories, it may remain on the system until you delete it. You should check with the appropriate person at your institution to determine the correct procedure to follow regarding file placement and deletion.</p></div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 582, "requestCorrelationId": "a6b043c2d12ac00e"}</span>
+</body>
+</html>

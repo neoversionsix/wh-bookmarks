@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Creating an Empty File Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Creating+an+Empty+File+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>This topic discusses creating custom ISAM (non-RDMBS) tables. Custom ISAM tables were widely used by clients to create custom tables in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Cerner Classic</span>. This functionality was carried forward into<span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span>. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.3.9 and 8.3.10 introduced the ability to create temporary and permanent custom RDBMS tables. In most cases, using a custom RDBMS table is a better option than using a custom ISAM table. See the SELECT INTO TABLE Table_Name for more information about creating custom RDBMS tables.</p><p>The Select Into Table table_name command should only be used to create custom tables. It should not be used by <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> development teams to create <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> production tables. </p></div></div><p>You can create an empty file that is not a subset of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> data but is instead fields that you create, name, and populate using the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> INSERT, UPDATE, or DELETE commands. To do this, you still use the SELECT INTO TABLE command, but instead of reading an <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> table, you can use the DUMMYT table in the FROM clause.</p><p>DUMMYT is a table with one row that is filled with Xs. Whenever you want to perform a SELECT command but do not want to read an <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> file, you can use the DUMMYTUsing_the_DUMMYT_Table table.</p><p>The following program uses the DUMMYT table to create a file called CATALOG.DAT in your default directory (typically CCLUSERDIR):</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO TABLE CATALOG
+	PGMTYPE = " ",
+	PGMNAME = FILLSTRING(20," "),
+	PGMDESC = FILLSTRING(40," "),
+	SOURCE = FILLSTRING(20," "),
+	CREATE_DATE = CURDATE,
+	RELEASE = 0,
+	FILL = FILLSTRING(100," ")
+FROM	DUMMYT 
+ORDER	PGMTYPE
+WITH	ORGANIZATION = I
+GO
+</pre>
+</div></div><p>You can run a data dictionary report (like TABLEALL) against this TABLE, as shown in the following example:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="" class="confluence-embedded-image confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/17982985/DiscernTableAll.jpg?version=1&amp;modificationDate=1266529217000&amp;api=v2" data-linked-resource-container-id="17982985" data-linked-resource-container-version="2" data-linked-resource-content-type="image/jpeg" data-linked-resource-default-alias="DiscernTableAll.jpg" data-linked-resource-id="18909498" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" draggable="false" src="/download/attachments/17982985/DiscernTableAll.jpg?version=1&amp;modificationDate=1266529217000&amp;api=v2" width="800"/></span></p><p>One index (PGMTYPE) is defined for the TABLE. Each field in the TABLE is named by creating a variable that is equal to some expression. You can set the variables to equal any data type by using a character string, literal, reserved variable (like CURDATE), or function (like the FILLSTRING( ) or FORMAT( ) functions). In this program, the FILLSTRING( ) function is used to create variables that are character strings, CURDATE is used to create an internal system date field, and the number "0" is used to create an integer field. A filler of 100 bytes is added at the end of the file in case you later decide to add more fields to this file.</p><p>The DUMMYT table is used in the FROM clause because the program does not read any <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> files. In this case, the DUMMYT table is used just to create a table using the SELECT INTO TABLE command. The definition for the file and the file itself are created using this simple method.</p><p>This example table can be used to keep track of the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> programs you write. In it, you can store a description of the source name, the object name, a program description, the program type, the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> release number identifying the release for which the program was written, and the creation date. By logging all the programs you write in a table like this, you can create reports listing the programs or do searches against the file to determine whether you have written a specific program.</p><p>If you have only a few programs, the need for this file may not seem apparent. If you write several hundred programs over the course of two or three years, however, this program is very beneficial.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 657, "requestCorrelationId": "088ea707665df04d"}</span>
+</body>
+</html>

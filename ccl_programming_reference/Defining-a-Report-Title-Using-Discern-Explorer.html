@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Defining a Report Title Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Defining+a+Report+Title+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The HEAD REPORT clause can also be used to define a title to be printed at the top of the report. The following example defines a title for a report using the HEAD REPORT clause:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>HEAD REPORT
+	LINE_D = FILLSTRING(90,"=")
+	LINE_S = FILLSTRING(90,"-")
+	CALL CENTER("*** CERNER'S INPATIENT REPORT ***",0,89)
+	COL 0 CURDATE "MM/DD/YY;;D"
+	COL 75 CURTIME "HH:MM;;M"
+	ROW+1 LINE_D
+	ROW+2
+</pre>
+</div></div><p>The example uses the CALL CENTER statement to print a report title. The first item to print on the page is the text string <strong>*** CERNER'S INPATIENT REPORT ***</strong>. The CALL CENTER command centers the string between Columns 0 and 89. On the same line, the current date is printed to the left, starting at Column 0. The current time is printed starting at Column 75.</p><p>The reserved variables CURDATE and CURTIME are used to display the current date and time. Each column was formatted using an appropriate display option so the date and time are more readable.</p><p>The system then advances one line (ROW +1), and the LINE_D variable is printed. This variable is initialized in the HEAD REPORT clause using the FILLSTRING( ) function. LINE_D is equal to 90 equal sign (=) characters. The last item in the HEAD REPORT clause (ROW +2) advances two lines to create a blank line.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 520, "requestCorrelationId": "80f156df6808d6c6"}</span>
+</body>
+</html>

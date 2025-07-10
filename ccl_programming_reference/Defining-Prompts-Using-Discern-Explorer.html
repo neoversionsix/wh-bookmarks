@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Defining Prompts Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Defining+Prompts+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The PROMPT clause enables you to define text to be displayed when the program is executed prompting the user for input. The syntax of the PROMPT clause is shown below:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PROMPT	"prompt_string" [= default]{,
+	"prompt_string" [= default]}
+	[with prompt_name{,prompt_name}]
+</pre>
+</div></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>The previous example is a syntax example. To use prompts, you must create an executable program. See the following example.</p></div></div><p>Keep these points in mind when using the PROMPT clause:</p><ul><li>Prompts can be used only in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> programs using the CREATE PROGRAM command.</li><li>The PROMPT clause follows the CREATE PROGRAM command and is placed before the SELECT command.</li><li>Prompts are separated by commas.</li><li>The word PROMPT is used only once.</li><li>The prompts must be defined in your query in the same order as the parameters to which they relate. For example, the first prompt relates to parameter $1 and the second prompt relates to parameter $2.</li><li>The WITH clause is used to associate the prompt name with the position of the prompt. Currently the $&lt;name&gt; can only be used for prompt or paint programs and not full screen application programs.</li></ul><p>You can set up detailed prompts that instruct the user what data needs to be entered to execute the command, as well as what type of data is expected. For example, the following program has two parameters that are two different types of data. The NAME_LAST_KEY column is a character column, which requires the parameter be entered in quotation marks; the ACTIVE_IND column is a numeric column, which requires the parameter be entered as a number. The PROMPT clause illustrates how to set up prompts for these parameters:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PROMPT	"ENTER THE LAST NAME (EMBED IN QUOTES)&gt; ",
+	"ENTER ACTIVE INDICATOR (1 FOR ACTIVE, 0 FOR INACTIVE)&gt; "
+</pre>
+</div></div><p>Notice that the prompt strings are embedded in quotation marks. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> prints the prompt exactly as you have typed it. Also notice that the prompts ask for a particular piece of information and then instruct the user on how to enter the information.</p><p>The prompts must be defined in the same order in which their corresponding parameters are set up in the program so that <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> can correctly match the user's response to the prompt with its corresponding parameter. In other words, the prompt for the $1 parameter must be defined first, the prompt for the $2 parameter must be defined second, and so on. When the query is executed, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> assigns the input from the first prompt to $1, the input from the second prompt to $2, and so on. If you are using the WITH prompt_name, then the input from the first prompt is assigned to the first prompt_name in the with clause.</p><p>If you use a parameter more than once in a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program, it is not necessary to prompt for the value each time it is used. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> automatically fills the parameter when a response to the prompt is entered.</p><p>When you execute the program, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> displays each prompt as you have entered it, each time waiting for a valid value to be entered.</p><p><strong>Example</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM PROMPTS GO
+CREATE PROGRAM PROMPTS
+PROMPT
+          "ENTER PRINTER NAME: " = "MINE",
+          "ENTER FILE NAME        : " = "D*"
+           WITH PRINTER, FILENAME
+SELECT INTO $PRINTER
+D.FILE_NAME
+FROM DFILE D
+WHERE D.FILE_NAME = $FILENAME
+END
+GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 586, "requestCorrelationId": "1fcd8076725f9047"}</span>
+</body>
+</html>

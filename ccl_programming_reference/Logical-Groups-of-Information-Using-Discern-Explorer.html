@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Logical Groups of Information Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Logical+Groups+of+Information+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Logical groups of information are created when you use an ORDER clause in your SELECT command. Once the data is extracted, the ORDER clause sorts the data. The columns, or elements, you define in the ORDER clause coincide with the HEAD group_expression clause. By sorting the query, you are creating logical groups of data. The examples below have sorted the selected information using the ORDER clause.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>ORDER	NURSE_UNIT,
+	P.NAME_LAST_KEY
+</pre>
+</div></div><p>Using the logical groups, you can perform report items in the HEAD or FOOT clause. For example, instead of printing the nursing station in the DETAIL clause for every patient, you can use a HEAD group_expression clause to print the nursing station as the heading for that group of patients, as shown in the example below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>HEAD NURSE_UNIT
+	ROW +1
+	COL  0 "Nursing Unit:"
+	COL +2 NURSE_UNIT
+	ROW +1
+</pre>
+</div></div><p>The HEAD group_expression clauses are located above the DETAIL clause and should be in the same order as expressions listed in the ORDER clause.</p><p>In the example, two expressions are listed in the ORDER clause; the select expression Nurse_Unit and the column P.NAME_LAST_KEY. A HEAD group_expression clause is defined only for the nursing station. The person's name is printed in the DETAIL clause. It is necessary to create a HEAD group_expression clause only when the data is used to create a heading for a logical group.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 522, "requestCorrelationId": "68058c7734d9ccaf"}</span>
+</body>
+</html>

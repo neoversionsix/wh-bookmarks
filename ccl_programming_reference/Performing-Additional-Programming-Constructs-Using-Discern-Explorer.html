@@ -1,0 +1,491 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Performing Additional Programming Constructs Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Performing+Additional+Programming+Constructs+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<h2 id="PerformingAdditionalProgrammingConstructsUsingDiscernExplorer-WorkStepsSummary">Work Steps Summary</h2><div class="table-wrap"><table class="relative-table confluenceTable" style="width: 25.3133%;"><colgroup><col style="width: 16.5563%;"/><col style="width: 83.3333%;"/></colgroup><tbody><tr><th class="confluenceTh">Step</th><th class="confluenceTh">Task</th></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd"><p>CREATE SELECT</p></td></tr><tr><td class="confluenceTd">2</td><td class="confluenceTd"><p>DEFINE AS PAINT</p></td></tr><tr><td class="confluenceTd">3</td><td class="confluenceTd"><p>DRAW BOX, LINES, TEXT</p></td></tr><tr><td class="confluenceTd">4</td><td class="confluenceTd"><p>INIT VARIABLES</p></td></tr><tr><td class="confluenceTd">5</td><td class="confluenceTd"><p>PUT IN ACCEPTS &amp; DEFAULTS</p></td></tr><tr><td class="confluenceTd">6</td><td class="confluenceTd"><p>PUT IN HELP</p></td></tr><tr><td class="confluenceTd">7</td><td class="confluenceTd"><p>PUT IN VALIDATION</p></td></tr><tr><th class="confluenceTh">8</th><th class="confluenceTh">ADDITIONAL PROGRAMMING CONSTRUCTS</th></tr></tbody></table></div><p><strong><br/></strong></p><p>The example program so far has provided a good example of the basics of creating a screen application program.<br/> </p><p><strong>Example #1</strong><br/> This last version of the program illustrates additional features. The program uses the SET HOME command to define a location in the code to jump to when the &lt;home&gt; key is pressed. The PROMPTMSG and the SEARCHMSG are used to define the string that will display when the user enters a starting value for the username prompt or if they enter a value to search for in the help box. The code in the program uses an IF( ) statement to prompt the user for the line number they want to make changes to if they enter an "N" for the correct prompt. Several GO TO commands are used to move around in the program using the labels that are defined. The last set of commands at the end of the program gives the user the flexibility to run the program again without exiting, if the user enters "Y" then the code is re-executed beginning at the #DRAW_BOX label. Another way to handle this would be to actually execute the program again similar to the commands below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>#RUN_AGAIN
+CALL VIDEO(N)
+SET HELP OFF
+SET VALIDATE OFF
+CALL CLEAR(24,1)
+CALL TEXT(24,1,"RUN AGAIN* (Y/N)")
+CALL ACCEPT(24,18,"P;CU","Y" WHERE CURACCEPT IN ("Y","N"))
+IF(CURACCEPT = "Y")
+EXECUTE CCL_SCREEN8
+ELSE
+  CALL CLEAR(24,1)
+ENDIF
+
+
+DROP PROGRAM CCL_SCREEN# GO
+CREATE PROGRAM CCL_SCREEN8
+
+PAINT
+
+#INITS
+SET PRINTER = FILLSTRING(20," ")
+SET PRINTER = "MINE"
+SET USER_NAME = "ABC123"
+
+#DRAW_BOX
+CALL BOX(2,2,20,78)
+CALL LINE(6,2,77,XHOR)
+CALL TEXT(4,25,"EXAMPLE SCREEN APPLICATION!")
+CALL TEXT(8,5,"# PRINTER:")
+CALL TEXT(10,5,"# ENTER USERNAME:")
+
+CALL VIDEO(R)
+CALL TEXT(8,28,PRINTER)
+CALL TEXT(10,28,USER_NAME)
+CALL TEXT(20,20,"PRESS &lt;HOME&gt; TO END, &lt;HELP&gt; FOR INFO")
+CALL VIDEO(N)
+
+SET HOME = CORRECT_YN
+
+#LINE1
+;SET HELP = "LP# - IS,  LP# - LAB,  MINE - TERMINAL"
+SET HELP = FIX('P353,LP01,LP02,LP03,MINE')
+
+CALL ACCEPT(8,28,"P(20);CU",PRINTER
+WHERE CURACCEPT IN ("P353","LP01","LP02","LP03","MINE"))
+SET PRINTER = CURACCEPT
+
+#LINE2
+SET HELP =	SELECT INTO "NL:"
+USER = SUBSTRING(1,6,P.USERNAME),
+NAME = SUBSTRING(1,50,P.NAME_FULL_FORMATTED)
+FROM	PRSNL P
+WHERE	P.USERNAME &gt;= CNVTUPPER(CURACCEPT)
+ORDER	P.USERNAME
+WITH NOCOUNTER,MAXQUAL(P,50)
+
+SET HELP = PROMPTMSG("Enter starting username: ")
+SET HELP = SEARCHMSG("Search for what name: ")
+
+SET VALIDATE =	SELECT INTO "NL:"
+USER = SUBSTRING(1,6,P.USERNAME)
+FROM	PRSNL P
+WHERE	P.USERNAME = CURACCEPT
+WITH NOCOUNTER
+SET VALIDATE = 2
+
+CALL ACCEPT(10,28,"P(6);CUP",USER_NAME)
+SET USER_NAME = CURACCEPT
+
+#CORRECT_YN
+CALL VIDEO(N)
+SET HELP OFF
+SET VALIDATE OFF
+CALL CLEAR(24,1)
+CALL TEXT(24,1,"CORRECT* (Y/N)")
+CALL ACCEPT(24,18,"P;CU","Y" WHERE CURACCEPT IN ("Y","N"))
+
+IF (CURACCEPT = "N")
+CALL CLEAR(24,1)
+CALL TEXT(24,1,"LINE #")
+CALL ACCEPT(24,10,"XX",# WHERE CURACCEPT BETWEEN # AND 2)
+IF(CURACCEPT = 0) GO TO CORRECT_YN ENDIF
+CALL CLEAR(24,1)
+GO TO (LINE1,LINE2)CURACCEPT
+ENDIF
+
+CALL VIDEO(RB)
+CALL CLEAR(24,1)
+CALL TEXT(24,1,"PROCESSING ... ")
+CALL VIDEO(N)
+
+SELECT INTO VALUE(PRINTER)
+ACT = EVALUATE(P.ACTIVE_IND,1,"ACTIVE",2,"INACTIVE"),
+P.PERSON_ID,
+DEPT = UAR_GET_CODE_DISPLAY(P.DEPARTMENT_CD),
+POSITION = UAR_GET_CODE_DISPLAY(P.POSITION_CD),
+P.NAME_FULL_FORMATTED,
+P.USERNAME,
+P.EMAIL,
+P.PHYSICIAN_IND,
+P.UPDT_DT_TM
+FROM	PRSNL P
+WHERE	P.USERNAME = PATSTRING(CNVTUPPER(USER_NAME))
+
+WITH NOCOUNTER
+
+#RUN_AGAIN
+CALL VIDEO(N)
+SET HELP OFF
+SET VALIDATE OFF
+CALL CLEAR(24,1)
+CALL TEXT(24,1,"RUN AGAIN* (Y/N)")
+CALL ACCEPT(24,18,"P;CU","Y" WHERE CURACCEPT IN ("Y","N"))
+IF(CURACCEPT = "Y")
+CALL CLEAR(24,1)
+GO TO DRAW_BOX
+ELSE
+CALL CLEAR(24,1)
+ENDIF
+
+
+END
+GO
+</pre>
+</div></div><p><strong><em>Setting User Options</em></strong><br/> User options are those options that are available during the execution of a screen application, such as making help available on a field, validating data entered by the user, providing documentation on a field, branching to a label when the &lt;Home&gt; key is pressed, and other similar commands. In this program, pressing F8 (Home) bypasses the screen and accepts all defaults. This is defined using the SET HOME command.<br/> The SET HOME command has two uses: to disable the use of &lt;F8&gt; using the OFF option and to cause <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to branch to another portion of the program without returning to the point from which it branched. The syntax of the SET HOME command is shown below:</p><p>SET HOME = home_option<br/> Before you can branch to another portion of the program, you must create a <em>label</em> in the program to which it will branch when &lt;F8&gt; is pressed. To do this, use a #label_name statement.<br/> The program example uses the SET HOME command shown below.</p><p>SET HOME HOME_LABEL<br/> This command directs <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to search for a label called HOME_LABEL when the &lt;F8&gt; key is pressed anytime during the execution of the screen application commands. You can use any variable name as a label; the words HOME or LABEL are not required. When referencing the label in the SET HOME or GO TO commands, the pound sign (#) is not used. The pound sign is used only to mark the location of a label.<br/> When you use the SET HOME or GO TO command to branch to the label, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> makes an unconditional branch to that label, skipping all the commands between the line on which the SET HOME or GO TO command is written and the label. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> then performs all of the commands below the label. The program does not return to lines that were skipped unless you issue a GO TO command to branch to a label that is on a previous line.<br/> The statement below creates a label called HOME_LABEL at the point to which the SET HOME HOME_LABEL branches. Any valid <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command can follow the label as shown in this example.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>#HOME_LABEL
+CALL TEXT (20,1,"Correct Y/N?")
+CALL ACCEPT (20,15,"A;CU","Y")
+IF(CURACCEPT != "Y")
+	GO TO START_PROGRAM
+ENDIF
+</pre>
+</div></div><p>In this example, the CALL TEXT command creates the prompt, Correct Y/N?, and the CALL ACCEPT command creates an input field and defaults the field to "Y". If the user does not enter "Y" or press &lt;Return&gt; to accept the default, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> branches back to the portion of the program labeled START_PROGRAM.<br/> <strong>Example #2</strong><br/> The following program demonstrates several additional programming constructs to include; using a UAR( ) function in the INITS section, processing a SELECT statement in memory to capture the current node to use in the printer help, using special-purpose keys to maneuver between prompts, and providing help on a persons name and using a record structure to capture the actual person_id (PK) to use to qualify in the report.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM SCREEN_APP GO
+CREATE PROGRAM SCREEN_APP
+
+PAINT
+
+#INITS
+SET PRINTER = FILLSTRING(20," ")
+SET PRINTER = "MINE"
+SET FULL_NAME = FILLSTRING(50," ")
+SET FULL_NAME = "Doe, John"
+SET DATE_# = CURDATE
+
+; get node name using UAR
+DECLARE UAR_GET_NODENAME(P1,P2) = C16
+SET NODE_NAME = FILLSTRING(16," ")
+SET X = 0
+CALL UAR_GET_NODENAME( NODE_NAME,X)
+
+; get node_id using node name
+SET NODE_ID = 0.0
+SELECT INTO 'NL:'
+                D.*
+FROM DEVICE D
+WHERE D.NAME = NODE_NAME
+DETAIL
+       NODE_ID = D.DEVICE_CD
+WITH NOCOUNTER
+
+
+#DRAW_BOX
+CALL BOX(2,2,20,78)
+CALL LINE(6,2,77,XHOR)
+CALL TEXT(4,25,"EXAMPLE SCREEN APPLICATION!")
+CALL TEXT(8,5,"# PRINTER:")
+CALL TEXT(10,5,"# PATIENT FULL NAME:")
+CALL TEXT(12,5,"# ENTER UPDATE DATE (MM/DD/YYYY) :")
+
+CALL VIDEO(R)
+CALL TEXT(8,28,PRINTER)
+CALL TEXT(10,28,FULL_NAME)
+CALL TEXT(20,20,"PRESS &lt;HOME&gt; TO END, &lt;HELP&gt; FOR INFO")
+CALL VIDEO(N)
+
+SET HOME = CORRECT_YN
+
+#LINE1
+SET HELP =	SELECT INTO "NL:"
+DE.NAME,
+O.DESCRIPTION
+FROM	OUTPUT_DEST  O,
+DEVICE_XREF  D,
+DEVICE_XREF  D1,
+DEVICE  DE
+PLAN O
+JOIN D	WHERE O.DEVICE_CD = D.DEVICE_CD
+AND	D.PARENT_ENTITY_NAME = "PRINTER / QUEUE"
+JOIN D# WHERE  D.PARENT_ENTITY_ID =  D1.DEVICE_CD
+AND	D1.PARENT_ENTITY_ID = NODE_ID
+JOIN DE	WHERE D1.DEVICE_CD = DE.DEVICE_CD
+ORDER	DE.NAME
+WITH NOCOUNTER
+
+CALL ACCEPT(8,28,"P(20);CU",PRINTER)
+SET PRINTER = CURACCEPT
+
+
+#LINE2
+SET PERS_ID = 0.0
+SET CNT = 0
+SET NAME = FILLSTRING(50," ")
+RECORD REC_1
+ (# QUAL[50]
+     # PERS_ID  = F8)
+
+SET HELP =	SELECT INTO "NL:"
+NAME = SUBSTRING(1,50,P.NAME_FULL_FORMATTED),
+P.BIRTH_DT_TM
+FROM	PERSON P
+WHERE	P.NAME_LAST_KEY &gt;= CNVTUPPER(CURACCEPT)
+ORDER	P.NAME_LAST_KEY,
+P.NAME_FIRST_KEY
+DETAIL
+COL # NAME
+COL # P.BIRTH_DT_TM
+CNT = CNT + 1
+REC_1-&gt;QUAL[CNT].PERS_ID = P.PERSON_ID
+ROW+1
+WITH MAXROW = 1,NOCOUNTER, MAXQUAL(P,50)
+
+SET HELP = PROMPTMSG("Enter starting last name: ")
+SET HELP = SEARCHMSG("Search for what name: ")
+
+CALL ACCEPT(10,28,"P(50);CUFPS",FULL_NAME)
+IF(CURSCROLL = 2) GO TO LINE#
+ELSEIF(CURSCROLL = 1) GO TO LINE3
+ELSEIF(CURSCROLL &gt; 2) GO TO LINE2
+ENDIF
+
+SET CNT = CURHELP
+SET PERS_ID = REC_1-&gt;QUAL[CNT].PERS_ID
+;CALL TEXT(13,1,BUILD(CURACCEPT,REC_1-&gt;QUAL[CNT].PERS_ID) ) ;testing
+
+
+#LINE3
+SET HELP 0FF
+SET VALIDATE OFF
+
+CALL ACCEPT(12,45,"NNDNNDNNNN;CS",FORMAT(DATE_1,"MM/DD/YYYY;;D"))
+
+IF(CURSCROLL = 2) GO TO LINE2
+ELSEIF(CURSCROLL = 1) GO TO CORRECT_YN
+ELSEIF(CURSCROLL &gt; 2) GO TO LINE3
+ENDIF
+
+;CALL TEXT(15,1,CURACCEPT)              ;testing
+SET DATE_X = CNVTALPHANUM(CURACCEPT)
+;CALL TEXT(16,1,DATE_X)                 ;testing
+
+#CORRECT_YN
+CALL VIDEO(N)
+SET HELP OFF
+SET VALIDATE OFF
+CALL CLEAR(24,1)
+CALL TEXT(24,1,"CORRECT* (Y/N)")
+CALL ACCEPT(24,18,"P;CU","Y" WHERE CURACCEPT IN ("Y","N"))
+
+IF (CURACCEPT = "N")
+CALL CLEAR(24,1)
+CALL TEXT(24,1,"LINE #")
+CALL ACCEPT(24,10,"XX",# WHERE CURACCEPT BETWEEN # AND 3)
+IF(CURACCEPT = 0) GO TO CORRECT_YN ENDIF
+CALL CLEAR(24,1)
+GO TO (LINE1,LINE2,LINE3)CURACCEPT
+ENDIF
+
+CALL VIDEO(RB)
+CALL CLEAR(24,1)
+CALL TEXT(24,1,"PROCESSING ... ")
+CALL VIDEO(N)
+
+
+SELECT INTO VALUE(PRINTER)
+P.NAME_FULL_FORMATTED,
+P.PERSON_ID,
+P.BIRTH_DT_TM,
+P.SEX_CD,
+P.UPDT_DT_TM
+FROM	PERSON P
+WHERE	P.PERSON_ID = PERS_ID
+AND P.UPDT_DT_TM &gt;= CNVTDATETIME(CNVTDATE(DATE_X),# )
+
+WITH NOCOUNTER
+
+END
+GO
+</pre>
+</div></div><p><strong><em>Accepting Special-Purpose Keys</em></strong><br/> Another feature to add to a program is to enable the user to move through the accepts using the UP or DOWN arrows, &lt;Next Screen&gt;, &lt;Prev Screen&gt;, or function keys. You can capture all of these keys by using the scroll modifier (S) in the mask for the CALL ACCEPT. When you use the scroll modifier, the reserved variable CURSCROLL captures the value of the key pressed. You can use IF( ) statements to control the flow of the program when one of the keys is pressed in an accept. For example, if the user presses the UP arrow, you might want to position the pointer up to the previous accept. If the user presses the DOWN arrow, you might want to position the pointer to the next accept.<br/> The keys that can be captured using the CALL ACCEPT scroll modifier are listed in below.<br/> Value<br/> Key<br/> Value<br/> Key<br/> 1<br/> DOWN arrow<br/> 14<br/> &lt;F14&gt;<br/> 2<br/> UP arrow<br/> 15<br/> &lt;F15&gt;<br/> 3<br/> &lt;PF1&gt;<br/> 16<br/> &lt;F16&gt;<br/> 4<br/> &lt;PF2&gt;<br/> 17<br/> &lt;F17&gt;<br/> 5<br/> &lt;Prev Screen&gt;<br/> 18<br/> &lt;F18&gt;<br/> 6<br/> &lt;Next Screen&gt;<br/> 19<br/> &lt;F19&gt;<br/> 7<br/> &lt;F7&gt;<br/> 20<br/> &lt;F20&gt;<br/> 8<br/> &lt;F8&gt;<br/> 21<br/> &lt;Find&gt;<br/> 9<br/> &lt;F9&gt;<br/> 22<br/> &lt;Insert&gt;<br/> 10<br/> &lt;F10&gt;<br/> 23<br/> &lt;Remove&gt;<br/> 11<br/> &lt;F11&gt;<br/> 24<br/> &lt;Select&gt;<br/> 12<br/> &lt;F12&gt;<br/> 25<br/> &lt;Tab&gt;<br/> 13<br/> &lt;F13&gt;</p><p>The example below illustrates how to capture the UP and DOWN arrow as part of an accept. Notice that the "S" modifier is used in the CALL ACCEPT command and that the IF( ) statement immediately follows the CALL ACCEPT command.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>#LINE2
+CALL ACCEPT(10,45,"P;CUPS",PTYPE)
+	IF(CURSCROLL = 2) GO TO LINE1
+	ELSEIF(CURSCROLL = 1) GO TO LINE3
+	ELSEIF(CURSCROLL &gt; 2) GO TO LINE2
+	ENDIF
+SET PTYPE = CURACCEPT
+</pre>
+</div></div><p>When you are capturing scroll keys, you must qualify on all possible combinations. This example looks for the UP arrow (CURSCROLL = 2), and the DOWN arrow (CURSCROLL = 1). If any other key is pressed (CURSCROLL &gt; 2), the program branches back to the label for the current accept. If you do not check for the other key values, the program will display an error message on line # indicating that <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> does not know what to do with the keystrokes. The program then executes the next command after the IF( ) statement. The SET command follows the IF( ) statement so that if no special key is pressed, the value input by the user is accepted and stored in the appropriate variable (which in this example is CURACCEPT).<br/> <strong>Example #3</strong><br/> The following example demonstrates using a screen application to provide a menu of programs. The program allows the user to run CCLGLOS, TABLEDEF2, CCLORATABLE, or all three. The first item under the label #START uses the %I directive to include a standard set of code to paint the screen. When the program, CCL_EXECUTE, is compiled the code below is included in the object library. If changes are made to the include file, then the programs using it would only need to be reincluded to pick up the changes. This can allow for consistency.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>;cclexam:ccl_start.inc
+CALL VIDEO(N)
+CALL CLEAR (1,1)
+CALL BOX(2,4,22,76)
+CALL LINE(7,4,73,XHOR)
+CALL TEXT(4,32,"Cerner Hospital")
+
+
+DROP PROGRAM CCL_EXECUTE GO
+CREATE PROGRAM CCL_EXECUTE
+
+PAINT
+
+#INITS
+SET SELECTION_NBR = 0
+
+#START
+%i CCLEXAM:CCL_START.INC
+
+CALL TEXT(5,32,"EXECUTE EXAMPLE")
+CALL TEXT(10,10,"  # - Glossary")
+CALL TEXT(12,10,"  # - Data Dictionary")
+CALL TEXT(14,10,"  # - Indexes")
+CALL TEXT(16,10,"  # - Run # through 3")
+CALL TEXT(18,10,"  # - End")
+
+CALL TEXT(24,2," Enter Selection or hit &lt;ENTER&gt; to Exit ")
+CALL ACCEPT(24,42,"9;CU","5" WHERE CURACCEPT IN ("1","2","3","4","5"))
+SET SELECTION_NBR = CNVTINT(CURACCEPT)
+CALL CLEAR (1,1)
+
+CASE (SELECTION_NBR)
+OF 1:
+EXECUTE CCLGLOS
+OF 2:
+EXECUTE TABLEDEF#
+OF 3:
+EXECUTE CCLORATABLE
+OF 4:
+CALL TEXT(24,2," Enter Output Device: ")
+CALL ACCEPT(24,25,"P(4);CU","MINE")
+SET PRINTER# = CURACCEPT
+CALL CLEAR (24,1)
+CALL TEXT(24,2," Enter Table Name: ")
+CALL ACCEPT(24,25,"P(30);CU","TABLE")
+SET TABLE# = CURACCEPT
+EXECUTE CCLGLOS VALUE(PRINTER1), "T", VALUE(TABLE1)
+EXECUTE TABLEDEF# VALUE(PRINTER1), VALUE(TABLE1)
+EXECUTE CCLORATABLE VALUE(PRINTER1), VALUE(TABLE1)
+OF 5:
+GO TO LAST
+ENDCASE
+GO TO START
+
+#LAST
+CALL CLEAR(1,1)
+
+END GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 547, "requestCorrelationId": "970233ea7cf1848b"}</span>
+</body>
+</html>

@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Using SET HELP Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Using+SET+HELP+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<h2 id="UsingSETHELPUsingDiscernExplorer-WorkStepSummary">Work Step Summary</h2><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Step</th><th class="confluenceTh">Task</th></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">CREATE SELECT</td></tr><tr><td class="confluenceTd">2</td><td class="confluenceTd">DEFINE AS PAINT</td></tr><tr><td class="confluenceTd">3</td><td class="confluenceTd">DRAW BOX, LINES, TEXT</td></tr><tr><td class="confluenceTd">4</td><td class="confluenceTd">INIT VARIABLES</td></tr><tr><td class="confluenceTd">5</td><td class="confluenceTd">PUT IN ACCEPTS &amp; DEFAULTS</td></tr><tr><th class="confluenceTh">6</th><th class="confluenceTh">PUT IN HELP</th></tr><tr><td class="confluenceTd">7</td><td class="confluenceTd">PUT IN VALIDATION</td></tr><tr><td class="confluenceTd">8</td><td class="confluenceTd">ADDITIONAL PROGRAMMING CONSTRUCTS</td></tr></tbody></table></div><p><br/></p><p>You can choose to provide users help on each prompt when running the program. This allows the user to identify valid values when running the program. The SET HELP command is added to the program for each prompt below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_SCREEN6 GO
+CREATE PROGRAM CCL_SCREEN6
+
+PAINT
+
+#INITS
+SET PRINTER = FILLSTRING(20," ")
+SET PRINTER = "MINE"
+SET USER_NAME = "ABC123"
+
+#DRAW_BOX
+CALL BOX(2,2,20,78)
+CALL LINE(6,2,77,XHOR)
+CALL TEXT(4,25,"EXAMPLE SCREEN APPLICATION!")
+CALL TEXT(8,5,"01  PRINTER:")
+CALL TEXT(10,5,"02  ENTER USERNAME:")
+
+CALL VIDEO(R)
+CALL TEXT(8,28,PRINTER)
+CALL TEXT(10,28,USER_NAME)
+CALL TEXT(20,20,"PRESS &lt;HOME&gt; TO END, &lt;HELP&gt; FOR INFO")
+CALL VIDEO(N)
+
+#LINE1
+;SET HELP = "LP01 - IS,  LP02 - LAB,  MINE - TERMINAL"
+SET HELP = FIX('P353,LP01,LP02,LP03,MINE')
+
+CALL ACCEPT(8,28,"P(20);CU",PRINTER)
+SET PRINTER = CURACCEPT
+
+#LINE2
+
+SET HELP =	SELECT INTO "NL:"
+	USER = SUBSTRING(1,6,P.USERNAME),
+	NAME = SUBSTRING(1,50,P.NAME_FULL_FORMATTED)
+
+FROM	PRSNL P
+WHERE	P.USERNAME &gt;= CNVTUPPER(CURACCEPT)
+ORDER	P.USERNAME
+WITH NOCOUNTER,MAXQUAL(P,50)
+
+CALL ACCEPT(10,28,"P(6);CUP",USER_NAME)
+SET USER_NAME = CURACCEPT
+
+#CORRECT_YN
+CALL VIDEO(N)
+SET HELP OFF
+CALL CLEAR(24,1)
+CALL TEXT(24,1,"CORRECT? (Y/N)")
+CALL ACCEPT(24,18,"P;CU","Y")
+
+IF(CURACCEPT = "Y")
+   CALL VIDEO(RB)
+   CALL CLEAR(24,1)
+   CALL TEXT(24,1,"PROCESSING ... ")
+   CALL VIDEO(N)
+ELSE
+   GO TO LINE1
+ENDIF
+
+SELECT INTO VALUE(PRINTER)
+
+ACT = EVALUATE(P.ACTIVE_IND,1,"ACTIVE",2,"INACTIVE"),
+	P.PERSON_ID,
+	DEPT = UAR_GET_CODE_DISPLAY(P.DEPARTMENT_CD),
+	POSITION = UAR_GET_CODE_DISPLAY(P.POSITION_CD),
+	P.NAME_FULL_FORMATTED,
+	P.USERNAME,
+	P.EMAIL,
+	P.PHYSICIAN_IND,
+	P.UPDT_DT_TM
+FROM	PRSNL P
+WHERE	P.USERNAME = PATSTRING(CNVTUPPER(USER_NAME))
+
+WITH NOCOUNTER
+
+END
+GO
+</pre>
+</div></div><p>The following three ways are available to provide help during the execution of a program:</p><ul><li>When the user presses &lt;Help&gt;, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> displays a description of the type of information to be entered at the bottom of the screen. This type of Help feature is an informational message only and does not provide specific values to be used as input.</li><li>You can hard-code the help text within the program using the FIX( ) help option. The text is displayed on the screen and the user can select the appropriate response.</li><li>Finally, the user can press &lt;Help&gt; and Discern Explorer displays a "dynamic list" generated from records in a file.<br/> The syntax used to provide help is shown below:</li></ul><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre> SET HELP = help_option [GO]</pre>
+</div></div><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Help_Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>FIX (fixstring)</p></td><td class="confluenceTd"><p>FIX is an option to be used only with the SET HELP command, where fixstring represents any character string with each individual help value separated by commas. Ensure that the entire string is surrounded by single quotation marks.</p></td></tr><tr><td class="confluenceTd"><p>OFF</p></td><td class="confluenceTd"><p>No help is available.</p></td></tr><tr><td class="confluenceTd"><p>POS</p></td><td class="confluenceTd"><p>Determines the position of the documentation window on the screen according to the syntax: POS(begin_row, begin_col, num_row, num_col). The default position is column 1, row 3.</p></td></tr><tr><td class="confluenceTd"><p>PROMPTMSG (prompt)</p></td><td class="confluenceTd"><p>Defines the text of a prompt message, where prompt represents the actual text of the prompt. The default text is, <br/> "Enter Help Start=&gt;".</p></td></tr><tr><td class="confluenceTd"><p>SEARCHMSG (search)</p></td><td class="confluenceTd"><p>Defines the text of a search message, where search represents the actual text of the message. The default text is, <br/> "Enter Help Search=&gt;".</p></td></tr><tr><td class="confluenceTd"><p>SELECT</p></td><td class="confluenceTd"><p>Any valid Discern Explorer query reading tables from the Data Dictionary. The extracted data then is shown in the help window as valid values for the CALL ACCEPT input field. The first field selected corresponds to the value that will be returned in the accepted input field.</p></td></tr><tr><td class="confluenceTd"><p>text_string</p></td><td class="confluenceTd"><p>Any characters embedded in quotes.</p></td></tr></tbody></table></div><p>The SET HELP command should be placed before the CALL ACCEPT command so that help becomes effective before the input field is displayed. Help stays in effect until another SET HELP command is issued or you use SET HELP with the OFF option. This is important because you usually do not want to display the same help text for more than one field. Therefore, ensure that you always follow the CALL ACCEPT command with another SET HELP command to either turn help off or set it to another value, as illustrated in the example below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET HELP = "Valid printers are:  LP01, LP02, LP03, MINE"
+CALL TEXT(5,10,"Where do you want to print your report?")
+CALL ACCEPT(5,50,"PPPP;CUF","MINE")
+SET HELP OFF
+</pre>
+</div></div><p>In this example, help is turned off after the CALL ACCEPT command to prevent the help text from being displayed for later input fields that might not use help.</p><p>You also can use the CALL ACCEPT command to control the Help feature, as in the following examples:</p><p>The "F" modifier can be used to force the help text to be displayed immediately when the input field is displayed (the user is not required to press &lt;Help&gt; first).<br/> The "H" modifier can be used to hide the default value, but if the user presses &lt;Return&gt; with the cursor in the input field, the default value will be accepted.<br/> The "P" modifier allows you to prompt the user for an initial value to start the help display. This is particularly useful when a large list of help values is available and the user wants to bypass part of the list.</p><h1 id="UsingSETHELPUsingDiscernExplorer-AdditionalResources">Additional Resources</h1><ul><li>Using an Informational Message</li><li>Using a Hard Coded Value</li><li>Using Dynamic Help</li></ul>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 578, "requestCorrelationId": "3b1e3f9ee237ef45"}</span>
+</body>
+</html>

@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Using the DUMMYT Table in Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Using+the+DUMMYT+Table+in+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The DUMMYT table is an ISAM file that contains one row with two columns for a total of 32 characters. This table is used in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> as a placeholder for certain functionality.</p><p>Performing a TABLEDEF2 on the DUMMYT table would result in the following display of its content:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Report: TABLEDEF2			Date: 12-JAN-1999	Time: 13:06	Page:    1
+DATABASE	TABLE_NAME	LEVEL	ATTRIBUTE	TYPE	OFFSET
+DUMMYT	        DUMMYT	          1
+                                         DATAREC	C32	0
+                                         REST	        C30	2
+                                         USER	        C2	0
+</pre>
+</div></div><p>When you run a query to select all fields from the DUMMYT table, the display is as follows:</p><p><span class="confluence-embedded-file-wrapper"><img alt="" class="confluence-embedded-image" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/17982985/de_tabledef2_i18n.jpg?version=1&amp;modificationDate=1265678053000&amp;api=v2" data-linked-resource-container-id="17982985" data-linked-resource-container-version="2" data-linked-resource-content-type="image/jpeg" data-linked-resource-default-alias="de_tabledef2_i18n.jpg" data-linked-resource-id="16878357" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" draggable="false" src="/download/attachments/17982985/de_tabledef2_i18n.jpg?version=1&amp;modificationDate=1265678053000&amp;api=v2"/></span></p><p>Several instances occur when using the DUMMYT table is advantageous. Listed below are some of them.</p><ul><li>The DUMMYT table allows you to use SELECT commands to read through an array or record structure. This may allow you to order the elements or simply print using Reportwriter. The following example uses the DUMMYT table and the SEQ option in the FROM clause of a SELECT command to pull data out of a record structure. SEQ is a pseudo column that exists in every table. See The SEQ Pseudo Column Using Discern Explorer Help Page to learn more about it.</li></ul><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM DUMMYT_SELECT_FOR_REPORT:DBA GO
+CREATE PROGRAM DUMMYT_SELECT_FOR_REPORT:DBA
+
+RECORD REC1
+( 1 QUAL[2]
+    2 ITEM_NBR = F8
+    2 ITEM_DESC = VC
+    2 LOCATION = VC)
+
+SET REC1-&gt;QUAL[1]-&gt;ITEM_NBR = 1
+SET REC1-&gt;QUAL[1]-&gt;ITEM_DESC = "B"
+SET REC1-&gt;QUAL[1]-&gt;LOCATION = "HERE"
+
+SET REC1-&gt;QUAL[2]-&gt;ITEM_NBR = 2
+SET REC1-&gt;QUAL[2]-&gt;ITEM_DESC = "A"
+SET REC1-&gt;QUAL[2]-&gt;LOCATION = "THERE"
+
+SET NBR_OF_RECORDS = 2
+
+SELECT	ITEM_NBR = REC1-&gt;QUAL[D.SEQ].ITEM_NBR,
+	ITEM_DESC = REC1-&gt;QUAL[D.SEQ].ITEM_DESC
+
+FROM	(DUMMYT D WITH SEQ = VALUE(NBR_OF_RECORDS))
+;USE TO ORDER AND USE REPORTWRITER
+
+ORDER BY ITEM_NBR,
+		ITEM_DESC
+
+DETAIL	ROW + 1
+	COL  2 REC1-&gt;QUAL[D.SEQ].ITEM_NBR,
+	COL 20 REC1-&gt;QUAL[D.SEQ].ITEM_DESC
+	COL 40 REC1-&gt;QUAL[D.SEQ].LOCATION
+WITH	NOCOUNTER
+
+END
+GO
+</pre>
+</div></div><ul><li>Use the DUMMYT table to allow the use of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> functions in the WHERE clause that are not recognized by the RDBMS. Before version 8.6.5 of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>, the MONTH() function was not allowed in the WHERE clause of an RDMBS query. The following example uses the DUMMYT table to apply the qualification using the MONTH() function at the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> level instead of the RDBMS level.</li></ul><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.UPDT_DT_TM
+
+FROM	PERSON P,
+*DUMMYT D*
+
+PLAN P
+
+JOIN D	WHERE MONTH(P.UPDT_DT_TM) = 9 /*MONTH( ) FUNCTION IS NOT VALID IN THE WHERE CLAUSE ON RDBMS TABLES PRIOR TO VERSION 8.6.5 OF DISCERN EXPLORER*/
+
+GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 624, "requestCorrelationId": "0504c04cfd0f15fd"}</span>
+</body>
+</html>

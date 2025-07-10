@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Using a Discern Explorer CCL Program to Display HTML Content Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Using+a+Discern+Explorer+CCL+Program+to+Display+HTML+Content+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>This page provides examples of using a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> CCL program to display HTLM content.</p><p><strong>Examples</strong></p><p>The below example creates a simple program to return HTML output.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Drop program html_helloworld:dba go
+create program html_helloworld:dba
+prompt 
+	"Output to File/Printer/MINE" = "MINE"  
+with OUTDEV
+
+select into $outdev
+from dummyt d
+detail
+row +1 "&lt;html&gt;"
+row +1 "&lt;head&gt;"
+row +1 "&lt;TITLE&gt;Hello World&lt;/TITLE&gt;"
+row +1 "&lt;/head&gt;"
+row +1 "&lt;body&gt;"
+row +1 "&lt;p&gt;Hello World!!!&lt;/p&gt;"
+row +1 "&lt;/body&gt;"
+row +1 "&lt;/html&gt;"
+with maxcol=200
+end
+go
+</pre>
+</div></div><p>The below is a more advanced example that prompts for a patient's last name and returns a list of patient IDs and names that qualified.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program html_data:dba go
+create program html_data:dba
+
+prompt 
+	"Output to File/Printer/MINE" = "MINE"
+	, "Patient Last Name" = "";
+
+with OUTDEV, lastname
+
+SELECT into $OUTDEV
+	P.PERSON_ID
+	, P.NAME_FULL_FORMATTED
+
+FROM
+	PERSON   P
+where p.name_last_key = $lastname
+
+head report
+	row +1 "&lt;html&gt;"
+	row +1 "&lt;head&gt;"
+	row +1 "&lt;title&gt;Patient List&lt;/title&gt;"
+	row +1 "&lt;/head&gt;"
+	row +1 "&lt;body&gt;"
+	row +1 "&lt;table border='0' width='100%'&gt;"
+detail
+	row +1 call print("&lt;tr&gt;")
+	call print(concat("&lt;td&gt;", cnvtstring(p.person_id), "&lt;/td&gt;"))
+	call print(concat("&lt;td&gt;", p.name_full_formatted, "&lt;/td&gt;"))
+	call print("&lt;/tr&gt;")
+foot report
+	row +1 "&lt;/table&gt;"
+	row +1 "&lt;/body&gt;"
+	row +1 "&lt;/html&gt;"	
+WITH NOCOUNTER, FORMAT, maxrec = 200, maxcol=200
+
+end
+go
+</pre>
+</div></div><p>The below example uses CCLLINK to display HTML output with a button that executes and displays the CCLNEWS report. </p><p>CCLLINK requires the following META tag in the HEAD of the HTML:</p><p><strong>&lt;META content="CCLLINK" name="discern"&gt;</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Discern Desktop - CCLLINK&lt;/TITLE&gt;
+&lt;META content="CCLLINK" name="discern"&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;
+&lt;p&gt;&lt;input type="button" onclick="javascript:CCLLINK('cclnews','^mine^',1)" value="View CCLNEWS"/&gt;&lt;/p&gt;
+&lt;BR/&gt;
+&lt;/BODY&gt;
+&lt;/HTML&gt;
+</pre>
+</div></div><p>The below example creates HTML output with a button that uses CCL_READFILE to read an HTML file named helloworld.html in CCLUSERDIR. </p><p>CCLLINK requires the following META tag in the HEAD of the HTML:</p><p><strong>&lt;META content="CCLLINK" name="discern"&gt;</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&lt;HTML&gt;
+&lt;HEAD&gt;
+&lt;TITLE&gt;Discern Desktop - CCLLINK&lt;/TITLE&gt;
+&lt;META content="CCLLINK" name="discern"&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;
+&lt;input type="button" onclick="javascript:CCLLINK('ccl_readfile','^mine^,^ccluserdir:helloworld.html^',1)" value="Load Hello World
+ HTML page"/&gt;
+&lt;/p&gt;
+&lt;BR/&gt;
+&lt;/BODY&gt;
+&lt;/HTML&gt;
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 530, "requestCorrelationId": "686ad1b8c97c8fd6"}</span>
+</body>
+</html>

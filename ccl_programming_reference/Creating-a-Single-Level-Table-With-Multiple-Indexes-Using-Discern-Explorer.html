@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Creating a Single Level Table With Multiple Indexes Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Creating+a+Single+Level+Table+With+Multiple+Indexes+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>This topic discusses creating custom ISAM (non-RDMBS) tables. Custom ISAM tables were widely used by clients to create custom tables in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Cerner Classic</span>. This functionality was carried forward into<span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span>. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.3.9 and 8.3.10 introduced the ability to create temporary and permanent custom RDBMS tables. In most cases, using a custom RDBMS table is a better option than using a custom ISAM table. See SELECT INTO TABLE Table_Name for more information on creating custom RDBMS tables.</p><p>The Select Into Table <em>table_name</em> command should only be used to create custom tables. It should not be used by <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> development teams to create <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> production tables.</p></div></div><p>The following program uses the CREATE DATABASE and CREATE DDLRECORD commands to re-create the CATALOG table created using the "SELECT INTO TABLE" method in previous examples. Cerner recommends that you use the .DEF extension to name all files that use DDL commands to identify them as <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>® definitions. The file that was created to store these commands is called CATALOG.DEF.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>ROP DATABASE CATALOG WITH DEPS_DELETED GO
+CREATE DATABASE CATALOG	;name the file CATALOG
+
+ORGANIZATION (INDEXED)	;make indexed file
+FORMAT (FIXED)	;define fixed record length
+SIZE(1000)	;create a record 1000 bytes long
+UNIQUE KEY 1 (0,21)	;define key 1 as unique, 21 bytes
+KEY 2 (21,60)	;define key 2 as 60 bytes
+KEY 3 (81,40)	;define key 3 as 40 bytes
+GO
+</pre>
+</div></div><p>The file created by this program is not the same as the file created using "SELECT INTO TABLE" example. Several enhancements are made to this CATALOG file to make it more useful. Although the CREATE DATABASE and CREATE DDLRECORD commands typically go in the same source file, only the CREATE DATABASE portion of the entire program is shown above. This example and the next example actually are part of one large program.</p><h2 id="CreatingaSingleLevelTableWithMultipleIndexesUsingDiscernExplorer-DROPDATABASEandCREATEDATABASE">DROP DATABASE and CREATE DATABASE</h2><p>The DROP DATABASE command in this program removes any existing definitions from the object library before a new definition is added. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> cannot add an object to the library if the object's name already exists in the library. The CREATE DATABASE command names the file and defines it as a fixed format, indexed file that is 1,000 bytes long. Three keys are defined for the file. Key one is unique, and keys two and three are nonunique.</p><p>When using keys, it is important to understand how the keys are defined. When a key is defined as unique, you cannot insert rows into the table if it has the same value in the key as another row with the same key. Defining a unique key is only required when using a UNIX operating system. Before you define a unique key, you must make sure that the key is unique. In the example above, the unique key is the object name, which should be unique whenever you write a new program.</p><p>Each key is defined with a starting position and the length of the key. Key one should start at position "0". The length of key one in this example is 21 bytes. Therefore it starts at position zero and ends at position 20. The next key starts at position 21 and is a 60-byte key. Therefore it ends at 80.</p><h2 id="CreatingaSingleLevelTableWithMultipleIndexesUsingDiscernExplorer-CREATEDDLRECORD">CREATE DDLRECORD</h2><p>After you create the file definition using the DROP DATABASE and CREATE DATABASE commands, you must create the actual records, tables, and fields for the file using the CREATE DDLRECORD command, as shown in the following example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CREATE DDLRECORD CATALOG_RECORD FROM DATABASE CATALOG
+TABLE CATALOG_1 WITH NULL = NONE	;define CATALOG_1 table,
+				;which is a level 1 table
+1	CATALOG_KEY1	;define key 1 (2 fields)
+	2	CATALOG_OBJECT_NAME1 = C20 CCL (OBJECT_NAME1, NAME)
+2	CATALOG_PGMTYPE1 = C1 CCL (PGMTYPE1, PGMTYPE)
+1	CATALOG_KEY2	;define key 2 (1 field)
+2	CATALOG_DESC2 = C60 CCL (DESC2, DESC)
+1	CATALOG_KEY3	;define key 3 (1 field)
+2	CATALOG_PRODUCT3 = C40 CCL (PRODUCT3, PRODUCT)
+
+1	CATALOG_DATA	;define data fields
+2	CATALOG_SOURCE = C40 CCL (SOURCE)
+2	CATALOG_AUTHOR = C20 CCL (AUTHOR)
+2	CATALOG_DATE_WRITTEN = DN5 CCL (DATE_WRITTEN)
+2	CATALOG_RELEASE = C6 CCL (RELEASE)
+2	CATALOG_FILLER = C808
+END TABLE CATALOG_1
+WITH ACCESS_CODE = NONE	;no access code required
+GO
+</pre>
+</div></div><p>This example defines a single table named CATALOG_1 for the database. When naming tables, the "_1" is not required. The option NULL = NONE is used in the TABLE clause to tell <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> what to do when it finds an empty (null) record. Level-one tables typically use this option so that <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> continues reading the file even if it finds a null record.</p><p>The keys and the data fields are defined using group names for one or more fields. A group name enables you to reference several fields with one name. For example, you can select, sort, or perform qualifications on both the OBJECT_NAME1 and the PGMTYPE1 fields by using the field name KEY1.</p><p>The DDLRECORD command also corresponds to how the file was defined with the CREATE DATABASE command. Because key one was defined as starting at position "0" and going for 21 bytes, you should make sure that key one in the DDLRECORD command also has 21 bytes. In this example, key one is broken down into two fields, CATALOG_OBJECT_NAME1 and CATALOG_PGMTYPE1. Each field in the key is assigned a data type, a length, and alternate field names (aliases). For example, the following statement defines the first field in key one as a character field that is 20 bytes long (C20) and assigns the alternate field names OBJECT_NAME1 and NAME to the key field.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>2   CATALOG_OBJECT_NAME1 = C20  CCL (OBJECT_NAME1, NAME)</pre>
+</div></div><p>The number "2" in this statement identifies this definition as part of the group KEY1 defined in the previous statement. When you run a data dictionary report (like TABLEALL), the first field in key one can be referenced by either of the alternate field names assigned to the field. This is similar to defining an alias for a table name in the FROM clause or RANGE command. You must use the statement CCL (field_name {,field_name]) to assign field names to each of the fields or the field names are not included in the Data Dictionary reports.</p><p>After each of the keys is defined, you must define the data section of the table. Although you can define individual field names in the data section, it is convenient to define another group called DATA, as shown in the following example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>1CATALOG_DATA; define data fields</pre>
+</div></div><p>Defining one field name for the entire data section is convenient in case you want to access all fields quickly for reporting, updating, or deleting. The individual data fields are then defined as fields within the group field DATA, similar to the way that the keys are defined. In the example, the first individual field is CATALOG_SOURCE, as shown in the following example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>2CATALOG_SOURCE = C40  CCL (SOURCE)</pre>
+</div></div><p>This statement defines the first non-keyed field in the table. The field is a 40-byte character string that can be referenced by the field name SOURCE in the Data Dictionary reports.<br>In this example, a filler of 808 bytes is created at the end of the file. It is a good idea to add a sizable filler at the end of the table in case you want to add additional fields to the file. While 808 might seem like an odd number, it is the number of bytes left after all of the key and data fields are subtracted from the record length (1,000 - 192 = 888). The CATALOG_FILLER field does not have an alias to prevent the filler from being displayed in the Data Dictionary reports.</br></p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>If the total length of the CREATE DDLRECORD keys and data fields do not match the length defined in the CREATE DATABASE command, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> displays an error message when you attempt to include the file in the object library. The error message includes the length of the file as calculated by <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>. If you have a filler at the end of the table, you can adjust the length of the filler accordingly to make lengths in the CREATE DATABASE and CREATE DDLRECORD commands match.</p></div></div><p>The END_TABLE statement indicates where the table definition ends. The clause WITH ACCESS_CODE = NONE indicates that no special access codes (or record codes) are used in the file. You may see record codes for files to allow several record layouts to be defined for each file. This eliminates the need for multiple files when all that is needed is a different definition for a record that has data similar to other records in a file. Cerner recommends that you create files using the WITH ACCESS_CODE = NONE clause unless you fully understand the implications of using record codes in your own files.</p><p>The DDL commands used in the previous two examples create the file definition shown in the following Sample TABLEALL Report: <br class="atl-forced-newline"/><br class="atl-forced-newline"/><span class="confluence-embedded-file-wrapper"><img alt="" class="confluence-embedded-image" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/17982985/DiscernDDLTableAlll.jpg?version=1&amp;modificationDate=1266532356000&amp;api=v2" data-linked-resource-container-id="17982985" data-linked-resource-container-version="2" data-linked-resource-content-type="image/jpeg" data-linked-resource-default-alias="DiscernDDLTableAlll.jpg" data-linked-resource-id="18909547" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" draggable="false" src="/download/attachments/17982985/DiscernDDLTableAlll.jpg?version=1&amp;modificationDate=1266532356000&amp;api=v2"/></span> <br class="atl-forced-newline"/><br class="atl-forced-newline"/>The CREATE DATABASE and CREATE DDLRECORD commands create only the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> definition of the file, which allows you to update or run reports against the file. After you create the file definition and include it in the object library, (using the %INCLUDE or %RUN command) you must create the actual file that resides on your system.</p><h2 id="CreatingaSingleLevelTableWithMultipleIndexesUsingDiscernExplorer-CREATINGTHEISAMDATAFILE">CREATING THE ISAM DATA FILE</h2><p>The file that resides on your system is created using the program CCLFDL and a OpenVMS operating system command to create the file. CCLFDL creates the OpenVMS FDL (File Definition Language). The FDL is used to create the actual file. CCLFDL must be used after you include the file definition created by the CREATE DATABASE and CREATE DDLRECORD commands in the object library.<br/>After you use CCLFDL, enter the following commands at the OpenVMS $ prompt to create the file. (The filename CATALOG.FDL is used in these examples.)</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET DEF CCLUSERDIR:
+CREATE/FDL=CATALOG.FDL  CATALOG.DAT
+</pre>
+</div></div><p>The SET DEF command moves to the directory in which the file is created. The command CREATE/FDL uses the FDL created by CCLFDL to create a file called CATALOG.DAT. Several options are available for use with the CREATE/FDL command. These options are described in the documentation provided with your operating system.</p><h2 id="CreatingaSingleLevelTableWithMultipleIndexesUsingDiscernExplorer-CREATINGTHEC-ISAMDATAFILE">CREATING THE C-ISAM DATA FILE</h2><p>To create the Windows NT or AIX C-ISAM data file you need to use the SELECT INTO TABLE method. The following example creates an empty C-ISAM file named "CATALOG_1" with three keys.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO TABLE "CATALOG_1"
+	KY1 = FILLSTRING(21," "), 
+	KY2 = FILLSTRING(60," "),
+	KY3 = FILLSTRING(40," "),
+	DATA = FILLSTRING(879," ")
+FROM	DUMMYT
+WHERE	1=0
+ORDER	BY KY1, KY2, KY3
+WITH	ORGANIZATION = I
+GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 630, "requestCorrelationId": "1be3b740d1c9b136"}</span>
+</body>
+</html>

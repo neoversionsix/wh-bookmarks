@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Running Discern Explorer Programs From System Operations Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Running+Discern+Explorer+Programs+From+System+Operations+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<div class="confluence-information-macro confluence-information-macro-tip conf-macro output-block" data-hasbody="true" data-macro-name="tip"><p class="title conf-macro-render">Release Considerations</p><span class="aui-icon aui-icon-small aui-iconfont-approve confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> no longer supports Explorer Menu (ExplorerMenu.exe) or DB OpsView Scheduler(OpsView Scheduler.exe). For more information, see FLASH16-0165-15.</p><ul><li>Explorer Menu is replaced by <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Analytics 2.0</span><span style="color: rgb(255,0,255);"><span style="color: rgb(0,51,102);">.</span></span> </li><li>DB OpsView Scheduler is replaced <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Olympus</span>.</li></ul><p>Contact your <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> representative for information on implementing <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Analytics 2.0</span> and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Olympus</span><span style="color: rgb(255,0,255);"><span style="color: rgb(0,0,0);">. </span></span></p></div></div><p>Depending on which <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> release you have installed, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> programs can be scheduled to execute in DB OpsView Scheduler or <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Olympus</span> (operations). Before <span class="conf-release-note conf-macro output-inline" data-hasbody="false" data-macro-name="rcnote" style="font-style: normal;">the Millennium <span class="conf-release-note" style="font-style: normal;">2018.01.01 Service Release</span></span><span class="conf-macro output-inline"><span class="conf-release-note"><span class="conf-release-note">, DB OpsView Scheduler is used. Beginning with <span class="conf-release-note conf-macro output-inline" data-hasbody="false" data-macro-name="rcnote" style="font-style: normal;">the Millennium <span class="conf-release-note" style="font-style: normal;">2018.01.01 Service Release</span></span><span class="conf-release-note">, </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Olympus</span> is used. </span></span></span>Documentation specific to using either application is provided through Help, and support is handled through that solution team.</p><h3 id="RunningDiscernExplorerProgramsFromSystemOperationsUsingDiscernExplorer-CreatingaDiscernExplorerProgram">Creating a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Program</h3><p>Complete the following steps to create a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program to be executed from operations:</p><ol><li><p>Create an executable program that does not require interaction at run time. If the program defines run-time parameters, these parameters must be defined in the Operations job. The <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program name is the name used in the CREATE PROGRAM command.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CREATE PROGRAM CCL_TEST_OPS</pre>
+</div></div></li><li>From operations, use the CCL Execute <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Program Job template that is provided. Using this template enables report auditing for the Operations job, logging each instance to the CCL_REPORT_AUDIT table. For more information, see Standard Audit Reports.</li><li>If the CCL Execute <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Program template does not exist, complete the following steps to add the template:<br><ol><li>Complete the steps below to add a Job template in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Olympus</span>. For more information, see the Creating a Job Template section in Operations in <em>Olympus</em>. <ul><li><strong>Job Name:</strong> CCL Execute Discern Explorer Program</li><li><strong>The Request Number:</strong> 3053000</li><li><strong>The Request Name:</strong> ccl_run_program_from_ops</li><li><strong>No Data Returned is Error:</strong> Do not select the check box for a No response.</li><li><strong>Stop on Error:</strong> Select the check box for a Yes response.<br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="" class="confluence-embedded-image confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/23338934/Discern_Explorer_Create%20Job%20Tempate_v_2.png?version=1&amp;modificationDate=1550785390000&amp;api=v2" data-linked-resource-container-id="23338934" data-linked-resource-container-version="37" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Discern_Explorer_Create Job Tempate_v_2.png" data-linked-resource-id="1981615514" data-linked-resource-type="attachment" data-linked-resource-version="1" draggable="false" src="/download/attachments/23338934/Discern_Explorer_Create%20Job%20Tempate_v_2.png?version=1&amp;modificationDate=1550785390000&amp;api=v2" width="600"/></span></li></ul></li><li><p>Complete the following steps to add a Job template in DB OpsView Scheduler (before <span class="conf-release-note conf-macro output-inline" data-hasbody="false" data-macro-name="rcnote" style="font-style: normal;">the Millennium <span class="conf-release-note" style="font-style: normal;">2018.01.01 Service Release</span></span>):</p><ol><li>Open DB Ops View Scheduler. From the Operations menu, select <strong>New &gt;</strong> <strong>Job Template</strong>.</li><li>Enter <strong>CCL Execute <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Program</strong> for the template name.</li><li>Select <strong>ADD</strong> and enter <strong>1</strong> for the step number, <strong>3053000</strong> for the request, and press <strong>ENTER</strong>.</li><li>Select <strong>OK</strong>, and select <strong>OK</strong> again. The template is added to the Job Templates window of the Ops View Scheduler.</li></ol></li></ol></br></li></ol><p><br/>Once the template is defined, <span>the template can be used to set up jobs that execute programs with the specific program instantiated.</span> <span>When setting up new jobs, y</span>ou need to add the program name as the batch parameter. If the program has parameters, they must be passed in the batch parameter:</p><p>                   program_name param, param, param etc…</p><p>The program can contain up to ten input parameters. Character data types are embedded in quotes, while dates and numbers are not in quotes.</p><p>The following example is a Batch Selection containing a program that expects three input parameters:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CCL_TEST_OPS "CER_TEMP:CCL_TEST_OPS", 1, "TYLENOL"</pre>
+</div></div><p>When running programs from operations, verify that the program selects into an output device, and has 10 or fewer parameters. If the program does not use the Report Writer, the WITH FORMAT, SEPARATOR = " " control options must be used.</p><p>When running programs from operations, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> recommends that the program has the following attributes:</p><ul><li>It contains a prompt for output device.</li><li>It prints the output to a file in CER_TEMP.</li><li>It prints the temp file to the printer using the SET SPOOL command.</li><li>It uses the NULLREPORT control option to print output regardless.</li></ul><p>Programs that are executed from operations should not use the Error() function. The CCL Execute <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Program template uses the Error() function to determine if the program generated any errors and sets the status of the Operations job. Using the Error() function in the program that is executed from operations conflicts with the error checking that is performed in the template. This can cause operations to incorrectly set the status of the job. If a program that is executed from operations uses the Error() function and finds errors, the CALL CCLEXCEPTION command should also be used to insert an error message into the error stack to ensure that the template sets the status correctly.</p><p><strong>Example Programs</strong></p><p>Examples #1 and #2 demonstrate two basic programs that could be run from Operations.<br/>Example #3 is a simple example that demonstrates Cerner's recommended methods for building <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> programs to run in Operations, command line <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Reporting Portal</span>, Visual Explorer, or Explorer Menu from <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Analytics 2.0</span>.</p><p><strong>Basic Operations Example #1</strong></p><p>The program OPS_PGM is a simple program that can run in operations. Using the CCL, Execute <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Program job template in the <span>Operations service of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Olympus</span></span>, the program would be added into an Operations job. The program would run and print to a printer you designate. This example represents a simple program that can be written specifically to run from Operations.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM OPS_PGM:DBA GO
+CREATE PROGRAM OPS_PGM:DBA
+
+SELECT	INTO *&lt;printer&gt;*
+	P.NAME_FULL_FORMATTED
+	,P.USERNAME
+
+FROM	PRSNL P
+
+ORDER	P.NAME_LAST_KEY,
+	P.NAME_FIRST_KEY
+
+WITH	NOCOUNTER, FORMAT, SEPARATOR = " ", MAXREC = 100
+
+END
+GO</pre>
+</div></div><h3 id="RunningDiscernExplorerProgramsFromSystemOperationsUsingDiscernExplorer-OperationsServiceinOlympusSettingUpaJobintheOperationsServiceofOlympus"><strong><span class="confluence-anchor-link conf-macro output-inline" data-hasbody="false" data-macro-name="anchor" id="RunningDiscernExplorerProgramsFromSystemOperationsUsingDiscernExplorer-OperationsServiceinOlympus"></span></strong>Setting Up a Job in the Operations Service of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Olympus</span></h3><p>Complete the following steps to set up a job in the Operations service of <strong><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Olympus</span>:</strong></p><ol><li>Select the expected node from the upper-left corner, under the menu commands. <br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="" class="confluence-embedded-image confluence-thumbnail confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/17982985/Discern_Explorer_Node%20Selection%20in%20Olympus%20Highlight_v_2.png?version=1&amp;modificationDate=1550772207000&amp;api=v2" data-linked-resource-container-id="17982985" data-linked-resource-container-version="2" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Discern_Explorer_Node Selection in Olympus Highlight_v_2.png" data-linked-resource-id="1980044762" data-linked-resource-type="attachment" data-linked-resource-version="1" draggable="false" src="/download/thumbnails/17982985/Discern_Explorer_Node%20Selection%20in%20Olympus%20Highlight_v_2.png?version=1&amp;modificationDate=1550772207000&amp;api=v2" width="200"/></span></li><li><p>From the Service View[Node_name] tab, expand <strong>Operations</strong> and then expand <strong>Domains</strong>. <br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="" class="confluence-embedded-image confluence-thumbnail confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/17982985/Discern_Explorer_Operations%20Option%20from%20Service%20View%20Tab_v_2.png?version=1&amp;modificationDate=1550772207000&amp;api=v2" data-linked-resource-container-id="17982985" data-linked-resource-container-version="2" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Discern_Explorer_Operations Option from Service View Tab_v_2.png" data-linked-resource-id="1980044764" data-linked-resource-type="attachment" data-linked-resource-version="1" draggable="false" src="/download/thumbnails/17982985/Discern_Explorer_Operations%20Option%20from%20Service%20View%20Tab_v_2.png?version=1&amp;modificationDate=1550772207000&amp;api=v2" width="200"/></span></p></li><li>Right-click the node name and select<strong> View Operations</strong>.</li><li>From the Job Templates list, find a job template named <strong>CCL Execute Discern Explorer Program</strong> and drag the template to the designated control group list on the right side. For example, drag the template to the System Management control group. The Create a New Job dialog box is displayed.<br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="" class="confluence-embedded-image confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/17982985/Discern_Explorer_Drag%20Template%20to%20Control%20Group_v_2.png?version=1&amp;modificationDate=1550772207000&amp;api=v2" data-linked-resource-container-id="17982985" data-linked-resource-container-version="2" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Discern_Explorer_Drag Template to Control Group_v_2.png" data-linked-resource-id="1980044761" data-linked-resource-type="attachment" data-linked-resource-version="1" draggable="false" src="/download/attachments/17982985/Discern_Explorer_Drag%20Template%20to%20Control%20Group_v_2.png?version=1&amp;modificationDate=1550772207000&amp;api=v2" width="400"/></span><br/><br/></li><li>Enter a new name for the job, select <strong>Enabled</strong> and <strong>Autostart,</strong> and then select <strong>Next</strong>.</li><li>Complete the details for Select A Schedule and select <strong>Next</strong>.</li><li>Select the <strong>View Steps.</strong> Verify that the following configuration is displayed:<ol><li>The Request Number: 3053000</li><li>The Request Name: ccl_run_program_from_ops</li><li>Error if Empty: NO</li><li>Stop on Error: enter <strong>YES</strong></li></ol></li><li><p>Right-click the step entry and select <strong>Modify</strong>. Add the program name and any parameters the program needs to the batch selection. In the screen shot below, just the program name of OPS_PGM is required. </p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="" class="confluence-embedded-image confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/17982985/Discern_Explorer_Add%20Program%20to%20Batch%20Selection_v_2.png?version=1&amp;modificationDate=1550772207000&amp;api=v2" data-linked-resource-container-id="17982985" data-linked-resource-container-version="2" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Discern_Explorer_Add Program to Batch Selection_v_2.png" data-linked-resource-id="1980044763" data-linked-resource-type="attachment" data-linked-resource-version="1" draggable="false" src="/download/attachments/17982985/Discern_Explorer_Add%20Program%20to%20Batch%20Selection_v_2.png?version=1&amp;modificationDate=1550772207000&amp;api=v2" width="400"/></span></p></li><li>Select <strong>Add Step</strong>.</li><li>Select <strong>Finish</strong>.</li><li><p>Select the <strong>Refresh</strong> button and then reopen the control group to view the new scheduled job. You can test the job by selecting the <strong>Test a Request</strong> option located on the upper-right side of the window. <br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="" class="confluence-embedded-image confluence-thumbnail confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/17982985/Discern_Explorer_Test%20a%20Request_v_2..png?version=1&amp;modificationDate=1550772283000&amp;api=v2" data-linked-resource-container-id="17982985" data-linked-resource-container-version="2" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Discern_Explorer_Test a Request_v_2..png" data-linked-resource-id="1980044769" data-linked-resource-type="attachment" data-linked-resource-version="1" draggable="false" src="/download/thumbnails/17982985/Discern_Explorer_Test%20a%20Request_v_2..png?version=1&amp;modificationDate=1550772283000&amp;api=v2" width="200"/></span></p></li></ol><h3 id="RunningDiscernExplorerProgramsFromSystemOperationsUsingDiscernExplorer-SettingUpaJobinDBOpsViewScheduler(Before2018_01_01)">Setting<strong> Up a Job in DB OpsView Scheduler (Before <span class="conf-release-note conf-macro output-inline" data-hasbody="false" data-macro-name="rcnote" style="font-style: normal;">the Millennium <span class="conf-release-note" style="font-style: normal;">2018.01.01 Service Release</span></span>)</strong></h3><p>Complete the following steps to set up a job in DB OpsView Scheduler:</p><ol><li>Open the Scheduled Task window.</li><li><p>In the Batch selection element of the Steps tab, enter <strong>OPS_PGM</strong>.</p></li></ol><p><strong>Basic Operations Program #2</strong></p><p>The program OPS_STD_PGM2 passes in a parameter for output device. This would allow the printer to be changed from operations without changing the program source code. The program can also be executed from command line <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Reporting Portal</span>, or Explorer Menu from <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Analytics 2.0</span>.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM OPS_STD_PGM2 GO
+CREATE PROGRAM OPS_STD_PGM2
+PROMPT	"OUTPUT TO FILE/PRINTER/MINE "  =  MINE
+WITH OUTDEV
+
+SELECT INTO $OUTDEV
+	P.NAME_FULL_FORMATTED
+	,P.USERNAME
+
+FROM	PRSNL P
+
+ORDER	P.USERNAME
+
+HEAD PAGE
+	ROW + 1
+	COL 13  "PERSONNEL LISTING"
+	COL 47  "PAGE:"
+	COL 54  CURPAGE ";L"
+	ROW + 2
+
+DETAIL
+	IF ((ROW + 4) &gt;= MAXROW)  BREAK  ENDIF
+	USERNAME1 = SUBSTRING( 1, 10, P.USERNAME ),
+	NAME_FULL_FORMATTED1 = SUBSTRING( 1, 50, P.NAME_FULL_FORMATTED ),
+
+COL 7  USERNAME1
+	COL 22  NAME_FULL_FORMATTED1
+	ROW + 1
+WITH MAXREC = 100
+END
+GO</pre>
+</div></div><p><strong><strong><span><br/>Batch Selection for a Program Containing a Parameter</span></strong><br/></strong></p><p>In the Batch selection field of the Steps tab, enter the program named followed by a back-end printer queue name. For example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>OPS_STD_PGM2 P353</pre>
+</div></div><p><br/></p><p>For detailed steps to setting up the job in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Olympus</span>, see Set Up A Job in the Operations Service of <em>Olympus</em><em>.</em></p><p><br/></p><p><strong>Standard Operations Program #3</strong></p><p>The program OPS_STD_PGM3 uses a more standard format that can run in operations. The program uses parameters to define the output file and the printer. This allows the output to be directed to a temporary file and then printed. The temporary file could be reprinted without re-executing the program, or the printer could be changed from operations without changing the program source code. The output file is created in CER_TEMP, and is automatically removed with standard maintenance.</p><p>This program gives an example of a program that can be run interactively from Visual Explorer, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Reporting Portal</span>, Explorer Menu<em> </em>from <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Analytics 2.0</span>, or command line <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>. When running from Operations, the run-time parameter for the username is set to an asterisk (*), which is used as a wildcard to pull all usernames. The run-time parameters are simply separated by a comma when building the step in Operations. Character data types are embedded in quotes while dates and numbers would not be in quotes.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM OPS_STD_PGM3 GO
+CREATE PROGRAM OPS_STD_PGM3
+
+PROMPT	"OUTPUT FILE "  =  "CER_TEMP:OPS_STD_PGM3",
+	"ENTER PRINTER" = "&lt;MINE&gt;",
+	"ENTER USERNAME: "  =  "CERXYZ"
+WITH OUTDEV, PRTR_NAME, UNAME
+
+SELECT  INTO $OUTDEV
+	P.NAME_FULL_FORMATTED,
+	P.USERNAME,
+	POSITION_DISP = UAR_GET_CODE_DISPLAY( P.POSITION_CD ),
+	P.PHYSICIAN_IND,
+	P.EMAIL,
+	ACTIVE_STATUS_DISP = UAR_GET_CODE_DISPLAY( P.ACTIVE_STATUS_CD )
+
+FROM	PRSNL  P
+
+WHERE	P.USERNAME = PATSTRING( CNVTUPPER($UNAME) )
+
+HEAD PAGE
+
+ROW + 1
+	COL 13  "PERSONNEL LISTING"
+	COL 47  "PAGE:"
+	COL 54  CURPAGE ";L"
+	ROW + 2
+	;only print if nullreport, otherwise detail rows will write over
+	CALL CENTER("NO ROWS QUALIFIED",1,80)
+
+DETAIL
+	IF ((ROW + 4) &gt;= MAXROW)  BREAK  ENDIF
+	NAME_FULL_FORMATTED1 = SUBSTRING( 1, 50, P.NAME_FULL_FORMATTED ),
+	COL 22  NAME_FULL_FORMATTED1
+	ROW + 2
+	COL 10  "STATUS:"
+	COL 22  ACTIVE_STATUS_DISP
+	ROW + 1
+	USERNAME1 = SUBSTRING( 1, 10, P.USERNAME ),
+
+COL 10  "USER NAME:"
+	COL 22  USERNAME1
+	ROW + 1
+	COL 10  "POSITION:"
+	COL 22  POSITION_DISP
+	ROW + 1
+	COL 10  "PHYSICIAN:"
+	COL 22  IF (  P.PHYSICIAN_IND = 1 )
+	  "YES"
+	ELSE
+	  "NO"
+	ENDIF
+	ROW + 1
+	COL 10  "EMAIL:"
+	COL 22  P.EMAIL
+	ROW + 2
+
+WITH  MAXREC = 100, NULLREPORT	;will print one page even if no rows qualify
+
+SET OUT_P = BUILD( $OUTDEV,".DAT")
+SET SPOOL = VALUE(OUT_P) VALUE($PRTR_NAME)
+
+END
+GO</pre>
+</div></div><p><br/></p><p><strong><strong><span>Batch Selection for a Program Containing More Than One Parameter</span></strong><br/></strong></p><p>In the Batch selection field of the Steps tab, enter the program name followed by a filename, a back-end printer queue name, and an asterisk (*) to qualify all people. For example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>OPS_STD_PGM3 "Cer_Temp:Ops_Std_Pgm3","P353","*"</pre>
+</div></div><p><br/></p><p>For detailed steps to setting up the job in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Olympus</span>, see Set Up A Job in the Operations Service of <em>Olympus</em><em>.</em></p><p><br/></p><p><strong>Example Operations Program Using Error() and CALL CCLEXCEPTION</strong></p><p>Programs that are executed from operations should not use the Error() function. The "CCL Execute <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Program" template uses the Error() function to determine if the program generated any errors and set the status of the Operations job. Using the Error() function in the program that is executed from operations conflicts with the error checking that is performed in the template. This can cause operations to incorrectly set the status of the job. If a program that is executed from operations uses the Error() function and finds errors, the CALL CCLEXCEPTION command should also be used to insert an error message into the error stack to ensure that the template sets the status is correctly.  The following example demonstrates using the Error() function and the CALL CCLEXCEPTION command in a program that is called from operations:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM OPS_STD_PGM4 GO
+
+CREATE PROGRAM OPS_STD_PGM4
+
+
+PROMPT	
+           "OUTPUT FILE OR LOCATION "  =  "CER_TEMP:OPS_STD_PGM4"
+         ,
+	"ENTER USERNAME: "  =  "CERXYZ"
+
+WITH OUTDEV, UNAME
+
+
+
+declare var1 = i4 with protect
+SELECT  INTO $OUTDEV
+	P.NAME_FULL_FORMATTED,
+	P.USERNAME,
+	POSITION_DISP = UAR_GET_CODE_DISPLAY( P.POSITION_CD ),
+	P.PHYSICIAN_IND,
+	P.EMAIL,
+	ACTIVE_STATUS_DISP = UAR_GET_CODE_DISPLAY( P.ACTIVE_STATUS_CD )
+
+FROM	PRSNL  P
+
+WHERE	P.USERNAME = PATSTRING( CNVTUPPER($UNAME) )
+
+WITH  NOCOUNTER, format, separator = " "
+
+set var1 = "hello" ;this will cause an error
+
+
+;Check for errors in this program.
+;The error numbers (error codes) and error messages are written to the err_rec record structure
+RECORD ERR_REC (
+  1 LIST [5]
+    2 ECODE = I4
+    2 EMSG = VC)
+
+DECLARE ERR_CNT = I4 WITH PROTECT
+DECLARE ERRMSG = VC WITH PROTECT
+DECLARE ERR_CODE = I4 WITH NOCONSTANT(1), PROTECT
+WHILE (ERR_CODE != 0)
+	SET ERR_CODE = ERROR(ERRMSG,0)
+	IF(ERR_CODE &gt; 0)
+			IF(ERR_CNT &lt; 5)
+			SET ERR_CNT = ERR_CNT +1
+		ENDIF
+		SET ERR_REC-&gt;LIST[ERR_CNT].ECODE = ERR_CODE
+		SET ERR_REC-&gt;LIST[ERR_CNT].EMSG = ERRMSG
+	ENDIF
+ENDWHILE
+
+;If errors occurred 
+IF(ERR_CNT &gt;0)
+	;loop through the err_rec and call cclexception to repopulate the error stack 
+	;so if this program is called from Ops error stack will have the same errors
+	;and the Ops processing will see and report those errors
+	FOR(LCNT = 1 TO ERR_CNT)
+		CALL CCLEXCEPTION(ERR_REC-&gt;LIST[LCNT].ECODE ,"E",ERR_REC-&gt;LIST[LCNT].EMSG )
+	ENDFOR
+	;write the errors that occurred in this program to a log file
+	SELECT INTO CUST_LOG_FILE
+		LIST_ECODE = ERR_REC-&gt;LIST[D1.SEQ].ECODE
+		, LIST_EMSG = SUBSTRING(1, 30, ERR_REC-&gt;LIST[D1.SEQ].EMSG)
+	FROM
+		(DUMMYT   D1  WITH SEQ = VALUE(SIZE(ERR_REC-&gt;LIST, 5)))
+	PLAN D1
+	WITH NOCOUNTER, MAXREC = 100, SEPARATOR=" ", FORMAT, APPEND
+
+ENDIF
+END GO</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 982, "requestCorrelationId": "6db33b547093e8e5"}</span>
+</body>
+</html>

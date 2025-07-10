@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>JOIN Options Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/JOIN+Options+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Join options provide an option to pull rows of data that generally do not qualify through the query join path. For example, when reading the ENCNTR_PRSNL_RELTN table to pull referring physicians, you might still want to see the patient's orders even if the patient does not have a referring physician on the table. At times, you might also want only those rows that do not have a matching row on the joining table. To accomplish either of these scenarios requires using a Join option. Below is a summary of the available Join options and when they are used. Links to method-specific documentation are provided for the appropriate syntax and related examples.</p><h1 id="JOINOptionsUsingDiscernExplorer-StandardJoin">Standard Join</h1><p><span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="Two overlapping circles with only the overlapping section filled in." class="confluence-embedded-image confluence-thumbnail confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/23338804/Discern_Explorer_Standard-InnerJoin_v1.png?version=1&amp;modificationDate=1749129857000&amp;api=v2" data-linked-resource-container-id="23338804" data-linked-resource-container-version="21" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Discern_Explorer_Standard-InnerJoin_v1.png" data-linked-resource-id="3365562086" data-linked-resource-type="attachment" data-linked-resource-version="1" draggable="false" src="/download/thumbnails/23338804/Discern_Explorer_Standard-InnerJoin_v1.png?version=1&amp;modificationDate=1749129857000&amp;api=v2" title="Two overlapping circles with only the overlapping section filled in." width="200"/></span></span></p><p>Standard Joins return the matches in the result set. A simple example is a query to get a list of people and their orders by joining the Person and Orders tables.</p><h2 id="JOINOptionsUsingDiscernExplorer-Methods">Methods</h2><ul><li><span>RDBMS/Non-RDBMS Tables</span><ul><li><span>Link each table together on a field that contains a common value, A.FIELD = B.FIELD</span></li></ul></li><li><span>RDBMS Tables</span><ul><li><span>Nested Select allows the ability to create a SELECT command contained in another query that can be used to make additional qualifications. The subquery can be helpful when we want to qualify on tables but do not need to display any data from that table. This subquery is only available with RDBMS tables.</span><ul><li><span>SUBQUERY</span><span>: Evaluated once for the entire parent query</span></li><li><span>CORRELATED SUBQUERY: Evaluated once for each row processed</span></li></ul></li><li><span>INNER JOIN in From Clause. See </span>ANSI JOIN<span> for more information.</span></li></ul></li></ul><h1 id="JOINOptionsUsingDiscernExplorer-OUTERJOIN">OUTERJOIN</h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="Two overlapping circles, left one filled in, including the overlapping section." class="confluence-embedded-image confluence-thumbnail confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/23338804/Discern_Explorer_Left-OuterJoin_v1.png?version=1&amp;modificationDate=1749130343000&amp;api=v2" data-linked-resource-container-id="23338804" data-linked-resource-container-version="21" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Discern_Explorer_Left-OuterJoin_v1.png" data-linked-resource-id="3365562114" data-linked-resource-type="attachment" data-linked-resource-version="1" draggable="false" src="/download/thumbnails/23338804/Discern_Explorer_Left-OuterJoin_v1.png?version=1&amp;modificationDate=1749130343000&amp;api=v2" title="Two overlapping circles, left one filled in, including the overlapping section." width="200"/></span></p><p>An OUTERJOIN returns the matches and exceptions in the result set. A simple example is a query to get a list of people that do and do NOT have orders. This example is accomplished by joining the Person table to the Orders table using the outer-join logic. Matches from both tables are returned and data that qualifies on the Person table is also returned, regardless of a match on the Orders table.</p><h2 id="JOINOptionsUsingDiscernExplorer-Methods.1">Methods</h2><ul><li><span>RDBMS Tables (Recommended Methods)<br>See </br></span><span>Oracle OUTERJOIN</span><span> for a comparison of these methods.<br/>See </span><span>OUTERJOIN or LEFT JOIN</span><span> for more information on these methods:</span></li><ul><li><span>OUTERJOIN()</span><span> function</span></li><li><span>LEFT JOIN</span><span> in From Clause</span></li></ul><li><span>Non-RDBMS Tables (Not recommended when using RDBMS tables)</span></li><ul><li><span>OUTERJOIN</span><span> or </span><span>DONTCARE</span><span> control option. See </span><span>Discern Explorer OUTERJOIN</span><span> for more information on using the OUTERJOIN control option. See </span><span>Discern Explorer DONTCARE</span><span> for more information on using the DONTCARE control option.</span></li></ul></ul><h1 id="JOINOptionsUsingDiscernExplorer-OUTERJOINOverview">OUTER JOIN Overview</h1><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 92.4252%;"><colgroup><col style="width: 26.6457%;"/><col style="width: 16.7436%;"/><col style="width: 22.7748%;"/><col style="width: 33.8472%;"/></colgroup><tbody><tr><th class="confluenceTh" scope="row" style="vertical-align: top;"><strong>Operation</strong></th><th class="confluenceTh" scope="col" style="text-align: center;vertical-align: middle;"><p><strong>RDBMS Tables</strong></p></th><th class="confluenceTh" scope="col" style="text-align: center;vertical-align: middle;"><p><strong>RDBMS Tables</strong></p></th><th class="confluenceTh" scope="col" style="vertical-align: middle;"><p><strong>Non-RDBMS Tables</strong></p></th></tr><tr><th class="confluenceTh" scope="row" style="vertical-align: middle;"><strong>Methods</strong></th><td class="confluenceTd"><p>OUTERJOIN() Function</p></td><td class="confluenceTd"><p>LEFT JOIN</p></td><td class="confluenceTd" style="vertical-align: middle;"><p>OUTERJOIN and DONTCARE Control Options</p></td></tr><tr><th class="confluenceTh" scope="row" style="vertical-align: middle;"><p title="">OUTERJOIN RDBMS Table</p></th><td class="confluenceTd" style="vertical-align: middle;"><p title="">Yes</p></td><td class="confluenceTd" style="vertical-align: middle;"><p title="">Yes</p></td><td class="confluenceTd" style="vertical-align: middle;"><p title="">Only if linked to two different primary Tables</p></td></tr><tr><th class="highlight-#f4f5f7 confluenceTh" data-highlight-colour="#f4f5f7" scope="row" style="vertical-align: middle;" title="Background color : Light grey 100%"><p title="">OUTERJOIN Non-RDBMS Table</p></th><td class="confluenceTd" style="vertical-align: middle;"><p title="">No</p></td><td class="confluenceTd" style="vertical-align: middle;"><p title="">No</p></td><td class="confluenceTd" style="vertical-align: middle;"><p title="">Yes</p></td></tr><tr><th class="confluenceTh" scope="row" style="vertical-align: middle;"><p title="">OUTERJOIN With OR Qualification</p></th><td class="confluenceTd" style="vertical-align: middle;"><p title="">Yes</p></td><td class="confluenceTd" style="vertical-align: middle;"><p title="">Yes</p></td><td class="confluenceTd" style="vertical-align: middle;"><p title="">No<br/>Unless non-RDBMS Table</p></td></tr><tr><th class="highlight-#f4f5f7 confluenceTh" data-highlight-colour="#f4f5f7" scope="row" style="vertical-align: middle;" title="Background color : Light grey 100%"><p title="">OUTERJOIN With IN Qualification</p></th><td class="confluenceTd" style="vertical-align: middle;"><p title="">No</p></td><td class="confluenceTd" style="vertical-align: middle;"><p title="">Yes</p></td><td class="confluenceTd" style="vertical-align: middle;"><p title="">No<br/>Unless non-RDBMS Table</p></td></tr><tr><th class="confluenceTh" scope="row" style="vertical-align: middle;"><p title="">OUTERJOIN With Nested Select Qualification</p></th><td class="confluenceTd" style="vertical-align: middle;"><p title="">No</p></td><td class="confluenceTd" style="vertical-align: middle;"><p title="">Yes</p></td><td class="confluenceTd" style="vertical-align: middle;"><p title="">No</p></td></tr><tr><th class="highlight-#f4f5f7 confluenceTh" data-highlight-colour="#f4f5f7" scope="row" style="vertical-align: middle;" title="Background color : Light grey 100%"><p title="">OUTERJOIN With Expand() in Qualification</p></th><td class="confluenceTd" style="vertical-align: middle;"><p title="">No</p></td><td class="confluenceTd" style="vertical-align: middle;"><p title="">Yes<br/>Use Expand = 0|1|2 control option</p></td><td class="confluenceTd" style="vertical-align: middle;"><p title="">Do not use the DUMMYT to control size of IN clause created by Expand() if only using RDBMS tables. Use Left Join and Expand = 0|1|2 control option.</p></td></tr></tbody></table></div><h1 id="JOINOptionsUsingDiscernExplorer-Exceptions">Exceptions</h1><p><span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="Two overlapping circles, left one filled in, excluding the overlapping section." class="confluence-embedded-image confluence-thumbnail confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/23338804/Discern_Explorer_ExceptionJoin_v1.png?version=1&amp;modificationDate=1749130343000&amp;api=v2" data-linked-resource-container-id="23338804" data-linked-resource-container-version="21" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Discern_Explorer_ExceptionJoin_v1.png" data-linked-resource-id="3365562115" data-linked-resource-type="attachment" data-linked-resource-version="1" draggable="false" src="/download/thumbnails/23338804/Discern_Explorer_ExceptionJoin_v1.png?version=1&amp;modificationDate=1749130343000&amp;api=v2" title="Two overlapping circles, left one filled in, excluding the overlapping section." width="200"/></span></span></p><p>Exceptions return only the exceptions in the result set. A simple example is a query to get a list of people that do NOT have orders by Joining the Person and Orders tables, using exception logic to only qualify on people that do not have a row on the Orders table.</p><h2 id="JOINOptionsUsingDiscernExplorer-Methods.2">Methods</h2><ul><li><span>RDBMS Tables (Recommended Methods)</span></li><ul><li><span>NOT EXISTS</span><span> and Nested Select</span></li><li><span>OUTERJOIN</span><span> function and Field = NULL</span></li><li><span>LEFT JOIN</span><span> and Field = NULL</span></li></ul><li><span>Non-RDBMS Tables (Not recommended when using RDBMS tables)</span></li><ul><li><span>OUTERJOIN</span><span>/</span><span>DONTEXIST</span><span> Control Option. See </span><span>Discern Explorer OUTERJOIN</span><span> for more information on using the OUTERJOIN control option.</span></li></ul></ul><h1 id="JOINOptionsUsingDiscernExplorer-Full(Outer)Join">Full (Outer) Join</h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="Two overlapping circles, both filled in, including the overlapping section." class="confluence-embedded-image confluence-thumbnail confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/23338804/Discern_Explorer_FullJoin_v1.png?version=1&amp;modificationDate=1749130343000&amp;api=v2" data-linked-resource-container-id="23338804" data-linked-resource-container-version="21" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Discern_Explorer_FullJoin_v1.png" data-linked-resource-id="3365562116" data-linked-resource-type="attachment" data-linked-resource-version="1" draggable="false" src="/download/thumbnails/23338804/Discern_Explorer_FullJoin_v1.png?version=1&amp;modificationDate=1749130343000&amp;api=v2" title="Two overlapping circles, both filled in, including the overlapping section." width="200"/></span></p><p>The ANSI FULL JOIN returns rows that exist on both tables (standard join) or that exist on either table (LEFT JOIN or RIGHT JOIN). See ANSI JOIN for more information.</p><h2 id="JOINOptionsUsingDiscernExplorer-Methods.3"><strong>Methods</strong></h2><ul><li>RDBMS Tables (Recommended Method)</li><ul><li>FULL JOIN in From Clause</li></ul></ul><h1 id="JOINOptionsUsingDiscernExplorer-JoinOptionsOverview">Join Options Overview</h1><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 74.0648%;"><colgroup><col style="width: 14.8017%;"/><col style="width: 33.7203%;"/><col style="width: 51.4627%;"/></colgroup><tbody class=""><tr class=""><th class="confluenceTh" scope="col"><p><strong>Join Option</strong></p></th><th class="confluenceTh" scope="col"><p><strong>Explanation</strong></p></th><th class="confluenceTh" scope="col"><p><strong>Methods</strong></p></th></tr><tr class=""><th class="highlight-#f4f5f7 confluenceTh" data-highlight-colour="#f4f5f7" scope="row" style="vertical-align: top;" title="Background color : Light grey 100%"><p title=""><strong>Standard Join</strong></p></th><td class="confluenceTd" style="vertical-align: top;"><p title=""><strong>Gathers only matches:</strong></p><p title="">People that have orders.</p></td><td class="confluenceTd"><ul><li>RDBMS &amp; Non-RDBMS Tables<ul><li style="font-weight: bold;"><strong>A.FIELD = B.FIELD:</strong></li></ul></li></ul><pre>       PLAN P<br/>       JOIN O WHERE O.PERSON_ID = P.PERSON_ID</pre><ul><li>Only RDBMS Tables<ul><li style="font-weight: bold;"><strong>Nested Select:</strong></li></ul></li></ul><pre>       WHERE P.PERSON_ID = (<br/>           SELECT O.PERSON_ID<br/>           FROM ORDERS O<br/>           WHERE O.CATALOG_CD = VAR1)</pre><ul><li style="list-style-type: none;"><ul><li><strong>INNER JOIN</strong> in the From clause:</li></ul></li></ul><pre>       FROM PERSON P,<br/>           (INNER JOIN ORDERS O ON<br/>               (O.PERSON_ID=P.PERSON_ID<br/>               AND O.CATALOG_CD=VAR1))</pre></td></tr><tr class=""><th class="confluenceTh" scope="row" style="vertical-align: top;"><p><strong>OUTERJOIN</strong></p></th><td class="confluenceTd" style="vertical-align: top;"><p><strong>Gathers matches and exceptions:</strong></p><p>People <strong>and if </strong>they have orders gather the orders.</p></td><td class="confluenceTd"><ul><li>Only RDMBS Tables<ul><li><strong>OUTERJOIN </strong>function</li></ul></li></ul><pre>       PLAN P<br/>       JOIN O WHERE O.PERSON_ID=OUTERJOIN(P.PERSON_ID)</pre><ul><li style="list-style-type: none;"><ul><li><strong>LEFT JOIN</strong> in the From Clause</li></ul></li></ul><pre>       FROM PERSON P,<br/>           (LEFT JOIN ORDERS O ON (O.PERSON_ID = P.PERSON_ID<br/>           AND O.CATALOG_CD IN (VAR1, VAR2)))<br/>       PLAN P<br/>       JOIN O</pre><ul><li>Non-RDBMS Tables<ul><li><strong>OUTERJOIN and DONTCARE</strong> Control Options</li></ul></li></ul><pre>       FROM TABLEA A,<br/>           NONRDBMS_TABLEB B<br/>       PLAN A<br/>       JOIN B WHERE A.FIELD = B.INDEXED_FIELD<br/>       WITH OUTERJOIN = A</pre><pre><br/></pre></td></tr><tr class=""><th class="highlight-#f4f5f7 confluenceTh" data-highlight-colour="#f4f5f7" scope="rowgroup" style="vertical-align: top;" title="Background color : Light grey 100%"><p title=""><strong>Exceptions</strong></p></th><td class="confluenceTd" style="vertical-align: top;"><p title=""><strong>Gathers exceptions:</strong></p><p title="">Only people that do <strong>NOT </strong>have orders.</p></td><td class="confluenceTd" style="vertical-align: middle;"><ul><li>Only RDBMS Tables<ul><li><strong>Not Exists and Nested Select</strong></li></ul></li></ul><pre>       PLAN P WHERE NOT EXISTS (<br/>           SELECT O.PERSON_ID<br/>           FROM ORDERS O<br/>           WHERE O.PERSON_ID = P.PERSON_ID)</pre><ul><li style="list-style-type: none;"><ul><li><strong>OUTERJOIN and Field = NULL</strong></li></ul></li></ul><pre>       PLAN P<br/>       JOIN O WHERE O.PERSON_ID=OUTERJOIN(P.PERSON_ID)<br/>           AND O.PERSON_ID = NULL</pre><ul><li style="list-style-type: none;"><ul><li><strong>LEFT JOIN and Field = NULL</strong></li></ul></li></ul><pre>       FROM PERSON P,<br/>           (LEFT JOIN ORDERS O ON (<br/>               PERSON_ID = P.PERSON_ID AND<br/>               O.CATALOG_CD IN (VAR1, VAR2)))<br/>       PLAN P<br/>       JOIN O WHERE O.PERSON_ID = NULL</pre><ul><li>Non-RDBMS Tables<ul><li><strong>OUTERJOIN and DONTEXIST</strong> Control Options</li></ul></li></ul><pre>       FROM TABLEA A,<br/>           TABLEB B,<br/>           NONRDBMS_TABLEC C<br/>       PLAN A<br/>       JOIN B WHERE A.FIELD = B.INDEXED_FIELD<br/>       JOIN C WHERE A.FIELD = C.INDEXED_FIELD<br/>       WITH OUTERJOIN = B, DONTEXIST</pre></td></tr><tr class=""><th class="confluenceTh" scope="row" style="vertical-align: top;"><p><strong>Full (Outer) Join</strong></p></th><td class="confluenceTd" style="vertical-align: top;"><p><strong>Gathers matches and exceptions from tables:</strong></p><p>All items on the EXPLORER_MENU table, all items on the CCL_CUST_SCRIPT_OBJECTS table, along with the matches between those tables, which would be the custom programs that also have been added to Explorer Menu.</p></td><td class="confluenceTd" style="vertical-align: middle;"><div class="content-wrapper"><ul><li>Only RDBMS Tables<ul><li><strong>FULL JOIN</strong> in the From Clause</li></ul></li></ul><pre>       SELECT MENU_ID = E.MENU_ID,<br/>           MENU_OBJECT = E.ITEM_NAME,<br/>           MENU_TYPE = E.ITEM_TYPE,<br/>           CUST_NAME = C.OBJECT_NAME,<br/>           CUST_ID = C.CCL_CUST_SCRIPT_OBJECTS_ID<br/>       FROM CCL_CUST_SCRIPT_OBJECTS C,<br/>           (FULL JOIN EXPLORER_MENU E ON TRIM(E.ITEM_NAME) = C.OBJECT_NAME)<br/>       ORDER E.ITEM_NAME, C.OBJECT_NAME</pre><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Typically, you do not not want to wrap a function around an indexed field in a linking statement as it removes the field as a choice from the optimizer. This example uses it because the ITEM_NAME field is a C30 and the OBJECT_NAME is a VC30. The TRIM function allows the C30 field to appropriately link to the VC30 field which is also indexed.</p></div></div></div></td></tr></tbody></table></div><p><br/></p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 556, "requestCorrelationId": "e2014b20c980b21f"}</span>
+</body>
+</html>

@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Using Directives in Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Using+Directives+in+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> directives are single-line commands that instruct <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to perform a task other than a query. For example, the BANNER directive redisplays the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> banner at the top of the screen. When you use directives, follow the rules listed below.</p><ul><li>Each directive (except the DIR and OS_Command directives) must be preceded by a percent sign (%).</li><li>The DIR and OS_Command directives must be preceded by a dollar sign ($).</li><li>All directives must begin in the first column.</li><li>Enter the entire directive name, or just the first letter (such as %J).</li></ul><p>Valid directives are described briefly in the table below. See the Command Reference Help for additional information and examples. Descriptions of some of these directives are included in this section where appropriate.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Directive</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>%BANNER (%B)</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Redisplays the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> banner at the top of the screen.</p></div></td></tr><tr><td class="confluenceTd"><p>%CLEAR (%C)</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Turns the logging of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> commands to the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> history file on and off.</p></div></td></tr><tr><td class="confluenceTd"><p>%#DEFINE </p></td><td class="confluenceTd"><p>Creates a conditional macro variable. Conditional macro variables are used to apply conditions at compile time.</p></td></tr><tr><td class="confluenceTd"><p>%DISPLAY (%D)</p></td><td class="confluenceTd"><p>Turns the display of input commands to the user on or off.</p></td></tr><tr><td class="confluenceTd"><p>%EDIT (%E)</p></td><td class="confluenceTd"><p>Edits any text file.</p></td></tr><tr><td class="confluenceTd"><p>%#ELSE </p></td><td class="confluenceTd"><p>Begins the else portion of a conditional block based on the existence or non-existence of a conditional macro variable at compile time.</p></td></tr><tr><td class="confluenceTd"><p>%#ENDIF </p></td><td class="confluenceTd"><p>Ends the IFDEF or IFNDEF conditional compile block.</p></td></tr><tr><td class="confluenceTd"><p>%HELP (%H)</p></td><td class="confluenceTd"><p>Displays descriptive text for the specified topic.</p></td></tr><tr><td class="confluenceTd"><p>%#IFDEF </p></td><td class="confluenceTd"><p>Begins a conditional block based on the existence of a conditional macro variable at compile time.</p></td></tr><tr><td class="confluenceTd"><p>%#IFNDEF </p></td><td class="confluenceTd"><p>Begins a conditional block based on the non-existence of a conditional macro variable at compile time.</p></td></tr><tr><td class="confluenceTd"><p>%INCLUDE (%I)</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Reads a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> query stored in a file and executes its commands.</p></div></td></tr><tr><td class="confluenceTd"><p>%JOURNAL (%J)</p></td><td class="confluenceTd"><p>Edit the Journal file and include the contents when you exit the editor.</p></td></tr><tr><td class="confluenceTd"><p>%KEDIT (%K)</p></td><td class="confluenceTd"><p>Edits the most current Run-Time Library (RTL) log file from a session.</p></td></tr><tr><td class="confluenceTd"><p>%LEDIT (%L)</p></td><td class="confluenceTd"><p>Changes the editor currently being used to the editor specified.</p></td></tr><tr><td class="confluenceTd"><p>%OUTPUT (%O)</p></td><td class="confluenceTd"><p>Redirects all output to a specified ASCII file until the session ends or until the %O directive is issued without a specified file name.</p></td></tr><tr><td class="confluenceTd"><p>%PRINT (%P) </p></td><td class="confluenceTd"><p>Prints a message at compile time.</p></td></tr><tr><td class="confluenceTd"><p>%RUN (%R)</p></td><td class="confluenceTd"><p>Combines the %EDIT and %INCLUDE directives in one directive.</p></td></tr><tr><td class="confluenceTd"><p>%SHOW (%S)</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Displays the current values of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> ranges, defines, select options, and directive settings.</p></div></td></tr><tr><td class="confluenceTd"><p>%TERMINAL (%T)</p></td><td class="confluenceTd"><p>Sets the terminal to character or line mode.</p></td></tr><tr><td class="confluenceTd"><p>%#UNDEF </p></td><td class="confluenceTd"><p>Deletes a conditional macro variable at compile time.</p></td></tr><tr><td class="confluenceTd"><p>%VERSION (%V)</p></td><td class="confluenceTd"><p>Specifies a version number to stamp on the executable program.</p></td></tr><tr><td class="confluenceTd"><p>%Z </p></td><td class="confluenceTd"><p>Displays the contents of the recall buffer.</p></td></tr><tr><td class="confluenceTd"><p>$DIR </p></td><td class="confluenceTd"><p>Displays files that match a file specification.</p></td></tr><tr><td class="confluenceTd"><p>$OS_Command </p></td><td class="confluenceTd"><p>Branches to an operating system subprocess and executes an operating system command.</p></td></tr></tbody></table></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 736, "requestCorrelationId": "a81d2294c51cb156"}</span>
+</body>
+</html>

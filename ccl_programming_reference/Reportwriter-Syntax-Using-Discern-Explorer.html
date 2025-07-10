@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Reportwriter Syntax Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Reportwriter+Syntax+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><br> The syntax of the Reportwriter clauses in the SELECT command is shown below. The section pertaining to the Reportwriter has been delineated with asterisks.</br></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+[DISTINCT]
+[INTO	output_device]
+	select_expression ["template;display_qualifier;format"]{,
+	select_expression ["template;display_qualifier;format"]}
+[FROM	table_name [alias] {,
+	table_name [alias] }]
+PLAN	range_name [WHERE qualification]
+	(join_operator range_name [WHERE qualification]
+[WHERE	qualification]
+[GROUP BY expression]
+[HAVING	condition]
+[ORDER	select_expression [DESC] {,
+	select_expression [DESC] }]
+
+/*********** REPORTWRITER SECTION ***************/
+[HEAD REPORT
+	report_item {,
+	report_item }]
+[HEAD PAGE
+	report_item {,
+	report_item }]
+{HEAD	group_expression
+	report_item   {,
+	report_item }}
+[DETAIL
+	report_item {,
+	report_item  }]
+{FOOT	group_expression
+	report_item {,
+	report_item }}
+[FOOT PAGE
+	report_item {,
+	report_item  }]
+[FOOT REPORT
+	report_item {,
+	report_item }]
+\********** END REPORTWRITER SECTION ************\
+[WITH	control_option {,
+	control_option }]
+GO
+</pre>
+</div></div><p>The following concepts help you master the Reportwriter:</p><ul><li>Any column or group_expression to be displayed using the Reportwriter must first be selected (as a select_expression) in the syntax of the SELECT command. If a column is used only in an expression (such as in the IF( ) statement), it does not need to be selected in the syntax.</li><li>Use quotation marks to mark text that is printed literally. Use both sets of quotation marks to print quotation marks; for example, ` "PATIENT PROCEDURE REPORT"' is printed like this: "PATIENT PROCEDURE REPORT".</li><li>Any variables you use in the Reportwriter section should be initialized first in the HEAD REPORT clause.</li><li>Write and troubleshoot your Discern Explorer query before you add the Reportwriter section.</li><li>Include line comments (designated by semicolons) before and after the Reportwriter section. The entire Reportwriter section then can be treated as a comment by replacing the semicolons with the slash and asterisk comment markers for troubleshooting the program without the Reportwriter section.</li></ul>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 497, "requestCorrelationId": "b3e6591759da56fd"}</span>
+</body>
+</html>

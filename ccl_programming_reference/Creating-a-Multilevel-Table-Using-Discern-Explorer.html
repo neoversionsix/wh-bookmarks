@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>Creating a Multilevel Table Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/Creating+a+Multilevel+Table+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>This topic discusses creating custom ISAM (non-RDMBS) tables. Custom ISAM tables were widely used by clients to create custom tables in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Cerner Classic</span>.  This functionality was carried forward into <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span>.  <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.3.9 and 8.3.10 introduced the ability to create temporary and permanent custom RDBMS tables. In most cases, using a custom RDBMS table is a better option than using a custom ISAM table. See SELECT INTO TABLE Table_Name for more information on creating custom RDBMS tables.</p><p>The Select Into Table <em>table_name</em> command should only be used to create custom tables. It should not be used by <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> development teams to create <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> production tables.</p></div></div><p><br/></p><p>If you need repeating groups or occurs in your file, you must create additional tables (or levels) in the CREATE DATABASE and CREATE DDLRECORD commands. The following example creates a second table that is a repeating group:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP DATABASE PGMLIST WITH DEPS_DELETED GO
+CREATE DATABASE PGMLIST
+ORGANIZATION (INDEXED)
+FORMAT (FIXED)
+SIZE(1000)
+UNIQUE	KEY 1 (0,21)
+	KEY 2 (21,60)
+	KEY 3 (81,40)
+GO
+
+CREATE DDLRECORD PGMLIST_RECORD FROM DATABASE PGMLIST
+TABLE PGMLIST_1 WITH NULL = NONE
+1	PGMLIST_KEY1
+2	PGMLIST_OBJECT_NAME1 = C20 CCL (OBJECT_NAME1, NAME)
+2	PGMLIST_PGMTYPE1 = C1 CCL (PGMTYPE1, PGMTYPE)
+1	PGMLIST_KEY2
+2	PGMLIST_DESC2 = C60 CCL (DESC2, DESC)
+1	PGMLIST_KEY3
+2	PGMLIST_PRODUCT3 = C40 CCL (PRODUCT3, PRODUCT)
+
+1	PGMLIST_DATA
+2	PGMLIST_SOURCE = C40 CCL (SOURCE)
+2	PGMLIST_AUTHOR = C20 CCL (AUTHOR)
+2	PGMLIST_DATE_WRITTEN = DN5 CCL (DATE_WRITTEN)
+2	PGMLIST_RELEASE = C6   CCL (RELEASE)
+2	PGMLIST_UPDATE_TABLE	;group name for level 2 table
+TABLE PGMLIST_2 WITH NULL = STOP_TYPE	;define level 2 table
+3	PGMLIST_UPDATES (10)	;level 2 table has 10 occurs
+4	PGMLIST_UPDATED= DN5 CCL (UPDATED)
+4	PGMLIST_UPDATED_BY = C10 CCL (UPDATED_BY)
+END TABLE PGMLIST_2	;end of level 2 table
+
+2	PGMLIST_FILLER = C658	;filler adjusted to allow fit
+;of 2nd level table
+END TABLE PGMLIST_1
+WITH ACCESS_CODE = NONE
+GO
+</pre>
+</div></div><p>The group, 3 PGMLIST_UPDATES (10), indicates that the group is repeated ten times. The next two statements identify the fields in the second-level table, as shown in the following example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>4  PGMLIST_UPDATED = DN5 CCL (UPDATED)
+4  PGMLIST_UPDATED_BY = C10 CCL (UPDATED_BY)
+</pre>
+</div></div><p>The fields UPDATED and UPDATED_BY are repeated up to ten times in the file, which uses 150 more bytes. As a result, the filler was decreased by 150 bytes to maintain a record length of 1,000 bytes. Because the previous fields are elements in the group PGMLIST_DATE, a group name is defined for the level two table in the statement 2 PGMLIST_UPDATE_TABLE. The following statement defines the PGMLIST_2 table, which is a level-two table:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>TABLE PGMLIST_2 WITH NULL = STOP_TYPE</pre>
+</div></div><p>The WITH NULL = STOP_TYPE clause instructs <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>to stop reading the table if a null (empty) record is found. This option increases the efficiency of the program because no further records are read once a null record is found.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Using the NULL option potentially can cause problems if a program joins to another file from the level-two table. The program should include the DONTCARE option on the level two table to prevent potential join problems.</p></div></div><p>Up to ten different dates and usernames can be stored in the file. The statement END TABLE PGMLIST_2 identifies the end of the level-two table.</p><p>The END TABLE statement for the level-two table must be written before the END TABLE for the level-one table because the level-two table is subordinate to the level-one table. The following Sample TABLEALL Report illustrates the table definition that is created by this example.</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img alt="" class="confluence-embedded-image confluence-content-image-border" data-base-url="https://wiki.cerner.com" data-image-src="/download/attachments/17982985/DiscernTwoLevelTableAll.jpg?version=1&amp;modificationDate=1266528609000&amp;api=v2" data-linked-resource-container-id="17982985" data-linked-resource-container-version="2" data-linked-resource-content-type="image/jpeg" data-linked-resource-default-alias="DiscernTwoLevelTableAll.jpg" data-linked-resource-id="18909496" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" draggable="false" height="310" src="/download/attachments/17982985/DiscernTwoLevelTableAll.jpg?version=1&amp;modificationDate=1266528609000&amp;api=v2" width="800"/></span></p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 577, "requestCorrelationId": "b385dd265ab73e8d"}</span>
+</body>
+</html>
