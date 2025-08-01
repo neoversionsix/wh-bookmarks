@@ -381,6 +381,25 @@
                 }
             }
         }
+
+        // Sort the links alphabetically by their text content
+        function sortFunctionList() {
+            let ul = document.getElementById("functionList");
+            let liArray = Array.from(ul.getElementsByTagName('li'));
+
+            liArray.sort((a, b) => {
+                let textA = a.getElementsByTagName("a")[0].textContent.toUpperCase();
+                let textB = b.getElementsByTagName("a")[0].textContent.toUpperCase();
+                return textA.localeCompare(textB);
+            });
+
+            // Clear the list and append sorted items
+            ul.innerHTML = "";
+            liArray.forEach(li => ul.appendChild(li));
+        }
+
+        // Call the sorting function on page load
+        document.addEventListener("DOMContentLoaded", sortFunctionList);
     </script>
 
 </body>
