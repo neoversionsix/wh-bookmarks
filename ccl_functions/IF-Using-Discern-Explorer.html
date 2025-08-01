@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>IF Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/IF+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The IF command establishes some condition that performs one or more commands. More than one condition can be established using the ELSEIF and ELSE clauses.</p><h2 id="IFUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>IF (qualification)
+	if_item {,
+	if_item}
+{ELSEIF (qualification)
+	if_item {,
+	if_item}}
+[ELSE if_item {,
+	if_item}]
+ENDIF
+</pre>
+</div></div><h2 id="IFUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>command</em><br>A <em>Discern Explorer</em> instruction that can be executed by itself (for example, BROWSE, CREATE TABLE, DROP PROGRAM, and SELECT) or that can be included as part of another instruction (for example, CASE and WHILE).</br></p><p><em>if_item</em><br/>A command or instruction performed by an IF statement. Valid IF items are command and report_item.</p><p><em>qualification</em><br/>A condition that will evaluate to true or false. Qualifications can include IF, IN, and CASE commands and can be combined using the qualifiers AND, OR, NOT, and BETWEEN. Relational operators are used to define the condition. The syntax for qualification follows:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>(qualification)
+NOT qualification
+qualification AND qualification
+qualification OR qualification
+expression relational_operator expression
+</pre>
+</div></div><p><em>report_item</em></p><p>A printable data element, calculation, or conditional used within a Reportwriter clause. The following are valid report items:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><td class="confluenceTd"><p>aggregate_expression</p></td><td class="confluenceTd"><p>CALL TRACE</p></td><td class="confluenceTd"><p>FOR command</p></td></tr><tr><td class="confluenceTd"><p>BREAK command</p></td><td class="confluenceTd"><p>CALL CENTER</p></td><td class="confluenceTd"><p>IF command</p></td></tr><tr><td class="confluenceTd"><p>CALL &lt;uar&gt;</p></td><td class="confluenceTd"><p>CALL PRINT</p></td><td class="confluenceTd"><p>MACRO command</p></td></tr><tr><td class="confluenceTd"><p>CALL &lt;sqlfunction&gt;</p></td><td class="confluenceTd"><p>CALL DEBUG</p></td><td class="confluenceTd"><p>ROW and COL commands</p></td></tr><tr><td class="confluenceTd"><p>CALL &lt;subroutine&gt;</p></td><td class="confluenceTd"><p>DECLARE</p></td><td class="confluenceTd"><p>select_expression assignment</p></td></tr><tr><td class="confluenceTd"><p>CALL ECHO</p></td><td class="confluenceTd"><p>CASE command</p></td><td class="confluenceTd"><p>Text</p></td></tr><tr><td class="confluenceTd"><p>CALL TEXT</p></td><td class="confluenceTd"><p>WHILE command</p></td><td class="confluenceTd"><p>variable</p></td></tr></tbody></table></div><h2 id="IFUsingDiscernExplorer-Examples">Examples</h2><p>The following examples illustrate different ways to use IF:</p><p>In the following example, the IF command is used to print a description for the alias type code.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	NAME = SUBSTRING(1,30,P.NAME_FULL_FORMATTED),
+	ALIAS_DISPLAY = SUBSTRING(1,20,UAR_GET_CODE_DISPLAY(PA.PERSON_ALIAS_TYPE_CD)),
+	ALIAS = SUBSTRING(1,30,PA.ALIAS)
+FROM	PERSON P,
+	PERSON_ALIAS PA
+PLAN P
+JOIN PA	WHERE PA.PERSON_ID = P.PERSON_ID
+ORDER	BY ALIAS DISPLAY, ALIAS
+
+DETAIL
+	COL 1, NAME
+	COL 25
+IF (PA.PERSON_ALIAS_TYPE_CD = 13766)
+	"Medical Record Number:"
+ENDIF
+IF ((PA.PERSON_ALIAS_TYPE_CD = 2093597)
+	"Account Number:"
+ENDIF
+IF (PA.PERSON_ALIAS_TYPE_CD = 13767)
+
+"Social Security Number:"
+ENDIF
+COL 50 ALIAS
+ROW + 1
+GO
+</pre>
+</div></div><p>The next example shows a more efficient way to construct the IF statements shown above. The first example would always execute all four IF statements, while the second example would go to the line immediately following the ENDIF as soon as the condition was met. By constructing the statements with ELSEIF's, a final ELSE statement can be inserted which will be executed if none of the other IF or ELSEIF statements were true.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>COL 1 NAME
+COL 25
+IF (PA.PERSON_ALIAS_TYPE_CD = 13766)
+	"Medical Record Number:"
+ELSEIF ((PA.PERSON_ALIAS_TYPE_CD = 2093597)
+	"Account Number:"
+ELSEIF (PA.PERSON_ALIAS_TYPE_CD = 13767)
+	"Social Security Number:"
+ELSE ALIAS_DISPLAY
+ENDIF
+COL 50 ALIAS
+ROW + 1
+</pre>
+</div></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Discern Explorer assigns equal precedence to the AND and OR qualifiers and evaluates qualifications from left to right, top down. When using AND and OR qualifiers to combine qualifications, you must group the qualifications using parentheses to ensure that they are applied as you intend.</p></div></div><p>For example if you want to qualify males who are 60 and older or females who are 65 and older your qualification would look something like this:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>If ( (P.SEX_CD = Male_Var
+and  P.BIRTH_DT_TM  &lt;  cnvtlookbehind("60, Y" ))
+        or
+  (P.SEX_CD = Female_Var
+and  P.BIRTH_DT_TM  &lt; cnvtlookbehind("65, Y")) )
+</pre>
+</div></div><p>The following qualification does not use the parentheses and returns true for males that are 60 and older.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>If (  P.SEX_CD = Male_Var
+and  P.BIRTH_DT_TM  &lt;  cnvtlookbehind("60, Y" )
+            or  P.SEX_CD = Female_Var
+and  P.BIRTH_DT_TM  &lt; cnvtlookbehind("65, Y") )
+</pre>
+</div></div><p>Since no parentheses were used, the following precedence is implied:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Male and (Age &gt;= 60 or (Female (and Age &gt;= 65)))</pre>
+</div></div><p>This precedence requires that the person be a male age 60 and older, or be a male and be a female age 65 and older. Since a person can not be both a male and a female, only males 60 and older return as true</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 609, "requestCorrelationId": "fbf2d3775756e62a"}</span>
+</body>
+</html>

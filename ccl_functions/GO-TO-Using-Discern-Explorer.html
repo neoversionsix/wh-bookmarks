@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>GO TO Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/GO+TO+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The GO TO command directs program control to the set of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> instructions under a specified label. The GO TO command begins an unconditional branch so that program execution moves to the label and begins processing commands starting at that label. Program execution does not automatically return to the point where the branch occurred. (To perform a branch that returns, use the EXECUTE  FROM command.)</p><p>When you use the GO TO command in a program, the SET HELP, SET DOC, and SET VALIDATE options are not changed automatically. For example, if SET HELP is turned off, it remains off when the GO TO command is performed. You can change the setting of the option, however, in the range of instructions executed by the GO TO command.</p><p>GO TO is not directly supported in a Reportwriter clause in a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Select command. Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 9.6.0 GO TO can be used in a Subroutine that is called in a Reportwriter clause. Prior to <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 9.6.0, using GO TO in a Subroutine that is called in a reportwriter clause will likely have unexpected results. </p><p>GO TO has two forms, a basic directional form and an arithmetic form that can be used to direct program control based on a user's response to a prompt.</p><h2 id="GOTOUsingDiscernExplorer-Syntax">Syntax</h2><p>Basic GO TO:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>GO TO label_name</pre>
+</div></div><p>Arithmetic GO TO:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>GO TO (label_name{,label_name}) variable</pre>
+</div></div><h2 id="GOTOUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>label_name</em></p><p>The name of a label that identifies a set of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> instructions that can be branched to using a SET HOME or GO TO command. See The Label Directive for more information on creating labels.</p><p><em>variable</em></p><p>The name to which an expression is stored.</p><h2 id="GOTOUsingDiscernExplorer-Examples">Examples</h2><p>The following examples illustrate different ways to use GO TO:</p><p>The following partial program uses the GO TO command to pass control to a label named Exit_Program if no records qualify in the Select.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO "NL:"
+PA.PERSON_ID,
+PA.ALIAS,
+TYPE = UAR_GET_CODE_DISPLAY(PA.PERSON_ALIAS_TYPE_CD)
+FROM	PERSON_ALIAS PA
+WHERE	PA.PERSON_ALIAS_TYPE_CD = SSN_VAR
+AND PA.PERSON_ID = PERSON_ID_VAR
+WITH	COUNTER
+
+IF(CURQUAL = 0)
+	GO TO EXIT_PROGRAM
+ENDIF
+</pre>
+</div></div><p>The following example is a fragment of a larger program. The example prompts the user to indicate whether the information entered previously is correct. If the user enters N the program prompts for the line number. The arithmetic format of the GO TO command uses that line number to direct program control to the block of commands corresponding to a label for that line number.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>#CORRECT_YN
+CALL TEXT(24,1,"CORRECT? Y/N")
+CALL ACCEPT(24,20, "P;CU", "Y" WHERE CURACCEPT IN ("Y","N"))
+IF(CURACCEPT = "N")
+	CALL CLEAR(24,1)
+	CALL TEXT(24,1,"LINE #")  ;prompt for line number
+	CALL ACCEPT(24,10,"9",1 WHERE CURACCEPT BETWEEN 1 AND 3)
+	GO TO (LINE1,LINE2,LINE3) CURACCEPT
+ENDIF
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 646, "requestCorrelationId": "769323ff638d3ed0"}</span>
+</body>
+</html>

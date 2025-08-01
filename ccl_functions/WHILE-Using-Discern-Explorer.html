@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>WHILE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/WHILE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The WHILE command repeats a process as long as some qualification is true. This is particularly useful for incrementing counters when setting up a loop (for example, when reading or writing to arrays or record structures).</p><h2 id="WHILEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHILE (qualification)
+	while_item {,
+	while_item}
+ENDWHILE
+</pre>
+</div></div><h2 id="WHILEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>Qualification</em></p><p>A condition that evaluates to true or false. Qualifications can include IF, IN, and CASE commands and can be combined using the qualifiers AND, OR, NOT, and BETWEEN. Relational operators are used to define the condition. The syntax for qualification follows:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>(qualification)
+NOT qualification
+qualification AND qualification
+qualification OR qualification
+expression relational_operator expression
+</pre>
+</div></div><p><em>while_item</em></p><p>A command or instruction performed by a WHILE statement. Valid WHILE items are command and report_item.</p><p><em>Command</em></p><p>A <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> instruction that can be executed by itself (for example, BROWSE, CREATE TABLE, DROP PROGRAM, and SELECT) or that can be included as part of another instruction (for example, CASE and WHILE).</p><p><em>report_item</em></p><p>A printable data element, calculation, or conditional used in a Reportwriter clause. The following are valid report items:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><td class="confluenceTd"><p>aggregate_expression</p></td><td class="confluenceTd"><p>CALL TRACE</p></td><td class="confluenceTd"><p>FOR command</p></td></tr><tr><td class="confluenceTd"><p>BREAK command</p></td><td class="confluenceTd"><p>CALL CENTER</p></td><td class="confluenceTd"><p>IF command</p></td></tr><tr><td class="confluenceTd"><p>CALL &lt;uar&gt;</p></td><td class="confluenceTd"><p>CALL PRINT</p></td><td class="confluenceTd"><p>MACRO command</p></td></tr><tr><td class="confluenceTd"><p>CALL &lt;sqlfunction&gt;</p></td><td class="confluenceTd"><p>CALL DEBUG</p></td><td class="confluenceTd"><p>ROW and COL commands</p></td></tr><tr><td class="confluenceTd"><p>CALL &lt;subroutine&gt;</p></td><td class="confluenceTd"><p>DECLARE</p></td><td class="confluenceTd"><p>select_expression assignment</p></td></tr><tr><td class="confluenceTd"><p>CALL ECHO</p></td><td class="confluenceTd"><p>CASE command</p></td><td class="confluenceTd"><p>Text</p></td></tr><tr><td class="confluenceTd"><p>CALL TEXT</p></td><td class="confluenceTd"><p>WHILE command</p></td><td class="confluenceTd"><p>variable</p></td></tr></tbody></table></div><h2 id="WHILEUsingDiscernExplorer-Examples">Examples</h2><p>In the following example, the WHILE command is used in a Reportwriter section to print a name stored in the NAME_ARRAY. Two integer variables are used in the qualification. ELEMENT_NUM was incremented each time a name was placed in the array. COUNT is set to one outside the while loop and then incremented inside the while loop.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>HEAD REPORT
+     NAME_ARRAY[50] = FILLSTRING(45," ")	/*create the name array,
+	                                  assumes we will never have
+                                          more than 50 names in a nurse unit*/
+HEAD NURSE_UNIT
+     ELEMENT_NUM = 0	;reset element number for each nurse unit
+     COUNT = 1	;reset count for each nurse unit
+DETAIL
+     ELEMENT_NUM = ELEMENT_NUM +1
+     NAME_ARRAY[ELEMENT_NUM] = NAME	;write the name to the array
+FOOT NURSE_UNIT
+     COL 0 NURSE_UNIT
+     WHILE (COUNT &lt;= ELEMENT_NUM) 	;loop through the array
+          COL 20 NAME_ARRAY[COUNT]	;print the name
+          COUNT = COUNT+1
+          ROW +1
+     ENDWHILE
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 584, "requestCorrelationId": "794e2f43d423ec7e"}</span>
+</body>
+</html>

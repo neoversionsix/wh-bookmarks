@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>EXECUTE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/EXECUTE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The EXECUTE command has two forms: EXECUTE and EXECUTE FROM.</p><p>When executing a program, EXECUTE enables you to pass parameters to and run a program. This first form of the command is used to run a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program that is stored in the object library. When EXECUTE is used to execute a stored program, from the interactive <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command line, the word EXECUTE is optional. When executing a stored program that contains a Prompt clause, parameters can be used to assign values to the prompts. The parameter values are assigned sequentially to the prompts. In other words, the first parameter is assigned the first prompt, the second parameter is assigned to the second prompt, and so on. If any parameters are omitted, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> uses the default value from the Prompt clause. Stored programs can use $<em>n</em> symbols to accept parameters without using the Prompt clause. The $<em>n</em> symbols can be in the range of $1 - $99. When executing a stored program that uses $<em>n</em> symbols, parameters must be used to assign a value to each $<em>n</em> symbol. The number of parameters used must correspond to and match the $<em>n</em> symbols defined in the program. The value of the first parameter is assigned to <strong>$1</strong>, the value of the second parameter is assigned to <strong>$2,</strong> and so on. Parameters can be literal strings (for example, LP01 for a printer parameter) or values (for example, V_PRINTER). If you pass the variables as parameters, the VALUE( ) function must be used. The VALUE( ) function instructs <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to use the value assigned to the variable, not the literal string of the variable.</p><p>When executing a label range within a program, EXECUTE FROM branches to a label and from there executes all of the instructions. Once those instructions have been executed, control passes to the next label in the range specified. When all labels have been executed, control returns to the command following the EXECUTE FROM command, unless the command was called from a WHILE, IF, FOR, or CASE command.</p><p>The EXECUTE and EXECUTE FROM commands can include other EXECUTE or EXECUTE FROM commands, up to ten levels deep. You can execute any range or program, and they can execute another range or program up to ten times. You can embed an EXECUTE command in an EXECUTE FROM command.</p><p>If a branch is created in a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program by an EXECUTE FROM command, you can embed a GO TO command in the label range to which the program branches. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> checks for the GO TO command in an EXECUTE FROM command called from a WHILE, IF, FOR, or CASE command if the SET TRACE ERROR option is turned on.</p><p>If <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> captures a SET HOME, SET ERROR, or SET WARNING value, it unconditionally branches to the indicated instructions and does not return to the EXECUTE FROM instructions. If SET HOME, SET ERROR, or SET WARNING is included in a subprogram, it only applies to the subprogram.</p><h2 id="EXECUTEUsingDiscernExplorer-Syntax">Syntax</h2><p>Executing a program:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>[EXECUTE] object_name [:group_name] [parameter1 {,parameter-n}] [WITH execute_option] GO
+</pre>
+</div></div><p>Executing a range of labels:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>EXECUTE FROM begin_label TO end_label
+</pre>
+</div></div><h2 id="EXECUTEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>begin_label</em></p><p>The name of the label beginning a range of labels to be executed.</p><p><em>end_label</em></p><p>The name of the label ending a range of labels to be executed.</p><p><em>group_name</em></p><p>The identifier of a class of users, usually associated with a specific level of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> privileges. Each user is assigned to a category using the CREATE CCLUSER command. Valid groups are DBA and GROUP0 through GROUP99.</p><p><em>object_name</em></p><p>The name of a program stored in the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Object Library using the CREATE PROGRAM command.</p><p><em>parameter</em></p><p>A value passed to a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program either by the user in response to a prompt or at the time of execution, or by using a run-time library routine. Within a stored program, parameters are identified by a dollar sign ($) followed by an integer (for example, $1, $2, and so on) or by a dollar sign ($) followed by a name that is defined in the With statement of the Prompt clause in the Create Program command. Parameters can be created for the following:</p><ul><li>control_option</li></ul><ul><li>expression</li></ul><ul><li>output_device</li></ul><ul><li>select_expression</li></ul><p><em>execute_option</em></p><ul><li><p>REPLACE(<em>Name_From, Name_To</em> [,<em>Replace_Option</em>])<br class="atl-forced-newline">Use this option to execute a program and replace a name. The WITH REPLACE option temporarily replaces the name in the <em>Name_From</em> and uses the <em>Name_To</em> instead.  <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.13.2 and 9.01.2 introduced the ability to use a namespace in <em>Name_From</em> and <em>Name_To</em>. <br class="atl-forced-newline"/><br class="atl-forced-newline"/><em>Name_From:</em> Generally in uppercase and embedded in quotes. It can be a name, string, or namespace.<br class="atl-forced-newline"/><br class="atl-forced-newline"/><em>Name_To:</em> Generally in uppercase and not embedded in quotes. It can be a name, string, or namespace. Embedding <em>Name_To</em> in quotes can prevent the name from being replaced in an Execute With Replace() command in the called program.</br></p><p>Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.2 and 9.02.2 an invalid <em>Name_From</em> and or <em>Name_To</em> cause a warning message. Valid Replace(<em>Name_From,Name_To</em>) options are executed. In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.2 through 8.15.1 or 9.02.2 through 9.03.1, an invalid <em>Name_From</em> and or <em>Name_To</em> causes an error message. Valid Replace(<em>Name_From,Name_To</em>) options are not executed. In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.15.2, 9.03.2 and later, an invalid <em>Name_From</em> and or <em>Name_To</em> causes a warning message. Valid Replace(<em>Name_From,Name_To</em>) options are executed.</p><p><br class="atl-forced-newline"/><em>Replace_Option:</em> Introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.7.1.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>0</p></td><td class="confluenceTd"><p>Replace name|namespace in the child program (default).</p></td></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>Replace subroutine name|namespace in the child program.</p></td></tr><tr><td class="confluenceTd" colspan="1">2</td><td class="confluenceTd" colspan="1"><div class="content-wrapper"><p>Replace record name|namespace, but not the table name in the calling program. This option is introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.2 and 9.02.2.</p></div></td></tr><tr><td class="confluenceTd" colspan="1">3</td><td class="confluenceTd" colspan="1"><div class="content-wrapper"><p>Same as Option 0, but propagate replace to grandchild programs. This option is introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3 and 9.02.3.</p></div></td></tr><tr><td class="confluenceTd" colspan="1">4</td><td class="confluenceTd" colspan="1"><div class="content-wrapper"><p>Same as Option 1, but propagate replace to grandchild programs. This option is introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3 and 9.02.3.</p></div></td></tr><tr><td class="confluenceTd" colspan="1">5</td><td class="confluenceTd" colspan="1"><div class="content-wrapper"><p>Same as Option 2, but propagate replace to grandchild programs. This option is introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3 and 9.02.3.</p></div></td></tr><tr><td class="confluenceTd" colspan="1">6</td><td class="confluenceTd" colspan="1"><div class="content-wrapper"><p>Only replace table names. This option is introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.15.0 and 9.03.0.</p></div></td></tr><tr><td class="confluenceTd" colspan="1">7</td><td class="confluenceTd" colspan="1"><div class="content-wrapper"><p>Same as Option 6, but propagate replace to grandchild programs. This option is introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.15.0 and 9.03.0.</p></div></td></tr><tr><td class="confluenceTd" colspan="1">8</td><td class="confluenceTd" colspan="1"><div class="content-wrapper"><p>Replace all substrings in a string. Used for CALL PARSER. This option is introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.16.0 and 9.04.0.</p></div></td></tr><tr><td class="confluenceTd" colspan="1">9</td><td class="confluenceTd" colspan="1"><div class="content-wrapper"><p>Same as Option 8, but propagate replace to grandchild programs. This option is introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.16.0 and 9.04.0.</p></div></td></tr></tbody></table></div></li></ul><ul><li>TIME = &lt;timeout_seconds&gt;<br/>Use this option to set the maximum execute time in seconds for each query in the executed program.</li></ul><ul><li>CURNAMESPACE = &lt;namespace_string&gt;<br/>Use this option to override the current namespace for the execution of the program.</li></ul><h2 id="EXECUTEUsingDiscernExplorer-Examples">Examples</h2><p>The following examples illustrate different ways to use EXECUTE:<br/>When EXECUTE is used to execute a stored program from the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command line, the word "EXECUTE" is optional. For example, to run the program TABLEDEF2 from the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command line, both of the commands shown below work:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>EXECUTE TABLEDEF2 GO
+TABLEDEF2 GO</pre>
+</div></div><p>In the below example (run from the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command line), the parameters passed to the program are literal strings. "FORMS" corresponds to the first parameter (identified as $1 in the program) and "TRAIN*" corresponds to the second parameter ($2).</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>GETUSERS FORMS, "TRAIN*" GO</pre>
+</div></div><p>The below example (run from the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command line) has no run-time parameters to substitute and is owned by GROUP1. If the user is not a member of GROUP1 that person must either be a DBA or must receive permission (through the GRANT command) for their user group. </p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>RETALLPAT:GROUP1 GO</pre>
+</div></div><p>In the below, the EXECUTE command is issued from within another program. The parameters are passed as values using the VALUE( ) function. (In the program PAT_AUDIT2, the $1 accepts the printer ID and $2 accepts the selected sort.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>EXECUTE PAT_AUDIT2 VALUE(V_PRINTER), VALUE(V_SORT)</pre>
+</div></div><p><br/>The below example is part of a larger program; it uses the EXECUTE command within a program to execute the commands in the range from label LABEL_1 to label LABEL_10. Within a program you must precede a label by a pound sign (for example, #LABEL_1 represents LABEL_1), but you can omit the pound sign from the EXECUTE command. </p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>EXECUTE FROM LABEL_1 TO LABEL_10
+#WRAP_UP
+CALL TEXT(24,1,"END PROGRAM?")
+CALL ACCEPT(24, 15, "P;CU","Y" WHERE CURACCEPT IN ("Y", "N"))
+IF (CURACCEPT = "Y") GO TO END_IT
+	ELSE GO TO START_IT
+END IF
+
+#LABEL_1
+EXECUTE PAT_AUDIT
+EXECUTE PAT_AUDIT2
+CALL CLEAR(1,1)
+
+#LABEL_10
+
+#END_IT
+CALL CLEAR(1,1)
+
+END
+GO</pre>
+</div></div><p><br/>The below command executes the program XYZ_GET_LIST while replacing the REQUEST record with ORDREQUEST and the REPLY record with ORDREPLY. The parameters to the REPLACE() option need to be specified in uppercase. </p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>EXECUTE XYZ_GET_LIST
+WITH	REPLACE("REQUEST",ORDREQUEST),
+	REPLACE("REPLY",ORDREPLY)
+GO</pre>
+</div></div><p><br/>The following command executes the program CCL_EXECUTE_REPLACE_PROG, replacing the strings "REC1" and "SUB1" with REC2 and SUB2.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>execute ccl_execute_replace_prog with replace("REC1",REC2), replace("SUB1",SUB2)</pre>
+</div></div><p><br/>The following command executes the program CCL_EXECUTE_REPLACE_PROG, replacing the subroutines named SUB_REC1 but not the record structures named SUB_REC1 or other "SUB_REC1" strings:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>execute ccl_execute_replace_prog with replace("SUB_REC1",SUB_REC2,1)</pre>
+</div></div><p>The following example executes the CCL_TEST program, replacing the names SOMERECORD and SUB1 with myRecord and sub2:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>execute ccl_test with replace("SOMERECORD", myRecord),replace("SUB1",sub2,1)</pre>
+</div></div><p>The following example executes the CCL_TEST program, replacing the names SOMERECORD and SUB1 with the namespaces n1::myRecord and n1::sub2:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>execute ccl_test with replace("SOMERECORD", n1::myRecord),replace("SUB1",n1::sub2,1)</pre>
+</div></div><p>The following example executes the CCL_TEST program, replacing the namespaces n1::SOMERECORD and n1::sub1 with the names myRecord and sub2:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>execute ccl_test with replace(n1::SOMERECORD, myRecord),replace(n1::sub1,sub2,1)</pre>
+</div></div><p>The following example executes the CCL_TEST program, replacing the namespaces n1::SOMERECORD and n1::SUB1 with the namespaces n1::myRecord and n1::sub2:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>execute ccl_test with replace(n1::SOMERECORD, n1::myRecord),replace(n1::SUB1,n1::sub2,1)</pre>
+</div></div><p><br/><br/></p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 1516, "requestCorrelationId": "de23f31047ebf165"}</span>
+</body>
+</html>

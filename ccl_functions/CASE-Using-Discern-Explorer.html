@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CASE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CASE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The CASE command compares a CASE expression to the OF expressions and performs actions when a match is found. </p><p>At least one case_item is required. If multiple OF expressions are true. Only the case_items for the first true OF expression are executed. If a case_item is not specified for an OF expression, the case_item for the next OF expression is executed. Even if that OF expression does not match the Case (expression).</p><p>The CASE command is valid in the Report Writer section of a query or in the contents of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program.</p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.2 and 9.02.2 introduced support for CLASS methods in the CASE command.</p><h2 id="CASEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CASE (expression)
+	OF expression: [case_item {,case_item}]
+	{OF expression: [case_item {,case_item}}]
+	[ELSE case_item {,case_item}]
+ENDCASE
+</pre>
+</div></div><h2 id="CASEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p>case_item<br>A command or instruction performed by a CASE statement. Valid CASE items are command and report_item.</br></p><p>Command<br/>A <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> instruction that can be executed by itself (for example, BROWSE, CREATE TABLE, DROP PROGRAM, and SELECT) or included as part of another instruction (for example, CASE and WHILE).</p><p>CASE(Expression)</p><p>An expression to compare to the OF expressions.</p><p>OF Expression</p><p>An expression compared to the CASE(Expression). </p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.10.3 introduced the ability to use an item list in the OF expression clauses. An itemlist is a list of values enclosed in the Value() function. In the OF expression, the itemlist can be a list of values in the Value() function or an itemlist passed in as a $parameter.</p><p><br/>An expression is the highest-level metasymbol among constants, field names, variables, and so on. The following expressions are valid:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>alias.field_name
+array_name [dimension]
+array_name [dimension1, dimension2]
+array_name [dimension1, dimension2, dimension3]
+constant
+expression arithmetic_operator expression
+-expression
+(expression)
+function(expression{,expression})
+parameter
+record_name{-&gt;field_name}
+table_name.field_name
+variable
+</pre>
+</div></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Square brackets are part of the array_name syntax; they do not indicate an optional part of the syntax.</p></div></div><p>report_item<br/>A printable data element, calculation, or conditional used in a Report Writer clause. The following items are valid report items:</p><ul><li>aggregate_expression</li><li>BREAK command</li><li>CALL &lt;uar&gt;</li><li>CALL &lt;sqlfunction&gt;</li><li>CALL &lt;subroutine&gt;</li><li>CALL ECHO</li><li>CALL TEXT</li><li>CALL TRACE</li><li>CALL CENTER</li><li>CALL PRINT</li><li>CALL DEBUG</li><li>DECLARE</li><li>CASE command</li><li>WHILE command</li><li>FOR command</li><li>IF command</li><li>MACRO command</li><li>ROW and COL commands</li><li>select_expression assignment</li><li>Text</li><li>variable</li></ul><p><span style="font-size: 36.0px;font-weight: 900;letter-spacing: -0.008em;">Examples</span></p><p>If you are searching for person aliases and want to print your own description of the alias type for each person's record, you might construct the following CASE command:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>COL 1 NAME
+COL 25
+CASE (PA.PERSON_ALIAS_TYPE_CD)
+	OF "13766": "Medical Record Number:"
+	OF "2093597": "Account Number:"
+	OF "13767": "Social Security Number:"
+	ELSE ALIAS_DISPLAY
+ENDCASE
+ROW + 1
+COL 50 ALIAS
+</pre>
+</div></div><p>The example below uses items lists in the OF expression. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.10.3 or higher is required for this example.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program ccl_test_itemlist_case go
+create program ccl_test_itemlist_case
+
+prompt "type = " = 0,
+          "value = " = 0 
+with param, val
+   declare code_type = i4 with protect,noconstant($val)
+   case (code_type)
+     of $param:         call echo("case)Found it in $param")
+     of value(10,20,30): call echo("case)Found it in (10,20,30)")
+     else                call echo("case)Not Found")
+   endcase
+end
+go
+execute ccl_test_itemlist_case value(1,2,3), 2 go
+execute ccl_test_itemlist_case value(1,2,3), 20 go
+execute ccl_test_itemlist_case value(1,2,3), 40 go
+</pre>
+</div></div><p>The example below echoes <strong>AAA first time</strong>. Since multiple OF expression "AAA" are used. Only the first OF expression "AAA" is executed.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare var1 = C3 with noconstant("AAA")
+case(var1)
+	of "AAA" : call echo(^AAA first time^)
+	of "AAA" : call echo(^AAA second time^)
+	of "BBB" : call echo(^BBB^)
+endcase</pre>
+</div></div><p>The example below echoes <strong>Var1 = AAA - OF expression BBB echoed</strong>. Since the OF expression "AAA" does not specify a case_item, the next case_item (<strong>call echo(concat(^Var1 = ^,var1,^ - OF expression BBB echoed^))</strong>) is executed.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare var1 = C3 with noconstant("AAA")
+case(var1)
+	of "AAA" :
+	of "BBB" : call echo(concat(^Var1 = ^,var1,^ - OF expression BBB echoed^))
+	of "CCC" : call echo(concat(^Var1 = ^,var1,^ - Of expression CCC echoed^))
+endcase</pre>
+</div></div><p><br/></p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 626, "requestCorrelationId": "65af845c052b3369"}</span>
+</body>
+</html>

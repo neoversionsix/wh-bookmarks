@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>FOR Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/FOR+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The FOR command is used to process a block of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> commands multiple times. The FOR command sets the variable equal to the value of integer1, executes the for_items, then increments the variable by the increment value if the BY increment is used. If the BY increment is not used, the variable is incremented by one. After the increment is performed, the FOR command checks to see if the variable is greater than the value of integer2. If the variable is not greater than the value of integer2, the for_items are executed again and the variable is incremented. The for_items continue to be executed, and the variable continues to be incremented until the variable becomes greater than the value of integer2. The FOR command can be used instead of a manual counter with a WHILE command.</p><h2 id="FORUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FOR (variable = integer1 TO integer2 [BY increment])
+	{for_item}
+ENDFOR
+</pre>
+</div></div><h2 id="FORUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>for_item</em></p><p>A command or instruction performed by a FOR statement. Valid FOR items are commands and report items. A command is a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> instruction that can be executed by itself (for example, BROWSE, CREATE TABLE, DROP PROGRAM, and SELECT) or included as part of another instruction (for example, CASE and WHILE).</p><p>A report item is a printable data element, calculation, or conditional used within a Reportwriter clause. The following are valid report items:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><td class="confluenceTd"><p>aggregate_expression</p></td><td class="confluenceTd"><p>CALL TRACE</p></td><td class="confluenceTd"><p>FOR command</p></td></tr><tr><td class="confluenceTd"><p>BREAK command</p></td><td class="confluenceTd"><p>CALL CENTER</p></td><td class="confluenceTd"><p>IF command</p></td></tr><tr><td class="confluenceTd"><p>CALL &lt;uar&gt;</p></td><td class="confluenceTd"><p>CALL PRINT</p></td><td class="confluenceTd"><p>MACRO command</p></td></tr><tr><td class="confluenceTd"><p>CALL &lt;sqlfunction&gt;</p></td><td class="confluenceTd"><p>CALL DEBUG</p></td><td class="confluenceTd"><p>ROW and COL commands</p></td></tr><tr><td class="confluenceTd"><p>CALL &lt;subroutine&gt;</p></td><td class="confluenceTd"><p>DECLARE</p></td><td class="confluenceTd"><p>select_expression assignment</p></td></tr><tr><td class="confluenceTd"><p>CALL ECHO</p></td><td class="confluenceTd"><p>CASE command</p></td><td class="confluenceTd"><p>Text</p></td></tr><tr><td class="confluenceTd"><p>CALL TEXT</p></td><td class="confluenceTd"><p>WHILE command</p></td><td class="confluenceTd"><p>variable</p></td></tr></tbody></table></div><p><em>integer1</em></p><p>A whole number that is the beginning value to be assigned to the variable by the FOR loop.</p><p><em>integer2</em></p><p>A whole number that is the ending value to be assigned to the variable by the FOR loop.</p><p><em>increment</em></p><p>A whole number that is used to increment the variable in the FOR loop.</p><p><em>variable</em></p><p>A variable name. If the variable name does not already exist, it is created by default.</p><p>Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.1 and 9.02.1, namespaced variables were not allowed for the integer1, integer2, increment, or variable metasymbols. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.1 and 9.02.1 began support for namespaced variables for the integer1, integer2, increment, or variable metasymbols.</p><h2 id="FORUsingDiscernExplorer-Examples">Examples</h2><p>The following examples illustrate different ways to use FOR:</p><p>In the below example, the FOR loop displays the word <strong>TEXT</strong> in column five on the row indicated by the variable NUM. The word is displayed a total of ten times, and it is followed by an integer from one to 10 based on the value in NUM.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FOR (NUM = 1 TO 10)
+	CALL TEXT (NUM, 5, BUILD ("TEXT", NUM))
+ENDFOR
+</pre>
+</div></div><p>In the below example, the FOR loop uses an increment of two. The loop displays the word <strong>TEXT</strong> in column 5 five times on the row indicated by NUM.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FOR (NUM = 1 TO 10 BY 2)
+	CALL TEXT (NUM, 5, BUILD ("TEXT", NUM))
+ENDFOR
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 604, "requestCorrelationId": "097fbe6e0feb7e05"}</span>
+</body>
+</html>
