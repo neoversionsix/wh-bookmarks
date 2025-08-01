@@ -185,8 +185,8 @@ def scrape_website(start_url, output_dir):
         print(f"FATAL ERROR: Could not fetch the main URL {start_url}. {e}")
 
 # --- Execution ---
-URL_TO_SCRAPE = "https://wiki.cerner.com/display/public/1101discernHP/Functions+Reference+Help+in+Discern+Explorer"
-OUTPUT_DIRECTORY = "ccl_functions"
+URL_TO_SCRAPE = "https://wiki.cerner.com/display/public/1101discernHP/Programming+Constructs+Using+Discern+Explorer"
+OUTPUT_DIRECTORY = "new_ccl_functions"
 
 if os.path.exists(OUTPUT_DIRECTORY):
     print(f"Removing old directory: {OUTPUT_DIRECTORY}")
