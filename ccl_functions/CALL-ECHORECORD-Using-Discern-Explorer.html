@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CALL ECHORECORD Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CALL+ECHORECORD+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The CALL ECHORECORD command echos the contents of a record structure to the displayer, the default log, listing file, to a user-defined filename. Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.1 and 9.02.1, CALL ECHORECORD accepted a record structure name and echoed the entire contents of the record structure. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.1 and 9.02.1 introduced the ability to pass a record structure member to only echo the contents of that member and its children.</p><h2 id="CALLECHORECORDUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHORECORD(record_name|record_member[,output_name[,append_mode]])</pre>
+</div></div><h2 id="CALLECHORECORDUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>Record_name</em> <br>Name of the record structure.</br></p><p><em>Record_member</em><br/>A reference to a record structure list item, group item, or field item.</p><p><em>Output_name</em> <br/>Name of the file where the contents of the record structure will be written.</p><p><em>Append_mode</em></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Mode</th><th class="confluenceTh">Description</th></tr><tr><td class="confluenceTd"><p>0</p></td><td class="confluenceTd">Create a new version of the output_name file (default)</td></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">Append new information to the existing output_name file</td></tr></tbody></table></div><h2 id="CALLECHORECORDUsingDiscernExplorer-Examples">Examples</h2><p>In the following example, the record structure, ORDERS_REC, is loaded and the CALL ECHORECORD is used to echo out the contents to the displayer, the listing file, or the default log file:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM RECORDECHO_TEST GO
+CREATE PROGRAM RECORDECHO_TEST
+
+RECORD ORDERS_REC(
+	1 LIST[*]
+	2 ORDER_ID = F8
+	2 CATALOG_CD = F8
+)
+
+SELECT INTO "NL:"
+O.ORDER_ID
+FROM ORDERS O
+
+HEAD REPORT
+CNT = 0
+
+DETAIL
+CNT = CNT + 1
+IF(MOD(CNT,10) = 1)
+	STAT = ALTERLIST(ORDERS_REC-&gt;LIST,CNT + 9)
+ENDIF
+
+ORDERS_REC-&gt;LIST[CNT]-&gt;ORDER_ID = O.ORDER_ID
+ORDERS_REC-&gt;LIST[CNT]-&gt;CATALOG_CD = O.CATALOG_CD
+
+FOOT REPORT
+STAT = ALTERLIST(ORDERS_REC-&gt;LIST,CNT)
+
+WITH NOCOUNTER,MAXREC = 5
+
+CALL ECHORECORD(ORDERS_REC)
+
+END
+GO
+</pre>
+</div></div><p>The following example shows the output from the CALL ECHORECORD command from the previous program:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>&gt;&gt;&gt;Begin EchoRecord ORDERS_REC   ;ORDERS_REC
+1 LIST[1,5*]
+  2 ORDER_ID=F8   {0.0000000000                            }
+  2 CATALOG_CD=F8   {10.0000000000                           }
+1 LIST[2,5*]
+  2 ORDER_ID=F8   {69433.0000000000                        }
+  2 CATALOG_CD=F8   {8052.0000000000                         }
+1 LIST[3,5*]
+  2 ORDER_ID=F8   {69436.0000000000                        }
+  2 CATALOG_CD=F8   {8052.0000000000                         }
+1 LIST[4,5*]
+  2 ORDER_ID=F8   {69439.0000000000                        }
+  2 CATALOG_CD=F8   {8052.0000000000                         }
+1 LIST[5,5*]
+  2 ORDER_ID=F8   {69442.0000000000                        }
+  2 CATALOG_CD=F8   {8052.0000000000                         }
+&gt;&gt;&gt;End EchoRecord ORDERS_REC  varchar=0, varlist=1, Fixsize=12, varsize=88
+</pre>
+</div></div><p>The following example will send the contents of the record structure, ORDERS_REC, to a file called RECORDRESULTS.DAT in CCLUSERDIR: If the file already exists a new version of the file will be created.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHORECORD(ORDERS_REC,"RECORDRESULTS")</pre>
+</div></div><p>The following example will send the contents of the record structure, ORDERS_REC, to a file called RECORDRESULTS.DAT in CCLUSERDIR: If the file does not already exist the file will be created. If the file already exists, the new information will be appended to the existing file.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHORECORD(ORDERS_REC , "RECORDRESULTS" , 1)</pre>
+</div></div><p>The below examples assume that the program has created and populated the following record structure:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record rec (
+  1 today = vc
+  1 user_id = f8
+  1 array_item[3] = i4
+  1 plist [*]  
+    2 person_id = f8   
+    2 name_full_formatted = c30   
+    2 olist [*]  
+      3 order_id = f8   
+      3 order_display = c30  
+) with protect</pre>
+</div></div><p>The following example echoes the content of the rec-&gt;today field item:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echorecord(rec-&gt;today)</pre>
+</div></div><p>The following example echoes the content of the rec-&gt;plist and all of its child items, including olist:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echorecord(rec-&gt;plist)</pre>
+</div></div><p>The following example echoes the content of the the olist that is under the second position of plist:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echorecord(rec-&gt;plist[2].olist)</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 603, "requestCorrelationId": "f60f0fc12dcdc3ca"}</span>
+</body>
+</html>

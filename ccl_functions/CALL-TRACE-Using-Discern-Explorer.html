@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CALL TRACE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CALL+TRACE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>Use the CALL TRACE command to display debug information in the listing or log file. Use CALL TRACE commands only for debugging and testing. Remove CALL TRACE once testing is complete. To use CALL TRACE, the SET TRACE COST or SET TRACE CALLECHO option must be turned on.</p><h2 id="CALLTRACEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL TRACE(trace_option_num)</pre>
+</div></div><h2 id="CALLTRACEUsingDiscernExplorer-Metasymbol">Metasymbol</h2><p><em>trace_option_num</em></p><p>One of the following option numbers:<em><br/></em></p><div class="table-wrap"><table class="wrapped relative-table confluenceTable" style="width: 99.9412%;"><colgroup><col style="width: 12.5871%;"/><col style="width: 87.4423%;"/></colgroup><tbody><tr><th class="confluenceTh">Trace Option Number</th><th class="confluenceTh">Description</th></tr><tr><th class="confluenceTh"><p><code>1</code></p></th><td class="confluenceTd"><p><code>Set ccloutput to stdout. Only applies to back-end interactive sessions. ccloutput is output to the screen.</code></p></td></tr><tr><th class="confluenceTh"><p><code>2</code></p></th><td class="confluenceTd"><p><code>Set ccloutput to ccllogfile. Only applies to back-end interactive sessions. ccllogfile is output to the session log file. Entering %E without a file name opens the log file for the session.</code></p></td></tr><tr><th class="confluenceTh"><p><code>3</code></p></th><td class="confluenceTd"><p><code>Show active subroutines without tree.</code></p></td></tr><tr><th class="confluenceTh"><p><code>4</code></p></th><td class="confluenceTd"><p><code>Show active subroutines with tree.</code></p></td></tr><tr><th class="confluenceTh"><p><code>5</code></p></th><td class="confluenceTd"><p><code>Show environment.</code></p></td></tr><tr><th class="confluenceTh"><p><code>6</code></p></th><td class="confluenceTd"><p><code>Pool check.</code></p></td></tr><tr><th class="confluenceTh"><p><code>7</code></p></th><td class="confluenceTd"><p><code>Show cache.</code></p></td></tr><tr><th class="confluenceTh"><p><code>8</code></p></th><td class="confluenceTd"><p><code>Set ccloutput and ccllogfile to stdout. Only applies to back-end interactive sessions.</code></p></td></tr><tr><th class="confluenceTh"><p><code>9</code></p></th><td class="confluenceTd"><p><code>Debug a script break routine.</code></p></td></tr><tr><th class="confluenceTh"><p><code>10</code></p></th><td class="confluenceTd"><p><code>Pool check with print detail memory info.</code></p></td></tr><tr><th class="confluenceTh"><p><code>11</code></p></th><td class="confluenceTd"><p><code>Get thread stack size.</code></p></td></tr><tr><th class="confluenceTh"><p><code>12</code></p></th><td class="confluenceTd"><p><code>Forced logfile flush.</code></p></td></tr><tr><th class="confluenceTh"><p><code>13</code></p></th><td class="confluenceTd"><p><code>Pool check with print summary memory info.</code></p></td></tr><tr><th class="confluenceTh"><p><code>14</code></p></th><td class="confluenceTd"><p><code>Print current symbol table.</code></p></td></tr><tr><th class="confluenceTh"><p><code>15</code></p></th><td class="confluenceTd"><p><code>Check all active record structures and check all memory objects.</code></p></td></tr><tr><th class="confluenceTh"><p><code>16</code></p></th><td class="confluenceTd"><p><code>Display the current count of an object type.</code></p></td></tr><tr><th class="confluenceTh"><p><code>17</code></p></th><td class="confluenceTd"><p><code>Display all active label names and levels.</code></p></td></tr><tr><th class="confluenceTh"><p><code>18</code></p></th><td class="confluenceTd"><p><code>Same as trace_option_num 5 (show env) but excludes the show of uar declarations.</code></p></td></tr><tr><th class="confluenceTh"><p><code>19</code></p></th><td class="confluenceTd"><p><code>Show symbol information for call trace(19,&lt;symbol_num&gt;). Use call trace(14) to get symbol_num.</code></p></td></tr><tr><th class="confluenceTh"><p><code>20</code></p></th><td class="confluenceTd"><p><code>Show env with trace and settings only.</code></p></td></tr><tr><th class="confluenceTh"><p><code>21</code></p></th><td class="confluenceTd"><p><code>Check an individual active record structure.</code></p></td></tr><tr><th class="confluenceTh"><p><code>22</code></p></th><td class="confluenceTd"><p><code>Show full cclversion from banner.</code></p></td></tr><tr><th class="confluenceTh"><p><code>23</code></p></th><td class="confluenceTd"><p><code>Show all subroutines and display subroutine tree.</code></p></td></tr><tr><th class="confluenceTh"><p><code>24</code></p></th><td class="confluenceTd"><p><code>Show ccl subroutines and display subroutine tree.</code></p></td></tr><tr><th class="confluenceTh"><p><code>25</code></p></th><td class="confluenceTd"><p><code>Check all memory objects if memory trace active (no summary or detail info displayed, silent check).</code></p></td></tr><tr><th class="confluenceTh"><p><code>26</code></p></th><td class="confluenceTd"><p><code>One mode to check all.</code></p></td></tr><tr><th class="confluenceTh"><p><code>27</code></p></th><td class="confluenceTd"><p><code>Debug a variable trace(27,&lt;variable&gt;).</code></p></td></tr><tr><th class="confluenceTh"><p><code>28</code></p></th><td class="confluenceTd"><p><code>Show list of open files.</code></p></td></tr><tr><th class="confluenceTh"><p><code>29</code></p></th><td class="confluenceTd"><p><code>Show active variables and records.</code></p></td></tr><tr><th class="confluenceTh"><p><code>30</code></p></th><td class="confluenceTd"><p><code>Show active variables, records, and cache.</code></p></td></tr><tr><th class="confluenceTh"><p><code>31</code></p></th><td class="confluenceTd"><p><code>Debug and verify all curalias.</code></p></td></tr><tr><th class="confluenceTh"><p><code>32</code></p></th><td class="confluenceTd"><p><code>Show message for a ccl error number.</code></p></td></tr><tr><th class="confluenceTh"><p><code>33</code></p></th><td class="confluenceTd"><p><code>Show all sub but exclude uar.</code></p></td></tr><tr><th class="confluenceTh"><p><code>34</code></p></th><td class="confluenceTd"><p><code>Show records.</code></p></td></tr><tr><th class="confluenceTh"><p><code>35</code></p></th><td class="confluenceTd"><p><code>Show ranges and programs in cache.</code></p></td></tr><tr><th class="confluenceTh"><p><code>36</code></p></th><td class="confluenceTd"><p><code>Show symbol table.</code></p></td></tr><tr><th class="confluenceTh"><p><code>37</code></p></th><td class="confluenceTd"><p><code>Show all sub(exclude uar), record and variables.</code></p></td></tr><tr><th class="confluenceTh"><p><code>38</code></p></th><td class="confluenceTd"><p><code>Show only class instance sub(exclude uar), record and variables.</code></p></td></tr><tr><th class="confluenceTh"><p><code>39</code></p></th><td class="confluenceTd"><p><code>Exclude class instance sub(exclude uar), record and variables.</code></p></td></tr><tr><th class="confluenceTh"><p><code>40</code></p></th><td class="confluenceTd"><p><code>Set context for interactive ccl for rdbmonitor based on reqinfo.</code></p></td></tr><tr><th class="confluenceTh"><p><code>41</code></p></th><td class="confluenceTd"><p><code>Show active traces.</code></p></td></tr><tr><th class="confluenceTh"><code>42</code></th><td class="confluenceTd"><div class="content-wrapper"><code>Get date sync milliseconds. This functionality was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.1.</code></div></td></tr><tr><th class="confluenceTh"><code>43</code></th><td class="confluenceTd"><div class="content-wrapper"><code>Show current system memory data, stack and used pages. This functionality was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.1.</code></div></td></tr><tr><th class="confluenceTh"><code>44</code></th><td class="confluenceTd"><div class="content-wrapper"><p><code>Print all memory information. This functionality was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.1.</code></p><p>CCL sessions apply limits on the maximum file size and process memory that can be allocated for the process.  This applies to all Millennium 2018.01+ releases, or higher 2015.01 releases (CCL Language v8.12.6|9.00.0 JUL2017 and later).  A program attempting to process a large amount of data and creating a file larger than 4GB for example will terminate abnormally with 'File size limit exceeded' or a similar error message.  The file limit applies to SELECT INTO &lt;file&gt;, or when temporary sort files are created during query processing ($CCLSCRATCH/cclt*.dat files).</p><p>These limits are NOT applied to the root account.  Executing the same program through a server will not encounter the limits.</p><p>Executing the CALL TRACE(44) command in a CCL session will display the process limits being applied (FSIZE:4294967294 = 4 GB).</p></div></td></tr><tr><th class="confluenceTh"><code>45</code></th><td class="confluenceTd"><div class="content-wrapper"><code>Print all SET MODIFY options. This functionality was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.6.</code></div></td></tr><tr><th class="confluenceTh">46</th><td class="confluenceTd"><div class="content-wrapper"><span style="color: rgb(23,43,77);">Print dictionary segments size.</span></div></td></tr></tbody></table></div><h2 id="CALLTRACEUsingDiscernExplorer-Examples">Examples</h2><p>The following example demonstrates using call trace(15) to check all active record structures and check all memory objects.<strong><br/></strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program  test_call_trace go
+create program  test_call_trace
+call trace(15)
+record  rec (
+  1 list [*]
+    2 id = f8
+    2 name = vc
+)
+call trace(15)
+end go
+
+test_call_trace go
+
+
+</pre>
+</div></div><p>The following example uses call trace(5).</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program  test_call_trace5 go
+create program  test_call_trace5
+
+     declare v1 = vc
+      declare sub1(p1=vc) = vc
+      set v1 = sub1(build(123456789012.0,":"))
+      call echo(build("size=",size(v1),",var=",v1))
+      subroutine sub1(p_var1)
+        call trace(5)
+
+        return(build(p_var1,"test"))
+      end
+end go
+
+test_call_trace5 go</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 737, "requestCorrelationId": "d918b8b3d978a138"}</span>
+</body>
+</html>

@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CALL COMPILE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CALL+COMPILE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><br>The CALL COMPILE command includes the input file and echoes out errors and output to the trace file.</br></p><p>Lines in the input file exceeding 132 characters are truncated to 132 characters by the compile. The input file is not modified but only the first 132 characters of the line are compiled.</p><p>Call Compile sets the Reserved Variable CURQUAL to <strong>1</strong> if the compile is successful or 0 if unsuccessful. If Call Compile generates a CCL-E-7 Unexpected end of file error message, CURQUAL is set to <strong>1</strong>.</p><p>The operating system (<span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Linux</span>, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">AIX</span>, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">HP-UX</span>) ulimit quotas should be considered for user accounts that are granted access to command-line <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to compile programs and perform other tasks. This includes executing ORAGEN3, SELECT INTO TABLE Table_Name, CREATE CCLUSER, and other commands which update the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> dictionary files. The ulimit file quota is required to have a higher limit than the size of the dic.dat file, which may exceed 1 GB (1,073,741,824 bytes) in size. Review the man ulimit operating system help command, and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">AIX</span> and <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Linux</span> resources for additional ulimit documentation.</p><h2 id="CALLCOMPILEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL COMPILE(&lt;input_file_name&gt;[,&lt;trace_file_name&gt;][,&lt;echo_linenum_option&gt;])</pre>
+</div></div><h2 id="CALLCOMPILEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p>Input_file_name<br/>The name of the file to be compiled. The default location is CCLUSERDIR.</p><p>Trace_file_name<br/>The name of the trace file. The default location is CCLUSERDIR.</p><p>Echo_linenum_option</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh" scope="row"><p>Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><th class="confluenceTh" scope="row"><p>1</p></th><td class="confluenceTd"><p>Echoes out line numbers to output_file (default).</p></td></tr><tr><th class="confluenceTh" scope="row"><p>2</p></th><td class="confluenceTd"><p>Does not echo out line numbers.</p></td></tr><tr><th class="confluenceTh" scope="row"><p>3</p></th><td class="confluenceTd"><p>Does not echo out line numbers, and removes blank lines and one-line comments.</p></td></tr></tbody></table></div><h2 id="CALLCOMPILEUsingDiscernExplorer-Examples">Examples</h2><p>The following example compiles CCLUSERDIR:TAT_REPORT.PRG and stores any errors in CCLUSERDIR:TAT_TRACE.DAT:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL COMPILE ("TAT_REPORT.PRG","TAT_TRACE.DAT")</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 581, "requestCorrelationId": "48dbd2d0206b4d9e"}</span>
+</body>
+</html>

@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CALL DCL Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CALL+DCL+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The CALL DCL command enables you to execute a back-end operating system command. CALL DCL spawns an operating system subprocess. The command is executed in that subprocess. Other than the status or dclstatus, no information is returned to <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>. The operating system command can direct output to a file. The DEFINE and SELECT commands, or the CCLIO function, can be used to read the file. However, it cannot be guaranteed that the subprocess is completed before additional <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> commands are executed.</p><h2 id="CALLDCLUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL DCL(command,length,[status])
+or
+SET dclstatus = DCL(command,length,[status])
+</pre>
+</div></div><p><strong><br/></strong><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.3 generates an error when CALL DCL(command, length, status) is used in a Reportwriter section of a SELECT command. The error is resolved in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.4. The Set dclstatus = DCL(command,length,status) command does not generate an error when it is used in a Reportwriter section of a Select command in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.3.</p><h2 id="CALLDCLUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>command</em><br/>The operating system command to execute.<br class="atl-forced-newline"/>Discern Explorer imposes a limit of 512 characters for the command including one character for the null terminator character.</p><p><em>length</em><br/>The length of the command.</p><p><em>status</em><br/>The return (exit) status of the operating system command. Generally, 0 if the command was invalid or executed in error, 1 if the command was successful. See the operating system documentation of the command to determine the exit status for each command. For example, the diff command will return 1 if the diff of the files is the same and 0 if different. Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.5, <em>status</em> must have an integer data type. Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.5, <em>status</em> can be an integer or a W8 data type. Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.13.0 and 9.01.0, <em>status</em> is required. Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.13.0 and 9.01.0, <em>status</em> is optional.</p><p><em>dclstatus</em><br/>A variable that is set to <strong>1</strong> if the DCL command is successful. If the DCL command causes an error dclstatus is set to the errno status from the DCL command multiplied by 256.</p><p>Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.7.4, if status is not set to <strong>-1</strong> before calling the DCL function, <em>dclstatus</em> is set to the errno multiplied by 256 when an error occurs. If <em>status</em> is set to <strong>-1</strong> before calling the DCL function, the operating system errno is assigned to <em>dclstatus</em> if an error occurs. A dclstatus of <strong>1 </strong>can indicate that the DCL function was successful or the DCL function returned an <strong>Operation not permitted</strong> error. If <em>dclstatus</em> is set to <strong>1</strong> and <em>status</em> is set to <strong>1,</strong> the DCL function was successful.  If <em>dclstatus</em> is set to <strong>1,</strong> and <em>status</em> is set to <strong>0</strong> an <strong>Operation not permitted</strong> error occurred. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.4 removed this change. After <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.4, dclstatus is set to<strong> </strong>the operating system errno multiplied by 256 when an error occurs regardless of the value of status before the DCL function call.</p><p><br/>The following table lists the common errno values but use <strong>man errno</strong> for the full list of errno values:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>errno</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p>Operation not permitted</p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p>No such file or directory</p></td></tr><tr><td class="confluenceTd"><p>3</p></td><td class="confluenceTd"><p>No such process</p></td></tr><tr><td class="confluenceTd"><p>4</p></td><td class="confluenceTd"><p>Interrupted system call</p></td></tr><tr><td class="confluenceTd"><p>5</p></td><td class="confluenceTd"><p>I/O error</p></td></tr><tr><td class="confluenceTd"><p>6</p></td><td class="confluenceTd"><p>No such device or address</p></td></tr><tr><td class="confluenceTd"><p>7</p></td><td class="confluenceTd"><p>Argument list too long</p></td></tr><tr><td class="confluenceTd"><p>8</p></td><td class="confluenceTd"><p>Exec format error</p></td></tr><tr><td class="confluenceTd"><p>9</p></td><td class="confluenceTd"><p>Bad file number</p></td></tr><tr><td class="confluenceTd"><p>10</p></td><td class="confluenceTd"><p>No child processes</p></td></tr><tr><td class="confluenceTd"><p>11</p></td><td class="confluenceTd"><p>Try again</p></td></tr><tr><td class="confluenceTd"><p>12</p></td><td class="confluenceTd"><p>Out of memory</p></td></tr><tr><td class="confluenceTd"><p>13</p></td><td class="confluenceTd"><p>Permission denied</p></td></tr><tr><td class="confluenceTd"><p>14</p></td><td class="confluenceTd"><p>Bad address</p></td></tr><tr><td class="confluenceTd"><p>15</p></td><td class="confluenceTd"><p>Block device required</p></td></tr><tr><td class="confluenceTd"><p>16</p></td><td class="confluenceTd"><p>Device or resource busy</p></td></tr><tr><td class="confluenceTd"><p>17</p></td><td class="confluenceTd"><p>File exists</p></td></tr><tr><td class="confluenceTd"><p>18</p></td><td class="confluenceTd"><p>Cross-device link</p></td></tr><tr><td class="confluenceTd"><p>19</p></td><td class="confluenceTd"><p>No such device</p></td></tr><tr><td class="confluenceTd"><p>20</p></td><td class="confluenceTd"><p>Not a directory</p></td></tr><tr><td class="confluenceTd" colspan="1">21</td><td class="confluenceTd" colspan="1">Is a directory</td></tr><tr><td class="confluenceTd" colspan="1">22</td><td class="confluenceTd" colspan="1">Invalid argument</td></tr><tr><td class="confluenceTd" colspan="1">23</td><td class="confluenceTd" colspan="1">File table overflow</td></tr><tr><td class="confluenceTd" colspan="1">24</td><td class="confluenceTd" colspan="1">Too many open files</td></tr><tr><td class="confluenceTd" colspan="1">25</td><td class="confluenceTd" colspan="1">Not a typewriter</td></tr><tr><td class="confluenceTd" colspan="1">26</td><td class="confluenceTd" colspan="1">Text file busy</td></tr><tr><td class="confluenceTd" colspan="1">27</td><td class="confluenceTd" colspan="1">File too large</td></tr><tr><td class="confluenceTd" colspan="1">28</td><td class="confluenceTd" colspan="1">No space left on device</td></tr><tr><td class="confluenceTd" colspan="1">29</td><td class="confluenceTd" colspan="1">Illegal seek</td></tr><tr><td class="confluenceTd" colspan="1">30</td><td class="confluenceTd" colspan="1">Read-only file system</td></tr></tbody></table></div><h2 id="CALLDCLUsingDiscernExplorer-Examples">Examples</h2><p>The following example submits a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> batch procedure named CCLBATCH1.COM to the LABA$BATCH queue and saves the log file of the run on a OpenVMS system:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET DCLCOM = "SUBMIT/KEEP/NOTIFY/QUEUE=LAB$BATCH CCLBATCH1.COM"
+SET LEN = SIZE(TRIM(DCLCOM))
+SET STATUS = 0
+CALL DCL(DCLCOM,LEN,STATUS)
+</pre>
+</div></div><p>The following example displays a list of all files in the present working directory that begin with the letter b on a UNIX system:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET DCLCOM = "ls b*" 
+SET LEN = SIZE(TRIM(DCLCOM)) 
+SET STATUS = 0 
+CALL DCL(DCLCOM,LEN,STATUS)
+</pre>
+</div></div><p>The below example uses the SET dclstatus = DCL(command,length,status) syntax. Assuming that file names that begin with b in the current directory exist, the status and dclstat are set to 1. Because the status is set to -1 before the DCL call, dclstat is set to the operating system errno if an error occurred when the dclcom command was executed.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET DCLCOM = "ls b*" 
+SET LEN = SIZE(TRIM(DCLCOM)) 
+SET STATUS = -1
+SET DCLSTAT = DCL ( DCLCOM,  LEN ,  STATUS ) 
+CALL ECHO(STATUS) 
+CALL ECHO(DCLSTAT) 
+</pre>
+</div></div><p>The below example requires <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.13.0, 9.01.0, or later because <em>status </em>is not used. It demonstrates using both syntax formats.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare dclstatus = i4  
+declare cmd = vc with noconstant("ls 1_cust*.prg")  
+call dcl(cmd,size(cmd))  
+set dclstatus = dcl(cmd,size(cmd))  </pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 684, "requestCorrelationId": "a7a816539ae19de5"}</span>
+</body>
+</html>

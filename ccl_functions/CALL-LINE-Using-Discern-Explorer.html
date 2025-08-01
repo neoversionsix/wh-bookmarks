@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CALL LINE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CALL+LINE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The CALL LINE command draws a vertical or horizontal line on a display. If the VERTICAL or XVERTICAL option is <em>not</em> used, a horizontal line is drawn by default. Horizontal lines are always drawn from left to right and vertical lines are always drawn from top to bottom; be sure to provide the starting coordinate (begin_row and begin_col). The XVERTICAL option draws an extended vertical line that contains a crossbar at each end. The XHORIZONTAL option draws an extended horizontal line.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>The CALL LINE command is only valid in the back-end screen application programs that use the Paint command. This type of program was widely used in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Cerner Classic</span>, but in general, it is only used for utility programs in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span>.</p></div></div><h2 id="CALLLINEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL LINE (begin_row,begin_col,line_length[,direction])</pre>
+</div></div><h2 id="CALLLINEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>begin_col</em></p><p>The beginning column number (from 1 to 80 for 80-column mode and from 1 to 132 for 132-column mode) on the screen where the reverse-video box, scroll window, line, box, or text will be displayed.</p><p><em>begin_row</em></p><p>The beginning row number (from 1 to 24) on the screen where the box, reverse-video box, text, line, or scroll window will be displayed.</p><p><em>direction</em></p><p>Identifies how the line will be drawn. The following options are valid:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Property</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>HORIZONTAL</p></td><td class="confluenceTd"><p>Draw a line from left to right.</p></td></tr><tr><td class="confluenceTd"><p>VERTICAL</p></td><td class="confluenceTd"><p>Draw a line from top to bottom.</p></td></tr><tr><td class="confluenceTd"><p>XHORIZONTAL</p></td><td class="confluenceTd"><p>Draw a line from left to right with crossbars at each end.</p></td></tr><tr><td class="confluenceTd"><p>XVERTICAL</p></td><td class="confluenceTd"><p>Draw a line from top to bottom with crossbars at each end.</p></td></tr></tbody></table></div><p><em>Line_length</em></p><p>The number of columns from the beginning position to draw the line. For example, if begin_row is 5, begin_col is 10, and length is 20, a line is drawn on Row 5 that is 20 bytes long, starting at Column 10 and ending at Column 30.</p><h2 id="CALLLINEUsingDiscernExplorer-Examples">Examples</h2><p>The following examples illustrate different ways to use CALL LINE:</p><p>To draw a horizontal line on Row 1 from Column 7 through Column 11, enter the following command:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL LINE (1,7,5)</pre>
+</div></div><p>To draw a vertical line from row 1, column 5 through row 10, column 5, enter the following command:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL LINE (1,5,10,VERTICAL)</pre>
+</div></div><p>To draw a box starting at row 2, column 2, with a horizontal line near the top on row 6, enter the following command:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL BOX(2,2,22,78)
+CALL LINE(6,2,77,XHOR)
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 540, "requestCorrelationId": "22474239dccc37d0"}</span>
+</body>
+</html>

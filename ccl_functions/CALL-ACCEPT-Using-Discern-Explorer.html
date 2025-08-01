@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CALL ACCEPT Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CALL+ACCEPT+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The CALL ACCEPT command accepts input from a user in a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program that controls the screen display. The value accepted as a result of the CALL ACCEPT is stored in a special variable called CURACCEPT. CALL ACCEPT takes advantage of VT terminal emulation keys, such as Help, PF1, and PF2.</p><p>The user-defined CALL ACCEPT allows the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program to define the length of the input field, the type of data that can be entered into each character of the field, and additional format options. This combination of information is sometimes referred to as the edit mask. Most <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> users, excluding <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> personnel, use this form of the CALL ACCEPT.</p><p>If you perform an accept for a scroll window, you can capture the value of a key pressed using the variable CURSCROLL. To use CURSCROLL in an accept, set modifier to <strong>S</strong> or issue the SET ACCEPT = SCROLL command before the accept. KEYPAD mode also must be turned on (by pressing <strong>PF4</strong> on the numeric keypad). When the accept is completed, CURSCROLL is set to the key pressed. Possible values are listed on the table below.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Value</p></th><th class="confluenceTh"><p>Key</p></th><th class="confluenceTh"><p>Value</p></th><th class="confluenceTh"><p>Key</p></th></tr><tr><td class="confluenceTd"><p>1</p></td><td class="confluenceTd"><p><strong>&lt;Down Arrow&gt;</strong></p></td><td class="confluenceTd"><p>14</p></td><td class="confluenceTd"><p><strong>&lt;F14&gt;</strong></p></td></tr><tr><td class="confluenceTd"><p>2</p></td><td class="confluenceTd"><p><strong>&lt;Up Arrow&gt;</strong></p></td><td class="confluenceTd"><p>15</p></td><td class="confluenceTd"><p><strong>&lt;F15&gt;</strong></p></td></tr><tr><td class="confluenceTd"><p>3</p></td><td class="confluenceTd"><p><strong>&lt;PF1&gt;</strong></p></td><td class="confluenceTd"><p>16</p></td><td class="confluenceTd"><p><strong>&lt;F16&gt;</strong></p></td></tr><tr><td class="confluenceTd"><p>4</p></td><td class="confluenceTd"><p><strong>&lt;PF2&gt;</strong></p></td><td class="confluenceTd"><p>17</p></td><td class="confluenceTd"><p><strong>&lt;F17&gt;</strong></p></td></tr><tr><td class="confluenceTd"><p>5</p></td><td class="confluenceTd"><p><strong>&lt;Prev Screen&gt;</strong></p></td><td class="confluenceTd"><p>18</p></td><td class="confluenceTd"><p><strong>&lt;F18&gt;</strong></p></td></tr><tr><td class="confluenceTd"><p>6</p></td><td class="confluenceTd"><p><strong>&lt;Next Screen&gt;</strong></p></td><td class="confluenceTd"><p>19</p></td><td class="confluenceTd"><p><strong>&lt;F19&gt;</strong></p></td></tr><tr><td class="confluenceTd"><p>7</p></td><td class="confluenceTd"><p><strong>&lt;F7&gt;</strong></p></td><td class="confluenceTd"><p>20</p></td><td class="confluenceTd"><p><strong>&lt;F20&gt;</strong></p></td></tr><tr><td class="confluenceTd"><p>8</p></td><td class="confluenceTd"><p><strong>&lt;F8&gt;</strong></p></td><td class="confluenceTd"><p>21</p></td><td class="confluenceTd"><p><strong>&lt;Find&gt;</strong></p></td></tr><tr><td class="confluenceTd"><p>9</p></td><td class="confluenceTd"><p><strong>&lt;F9&gt;</strong></p></td><td class="confluenceTd"><p>22</p></td><td class="confluenceTd"><p><strong>&lt;Insert&gt;</strong></p></td></tr><tr><td class="confluenceTd"><p>10</p></td><td class="confluenceTd"><p><strong>&lt;F10&gt;</strong></p></td><td class="confluenceTd"><p>23</p></td><td class="confluenceTd"><p><strong>&lt;Remove&gt;</strong></p></td></tr><tr><td class="confluenceTd"><p>11</p></td><td class="confluenceTd"><p><strong>&lt;F11&gt;</strong></p></td><td class="confluenceTd"><p>24</p></td><td class="confluenceTd"><p><strong>&lt;Select&gt;</strong></p></td></tr><tr><td class="confluenceTd"><p>12</p></td><td class="confluenceTd"><p><strong>&lt;F12&gt;</strong></p></td><td class="confluenceTd"><p>25</p></td><td class="confluenceTd"><p><strong>&lt;Tab&gt;</strong></p></td></tr><tr><td class="confluenceTd"><p>13</p></td><td class="confluenceTd"><p><strong>&lt;F13&gt;</strong></p></td><td class="confluenceTd"><p><br/></p></td><td class="confluenceTd"><p><br/></p></td></tr></tbody></table></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>The CALL ACCEPT command is only valid in back-end screen application programs that use the Paint command. This type of program was widely used in HNAC, but in general, it is only used for utility programs in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span>.</p></div></div><h2 id="CALLACCEPTUsingDiscernExplorer-Syntax">Syntax</h2><p>The syntax of the CALL ACCEPT command is below. The command can fit on one line or run over multiple lines.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT (begin_row,begin_col,
+	"{picture}[;{modifier}]" [,default]
+[WHERE qualification])
+</pre>
+</div></div><h2 id="CALLACCEPTUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>begin_col</em><br/>The beginning column number (from 1 to 80 for an 80-column mode, and from 1 to 132 for a 132-column mode) on the screen on which the reverse-video box, scroll window, line, box, or text will be displayed.</p><p><em>begin_row</em><br/>The beginning row number (from 1 to 24) on the screen on which the box, reverse-video box, text, line, or scroll window will be displayed.</p><p><em>default</em><br/>The value that is displayed and entered automatically if the user presses <strong>&lt;Return&gt;</strong> without entering any information in the input field.</p><p><em>modifier</em><br/>Options that enable the user to change the accepted input into another format. You must use a modifier if your picture contains anything other than <strong>9</strong> or <strong>N</strong>. If you are going to use the accepted information as a character field, you must use a modifier. One example of using a modifier is to change lowercase letters into uppercase letters. The following values are valid:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Value</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>C</p></td><td class="confluenceTd"><p>Character string (if <strong>1024 </strong>is entered for the picture 9999, accept this as a character string).</p></td></tr><tr><td class="confluenceTd"><p>D</p></td><td class="confluenceTd"><p>Use the corresponding default character in the default clause and skip over for accept.</p></td></tr><tr><td class="confluenceTd"><p>E</p></td><td class="confluenceTd"><p>Erase input as it is entered.</p></td></tr><tr><td class="confluenceTd"><p>F</p></td><td class="confluenceTd"><p>Force help from the current SET HELP command to invoke the Help function automatically for the CALL ACCEPT without the user pressing the HELP key.</p></td></tr><tr><td class="confluenceTd"><p>H</p></td><td class="confluenceTd"><p>Hide the default. The default value is not displayed, but pressing <strong>&lt;Return&gt;</strong> uses that default anyway.</p></td></tr><tr><td class="confluenceTd"><p>P</p></td><td class="confluenceTd"><p>Prompt the user for a starting value for Help on this input field.</p></td></tr><tr><td class="confluenceTd"><p>S</p></td><td class="confluenceTd"><p>Scroll window accept. An existing scroll window allows the user to use the UP and DOWN arrows, or the &lt;Prev Screen&gt;, &lt;Next Screen&gt;, &lt;PF1&gt;, or &lt;PF2&gt; keys to move through the Help window.</p></td></tr><tr><td class="confluenceTd"><p>U</p></td><td class="confluenceTd"><p>Force to uppercase.</p></td></tr></tbody></table></div><p><em>picture</em></p><p>The edit mask for one character that is accepted from the user. The following values are valid:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Value</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>9</p></td><td class="confluenceTd"><p>Numeric.</p></td></tr><tr><td class="confluenceTd"><div class="content-wrapper"><p>9 (n)</p></div></td><td class="confluenceTd"><p>Repeat the 9 mask for the number of times indicated by (n).</p></td></tr><tr><td class="confluenceTd"><p>A</p></td><td class="confluenceTd"><p>Alpha (uppercase and lowercase letters).</p></td></tr><tr><td class="confluenceTd"><div class="content-wrapper">A(n)</div></td><td class="confluenceTd"><p>Repeat the A mask for the number of times indicated by (n).</p></td></tr><tr><td class="confluenceTd"><p>D</p></td><td class="confluenceTd"><p>Display. Use the corresponding default character in the default clause and skip over for accept.</p></td></tr><tr><td class="confluenceTd"><p>N</p></td><td class="confluenceTd"><p>Numeric or punctuation (0-9, period, or minus sign).</p></td></tr><tr><td class="confluenceTd"><div class="content-wrapper"><p>N(n)</p></div></td><td class="confluenceTd"><p>Repeat the N mask for the number of times indicated by (n).</p></td></tr><tr><td class="confluenceTd"><p>P</p></td><td class="confluenceTd"><p>Any printable ASCII character.</p></td></tr><tr><td class="confluenceTd"><div class="content-wrapper"><p>P(n)</p></div></td><td class="confluenceTd"><p>Repeat the P mask for the number of times indicated by (n).</p></td></tr><tr><td class="confluenceTd"><p>X</p></td><td class="confluenceTd"><p>Alphanumeric (letters or numbers). <span>For example, to accept a ten-character name, the picture is "AAAAAAAAAA". To accept a printer name like "LP01", the picture is "AA99"; to accept a 30-byte character field, the picture is "P(30)".</span></p></td></tr></tbody></table></div><p><em>qualification</em><br/>A condition that limits the number of records to be displayed as valid matches. Qualifications can include IF, IN, and CASE statements, and can be combined using the qualifiers AND, OR, NOT, and BETWEEN. Relational operators are used to define the condition. The following is syntax for qualification:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>(qualification)
+NOT qualification
+qualification AND qualification
+qualification OR qualification
+expression relational_operator expression
+</pre>
+</div></div><p><em>relational_operator</em><br/>Identifies the condition in a qualification. To view valid operators, see Relational Operators.</p><h2 id="CALLACCEPTUsingDiscernExplorer-Examples">Examples</h2><p>The following examples illustrate different ways to use CALL ACCEPT:</p><p>The first example accepts data starting on row 5, column 52, and accepts up to 12 characters. To change the input field defaults, use the SET ACCEPT command. These characters can be any printable characters; they are converted to a character string. All letters are converted to uppercase.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT(05,52, "P(12);CU")</pre>
+</div></div><p>The second example accepts data starting on row 6, column 52, and accepts four characters. They can be any printable character; and are converted to a character string. All letters are converted to uppercase. If you press <strong>&lt;Return&gt;</strong>, "MINE" is accepted as the default. The only values that are accepted are defined in the WHERE portion of this command. Valid options are MINE, LP01, LP02, or LP03.</p><p>CURACCEPT is a variable defined by <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> as the information accepted when the input field is displayed for this program.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ACCEPT(06,52, "PPPP;CU", "MINE"
+WHERE CURACCEPT IN ("MINE","LP01","LP02","LP03"))
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 613, "requestCorrelationId": "a83595f13ff74852"}</span>
+</body>
+</html>

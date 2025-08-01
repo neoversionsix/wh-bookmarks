@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CALL ECHOXML Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CALL+ECHOXML+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><br/></p><p>The CALL ECHOXML command echoes the contents of a record structure to the displayer, default log or listing file, or a user-defined filename as an XML stream. Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.1 and 9.02.1, CALL ECHORECORD accepted a record structure name and echoed the entire contents of the record structure. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.1 and 9.02.1 introduced the ability to pass a record structure member to echo the contents of that member and its children only.</p><p>See the CNVTRECTOXML() function for information on returning the contents of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> record structure as a VC data type in XML format. For cases in which you are returning the XML string to <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">MPages</span> or a program to display in the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern</span> Output Viewer (DiscernOutputViewer.ocx), you most likely want to use the CnvtRecToXML() function to set the _Memory_Reply_String public memory variable over the Call EchoXML command to write the XML string to a file and then reading the file.</p><h2 id="CALLECHOXMLUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHOXML(record_name[,output_name[,append_mode]])
+</pre>
+</div></div><h2 id="CALLECHOXMLUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>record_name</em> <br/>The name of the record structure.</p><p><em>record_member</em><br/>A reference to a record structure list item, group item, or field item.</p><p><em>output_name</em> <br/>The name of the file where the contents of the record structure are written.</p><p><em>Append_mode</em><br/>0        Create a new version of the output_name file (default).<br/>1        Append new information to the existing output_name file.</p><h2 id="CALLECHOXMLUsingDiscernExplorer-Examples">Examples</h2><p>In the following example the record structure, ORDERS_REC, is loaded and CALL ECHOXML is used to echo out the contents to the listing file or default log file:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM RECORDECHO_TEST GO
+CREATE PROGRAM RECORDECHO_TEST
+
+RECORD ORDERS_REC(
+
+1 LIST[*]
+
+	2 ORDER_ID = F8
+	2 CATALOG_CD = F8
+
+)
+
+SELECT INTO "NL:"
+O.ORDER_ID
+FROM ORDERS O
+
+HEAD REPORT
+	CNT = 0
+
+DETAIL
+
+	CNT = CNT + 1
+	IF(MOD(CNT,10) = 1)
+		STAT = ALTERLIST(ORDERS_REC-&gt;LIST,CNT + 9)
+	ENDIF
+
+	ORDERS_REC-&gt;LIST[CNT]-&gt;ORDER_ID = O.ORDER_ID
+	ORDERS_REC-&gt;LIST[CNT]-&gt;CATALOG_CD = O.CATALOG_CD
+
+FOOT REPORT
+	STAT = ALTERLIST(ORDERS_REC-&gt;LIST,CNT)
+
+WITH NOCOUNTER,MAXREC = 5
+
+CALL ECHOXML(ORDERS_REC)
+
+END
+GO
+</pre>
+</div></div><p>The following example displays the output from the CALL ECHOXML command from the previous program:</p><p><span style="color: rgb(0,0,128);">&lt;CCLREC name="ORDERS_REC"&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;LIST type="LIST" memberCount="5"&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;ITEM&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;ORDER_ID type="DOUBLE" value="590164.000000"/&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;CATALOG_CD type="DOUBLE" value="693474.000000"/&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;/ITEM&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;ITEM&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;ORDER_ID type="DOUBLE" value="590171.000000"/&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;CATALOG_CD type="DOUBLE" value="693474.000000"/&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;/ITEM&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;ITEM&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;ORDER_ID type="DOUBLE" value="590183.000000"/&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;CATALOG_CD type="DOUBLE" value="712224.000000"/&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;/ITEM&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;ITEM&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;ORDER_ID type="DOUBLE" value="590188.000000"/&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;CATALOG_CD type="DOUBLE" value="712224.000000"/&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;/ITEM&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;ITEM&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;ORDER_ID type="DOUBLE" value="590203.000000"/&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;CATALOG_CD type="DOUBLE" value="685250.000000"/&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;/ITEM&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;/LIST&gt;</span><br/><span style="color: rgb(0,0,128);">&lt;/CCLREC&gt;</span></p><p>The below example sends the contents of the record structure, ORDERS_REC, to a file named RECORDRESULTS.DAT in CCLUSERDIR. If the file already exists, a new version of the file is created.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHOXML(ORDERS_REC,"RECORDRESULTS")</pre>
+</div></div><p>The below example sends the contents of the record structure, ORDERS_REC, to a file named RECORDRESULTS.DAT in CCLUSERDIR. If the file does not already exist, it is created. If the file already exists, the new information is appended to the existing file.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHOXML(ORDERS_REC , "RECORDRESULTS" , 1)</pre>
+</div></div><p>The below examples assume that the program has created and populated the following record structure:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>record rec ( 
+	1 today = vc 
+	1 user_id = f8 
+	1 array_item[3] = i4 
+	1 plist [*] 
+		2 person_id = f8 
+		2 name_full_formatted = c30 
+		2 olist [*] 
+			3 order_id = f8 
+			3 order_display = c30 
+) with protect</pre>
+</div></div><p>The following example echoes the content of the rec-&gt;today field item:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echoxml(rec-&gt;today)</pre>
+</div></div><p>The following example echoes the content of the rec-&gt;plist and all of its child items, including olist:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echoxml(rec-&gt;plist)</pre>
+</div></div><p>The following example echoes the content of the the olist that is under the second position of plist:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call echoxml(rec-&gt;plist[2].olist)</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 539, "requestCorrelationId": "ef166f848c13aa5a"}</span>
+</body>
+</html>

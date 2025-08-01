@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CALL PRINTIMAGE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CALL+PRINTIMAGE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The CALL PRINTIMAGE command adds a PostScript snippet document into a dio=postscript report. You must use the NOFORMFEED control option with the CALL PRINTIMAGE command.</p><p>To use CALL PRINTIMAGE, you must have a PostScript snippet on the host environment and use PostScript printing.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Bitmap images print faster when they have fewer colors. Because 24-bit color is not supported, you might need to change the color depth to 256 colors or grayscale, 16 colors, or monochrome. If you are using monochrome, images must have a width divisible by 32.</p></div></div><p>Complete the following steps to print a bitmap in a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> report:</p><ol><li><p>Convert the PC bitmap to a PostScript file.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>When using <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Citrix</span> to access <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> solutions, complete the below steps from the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Citrix</span> console.</p></div></div><ol><li>Open the DOS prompt and run the <strong>BMPFORMCNVT</strong> command from the WININTEL directory.</li><li><p>Pass the bitmap file, new file name, and scale. The new file name and scale are optional. If the new file name is not used, the file name of the .BMP file is used by default. The new file name must contain at least one letter and cannot be comprised solely of numerical digits. If the scale is not used, a scale of 100 percent is assumed.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>"DOS&gt;BMPFORMCNVT C:\MSOFFICE\CLIPART\HARDWARE_BMP" </pre>
+</div></div><p>Note the scaled bitmap width and height.</p></li><li>BMPFORMCNVT creates a .FRM and a .DCT file. Transfer these files to the HOST environment where the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program is located. When using FTP to transfer the files to the host, ensure that ASCII text mode is used. Do not transfer the files using binary mode.</li><li><p>Open the DOS prompt and run FTP.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DOS&gt; FTP HOST1
+</pre>
+</div></div></li><li><p>Sign in.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FTP&gt; PUT HARDWARE.FRM
+FTP&gt; PUT HARDWARE.DCT
+</pre>
+</div></div><p>The files are copied from the default PC directory to the default directory on HOST1.</p></li><li>Use the <strong>POS</strong> command to position the lower-left corner of the image in a Reportwriter clause. The Y coordinate (height) must be greater than or equal to the scaled bitmap height.</li><li>Use the file and location from the HOST in the CALL PRINTIMAGE command.</li></ol></li></ol><h2 id="CALLPRINTIMAGEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL PRINTIMAGE([file_name])</pre>
+</div></div><h2 id="CALLPRINTIMAGEUsingDiscernExplorer-Metasymbol">Metasymbol</h2><p>file_name <br>The name of the file.</br></p><h2 id="CALLPRINTIMAGEUsingDiscernExplorer-Examples">Examples</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>drop program image_test go
+create program image_test
+
+prompt "Enter Output Device: " = mine
+
+select into $1
+ d.seq
+from dummyt d
+
+head report
+;;Loads image using the FRM
+  call printimage("/user01/td5110/heartofcerner.frm")
+  cnt = 0
+  line = fillstring(50,"_")
+  string = "TESTING STRINGS WITH VERTICAL LINE"
+
+head page
+;;This will print an image at the top of each page based on the
+;;calcpos and call printimage command
+  call print(calcpos(36,103))
+
+  row +1
+  call printimage("/user01/td5110/heartofcerner.dct")
+  row +2
+
+detail
+  "{pos/288/144}{fr/0}" string
+  row +1
+  "{pos/144/144}{fr/1}" line
+  row +1
+
+with dio = 08,noformfeed,maxrow = 1
+
+end
+go
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 537, "requestCorrelationId": "e70e9a5824d7a5c2"}</span>
+</body>
+</html>

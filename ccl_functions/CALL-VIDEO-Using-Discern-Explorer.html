@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CALL VIDEO Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CALL+VIDEO+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><span style="letter-spacing: 0.0px;">The CALL VIDEO command changes characteristics of text displayed using the CALL BOX, CALL CLEAR, CALL LINE, and CALL TEXT commands. CALL VIDEO can change lines, boxes, and text to display as normal, blinking, reverse-underlined video, 80-column, or 132-column. For screen displays, normal mode is bold letters (intense) displayed in the default font and pitch for your terminal. The CALL VIDEO command typically is used in screen application programs to set the video mode back to normal before generating a report. All subsequent displays use this mode until another CALL VIDEO command is issued.</span></p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>The CALL VIDEO command is only valid in the back-end screen application programs that use the Paint command. This type of program was widely used in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Cerner Classic</span>, but in general, it is only used for utility programs in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span>.</p></div></div><h2 id="CALLVIDEOUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL VIDEO (video_option{video_option})</pre>
+</div></div><h2 id="CALLVIDEOUsingDiscernExplorer-Metasymbol">Metasymbol</h2><p>video_option<br>The display mode to be used for the box, line, or text. The following values are valid:</br></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Value</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>B</p></td><td class="confluenceTd"><p>Blink.</p></td></tr><tr><td class="confluenceTd"><p>I</p></td><td class="confluenceTd"><p>High intensity.</p></td></tr><tr><td class="confluenceTd"><p>L</p></td><td class="confluenceTd"><p>Low intensity.</p></td></tr><tr><td class="confluenceTd"><p>N</p></td><td class="confluenceTd"><p>Normal (no blinking, no underline, no reverse). Reset the display to high-intensity-only mode.</p></td></tr><tr><td class="confluenceTd"><p>R</p></td><td class="confluenceTd"><p>Reverse video.</p></td></tr><tr><td class="confluenceTd"><p>S</p></td><td class="confluenceTd"><p>Slender (80-column mode, the default). Using option N does not reset the screen to 80-column mode.</p></td></tr><tr><td class="confluenceTd"><p>U</p></td><td class="confluenceTd"><p>Underline.</p></td></tr><tr><td class="confluenceTd"><p>W</p></td><td class="confluenceTd"><p>Wide (132-column mode).</p></td></tr></tbody></table></div><h2 id="CALLVIDEOUsingDiscernExplorer-Examples">Examples</h2><p>The following examples illustrate different ways to use CALL VIDEO:</p><p>To reset all blinking, reverse-video, or underlined boxes, text, or lines to normal mode, enter:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL VIDEO (N)
+</pre>
+</div></div><p>To set the display mode to blinking, enter:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL VIDEO (B)
+</pre>
+</div></div><p>To set the display to blinking, reverse-video, 132-column display, enter:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL VIDEO (BRW)
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 565, "requestCorrelationId": "ae8d34f10f3197f9"}</span>
+</body>
+</html>

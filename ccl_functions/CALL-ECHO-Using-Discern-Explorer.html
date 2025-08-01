@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CALL ECHO Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CALL+ECHO+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The CALL ECHO command echoes an expression to the displayer, log file, or listing file. The CURECHO variable is used to compare to the echo_level. If the echo_level is less than CURECHO, the CALL ECHO command is not performed. CURECHO is reset to 0 at the start of a parent ekmodule or program. If ECHO trace is not active, CALL ECHO commands are ignored. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.6 introduces the ability to use <strong>ALL</strong> as an array index to iterate and echo all positions of an array.</p><h2 id="CALLECHOUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL ECHO (echo_expression [,print_indicator [,echo_level]] )</pre>
+</div></div><h2 id="CALLECHOUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>echo_expression</em><br>An expression to be echoed.</br></p><p><em>print_indicator</em><br/>A numeric value of 0 or 1 used to determine if a new line character is printed. A value of 0 overrides the default of 1 and allows multiple CALL ECHO's to display on the same line. The print_indicator is optional.</p><p><em>echo_level</em><br/>A numeric value. The expression is only echoed if echo_level is greater than or equal to CURECHO.</p><h2 id="CALLECHOUsingDiscernExplorer-Examples">Examples</h2><p>The following example illustrates different ways to use CALL ECHO:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET CURECHO = 3	; change level from 0 to 3
+CALL ECHO("TEST1",1,4)	; issue the call echo
+CALL ECHO("TEST1",1,2)	; ignore the call echo
+CALL ECHO("TEST")
+CALL ECHO("PROC SELECT")
+CALL ECHO(BUILD("NUM_QUAL",CURQUAL) )
+</pre>
+</div></div><p>The following example defines one and two dimensional arrays, and uses the <strong>ALL</strong> option to echo all positions of the array:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare 1d_array[3] = c1
+set 1d_array[1] = "A"
+set 1d_array[2] = "B"
+set 1d_array[3] = "C"
+call echo(1d_array) ;since no array index is specified defaults to [1]
+call echo(1d_array[2])   ;echoes [2]
+call echo(1d_array[all]) ;echoes all positions of 1d_array 
+
+declare 2d_array[3,2] = c3
+set 2d_array[1,1] = "1-1"
+set 2d_array[1,2] = "1-2"
+set 2d_array[2,1] = "2-1"
+set 2d_array[2,2] = "2-2"
+set 2d_array[3,1] = "3-1"
+set 2d_array[3,2] = "3-2"
+call echo(2d_array[1,1]) ;echoes 1-1
+call echo(2d_array[1,all])   ;echoes 1-1 and 1-2
+call echo(2d_array[all,all]) ;1-1, 1-2, 2-1, 2-2, 3-1, and 3-2</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 623, "requestCorrelationId": "9041cea80d999662"}</span>
+</body>
+</html>

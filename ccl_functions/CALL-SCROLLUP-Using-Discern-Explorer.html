@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CALL SCROLLUP Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CALL+SCROLLUP+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><span style="letter-spacing: 0.0px;">The CALL SCROLLUP command controls the way a scroll window reacts when a user presses the UP arrow. This command determines whether </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span style="letter-spacing: 0.0px;"> backs up to the previous line in the scroll box, or moves the bottom line of the scroll window out of the box and moves the next available line not in the scroll window to the top of the box.</span></p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>The CALL SCROLLUP command is only valid in the back end screen application programs that use the Paint command. This type of program was widely used in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Cerner Classic</span>, but in general, it is only used for utility programs in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span>.</p></div></div><h2 id="CALLSCROLLUPUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL SCROLLUP (previous_row,current_row,expression)</pre>
+</div></div><h2 id="CALLSCROLLUPUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p>current_row<br>The row that is highlighted as a result of the user pressing the UP arrow.</br></p><p>expression<br/>An expression is the highest-level metasymbol among constants, field names, variables, and so on. The following expressions are valid:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>alias.field_name
+array_name [dimension]
+array_name [dimension1, dimension2]
+array_name [dimension1, dimension2, dimension3]
+constant
+expression arithmetic_operator expression
+
+-expression
+(expression)
+function(expression{,expression})
+parameter
+record_name{-&gt;field_name}
+table_name.field_name
+variable
+</pre>
+</div></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Square brackets are part of the array_name syntax; they do not indicate an optional part of the syntax.</p></div></div><p>previous_row<br/>The last row that was highlighted before the user pressed the UP arrow.</p><h2 id="CALLSCROLLUPUsingDiscernExplorer-Examples">Examples</h2><p>The following example would be part of a CASE statement or a complex IF statement that checks for the value of CURSCROLL, a variable used by <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> to keep track of which keys are pressed when a scroll box is displayed. (See the SELECT command and the CALL ACCEPT command for more information on CURSCROLL).</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>IF (CNT &gt; 1)
+SET CNT = CNT - 1
+IF (AROW = 1)
+CALL SCROLLUP(AROW,AROW,BUFFER[CNT]) ;scroll top of window
+ELSE
+SET AROW = AROW - 1
+CALL SCROLLUP(AROW+1,AROW,BUFFER[CNT]) ;scroll below top of window
+ENDIF
+ENDIF
+</pre>
+</div></div><p>The following example performs the following actions:</p><ul><li>It backs up a line in the box, usually the next line (the first command).</li><li><p>It backs up the last line of information in the box out of the box, moves all lines above that last line down one line, and then displays the next line previously not shown in the box in the first line of the box (the second command).</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL SCROLLUP(AROW+1,AROW,BUFFER[CNT])
+CALL SCROLLUP(AROW,AROW,BUFFER[CNT])
+</pre>
+</div></div><p>Several variables have been defined for this example in earlier parts of the program.</p></li></ul><ul><li>CNT is the current array occurrence being displayed in the scroll box.</li><li>AROW is the current row number in the scroll box.</li><li>NUMSROW is the maximum number of rows in the window.</li><li>BUFFER is an array that was filled in by selecting information from a table in the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Data Dictionary using the SELECT command earlier in the executable program.</li></ul>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 578, "requestCorrelationId": "b6a016d597d9c27a"}</span>
+</body>
+</html>

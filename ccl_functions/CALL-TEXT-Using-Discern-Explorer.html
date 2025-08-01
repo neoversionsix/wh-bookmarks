@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>CALL TEXT Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/CALL+TEXT+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><span style="letter-spacing: 0.0px;">The CALL TEXT command displays text in a row on the display. You can display the information in normal, double wide, or double-high height and width. For screen displays, normal mode is bold letters (intense) displayed in the default font and pitch for your terminal. You also can display text in special graphics mode.</span></p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>The CALL TEXT command is only valid in the back end screen application programs that use the Paint command. This type of program was widely used in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Cerner Classic</span>, but in general, it is only used for utility programs in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span>.</p></div></div><h2 id="CALLTEXTUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL TEXT (begin_row,begin_col,expression,[text_option])</pre>
+</div></div><h2 id="CALLTEXTUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p>begin_col<br>The beginning column number (from 1 to 80 for 80-column mode and from 1 to 132 for 132-column mode) on the screen where the reverse-video box, scroll window, line, box, or text will be displayed.</br></p><p>begin_row<br/>The beginning row number (from 1 to 24) on the screen where the box, reverse-video box, text, line, or scroll window will be displayed.</p><p>expression<br/>An expression is the highest-level metasymbol among constants, field names, variables, and so on. The following expressions are valid:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>alias.field_name
+array_name [dimension]
+array_name [dimension1, dimension2]
+array_name [dimension1, dimension2, dimension3]
+constant
+expression arithmetic_operator expression
+-expression
+(expression)
+function(expression{,expression})
+parameter
+record_name{-&gt;field_name}
+table_name.field_name
+variable
+</pre>
+</div></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Square brackets are part of the array_name syntax; they do not indicate an optional part of the syntax.</p></div></div><p>text_option<br/>The height (in graphics mode) or width of the text. If this option is not used, normal height and width text is used. The following values are valid:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Value</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>ACCEPT</p></td><td class="confluenceTd"><p>Display text using ACCEPT input field defaults (reverse-video, underline).</p></td></tr><tr><td class="confluenceTd"><p>GRAPHIC</p></td><td class="confluenceTd"><p>Display text in special graphics mode.</p></td></tr><tr><td class="confluenceTd"><p>WIDE</p></td><td class="confluenceTd"><p>Display double-wide text.</p></td></tr></tbody></table></div><h2 id="CALLTEXTUsingDiscernExplorer-Examples">Examples</h2><p>The following examples illustrate different ways to use CALL TEXT:<br/>To produce a normal height and width line of text on row 6 starting at column 15, enter:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL TEXT (6,15,"Enter starting admission date:")
+</pre>
+</div></div><p>To produce a line of text on row 6 starting at column 10 that is double-wide, enter:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>CALL TEXT (6,10,"Enter person id:",WIDE)
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 609, "requestCorrelationId": "db0b32a6f737ac98"}</span>
+</body>
+</html>
