@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>DEFINE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/DEFINE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The DEFINE command overrides the default directory and file name for a database. Define can be used to associate a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> table definition with an ASCII text file. It affects any future <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command that implicitly or explicitly references the database name in the current session. The file name must be enclosed in quotes and follow the operating system's file-naming conventions. The extension .DAT is assumed, but the actual extension can be specified if different (for example, DEFINE MYTABLE IS "CCLUSERDIR:MYTABLE.SAV" GO).</p><p>If a database_name is already associated with a file, you must use the FREE DEFINE command before using the DEFINE command to override the previous file name or options. Before you can issue a DELETE, INSERT, or UPDATE command to modify a non-RDBMS table or user-owned file, you must issue a DEFINE command with the MODIFY option to allow modification of the file. Only authorized <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> personnel should modify <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> production tables or files.</p><h2 id="DEFINEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DEFINE database_name [IS] ["file_name"]
+[WITH define_option]
+GO
+</pre>
+</div></div><h2 id="DEFINEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>database_name</em><br>The name of the database file that <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> reads from the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Data Dictionary.</br></p><p><em>file_name</em><br/>The name of a file. The file extension .DAT is assumed if an extension is not specified. When combined with the file's location (node, disk drive, and directory) <em>file_name</em> forms the full file name or file specification. If an extension is specified, and a file with a name that is the same as the specified file name without the extension exists, the file without the extension is used. Prior version 8.9.4 of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> the full file name is limited to 31 characters.</p><p><em>define_option</em><br/>Identifies how a file is opened. The following options are valid:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>MODIFY</p></td><td class="confluenceTd"><p>Opens the database with read and write access.</p></td></tr><tr><td class="confluenceTd"><p>NOMODIFY</p></td><td class="confluenceTd"><p>Opens the database with read access.</p></td></tr><tr><td class="confluenceTd"><p>WORK</p></td><td class="confluenceTd"><p>The database is a working-storage type; it is stored in memory.</p></td></tr><tr><td class="confluenceTd"><p>NOWORK</p></td><td class="confluenceTd"><p>Looks for the database in the directory CCLDIR, not in working storage (for test purposes).</p></td></tr></tbody></table></div><h2 id="DEFINEUsingDiscernExplorer-Examples">Examples</h2><p>The following examples illustrate different ways to use DEFINE:</p><p>To select all rows and columns from the PERS_TEMP in directory E, enter the following:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FREE DEFINE PERS_TEMP GO
+DEFINE PERS_TEMP IS "E:PERS_TEMP" GO
+SELECT * FROM PERS_TEMP GO
+</pre>
+</div></div><p>To INSERT a row into the user-defined RMS file above:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FREE DEFINE PERS_TEMP GO
+DEFINE PERS_TEMP IS "E:PERS_TEMP"  WITH MODIFY GO
+INSERT INTO PERS_TEMP P
+	SET P.NAME_LAST = "SMITH" GO
+</pre>
+</div></div><p>To select each line from a sequential file in the CCLUSERDIR: directory named RTL0175.CCL:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FREE DEFINE RTL GO
+DEFINE RTL IS "CCLUSERDIR:RTL0175.CCL" GO
+SELECT R.* FROM RTLT R GO
+</pre>
+</div></div><p>Either of the below examples are used to select each line from a sequential file in the CCLUSERDIR: directory named myfile.dat:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>free define rtl go
+define rtl is "myfile" go  ;.dat is assumed if not specified
+select r.* from rtlt r go</pre>
+</div></div><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>free define rtl go
+define rtl is "myfile.dat" go
+select r.* from rtlt r go</pre>
+</div></div><p>If a file named myfile and a file named myfile.dat exist in the CCLUSERDIR: directory, the below example uses myfile. It does not use myfile.dat:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>free define rtl go
+define rtl is "myfile.dat" go ;if both myfile and myfile.dat exist, myfile is used
+select r.* from rtlt r go</pre>
+</div></div><p><br/></p><p>RTL is a predefined database that contains the RTLT table definition. The RTLT table contains one 132-character field named LINE. The RTL definition can be used to read files that have a line length of 132 characters or less.</p><p>RTL2 is a predefined database that contains the RTL2T table definition. The RTL2T table contains one 2000-character field named LINE. The RTL2 definition can be used to read files that have a line length of 2000 characters or less.</p><p>RTL3 is a predefined database that contains the RTL3T table definition. The RTL3T table contains one 32,768-character field named LINE. The RTL3 definition can be used to read files that have a line length of 32,768 characters or less.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>These definitions remain in effect until the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session is terminated, or until the definitions are redefined or are removed using the FREE DEFINE command.</p></div></div><p>Prior version 8.9.4 of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> there is a 31-character limit on the length of a file name. The following example demonstrates using the SET LOGICAL command to create a logical that points to a file name that exceeds the 31 character limit and uses the logical in the define command.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>set logical xyz "cer_install:bb_rdm_import_isbt_attributes.csv" go
+
+define rtl2 is "xyz" go
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 614, "requestCorrelationId": "05036b52ff79b974"}</span>
+</body>
+</html>

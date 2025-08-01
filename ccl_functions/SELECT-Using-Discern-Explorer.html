@@ -1,0 +1,550 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SELECT Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SELECT+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><span style="letter-spacing: 0.0px;">The SELECT command is the cornerstone command of </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span style="letter-spacing: 0.0px;">. The SELECT command allows you to start </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span style="letter-spacing: 0.0px;"> queries. The SELECT command can be a Query, a Select IF, or a Report.</span></p><p>Queries are ad hoc programs or stored executable programs that display results using default <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>-determined headings, column and row positions, and page breaks. You can create queries at the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command line or in an editor. A query can consist of one <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> SELECT command or it can be embedded in an executable program.</p><p>SELECT IF combines the SELECT command with an IF clause that provides the ability to flex additional clauses at run time. For example, you could use the SELECT IF clause if you need to flex the order in which the data will be sorted based on a value entered by the user at run time. See SELECT IF for more information.</p><p>Reports use ReportWriter clauses to identify exactly how the output of a query should be formatted. These clauses are embedded in the SELECT command to define elements such as report headings, page headers and footers, and so on. See SELECT Reportwriter for more information.</p><p>Each form of the SELECT command has its own syntax. The syntax for the basic ad hoc or executable query is described in this section; all dependent clauses and metasymbols are defined. The syntax for reports and SELECT IF programs is described elsewhere, with clauses and metasymbols specific to those forms of the SELECT command defined. Clauses common to all forms of the SELECT command (such as FROM or WHERE) are described below.</p><h2 id="SELECTUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	[DISTINCT]
+	[INTO output_device]
+	select_expression ["display_template][;display_qualifier][;display_format"] {,
+	select_expression ["display_template][;display_qualifier][;display_format"]}
+	{[,olap_expression ]}
+[FROM 	table_name [alias] {,
+	table_name [alias] }]
+	{, ([FULL|LEFT|RIGHT|INNER JOIN] table [alias] [ON qualification])}
+	{[inline_select_table]}
+[PLAN range	[WHERE qualification]
+	{join_operator range [WHERE qualification]}]
+[WHERE	qualification]
+[GROUP BY	expression]
+[HAVING	condition]
+[ORDER 	select_expression [DESC] {,
+	select_expression [DESC] }]
+[WITH 	control_option {,
+	control_option }]
+GO
+</pre>
+</div></div><h2 id="SELECTUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>alias</em></p><p>The abbreviated name of a table to be used in place of the table name when referencing the table in any part of the SELECT command.</p><p><em>control_option</em></p><p>Control options are used in the WITH clause to control certain actions for an entire query. See the Control Options section for a complete list of control options.</p><ul><li>display format</li><li>display qualifier</li><li>display template</li></ul><p><em>expression</em></p><p>An expression is the highest-level metasymbol among constants, field names, variables, and so on.</p><p><em>field_name</em></p><p>The name of the field from the table.</p><p><em>inline_select_table</em></p><p>A select command to create an inline temporary table. To access the columns on the inline table a name needs to be assigned to each select_expression. In addition, the control option "sqltype(type,{type})" can be used in the With clause of the inline select to map the sql datatype to the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> datatype. If the sqltype option is specified, it must match the number of columns in the select target list. If the sqltype is omitted, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> will use the following to implicitly derive the datatype for each column:</p><ul><li><strong>integer:</strong> ;14</li><li><strong>real:</strong> ;F8</li><li><strong>string:</strong> ;C&lt;string_len&gt;</li><li><strong>cnvtint():</strong> ;I4</li><li><strong>cnvtreal():</strong> ;F8</li><li><strong>cnvtdatetime(): </strong>;DQ8</li><li><strong>cnvtdatetimeutc():</strong> ;DQ8</li><li><strong>substring():</strong> ;C&lt;substring_len&gt;</li><li><strong>other:</strong> ;error</li></ul><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>An alias must be used to name the select table.</p><p>The select command is limited to only reading RDBMS tables and cannot use Plan/Join syntax. If multiple tables are used, they must be linked using a single Where clause or a FULL|LEFT|RIGHT|INNER JOIN. Before versions 8.16.0 and 9.04.0 <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> does not pass bind variables in the ON clause of a FULL|LEFT|RIGHT|INNER JOIN.</p><p>UAR calls are not allowed in the select command and any functions that are used must have a direct RDBMS equivalent or be used in a way that allows a bind variable to be created and substituted for the function call in the query that is passed to the RDBMS.</p></div></div><h2 id="SELECTUsingDiscernExplorer-Examples">Examples</h2><p>The example below uses an inline select table to create a temporary table. Each row of the temporary table contains the person_id, alias, and alias type code columns. The example assumes that an output device and person_id are being passed as parameters from prompts, and that variables have been set equal to the code values for SSN, MRN, and CMRN. An outerjoin is performed on the temporary table allowing the result set to contain person information even is the person does not have any of the specified aliases.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select into $outdev
+	p.person_id
+	, p.name_full_formatted
+	,pa2.alias
+	,type = uar_get_code_display(pa2.type)
+ from
+	person   p
+	, (( select  person_id = pa.person_id
+		, alias = pa.alias
+		,type = pa.person_alias_type_cd
+ 		from person_alias  pa
+ 		where pa.person_id = $pid
+			and pa.person_alias_type_cd in (ssn_var, mrn_var, cmrn_var)
+		with sqltype('f8', 'c40', 'f8'))
+	pa2)
+plan p where p.person_id = $pid
+join pa2 where outerjoin(p.person_id) = pa2.person_id
+</pre>
+</div></div><p>In environments using <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> 11 or higher, the PIVOT control option can be used in inline_select_tables to create cross tab query output which converts a column into one or more new columns. This allows a name, value pair to be flattened into multiple columns per row. The datatype() function needs to set the column name and column type for each column returned in the nested select using the pivot.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>PIVOT(&lt;aggregate&gt; where &lt;qualification&gt; ,
+	sqltype(datatype( &lt;column_name&gt;,&lt;type&gt;) {,datatype()}))
+</pre>
+</div></div><p><em>aggregate</em></p><p>An aggregate function.</p><p><em>qualification</em></p><p>A restriction on known values. One column is created in the output for each value in the qualification.</p><p><em>column_name</em></p><p>A name to use as the column heading.</p><p><em>type</em></p><p>The data type to be used for the column.</p><p>See the following example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>/*create custom table*/
+select into table cust_ccl_pivot
+	id = type("f8"),
+	cost = type("f8"),
+	tx_date = type("dq8"),
+	product_type = type("vc50")
+from dummyt
+with organization = "P"
+
+insert into cust_ccl_pivot (id,cost,tx_date,product_type)
+		values(12345,5.00,cnvtdatetime("22-Nov-2008 10:30:15"),'BANDAGE')
+insert into cust_ccl_pivot (id,cost,tx_date,product_type)
+		values(12345,10.99,cnvtdatetime("23-Nov-2008 11:13:12"),'BANDAGE')
+insert into cust_ccl_pivot (id,cost,tx_date,product_type)
+		values(12345,20.99,cnvtdatetime("23-Nov-2008 16:03:43"),'TRAY')
+insert into cust_ccl_pivot (id,cost,tx_date,product_type)
+		values(12345,20.99,cnvtdatetime("23-Nov-2008 22:36:26"),'HOSE')
+insert into cust_ccl_pivot (id,cost,tx_date,product_type)
+		values(12345,20.99,cnvtdatetime("23-Nov-2008 01:35:23"),'MASK')
+insert into cust_ccl_pivot (id,cost,tx_date,product_type)
+		values(23456,5.00,cnvtdatetime("24-Nov-2008 08:40:53"),'BANDAGE')
+insert into cust_ccl_pivot (id,cost,tx_date,product_type)
+		values(23456,7.00,cnvtdatetime("24-Nov-2008 11:30:19"),'TRAY')
+insert into cust_ccl_pivot (id,cost,tx_date,product_type)
+		values(23456,5.00,cnvtdatetime("24-Nov-2008 15:55:26"),'HOSE')
+insert into cust_ccl_pivot (id,cost,tx_date,product_type)
+		values(23456,20.99,cnvtdatetime("25-Nov-2008 22:39:47"),'HOSE')
+</pre>
+</div></div><p>Assuming the preceding Select Into Table and Insert commands were used to create and populate a custom table named CUST_CCL_PIVOT, the output of the following select is as follows:</p><div class="table-wrap"><table class="wrapped confluenceTable"><tbody><tr><td class="confluenceTd"><p>ID</p></td><td class="confluenceTd"><p>BANDAGE</p></td><td class="confluenceTd"><p>MASK</p></td><td class="confluenceTd"><p>TRAY</p></td><td class="confluenceTd"><p>HOSE</p></td></tr><tr><td class="confluenceTd"><p>12345.00</p></td><td class="confluenceTd"><p>15.99</p></td><td class="confluenceTd"><p>20.99</p></td><td class="confluenceTd"><p>20.99</p></td><td class="confluenceTd"><p>20.99</p></td></tr><tr><td class="confluenceTd"><p>23456.00</p></td><td class="confluenceTd"><p>5.00</p></td><td class="confluenceTd"><p>0.00</p></td><td class="confluenceTd"><p>7.00</p></td><td class="confluenceTd"><p>25.99</p></td></tr></tbody></table></div><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select into $outdev
+      t.* from
+      ((select c.ID
+      	,c.product_type
+      	,c.cost
+      	from cust_ccl_pivot c
+        where c.ID in(12345.0, 23456.0)
+        with pivot(sum(cost) where product_type in("BANDAGE","MASK","TRAY", "HOSE")),
+                sqltype(datatype(id,"f8"),datatype(Bandage,"f8"),datatype(Mask,"f8")
+                		,datatype(Tray,"f8"),datatype(Hose,"f8"))
+       ) t)
+with format, separator = " "
+</pre>
+</div></div><p>Assuming the preceding Select Into Table and Insert commands were used to create and populate a custom table named CUST_CCL_PIVOT, the output of the following select is as follows:</p><div class="table-wrap"><table class="wrapped confluenceTable"><tbody><tr><td class="confluenceTd"><p>ID</p></td><td class="confluenceTd"><p>COST20_99</p></td><td class="confluenceTd"><p>COST5</p></td></tr><tr><td class="confluenceTd"><p>12345.00</p></td><td class="confluenceTd"><p>3.00</p></td><td class="confluenceTd"><p>1.00</p></td></tr><tr><td class="confluenceTd"><p>23456.00</p></td><td class="confluenceTd"><p>1.00</p></td><td class="confluenceTd"><p>2.00</p></td></tr></tbody></table></div><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>select into $outdev
+      t.id, t.cost20_99, t.cost5
+      from
+      ((select c.ID
+      	,c.cost
+      	from cust_ccl_pivot c
+        where c.ID in(12345.0, 23456.0)
+        with pivot(count(cost) where cost in(20.99, 5.0)),
+                sqltype(datatype(id,"f8")
+                ,datatype(cost20_99,"f8"),datatype(cost5,"f8"))
+	) t)
+with format, separator = " "
+</pre>
+</div></div><p><em>join operator</em></p><p>Within the context of a PLAN clause, defines whether <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> performs a linear read between tables (JOIN), or performs a union of two tables (ORJOIN). Valid values are JOIN and ORJOIN.</p><p><em>olap_expression</em></p><p>OnLine Analytical Processing (OLAP) expressions calculate an aggregate value for a group of rows in the result set. OLAP expressions are different from aggregate functions. An aggregate function will return one row for each group. An OLAP expression returns one value for each row in the group. For example, the aggregate count() function would return a total count for the group where an OLAP expression would return a running count for the group.</p><p>Syntax for an OLAP expression:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>name = analytic_function([param{,param}])
+		OVER ([PARTITION BY expression{,expression}]
+		ORDER BY expression[DESC],{expression[DESC]}
+		[RANGE|ROWS [BETWEEN bound AND] bound])
+</pre>
+</div></div><p><em>name</em></p><p>The expression name that will be used as the column heading for the value returned by the analytic function.</p><p><em>analytic_function</em></p><p>One of the following analytical functions:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Name</p></th><th class="confluenceTh" colspan="1">Type</th><th class="confluenceTh"><p>Description</p></th></tr><tr><th class="confluenceTh"><p>AVG()</p></th><td class="confluenceTd" colspan="1">Aggregation</td><td class="confluenceTd"><p>Average of two or more values.</p></td></tr><tr><th class="confluenceTh"><p>COUNT()</p></th><td class="confluenceTd" colspan="1">Aggregation</td><td class="confluenceTd"><p>Count the number of rows in the partition.</p></td></tr><tr><th class="confluenceTh"><p>MAX()</p></th><td class="confluenceTd" colspan="1">Aggregation</td><td class="confluenceTd"><p>Return largest value in the partition.</p></td></tr><tr><th class="confluenceTh"><p>MIN()</p></th><td class="confluenceTd" colspan="1">Aggregation</td><td class="confluenceTd"><p>Return smallest value in the partition.</p></td></tr><tr><th class="confluenceTh"><p>STDDEV()</p></th><td class="confluenceTd" colspan="1">Aggregation</td><td class="confluenceTd"><p>Standard deviation.</p></td></tr><tr><th class="confluenceTh"><p>SUM()</p></th><td class="confluenceTd" colspan="1">Aggregation</td><td class="confluenceTd"><p>Add values and return total for the partition.</p></td></tr><tr><th class="confluenceTh"><p>VARIANCE()</p></th><td class="confluenceTd" colspan="1">Aggregation</td><td class="confluenceTd"><p>Return variance from a mean.</p></td></tr><tr><th class="confluenceTh"><p>RANK()</p></th><td class="confluenceTd" colspan="1">Ranking</td><td class="confluenceTd"><p>Determines a ranking number for each value in a group of rows. Rows with the same value will be given the same rank. The next rank will be the number of tied rows added to the current rank. So if the values to be ranked were 1, 2, 2, 3, the rank values are 1, 2, 2, 4.</p></td></tr><tr><th class="confluenceTh"><p>DENSE_RANK()</p></th><td class="confluenceTd" colspan="1">Ranking</td><td class="confluenceTd"><p>Determines a ranking number for each value in a group of rows. Rows with the same value will be given the same rank. When ranked values are tied, the next rank will be the next sequential number. So if the values to be ranked were 1, 2, 2, 3, the ranks are 1, 2, 2, 3.</p></td></tr><tr><th class="confluenceTh"><p>NTILE()</p></th><td class="confluenceTd" colspan="1">Ranking</td><td class="confluenceTd"><p>Divides the rows into a number of groups. If 25 rows in the partition exist, NTILE(4) would return four groups numbered 1 through 4. Three of the groups would contain six rows and one group would contain seven rows.</p></td></tr><tr><th class="confluenceTh"><p>CUME_DIST()</p></th><td class="confluenceTd" colspan="1">Ranking</td><td class="confluenceTd"><p>Determines a percentile rank for each row expressed as a decimal value between 0 and 1 inclusively.</p></td></tr><tr><th class="confluenceTh"><p>PERCENT_RANK()</p></th><td class="confluenceTd" colspan="1">Ranking</td><td class="confluenceTd"><p>Determines a normalized rank for each row expressed as a decimal value between 0 and 1 inclusively. Returns the rank minus one divided by the number of rows in the partition minus one.</p></td></tr><tr><th class="confluenceTh"><p>ROW_NUMBER</p></th><td class="confluenceTd" colspan="1">Numbering</td><td class="confluenceTd"><p>Similar to Count(), returns a row number for each row in the partition.</p></td></tr><tr><th class="confluenceTh"><p>PERCENTILE_CONT()</p></th><td class="confluenceTd" colspan="1">Distribution</td><td class="confluenceTd"><p>Takes a percentile value expressed as a decimal and returns a value that is equal to that percentile for a continuous distribution.</p></td></tr><tr><th class="confluenceTh"><p>PERCENTILE_DISC()</p></th><td class="confluenceTd" colspan="1">Distribution</td><td class="confluenceTd"><p>Takes a percentile value expressed as a decimal and returns a value that is equal to that percentile for a distinct distribution.</p></td></tr></tbody></table></div><p><em>param</em></p><p>A field or RDBMS expression that the analytic_function will use to calculate a return value.</p><p><em>expression</em></p><p>A RDBMS expression, typically a table alias and field name.</p><p><em>bound</em></p><p>Any of the following:</p><ul><li>CURRENT ROW</li><li>UNBOUNDED</li><li>integer PRECEDING</li><li>inter FOLLOWING</li><li>(In the above integer is a literal interger value)</li></ul><p>See the following example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT INTO $OUTDEV
+	P.PERSON_ID
+	, NAME = SUBSTRING(1,30,P.NAME_FULL_FORMATTED)
+	, O.ORDER_ID
+	, CAT_DISP = UAR_GET_CODE_DISPLAY(O.CATALOG_CD)
+	, O.ORIG_ORDER_DT_TM ";;Q"
+		/*the order with the highest order_id will have the highest ocnt for each person */
+	, OCNT = COUNT(O.ORDER_ID)
+			OVER(PARTITION BY P.PERSON_ID
+			ORDER BY P.PERSON_ID, O.ORDER_ID)
+		/*the order with the highest order_id will have the lowest ocntrev for each person
+			ocntrev will be in the reverse order of ocnt*/
+	, OCNTREV = COUNT(O.ORDER_ID)
+			OVER(PARTITION BY P.PERSON_ID
+			ORDER BY P.PERSON_ID, O.ORDER_ID DESC)
+		/*ngroup will be set 1, 2, 3, or 4 with each value representing one quartile of
+			the person's orders.  A ngroup of 1 represents the quartile of the
+			most recent orders.   */
+	,NGROUP = NTILE(4) OVER(PARTITION BY P.PERSON_ID
+				ORDER BY O.ORIG_ORDER_DT_TM DESC)
+FROM	PERSON   P
+	, ORDERS   O
+PLAN O WHERE O.ORIG_ORDER_DT_TM &gt; CNVTDATETIME(CURDATE-7 ,0)
+JOIN P WHERE P.PERSON_ID = O.PERSON_ID
+</pre>
+</div></div><p>WITH FORMAT, SEPARATOR = " "</p><p><em>output device</em></p><p>Identifies where the results of the query should be sent. See the following list of valid values:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Value</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><th class="confluenceTh"><p>CRT</p></th><td class="confluenceTd"><p>Prints to a dedicated printer.</p></td></tr><tr><th class="confluenceTh"><p>CURDIO</p></th><td class="confluenceTd"><p>Sends DIO output to an area of memory. The CURDIO reserved variable can be used to reference the output after the select completes.</p></td></tr><tr><th class="confluenceTh"><p>file_name</p></th><td class="confluenceTd"><p>Stores the results to an extract file with the name file_name. By default the file is written in the CCLUSERDIR: and given a ".dat" extension. To override the default enclose the path, file name, and extension in quotes. The combined length of the full path, file name, and extension is limited to 200 characters. You can use a predefined logical like CUST_SCRIPT: or CER_TEMP: for the path. When using a logical, the number of characters in the actual path, not the number of characters in the logical name are applied to the 200 character limit. For example if CUST_SCRIPT: is defined to point to /cerner/w_custom/kwplay_cust/code/script/ using Select into CUST_SCRIPT:my_file.dat will have a full combined file_name length of 52 characters. The VERSION Control Option appends a five character version number to the end of an existing file_name. Those five characters are applied to the 200 character limit on the file_name. The maximum record length of a file created using SELECT INTO <em>filename</em> is 35,000 characters. Depending on the FORMAT (Record) Control Option, specifying MAXCOL Control Option greater than 35,000 will generate a warning or error message. If the length of the record exceeds 35,000, an empty file is created.</p></td></tr><tr><th class="confluenceTh"><p>FORMS</p></th><td class="confluenceTd"><p>Displays output using the Displayer.</p></td></tr><tr><th class="confluenceTh"><p>MINE</p></th><td class="confluenceTd"><p>Displays output using the Displayer.</p></td></tr><tr><th class="confluenceTh"><p>NOFORMS</p></th><td class="confluenceTd"><p>Scrolls the results to the standard output device.</p></td></tr><tr><th class="confluenceTh"><p>NL:</p></th><td class="confluenceTd"><div class="content-wrapper"><p>Selects output into null. This option can be used to internally process data or load an array or record structure. (SELECT INTO "NL:") <br>To correct for common typing mistakes early versions of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> began to implicitly treat SELECT INTO NL as SELECT INTO NL:. Beginning in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Version 8.10.4, the implicit conversion is also applied to NL;. In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Version 8.11.0, the implicit conversion is applied to N1; and N1:. The implicit conversion is applied to upper, lower, and mixed case instances of N or NL.</br></p></div></td></tr><tr><th class="confluenceTh"><p>printer_queue_name</p></th><td class="confluenceTd"><p>Spools the results to a host printer queue.</p></td></tr><tr><th class="confluenceTh"><p>TABLE table_name</p></th><td class="confluenceTd"><p>Used to create a custom table. See Select Into Table Table_Name for additional information.</p></td></tr><tr><th class="confluenceTh"><p>TRIM(expression)</p></th><td class="confluenceTd"><p>Use this form to trim any trailing spaces if the expression is a global variable set to a file, printer, CRT, FORMS, MINE, or NOFORMS.</p></td></tr></tbody></table></div><p><em>parameter</em></p><p>A value passed to a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program either by the user in response to a prompt or at the time of execution, or by using a run-time library routine. In a program, parameters are assigned to symbols identified by a dollar sign followed by an integer (for example, $1, $2, and so on) or a name from the With clause of the Prompt statement (for example $OutDev, $Lname). The symbols can be used for control options, expressions, output devices, and select expressions.</p><p><em>qualification</em></p><p>A condition that limits the records that will be returned in the result set. Qualifications can include IF, IN, and EVALUATE statements and can be combined using the qualifiers AND, OR, NOT, and BETWEEN. Relational operators define the condition. Valid forms of syntax for a qualification are listed below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>(qualification)
+NOT qualification
+qualification AND qualification
+qualification OR qualification
+expression relational_operator expression
+expression relational_operator subquery
+{qualifier expression relational_operator expression}
+</pre>
+</div></div><p><em>qualifier</em></p><p>Allows you to combine qualifications using exclusive, inclusive, or alternative options. Valid qualifiers include AND, NOT, and OR.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> assigns equal precedence to the AND and OR qualifiers and evaluates qualifications from left to right, top down. When using AND and OR qualifiers to combine qualifications, you must group the qualifications using parentheses to ensure that they are applied as you intend.</p></div></div><p>For example, if you want to qualify males who are 60 and older or females who are 65 and older, your qualification will look like this:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE  (P.SEX_CD = Male_Var
+and  P.BIRTH_DT_TM  &lt;  cnvtlookbehind("60, Y" ))
+        or
+  (P.SEX_CD = Female_Var
+and  P.BIRTH_DT_TM  &lt; cnvtlookbehind("65, Y"))
+</pre>
+</div></div><p>The following qualification does not use the parentheses and returns only males who are 60 and older:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>WHERE  P.SEX_CD = Male_Var
+and  P.BIRTH_DT_TM  &lt;  cnvtlookbehind("60, Y" )
+            or  P.SEX_CD = Female_Var
+and  P.BIRTH_DT_TM  &lt; cnvtlookbehind("65, Y")
+</pre>
+</div></div><p>Because no parentheses were used, the following precedence is implied:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>Male and (Age &gt;= 60 or (Female (and Age &gt;= 65)))</pre>
+</div></div><p>This precedence requires that the person be a male age 60 and older, or be a male and be a female age 65 and older. Because a person cannot be both a male and a female, only males 60 and older qualify.</p><p><em>range</em></p><p>A table_name or an alias used to identify the table in any part of the SELECT command.</p><p><em>relational operator</em></p><p>Identifies the condition in a qualification.</p><p><em>table_name</em></p><p>The name of the table from the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Data Dictionary to read.</p><p><em>select expression</em></p><p>The select_expression identifies what data should be extracted and displayed. Metasymbols for valid select expressions are listed below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>*
+aggregate functions
+alias.*
+alias.field_name
+array_name [dimension]
+array_name [dimension1, dimension2]
+array_name [dimension1, dimension2, dimension3]
+conditional statement
+constant
+expression arithmetic_operator expression
+expression
+field_name
+function(expression{,expression})
+parameter
+record_name{-&gt;field_name}
+table_name.field_name
+variable
+</pre>
+</div></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Square brackets are part of the array_name syntax; they do not indicate an optional part of the syntax in this instance.</p></div></div><p>A select_expression can be given a name using the format name = expression. If you use the name = expression syntax, name becomes the column heading in the query output. An expression can consist of any number, literal string, field name, name, or array. The select_expression can consist of any expression that has functions or is the result of an arithmetic operation. For example, using PERSON_ALIAS = CNVTALIAS(P.ALIAS,A.FORMAT_MASK) creates a column heading of PERSON_ALIAS in the query output.</p><p>Use aggregate functions as a select_expression to group rows rather than returning single rows. Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.0 and 9.02.0, a mathematical expression that uses an aggregate function is required to be nested in another function. For example, sum_1 = cnvtreal(sum(c.item_price)- 1). <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.0 and 9.02.0 eliminate this requirement. For example, sum_1 = sum(c.item_price)- 1.</p><p>For each select expression, you optionally can define display options. Display options are used to override <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>'s default output formatting with a user-specified format. For example, display options enable you to:</p><ul><li>Display dates and times in a different format</li><li>Center, left-justify, and right-justify columns</li><li>Pad special characters in place of blanks</li><li>Display data in money format</li><li>Embed text along with data</li></ul><p>For example, if a program includes E.DISCH_DT_TM ";;Q", the extracted discharge date and time (from the E.DISCH_DT_TM field) will be formatted to look like this: 24-DEC-1996 13:46:00.00.</p><p>Display options are represented by the metasymbols display_format, display_qualifier, and display_template, described earlier.</p><h2 id="SELECTUsingDiscernExplorer-DISTINCTClause">DISTINCT Clause</h2><p>The DISTINCT option of the SELECT command allows you suppress the display of duplicate records after a query has been sorted. If identical data is selected from multiple rows, subsequent occurrences are suppressed. For example, if you select the NAME_FULL_FORMATTED column and the BIRTH_DT_TM column, all rows except one that were extracted with the same patient name and birth date and time will be suppressed. Only unique combinations of each of the selected columns will qualify for selection. The DISTINCT option is not required unless you want to suppress duplicate information.</p><p>The <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> distinct is used in conjunction with the ORDER clause. The sort items specified in the ORDER clause determines the duplicate records to be suppressed. If any non-RDBMS table is read, an expression or 0 is used in the ORDER clause, or the control option MemSort or FileSort is used, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> will perform the sort and apply the distinct using only the fields and expressions listed in the ORDER clause.</p><p>If only RDBMS tables are accessed in the query path and only alias.field_names are used in the ORDER clause, and 0 is not used in the ORDER clause, and neither the MemSort or FileSort control option is used, then the SELECT expressions are used to suppress rows, not the ORDER expressions.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>The Distinct option in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>, using RMS or ISAM files, will use the ORDER expressions.</p></div></div><p>The following queries and their output demonstrate using SELECT DISTINCT:</p><p>NORMAL SELECT</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_LAST_KEY,
+	P.NAME_FULL_FORMATTED
+FROM	PERSON P
+WHERE	P.NAME_LAST_KEY = "SMI*"
+ORDER	P.NAME_LAST_KEY
+GO
+</pre>
+</div></div><p>USING RDBMS DISTINCT (suppress by SELECT expressions)</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	DISTINCT
+	P.NAME_LAST_KEY,
+	P.NAME_FULL_FORMATTED	;will suppress by last name and full name
+FROM	PERSON P
+WHERE	P.NAME_LAST_KEY = "SMI*"
+ORDER	P.NAME_LAST_KEY
+GO
+</pre>
+</div></div><p>USING DISCERN DISTINCT (suppress by ORDER expressions because dummyt table is used)</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	DISTINCT
+	P.NAME_LAST_KEY,
+	P.NAME_FULL_FORMATTED
+FROM	PERSON P,
+	DUMMYT D		;RMS or ISAM files
+PLAN D
+JOIN P	WHERE P.NAME_LAST_KEY = "SMI*"
+ORDER	P.NAME_LAST_KEY	;will suppress by last name
+GO
+</pre>
+</div></div><p>USING DISCERN DISTINCT (suppress by ORDER expressions used in the ORDER clause)</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	DISTINCT
+	P.NAME_LAST_KEY,
+	P.NAME_FULL_FORMATTED,
+	SEX = UAR_GET_CODE_DISPLAY(P.SEX_CD)
+FROM	PERSON P
+WHERE	P.NAME_LAST_KEY = "SMI*"
+ORDER	SEX,
+		P.NAME_LAST_KEY	;will suppress by sex and last name
+GO
+</pre>
+</div></div><h2 id="SELECTUsingDiscernExplorer-INTOClause">INTO Clause</h2><p>The INTO clause is used to send the results of a query to an output device, such as a host printer queue, an extract file, a table, or the terminal (using the Displayer). By default, the Displayer is used for interactive sessions and SYS$OUTPUT (usually defined as your terminal) is used for batch jobs. If you omit the INTO clause from a query that is executed in an interactive host session, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> uses the output device MINE as a default, which displays the result to your terminal using the Displayer.</p><p>When using a front-end <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> application to execute a program, that program must prompt for an output device and select into that output device. If MINE is entered at the prompt for the output device the results of the query will be returned the Discern front-end displayer. The syntax of the INTO clause follows:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>[INTO output_device]</pre>
+</div></div><h2 id="SELECTUsingDiscernExplorer-FROMClause">FROM Clause</h2><p>The FROM clause specifies the tables to be read during a query and establishes aliases to use throughout the rest of the query to reference a table. If the query uses more than one table, the tables must be linked or joined. The join can be established using the WHERE clause, the PLAN clause or the FULL|LEFT|RIGHT|INNER JOIN table alias ON qualification clause. For more information about joins, see the descriptions of the WHERE clause and PLAN clause. A LEFT join returns rows from the left (parent) table even if no matching row on the right (child) table exists. A RIGHT join returns rows from the right (child) table even if no matching row on the left (parent) table exists. A FULL join returns rows that exist on both tables (standard join) or that exist on either table (left or right join). An INNER join returns rows that exist on both tables. The FULL|LEFT|RIGHT|INNER JOIN, must immediately follow the parent table or another table that is referenced using the FULL|LEFT|RIGHT|INNER JOIN.  The Outerjoin() function and a FULL|LEFT|RIGHT|INNER JOIN cannot be used in the same query. </p><p>The FROM clause syntax is shown below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FROM	table_name [alias] {,table_name [alias]}
+	{, ([FULL|LEFT|RIGHT|INNER JOIN] table [alias] [ON qualification])}
+	{[inline_select_table]}
+</pre>
+</div></div><p>To select the formatted name from the PERSON table using "P" as the alias, your SELECT command and FROM clause should look like the following example:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT P.NAME_FULL_FORMATTED
+FROM PERSON P
+GO
+</pre>
+</div></div><p>To select the formatted name using "P" as the alias for the PERSON table where the person's last name is "SMITH" and the order mnemonic for each of that person's orders using "O" as the alias for the ORDERS table, use one of the following SELECT commands:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT P.NAME_FULL_FORMATTED,
+	O.ORDER_MNEMONIC
+FROM PERSON P,
+	ORDERS O
+WHERE P.NAME_LAST_KEY = "SMITH"
+AND P.PERSON_ID = O.PERSON_ID
+GO
+
+SELECT P.NAME_FULL_FORMATTED,
+	O.ORDER_MNEMONIC
+FROM PERSON P,
+	ORDERS O
+PLAN P WHERE P.NAME_LAST_KEY = "SMITH"
+JOIN  O WHERE P.PERSON_ID = O.PERSON_ID
+GO
+</pre>
+</div></div><p>The example below returns information about people whose last name is "WALDEN". If they have CBC or BUN orders, those orders will also be returned. If not, the person information will still be returned.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT  INTO $OUTDEV
+	P.PERSON_ID
+	, NAME = SUBSTRING(1,20,P.NAME_FULL_FORMATTED)
+	, O.CATALOG_CD
+	, O_CATALOG_DISP = UAR_GET_CODE_DISPLAY(O.CATALOG_CD)
+FROM
+	PERSON   P
+	,(LEFT JOIN ORDERS O ON (P.PERSON_ID = O.PERSON_ID
+	AND O.CATALOG_CD+0 IN (BUN_VAR, CBC_VAR)))
+PLAN P WHERE P.NAME_LAST_KEY = "WALDEN"
+JOIN O
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT
+</pre>
+</div></div><h2 id="SELECTUsingDiscernExplorer-WHEREClause">WHERE Clause</h2><p>The WHERE clause is used to specify a qualification on a query. That qualification can serve any of the purposes listed below.</p><ul><li>Limit the number of records returned in the result set for a query.</li><li>Qualify on keys or indexes to make a query run more efficiently.</li><li>Establish a join between two tables.</li></ul><p><strong>The syntax of the WHERE clause follows</strong>:</p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">WHERE qualification</pre>
+</div></div><p>(See the description of the qualification metasymbol, above.)</p><p>The following query includes an example of a simple qualification that searches for all encounters discharged after January 1, 1997:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	E.PERSON_ID,
+	E.ENCOUNTER_ID,
+	E.DISCH_TO_LOCTN_CD
+FROM	ENCOUNTER E
+WHERE	E.DISCH_DT_TM &gt;= CNVTDATETIME("01-JAN-1997 00:00:00")
+GO
+</pre>
+</div></div><p>GROUP BY</p><p>Use the GROUP BY clause to group rows of data into summary information. The expression defines how the rows are to be grouped together. When using the GROUP BY clause, the select expressions should be constants, aggregate functions, or expressions from the GROUP BY clause.</p><p>The rows returned from the following query will contain only encounters that are not discharged, a row for each nursing unit with the count of patients:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	E.LOC_NURSE_UNIT_CD,
+	COUNT(*)
+FROM	ENCOUNTER E
+WHERE	E.DISCH_DT_TM = NULL
+GROUP BY	E.LOC_NURSE_UNIT_CD
+GO
+</pre>
+</div></div><p>HAVING</p><p>Use the HAVING clause to restrict the rows from the GROUP BY clause that are returned. First, any qualification in the WHERE clause will restrict the rows returned in the result set. Second, the groups are formed from the GROUP BY clause. Finally, the HAVING clause will restrict the result set to only those groups that satisfy the condition.</p><p>The rows returned from the following query will contain only encounters that are not discharged, a row for each nursing unit with the count of patients where that count is greater than 10:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	E.LOC_NURSE_UNIT_CD,
+	COUNT(*)
+FROM	ENCOUNTER E
+WHERE	E.DISCH_DT_TM = NULL
+GROUP BY	E.LOC_NURSE_UNIT_CD
+HAVING	COUNT(*) &gt; 10
+GO
+</pre>
+</div></div><p>Qualifying on Indexes</p><p>The WHERE clause determines how indexes are read in tables when a qualification is present. Generally, qualifying on an index makes a query run faster because <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> can skip over data that does not meet the qualification. The valid syntax for qualifying on indexes is any of the following syntax:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>table_name.index_column = constant
+table_name.index_column &gt; constant
+table_name.index_column &gt;= constant
+table_name.index_column BETWEEN constant1 AND constant2
+table_name.index_column = expression
+table_name.index_column &gt; expression [AND
+	table_name.index_column &lt; expression]
+table_name.index_column &gt;= expression [AND
+	table_name.index_column &lt;= expression]
+table_name.index_column BETWEEN expression AND expression]
+table_name.index_column IN (expression[,expression]
+{,expression})
+</pre>
+</div></div><p>Joining Tables</p><p>You can use a WHERE clause or PLAN/JOIN clause to join tables. For efficiency you should always join to an indexed column on the table you are joining</p><p>When you are joining two or more tables, any of the syntax forms listed below is valid.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>column = column
+alias.column = alias.column
+alias.column &lt; expression
+	[AND table_namealias.column &gt; expression]
+alias.column &lt;= expression
+	[AND table_namealias.column&gt;=]
+table_name.column = table_name.column
+table_name.column = expression
+table_name.column &lt; expression
+	[AND table_name.column &gt; expression]
+table_name.column &lt;= expression
+	[AND table_name.column&gt;=]
+</pre>
+</div></div><p>The following example links the PERSON and ENCOUNTER tables; matching rows or the intersection of these two tables will be displayed:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	E.ARRIVE_DT_TM,
+	E.DISCHG_DT_TM
+FROM	PERSON P,
+	ENCOUNTER E
+WHERE	P.PERSON_ID = E.PERSON_ID
+GO
+</pre>
+</div></div><h2 id="SELECTUsingDiscernExplorer-PLANClause">PLAN Clause</h2><p>When reading non-RDMBS table, the PLAN clause defines how the joined tables will be read. When reading RDBMS tables the PLAN clause is used to suggest how to read the tables to the RDBMS optimizer.</p><p>The syntax of the PLAN clause is shown below.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>[PLAN range [WHERE qualification]
+	{join_operator range [WHERE qualification]}]
+</pre>
+</div></div><p>The PLAN clause takes two different forms:</p><ol><li>The JOIN plan performs a linear read between tables, creating an intersection.</li><li>The ORJOIN plan splits the query tree to perform a union of two tables. (The primary table joins to a third table, skipping the second table it joined to earlier, effectively splitting the query tree.) Generally for efficiency reasons the ORJOIN should not be used when reading RDBMS tables. Instead the UNION operator should be used.</li></ol><p>A PLAN clause cannot be included in a subquery.</p><p>The following example links the PERSON, ENCOUNTER, and ORDERS tables; matching rows or the intersection of these tables will be returned:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	E.ARRIVE_DT_TM,
+	E.DISCHG_DT_TM,
+ 	O.ORDER_ID
+FROM	PERSON P,
+	ENCOUNTER E,
+ 	ORDERS O
+PLAN P
+JOIN E	WHERE P.PERSON_ID = E.PERSON_ID
+JOIN O	WHERE E.ENCNTR_ID = O.ENCNTR_ID
+GO
+</pre>
+</div></div><p>For a discussion about available join options, see the JOIN Options Help Page.</p><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> ORJOIN</p><p>When using an ORJOIN with RDBMS tables, you must use two dummy tables. The first dummy table (DUMMYT D1) is placed after the primary table. The second dummy table (DUMMYT D2) is placed before the table that is the logical ORJOIN. The ORJOIN option is used on the second dummy table (DUMMYT D2). Using joins to the DUMMYT in the middle of a PLAN/JOIN sequence is generally discouraged for efficiency reasons. Therefore a UNION should be used to create a non-linear join between RDBMS tables.</p><p>The example below illustrates the ORJOIN form of the PLAN clause, using the DECODE( ) function. In the following sample program, we use two dummy tables. The first dummy table (DUMMYT D1) is placed after the primary table, ORDERS. The second dummy table (DUMMYT D2) is placed the before the RESULT table, which is the logical ORJOIN. The pseudo column SEQ is also used.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	ORDER_MNEM = 	SUBSTRING(1,10,O.ORDER_MNEMONIC),	O.ORDER_ID,
+	OC.LONG_TEXT_ID,
+	R.RESULT_ID,
+	CHECK = DECODE(OC.SEQ,"C",R.SEQ,"R","Z")
+FROM	ORDERS O,
+	ORDER_COMMENT OC,
+	RESULT R,
+	(DUMMYT D1),
+	(DUMMYT D2)
+PLAN O
+JOIN (D1
+JOIN OC	WHERE OC.ORDER_ID = O.ORDER_ID)
+ORJOIN (D2
+JOIN R	WHERE R.ORDER_ID = O.ORDER_ID)
+GO
+</pre>
+</div></div><p>SUBQUERY</p><p>A subquery, sometimes described as a nested select, is a form of the SELECT command contained within another SQL statement. The subquery is processed and then the parent statement uses the rows returned by the subquery. Most common uses of subqueries are:</p><ul><li>Define the set of rows to be inserted into the target table.</li><li>Define the set of rows to be updated into the target table.</li><li>Provide values for a qualification in the WHERE clause.</li></ul><p>The following example shows using a subquery to get information about people with encounters where the location code for the encounter is a nursing unit and the display value of the nursing unit begins with "2W":</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+	P.PERSON_ID,
+	P.NAME_FULL_FORMATTED,
+	E_LOC_DISP = UAR_GET_CODE_DISPLAY( E.LOCATION_CD ),
+	E_ENCNTR_DISP = UAR_GET_CODE_DISPLAY(E.ENCNTR_TYPE_CD)
+
+FROM    ENCOUNTER  E,
+	PERSON  P
+
+PLAN E WHERE EXISTS
+	  (SELECT  CV1.CODE_VALUE
+	   FROM CODE_VALUE CV1
+	   WHERE CV1.CODE_VALUE = E.LOCATION_CD AND
+	   CV1.CODE_SET = 220
+	   AND  TRIM(CV1.CDF_MEANING) = "NURSEUNIT"
+	   AND  CV1.ACTIVE_IND = 1
+	   AND CV1.BEGIN_EFFECTIVE_DT_TM
+ 		&lt;= CNVTDATETIME(CURDATE,CURTIME3)
+	   AND  CV1.END_EFFECTIVE_DT_TM&gt;=
+		CNVTDATETIME(CURDATE,CURTIME3)
+	   AND  CV1.DISPLAY_KEY = "2W*")
+JOIN P  WHERE  P.PERSON_ID =   E.PERSON_ID
+WITH  COUNTER
+</pre>
+</div></div><p>CORRELATED SUBQUERY</p><p>A correlated subquery is a form of the SELECT command contained within another SQL statement that is processed once for every row from the parent statement. The RDBMS performs a correlated subquery when the subquery references a column from the parent statement. The parent statement uses the rows returned by the subquery.</p><p>The following query gives a list of patients that do not have a row on the ALLERGY table:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	NURSE_UNIT = UAR_GET_CODE_DISPLAY(E.LOC_NURSE_UNIT_CD),
+	ROOM = UAR_GET_CODE_DISPLAY(E.LOC_ROOM_CD)
+FROM	PERSON P,
+	ENCNTR_DOMAIN E
+PLAN E	WHERE NOT EXISTS (SELECT A.ENCNTR_ID FROM ALLERGY A
+	WHERE E.ENCNTR_ID = A.ENCNTR_ID)
+JOIN P	WHERE E.PERSON_ID = P.PERSON_ID
+ORDER	NURSE_UNIT,
+	ROOM
+GO
+</pre>
+</div></div><h2 id="SELECTUsingDiscernExplorer-ORDERClause">ORDER Clause</h2><p>The ORDER clause sorts the results of a query. You can sort by a field name or an expression consisting of any combination of constants, field names, functions, or operators. In addition, each entry can be sorted in ascending or descending order. By default, each entry is sorted in ascending order unless you use the DESC option after the entry. You can perform up to ten sorts in the SORT clause; each sort expression is separated by commas and each sort expression is a subsort of the previously listed expression.</p><p>The syntax of the ORDER clause follows:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>[ORDER 	select_expression [DESC] {,
+		select_expression [DESC] }]
+</pre>
+</div></div><p>The following example sorts the query by the person name field.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT	P.NAME_FULL_FORMATTED,
+	P.SEX_CD
+FROM	PERSON P
+ORDER	P.NAME_FULL_FORMATTED
+GO
+</pre>
+</div></div><p>If your SELECT command defines expressions like the following:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SELECT
+     MED_NUM = SUBSTRING(7,9,PA.ALIAS),
+     ROOM_DESC = SUBSTRING(1,15,UAR_GET_CODE_DISPLAY(R.LOCATION_CD))
+</pre>
+</div></div><p>You could order the results of the query by those expressions with the following ORDER clause:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>ORDER MED_NUM, ROOM_DESC
+</pre>
+</div></div><p>By default, the Order By clause is passed in the query that is sent to <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> and the sort is done at the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span> level. There are several factors that can cause the sort to be done by CCL after the data is returned from <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution" style="font-style: normal;">Oracle</span>. Some of those factors include:</p><ul><li>Sorting on a select expression. When using Select name = substring(1,30,p.name_full_formatted) ... Order by name,  name is a select expression</li><li>Using a non-Oracle table like dummyt in the query</li><li>Sorting on an expression like Order by format(p.updt_dt_tm, ";;q")</li><li>Using 0 in the Order clause</li><li>Using Memsort or Filesort in the With clause</li></ul><p>If any factors are used in the query that force the sort to be done at the CCL level. CCL first trys to do a memory sort. If the amount of data to be sorted is large, CCL switchs from a memory sort to a file sort.</p><h2 id="SELECTUsingDiscernExplorer-WITHClause">WITH Clause</h2><p>The WITH clause is used to specify additional control options that affect an entire query. The control options available are described earlier in this section under the metasymbol control_option. The syntax of the WITH clause is as follows:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>[WITH 	control_option {,
+		control_option }]
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 898, "requestCorrelationId": "403ee5e05612d963"}</span>
+</body>
+</html>

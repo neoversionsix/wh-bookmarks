@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>DELETE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/DELETE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The DELETE command deletes existing rows in a table. Only authorized <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> personnel should use the DELETE command on <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> production tables.</p><p>The FROM clause is required when using the DELETE command. You must also use the WHERE clause to qualify which records should be deleted. To delete all records, use the wild card option as part of your qualification or add seq = 1. You can use the PLAN\JOIN clause in place of the WHERE clause to control the path of the joins between one or more user-defined non-RDBMS custom tables. The DELETE command requires the use of the SET clause if you establish a join between two or more non-RDBMS tables. The SET clause identifies from which table records should be deleted. The PLAN\JOIN clause cannot be used to delete from an RDBMS table. The RDBMS only allows using a single table in a DELETE command. A nested SELECT can be used to delete from an RDBMS table and qualify using values from another RDBMS table.</p><p>When deleting from an RDBMS table, the COMMIT command must be used after the DELETE command to log the changes as permanent. You can use the ROLLBACK command to cancel or back out the changes to an RDBMS table. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> scripts that perform deletes should set the commit_ind to have the server commit or roll back the changes. Only authorized <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> personnel should use the DELETE command on <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle</span> production tables.</p><p>To DELETE records from a non-RDBMS table, you must issue a DEFINE command with the MODIFY option to allow updates to the file; otherwise, the file is opened as read-only.</p><h2 id="DELETEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DELETE [FROM table_name [alias] {,table_name [alias]} ]
+[SET delete_expression = expression]
+[PLAN range [WHERE qualification]
+{join_operator range [WHERE qualification]}]
+[WHERE qualification]
+WITH delete_option GO
+</pre>
+</div></div><h2 id="DELETEUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>alias</em><br>The abbreviated name of a table used in place of the table name when referencing the table in any part of the DELETE, INSERT, SELECT, or UPDATE commands.</br></p><p><em>delete_expression</em><br/>Identifies both the records to be deleted, and the table from which they should be deleted. One way to assign the delete_expression is to enter: SET P.SEQ = 1. This tells <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> that records are to be deleted from the table with the alias P.</p><p><em>delete_option</em><br/>Valid actions you can take when issuing a DELETE command. Valid DELETE options are described below:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>[NO]COUNTER</p></td><td class="confluenceTd"><p>Displays the query counter (COUNTER) or does not display the query counter (NOCOUNTER). NOCOUNTER is the default.</p></td></tr><tr><td class="confluenceTd"><p>DONTCARE = alias</p></td><td class="confluenceTd"><div class="content-wrapper"><p>If you are joining to another table and the table to which you are joining does not match on a record, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> continues processing. Only applies to non-RDBMS tables.</p></div></td></tr><tr><td class="confluenceTd"><p>DONTEXIST</p></td><td class="confluenceTd"><p>Performs the DELETE only if you are joining to another table and a record does not exist on the table to which you are joining. Applies to the OUTERJOIN defined using the WITH OUTERJOIN option. Only applies to non-RDBMS tables.</p></td></tr><tr><td class="confluenceTd"><p>EXPAND = 0 | 1 | 2</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Modifies the behavior of the EXPAND function used to qualify on a RDBMS table.<br class="atl-forced-newline"/>EXPAND = 0 is the default and creates an IN clause. <br class="atl-forced-newline"/>EXPAND = 1 inserts the values from the record member list to the global RDBMS temp table and then performs an implicit join to that temp table.<br class="atl-forced-newline"/>EXPAND = 2 introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Version 8.10.2, converts the EXPAND function to a nested select using an object array.</p></div></td></tr><tr><td class="confluenceTd"><p>MAXCOMMIT = commit_interval</p></td><td class="confluenceTd"><p>Only applied to array INSERT, UPDATE, or DELETE commands using the DUMMYT table to perform the implicit iteration. Otherwise is ignored. <br class="atl-forced-newline"/>Issues a commit at the specified commit_interval. Used in conjunction with the INSERT, UPDATE, and DELETE commands. When the number of modified rows equals the INSERT, UPDATE commit_interval, the commit is performed. A final commit must be executed after the INSERT, UPDATE, or DELETE command that uses MAXCOMMIT, to commit the changes that are made between the MAXCOMMIT and the end of the  INSERT, UPDATE or DELETE. If the INSERT, UPDATE, or DELETE is executed through a server, the final commit should be executed by the server using the reqinfo-&gt;commit_ind. Otherwise, the COMMIT command can be used for the final commit. When using MAXCOMMIT = commit_interval and RDBARRAYINSERT = array_size in the same INSERT, UPDATE, or DELETE command, the commit_interval should be greater than or equal to the array_size.</p></td></tr><tr><td class="confluenceTd"><p>MAXQUAL (table_name,integer)</p></td><td class="confluenceTd"><p>Limits the number of records to qualify per join on non-RDBMS queries. On RDBMS tables, MAXQUAL limits the total number of rows to qualify.</p></td></tr><tr><td class="confluenceTd"><p>MAXREAD (table_name,integer)</p></td><td class="confluenceTd"><p>Limits the number of records read per table and is used only when you join two or more tables. The table_name can be the name or alias of the table you are reading. The integer is the number of matches that represents the maximum number of physical records to be processed. Only applies to non-RDBMS tables.</p></td></tr><tr><td class="confluenceTd"><p>MAXREC = integer</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Limits the number of records to process in the primary table, where integer is the number of matches that represents the maximum number of physical records to be processed. If a join is being used, the primary table is the first table read by <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>. Only applies to non-RDBMS tables.</p></div></td></tr><tr><td class="confluenceTd"><p>OUTERJOIN = alias</p></td><td class="confluenceTd"><p>If you join to another table, and the table to which you are joining does not match on a record, the record you are joining from still qualifies for the delete. You also can use OUTERJOIN with the DONTEXIST option to delete records from a table that does not have a matching record on the table to which you are joining. The table_name can be the name or alias of the table that should be read first before going to the joined table. Only applies to non-RDBMS tables.</p></td></tr><tr><td class="confluenceTd"><p>RDBARRAYINSERT= <em>array_size</em></p></td><td class="confluenceTd"><div class="content-wrapper"><p>Introduced in version 8.10.0 of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>. Controls the delete method when using the DUMMYT table to delete rows from a table qualifying on values from a record structure list.<br class="atl-forced-newline"/><br class="atl-forced-newline"/><em>array_size</em> <br class="atl-forced-newline"/>0: Don't use RDB array delete method.  Instead delete one row at a time. <br class="atl-forced-newline"/>1: Use RDB array delete method with an array size matching the Set Trace RDBARRAYINSERT value. <br class="atl-forced-newline"/><em>num</em>: use RDB array delete with an array size of <em>num</em>. An array size up to a maximum of 100 can be used for <em>num</em>. In <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.10.2 and later and array size of 50 is used if <em>num</em> is less than 50. <br class="atl-forced-newline"/><br class="atl-forced-newline"/>If the Delete involves a BLOB\CLOB column, the RDBARRAYINSERT reverts back to the single row operation.</p><p>When using MAXCOMMIT = commit_interval and RDBARRAYINSERT = array_size in the same INSERT, UPDATE, or DELETE command, the commit_interval should be greater than or equal to the array_size.</p></div></td></tr><tr><td class="confluenceTd"><p>RDBRANGE</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Use the FROM clause of the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> query, instead of the PLAN/JOIN clause, to determine the order of the FROM clause in the query that is sent to the RDBMS. Used in conjunction with the SELECT, UPDATE, INSERT, and DELETE commands. Only applies to non-RDBMS tables.</p></div></td></tr><tr><td class="confluenceTd"><p>SKIPBEDROCK = 0/1</p></td><td class="confluenceTd"><div class="content-wrapper"><p>In a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Bedrock</span> domain, SELECT/INSERT/UPDATE/DELETE commands on tables that have the BR_CLIENT_ID column, implicitly add the BR_CLIENT_ID = CURCLIENTID qualification to the WHERE clause. SKIPBEDROCK = 0 is the default and uses the implicit qualification. SKIPBEDROCK = 1 disables the implicit qualification. RDB commands do not use this implicit qualification.</p></div></td></tr><tr><td class="confluenceTd"><p>SKIPLOGDOMAIN = 0/1</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Introduced in version 8.8.0 of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span>. In a logical client domain, DELETE commands on tables that have the LOGICAL_DOMAIN_ID column implicitly add the LOGICAL_DOMAIN_ID = CURLOGDOMAINID qualification to the Where clause. SKIPLOGDOMAIN = 0 is the default and uses the implicit qualification. SKIPLOGDOMAIN = 1 disables the implicit qualification. RDB commands do not use this implicit qualification.</p></div></td></tr><tr><td class="confluenceTd"><p>SKIPNETDOMAIN = 0/1</p></td><td class="confluenceTd"><div class="content-wrapper"><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.8.0 obsoleted SKIPNETDOMAIN and replaced it with SKIPLOGDOMAIN. In a Network domain, SELECT/INSERT/UPDATE/DELETE commands on tables that have the DOMAIN_NETWORK_ID column, implicitly add the DOMAIN_NETWORK_ID = CURNETDOMAINID qualification to the WHERE clause. SKIPNETDOMAIN = 0 is the default and uses the implicit qualification. SKIPNETDOMAIN = 1 disables the implicit qualification. RDB commands do not use this implicit qualification.</p></div></td></tr><tr><td class="confluenceTd"><p>STATUS( &lt;status_array_var&gt;[, &lt;errnum_array_var&gt;[, &lt;errmsg_array_var&gt;]])</p></td><td class="confluenceTd"><p>Saves the status of the delete into the record items when joining to a record structure list using the DUMMYT table.</p><p>By default, the status_item, defined as an integer, is set to 1 (success) or 0 (failure) for the deletes. The errnum_item, defined as an integer, is set equal to the error number if the delete generates an error. The errmsg_item, defined as character, is set equal to the error message if the delete generates an error. Items are pulled from each position in the record structure and deleted from the table. The status items are set on each position of the record structure. </p><p>When using RDBARRAYINSERT= array_size:</p><div class="table-wrap"><table class="wrapped confluenceTable"><tbody><tr><th class="confluenceTh">array_size</th><th class="confluenceTh">description</th></tr><tr><td class="confluenceTd">0</td><td class="confluenceTd">The delete is performed and the status_item, errnum_item, and errmsg_item are set on each position of the Record Structure list. The status_item is set to 1 (success) or 0 (failure).</td></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">A block of records the size of the Set Trace RDBARRAYINSERT = array_size value are pulled from the Record Structure and deleted from the table. The status item is set on each position of the Record Structure list that is a multiple of the Set Trace RDBARRAYINSERT = array_size value. The status_item is set to the number of rows that were deleted. If the number of items in the Record Structure is not a multiple of the Set Trace RDBARRAYINSERT = array_size value, no status is set for the values from positions of the Record Structure that are greater than the last position of the Record Structure that is a multiple of the Set Trace RDBARRAYINSERT = array_size value.</td></tr><tr><td class="confluenceTd"><em>num</em></td><td class="confluenceTd">A block of records the size of <em>num</em> are pulled from the Record Structure and deleted from the table. The status item is set on each position of the Record Structure list that is a multiple of <em>num</em>. The status_item is set to the number of rows that were deleted. If the number of items in the Record Structure is not a multiple of<em> num</em>, no status is set for the values from positions of the Record Structure that are greater than the last position of the Record Structure that is a multiple of <em>num</em>.</td></tr></tbody></table></div></td></tr><tr><td class="confluenceTd"><p>[NO] TRIM</p></td><td class="confluenceTd"><p>Automatically trims trailing spaces on character string columns before sending to the RDBMS. Use NOTRIM to keep trailing spaces.</p></td></tr></tbody></table></div><p><em>expression</em><br/>An expression is the highest-level metasymbol among constants, field names, variables, and so on. The following expressions are valid:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>alias.field_name
+array_name [dimension]
+array_name [dimension1, dimension2]
+array_name [dimension1, dimension2, dimension3]
+constant
+expression arithmetic_operator expression
+-expression (expression)
+function(expression{,expression})
+parameter
+record_name{-&gt;field_name}
+table_name.field_name
+variable
+</pre>
+</div></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Square brackets are part of the array_name syntax; they do not indicate an optional part of the syntax.</p></div></div><p><em>join_operator</em><br/>In the context of a PLAN clause, defines whether <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> performs a linear read between tables (JOIN), or performs a union of two tables (ORJOIN). Valid values are JOIN and ORJOIN.</p><p><em>qualification</em><br/>A condition that limits the number of records displayed as valid matches. Qualifications can include IF, IN, and CASE statements and can be combined with the qualifiers AND, OR, NOT, and BETWEEN. Relational operators are used to define the condition. The syntax for qualification follows:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>(qualification)
+NOT qualification
+qualification AND qualification
+qualification OR qualification
+expression relational_operator expression
+expression relational_operator subquery
+</pre>
+</div></div><p><em>table_name</em><br/>The name of the table from the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Data Dictionary to be updated, deleted, or read.</p><h2 id="DELETEUsingDiscernExplorer-Examples">Examples</h2><p>To DELETE a row in TABLE_X:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DELETE FROM TABLE_X X WHERE X.PERSON_ID = 12345 GO</pre>
+</div></div><p>The following example deletes all rows on TABLE_X when the row exists on table X and does not exist on the table Y:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DELETE
+FROM TABLE_X X,
+     TABLE_Y Y,
+     (DUMMYT D)
+SET X.SEQ = 1
+PLAN X
+JOIN D
+JOIN Y WHERE X.PERSON_ID = Y.PERSON_ID
+WITH OUTERJOIN = D, DONTEXIST GO
+</pre>
+</div></div><p>To delete a row on the user-defined non-RDBMS table, the following syntax points to the data file and deletes records where the Person_ID is 12345:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>FREE DEFINE PERS_TEMP GO
+DEFINE PERS_TEMP IS "PERS_TEMP" WITH MODIFY GO
+DELETE FROM PERS_TEMP P WHERE P.PERSON_ID = 12345 GO</pre>
+</div></div><p>The following example deletes rows from a custom RDBMS table named CUST_CCL_TABLE where the ID field is equal to 1.0</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DELETE FROM CUST_CCL_TABLE
+WHERE ID = 1.0
+WITH NOCOUNTER
+</pre>
+</div></div><p>The following example deletes rows from a custom RDBMS table named CUST_CCL_TABLE where the DT field is greater than or equal to the earliest possible time two days ago.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DELETE FROM CUST_CCL_TABLE
+WHERE DT &gt;= CNVTDATETIME(CURDATE -2,0)
+WITH NOCOUNTER
+</pre>
+</div></div><p>The RDBMS only allows using a single table in a Delete command. A nested Select command can be used to qualify the rows to delete using values from other RDBMS tables. The following example deletes rows from a custom RDBMS table named CUST_CCL_TABLE where the ID field is equal to a PERSON_ID on the PERSON table where the row on the PERSON table has been updated in the past two days.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DELETE FROM CUST_CCL_TABLE C
+WHERE C.ID =
+     (SELECT P.PERSON_ID
+      FROM PERSON P
+      WHERE P.UPDT_DT_TM &gt; CNVTDATETIME(CURDATE -2,0))
+WITH NOCOUNTER
+</pre>
+</div></div><p>The following example deletes rows from a custom RDBMS table named CUST_CCL_TABLE where the ID field is equal to one of the values in the person_rec-&gt;list[ ].id field. RDBARRAYINSERT = 25 is used to delete the rows using blocks of 25 IDs from the record structure at a time.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>delete from cust_ccl_table c
+	,(dummyt d with seq = size(person_rec-&gt;list,5))
+set c.seq = 1
+plan d
+join c where c.id = person_rec-&gt;list[d.seq].id
+with rdbarrayinsert = 25
+</pre>
+</div></div><p>The following example deletes rows from the CUST_CCL_TABLE and sets the status, error_num, and error_msg items in the record structure:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>ecord rec(
+    1 list[*]
+        2 pid = f8
+        2 name = vc
+        2 status = i4
+        2 error_num = i4
+        2 error_msg = c132
+        ) with protect
+
+/* code to insert values into rec-&gt;list[ ].pid */
+
+delete from cust_ccl_table c
+    ,(dummyt d with seq = size(rec-&gt;list,5))
+    set c.pidu = 0.0    
+plan d
+join c where c.pid = rec-&gt;list[d.seq].pid
+with RDBARRAYINSERT = 100,
+    status(rec-&gt;list[d.seq].status 
+        ,rec-&gt;list[d.seq].error_num 
+        ,rec-&gt;list[d.seq].error_msg )</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 673, "requestCorrelationId": "a7376070368c69bf"}</span>
+</body>
+</html>
