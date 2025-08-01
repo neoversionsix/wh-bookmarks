@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SET CURSCOPE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SET+CURSCOPE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The SET CURSCOPE command defines the scope of variables, record structures, or subroutines.</p><h2 id="SETCURSCOPEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET CURSCOPE scope [GO]</pre>
+</div></div><h2 id="SETCURSCOPEUsingDiscernExplorer-Metasymbol">Metasymbol</h2><p><em>scope</em></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Value</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>PUBLIC</p></td><td class="confluenceTd"><p>Public is the default. The variable, record structure, or subroutine will be known to all child processes.</p></td></tr><tr><td class="confluenceTd"><p>PRIVATE</p></td><td class="confluenceTd"><p>The private scope limits the scope to this level only. The variable, record structure, or subroutine will not be known to any child processes.</p></td></tr><tr><td class="confluenceTd"><p>PROTECT</p></td><td class="confluenceTd"><p>Use the protect scope to declare a variable or record structure in a child process with the same name as a variable or record structure that is defined in a parent process. All subsequent children will know the child variable or record structure. When control returns to the parent, the child variable or record structure will no longer be known and the parent variable or record structure is restored.</p></td></tr></tbody></table></div><h2 id="SETCURSCOPEUsingDiscernExplorer-Examples">Examples</h2><p>The following example sets VAR1 and VAR2 as private variables and VAR3 as public. The program, SCOPE_EX1, is run and sets VAR1 and VAR3. The CALL ECHO( ) displays "VAR1=PG1" for VAR1 and "VAR3=PG2" for VAR3. Because VAR3 is public, the value that is set in the program SCOPE_EX1 is recognized when coming back to SCOPE_EX.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM SCOPE_EX GO
+CREATE PROGRAM SCOPE_EX
+
+SET CURSCOPE PRIVATE
+	DECLARE VAR1 = C10
+	DECLARE VAR2 = C2
+SET CURSCOPE PUBLIC
+	DECLARE VAR3 = C10
+
+SET VAR1 = "VAR1=PG1"
+SET VAR3 = "VAR3=PG1"
+
+EXECUTE SCOPE_EX1
+
+CALL ECHO(VAR1)
+CALL ECHO(VAR3)
+
+END
+GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 535, "requestCorrelationId": "449f3dd43b1c4d31"}</span>
+</body>
+</html>

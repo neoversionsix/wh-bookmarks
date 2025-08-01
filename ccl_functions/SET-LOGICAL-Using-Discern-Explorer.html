@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SET LOGICAL Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SET+LOGICAL+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The SET LOGICAL command creates a logical that you can use during a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session or in a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program.</p><p>Enter <strong>GO</strong> at the end of the command to make it valid throughout a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session. If you do not use GO, the SET LOGICAL command is valid only during the execution of the program that called it and must be embedded in an executable program (between the CREATE PROGRAM and END commands).</p><p>Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.15.0 and 9.03.0 setting the logical to two quote marks with nothing between them (""), unsets the logical. Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.15.0 and 9.03.0, the logical is set to an empty string.</p><h2 id="SETLOGICALUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET LOGICAL [=] logical string [GO]</pre>
+</div></div><h2 id="SETLOGICALUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>logical</em> <br>The logical name to which you want to assign the string. The logical name cannot exceed 31 characters, and cannot contain spaces or special characters such as commas or semicolons.</br></p><p><em>string</em> <br/>The string to assign to the logical. Normally, the string is the node, disk drive, directory, subdirectory, and file name to which the logical name is to be assigned. Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3 and 9.02.3, embedded spaces are not allowed in the string. Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3 and 9.02.3, embedded spaces are allowed in the string.</p><h2 id="SETLOGICALUsingDiscernExplorer-Examples">Examples</h2><p>The following example creates a logical that is valid during the current <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET LOGICAL = HOMEDIR "home/user/sam" GO</pre>
+</div></div><p>The following example creates a logical named WORKDIR using a string that is first stored in a variable. The output of the CALL ECHO() command is <strong>logical: [/cerner/test/folder/not_production/].</strong></p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DECLARE Log_Str = VC 
+SET Log_Str = '/cerner/test/folder/not_production/' 
+SET LOGICAL = WORKDIR Log_Str 
+CALL ECHO(BUILD("logical: [", LOGICAL("WORKDIR"), "]")) 
+</pre>
+</div></div><p>The following example requires <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.14.3, 9.02.3, or later.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET LOGICAL HAS_A_SPACE "logical for 8143" go
+CALL ECHO(BUILD("logical: [", LOGICAL("HAS_A_SPACE"), "]")) go</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 591, "requestCorrelationId": "d8228b357947e13d"}</span>
+</body>
+</html>

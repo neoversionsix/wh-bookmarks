@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SET CURALIAS Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SET+CURALIAS+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>SET CURALIAS provides for a shortcut to access record structure items. A record alias can only be used in a script, and is only recognized in with the "-&gt;" connect symbol.</p><h2 id="SETCURALIASUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET CURALIAS [=] [namespace::]alias_name  [OFF]  record_path
+</pre>
+</div></div><h2 id="SETCURALIASUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>alias_name</em></p><p>A chosen name for the alias</p><p><em>namespace</em></p><p>Namespace allows creation of the alias in a specific namespace. If not specified, the default namespace is <strong>PUBLIC</strong>. Namespace is available with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.6.0 and higher.</p><p><em>record_path</em></p><p>A record structure member</p><p>Current limitations:</p><ol><li>By default the SET CURALIAS cannot be changed once set in a program. The Set Modify CurAliasReUse command can be used to override the default.</li><li>The curalias variable is only recognized for the case <em>curalias_name</em>-&gt;<em>field_name</em> or <em>namespace</em>::<em>curalias_name</em>-&gt;<em>field_name</em>.</li><li>Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.0 and 9.02.0, CURALIAS can use the name of an existing record structure as the alias_name, provided that SET MODIFY CURALIASREUSE is enabled.</li></ol><h2 id="SETCURALIASUsingDiscernExplorer-Examples">Examples</h2><p>In the example below, R1 is set to <strong>REPLY-&gt;QUAL[CNT]</strong> and R2 is set to <strong>REPLY-&gt;QUAL[CNT]-&gt;QUAL2[CNT2]</strong>. You can then use R1 to access any level 2 record structure members and R2 to access any level 3 record structure members.</p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">DROP PROGRAM TEST GO
+CREATE PROGRAM TEST
+
+RECORD REPLY(
+       1 QUAL[*]
+            2   FLD1 = I4
+            2   QUAL2[*]
+                3   FLD2 = I4
+            2   FLD3 = I4
+      )
+SET CURALIAS = R1 REPLY-&gt;QUAL[CNT]
+SET CURALIAS = R2 REPLY-&gt;QUAL[CNT]-&gt;QUAL2[CNT2]
+SET STAT = ALTERLIST(REPLY-&gt;QUAL,3)
+FOR (CNT=1 TO SIZE(REPLY-&gt;QUAL,5))
+	SET STAT = ALTERLIST(R1-&gt;QUAL2,2)
+	SET R1-&gt;FLD1 = CNT
+	CALL ECHO(BUILD("FLD1=", R1-&gt;FLD1))
+	FOR(CNT2=1 TO SIZE(R1-&gt;QUAL2,5))
+		SET R2-&gt;FLD2 = CNT2
+		CALL ECHO(BUILD("FLD2=",R2-&gt;FLD2))
+	ENDFOR
+	SET R1-&gt;FLD3 = 100
+	CALL ECHO(BUILD("FLD3=",R1-&gt;FLD3))
+ENDFOR
+SET CURALIAS R1 OFF  ;CLEAR THE ALIAS NOW
+SET CURALIAS R2 OFF  ;CLEAR THE ALIAS NOW
+END GO
+</pre>
+</div></div><p>In the following example, SR1::R is set to <strong>SPACE1::REC-&gt;LIST[LCNT]</strong> and R is set to <strong>REC-&gt;LIST[LCNT]</strong>:</p><div class="code panel pdl conf-macro output-block" data-hasbody="true" data-macro-name="code" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">drop program curalias_namespace go
+create program curalias_namespace  
+
+record space1::rec (
+  1 list [*]  
+    2 id = i4
+) 
+
+record rec (
+  1 list [*]  
+    2 id = i4
+) 
+
+set	stat = alterlist(rec-&gt;list,5)
+set	stat = alterlist(space1::rec-&gt;list,5)
+
+for(cnt = 1 to 5)
+	set rec-&gt;list[cnt].id  = cnt
+	set space1::rec-&gt;list[cnt].id  = cnt *1000
+endfor
+
+call echorecord(rec)
+call echorecord(space1::rec)
+
+set curalias  sr1::r space1::rec-&gt;list[lcnt]
+set curalias  r rec-&gt;list[lcnt]
+
+set lcnt = 1
+
+call echo(sr1::r-&gt;id)  ;will echo 1000
+call echo(r-&gt;id)       ;will echo 1
+
+set curnamespace = "space1"
+call echo(r-&gt;id)  ;will echo 1000
+
+set curnamespace = "PUBLIC"
+call echo(r-&gt;id)  ;will echo 1
+
+end go
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 588, "requestCorrelationId": "25e1de94f1ca560e"}</span>
+</body>
+</html>

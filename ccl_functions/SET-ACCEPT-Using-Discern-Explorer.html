@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SET ACCEPT Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SET+ACCEPT+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><span style="letter-spacing: 0.0px;">The SET ACCEPT command is used in </span><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span><span style="letter-spacing: 0.0px;"> screen application programs to determine how data should be accepted and redisplayed in input fields (CALL ACCEPT boxes). When a CALL ACCEPT input field is redisplayed, the data displayed could be the default option defined for the CALL ACCEPT or the data entered by the user. The SET ACCEPT command is important when you give the user the option to correct data on the screen and need to call the input field again for correction or when you are displaying a screen again for data entry.</span></p><p>If the SET ACCEPT command is not issued, <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> uses the NOCHANGE option as the default. The first time a CALL ACCEPT input field is displayed it displays the default options from the CALL ACCEPT command.</p><p>Use GO at the end of the SET ACCEPT command to make it valid throughout a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session. When GO is not used with the SET ACCEPT command, it must be embedded within an executable program (between the CREATE PROGRAM and END commands). Issuing the SET ACCEPT command from within an executable program makes the command valid within that program and any programs executed from within that program.</p><h2 id="SETACCEPTUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET ACCEPT = redisplay_option [GO]
+</pre>
+</div></div><h2 id="SETACCEPTUsingDiscernExplorer-Metasymbol">Metasymbol</h2><p>redisplay_optionDetermines whether the last data should be redisplayed or whether the default option should be used. The following values are valid:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><td class="confluenceTd"><p>CHANGE</p></td><td class="confluenceTd"><p>Display the last data typed into this CALL ACCEPT input field.</p></td></tr><tr><td class="confluenceTd"><p>NOCHANGE</p></td><td class="confluenceTd"><p>Display the default from the CALL ACCEPT command.</p></td></tr><tr><td class="confluenceTd"><p>PATCHECK</p></td><td class="confluenceTd"><p>Turn on the check for pattern-matching characters (for example, * or ?) in CALL ACCEPT input fields. This is the default.</p></td></tr><tr><td class="confluenceTd"><p>NOPATCHECK</p></td><td class="confluenceTd"><p>Turn off the check for pattern-matching characters in CALL ACCEPT input fields.</p></td></tr><tr><td class="confluenceTd"><p>SCROLL</p></td><td class="confluenceTd"><p>Capture the value of the key pressed. This is equivalent to the S modifier in the CALL ACCEPT command.</p></td></tr><tr><td class="confluenceTd"><p>NOSCROLL</p></td><td class="confluenceTd"><p>Do not capture the value of the scroll or function keys pressed.</p></td></tr><tr><td class="confluenceTd"><p>TIME</p></td><td class="confluenceTd"><p>Indicate the timeout period in seconds for the following CALL ACCEPT commands. If the user does not respond to the CALL ACCEPT within the timeout interval specified, the default is taken as the response and the next command is executed. The syntax follows: SET ACCEPT = TIME(timeout_interval).</p></td></tr><tr><td class="confluenceTd"><p>NOTIME</p></td><td class="confluenceTd"><p>No timeout period is in effect for the CALL ACCEPT commands.</p></td></tr><tr><td class="confluenceTd"><p>UPPER</p></td><td class="confluenceTd"><p>Force entries in CALL ACCEPT input fields to uppercase.</p></td></tr><tr><td class="confluenceTd"><p>NOUPPER</p></td><td class="confluenceTd"><p>Accept whatever case is used when an entry is made in a CALL ACCEPT field.</p></td></tr><tr><td class="confluenceTd"><p>VIDEO</p></td><td class="confluenceTd"><p>Set the default video mode for future accepts. The syntax is: SET ACCEPT = VIDEO (video_option{video_option}). This is equivalent to the CALL VIDEO command.</p></td></tr></tbody></table></div><h2 id="SETACCEPTUsingDiscernExplorer-Examples">Examples</h2><p>The following examples illustrate different ways to use SET ACCEPT:</p><p>To redisplay data entered by the user when the CALL ACCEPT input field is redisplayed, enter:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET ACCEPT = CHANGE
+</pre>
+</div></div><p>To display (always) the defaults from the CALL ACCEPT command when a CALL ACCEPT input field is redisplayed, enter:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET ACCEPT = NOCHANGE
+</pre>
+</div></div><p>To turn off checking for pattern-matching characters entered in a CALL ACCEPT input field, enter:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET ACCEPT NOPATCHECK ;DON'T DO PATSTRING CHECK FOR ACCEPTS
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 551, "requestCorrelationId": "ca43583ab1c0e21a"}</span>
+</body>
+</html>

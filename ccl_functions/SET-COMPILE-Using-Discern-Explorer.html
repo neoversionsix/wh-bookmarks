@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SET COMPILE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SET+COMPILE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The SET COMPILE command flexes the compile options that are used when compiling (including) programs. Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.1 and 9.02.1, OPTIMIZE is set by default.</p><p>Enter <strong>GO</strong> at the end of the command to set the compile mode throughout a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session. If you do not enter GO, compile mode is valid only during the execution of the program that called the SET COMPILE command. Also, the command must be embedded in an executable program (between the CREATE PROGRAM and END commands).</p><h2 id="SETCOMPILEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET COMPILE = compile_option [GO]
+</pre>
+</div></div><h2 id="SETCOMPILEUsingDiscernExplorer-Metasymbol">Metasymbol</h2><p><em>compile_option</em><br>Determines whether the program compiled displays row and column numbers of semantic errors. The following values are valid:</br></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p><span class="confluence-link">[NO</span>]DEBUG</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Using DEBUG mode stores row and column information so that when a program encounters a semantic error, the error message displays the row and column number of the expression in the program. Semantic errors are caught during program execution, and they are either displayed while the program executes or logged in the Run-Time Library (RTL) log file where the program log is stored. The <em><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span></em> symbolic debugger can only be called for <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> programs that are compiled in DEBUG mode.</p><p>Programs that are compiled using DEBUG mode are larger, use more storage in the object library, and may run more slowly than programs compiled without DEBUG. You may want to compile a program using DEBUG while writing and testing it, but remove this option when you create the final version of the program.</p></div></td></tr><tr><td class="confluenceTd" colspan="1"><span class="confluence-link">[NO</span>]LOCAL</td><td class="confluenceTd" colspan="1"><div class="content-wrapper">Only valid for back-end interactive <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> sessions.  Create the program locally in the session cache, but do not create the program in the data dictionary.  Introduced in the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.7.2.</div></td></tr><tr><td class="confluenceTd" colspan="1"><span class="confluence-link">[NO</span>]GLOBAL</td><td class="confluenceTd" colspan="1"><div class="content-wrapper">Only valid for back-end interactive <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> sessions.  Create the program globally in the data dictionary.  Introduced in the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.7.2.</div></td></tr><tr><td class="confluenceTd" colspan="1"><span class="confluence-link">[NO</span>]OPTIMIZE</td><td class="confluenceTd" colspan="1"><div class="content-wrapper"><p>Apply optimizations at compile time for performance efficiencies and best practices. This option was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.2.</p><div class="table-wrap"><table class="wrapped confluenceTable"><tbody><tr><th class="confluenceTh"><p>Optimization</p></th><th class="confluenceTh"><p>Description</p></th><th class="confluenceTh"><p><code>Example</code></p></th></tr><tr><td class="confluenceTd"><p>Transform arithmetic expressions</p></td><td class="confluenceTd"><p>Convert variable = variable arithmetic operator expression to variable arithmetic left operator expression.</p><p>See Operators in Discern Explorer for a description of the arithmetic left operators.</p></td><td class="confluenceTd"><p><code>set var1 = var1 + 1 is converted to set var1 += 1</code></p><p><code>set var1 = var1 - 1 is converted to set var1 -= 1</code></p><p><code>set var1 = var1 / 2 is converted to set var1 /= 2<br/></code></p><p><code>set var1 = var1 * 2 is converted to set var1 *= 2</code></p></td></tr><tr><td class="confluenceTd"><p>Remove dead code</p></td><td class="confluenceTd"><p>If or ElseIF statements that are false at compile time are replaced with a single Noop command.</p></td><td class="confluenceTd"><p><code>If(0)</code><br/><code> set var1 = 0</code><br/><code> endif</code></p><p><code>Is converted to:</code></p><p><code>IF (0 )</code><br/><code> NULL ;noop</code><br/><code> ENDIF</code></p></td></tr><tr><td class="confluenceTd"><p>Convert Execute NULL</p></td><td class="confluenceTd"><p>Convert Execute Null to transaction NULL, which is a Noop command.</p></td><td class="confluenceTd"><p><code>Execute NULL</code></p><p><code>Is converted to:</code></p><p><code>NULL;noop</code></p></td></tr><tr><td class="confluenceTd"><p>Combine DECLARE and SUBROUTINE command</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Converts a DECLARE command that defines a subroutine that is immediately followed by a SUBROUTINE command to a combined SUBROUTINE command.</p><p>Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.0 and 9.02.0, if the parameter name used in the Declare command differs from the parameter name used in the Subroutine command, the parameter name from the Declare command is used in the combined syntax. Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.0 and 9.02.0, if the parameter name used in the Declare command differs from the parameter name used in the Subroutine command, the parameter name from the Subroutine command is used in the combined syntax.</p><p>Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3 and 9.02.3, if a SET CURNAMESPACE <em>namespace_string</em> command occurs before the Declare command, the optimization to combine the Declare and Subroutine commands is disabled until a SET CURNAMESPACE "OFF" command is executed.</p><p>Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.4 and 9.02.4, EXECUTE WITH REPLACE is performed before processing SUBROUTINE WITH COPY using the combined subroutine syntax.</p></div></td><td class="confluenceTd"><p><code>declare sub1(p1=i4(value))= i4 </code><br/><code> subroutine sub1(p1) </code><br/><code> declare var1 = i4 with protect </code><br/><code> set var1 = p1 +1</code><br/><code> return(var1)</code><br/><code> end</code></p><p><code>Is converted to</code></p><p><code>SUBROUTINE (sub1 (p1 =i4 (value ) ) =i4 )</code><br/><code> DECLARE var1 = i4 WITH protect</code><br/><code> SET var1 = (p1 + 1 )</code><br/><code> RETURN (var1 )</code><br/><code> END ;Subroutine</code></p></td></tr><tr><td class="confluenceTd">Optimize Outerjoin() function</td><td class="confluenceTd"><p>Move Outerjoin() function calls to the right side of the operator.</p></td><td class="confluenceTd"><p><code>plan p where p.updt_dt_tm between cnvtlookbehind("1,D") and cnvtdatetime(curdate,curtime3)</code><br/><code> join e where outerjoin(p.person_id) = e.person_id</code><br/><code> and e.active_ind = outerjoin(1)</code></p><p><code>Is converted to:</code></p><p><code>PLAN (p</code><br/><code> WHERE (p.updt_dt_tm BETWEEN cnvtlookbehind ("1,D" ) AND cnvtdatetime (curdate ,curtime3 ) ) )</code><br/><code> JOIN (e</code><br/><code> WHERE (e.person_id = Outerjoin(p.person_id ))</code><br/><code> AND (e.active_ind = Outerjoin(1 )) )</code></p></td></tr><tr><td class="confluenceTd" colspan="1">Optimize NULLIND( ) and TEXTLEN() functions</td><td class="confluenceTd" colspan="1"><div class="content-wrapper">Converts the NULLIND( ) and TEXTLEN() functions used in a report writer clause to a Select expression. This optimization was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.0 and 9.02.0.</div></td><td class="confluenceTd" colspan="1"><p><code>select</code></p><p><code>from encounter e</code></p><p><code>where e.reg_dt_tm between cnvtlookbehind("1,D") and cnvtdatetime(curdate,curtime3)</code></p><p><code>detail</code></p><p><code>    discharge_stat = nullind(e.disch_dt_tm)</code></p><p><code>    text_stat2 = textlen(e.reason_for_visit)</code></p><p><code>with nocounter</code></p><p><br/></p><p><code>Is converted to:</code></p><p><code>select</code></p><p><code> nullind_e_disch_dt_tm = nullind (e.disch_dt_tm ) ,</code></p><p><code> textlen_e_reason_for_visit = textlen (e.reason_for_visit )</code></p><p><code> from (encounter e )</code></p><p><code> where (e.reg_dt_tm between cnvtlookbehind ("1,D" ) and cnvtdatetime (sysdate ) )</code></p><p><code> detail</code></p><p><code>  discharge_stat = nullind_e_disch_dt_tm ,</code></p><p><code>  text_stat2 = textlen_e_reason_for_visit</code></p><p><code> with nocounter</code></p></td></tr><tr><td class="confluenceTd" colspan="1">Optimize CNVTDATETIME(curdate,curtime3) function</td><td class="confluenceTd" colspan="1"><div class="content-wrapper">Converts CNVTDATETIME(curdate,curtime3) to use sysdate. This optimization was introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.0 and 9.02.0.</div></td><td class="confluenceTd" colspan="1"><p><code>select</code></p><p><code>from encounter e</code></p><p><code>where e.reg_dt_tm between cnvtlookbehind("1,D") and cnvtdatetime(curdate,curtime3)</code></p><p><br/></p><p><code>Is converted to</code></p><p><code>select</code></p><p><code>from encounter e</code></p><p><code>where e.reg_dt_tm between cnvtlookbehind("1,D") and cnvtdatetime(sysdate)</code></p></td></tr><tr><td class="confluenceTd" colspan="1">Optimize Birth_DT_TM and Deceased_DT_TM</td><td class="confluenceTd" colspan="1"><p>Introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.2 and 9.02.2. It is applied at run time even if the program was not compiled using Set Compile Optimize.</p><p>Converts function calls that use Birth_DT_TM and Birth_TZ, or Deceased_DT_TM and Deceased_TZ to use DATEBIRTHFORMAT() or DATEDECEASEDFORMAT().</p><p>Initially, this conversion assumed the existence of the Prec_Flag field. This causes errors if the Prec_Flag field does not exist. Beginning with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.14.3 and 9.02.3, the conversion validates the existence of the Prec_Flag field. If it exists, its value is used. If the field does not exist, a default of 1 (date and time) is used.</p><p>Before <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.15.2 and 9.03.2, this optimization causes errors when a subroutine that is defined outside of the Reportwriter sections is called in a Reportwriter section and all of the fields passed to the DATETIMEZONEFORMAT() function in the subroutine are not referenced in the Reportwriter sections of the Select that calls the subroutine. This issue is resolved in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.15.2, 9.03.2, and later.</p></td><td class="confluenceTd" colspan="1"><p><code>Converts</code></p><p><code>From: </code></p><p><code>FORMAT(CNVTDATETIMEUTC(DATETIMEZONE[UTC](datetime,tz_index),1)),format_mask)</code></p><p><code>To:</code></p><p><code>DATETIMEZONEFORMAT(&lt;datetime&gt;,&lt;tz_index_to&gt;,&lt;format_mask&gt;,0,&lt;len&gt;)</code></p><p><br/></p><p><code>From:</code></p><p><code>CNVTDATETIMEUTC(DATETIMEZONE[UTC](datetime,tz_index),1)) format_mask      </code></p><p><code>To:</code></p><p><code>DATETIMEZONEFORMAT(datetime,tz_index_to,format_mask,0,len)</code></p><p><br/></p><p><code>From:</code></p><p><code>DATETIMEZONEFORMAT(datetime,tz_index_to,format_mask[,mode[,len]])  ;mode=0|curtimezonedef</code></p><p><code>To:</code></p><p><code>DATEBIRTHFORMAT(datetime,timezone_to_index,prec_flag,format_mask,0,len) </code></p><p><code>DATEDECEASEDFORMAT(datetime,timezone_to_index,prec_flag,format_mask,0,len)</code></p><p><br/></p><p><code>From:</code></p><p><code>FORMAT(DATETIMEZONE[UTC](datetime,tz_index)[,mode]),format_mask)</code></p><p><code>To:</code></p><p><code>DATEBIRTHFORMAT(datetime,timezone_to_index,prec_flag,format_mask,0,len)</code></p><p><code>DATEDECEASEDFORMAT(datetime,timezone_to_index,prec_flag,format_mask,0,len)  </code></p><p><br/></p><p><code>From:</code></p><p><code>DATETIMEZONE[UTC](datetime,tz_index)[,mode]) format_mask</code></p><p><code>To:</code></p><p><code>DATEBIRTHFORMAT(datetime,timezone_to_index,prec_flag,format_mask,0,len)</code></p><p><code>DATEDECEASEDFORMAT(datetime,timezone_to_index,prec_flag,format_mask,0,len)</code></p></td></tr><tr><td class="confluenceTd" colspan="1">Correct improper CNVTDATE() usage.</td><td class="confluenceTd" colspan="1">Introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.15.0 and 9.03.0 and updated in versions 8.15.4 and 9.03.4. This optimization is applied at compile time. Converts improper usage of the CNVTDATE() function to a correct function.</td><td class="confluenceTd" colspan="1"><p><code>Examples of improper usage of CNVTDATE() and the conversions are shown below:</code></p><p><code>From: cnvtdate(curdate)</code></p><p><code>To: cnvtint (curdate ) in 8.15.0 and 9.03.0</code></p><p><code>To: cnvtdatetime(curdate,0) in 8.15.4 and 9.03.4<br/></code></p><p><br/></p><p><code>From: cnvtdate(curdate+1)</code></p><p><code>To: cnvtint (curdate+1)<code> in 8.15.0 and 9.03.0</code></code></p><p><code>To: cnvtdatetime(curdate+1,0) in 8.15.4 and 9.03.4</code></p><p><br/></p><p><code>From: cnvtdate(curdate-1)</code></p><p><code>To: cnvtint (curdate-1) <code>in 8.15.0 and 9.03.0</code></code></p><p><code>To: cnvtdatetime(curdate-1,0) in 8.15.4 and 9.03.4</code></p><p><br/></p><p><code>From: cnvtdate(curdate,curtime)</code></p><p><code>To: cnvtdatetime(curdate,curtime)</code></p><p><br/></p><p><code>From: cnvtdate(curdate,curtime2)</code></p><p><code>To: cnvtdatetime(curdate,curtime2)</code></p><p><br/></p><p><code>From: cnvtdate(curdate,curtime3)</code></p><p><code>To: cnvtdatetime(curdate,curtime3)</code></p><p><br/></p><p><code>From: cnvtdate(curdate+1,curtime)</code></p><p><code>To: cnvtdatetime(curdate+1,curtime)</code></p><p><br/></p><p><code>From: cnvtdate(curdate+1,curtime2)</code></p><p><code>To: cnvtdatetime(curdate+1,curtime2)</code></p><p><br/></p><p><code>From: cnvtdate(curdate+1,curtime3)</code></p><p><code>To: cnvtdatetime(curdate+1,curtime3)</code></p><p><br/></p><p><code>From: format(cnvtdate(curdate,curtime3),";;q")</code></p><p><code>To: format (cnvtdatetime (curdate ,curtime3 ) ,";;q" )</code></p></td></tr><tr><td class="confluenceTd" colspan="1">Convert duplicate Label names to an Execute Null (no-op) command.</td><td class="confluenceTd" colspan="1">Introduced in <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.15.0 and 9.03.0 and applied at compile time. Converts duplicate Label names to an Execute Null (no-op) command.</td><td class="confluenceTd" colspan="1"><p><code>The following example creates a program with duplicate <strong>label1</strong> Label names:</code></p><p><code>drop program ccl_test_optimize_dup_label go</code></p><p><code>create program ccl_test_optimize_dup_label</code></p><p><code>   declare num = i4 with noconstant(0)</code></p><p><code>   call echo("&gt;&gt;&gt;step1")              </code></p><p><code>#label_1                                   </code></p><p><code>   set num = num+1                    </code></p><p><code>   call echo("&gt;&gt;&gt;step2")              </code></p><p><code>   if (num &lt; 5) go to label_1 endif        </code></p><p><code>   call echo("&gt;&gt;&gt;step3")              </code></p><p><code>#label_1                                   </code></p><p><code>end go</code></p><p><code>The above is converted to:</code></p><br/><p><code>drop program ccl_test_optimize_dup_label go</code></p><p><code>create program ccl_test_optimize_dup_label</code></p><p><code>    declare num = i4 with noconstant (0 )</code></p><p><code>    call echo ("&gt;&gt;&gt;step1" )</code></p><p><code>#label_1</code></p><p><code>    set num +=1</code></p><p><code>    call echo ("&gt;&gt;&gt;step2" )</code></p><p><code>    if ((num &lt; 5 ) )</code></p><p><code>      go to label_1</code></p><p><code>    endif</code></p><p><code>    call echo ("&gt;&gt;&gt;step3" )</code></p><p><code>    execute null ;noop</code></p><p><code>end go</code></p></td></tr></tbody></table></div><p>Successfully compiling a CREATE PROGRAM command with Set Compile Optimize enabled displays a message in the following format:</p><p>Optimize Program_Name Sub:[number],[number]|Out:[number]|Mth:[number]|Dea:[number]|Exe:[number]|Rpt:[number]|Dat:[number]|Dep:[number]|Fun:[number]|</p><div class="table-wrap"><table class="wrapped confluenceTable"><tbody><tr><th class="confluenceTh">Item</th><th class="confluenceTh">Description</th></tr><tr><td class="confluenceTd" colspan="1">Program_Name</td><td class="confluenceTd" colspan="1">This item is the name of the program created by the CREATE PROGRAM command</td></tr><tr><td class="confluenceTd">Sub:[number],[number]</td><td class="confluenceTd">This item is the number of subroutine definitions optimized, the total number of subroutines.</td></tr><tr><td class="confluenceTd">Out:[number]</td><td class="confluenceTd">This item is the number of OUTERJOIN() optimized..</td></tr><tr><td class="confluenceTd">Mth:[number]</td><td class="confluenceTd">This item is the number of mathematic expressions optimized.</td></tr><tr><td class="confluenceTd" colspan="1">Dea:[number]</td><td class="confluenceTd" colspan="1">This item is the number of dead code removals.</td></tr><tr><td class="confluenceTd" colspan="1">Exe:[number]|</td><td class="confluenceTd" colspan="1">This item is the number of Execute Null to Transaction Null conversions.</td></tr><tr><td class="confluenceTd" colspan="1">Rpt:[number]</td><td class="confluenceTd" colspan="1">This item is the number of Reportwriter TEXTLEN() or NULLIND() calls converted to select expressions.</td></tr><tr><td class="confluenceTd" colspan="1">Dat:[number]</td><td class="confluenceTd" colspan="1">This item is the number of date optimizations.</td></tr><tr><td class="confluenceTd" colspan="1">Dep:[number]</td><td class="confluenceTd" colspan="1">This item is the number of deprecate checks.</td></tr><tr><td class="confluenceTd" colspan="1">Fun:[number]</td><td class="confluenceTd" colspan="1">This item is the number of old function calls replaced with newer function calls.</td></tr></tbody></table></div></div></td></tr></tbody></table></div><h2 id="SETCOMPILEUsingDiscernExplorer-Examples">Examples</h2><p>The following example turns the DEBUG option on for compiling programs into the object library:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET COMPILE = DEBUG</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 683, "requestCorrelationId": "38a30cb96604764f"}</span>
+</body>
+</html>

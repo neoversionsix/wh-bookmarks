@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SET SPOOL Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SET+SPOOL+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The SET SPOOL command prints a file from in a program or at the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command line in any session. Use GO at the end of the command to make it valid throughout a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session. If you do not use GO, the SET SPOOL command is valid only during the execution of the program that called it, and it must be embedded in an executable program (between the CREATE PROGRAM and END commands).</p><h2 id="SETSPOOLUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET SPOOL [=] string printer_name [WITH spool_option {, spool_option}] [GO]</pre>
+</div></div><h2 id="SETSPOOLUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>string</em><br>The full path and file name of the file to be printed. Standard operating system conventions apply, so you can leave off the node, disk drive, or directory name if you are already pointing to that place. The string must be embedded in quotation marks.</br></p><p><em>printer_name</em><br/>The logical name of the printer queue to which the file will be spooled (for example, LP01 or LP02).</p><p><em>spool_option</em><br/>Determines features related to the file printing process. The following options are valid:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><th class="confluenceTh"><p><strong>CALLPRG = <em>string</em>|CURPROG</strong></p></th><td class="confluenceTd"><div class="content-wrapper"><p>Append the current program name or defined string as a tag to the print job.  If omitted, the default is to apply the CURPROG to the print job. Introduced in version 8.9.4 of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span></p></div></td></tr><tr><th class="confluenceTh"><p><strong>COMPRESS</strong></p></th><td class="confluenceTd"><p>Prints in compressed format.</p></td></tr><tr><th class="confluenceTh"><p><strong>NOCOMPRESS</strong></p></th><td class="confluenceTd"><p>Prints in normal noncompressed format.</p></td></tr><tr><th class="confluenceTh"><p><strong>COPY = <em>num_copies</em></strong></p></th><td class="confluenceTd"><p>Defines the number of copies to be printed. </p></td></tr><tr><th class="confluenceTh"><p><strong>DELETED</strong></p></th><td class="confluenceTd"><p>Deletes a file automatically after it is printed and also &lt;file&gt;.cpc if one exists.</p></td></tr><tr><th class="confluenceTh"><p><strong>NODELETED</strong></p></th><td class="confluenceTd"><p>Does not delete a file after printing. This is the default.</p></td></tr><tr><th class="confluenceTh"><p><strong>DIO = <em>diomode</em></strong></p></th><td class="confluenceTd"><p>Allows printing a file that uses DIO control options and DIO Commands</p></td></tr><tr><th class="confluenceTh"><p><strong>DUPLEX</strong></p></th><td class="confluenceTd"><p>Two-sided printing. Prints on both sides of the paper, from edge to edge (as in a book).</p></td></tr><tr><th class="confluenceTh"><p><strong>FILECASE</strong></p></th><td class="confluenceTd"><div class="content-wrapper"><p><span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> version 8.12.0 introduced the FILECASE option. By default <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> converts the full path and file name to lowercase characters. Specifying FILECASE will retain the full path and file name with no conversion.</p></div></td></tr><tr><th class="confluenceTh"><p><strong>LANDSCAPE</strong></p></th><td class="confluenceTd"><p>Prints in landscape mode.</p></td></tr><tr><th class="confluenceTh"><p><strong>NOLANDSCAPE</strong></p></th><td class="confluenceTd"><p>Print in portrait mode.</p></td></tr><tr><th class="confluenceTh"><p><strong>NOTIFY</strong></p></th><td class="confluenceTd"><p>Displays a message when a file is printed.</p></td></tr><tr><th class="confluenceTh"><p><strong>NONOTIFY</strong></p></th><td class="confluenceTd"><p>Suppress the message displayed when a file is printed. This is the default.</p></td></tr><tr><th class="confluenceTh"><p><strong>MEDIA = <em>media_name</em></strong></p></th><td class="confluenceTd"><p>Specify optional media name.</p></td></tr><tr><th class="confluenceTh"><p><strong>PRINT = <em>setup_module</em></strong></p></th><td class="confluenceTd"><p>Allows the selection of a print tray. Examples: TRAY1, TRAY2, TRAY3, TRAY4, TRAY5, PSTRAY1, PSTRAY2, PSTRAY3, PSTRAY4, PSTRAY5, A4TRAY, LETTERTRAY, LEGALTRAY, LEDGERTRAY, CUSTOM1, CUSTOM2, CUSTOM3, CUSTOM4, and CUSTOM5.</p></td></tr><tr><th class="confluenceTh"><p><strong>SIMPLEX</strong></p></th><td class="confluenceTd"><p>One-sided printing.</p></td></tr><tr><th class="confluenceTh"><p><strong>TUMBLE</strong></p></th><td class="confluenceTd"><p>Two-sided printing. Prints on both sides of the paper, end over end (as in a flip chart).</p></td></tr><tr><th class="confluenceTh"><p><strong>USER = <em>username</em></strong></p></th><td class="confluenceTd"><div class="content-wrapper"><p>Specify optional username. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> versions 8.16.0  and 9.04.0 introduce an enhancement to issue a warning message if the username contains invalid characters. Examples of invalid characters are a blank, <strong>/</strong>, <strong>\\</strong>, <strong>^</strong>, <strong>"</strong>, <strong>*</strong>,and <strong>|</strong>.</p></div></td></tr></tbody></table></div><h2 id="SETSPOOLUsingDiscernExplorer-Examples">Examples</h2><p>The following examples illustrate different ways to use SET SPOOL:</p><p>To print two copies of a file on the printer LP02 from the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command line, enter:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET SPOOL = "CER_TEMP:PATIENTS.DAT" LP02 WITH COPY=2 GO</pre>
+</div></div><p>To print a file to the printer LP01 from in a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program, enter:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET SPOOL "TURN_RPT.DAT" LP01</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 706, "requestCorrelationId": "b66c2f1fa4f67416"}</span>
+</body>
+</html>

@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SET DOC Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SET+DOC+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The SET DOC command is similar to the SET HELP command. It identifies the type of documentation that is called when the user presses the DO key at a CALL ACCEPT input field. When possible, the documentation window is displayed to the left or right of the CALL ACCEPT input field so that the user can view both the CALL ACCEPT input field and the documentation. The documentation window overlays the CALL ACCEPT input field if it is too large to be displayed to one side of the field. Use the SET DOC = POS option to override the default location of the window.</p><p>The documentation scrolls automatically when you press PF1, PF2, NEXT SCREEN, PREV SCREEN, and the ARROW keys. Press ENTER, HOME, or PF3 to close the documentation window and return the cursor to the CALL ACCEPT input field.</p><p>Use GO at the end of the command to make it valid throughout a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session. If you do not use GO, the SET DOC command is valid only during the execution of the program that called it, and it must be embedded within an executable program (between the CREATE PROGRAM and END commands).</p><h2 id="SETDOCUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET DOC = doc_option [GO]</pre>
+</div></div><h2 id="SETDOCUsingDiscernExplorer-Metasymbol">Metasymbol</h2><p>doc_option<br>Determines whether you can press the DO key to display documentation on an input field in a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program. The following values are valid:</br></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Value</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>OFF</p></td><td class="confluenceTd"><p>Documentation cannot be displayed by pressing the DO key.</p></td></tr><tr><td class="confluenceTd"><p>POS</p></td><td class="confluenceTd"><p>Determines the position of the documentation window on the screen according to the following syntax: POS(begin_row,begin_col,num_row,num_col). The default position is column 1, row 3.</p></td></tr><tr><td class="confluenceTd"><p>SELECT</p></td><td class="confluenceTd"><div class="content-wrapper"><p>When the DO key is pressed, displays the results of a valid <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> query reading tables from the data dictionary.</p></div></td></tr></tbody></table></div><h2 id="SETDOCUsingDiscernExplorer-Examples">Examples</h2><p>The following examples illustrate different ways to use SET DOC:</p><p>The following example uses the SELECT option with the SET DOC command to create a window that displays documentation for the PERSON table.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET DOC =
+SELECT INTO "NL:"
+	DOCUMENTATION = T.DEFINITION
+FROM	DM_TABLES_DOC T
+WHERE	T.TABLE_NAME = "PERSON"
+WITH	NOCOUNTER, CHECK
+</pre>
+</div></div><p>The next example uses the SELECT option with the table DUMMYT to create a window of information that does not come from a table in the data dictionary.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET DOC = SELECT INTO "NL:"
+	DOCUMENTATION = FILLSTRING(80," ")
+FROM	DUMMYT T
+
+DETAIL
+	ROW 1, COL 1, "NEED TO KNOW WHAT DATE YOU",
+	ROW 2, COL 1, "WANT TO START LOOKING FOR.",
+	ROW 3, COL 1, "IN THE FOLLOWING FORMAT: 020193",
+	ROW 4, COL 1, "WHICH MEANS:  FEB 1, 1993"
+WITH	NOCOUNTER,NOFORMFEED,CHECK,NOHEADING,NOFORM
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 571, "requestCorrelationId": "4ad8ea2ae5b82cba"}</span>
+</body>
+</html>

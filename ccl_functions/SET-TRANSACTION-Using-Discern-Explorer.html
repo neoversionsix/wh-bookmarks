@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SET TRANSACTION Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SET+TRANSACTION+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The SET TRANSACTION command provides access to RDB. This command typically is issued before DELETE, INSERT, and UPDATE commands.</p><p>Use GO at the end of the command to make it valid throughout a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session. If you do not use GO, the command is valid only during the execution of the program that called it and must be embedded in an executable program (between the CREATE PROGRAM and END commands).</p><h2 id="SETTRANSACTIONUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET TRANSACTION = tran_option
+[WITH table_name = tran_mode {,table_name = tran_mode}] [GO]
+</pre>
+</div></div><h2 id="SETTRANSACTIONUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>tran_option</em></p><p>Determines the type of transaction to be established. The following options are valid:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>READ_WAIT</p></td><td class="confluenceTd"><p>Read only transaction with wait mode</p></td></tr><tr><td class="confluenceTd"><p>READ_NOWAIT</p></td><td class="confluenceTd"><p>Read only transaction, no wait mode</p></td></tr><tr><td class="confluenceTd"><p>WRITE_WAIT</p></td><td class="confluenceTd"><p>Read/write transaction with wait mode</p></td></tr><tr><td class="confluenceTd"><p>WRITE_NOWAIT</p></td><td class="confluenceTd"><p>Read/write transaction, no wait mode</p></td></tr></tbody></table></div><p><em>table_name</em></p><p>The name of a specific table to which access can be restricted.</p><p><em>tran_mode</em></p><p>The type of access provided for the specified table. The following options are valid:</p><ul><li>EXCLUSIVE_READ</li><li>EXCLUSIVE_WRITE</li><li>PROTECTED_READ</li><li>PROTECTED_WRITE</li><li>SHARED_READ</li><li>SHARED_WRITE</li></ul><h2 id="SETTRANSACTIONUsingDiscernExplorer-Examples">Examples</h2><p>The examples below illustrate different ways to use SET TRANSACTION.</p><p>To indicate to RDB that read-only mode should be used, enter the following command:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET TRANSACTION READ_NOWAIT</pre>
+</div></div><p>To indicate to RDB that read-write mode should be used, enter the following command:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET TRANSACTION WRITE_NOWAIT WITH JOB_HISTORY = SHARED_WRITE</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 528, "requestCorrelationId": "7366f5218969c27b"}</span>
+</body>
+</html>

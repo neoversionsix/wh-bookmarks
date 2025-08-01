@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SET BREAK Using Discern Explorer Debugger - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SET+BREAK+Using+Discern+Explorer+Debugger?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The SET BREAK command sets a break point on a command, row, label, or report. A break point is a place where you can suspend the execution of a program being debugged and regain control. While execution is paused, you can issue debugger commands at the command line (for example, EVALUATE or DEPOSIT a variable). To continue executing the program, enter the GO command at the debugger command line.</p><p>All EXECUTE commands use a debugger break point automatically (including executing a subprogram in a main program). Use the SET BREAK command to set additional break points. You can set a maximum of five break points. To cancel a break point, use the CANCEL command.</p><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>You cannot set a break point in a SELECT command unless it contains a Reportwriter section.</p></div></div><h2 id="SETBREAKUsingDiscernExplorerDebugger-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>S[ET] B[REAK] break_option</pre>
+</div></div><h2 id="SETBREAKUsingDiscernExplorerDebugger-Metasymbol">Metasymbol</h2><p><em>break_option</em><br>Determines where a break point occurs. The following options are valid:</br></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh" colspan="1">Option</th><th class="confluenceTh" colspan="1">Description</th></tr><tr><th class="confluenceTh"><p>Command</p></th><td class="confluenceTd"><p>The command (for example, SELECT) at which a break point should be set.</p></td></tr><tr><th class="confluenceTh"><p>Label</p></th><td class="confluenceTd"><p>The name of a label at which a break point should be set.</p></td></tr><tr><th class="confluenceTh"><p>REPORT</p></th><td class="confluenceTd"><p>Sets a break at the start of the REPORT.</p></td></tr><tr><th class="confluenceTh"><p>Row</p></th><td class="confluenceTd"><p>The number of a row in the Reportwriter section at which a break point should be set.</p></td></tr><tr><th class="confluenceTh"><p>WHERE</p></th><td class="confluenceTd"><p>Sets a break point at the specified qualification or condition. The full syntax of this option is WHERE qualification.</p></td></tr></tbody></table></div><h2 id="SETBREAKUsingDiscernExplorerDebugger-Examples">Examples</h2><p>The following example sets a break at the first Report statement of the Reportwriter:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET BREAK REPORT</pre>
+</div></div><p>The following example sets a break at the SELECT command:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET BREAK SELECT</pre>
+</div></div><p>The following command sets a break at the tenth line in a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET BREAK 10</pre>
+</div></div><p>The following command sets a break at the specified label:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET BREAK #CORRECT_YN</pre>
+</div></div><p>The following command sets a break point in a FOR loop when the loop variable X reaches the value of 10:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET BREAK WHERE X = 10</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 555, "requestCorrelationId": "01d6f6d0a53aaf1d"}</span>
+</body>
+</html>

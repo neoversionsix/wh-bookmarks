@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SET SOURCE Using Discern Explorer Debugger - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SET+SOURCE+Using+Discern+Explorer+Debugger?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The debugger expects that the program that you are debugging was created using a file with the same name as the program and a .PRG or .SUB extension. That file is assumed to be in CCLUSERDIR. For example, when debugging a program named my_program, the source is assumed to be CCLUSERDIR:my_program.prg or CCLUSERDIR:my_program.sub. The SET SOURCE command is used to specify the source code file if the program was created using a file that is not in CCLUSERDIR, has a file name that does not match the program name, or does not use .PRG or .SUB as the extension. When the debugger searches for the source code file, it looks in the default source under the .PRG extension. If it cannot find the file with a .PRG extension, it checks for the .SUB extension. If the program is not in the default source under either extension, use SET SOURCE to specify the source code file.</p><h2 id="SETSOURCEUsingDiscernExplorerDebugger-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>S[ET] S[OURCE] "directory_name:[file_name]"</pre>
+</div></div><h2 id="SETSOURCEUsingDiscernExplorerDebugger-Metasymbols">Metasymbols</h2><p><em>directory_name</em><br>The name of a directory.</br></p><p><em>file_name</em><br/>The name of a file. When combined with the file's location (the node, disk drive, and directory), file_name forms the full file name, or "file specification".</p><h2 id="SETSOURCEUsingDiscernExplorerDebugger-Example">Example</h2><p>The following example lists how to compile and run a program in the debugger, and identify a source that is not in the default CCLUSERDIR.</p><ol><li>At the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command line, set compile for DEBUG mode by entering <strong>SET COMPILE DEBUG GO</strong>.</li><li>Compile and run a program in DEBUG mode. For example, you can issue the following command at the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> command line: %I CCLSOURCE:PROGRAM_NAME.PRG.</li><li>Turn on the debugger by entering <strong>SET TRACE DEBUG GO</strong>.</li><li>Run the program you compiled in DEBUG mode. For example, <strong>PROGRAM_NAME GO</strong>.</li><li>The Debugger window is displayed, but not the source text because the program is not in the default CCLUSERDIR. To point to the right directory, issue the following command at the debugger command line:</li></ol><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET SOURCE "CCLSOURCE:PROGRAM_NAME.PRG"</pre>
+</div></div><p>The debugger displays the source text, and you can continue the debugging process.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 507, "requestCorrelationId": "1dfe676e7caa0647"}</span>
+</body>
+</html>

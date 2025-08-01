@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SET ERROR  Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SET+ERROR++Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The SET ERROR command determines what action a program takes if an error occurs. (An error occurs when a command is not executed. Normally in this situation you are returned to the command line.) The default is OFF, which indicates that no action is taken. The SET ERROR command is only valid outside the context of a SELECT|UPDATE|INSERT|DELETE|MERGE command. The SET ERROR command is similar to the SET WARNING command.</p><p>Use GO at the end of the command to make it valid throughout a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session. If you do not use GO, the command is valid only during the execution of the program that called it. It must be embedded within an executable program (between the CREATE PROGRAM and END commands).</p><h2 id="SETERRORUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET ERROR = error_option [GO]</pre>
+</div></div><h2 id="SETERRORUsingDiscernExplorer-Metasymbol">Metasymbol</h2><p><em>error_option</em></p><p>Identifies the action that is taken when an error occurs. The following options are valid:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh" colspan="1">Name</th><th class="confluenceTh" colspan="1">Description</th></tr><tr><td class="confluenceTd"><p><em>label_name</em></p></td><td class="confluenceTd"><div class="content-wrapper"><p>Branch to the set of <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> commands following the Label_Name.</p></div></td></tr><tr><td class="confluenceTd"><p>OFF</p></td><td class="confluenceTd"><p>Do not take any action when an error occurs.</p></td></tr></tbody></table></div><h2 id="SETERRORUsingDiscernExplorer-Examples">Examples</h2><p>The following example uses SET ERROR to execute the CALL ECHO command when an error occurs.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM CCL_ERROR_BRANCH GO
+CREATE PROGRAM CCL_ERROR_BRANCH
+
+SET ERROR = ERROR_LABEL
+
+DECLARE ACTIVE_IND = I4
+
+SET ACTIVE_IND = "A" ;will cause and error
+
+GO TO EXIT_SCRIPT
+
+#ERROR_LABEL
+CALL ECHO("ACTIVE_IND IS A NUMERIC DATA TYPE NOT A CHARACTER DATA TYPE")
+
+#EXIT_SCRIPT
+
+END
+GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 741, "requestCorrelationId": "96eda2603d4b2c06"}</span>
+</body>
+</html>

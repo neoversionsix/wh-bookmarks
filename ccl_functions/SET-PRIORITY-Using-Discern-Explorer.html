@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SET PRIORITY Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SET+PRIORITY+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The SET PRIORITY command changes the priority of the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session. You can change your priority lower than your default priority only when you enter the session. Your process priority cannot be higher than the base priority assigned to your sign-on. If your base priority is 3, you will enter <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> with a process priority of 3.</p><p>You can adjust the priority one number at a time either up or down. To lower your priority by two numbers, you must execute the command twice.</p><p>With the SET PRIORITY command, you can lower the process priority so that the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program does not use CPU time before more important programs that might be running at the same time. This is particularly useful if you are running programs during peak usage times or if you are running a program during nightly operations but do not want it to interfere with other operations programs.</p><p>Use GO at the end of the command to make the priority valid throughout a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session. If you do not use GO, the SET PRIORITY command is valid only during the execution of the program that called it and must be embedded in an executable program (between the CREATE PROGRAM and END commands).</p><h2 id="SETPRIORITYUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET PRIORITY = priority [GO]</pre>
+</div></div><h2 id="SETPRIORITYUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>priority</em></p><p>Increase or decrease the priority from its current value by one. The following values are valid:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Value</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>BATCH</p></td><td class="confluenceTd"><p>Equivalent to level 3.</p></td></tr><tr><td class="confluenceTd"><p>DOWN</p></td><td class="confluenceTd"><p>Decrease priority by one.</p></td></tr><tr><td class="confluenceTd"><p>HIGH</p></td><td class="confluenceTd"><p>The highest priority that can be set using the UP option.</p></td></tr><tr><td class="confluenceTd"><p>INTERACTIVE</p></td><td class="confluenceTd"><p>Equivalent to level 4; same as the HIGH option.</p></td></tr><tr><td class="confluenceTd"><p>LOW</p></td><td class="confluenceTd"><p>The lowest priority that can be set using the DOWN option.</p></td></tr><tr><td class="confluenceTd"><p>SHOW</p></td><td class="confluenceTd"><p>Display the current priority setting.</p></td></tr><tr><td class="confluenceTd"><p>UP</p></td><td class="confluenceTd"><p>Increase priority by one.</p></td></tr></tbody></table></div><h2 id="SETPRIORITYUsingDiscernExplorer-Examples">Examples</h2><p>The following example lowers the priority from 4 to 3 for the current <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET PRIORITY = DOWN GO</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 604, "requestCorrelationId": "067d5a576e4af34d"}</span>
+</body>
+</html>

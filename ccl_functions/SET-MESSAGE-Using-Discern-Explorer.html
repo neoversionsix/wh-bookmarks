@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SET MESSAGE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SET+MESSAGE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p><br/></p><p>The SET MESSAGE command controls whether <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> error messages can be passed to the display when <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> programs using screen generation commands are executed. The default for servers is SET MESSAGE NOINFORMATION (do not display debug information). The default for an interactive <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session is SET MESSAGE INFORMATION. You can define how long a message remains on the screen or use the <strong>-1</strong> option to suppress messages. Messages are displayed on Line 24 of the screen. The SET MESSAGE WINDOW option is used to enter Screen Application mode, which allows you to use parameters ($).</p><p>Enter <strong>GO</strong> at the end of the command to activate the message option throughout a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session. If you omit GO, the SET MESSAGE command option is only active during the execution of the program that called it, and it must be embedded within an executable program (between the CREATE PROGRAM and END commands).</p><h2 id="SETMESSAGEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET MESSAGE = message_option [GO]</pre>
+</div></div><h2 id="SETMESSAGEUsingDiscernExplorer-Metasymbol">Metasymbol</h2><p><strong>message_optio</strong><strong>n</strong> determines how <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> updates the display with <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> error messages when a program is executing. The following values are valid:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh" colspan="1">Value</th><th class="confluenceTh" colspan="1">Description</th></tr><tr><td class="confluenceTd"><p><strong>INFORMATION</strong></p></td><td class="confluenceTd"><div class="content-wrapper"><p>Debug information is written to the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Run-Time Library (RTL) log file.</p></div></td></tr><tr><td class="confluenceTd"><p><strong>NOINFORMATION</strong></p></td><td class="confluenceTd"><div class="content-wrapper"><p>Debug information is <em>not</em> written to the <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> Run-Time Library (RTL) log file.</p></div></td></tr><tr><td class="confluenceTd"><p><strong>Seconds</strong></p></td><td class="confluenceTd"><div class="content-wrapper"><p>The number of seconds to allow any <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> error message to remain on the display during the execution of a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> screen application program that is enabled by the Paint clause in the CREATE PROGRAM or SET MESSAGE WINDOW command. The default is 10 seconds or until the user presses a key to continue. Use <strong>-1</strong> to suppress error messages. (You cannot use zero).</p></div></td></tr><tr><td class="confluenceTd"><p><strong>WINDOW</strong></p></td><td class="confluenceTd"><p>Begin a paint application without clearing the screen.</p></td></tr><tr><td class="confluenceTd"><p><strong>NOWINDOW</strong></p></td><td class="confluenceTd"><p>End a paint application.</p></td></tr></tbody></table></div><h2 id="SETMESSAGEUsingDiscernExplorer-Examples">Examples</h2><p>The below examples illustrate different ways to use SET MESSAGE:</p><p>To allow messages to be displayed with minimal information when any <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> program is executing during a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session, enter the below command. The message remains for 20 seconds or until the user presses any key to continue.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET MESSAGE = 20 GO</pre>
+</div></div><p>The below example suppresses <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> error messages during a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> screen application. This command must be used after Paint in the CREATE PROGRAM or SET MESSAGE WINDOW command:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET MESSAGE = -1</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 613, "requestCorrelationId": "213f3c8d0fa5a680"}</span>
+</body>
+</html>

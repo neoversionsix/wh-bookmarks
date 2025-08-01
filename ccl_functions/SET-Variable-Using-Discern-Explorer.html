@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SET Variable Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SET+Variable+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The SET command assigns a value to a variable, record structure item, or array item. If the record structure item or array item does not exist and error or warning is generated. If the variable does not exist, it is created. The SET MODIFY PreDeclare command is used to generate a warning message if the variable was not previously created using the DECLARE command. If SET MODIFY PreDeclare is active, the SET command will create the variable and generate a warning. If SET TRACE Deprecated E and SET MODIFY PreDeclare are active, an error is generated and the variable is not created..</p><p>GO is used to execute the SET command outside of a CREATE PROGRAM and END command.</p><p>The WITH PERSIST option can be used in a child process to make a variable known when control returns to a parent process. However using this option is not recommended. Generally the variable should be created in the parent process and used in the child process. In rare cases where a child process needs to create a variable and make it known to the parent process, the DECLARE command specifying the PERSISTSCRIPT scope should be used in the child process instead of using the WITH PERSIST option in the SET command.</p><h2 id="SETVariableUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET variable = expression [WITH PERSIST] [GO]
+</pre>
+</div></div><h2 id="SETVariableUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>variable</em> <br>The variable name, record structure item, or array item to set to a value.</br></p><p><em>expression</em><br/>An expression is the highest-level metasymbol among constants, field names, variables, and so on. The following expressions are valid:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>alias.field_name
+array_name [dimension]
+array_name [dimension1, dimension2]
+array_name [dimension1, dimension2, dimension3]
+constant
+expression arithmetic_operator expression
+-expression
+(expression)
+function(expression{,expression})
+parameter
+record_name{-&gt;field_name}
+table_name.field_name
+variable
+</pre>
+</div></div><div class="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info"><p class="title conf-macro-render">Note</p><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Square brackets are part of the array_name syntax; they do not indicate an optional part of the syntax in this instance.</p></div></div><h2 id="SETVariableUsingDiscernExplorer-Examples">Examples</h2><p>The following example sets a variable named CNTR to 10. The GO indicates that the SET command is used outside of a CREATE PROGRAM END command.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET CNTR = 10 GO
+</pre>
+</div></div><p>The following example increments the CNTR variable by one.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET CNTR = CNTR +1
+</pre>
+</div></div><p>The following example declares a two position array named c3_array. Each position of the array can hold up to three characters. The first position of the array is set to "One" and the second position of the array is set to "Two".</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>declare c3_array[2] = C3
+
+set c3_array[1] = "One"
+set c3_array[2] = "Two"
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 518, "requestCorrelationId": "26bc6d47a7e4404c"}</span>
+</body>
+</html>

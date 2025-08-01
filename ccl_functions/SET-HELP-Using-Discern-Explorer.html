@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SET HELP Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SET+HELP+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The SET HELP command identifies the type of help that is called when the user presses HELP at a CALL ACCEPT input field. When possible, the help window is displayed to the left or right of the input field so the user can view both the CALL ACCEPT field and the help information. The help window overlays the CALL ACCEPT input field if it is too large to be displayed to one side of the field.</p><p>Three types of help are available: message help, fixed (hard-coded) help, and table-driven help. The help_option selected determines the type of help used.</p><p>Help is automatically scrollable using the ARROW keys, PF1, PF2, NEXT SCREEN, and PREV SCREEN. Press ENTER, HOME, or PF3 to close the help window and return the cursor to the CALL ACCEPT input field. Selecting a line in the help window and pressing ENTER sends the information from help into the CALL ACCEPT input field. Pressing PF3 returns the cursor to the CALL ACCEPT input field without bringing any information from the help window. Use the SET HELP = POS option to override the default location of the help window. (For one-line textual help, information is displayed at the bottom of the screen. This type of help is not scrollable, and does not return values to the CALL ACCEPT input field.)</p><p>In the SET HELP with SELECT command, hidden values can be returned as well as displayed items. The CURHELP variable stores the number of the item selected, making other fields associated with that item accessible to the program. For example, if a user selects a specific patient from a help window, the help also could return information associated with the patient that is not displayed, such as medical record number. The default control options used for a SET HELP with SELECT are: WITH NOCOUNTER, HEADING, SEPARATOR = " ", and NOFORMFEED.</p><p>Use GO at the end of the command to make it valid throughout a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session. If you do not use GO, the SET HELP command is valid only during the execution of the program that called it, and it must be embedded in an executable program (between the CREATE PROGRAM and END commands).</p><h2 id="SETHELPUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET HELP = help_option [GO]</pre>
+</div></div><h2 id="SETHELPUsingDiscernExplorer-Metasymbols">Metasymbols</h2><p><em>help_option</em></p><p>The type of information to be displayed in the help window. The following options are valid:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Option</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>FIX (fixstring)</p></td><td class="confluenceTd"><p>FIX is a function to be used only with the SET HELP command, where fixstring represents any character string with each individual help value separated by commas. The entire string should be surrounded by single quotation marks.</p></td></tr><tr><td class="confluenceTd"><p>OFF</p></td><td class="confluenceTd"><p>No help is available.</p></td></tr><tr><td class="confluenceTd"><p>POS</p></td><td class="confluenceTd"><p>Determines the position of the documentation window on the screen according to the syntax: POS(begin_row,begin_col,num_row,num_col). The default position is column 1, row 3.</p></td></tr><tr><td class="confluenceTd"><p>PROMPTMSG (prompt)</p></td><td class="confluenceTd"><p>Defines the text of a prompt message, where prompt represents the actual text of the prompt. The default text is, "Enter Help Start=&gt;".</p></td></tr><tr><td class="confluenceTd"><p>SEARCHMSG (search)</p></td><td class="confluenceTd"><p>Defines the text of a search message, where search represents the actual text of the message. The default text is, "Enter Help Search=&gt;".</p></td></tr><tr><td class="confluenceTd"><p>SELECT</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Any valid <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> query reading tables from the data dictionary. The extracted data then is shown in the help window as valid values for the CALL ACCEPT input field. The first field selected corresponds to the value that will be returned in the accepted input field.</p></div></td></tr><tr><td class="confluenceTd"><p>text_string</p></td><td class="confluenceTd"><p>Any characters embedded in quotes.</p></td></tr></tbody></table></div><h2 id="SETHELPUsingDiscernExplorer-Examples">Examples</h2><p>The following examples illustrate different ways to use SET HELP:</p><p>To create a one-line help string that is displayed at the bottom of the screen, enter the following command:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET HELP = "Valid printers are: LP01, LP07, LP09"</pre>
+</div></div><p>The following example creates a help window that displays four valid choices. When the user highlights a choice and presses RETURN, the selected data is placed in the CALL ACCEPT input field.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET HELP = FIX('LP02,LP03,LP04,LP07')</pre>
+</div></div><p>You also can enter a line number at the <strong>Select line #</strong> prompt displayed at the bottom of the scroll window or scroll through the window to select a line. When you create a help window, the message, <strong>Select line #</strong>, is displayed at the bottom of the window automatically.</p><p>The following example uses the CONCAT( ) function along with the FIX option to create a help message that can extend over as many lines as you need:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET FIX_MSG =
+CONCAT(	'LP02',
+		'LP03',
+		'LP04',
+		'LP07')
+SET HELP = FIX(VALUE(FIX_MSG))
+</pre>
+</div></div><p>To simulate a help window with three values along with a description of each value (using the FIX function), enter the following command:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET HELP = FIX('LP01"LAB PRINTER",LP02"COMP ROOM",LP03"OFFICE"')</pre>
+</div></div><p>To display the valid Encounter Types from the CODE_VALUE table, in the help window, enter the following command:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET HELP  =  SELECT INTO "NL:"
+	CV.CDF_MEANING
+FROM	CODE_VALUE CV
+WHERE	CV.CODE_SET = 69
+CALL ACCEPT(4,28,"A(12);CU")
+SET V_ENCNTR_TYPE = CURACCEPT
+CALL TEXT(5,5,V_ENCNTR_TYPE)
+</pre>
+</div></div><p>To <em>not</em> display a help window, enter:</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET HELP = OFF</pre>
+</div></div><p>The following example asks the user to enter a start value for the help on the encounter type. The "P" and "F" modifiers in the CALL ACCEPT force the help window to open and prompt the user for a starting value. The POS and PROMPTMSG options are used to override the default placement of the help window and the default prompt message.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>call text(4,5,"Enter Encounter Type: ")
+SET HELP  = POS(5,25,15,40)
+SET HELP  = PROMPTMSG("ENTER STARTING VALUE FOR HELP")
+SET HELP  =  SELECT DISTINCT INTO "NL:"
+	CV.CDF_MEANING
+FROM	CODE_VALUE CV
+WHERE	CV.CODE_SET = 69 AND
+	CV.CDF_MEANING &gt;= CNVTUPPER(CURACCEPT)
+ORDER	CV.CDF_MEANING
+CALL ACCEPT(4,28,"A(12);CUPF")
+SET V_ENCNTR_TYPE = CURACCEPT
+CALL TEXT(5,5,V_ENCNTR_TYPE)
+</pre>
+</div></div><p>The ORDER clause determines the order in which the help information is sorted. If the ORDER clause is not included, the sequence of the help information is based on the key the SELECT statement qualified on.</p>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 602, "requestCorrelationId": "3631d030edfe8fdd"}</span>
+</body>
+</html>

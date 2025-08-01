@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+<!-- Start SiteCatalyst code --><!-- End SiteCatalyst code -->
+
+
+<title>SET VALIDATE Using Discern Explorer - Discern Help Pages - Cerner Wiki</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>.ia-fixed-sidebar, .ia-splitter-left {width: 285px;}.theme-default .ia-splitter #main {margin-left: 285px;}.ia-fixed-sidebar {visibility: hidden;}</style>
+
+
+
+</head>
+<body class="theme-default aui-layout aui-theme-default" id="com-atlassian-confluence">
+<div id="stp-licenseStatus-banner"></div>
+<div id="workflow-page-status" style="display: none;"><fieldset class="hidden parameters">
+<input id="stateName" type="hidden" value="Published"/><input id="hoverDescription" type="hidden" value="Published"/><input id="finalState" type="hidden" value="true"/><input id="hasFinalState" type="hidden" value="true"/><input id="publishedView" type="hidden" value="true"/><input id="taskable" type="hidden" value="false"/><input id="activeTasks" type="hidden" value="0"/><input id="pageAssignable" type="hidden" value="false"/><input id="workflowAdmin" type="hidden" value="false"/><input id="anonymous" type="hidden" value="true"/><input id="alternateViewStateName" type="hidden" value="View"/><input id="alternateViewUrl" type="hidden" value="/display/1101discernHP/SET+VALIDATE+Using+Discern+Explorer?draft=true"/><input id="activityVisible" type="hidden" value="true"/><input id="approvalMinQuery" type="hidden" value="5"/><input id="showDocumentActivity" type="hidden" value="true"/><input id="alternateViewTitle" type="hidden" value="View latest version of page"/></fieldset></div>
+<div style="display: none;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CTSSOL-29742: Add Page To Book -->
+
+
+<div id="page">
+<div id="full-height-container">
+
+
+<div class="ia-splitter">
+
+<!-- \#header -->
+<main class="aui-page-panel" id="main" role="main">
+<!-- \#main-header -->
+<div id="sidebar-container">
+</div><!-- \#sidebar-container -->
+
+
+<div class="page view" id="content">
+<div id="action-messages">
+</div>
+
+
+
+
+
+<div class="wiki-content" id="main-content">
+<div class="wiki-content">
+<p>The SET VALIDATE command validates user input in a CALL ACCEPT input field; it ensures that no invalid data is entered in an input field. The command should be issued before the CALL ACCEPT. The default for the SET VALIDATE is 0.</p><p>Use the SELECT option with the SET VALIDATE command to read any table and validate the input against values in that table. If you use the SELECT option, you must follow it with another SET VALIDATE using the qual_num option. The qualifying number identifies how <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> validates the data. If a qualifying number is not specified following a SET VALIDATE with SELECT, the default is zero. Always follow a SET VALIDATE = SELECT with a SET VALIDATE = qual_num to ensure that validation occurs properly.</p><p>Use GO at the end of the command to make it valid throughout a <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> session. If you do not use GO, the SET VALIDATE command is valid only during the execution of the program that called it and must be embedded in an executable program (between the CREATE PROGRAM and END commands).</p><h2 id="SETVALIDATEUsingDiscernExplorer-Syntax">Syntax</h2><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>SET VALIDATE = validate_option [GO]</pre>
+</div></div><h2 id="SETVALIDATEUsingDiscernExplorer-Metasymbol">Metasymbol</h2><p><em>validate_option</em></p><p>Determines the type of validation that should be performed on the accepted data. The following values are valid:</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>Value</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>qual_num</p></td><td class="confluenceTd"><p>A qualifying number. When the SELECT option is used with the SET VALIDATE command, a second SET VALIDATE should be issued to identify what action to take when input is entered for a CALL ACCEPT command. The following options are valid: <br class="atl-forced-newline">0 - Validate the data if no matches are found on the table. This effectively means that any value can be entered; no validation is performed. The zero option typically is used to perform validation with the INSERT command. If you are adding a record to a file, this option allows you to add a record if it does not exist. This is the default.</br></p><ul><li><strong>1:</strong> Validate the data when only one record on the table matches the entered value.</li><li><strong>2:</strong> Validate the data if it occurs one or more times on the table. This option typically is used more often than 0 or 1 to ensure that validation is performed against any file.</li></ul></td></tr><tr><td class="confluenceTd"><p>OFF</p></td><td class="confluenceTd"><p>Turns validation off.</p></td></tr><tr><td class="confluenceTd"><p>OPTIONAL</p></td><td class="confluenceTd"><p>The user can press RETURN through the prompt.</p></td></tr><tr><td class="confluenceTd"><p>REQUIRED</p></td><td class="confluenceTd"><p>The user must respond to the prompt with a valid value.</p></td></tr><tr><td class="confluenceTd"><p>SELECT</p></td><td class="confluenceTd"><div class="content-wrapper"><p>Any valid <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> query reading tables from the data dictionary.</p></div></td></tr></tbody></table></div><h2 id="SETVALIDATEUsingDiscernExplorer-Examples">Examples</h2><p>The example below illustrates the commands that would be used in an executable program to validate a user's response in a CALL ACCEPT input field. The CALL ACCEPT only accepts a valid encounter type. If the user enters a value that does not match a value in the CDF_MEANING column on the CODE_VALUE table where the CODE_SET column is also equal to 69, the input is not accepted. <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Discern Explorer</span> will return an Invalid Input message. The CALL ACCEPT command becomes active and the program waits for the user to input a valid value. The CALL TEXT command displays the input value at the end of the example.</p><div class="preformatted panel conf-macro output-block" data-hasbody="true" data-macro-name="noformat"><div class="preformattedContent panelContent">
+<pre>DROP PROGRAM SCR_APP GO
+CREATE PROGRAM SCR_APP
+
+PAINT
+CALL TEXT(5,5,"ENTER ENCOUNTER TYPE: ")
+
+SET VALIDATE = SELECT INTO "NL:"
+	CV.CDF_MEANING
+FROM 	CODE_VALUE CV
+WHERE	CV.CDF_MEANING = CURACCEPT AND
+	CV.CODE_SET = 69
+
+SET VALIDATE = 2
+CALL ACCEPT(5,28,"A(30);CU")
+SET V_ENCNTR_TYPE = CURACCEPT
+SET VALIDATE OFF
+CALL TEXT(7,5,V_ENCNTR_TYPE)
+
+END
+GO
+</pre>
+</div></div>
+</div>
+</div>
+
+
+
+</div>
+
+</main><!-- \#main -->
+</div>
+</div>
+</div><!-- \#full-height-container -->
+<!-- \#page -->
+<span id="confluence-server-performance" style="display:none;">{"serverDuration": 679, "requestCorrelationId": "6c50fb6d1dc05b3c"}</span>
+</body>
+</html>
