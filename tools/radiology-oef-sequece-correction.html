@@ -140,10 +140,43 @@
     </div>
   </div>
 
+  <script id="extractScriptSource" type="text/plain">
+SELECT ; OEF Default value correction (no Excel columns)
+	__OE_FORMAT_ID__ = OEF.OE_FORMAT_ID
+	, OEF_NAME = OEF.OE_FORMAT_NAME
+	, __OE_FIELD_ID__ = OEF_FIELDS.OE_FIELD_ID
+	, OEF_FIELDS.LABEL_TEXT
+	, __ACTION_TYPE_CD__ = OEF_FIELDS.ACTION_TYPE_CD
+	, FIELD_ID_RANK = RANK() OVER(PARTITION BY OEF.OE_FORMAT_NAME ORDER BY OEF_FIELDS.OE_FIELD_ID)
+	, OEF_FIELDS.GROUP_SEQ
+	, CURRENT_DEFAULT_VALUE = OEF_FIELDS.DEFAULT_VALUE
+FROM
+	ORDER_ENTRY_FORMAT   OEF
+	, OE_FORMAT_FIELDS   OEF_FIELDS
+PLAN
+	OEF ; ORDER_ENTRY_FORMAT
+	WHERE OEF.CATALOG_TYPE_CD = 2517 ; Radiology
+	AND OEF.ACTION_TYPE_CD = 2534.00 ; Order
+JOIN
+	OEF_FIELDS ;OE_FORMAT_FIELDS
+	WHERE OEF_FIELDS.OE_FORMAT_ID = OEF.OE_FORMAT_ID
+	AND OEF_FIELDS.ACTION_TYPE_CD = 2534.00 ; Order
+	AND OEF_FIELDS.LABEL_TEXT != "Outpatient Paper Order"
+	AND OEF_FIELDS.LABEL_TEXT != "Request Date/Time"
+ORDER BY
+	OEF.OE_FORMAT_NAME
+	, OEF_FIELDS.GROUP_SEQ
+	, OEF_FIELDS.FIELD_SEQ
+	, OEF_FIELDS.ROWID DESC
+WITH TIME = 30
+  </script>
+
   <script>
   "use strict";
-  // Make the extract CCL globally available so even inline onclick can copy it
-  window.__EXTRACT_CCL__ = `SELECT ; OEF Default value correction (no Excel columns)\n\t__OE_FORMAT_ID__ = OEF.OE_FORMAT_ID\n\t, OEF_NAME = OEF.OE_FORMAT_NAME\n\t, __OE_FIELD_ID__ = OEF_FIELDS.OE_FIELD_ID\n\t, OEF_FIELDS.LABEL_TEXT\n\t, __ACTION_TYPE_CD__ = OEF_FIELDS.ACTION_TYPE_CD\n\t, FIELD_ID_RANK = RANK() OVER(PARTITION BY OEF.OE_FORMAT_NAME ORDER BY OEF_FIELDS.OE_FIELD_ID)\n\t, OEF_FIELDS.GROUP_SEQ\n\t, CURRENT_DEFAULT_VALUE = OEF_FIELDS.DEFAULT_VALUE\nFROM\n\tORDER_ENTRY_FORMAT   OEF\n\t, OE_FORMAT_FIELDS   OEF_FIELDS\nPLAN\n\tOEF ; ORDER_ENTRY_FORMAT\n\tWHERE OEF.CATALOG_TYPE_CD = 2517 ; Radiology\n\tAND OEF.ACTION_TYPE_CD = 2534.00 ; Order\nJOIN\n\tOEF_FIELDS ;OE_FORMAT_FIELDS\n\tWHERE OEF_FIELDS.OE_FORMAT_ID = OEF.OE_FORMAT_ID\n\tAND OEF_FIELDS.ACTION_TYPE_CD = 2534.00 ; Order\n\tAND OEF_FIELDS.LABEL_TEXT != "Outpatient Paper Order"\n\tAND OEF_FIELDS.LABEL_TEXT != "Request Date/Time"\nORDER BY\n\tOEF.OE_FORMAT_NAME\n\t, OEF_FIELDS.GROUP_SEQ\n\t, OEF_FIELDS.FIELD_SEQ\n\t, OEF_FIELDS.ROWID DESC\nWITH TIME = 30`;
+  // Load the extract CCL from the inline template so even inline onclick can copy it
+  const extractSource = document.getElementById('extractScriptSource');
+  const extractText = extractSource ? extractSource.textContent.replace(/\r?\n/g, '\n').trim() : '';
+  window.__EXTRACT_CCL__ = extractText;
 
   // Emergency global copy in case init hasn't run yet or JS errors elsewhere
   window.__copyExtract = async function(){
