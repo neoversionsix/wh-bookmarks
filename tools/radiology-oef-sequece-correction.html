@@ -12,8 +12,8 @@
     h1,h2,h3{margin:0 0 10px}
     h1{font-size:20px}
     h2{font-size:15px;color:var(--muted)}
-    .grid{display:grid;grid-template-columns:360px 1fr;gap:16px;align-items:start}
-    .card{background:var(--card);border:1px solid #223046;border-radius:14px;padding:14px}
+    .grid{display:grid;grid-template-columns:360px minmax(0,1fr);gap:16px;align-items:start}
+    .card{background:var(--card);border:1px solid #223046;border-radius:14px;padding:14px;min-width:0}
     .btn{appearance:none;border:1px solid #2a3a4d;background:#17212d;color:var(--text);padding:9px 12px;border-radius:10px;cursor:pointer;transition:200ms}
     .btn.primary{background:var(--accent);border-color:#3aa2f1;color:#001627;font-weight:700;box-shadow:0 0 0 0 rgba(79,179,255,.7)}
     .btn.primary.attn{animation:pulse 1.2s infinite}
@@ -21,7 +21,7 @@
     .btn:disabled{opacity:.6;cursor:not-allowed}
     @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(79,179,255,.7)}70%{box-shadow:0 0 0 10px rgba(79,179,255,0)}100%{box-shadow:0 0 0 0 rgba(79,179,255,0)}}
     textarea, pre, code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
-    textarea{width:100%;min-height:120px;border-radius:10px;border:1px solid #2a3a4d;background:#0e1420;color:var(--text);padding:10px}
+    textarea{width:100%;min-height:120px;border-radius:10px;border:1px solid #2a3a4d;background:#0e1420;color:var(--text);padding:10px;box-sizing:border-box;overflow:auto}
     .row{display:flex;gap:8px;flex-wrap:wrap}
     .muted{color:var(--muted)}
     .log{font-size:12px;white-space:pre-wrap;background:#0c1220;border:1px dashed #2a3a4d;border-radius:10px;padding:10px;min-height:76px;max-height:140px;overflow:auto}
@@ -32,7 +32,7 @@
     .pill.good{border-color:var(--good);color:var(--good)}
     .pill.warn{border-color:var(--warn);color:var(--warn)}
     .pill.bad{border-color:var(--bad);color:var(--bad)}
-    .viewport{height:280px;max-width:100%;overflow:auto;border:1px solid #223046;border-radius:10px;background:#0c1220}
+    .viewport{height:280px;max-width:100%;overflow:auto;border:1px solid #223046;border-radius:10px;background:#0c1220;box-sizing:border-box}
     table{border-collapse:collapse;width:100%;min-width:1100px;font-size:12px;table-layout:auto}
     th,td{border:1px solid #223046;padding:6px 8px}
     th{position:sticky;top:0;background:#0f1626;z-index:1}
@@ -44,8 +44,8 @@
     /* Modal for manual copy fallback */
     .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:50}
     .modal.show{display:flex}
-    .modal .panel{width:min(900px,90vw);background:var(--card);border:1px solid #223046;border-radius:14px;padding:14px}
-    .modal textarea{width:100%;height:260px;border-radius:10px;border:1px solid #2a3a4d;background:#0e1420;color:var(--text);padding:10px}
+    .modal .panel{width:min(900px,90vw);background:var(--card);border:1px solid #223046;border-radius:14px;padding:14px;min-width:0}
+    .modal textarea{width:100%;height:260px;border-radius:10px;border:1px solid #2a3a4d;background:#0e1420;color:var(--text);padding:10px;box-sizing:border-box}
   </style>
 </head>
 <body>
@@ -331,3 +331,8 @@ WITH TIME = 30
   </script>
 </body>
 </html>
+
+
+
+
+
