@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OEF Default Value Update Tool</title>
+  <style>
+    :root{ --bg:#0b0e13; --card:#131823; --muted:#8aa1b2; --text:#e6edf3; --accent:#4fb3ff; --accent-2:#9cd6ff; --good:#2ecc71; --warn:#f1c40f; --bad:#ff6b6b; }
+    html,body{height:100%}
+    body{margin:0;font:14px/1.5 system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
+    .wrap{max-width:1200px;margin:0 auto;padding:20px}
+    h1,h2,h3{margin:0 0 10px}
+    h1{font-size:20px}
+    h2{font-size:15px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:360px 1fr;gap:16px;align-items:start}
+    .card{background:var(--card);border:1px solid #223046;border-radius:14px;padding:14px}
+    .btn{appearance:none;border:1px solid #2a3a4d;background:#17212d;color:var(--text);padding:9px 12px;border-radius:10px;cursor:pointer;transition:200ms}
+    .btn.primary{background:var(--accent);border-color:#3aa2f1;color:#001627;font-weight:700;box-shadow:0 0 0 0 rgba(79,179,255,.7)}
+    .btn.primary.attn{animation:pulse 1.2s infinite}
+    .btn.inline{margin-left:8px}
+    .btn:disabled{opacity:.6;cursor:not-allowed}
+    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(79,179,255,.7)}70%{box-shadow:0 0 0 10px rgba(79,179,255,0)}100%{box-shadow:0 0 0 0 rgba(79,179,255,0)}}
+    textarea, pre, code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+    textarea{width:100%;min-height:120px;border-radius:10px;border:1px solid #2a3a4d;background:#0e1420;color:var(--text);padding:10px}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+    .muted{color:var(--muted)}
+    .log{font-size:12px;white-space:pre-wrap;background:#0c1220;border:1px dashed #2a3a4d;border-radius:10px;padding:10px;min-height:76px;max-height:140px;overflow:auto}
+    .small{font-size:12px}
+    .kbd{border:1px solid #384b63;border-bottom-width:2px;border-radius:6px;padding:1px 6px;background:#0b1622}
+    .hidden{display:none}
+    .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;border:1px solid #2a3a4d}
+    .pill.good{border-color:var(--good);color:var(--good)}
+    .pill.warn{border-color:var(--warn);color:var(--warn)}
+    .pill.bad{border-color:var(--bad);color:var(--bad)}
+    .viewport{height:280px;max-width:100%;overflow:auto;border:1px solid #223046;border-radius:10px;background:#0c1220}
+    table{border-collapse:collapse;width:100%;min-width:1100px;font-size:12px;table-layout:auto}
+    th,td{border:1px solid #223046;padding:6px 8px}
+    th{position:sticky;top:0;background:#0f1626;z-index:1}
+    .stepper{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+    .step{display:flex;align-items:center;gap:6px;padding:4px 8px;border:1px solid #2a3a4d;border-radius:999px}
+    .step .n{background:#0f1626;border:1px solid #2a3a4d;border-radius:50%;width:18px;height:18px;display:inline-grid;place-items:center;font-size:11px}
+    .step.active{border-color:#3aa2f1;color:var(--accent-2)}
+    .banner{margin:8px 0;padding:8px 12px;border:1px solid #223046;border-radius:10px;background:#0c1220;color:var(--muted)}
+    /* Modal for manual copy fallback */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:50}
+    .modal.show{display:flex}
+    .modal .panel{width:min(900px,90vw);background:var(--card);border:1px solid #223046;border-radius:14px;padding:14px}
+    .modal textarea{width:100%;height:260px;border-radius:10px;border:1px solid #2a3a4d;background:#0e1420;color:var(--text);padding:10px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>OEF Default Value Update Tool</h1>
+    <h2 class="muted">Generate Cerner/Oracle CCL <span class="pill">UPDATE</span> scripts to correct the <em>OEF Field Sequence</em> default per form.</h2>
+
+    <div id="envBanner" class="banner hidden"></div>
+
+    <div class="stepper" id="stepper">
+      <div class="step active" id="s1"><span class="n">1</span> Copy extract</div>
+      <div class="step" id="s2"><span class="n">2</span> Load data</div>
+      <div class="step" id="s3"><span class="n">3</span> Generate</div>
+      <div class="step" id="s4"><span class="n">4</span> Copy/Download updates</div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>1) Copy the Extract Script</h3>
+        <p class="small">Starts with <code>SELECT</code> so it runs in Discern. Paste/Run it in Visual Developer.</p>
+        <div class="row">
+          <button id="copyExtract" class="btn primary attn" onclick="window.__copyExtract && window.__copyExtract()">Copy Extract Script</button>
+          <button id="downloadExtract" class="btn">Download .ccl</button>
+        </div>
+        <div class="footer small muted">After running, copy all <strong>tab‑delimited</strong> output rows (include header).</div>
+        <hr style="border-color:#223046;border-width:1px 0 0;margin:12px 0">
+        <h3>2) Load Output Data</h3>
+        <div class="row">
+          <button id="loadClipboard" class="btn" disabled>Load from Clipboard</button>
+          <button id="pasteManuallyToggle" class="btn" disabled>Paste Manually</button>
+          <button id="clearData" class="btn">Clear</button>
+        </div>
+        <div id="pasteArea" class="hidden" style="margin-top:8px">
+          <textarea id="manualPaste" placeholder="Paste the tab-delimited output here, including header row..."></textarea>
+          <div class="row"><button id="loadManual" class="btn">Load Pasted Data</button></div>
+        </div>
+        <hr style="border-color:#223046;border-width:1px 0 0;margin:12px 0">
+        <h3>3) Generate Update Script(s)</h3>
+        <div class="row">
+          <button id="gen" class="btn" disabled>Generate</button>
+          <button id="copyUpdates" class="btn" disabled>Copy Updates</button>
+          <button id="downloadUpdates" class="btn" disabled>Download .ccl</button>
+        </div>
+        <p class="small muted">The tool only updates the single field named <strong>"OEF Field Sequence"</strong> in each form.</p>
+        <h3>Console</h3>
+        <div id="log" class="log">Ready.</div>
+      </div>
+
+      <div class="card">
+        <h3>Data Preview</h3>
+        <div id="stats" class="small muted">No data loaded.</div>
+        <div id="previewViewport" class="viewport"><div id="preview"></div></div>
+        <div class="small muted" style="margin-top:6px">Scrollable preview (both directions). Full data is still processed.</div>
+        <br>
+        <h3>Generated Update Script(s)</h3>
+        <textarea id="output" placeholder="Nothing generated yet..." readonly></textarea>
+        <br>
+        <h3>Update Summary</h3>
+        <div id="changesStats" class="small muted">No changes yet.</div>
+        <div id="changesViewport" class="viewport"><div id="changes"></div></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h3>How it works</h3>
+      <ol class="small">
+        <li>Groups rows by <code>__OE_FORMAT_ID__</code>.</li>
+        <li>Orders within each form by <code>GROUP_SEQ</code> (numeric asc; blanks last), then takes <code>FIELD_ID_RANK</code> in that order.</li>
+        <li>Finds row where <code>LABEL_TEXT == "OEF Field Sequence"</code>.</li>
+        <li>If <code>CURRENT_DEFAULT_VALUE</code> ≠ required, emits an <span class="pill">UPDATE</span> from your template.</li>
+        <li>Applies a 100‑char cap to <code>DEFAULT_VALUE</code>; trims at comma boundary and logs affected forms.</li>
+      </ol>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h3>Extract Script (exact output of the Copy button)</h3>
+      <pre><code id="extractScriptView"></code></pre>
+    </div>
+  </div>
+
+  <!-- Manual copy modal -->
+  <div id="extractModal" class="modal">
+    <div class="panel">
+      <h3>Manual Copy – Extract Script</h3>
+      <p class="small muted">Clipboard writes may be blocked on <code>file://</code>. Select all and copy.</p>
+      <textarea id="modalExtract"></textarea>
+      <div class="row" style="margin-top:8px">
+        <button id="modalSelect" class="btn">Select all</button>
+        <button id="modalCopy" class="btn">Copy (fallback)</button>
+        <button id="modalClose" class="btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  "use strict";
+  // Make the extract CCL globally available so even inline onclick can copy it
+  window.__EXTRACT_CCL__ = `SELECT ; OEF Default value correction (no Excel columns)\n\t__OE_FORMAT_ID__ = OEF.OE_FORMAT_ID\n\t, OEF_NAME = OEF.OE_FORMAT_NAME\n\t, __OE_FIELD_ID__ = OEF_FIELDS.OE_FIELD_ID\n\t, OEF_FIELDS.LABEL_TEXT\n\t, __ACTION_TYPE_CD__ = OEF_FIELDS.ACTION_TYPE_CD\n\t, FIELD_ID_RANK = RANK() OVER(PARTITION BY OEF.OE_FORMAT_NAME ORDER BY OEF_FIELDS.OE_FIELD_ID)\n\t, OEF_FIELDS.GROUP_SEQ\n\t, CURRENT_DEFAULT_VALUE = OEF_FIELDS.DEFAULT_VALUE\nFROM\n\tORDER_ENTRY_FORMAT   OEF\n\t, OE_FORMAT_FIELDS   OEF_FIELDS\nPLAN\n\tOEF ; ORDER_ENTRY_FORMAT\n\tWHERE OEF.CATALOG_TYPE_CD = 2517 ; Radiology\n\tAND OEF.ACTION_TYPE_CD = 2534.00 ; Order\nJOIN\n\tOEF_FIELDS ;OE_FORMAT_FIELDS\n\tWHERE OEF_FIELDS.OE_FORMAT_ID = OEF.OE_FORMAT_ID\n\tAND OEF_FIELDS.ACTION_TYPE_CD = 2534.00 ; Order\n\tAND OEF_FIELDS.LABEL_TEXT != "Outpatient Paper Order"\n\tAND OEF_FIELDS.LABEL_TEXT != "Request Date/Time"\nORDER BY\n\tOEF.OE_FORMAT_NAME\n\t, OEF_FIELDS.GROUP_SEQ\n\t, OEF_FIELDS.FIELD_SEQ\n\t, OEF_FIELDS.ROWID DESC\nWITH TIME = 30`;
+
+  // Emergency global copy in case init hasn't run yet or JS errors elsewhere
+  window.__copyExtract = async function(){
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){ await navigator.clipboard.writeText(window.__EXTRACT_CCL__); }
+      else{ const ta=document.createElement('textarea'); ta.value=window.__EXTRACT_CCL__; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); }
+      if(window.__afterCopyExtract) window.__afterCopyExtract();
+    }catch(e){
+      // Last-resort manual modal if available
+      const modal = document.getElementById('extractModal');
+      const modalTA = document.getElementById('modalExtract');
+      if(modal && modalTA){ modalTA.value = window.__EXTRACT_CCL__; modal.classList.add('show'); modalTA.focus(); modalTA.select(); if(window.__afterCopyExtract) window.__afterCopyExtract(); }
+      else{ alert('Copy failed. Please press Ctrl+C/Cmd+C to copy from the Extract Script box lower on the page.'); }
+    }
+  };
+
+  window.addEventListener('DOMContentLoaded', init);
+
+  function init(){
+    const logEl = document.getElementById('log');
+    const log = (m)=>{ logEl.textContent += (logEl.textContent?"\n":"") + m; logEl.scrollTop = logEl.scrollHeight }
+    const setLog = (m)=>{ logEl.textContent = m }
+
+    const env = document.getElementById('envBanner');
+    if(!window.isSecureContext){ env.classList.remove('hidden'); env.innerHTML = 'Running in a non‑secure context (<code>'+location.protocol+'</code>). Clipboard APIs may be blocked. A manual copy fallback will appear.' }
+
+    // Show extract text in the preview block
+    document.getElementById('extractScriptView').textContent = window.__EXTRACT_CCL__;
+
+    // Buttons / elements
+    const btnCopyExtract = document.getElementById('copyExtract');
+    const btnDownloadExtract = document.getElementById('downloadExtract');
+    const btnLoadClipboard = document.getElementById('loadClipboard');
+    const btnPasteToggle = document.getElementById('pasteManuallyToggle');
+    const btnLoadManual = document.getElementById('loadManual');
+    const btnClear = document.getElementById('clearData');
+    const btnGen = document.getElementById('gen');
+    const btnCopyUpdates = document.getElementById('copyUpdates');
+    const btnDownloadUpdates = document.getElementById('downloadUpdates');
+
+    const preview = document.getElementById('preview');
+    const stats = document.getElementById('stats');
+    const output = document.getElementById('output');
+
+    const s1=document.getElementById('s1'), s2=document.getElementById('s2'), s3=document.getElementById('s3'), s4=document.getElementById('s4');
+    function setStep(n){ [s1,s2,s3,s4].forEach((el,i)=>{ el.classList.toggle('active', i===n-1) }) }
+    function attn(el, on=true){ el.classList.toggle('primary', on); el.classList.toggle('attn', on) }
+
+    let rows = [];
+
+    // Provide after-copy behaviour globally so inline fallback can call it
+    window.__afterCopyExtract = function(){
+      setLog('1/4 Extract ready. Run it in Discern → copy all tab-delimited output (incl. header).');
+      btnLoadClipboard.disabled=false; btnPasteToggle.disabled=false;
+      attn(btnCopyExtract,false); attn(btnLoadClipboard,true); setStep(2);
+    };
+
+    // Also bind via addEventListener in case inline is stripped
+    btnCopyExtract.addEventListener('click', ()=> window.__copyExtract());
+
+    // Modal controls
+    (function(){
+      const modal = document.getElementById('extractModal');
+      const modalTA = document.getElementById('modalExtract');
+      document.getElementById('modalClose').onclick = ()=> modal.classList.remove('show');
+      document.getElementById('modalSelect').onclick = ()=> { modalTA.focus(); modalTA.select(); };
+      document.getElementById('modalCopy').onclick = ()=> { try{ document.execCommand('copy'); setLog('1/4 Extract script copied (manual fallback).'); modal.classList.remove('show'); }catch(e){ setLog('Copy failed. Use Ctrl+C / Cmd+C.'); } };
+    })();
+
+    btnDownloadExtract.onclick = ()=>{
+      const blob = new Blob([window.__EXTRACT_CCL__], {type:'text/plain'});
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'oef_extract.ccl'; a.click();
+    }
+
+    btnPasteToggle.onclick = ()=>{ document.getElementById('pasteArea').classList.toggle('hidden'); }
+
+    btnLoadClipboard.onclick = async()=>{
+      try{ const txt = await navigator.clipboard.readText(); loadTSV(txt); }
+      catch(e){ log('Clipboard read failed (browser permission). Use "Paste Manually".'); }
+    }
+
+    btnLoadManual.onclick = ()=>{ const txt = document.getElementById('manualPaste').value; loadTSV(txt); }
+
+    btnClear.onclick = ()=>{ rows = []; renderPreview(); setLog('Cleared.'); output.value=''; btnGen.disabled=true; btnCopyUpdates.disabled=true; btnDownloadUpdates.disabled=true; attn(btnCopyExtract,true); attn(btnLoadClipboard,false); attn(btnGen,false); setStep(1); }
+
+    function parseTSV(text){ if(!text || !text.trim()) return []; const lines=text.replace(/\r/g,'').split('\n').filter(Boolean); const header=lines[0].split('\t').map(s=>s.trim()); const list=[]; for(let i=1;i<lines.length;i++){ const cols=lines[i].split('\t'); const obj={}; header.forEach((h,idx)=> obj[h]=(cols[idx]??'').trim()); list.push(obj);} return list; }
+
+    function renderPreview(){ if(!rows.length){ stats.textContent='No data loaded.'; preview.innerHTML=''; return } const headers=Object.keys(rows[0]); const tbl=document.createElement('table'); const thead=document.createElement('thead'); const trh=document.createElement('tr'); headers.forEach(h=>{ const th=document.createElement('th'); th.textContent=h; trh.appendChild(th) }); thead.appendChild(trh); tbl.appendChild(thead); const tb=document.createElement('tbody'); rows.slice(0,400).forEach(r=>{ const tr=document.createElement('tr'); headers.forEach(h=>{ const td=document.createElement('td'); td.textContent=r[h]; tr.appendChild(td) }); tb.appendChild(tr); }); tbl.appendChild(tb); preview.innerHTML=''; preview.appendChild(tbl); const forms=new Set(rows.map(r=>r['__OE_FORMAT_ID__'])); const seqRows=rows.filter(r=> (r['LABEL_TEXT']||'').toLowerCase()==='oef field sequence'); stats.innerHTML=`${rows.length} rows • ${forms.size} forms • ${seqRows.length} "OEF Field Sequence" rows`; }
+
+    function loadTSV(text){ rows=parseTSV(text); if(!rows.length){ setLog('No valid tab-delimited rows detected.'); return } setLog('2/4 Data loaded. Preview shows first 400 rows (scrollable).'); renderPreview(); btnGen.disabled=false; attn(btnLoadClipboard,false); attn(btnGen,true); setStep(3); }
+
+    function generateUpdates(){
+      if(!rows.length){ setLog('No data.'); return }
+      const byForm = new Map();
+      for(const r of rows){ const fid=r['__OE_FORMAT_ID__']; if(!byForm.has(fid)) byForm.set(fid,{name:r['OEF_NAME'],rows:[]}); byForm.get(fid).rows.push(r); }
+
+      const parseCSVNums=(s)=>{ if(!s) return []; return s.toString().replace(/[^0-9,]/g,'').split(',').filter(Boolean).map(x=>parseInt(x,10)).filter(Number.isFinite); };
+      const arrEq=(a,b)=> a.length===b.length && a.every((v,i)=>v===b[i]);
+      const capList=(list,max=100)=>{ let out=[],len=0; for(let i=0;i<list.length;i++){ const seg=String(list[i]); const add=out.length?1+seg.length:seg.length; if(len+add>max) break; out.push(list[i]); len+=add; } return out; };
+
+      const updates=[]; const changeRows=[]; let changed=0,truncated=0,missingSeq=0,unchanged=0; const truncNotes=[];
+
+      for(const [fid,g] of byForm.entries()){
+        // ORDER by GROUP_SEQ (numeric asc; blanks last), stable by original order
+        const withIdx=g.rows.map((r,idx)=>({r,idx}));
+        const toNum=(v)=>{ const s=(v??'').toString().trim(); const n=Number(s); return Number.isFinite(n)? n : Number.POSITIVE_INFINITY };
+        withIdx.sort((a,b)=>{ const ga=toNum(a.r['GROUP_SEQ']); const gb=toNum(b.r['GROUP_SEQ']); return ga===gb? a.idx-b.idx : ga-gb; });
+
+        // Desired list = FIELD_ID_RANK in that order (dedup, in-order)
+        const seen=new Set(); const desiredArrFull=[]; for(const {r} of withIdx){ const n=parseInt(r['FIELD_ID_RANK'],10); if(Number.isFinite(n) && !seen.has(n)){ seen.add(n); desiredArrFull.push(n); } }
+        if(!desiredArrFull.length){ log(`Form ${fid}: no ranks found.`); continue }
+
+        const seqRow=g.rows.find(r=> (r['LABEL_TEXT']||'').toLowerCase()==='oef field sequence');
+        if(!seqRow){ missingSeq++; log(`Form ${fid} (${g.name}): missing "OEF Field Sequence" row.`); continue }
+
+        const currentArr=parseCSVNums((seqRow['CURRENT_DEFAULT_VALUE']||'').trim());
+        const desiredArr=capList(desiredArrFull,100); const desiredStr=desiredArr.join(',');
+        if(desiredArr.length<desiredArrFull.length){ truncated++; truncNotes.push(`• ${g.name} (OE_FORMAT_ID ${fid}) required default length ${desiredArrFull.join(',').length} > 100 → truncated.`); }
+        if(arrEq(currentArr,desiredArr)){ unchanged++; continue }
+
+        const UPDATE_TEMPLATE=`;---OEF default field value correction----------------------------------------------\nUPDATE INTO\n    OE_FORMAT_FIELDS    OEF_FIELDS\nSET\n    OEF_FIELDS.DEFAULT_VALUE = "__DEFAULT_VALUE__"\n    , OEF_FIELDS.UPDT_DT_TM = CNVTDATETIME(CURDATE,CURTIME3)\n    , OEF_FIELDS.UPDT_ID = REQINFO->UPDT_ID\n    , OEF_FIELDS.UPDT_CNT = OEF_FIELDS.UPDT_CNT + 1\nWHERE\n    OEF_FIELDS.OE_FORMAT_ID = __OE_FORMAT_ID__\n    AND OEF_FIELDS.ACTION_TYPE_CD = __ACTION_TYPE_CD__\n    AND OEF_FIELDS.OE_FIELD_ID = __OE_FIELD_ID__\n;---------------------------------------------------------------------------------`;
+
+        const filled=UPDATE_TEMPLATE
+          .replaceAll('__DEFAULT_VALUE__', desiredStr.replaceAll('"','""'))
+          .replaceAll('__OE_FORMAT_ID__', String(fid))
+          .replaceAll('__ACTION_TYPE_CD__', String(seqRow['__ACTION_TYPE_CD__']))
+          .replaceAll('__OE_FIELD_ID__', String(seqRow['__OE_FIELD_ID__']));
+
+        updates.push(`; ${g.name}\n${filled}`);
+        changeRows.push({ OEF_NAME:g.name||'', OE_FORMAT_ID:String(fid), OE_FIELD_ID:String(seqRow['__OE_FIELD_ID__']), CURRENT_DEFAULT_VALUE:(seqRow['CURRENT_DEFAULT_VALUE']||''), NEW_DEFAULT_VALUE:desiredStr, STATUS:(desiredArr.length<desiredArrFull.length?'Truncated to 100 chars':'Will update') });
+        changed++;
+      }
+
+      output.value = updates.join('\n\n');
+      const has=updates.length>0; btnCopyUpdates.disabled=!has; btnDownloadUpdates.disabled=!has;
+      const summary = `${byForm.size} forms processed • ${changed} updates needed • ${unchanged} already correct • ${missingSeq} missing sequence field • ${truncated} truncated`;
+      setLog('3/4 Generation complete. ' + summary + (truncNotes.length?"\nTruncation notes:\n"+truncNotes.join('\n'):''));
+      attn(btnGen,false); attn(btnCopyUpdates,has); setStep(4);
+      renderChangeTable(changeRows, has);
+    }
+
+    function renderChangeTable(rows, has){ const cont=document.getElementById('changes'); const cstats=document.getElementById('changesStats'); cont.innerHTML=''; if(!has){ cstats.textContent='No changes required.'; return } cstats.textContent=`${rows.length} form(s) will be updated.`; const tbl=document.createElement('table'); const thead=document.createElement('thead'); const trh=document.createElement('tr'); ['Form','OE_FORMAT_ID','OE_FIELD_ID','Current Default','New Default','Status'].forEach(h=>{ const th=document.createElement('th'); th.textContent=h; trh.appendChild(th) }); thead.appendChild(trh); tbl.appendChild(thead); const tb=document.createElement('tbody'); rows.forEach(r=>{ const tr=document.createElement('tr'); [r.OEF_NAME,r.OE_FORMAT_ID,r.OE_FIELD_ID,r.CURRENT_DEFAULT_VALUE,r.NEW_DEFAULT_VALUE,r.STATUS].forEach(c=>{ const td=document.createElement('td'); td.textContent=String(c); tr.appendChild(td) }); tb.appendChild(tr); }); tbl.appendChild(tb); cont.appendChild(tbl); }
+
+    btnGen.onclick = generateUpdates;
+
+    btnCopyUpdates.onclick = async()=>{ await navigator.clipboard.writeText(output.value||''); log('4/4 Update script(s) copied.'); attn(btnCopyUpdates,false); }
+    btnDownloadUpdates.onclick = ()=>{ const blob=new Blob([output.value||''],{type:'text/plain'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='oef_default_updates.ccl'; a.click(); }
+
+    // Initial highlight on Copy
+    attn(btnCopyExtract,true);
+  }
+  </script>
+</body>
+</html>
