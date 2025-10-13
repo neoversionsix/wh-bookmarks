@@ -74,21 +74,18 @@
     You can add or remove blocks and update dataSetsConfig below to match.
   -->
   <script id="ds1_script" type="text/plain">
-SELECT ; Example extract for Data Set 1
-  'Put your CCL here'
-  </script>
-  SELECT
+SELECT
   d.*
-  FROM DUMMYT D
-  WITH TIME = 5
-  <script id="ds2_script" type="text/plain">
-SELECT ; Example extract for Data Set 2
-  'Put your CCL here'
+FROM DUMMYT D
+WITH TIME = 5
   </script>
-  SELECT
+  <script id="ds2_script" type="text/plain">
+SELECT
   x = curuser
-  FROM DUMMYT D
-  WITH TIME = 5
+FROM DUMMYT D
+WITH TIME = 5
+  </script>
+  
   <script>
   "use strict";
 
