@@ -74,16 +74,61 @@
     You can add or remove blocks and update dataSetsConfig below to match.
   -->
   <script id="ds1_script" type="text/plain">
-SELECT
-  d.*
-FROM DUMMYT D
-WITH TIME = 5
+SELECT DISTINCT
+	  P_O_M.PBS_DRUG_ID ; The PBS Drug the synonym is mapped to
+	, SYNONYM_ID = P_O_M.SYNONYM_ID ; The Synonym that the PBS Drug is mapped to
+  , CATALOG_PRIMARY = UAR_GET_CODE_DISPLAY(O_C_S.CATALOG_CD)
+	, CATALOG_MNEMONIC = O_C_S.MNEMONIC ; The Synonym mnemonic
+	, CATALOG_MNEMONIC_TYPE = UAR_GET_CODE_DISPLAY(O_C_S.MNEMONIC_TYPE_CD) ; The Synonym Type
+	, PBS_CODE = P_L.PBS_ITEM_CODE ; The PBS Item Code
+	, PBS_PRIMARY = P_I.DRUG_NAME ; The PBS Primary Name
+	, PBS_BRAND = P_D.BRAND_NAME ; The PBS Brand Name
+  , PBS_FORM_STRENGTH = P_D.FORM_STRENGTH ; The PBS Form and Strength
+
+FROM
+	PBS_OCS_MAPPING   			P_O_M
+	, ORDER_CATALOG_SYNONYM   	O_C_S
+	, PBS_LISTING				P_L
+	, PBS_ITEM					P_I
+	, PBS_DRUG					P_D
+
+PLAN P_O_M
+    WHERE
+    P_O_M.PBS_DRUG_ID != 11111111.00 ; Not Inactive Rows
+    AND P_O_M.END_EFFECTIVE_DT_TM > SYSDATE ; Is a current mapping
+
+JOIN O_C_S    WHERE O_C_S.SYNONYM_ID = P_O_M.SYNONYM_ID
+
+JOIN P_D
+    WHERE P_D.PBS_DRUG_ID = P_O_M.PBS_DRUG_ID
+    AND P_D.END_EFFECTIVE_DT_TM > SYSDATE	; CURRENT PRODUCTS ONLY
+
+JOIN	P_I
+    WHERE	P_I.PBS_ITEM_ID = P_D.PBS_ITEM_ID
+
+JOIN	P_L
+    WHERE	P_L.PBS_LISTING_ID = P_I.PBS_LISTING_ID
+
+ORDER BY
+	P_O_M.PBS_DRUG_ID DESC
+
+WITH TIME = 20,
+	NOCOUNTER,
+	SEPARATOR=" ",
+	FORMAT
   </script>
   <script id="ds2_script" type="text/plain">
 SELECT
-  x = curuser
-FROM DUMMYT D
-WITH TIME = 5
+  SYNONYM_ID_ = O_C_S.SYNONYM_ID ; The Synonym ID
+  , CATALOG_PRIMARY = UAR_GET_CODE_DISPLAY(O_C_S.CATALOG_CD)
+  , CATALOG_MNEMONIC = O_C_S.MNEMONIC ; The Synonym mnemonic
+  , CATALOG_MNEMONIC_TYPE = UAR_GET_CODE_DISPLAY(O_C_S.MNEMONIC_TYPE_CD) ; The Synonym Type
+FROM
+    , ORDER_CATALOG_SYNONYM   	O_C_S
+WHERE
+  O_C_S.ACTIVE_IND = 1
+  AND O_C_S.CATALOG_TYPE_CD = 2516 ; PHARMACY
+WITH NOCOUNTER, SEPARATOR=" ", FORMAT, time = 20
   </script>
   
   <script>
@@ -172,22 +217,15 @@ WITH TIME = 5
     const status = document.createElement('div'); status.className='small muted'; status.textContent='No data loaded.'; section.appendChild(status);
     const viewport = document.createElement('div'); viewport.className='viewport'; const preview = document.createElement('div'); preview.id='preview-'+index; viewport.appendChild(preview); section.appendChild(viewport);
 
-    // Script view
-    const preWrap = document.createElement('div'); preWrap.style.marginTop='8px';
-    const preTitle = document.createElement('div'); preTitle.className='small muted'; preTitle.textContent='Extract Script (exact output of Copy button)';
-    const pre = document.createElement('pre'); const code = document.createElement('code'); code.id='scriptView-'+index; pre.appendChild(code);
-    preWrap.append(preTitle, pre); section.appendChild(preWrap);
-
     // Wire up
     const scriptText = getEmbeddedScriptText(ds.scriptId);
-    code.textContent = scriptText;
 
     copyBtn.onclick = async()=>{
       try{
         if(navigator.clipboard && navigator.clipboard.writeText){ await navigator.clipboard.writeText(scriptText); }
         else{ const tmp=document.createElement('textarea'); tmp.value=scriptText; document.body.appendChild(tmp); tmp.select(); document.execCommand('copy'); tmp.remove(); }
         log(ds.name + ': Extract script copied.');
-      }catch(e){ log(ds.name + ': Copy failed. Select from the script view and copy.'); }
+      }catch(e){ log(ds.name + ': Copy failed. Copy from the Embedded Scripts section.'); }
     };
 
     downloadBtn.onclick = ()=>{
