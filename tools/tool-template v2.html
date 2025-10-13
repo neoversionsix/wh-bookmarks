@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Multi‑Data Set Tool • Embedded Scripts</title>
+  <style>
+    :root{ --bg:#0b0e13; --card:#131823; --muted:#8aa1b2; --text:#e6edf3; --accent:#4fb3ff; --accent-2:#9cd6ff; --good:#2ecc71; --warn:#f1c40f; --bad:#ff6b6b; }
+    html,body{height:100%}
+    body{margin:0;font:14px/1.5 system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
+    .wrap{max-width:1200px;margin:0 auto;padding:20px}
+    h1,h2,h3{margin:0 0 10px}
+    h1{font-size:20px}
+    h2{font-size:15px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:360px minmax(0,1fr);gap:16px;align-items:start}
+    .card{background:var(--card);border:1px solid #223046;border-radius:14px;padding:14px;min-width:0}
+    .btn{appearance:none;border:1px solid #2a3a4d;background:#17212d;color:var(--text);padding:9px 12px;border-radius:10px;cursor:pointer;transition:200ms}
+    .btn.primary{background:var(--accent);border-color:#3aa2f1;color:#001627;font-weight:700}
+    .btn:disabled{opacity:.6;cursor:not-allowed}
+    textarea, pre, code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+    textarea{width:100%;min-height:120px;border-radius:10px;border:1px solid #2a3a4d;background:#0e1420;color:var(--text);padding:10px;box-sizing:border-box;overflow:auto}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+    .muted{color:var(--muted)}
+    .log{font-size:12px;white-space:pre-wrap;background:#0c1220;border:1px dashed #2a3a4d;border-radius:10px;padding:10px;min-height:76px;max-height:140px;overflow:auto}
+    .small{font-size:12px}
+    .viewport{height:280px;max-width:100%;overflow:auto;border:1px solid #223046;border-radius:10px;background:#0c1220;box-sizing:border-box}
+    table{border-collapse:collapse;width:100%;min-width:1100px;font-size:12px;table-layout:auto}
+    th,td{border:1px solid #223046;padding:6px 8px}
+    th{position:sticky;top:0;background:#0f1626;z-index:1}
+    .section{margin:14px 0;padding:10px;border:1px solid #223046;border-radius:10px;background:#0c1220}
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Multi‑Data Set Tool</h1>
+    <h2 class="muted">Embed and view each extract script directly in this file. No GitHub fetch.</h2>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Workflow</h3>
+        <ol class="small muted" style="margin-top:6px">
+          <li>Copy the embedded extract script for a data set.</li>
+          <li>Run in Discern and copy tab‑delimited output (include header).</li>
+          <li>Load data from clipboard or paste manually.</li>
+          <li>Process all loaded data.</li>
+        </ol>
+
+        <div id="dataSetsContainer"></div>
+
+        <div class="row" style="margin-top:10px">
+          <button id="processBtn" class="btn" disabled>Process All Data</button>
+          <button id="clearAll" class="btn">Clear All</button>
+        </div>
+        <div id="log" class="log" style="margin-top:10px">Ready.</div>
+      </div>
+
+      <div class="card">
+        <h3>Processed Output</h3>
+        <div id="processedOutput" class="viewport"></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h3>Embedded Scripts</h3>
+      <p class="small muted">Exact text copied by each “Copy Script” button. You can edit these in this HTML file.</p>
+      <div id="allScripts"></div>
+    </div>
+  </div>
+
+  <!--
+    Embed one <script type="text/plain"> block per data set.
+    Replace the placeholder text with your actual CCL extract(s).
+    You can add or remove blocks and update dataSetsConfig below to match.
+  -->
+  <script id="ds1_script" type="text/plain">
+SELECT ; Example extract for Data Set 1
+  'Put your CCL here'
+  </script>
+  SELECT
+  d.*
+  FROM DUMMYT D
+  WITH TIME = 5
+  <script id="ds2_script" type="text/plain">
+SELECT ; Example extract for Data Set 2
+  'Put your CCL here'
+  </script>
+  SELECT
+  x = curuser
+  FROM DUMMYT D
+  WITH TIME = 5
+  <script>
+  "use strict";
+
+  // Configure your data sets here. Map to the embedded <script type="text/plain"> blocks above.
+  const dataSetsConfig = [
+    { name: "Data Set 1", scriptId: "ds1_script", data: null },
+    { name: "Data Set 2", scriptId: "ds2_script", data: null }
+  ];
+
+  const container = document.getElementById('dataSetsContainer');
+  const processBtn = document.getElementById('processBtn');
+  const processedOutput = document.getElementById('processedOutput');
+  const logEl = document.getElementById('log');
+  const allScripts = document.getElementById('allScripts');
+
+  const log = (m)=>{ logEl.textContent += (logEl.textContent?"\n":"") + m; logEl.scrollTop = logEl.scrollHeight };
+  const setLog = (m)=>{ logEl.textContent = m };
+
+  function getEmbeddedScriptText(id){
+    const el = document.getElementById(id);
+    return (el ? el.textContent : "").replace(/\r?\n/g, "\n").trim();
+  }
+
+  // Basic TSV parser
+  function parseData(text){
+    if(!text || !text.trim()) return [];
+    const lines = text.replace(/\r/g,'').split('\n').filter(Boolean);
+    if(lines.length<2) return [];
+    const headers = lines[0].split('\t').map(s=>s.trim());
+    const rows = [];
+    for(let i=1;i<lines.length;i++){
+      const cols = lines[i].split('\t');
+      const obj = {};
+      headers.forEach((h, idx)=> obj[h] = (cols[idx]??'').trim());
+      rows.push(obj);
+    }
+    return rows;
+  }
+
+  function createTable(data){
+    if(!data || !data.length) return document.createElement('div');
+    const headers = Object.keys(data[0]);
+    const table = document.createElement('table');
+    const thead = document.createElement('thead');
+    const thr = document.createElement('tr');
+    headers.forEach(h=>{ const th=document.createElement('th'); th.textContent=h; thr.appendChild(th) });
+    thead.appendChild(thr); table.appendChild(thead);
+    const tb = document.createElement('tbody');
+    data.forEach(row=>{
+      const tr = document.createElement('tr');
+      headers.forEach(h=>{ const td=document.createElement('td'); td.textContent=row[h]; tr.appendChild(td) });
+      tb.appendChild(tr);
+    });
+    table.appendChild(tb);
+    return table;
+  }
+
+  function createDataSetSection(ds, index){
+    const section = document.createElement('div');
+    section.className = 'section';
+    section.id = 'section-' + index;
+
+    const title = document.createElement('h3');
+    title.textContent = ds.name;
+    section.appendChild(title);
+
+    // Buttons
+    const row = document.createElement('div'); row.className = 'row';
+    const copyBtn = document.createElement('button'); copyBtn.className='btn primary'; copyBtn.textContent='Copy Script';
+    const downloadBtn = document.createElement('button'); downloadBtn.className='btn'; downloadBtn.textContent='Download .ccl';
+    const loadClipboardBtn = document.createElement('button'); loadClipboardBtn.className='btn'; loadClipboardBtn.textContent='Load from Clipboard';
+    const pasteToggleBtn = document.createElement('button'); pasteToggleBtn.className='btn'; pasteToggleBtn.textContent='Paste Manually';
+    row.append(copyBtn, downloadBtn, loadClipboardBtn, pasteToggleBtn);
+    section.appendChild(row);
+
+    // Manual paste area
+    const pasteArea = document.createElement('div'); pasteArea.className='hidden'; pasteArea.style.marginTop='8px';
+    const ta = document.createElement('textarea'); ta.placeholder='Paste the tab‑delimited output here, including header row...';
+    const loadManual = document.createElement('button'); loadManual.className='btn'; loadManual.textContent='Load Pasted Data';
+    const row2 = document.createElement('div'); row2.className='row'; row2.append(loadManual);
+    pasteArea.append(ta, row2); section.appendChild(pasteArea);
+
+    // Status + preview
+    const status = document.createElement('div'); status.className='small muted'; status.textContent='No data loaded.'; section.appendChild(status);
+    const viewport = document.createElement('div'); viewport.className='viewport'; const preview = document.createElement('div'); preview.id='preview-'+index; viewport.appendChild(preview); section.appendChild(viewport);
+
+    // Script view
+    const preWrap = document.createElement('div'); preWrap.style.marginTop='8px';
+    const preTitle = document.createElement('div'); preTitle.className='small muted'; preTitle.textContent='Extract Script (exact output of Copy button)';
+    const pre = document.createElement('pre'); const code = document.createElement('code'); code.id='scriptView-'+index; pre.appendChild(code);
+    preWrap.append(preTitle, pre); section.appendChild(preWrap);
+
+    // Wire up
+    const scriptText = getEmbeddedScriptText(ds.scriptId);
+    code.textContent = scriptText;
+
+    copyBtn.onclick = async()=>{
+      try{
+        if(navigator.clipboard && navigator.clipboard.writeText){ await navigator.clipboard.writeText(scriptText); }
+        else{ const tmp=document.createElement('textarea'); tmp.value=scriptText; document.body.appendChild(tmp); tmp.select(); document.execCommand('copy'); tmp.remove(); }
+        log(ds.name + ': Extract script copied.');
+      }catch(e){ log(ds.name + ': Copy failed. Select from the script view and copy.'); }
+    };
+
+    downloadBtn.onclick = ()=>{
+      const blob = new Blob([scriptText], {type:'text/plain'});
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = ds.name.toLowerCase().replace(/\s+/g,'_') + '.ccl'; a.click();
+    };
+
+    pasteToggleBtn.onclick = ()=> pasteArea.classList.toggle('hidden');
+
+    function handleLoad(text){
+      const parsed = parseData(text);
+      if(!parsed.length){ status.textContent='No valid data found.'; return }
+      ds.data = parsed;
+      status.textContent = parsed.length + ' row(s) loaded.';
+      preview.innerHTML='';
+      preview.appendChild(createTable(parsed.slice(0, 400)));
+      processBtn.disabled = false;
+      log(ds.name + ': Data loaded.');
+    }
+
+    loadClipboardBtn.onclick = async()=>{
+      try{ const text = await navigator.clipboard.readText(); handleLoad(text); }
+      catch(e){ status.textContent='Clipboard read blocked by browser. Use Paste Manually.'; }
+    };
+
+    loadManual.onclick = ()=> handleLoad(ta.value);
+
+    return section;
+  }
+
+  // Render all data set sections
+  dataSetsConfig.forEach((ds, i)=> container.appendChild(createDataSetSection(ds, i)));
+
+  // Show all embedded scripts together for quick inspection
+  (function renderAllScripts(){
+    dataSetsConfig.forEach((ds, i)=>{
+      const box = document.createElement('div'); box.className='section';
+      const h = document.createElement('h3'); h.textContent = ds.name; box.appendChild(h);
+      const pre = document.createElement('pre'); const code = document.createElement('code'); code.textContent = getEmbeddedScriptText(ds.scriptId); pre.appendChild(code);
+      box.appendChild(pre);
+      allScripts.appendChild(box);
+    });
+  })();
+
+  // Process all loaded data: simple echo tables for now
+  processBtn.onclick = ()=>{
+    processedOutput.innerHTML='';
+    let any=false;
+    dataSetsConfig.forEach(ds=>{
+      if(ds.data && ds.data.length){
+        any=true;
+        const h=document.createElement('h3'); h.textContent = ds.name + ' • Processed Data'; processedOutput.appendChild(h);
+        processedOutput.appendChild(createTable(ds.data));
+      }
+    });
+    if(!any){ processedOutput.innerHTML='<div class="small muted">No data loaded yet.</div>'; }
+    log('Processed current data sets.');
+  };
+
+  document.getElementById('clearAll').onclick = ()=>{
+    dataSetsConfig.forEach(ds=> ds.data=null);
+    processedOutput.innerHTML='';
+    document.querySelectorAll('[id^="preview-"]').forEach(el=> el.innerHTML='');
+    document.querySelectorAll('.section .small.muted').forEach((el,i)=>{ if(i%2===0) el.textContent='No data loaded.'; }); // crude but fine
+    processBtn.disabled=true;
+    setLog('Cleared.');
+  };
+  </script>
+</body>
+</html>
