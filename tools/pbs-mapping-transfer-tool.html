@@ -192,9 +192,9 @@ WITH TIME = 20,
 
   // Configure your data sets here. Map to the embedded <script type="text/plain"> blocks above.
   const dataSetsConfig = [
-    { name: "PBS Mappings - Copy From Environment", scriptId: "ds1_script", data: null },
-    { name: "Catalog - Copy To Environment", scriptId: "ds2_script", data: null },
-    { name: "PBS Mappings - Copy To Environment", scriptId: "ds3_script", data: null }
+    { name: "PBS Mappings - Copy FROM Environment", scriptId: "ds1_script", data: null },
+    { name: "Catalog - Copy TO Environment", scriptId: "ds2_script", data: null },
+    { name: "PBS Mappings - Copy TO Environment", scriptId: "ds3_script", data: null }
   ];
 
   const container = document.getElementById('dataSetsContainer');
@@ -363,6 +363,195 @@ WITH TIME = 20,
     log('Processed current data sets.');
     attn(processBtn,false);
   };
+
+  // New processing: determine missing mappings in TO and build CCL update scripts
+  const buildAndRenderUpdateScripts = async()=>{
+    processedOutput.innerHTML='';
+    attn(processBtn,false);
+
+    const from = dataSetsConfig[0]?.data || [];
+    const toCatalog = dataSetsConfig[1]?.data || [];
+    const toMappings = dataSetsConfig[2]?.data || [];
+
+    if(!from.length){
+      processedOutput.innerHTML = '<div class="small muted">No FROM mappings loaded.</div>';
+      log('No FROM mappings loaded.');
+      return;
+    }
+    if(!toCatalog.length){
+      processedOutput.innerHTML = '<div class="small muted">No TO Catalog loaded.</div>';
+      log('No TO Catalog loaded.');
+      return;
+    }
+
+    // Helpers: normalize and build keys
+    const norm = (v)=> (v==null? '' : String(v).trim());
+    const up = (v)=> norm(v).toUpperCase();
+    const comboKey = (pbsDrugId, catPrimary, catMnemonic, catType)=> [norm(pbsDrugId), up(catPrimary), up(catMnemonic), up(catType)].join('||');
+    const catKey = (catPrimary, catMnemonic, catType)=> [up(catPrimary), up(catMnemonic), up(catType)].join('||');
+
+    // Build TO mappings key set (based on PBS_DRUG_ID + catalog identity)
+    const toMapKeys = new Set();
+    toMappings.forEach(r=>{
+      const k = comboKey(r['PBS_DRUG_ID'], r['CATALOG_PRIMARY'], r['CATALOG_MNEMONIC'], r['CATALOG_MNEMONIC_TYPE']);
+      toMapKeys.add(k);
+    });
+
+    // Build TO catalog lookup: catalog identity -> SYNONYM_ID_ (TO env)
+    const toCatLookup = new Map();
+    toCatalog.forEach(r=>{
+      const k = catKey(r['CATALOG_PRIMARY'], r['CATALOG_MNEMONIC'], r['CATALOG_MNEMONIC_TYPE']);
+      const sid = norm(r['SYNONYM_ID_']);
+      if(k && sid){ if(!toCatLookup.has(k)) toCatLookup.set(k, sid); }
+    });
+
+    let alreadyPresent = 0;
+    let missingInTo = 0;
+    let noToSynonym = 0;
+    const scripts = [];
+
+    // Template generator
+    function buildUpdateScript(info){
+      const lines = [];
+      lines.push(';____________________________________________________________________________________________________________');
+      lines.push('; PBS update mapping script for:');
+      lines.push(`; PBS_DRUG_ID = ${info.pbsDrugId}`);
+      lines.push(`; SYNONYM_ID = ${info.synonymId}`);
+      lines.push(`; CATALOG_PRIMARY = ${info.catalogPrimary} ; Catalog Primary Name`);
+      lines.push(`; CATALOG_MNEMONIC = ${info.catalogMnemonic} ; The Synonym mnemonic`);
+      lines.push(`; CATALOG_MNEMONIC_TYPE = ${info.catalogMnemonicType} ; The Synonym Type`);
+      lines.push(`; PBS_CODE = ${info.pbsCode} ; The PBS Item Code`);
+      lines.push(`; PBS_PRIMARY = ${info.pbsPrimary} ; The PBS Primary Name`);
+      lines.push(`; PBS_BRAND = ${info.pbsBrand} ; The PBS Brand Name`);
+      lines.push(`; PBS_FORM_STRENGTH = ${info.pbsFormStrength} ; The PBS Form and Strength`);
+      lines.push('');
+      lines.push('UPDATE INTO PBS_OCS_MAPPING P_O_M');
+      lines.push('SET');
+      lines.push('    P_O_M.BEG_EFFECTIVE_DT_TM = CNVTDATETIME(CURDATE, 0004)');
+      lines.push('    ; ABOVE LINE SETS THE ACTIVATION TIME TO TODAY AT 12:04 AM, USED TO IDENTIFY THIS TYPE OF UPDATE');
+      lines.push('    , P_O_M.END_EFFECTIVE_DT_TM = CNVTDATETIME("31-DEC-2100")');
+      lines.push('    /*CHANGE THE ROW BELOW MAP_PBS_DRUG_ID_*/');
+      lines.push(`    , P_O_M.PBS_DRUG_ID = ${info.pbsDrugId} ; SWAP WITH PBS DRUG ID THAT MAPS TO THE SYNONYM ID`);
+      lines.push('    /*CHANGE THE ROW BELOW MAP_SYNONYM_ID_*/');
+      lines.push(`    , P_O_M.SYNONYM_ID = ${info.synonymId} ; SWAP WITH SYNONYM ID THAT MAPS TO THE PBS_DRUG_ID`);
+      lines.push('    , P_O_M.DRUG_SYNONYM_ID = 0 ; CLEAR MULTUM MAPPING (MULTUM MAPPINGS ARE NOT USED)');
+      lines.push('    , P_O_M.MAIN_MULTUM_DRUG_CODE = 0 ; CLEAR MULTUM MAPPING');
+      lines.push('    , P_O_M.DRUG_IDENTIFIER = "0" ; CLEAR MULTUM MAPPING');
+      lines.push('    , P_O_M.UPDT_DT_TM = CNVTDATETIME(CURDATE,CURTIME3)');
+      lines.push('    , P_O_M.UPDT_ID = REQINFO->UPDT_ID');
+      lines.push('    , P_O_M.UPDT_CNT = P_O_M.UPDT_CNT + 1');
+      lines.push('WHERE');
+      lines.push('    ;UPDATE THE NEXT UNUSED ROW');
+      lines.push('    P_O_M.PBS_OCS_MAPPING_ID =');
+      lines.push('    (SELECT MIN(PBS_OCS_MAPPING_ID) FROM PBS_OCS_MAPPING WHERE END_EFFECTIVE_DT_TM < SYSDATE)');
+      lines.push('    ; ONLY UPDATE IF THE MAPPING IS NOT ALREADY PRESENT');
+      lines.push('    AND NOT EXISTS');
+      lines.push('    (');
+      lines.push('        SELECT 1');
+      lines.push('        FROM PBS_OCS_MAPPING');
+      lines.push('        /*CHANGE THE ROW BELOW MAP_PBS_DRUG_ID_*/');
+      lines.push(`        WHERE PBS_DRUG_ID = ${info.pbsDrugId} ; SWAP WITH PBS DRUG ID`);
+      lines.push('        /*CHANGE THE ROW BELOW MAP_SYNONYM_ID_*/');
+      lines.push(`        AND SYNONYM_ID = ${info.synonymId} ; SWAP WITH SYNONYM ID`);
+      lines.push('        AND END_EFFECTIVE_DT_TM > SYSDATE');
+      lines.push('    )');
+      lines.push(';____________________________________________________________________________________________________________');
+      return lines.join('\n');
+    }
+
+    // Process each FROM mapping
+    from.forEach(r=>{
+      const pbsDrugId = norm(r['PBS_DRUG_ID']);
+      const catPrimary = norm(r['CATALOG_PRIMARY']);
+      const catMnemonic = norm(r['CATALOG_MNEMONIC']);
+      const catType = norm(r['CATALOG_MNEMONIC_TYPE']);
+      const k = comboKey(pbsDrugId, catPrimary, catMnemonic, catType);
+
+      if(toMapKeys.has(k)){
+        alreadyPresent++;
+        return;
+      }
+
+      missingInTo++;
+
+      const catLookupKey = catKey(catPrimary, catMnemonic, catType);
+      const toSynId = toCatLookup.get(catLookupKey);
+      if(!toSynId){
+        noToSynonym++;
+        return;
+      }
+
+      const script = buildUpdateScript({
+        pbsDrugId,
+        synonymId: toSynId,
+        catalogPrimary: catPrimary,
+        catalogMnemonic: catMnemonic,
+        catalogMnemonicType: catType,
+        pbsCode: norm(r['PBS_CODE']),
+        pbsPrimary: norm(r['PBS_PRIMARY']),
+        pbsBrand: norm(r['PBS_BRAND']),
+        pbsFormStrength: norm(r['PBS_FORM_STRENGTH'])
+      });
+      scripts.push(script);
+    });
+
+    const totalFrom = from.length;
+    const generated = scripts.length;
+
+    // Build summary UI
+    const summary = document.createElement('div');
+    summary.className = 'section';
+    const h = document.createElement('h3'); h.textContent = 'PBS Mapping Transfer – Results'; summary.appendChild(h);
+    const p = document.createElement('div'); p.className='small';
+    p.innerHTML = [
+      `FROM mappings: <b>${totalFrom}</b>`,
+      `Already in TO: <b>${alreadyPresent}</b>`,
+      `Missing in TO: <b>${missingInTo}</b>`,
+      `Generated scripts: <b>${generated}</b>`,
+      (noToSynonym? `No TO synonym match: <b>${noToSynonym}</b>` : '')
+    ].filter(Boolean).join(' &nbsp; | &nbsp; ');
+    summary.appendChild(p);
+
+    const tools = document.createElement('div'); tools.className='row'; tools.style.marginTop='8px';
+    const copyAllBtn = document.createElement('button'); copyAllBtn.className='btn'; copyAllBtn.textContent='Copy All Update Scripts';
+    copyAllBtn.onclick = async()=>{
+      const text = scripts.join('\n\n');
+      try{
+        if(navigator.clipboard && navigator.clipboard.writeText){ await navigator.clipboard.writeText(text); }
+        else{ const tmp=document.createElement('textarea'); tmp.value=text; document.body.appendChild(tmp); tmp.select(); document.execCommand('copy'); tmp.remove(); }
+        copyAllBtn.textContent='Copied!'; copyAllBtn.disabled=true; setTimeout(()=>{ copyAllBtn.textContent='Copy All Update Scripts'; copyAllBtn.disabled=false; }, 1200);
+        log(`Copied ${generated} update script(s) to clipboard.`);
+      }catch(e){ log('Clipboard copy failed. Select and copy manually.'); }
+    };
+    tools.appendChild(copyAllBtn);
+    summary.appendChild(tools);
+
+    processedOutput.appendChild(summary);
+
+    if(generated){
+      const pre = document.createElement('pre'); const code = document.createElement('code');
+      code.textContent = scripts.join('\n\n');
+      pre.appendChild(code);
+      processedOutput.appendChild(pre);
+    } else {
+      const info = document.createElement('div'); info.className='small muted';
+      info.textContent = 'No update scripts generated.';
+      processedOutput.appendChild(info);
+    }
+
+    // Auto-copy to clipboard on process if any scripts generated
+    if(generated){
+      try{
+        const text = scripts.join('\n\n');
+        if(navigator.clipboard && navigator.clipboard.writeText){ await navigator.clipboard.writeText(text); }
+        else{ const tmp=document.createElement('textarea'); tmp.value=text; document.body.appendChild(tmp); tmp.select(); document.execCommand('copy'); tmp.remove(); }
+        log(`Auto-copied ${generated} update script(s) to clipboard.`);
+      }catch(e){ log('Auto-copy blocked by browser. Use the copy button.'); }
+    }
+
+    log(`Processed. FROM=${totalFrom}, Existing=${alreadyPresent}, Missing=${missingInTo}, Scripts=${generated}, NoTOCat=${noToSynonym}.`);
+  };
+  processBtn.onclick = buildAndRenderUpdateScripts;
 
   document.getElementById('clearAll').onclick = ()=>{
     dataSetsConfig.forEach(ds=> ds.data=null);

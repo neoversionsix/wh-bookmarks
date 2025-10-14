@@ -1,130 +1,3 @@
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:16px">
-      <h3>Embedded Scripts</h3>
-      <p class="small muted">Exact text copied by each “Copy Script” button. You can edit these in this HTML file.</p>
-      <div id="allScripts"></div>
-    </div>
-  </div>
-
-  <!--
-    Embed one <script type="text/plain"> block per data set.
-    Replace the placeholder text with your actual CCL extract(s).
-    You can add or remove blocks and update dataSetsConfig below to match.
-  -->
-  <script id="ds1_script" type="text/plain">
-SELECT DISTINCT
-	  P_O_M.PBS_DRUG_ID ; The PBS Drug the synonym is mapped to
-	, SYNONYM_ID = P_O_M.SYNONYM_ID ; The Synonym that the PBS Drug is mapped to
-  , CATALOG_PRIMARY = UAR_GET_CODE_DISPLAY(O_C_S.CATALOG_CD)
-	, CATALOG_MNEMONIC = O_C_S.MNEMONIC ; The Synonym mnemonic
-	, CATALOG_MNEMONIC_TYPE = UAR_GET_CODE_DISPLAY(O_C_S.MNEMONIC_TYPE_CD) ; The Synonym Type
-	, PBS_CODE = P_L.PBS_ITEM_CODE ; The PBS Item Code
-	, PBS_PRIMARY = P_I.DRUG_NAME ; The PBS Primary Name
-	, PBS_BRAND = P_D.BRAND_NAME ; The PBS Brand Name
-  , PBS_FORM_STRENGTH = P_D.FORM_STRENGTH ; The PBS Form and Strength
-
-FROM
-	PBS_OCS_MAPPING   			P_O_M
-	, ORDER_CATALOG_SYNONYM   	O_C_S
-	, PBS_LISTING				P_L
-	, PBS_ITEM					P_I
-	, PBS_DRUG					P_D
-
-PLAN P_O_M
-    WHERE
-    P_O_M.PBS_DRUG_ID != 11111111.00 ; Not Inactive Rows
-    AND P_O_M.END_EFFECTIVE_DT_TM > SYSDATE ; Is a current mapping
-
-JOIN O_C_S    WHERE O_C_S.SYNONYM_ID = P_O_M.SYNONYM_ID
-
-JOIN P_D
-    WHERE P_D.PBS_DRUG_ID = P_O_M.PBS_DRUG_ID
-    AND P_D.END_EFFECTIVE_DT_TM > SYSDATE	; CURRENT PRODUCTS ONLY
-
-JOIN	P_I
-    WHERE	P_I.PBS_ITEM_ID = P_D.PBS_ITEM_ID
-
-JOIN	P_L
-    WHERE	P_L.PBS_LISTING_ID = P_I.PBS_LISTING_ID
-
-ORDER BY
-	P_O_M.PBS_DRUG_ID DESC
-
-WITH TIME = 20,
-	NOCOUNTER,
-	SEPARATOR=" ",
-	FORMAT
-  </script>
-  <script id="ds2_script" type="text/plain">
-SELECT
-  SYNONYM_ID_ = O_C_S.SYNONYM_ID ; The Synonym ID
-  , CATALOG_PRIMARY = UAR_GET_CODE_DISPLAY(O_C_S.CATALOG_CD)
-  , CATALOG_MNEMONIC = O_C_S.MNEMONIC ; The Synonym mnemonic
-  , CATALOG_MNEMONIC_TYPE = UAR_GET_CODE_DISPLAY(O_C_S.MNEMONIC_TYPE_CD) ; The Synonym Type
-FROM
-    , ORDER_CATALOG_SYNONYM   	O_C_S
-WHERE
-  O_C_S.ACTIVE_IND = 1
-  AND O_C_S.CATALOG_TYPE_CD = 2516 ; PHARMACY
-WITH NOCOUNTER, SEPARATOR=" ", FORMAT, time = 20
-  </script>
-  
-  <script>
-  "use strict";
-
-  // Configure your data sets here. Map to the embedded <script type="text/plain"> blocks above.
-  const dataSetsConfig = [
-    { name: "Data Set 1", scriptId: "ds1_script", data: null },
-    { name: "Data Set 2", scriptId: "ds2_script", data: null }
-  ];
-
-  const container = document.getElementById('dataSetsContainer');
-  const processBtn = document.getElementById('processBtn');
-  const processedOutput = document.getElementById('processedOutput');
-  const logEl = document.getElementById('log');
-  const allScripts = document.getElementById('allScripts');
-
-  const log = (m)=>{ logEl.textContent += (logEl.textContent?"\n":"") + m; logEl.scrollTop = logEl.scrollHeight };
-  const setLog = (m)=>{ logEl.textContent = m };
-
-  function getEmbeddedScriptText(id){
-    const el = document.getElementById(id);
-    return (el ? el.textContent : "").replace(/\r?\n/g, "\n").trim();
-  }
-
-  // Basic TSV parser
-  function parseData(text){
-    if(!text || !text.trim()) return [];
-    const lines = text.replace(/\r/g,'').split('\n').filter(Boolean);
-    if(lines.length<2) return [];
-    const headers = lines[0].split('\t').map(s=>s.trim());
-    const rows = [];
-    for(let i=1;i<lines.length;i++){
-      const cols = lines[i].split('\t');
-      const obj = {};
-      headers.forEach((h, idx)=> obj[h] = (cols[idx]??'').trim());
-      rows.push(obj);
-    }
-    return rows;
-  }
-
-  function createTable(data){
-    if(!data || !data.length) return document.createElement('div');
-    const headers = Object.keys(data[0]);
-    const table = document.createElement('table');
-    const thead = document.createElement('thead');
-    const thr = document.createElement('tr');
-    headers.forEach(h=>{ const th=document.createElement('th'); th.textContent=h; thr.appendChild(th) });
-    thead.appendChild(thr); table.appendChild(thead);
-    const tb = document.createElement('tbody');
-    data.forEach(row=>{
-      const tr = document.createElement('tr');
-      headers.forEach(h=>{ const td=document.createElement('td'); td.textContent=row[h]; tr.appendChild(td) });
-      tb.appendChild(tr);
-    });
-    table.appendChild(tb);
     return table;
   }
 
@@ -146,6 +19,9 @@ WITH NOCOUNTER, SEPARATOR=" ", FORMAT, time = 20
     row.append(copyBtn, downloadBtn, loadClipboardBtn, pasteToggleBtn);
     section.appendChild(row);
 
+    // Keep refs for step highlighting
+    ds.__copyBtn = copyBtn; ds.__loadBtn = loadClipboardBtn; ds.__pasteToggle = pasteToggleBtn;
+
     // Manual paste area
     const pasteArea = document.createElement('div'); pasteArea.className='hidden'; pasteArea.style.marginTop='8px';
     const ta = document.createElement('textarea'); ta.placeholder='Paste the tab‑delimited output here, including header row...';
@@ -164,6 +40,13 @@ WITH NOCOUNTER, SEPARATOR=" ", FORMAT, time = 20
       try{
         if(navigator.clipboard && navigator.clipboard.writeText){ await navigator.clipboard.writeText(scriptText); }
         else{ const tmp=document.createElement('textarea'); tmp.value=scriptText; document.body.appendChild(tmp); tmp.select(); document.execCommand('copy'); tmp.remove(); }
+        // Visible feedback on the button
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = 'Copied!';
+        copyBtn.disabled = true;
+        setTimeout(()=>{ copyBtn.textContent = originalText; copyBtn.disabled = false; }, 1200);
+        // Step advance
+        currentDataSet = index; attn(copyBtn,false); attn(loadClipboardBtn,true); setStep(2);
         log(ds.name + ': Extract script copied.');
       }catch(e){ log(ds.name + ': Copy failed. Copy from the Embedded Scripts section.'); }
     };
@@ -183,6 +66,8 @@ WITH NOCOUNTER, SEPARATOR=" ", FORMAT, time = 20
       preview.innerHTML='';
       preview.appendChild(createTable(parsed.slice(0, 400)));
       processBtn.disabled = false;
+      // Step advance to processing
+      attn(loadClipboardBtn,false); attn(processBtn,true); setStep(3);
       log(ds.name + ': Data loaded.');
     }
 
@@ -198,6 +83,9 @@ WITH NOCOUNTER, SEPARATOR=" ", FORMAT, time = 20
 
   // Render all data set sections
   dataSetsConfig.forEach((ds, i)=> container.appendChild(createDataSetSection(ds, i)));
+
+  // Initial highlight: encourage copying a script (first data set)
+  if(dataSetsConfig.length){ attn(dataSetsConfig[0].__copyBtn, true); }
 
   // Show all embedded scripts together for quick inspection
   (function renderAllScripts(){
@@ -223,6 +111,7 @@ WITH NOCOUNTER, SEPARATOR=" ", FORMAT, time = 20
     });
     if(!any){ processedOutput.innerHTML='<div class="small muted">No data loaded yet.</div>'; }
     log('Processed current data sets.');
+    attn(processBtn,false);
   };
 
   document.getElementById('clearAll').onclick = ()=>{
@@ -232,6 +121,10 @@ WITH NOCOUNTER, SEPARATOR=" ", FORMAT, time = 20
     document.querySelectorAll('.section .small.muted').forEach((el,i)=>{ if(i%2===0) el.textContent='No data loaded.'; }); // crude but fine
     processBtn.disabled=true;
     setLog('Cleared.');
+    setStep(1);
+    dataSetsConfig.forEach(ds=> attn(ds.__loadBtn,false));
+    attn(processBtn,false);
+    if(dataSetsConfig.length){ attn(dataSetsConfig[0].__copyBtn,true); }
   };
   </script>
 </body>
