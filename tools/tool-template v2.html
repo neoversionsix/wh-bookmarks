@@ -15,7 +15,9 @@
     .grid{display:grid;grid-template-columns:360px minmax(0,1fr);gap:16px;align-items:start}
     .card{background:var(--card);border:1px solid #223046;border-radius:14px;padding:14px;min-width:0}
     .btn{appearance:none;border:1px solid #2a3a4d;background:#17212d;color:var(--text);padding:9px 12px;border-radius:10px;cursor:pointer;transition:200ms}
-    .btn.primary{background:var(--accent);border-color:#3aa2f1;color:#001627;font-weight:700}
+    .btn.primary{background:var(--accent);border-color:#3aa2f1;color:#001627;font-weight:700;box-shadow:0 0 0 0 rgba(79,179,255,.7)}
+    .btn.primary.attn{animation:pulse 1.2s infinite}
+    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(79,179,255,.7)}70%{box-shadow:0 0 0 10px rgba(79,179,255,0)}100%{box-shadow:0 0 0 0 rgba(79,179,255,0)}}
     .btn:disabled{opacity:.6;cursor:not-allowed}
     textarea, pre, code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
     textarea{width:100%;min-height:120px;border-radius:10px;border:1px solid #2a3a4d;background:#0e1420;color:var(--text);padding:10px;box-sizing:border-box;overflow:auto}
@@ -29,12 +31,22 @@
     th{position:sticky;top:0;background:#0f1626;z-index:1}
     .section{margin:14px 0;padding:10px;border:1px solid #223046;border-radius:10px;background:#0c1220}
     .hidden{display:none}
+    .stepper{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+    .step{display:flex;align-items:center;gap:6px;padding:4px 8px;border:1px solid #2a3a4d;border-radius:999px}
+    .step .n{background:#0f1626;border:1px solid #2a3a4d;border-radius:50%;width:18px;height:18px;display:inline-grid;place-items:center;font-size:11px}
+    .step.active{border-color:#3aa2f1;color:var(--accent-2)}
   </style>
 </head>
 <body>
   <div class="wrap">
     <h1>Multi‑Data Set Tool</h1>
     <h2 class="muted">Embed and view each extract script directly in this file. No GitHub fetch.</h2>
+
+    <div class="stepper" id="stepper">
+      <div class="step active" id="s1"><span class="n">1</span> Copy extract</div>
+      <div class="step" id="s2"><span class="n">2</span> Load data</div>
+      <div class="step" id="s3"><span class="n">3</span> Process</div>
+    </div>
 
     <div class="grid">
       <div class="card">
@@ -101,6 +113,12 @@ WITH TIME = 5
   const logEl = document.getElementById('log');
   const allScripts = document.getElementById('allScripts');
 
+  // Stepper + attention helpers
+  const s1=document.getElementById('s1'), s2=document.getElementById('s2'), s3=document.getElementById('s3');
+  function setStep(n){ [s1,s2,s3].forEach((el,i)=>{ el && el.classList.toggle('active', i===n-1) }) }
+  function attn(el, on=true){ if(!el) return; el.classList.toggle('primary', on); el.classList.toggle('attn', on) }
+  let currentDataSet = null;
+
   const log = (m)=>{ logEl.textContent += (logEl.textContent?"\n":"") + m; logEl.scrollTop = logEl.scrollHeight };
   const setLog = (m)=>{ logEl.textContent = m };
 
@@ -161,6 +179,9 @@ WITH TIME = 5
     row.append(copyBtn, downloadBtn, loadClipboardBtn, pasteToggleBtn);
     section.appendChild(row);
 
+    // Keep refs for step highlighting
+    ds.__copyBtn = copyBtn; ds.__loadBtn = loadClipboardBtn; ds.__pasteToggle = pasteToggleBtn;
+
     // Manual paste area
     const pasteArea = document.createElement('div'); pasteArea.className='hidden'; pasteArea.style.marginTop='8px';
     const ta = document.createElement('textarea'); ta.placeholder='Paste the tab‑delimited output here, including header row...';
@@ -179,6 +200,13 @@ WITH TIME = 5
       try{
         if(navigator.clipboard && navigator.clipboard.writeText){ await navigator.clipboard.writeText(scriptText); }
         else{ const tmp=document.createElement('textarea'); tmp.value=scriptText; document.body.appendChild(tmp); tmp.select(); document.execCommand('copy'); tmp.remove(); }
+        // Visible feedback on the button
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = 'Copied!';
+        copyBtn.disabled = true;
+        setTimeout(()=>{ copyBtn.textContent = originalText; copyBtn.disabled = false; }, 1200);
+        // Step advance
+        currentDataSet = index; attn(copyBtn,false); attn(loadClipboardBtn,true); setStep(2);
         log(ds.name + ': Extract script copied.');
       }catch(e){ log(ds.name + ': Copy failed. Copy from the Embedded Scripts section.'); }
     };
@@ -198,6 +226,8 @@ WITH TIME = 5
       preview.innerHTML='';
       preview.appendChild(createTable(parsed.slice(0, 400)));
       processBtn.disabled = false;
+      // Step advance to processing
+      attn(loadClipboardBtn,false); attn(processBtn,true); setStep(3);
       log(ds.name + ': Data loaded.');
     }
 
@@ -213,6 +243,9 @@ WITH TIME = 5
 
   // Render all data set sections
   dataSetsConfig.forEach((ds, i)=> container.appendChild(createDataSetSection(ds, i)));
+
+  // Initial highlight: encourage copying a script (first data set)
+  if(dataSetsConfig.length){ attn(dataSetsConfig[0].__copyBtn, true); }
 
   // Show all embedded scripts together for quick inspection
   (function renderAllScripts(){
@@ -238,6 +271,7 @@ WITH TIME = 5
     });
     if(!any){ processedOutput.innerHTML='<div class="small muted">No data loaded yet.</div>'; }
     log('Processed current data sets.');
+    attn(processBtn,false);
   };
 
   document.getElementById('clearAll').onclick = ()=>{
@@ -247,6 +281,10 @@ WITH TIME = 5
     document.querySelectorAll('.section .small.muted').forEach((el,i)=>{ if(i%2===0) el.textContent='No data loaded.'; }); // crude but fine
     processBtn.disabled=true;
     setLog('Cleared.');
+    setStep(1);
+    dataSetsConfig.forEach(ds=> attn(ds.__loadBtn,false));
+    attn(processBtn,false);
+    if(dataSetsConfig.length){ attn(dataSetsConfig[0].__copyBtn,true); }
   };
   </script>
 </body>
