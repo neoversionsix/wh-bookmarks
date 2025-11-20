@@ -683,8 +683,17 @@ where
                 
                 code = code.replace(/MAP_PBS_DRUG_ID_/g, pbsId);
                 code = code.replace(/MAP_SYNONYM_ID_/g, synonymId);
-                code = code.replace('!NAME!', match['NAME'] || 'Unknown'); 
-                code = code.replace('!SYNONYM!', match['SYNONYM'] || 'Unknown');
+                
+                // UPDATED LOGIC:
+                // 1. Get the PBS Name from the specific column we matched on
+                let matchedColumnName = match['MatchedColumn'];
+                let pbsName = match[matchedColumnName] || 'Unknown';
+
+                // 2. Get the Synonym Name from the catalog data (which has the 'NAME' key)
+                let synonymName = match['NAME'] || 'Unknown';
+
+                code = code.replace('!NAME!', pbsName); 
+                code = code.replace('!SYNONYM!', synonymName);
 
                 output += code + '\n\n\n';
             });
