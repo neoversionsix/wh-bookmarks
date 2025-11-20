@@ -46,31 +46,140 @@
             opacity: 0.5;
             pointer-events: none;
         }
+        
+        /* --- LAYOUT FOR SPLIT VIEW --- */
+        .mapping-row {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start; 
+        }
+        
+        .mapping-left-col {
+            flex: 1; /* Expands to fill space */
+            min-width: 0; 
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Space between details and matches list */
+        }
+
         /* Styles for the Auto-Match Log */
         #autoMatchLogContainer {
-            margin-top: 20px;
+            /* Layout specific */
+            width: 350px; 
+            flex-shrink: 0; 
+            display: none; /* Hidden by default, toggled by JS */
+            
+            /* Visuals */
             border: 1px solid #90cdf4;
             background-color: #ebf8ff;
             padding: 10px;
             border-radius: 5px;
-            display: none; /* Hidden by default */
+            
+            /* Height settings */
+            display: flex;
+            flex-direction: column;
         }
+        
         #autoMatchLog {
-            max-height: 150px;
+            /* TALLER HEIGHT as requested */
+            height: 750px; 
             overflow-y: auto;
             font-family: monospace;
             font-size: 0.9em;
             color: #2c5282;
+            background-color: white; 
+            border: 1px solid #bee3f8;
+            padding: 5px;
+            margin-top: 5px;
         }
         .log-entry {
             border-bottom: 1px solid #bee3f8;
-            padding: 2px 0;
+            padding: 4px 0;
+        }
+        
+        /* Styles for Settings Section */
+        .settings-box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            max-width: 600px;
+        }
+        .setting-row {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        .setting-label {
+            font-weight: bold;
+            margin-right: 10px;
+            min-width: 200px;
+        }
+        
+        /* --- TOOLTIP STYLES --- */
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+            margin-left: 8px;
+        }
+
+        .info-icon {
+            background-color: #e7f1ff;
+            color: #0056b3;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: help;
+            border: 1px solid #b3d7ff;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 0.85em;
+            font-weight: normal;
+            line-height: 1.4;
+            position: absolute;
+            z-index: 100;
+            bottom: 135%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+
+        .tooltip-container:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
         }
     </style>
 </head>
 <body>
 
-    <h2>The PBS Mapping Tool</h2>
+    <!-- Heading Removed as requested -->
 
     <!-- PART 1: Pharmacy Catalog -->
     <div id="pharmacyCatalogSection" class="section">
@@ -112,70 +221,101 @@
         <p id="toMapStatus"></p>
     </div>
 
-    <!-- PART 3: Data Mapping -->
+    <!-- PART 3: Settings -->
+    <div id="settingsSection" class="section hidden">
+        <h2>Part 3: Configuration</h2>
+        <div class="settings-box">
+            <p>Please configure the matching process before continuing.</p>
+            
+            <!-- Auto Map Setting -->
+            <div class="setting-row">
+                <div class="setting-label">Auto-Map Exact Matches:</div>
+                <input type="checkbox" id="autoMapCheckbox">
+                
+                <div class="tooltip-container">
+                    <div class="info-icon">?</div>
+                    <span class="tooltip-text">
+                        <strong>Auto-Map:</strong><br>
+                        If enabled, the tool will automatically link items where the names are identical (100% match) without asking for confirmation.
+                        <br><br>
+                        Matches will be logged in the 'Auto-Match Log' on the right.
+                    </span>
+                </div>
+            </div>
+
+            <!-- Threshold Setting -->
+            <div class="setting-row">
+                <div class="setting-label">Matching Threshold (0.0 - 1.0):</div>
+                <input type="number" id="thresholdInput" value="0.7" step="0.05" min="0.1" max="1.0" style="width: 60px;">
+                
+                <div class="tooltip-container">
+                    <div class="info-icon">?</div>
+                    <span class="tooltip-text">
+                        <strong>Fuzzy Match Strictness:</strong><br>
+                        Controls how close a name must be to appear in the suggestions list.
+                        <br><br>
+                        • <strong>1.0:</strong> Exact match only.<br>
+                        • <strong>0.7 (Default):</strong> Good balance.<br>
+                        • <strong>0.5:</strong> Loose match (shows more options).
+                    </span>
+                </div>
+            </div>
+
+            <br>
+            <button id="startMappingBtn" style="padding: 10px 20px; font-weight: bold;">Start Mapping Process</button>
+        </div>
+    </div>
+
+    <!-- PART 4: Data Mapping -->
     <div id="mappingSection" class="section hidden">
-        <h2>Part 3: Data Mapping</h2>
+        <h2>Part 4: Data Mapping</h2>
         <div class="progress-bar">
             <div id="progress" class="progress"></div>
         </div>
 
-        <!-- New Container for Auto-Match Feedback -->
-        <div id="autoMatchLogContainer">
-            <strong>Auto-Match Log:</strong>
-            <div id="autoMatchLog"></div>
-        </div>
+        <!-- Flex Container for Split Layout -->
+        <div class="mapping-row">
+            
+            <!-- LEFT COLUMN: Item Details AND Matches List -->
+            <div class="mapping-left-col">
+                
+                <!-- Item Details Section -->
+                <div>
+                    <p>Current PBS Item Details:</p>
+                    <div class="currentItemDetailsBox">
+                        <div id="currentItemDetails"></div>
+                    </div>
+                    <p>Row: <span id="rowNumber"></span>, Type: <b><span id="currentColumn"></span></b></p>
+                    <p id="matchesHeader"></p>
+                </div>
 
-        <div>
-            <p>Current PBS Item Details:</p>
-            <div class="currentItemDetailsBox">
-                <div id="currentItemDetails"></div>
+                <!-- Matches Section (Now inside Left Column) -->
+                <div>
+                    <button id="nextButton">Next / Save Selections</button>
+                    <p>List of Close Matches from our Catalog:</p>
+                    <div id="matchesContainer"></div>
+                </div>
+
             </div>
-            <p>Row: <span id="rowNumber"></span>, Type: <b><span id="currentColumn"></span></b></p>
-            <p id="matchesHeader"></p>
-        </div>
 
-        <div>
-            <button id="nextButton">Next / Save Selections</button>
-            <p>List of Close Matches from our Catalog:</p>
-            <div id="matchesContainer"></div>
+            <!-- RIGHT COLUMN: Auto-Match Log (Hidden by default) -->
+            <div id="autoMatchLogContainer">
+                <strong>Auto-Match Log:</strong>
+                <div id="autoMatchLog"></div>
+            </div>
+
         </div>
     </div>
 
-    <!-- PART 4: Generated Code -->
+    <!-- PART 5: Generated Code -->
     <div id="outputSection" class="section hidden">
-        <h2>Part 4: Generated Code</h2>
+        <h2>Part 5: Generated Code</h2>
         <p>The CCL update script has been copied to your clipboard. You can paste it into DVdev.</p>
         <div id="outputContainer"></div>
     </div>
 
     <script>
-        /*
-         * ======================================================================================
-         * TOOL SUMMARY & PURPOSE
-         * ======================================================================================
-         * * PURPOSE:
-         * This tool facilitates the mapping of Australian PBS (Pharmaceutical Benefits Scheme) 
-         * drug items to an internal Oracle Health EMR (Electronic Medical Record) Pharmacy Catalog.
-         * * CONTEXT:
-         * The hospital/organization uses an Oracle Health database where local drug items (Synonyms)
-         * need to be linked to official PBS codes for billing, prescribing, or reporting purposes.
-         * * WORKFLOW:
-         * 1. Input 1 (Pharmacy Catalog): The user loads a dataset representing the internal drug catalog 
-         * (containing Item IDs, Names, Types like BRAND, GENERIC, etc.).
-         * 2. Input 2 (PBS Items): The user loads a dataset of new or unmapped PBS items that need linking.
-         * 3. Mapping Process: The tool iterates through the PBS items. For each item, it attempts to map
-         * against specific columns (PRIMARY, BRAND, GENERIC, TRADE) using fuzzy string matching (Jaro-Winkler).
-         * 4. Output: The tool generates a CCL (Cerner Command Language) update script. This script 
-         * inserts the mappings into the `pbs_ocs_mapping` table in the Oracle database.
-         * * KEY FEATURES:
-         * - Fuzzy Matching: Uses Jaro-Winkler distance to suggest close text matches.
-         * - Auto-Mapping: Option to automatically map 100% exact text matches.
-         * - CCL Generation: Automatically formats the database update code.
-         * * ======================================================================================
-         */
-
-        // The appState object holds all the stateful information about the data sets, progress,
-        // and intermediate/final results.
+        // Application State
         let appState = {
             data1: [],    // PBS Items to map
             data2: [],    // Pharmacy Catalog
@@ -189,19 +329,16 @@
             matches: [],
             final_matches: [],
             total_steps: 0,
-            autoMapExactMatches: false // User preference for auto-mapping
+            autoMapExactMatches: false,
+            matchThreshold: 0.7
         };
 
-        // Grab references to elements
+        // DOM Elements
         const nextButton = document.getElementById('nextButton');
         const autoMatchLogContainer = document.getElementById('autoMatchLogContainer');
         const autoMatchLog = document.getElementById('autoMatchLog');
+        const startMappingBtn = document.getElementById('startMappingBtn');
 
-        /**
-         * copyCode(url):
-         * Fetches code from a given URL and copies it into the clipboard.
-         * This is used to copy the CCL extract scripts for Pharmacy Catalog or PBS Items.
-         */
         function copyCode(url) {
             fetch(url)
                 .then(response => response.text())
@@ -219,12 +356,6 @@
                 });
         }
 
-        /**
-         * parseData(text):
-         * Parses tab-separated values (TSV) data from a string.
-         * Expected format: first line headers, subsequent lines are rows of data.
-         * Returns an array of objects, where keys are column names from the header.
-         */
         function parseData(text) {
             const lines = text.trim().split('\n');
             if (lines.length < 2) {
@@ -241,40 +372,20 @@
             });
         }
 
-        /**
-         * checkDataLoaded():
-         * Called after we try loading both data sets (Pharmacy Catalog and PBS Items).
-         * If both are loaded, and columns are valid, we ask for auto-map preference and proceed.
-         */
         function checkDataLoaded() {
             if (appState.data1.length > 0 && appState.data2.length > 0) {
                 if (!validateColumns(appState.data1)) return;
 
                 document.getElementById('pharmacyCatalogSection').classList.add('hidden');
                 document.getElementById('pbsItemsSection').classList.add('hidden');
-                document.getElementById('mappingSection').classList.remove('hidden');
-
-                // Ask user about auto-mapping exact matches
-                if (confirm("Would you like to automatically map exact matches?\n\nClick OK to auto-map 100% matches.\nClick Cancel to manually review all items.")) {
-                    appState.autoMapExactMatches = true;
-                    document.getElementById('autoMatchLogContainer').style.display = 'block';
-                } else {
-                    appState.autoMapExactMatches = false;
-                }
-
+                document.getElementById('settingsSection').classList.remove('hidden');
                 processData2();
-                startMapping();
             }
         }
 
-        /**
-         * validateColumns(data):
-         * Ensures that the required columns (PRIMARY, BRAND, GENERIC, TRADE) exist in data1.
-         */
         function validateColumns(data) {
             let requiredColumns = ['PRIMARY', 'BRAND', 'GENERIC', 'TRADE'];
             let missingColumns = requiredColumns.filter(col => !(col in data[0]));
-
             if (missingColumns.length > 0) {
                 alert(`Missing required columns: ${missingColumns.join(', ')}`);
                 return false;
@@ -282,10 +393,6 @@
             return true;
         }
 
-        /**
-         * processData2():
-         * Splits the pharmacy catalog data (data2) into separate arrays by their ITEM_TYPE.
-         */
         function processData2() {
             appState.df_primaries = appState.data2.filter(item => item['ITEM_TYPE'] === 'PRIMARY');
             appState.df_brands = appState.data2.filter(item => item['ITEM_TYPE'] === 'BRAND');
@@ -293,10 +400,33 @@
             appState.df_trades = appState.data2.filter(item => item['ITEM_TYPE'] === 'TRADE');
         }
 
-        /**
-         * startMapping():
-         * Initialize mapping by resetting indices and calculating total steps.
-         */
+        function applySettingsAndStart() {
+            appState.autoMapExactMatches = document.getElementById('autoMapCheckbox').checked;
+            
+            const thresholdVal = parseFloat(document.getElementById('thresholdInput').value);
+            if (!isNaN(thresholdVal) && thresholdVal >= 0 && thresholdVal <= 1) {
+                appState.matchThreshold = thresholdVal;
+            } else {
+                alert("Please enter a valid threshold between 0.0 and 1.0");
+                return;
+            }
+
+            // Show the log container ONLY if auto-map is checked
+            // Added flex display to ensure layout holds
+            if (appState.autoMapExactMatches) {
+                document.getElementById('autoMatchLogContainer').style.display = 'flex';
+            } else {
+                document.getElementById('autoMatchLogContainer').style.display = 'none';
+            }
+            
+            document.getElementById('settingsSection').classList.add('hidden');
+            document.getElementById('mappingSection').classList.remove('hidden');
+            
+            startMapping();
+        }
+
+        startMappingBtn.addEventListener('click', applySettingsAndStart);
+
         function startMapping() {
             appState.row_number = 0;
             appState.column_number = 0;
@@ -305,37 +435,19 @@
             displayCurrentItem();
         }
         
-        /**
-         * jaroWinkler(s1, s2):
-         * Calculates the Jaro-Winkler distance between two strings.
-         * Returns a score between 0 (no similarity) and 1 (exact match).
-         */
         function jaroWinkler(s1, s2) {
-            // Convert to lowercase for case-insensitive comparison
             s1 = s1.toLowerCase();
             s2 = s2.toLowerCase();
-
             let m = 0;
             let i, j;
-
-            // Exit early if either string is empty.
-            if (s1.length === 0 || s2.length === 0) {
-                return 0;
-            }
-
-            // Exit early if the strings are identical.
-            if (s1 === s2) {
-                return 1;
-            }
-
+            if (s1.length === 0 || s2.length === 0) return 0;
+            if (s1 === s2) return 1;
             const range = (Math.floor(Math.max(s1.length, s2.length) / 2)) - 1;
             const s1Matches = new Array(s1.length);
             const s2Matches = new Array(s2.length);
-
             for (i = 0; i < s1.length; i++) {
                 const low = (i >= range) ? i - range : 0;
                 const high = (i + range <= s2.length) ? (i + range) : (s2.length - 1);
-
                 for (j = low; j <= high; j++) {
                     if (s1Matches[i] !== true && s2Matches[j] !== true && s1[i] === s2[j]) {
                         ++m;
@@ -344,13 +456,7 @@
                     }
                 }
             }
-
-            // Exit early if no matches were found.
-            if (m === 0) {
-                return 0;
-            }
-
-            // Count the transpositions.
+            if (m === 0) return 0;
             let k = 0;
             let numTrans = 0;
             for (i = 0; i < s1.length; i++) {
@@ -366,11 +472,9 @@
                     }
                 }
             }
-
             let weight = (m / s1.length + m / s2.length + (m - (numTrans / 2)) / m) / 3;
             let l = 0;
             const p = 0.1;
-
             if (weight > 0.7) {
                 while (s1[l] === s2[l] && l < 4) {
                     ++l;
@@ -380,15 +484,9 @@
             return weight;
         }
 
-
-        /**
-         * performFuzzyMatching(query, data):
-         * Uses Jaro-Winkler to find the best matches for 'query' within 'NAME' fields of 'data'.
-         */
         function performFuzzyMatching(query, data) {
-            const threshold = 0.7; // Set a threshold for what's considered a "good" match.
+            const threshold = appState.matchThreshold;
             let results = [];
-
             data.forEach(item => {
                 const score = jaroWinkler(query, item.NAME);
                 if (score >= threshold) {
@@ -399,25 +497,15 @@
                     });
                 }
             });
-            
             return results;
         }
 
-        /**
-         * updateProgressBar():
-         * Updates the progress bar based on current row and column indices.
-         */
         function updateProgressBar() {
             let currentStep = appState.row_number * appState.columns.length + appState.column_number;
             let progressPercent = (currentStep / appState.total_steps) * 100;
             document.getElementById('progress').style.width = progressPercent + '%';
         }
 
-        /**
-         * advanceIndices():
-         * Increments the column and row counters.
-         * Returns true if there are more items to process, false if finished.
-         */
         function advanceIndices() {
             appState.column_number++;
             if (appState.column_number >= appState.columns.length) {
@@ -427,11 +515,6 @@
             return appState.row_number < appState.data1.length;
         }
 
-        /**
-         * displayCurrentItem():
-         * Displays details for the current PBS item and performs fuzzy matching.
-         * Handles auto-mapping logic if enabled.
-         */
         function displayCurrentItem() {
             if (appState.row_number >= appState.data1.length) {
                 generateCode();
@@ -444,53 +527,37 @@
             let currentColumn = appState.columns[appState.column_number];
             let currentItemValue = currentItem[currentColumn]; 
 
-            // Prepare subset for matching
             let data2_subset = [];
-            if (currentColumn === 'PRIMARY') {
-                data2_subset = appState.df_primaries;
-            } else if (currentColumn === 'BRAND') {
-                data2_subset = appState.df_brands;
-            } else if (currentColumn === 'GENERIC') {
-                data2_subset = appState.df_generics;
-            } else if (currentColumn === 'TRADE') {
-                data2_subset = appState.df_trades;
-            }
+            if (currentColumn === 'PRIMARY') data2_subset = appState.df_primaries;
+            else if (currentColumn === 'BRAND') data2_subset = appState.df_brands;
+            else if (currentColumn === 'GENERIC') data2_subset = appState.df_generics;
+            else if (currentColumn === 'TRADE') data2_subset = appState.df_trades;
 
-            // Perform matching
             appState.matches = performFuzzyMatching(currentItemValue, data2_subset);
 
-            // --- AUTO MAPPING LOGIC ---
             if (appState.autoMapExactMatches) {
-                // Check for exact match (Score == 1)
                 let exactMatch = appState.matches.find(m => m.score === 1);
-                
                 if (exactMatch) {
-                    // 1. Save the match
                     let combined = Object.assign({}, currentItem, exactMatch.data);
                     combined['MatchedColumn'] = currentColumn;
                     appState.final_matches.push(combined);
 
-                    // 2. Provide Feedback (Log)
                     let logEntry = document.createElement('div');
                     logEntry.className = 'log-entry';
                     logEntry.innerHTML = `Matched <strong>${currentItemValue}</strong> to <strong>${exactMatch.value}</strong> (${currentColumn})`;
                     autoMatchLog.appendChild(logEntry);
-                    autoMatchLog.scrollTop = autoMatchLog.scrollHeight; // Auto-scroll to bottom
+                    autoMatchLog.scrollTop = autoMatchLog.scrollHeight; 
 
-                    // 3. Advance Indices
                     if (advanceIndices()) {
-                        // 4. Move to next item immediately (short timeout to allow UI update)
                         setTimeout(displayCurrentItem, 10);
-                        return; // Skip rendering the manual UI for this item
+                        return;
                     } else {
                         generateCode();
                         return;
                     }
                 }
             }
-            // --------------------------
 
-            // If no auto-map or no exact match, render UI for user decision
             document.getElementById('rowNumber').innerText = appState.row_number;
             document.getElementById('currentColumn').innerText = currentColumn;
 
@@ -509,10 +576,6 @@
             nextButton.classList.remove('disabled');
         }
 
-        /**
-         * displayMatches():
-         * Shows fuzzy matches with checkboxes.
-         */
         function displayMatches() {
             let matchesContainer = document.getElementById('matchesContainer');
             matchesContainer.innerHTML = '';
@@ -522,7 +585,6 @@
                 return;
             }
 
-            // Sort by score descending (higher is better with Jaro-Winkler)
             appState.matches.sort((a, b) => b.score - a.score);
 
             appState.matches.forEach((match, index) => {
@@ -532,7 +594,6 @@
                 checkbox.value = index;
 
                 let label = document.createElement('label');
-                // Display score as a percentage (higher is better)
                 let scorePercentage = (match.score * 100).toFixed(0) + '%';
                 let primaryField = match.data.PRIMARY ? `(PRIMARY: ${match.data.PRIMARY})` : '';
 
@@ -548,11 +609,6 @@
             });
         }
 
-        /**
-         * saveMatchesAndNext():
-         * Handles the Next button click.
-         * Sets cursor to wait, disables button, shows wait for 1 second, then loads next item.
-         */
         function saveMatchesAndNext() {
             document.body.style.cursor = 'wait';
             nextButton.classList.add('disabled');
@@ -577,7 +633,7 @@
                 requestAnimationFrame(() => {
                     setTimeout(() => {
                         displayCurrentItem();
-                    }, 500); // Reduced timeout slightly for better UX
+                    }, 500);
                 });
             } else {
                 generateCode();
@@ -586,10 +642,6 @@
 
         document.getElementById('nextButton').addEventListener('click', saveMatchesAndNext);
 
-        /**
-         * generateCode():
-         * Generates the final CCL update code.
-         */
         function generateCode() {
             let output = '';
             let template = `
@@ -626,17 +678,13 @@ where
 
             appState.final_matches.forEach(match => {
                 let code = template;
-                // Replace placeholders with actual data
-                // Note: We check for undefined in case the data format varies slightly
                 let pbsId = match['MAP_PBS_DRUG_ID_'] || '0';
                 let synonymId = match['MAP_SYNONYM_ID_'] || '0';
                 
                 code = code.replace(/MAP_PBS_DRUG_ID_/g, pbsId);
                 code = code.replace(/MAP_SYNONYM_ID_/g, synonymId);
-                
-                // Optional: Add comments with names if columns exist in data
                 code = code.replace('!NAME!', match['NAME'] || 'Unknown'); 
-                code = code.replace('!SYNONYM!', match['SYNONYM'] || 'Unknown'); // Assuming SYNONYM column exists in data2
+                code = code.replace('!SYNONYM!', match['SYNONYM'] || 'Unknown');
 
                 output += code + '\n\n\n';
             });
@@ -655,7 +703,6 @@ where
             document.body.style.cursor = 'default';
         }
 
-        // PART 1: Handling the Pharmacy Catalog data loading
         const copyPharmacyCodeBtn = document.getElementById('copyPharmacyCodeBtn');
         const loadPharmacyClipboardBtn = document.getElementById('loadPharmacyClipboardBtn');
         const pharmacyStatus = document.getElementById('pharmacyStatus');
@@ -665,7 +712,6 @@ where
             loadPharmacyClipboardBtn.classList.remove('hidden');
         });
 
-        // When user loads Pharmacy Catalog from clipboard, show a popup after data is loaded
         loadPharmacyClipboardBtn.addEventListener('click', () => {
             navigator.clipboard.readText()
                 .then(clipboardText => {
@@ -673,7 +719,6 @@ where
                     if (data.length > 0) {
                         pharmacyStatus.textContent = 'Pharmacy Catalog data loaded successfully.';
                         appState.data2 = data;
-                        // Show a popup to the user
                         alert("The data has been loaded into this tool.");
                         document.getElementById('pharmacyCatalogSection').classList.add('hidden');
                         document.getElementById('pbsItemsSection').classList.remove('hidden');
@@ -686,7 +731,6 @@ where
                 });
         });
 
-        // PART 2: Handling the PBS Items to Map data loading
         const copyToMapCodeBtn = document.getElementById('copyToMapCodeBtn');
         const loadToMapClipboardBtn = document.getElementById('loadToMapClipboardBtn');
         const toMapStatus = document.getElementById('toMapStatus');
@@ -696,7 +740,6 @@ where
             loadToMapClipboardBtn.classList.remove('hidden');
         });
 
-        // When user loads PBS Items to Map from clipboard, show a popup after data is loaded
         loadToMapClipboardBtn.addEventListener('click', () => {
             navigator.clipboard.readText()
                 .then(clipboardText => {
@@ -704,7 +747,6 @@ where
                     if (data.length > 0) {
                         toMapStatus.textContent = 'PBS Items to Map data loaded successfully.';
                         appState.data1 = data;
-                        // Show a popup to the user
                         alert("The data has been loaded into this tool.");
                         checkDataLoaded();
                     } else {
