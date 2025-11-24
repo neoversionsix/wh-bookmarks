@@ -1529,6 +1529,19 @@ where
             table.className = 'verification-table';
 
             if (data.length === 0) return;
+
+            // 1. Sort Data by Match Score (Lowest -> Highest)
+            // Need to calculate score first to sort by it
+            let enrichedData = data.map(row => {
+                let pbsName = row['PBS_NAME'] || '';
+                let ourName = row['OUR_NAME'] || '';
+                let score = jaroWinkler(pbsName, ourName);
+                return { ...row, _score: score };
+            });
+
+            // Sort ascending (lowest score first)
+            enrichedData.sort((a, b) => a._score - b._score);
+
             const headers = Object.keys(data[0]);
 
             const thead = document.createElement('thead');
@@ -1549,13 +1562,10 @@ where
 
             const tbody = document.createElement('tbody');
 
-            data.forEach(row => {
+            enrichedData.forEach(row => {
                 const tr = document.createElement('tr');
                 
-                let pbsName = row['PBS_NAME'] || '';
-                let ourName = row['OUR_NAME'] || '';
-                
-                let score = jaroWinkler(pbsName, ourName);
+                let score = row._score;
                 let scorePercent = Math.round(score * 100);
 
                 let hue = score * 120; 
