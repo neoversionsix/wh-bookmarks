@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>PBS Mapping Tool</title>
+    <title>PBS Mapping Tool v5.1 (Navigable)</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -45,6 +45,7 @@
         .disabled {
             opacity: 0.5;
             pointer-events: none;
+            cursor: not-allowed;
         }
         
         /* --- LAYOUT FOR SPLIT VIEW --- */
@@ -179,7 +180,7 @@
         /* --- NEW STYLES FOR EMBEDDED CODE EDITORS --- */
         .ccl-editor {
             width: 100%;
-            height: 250px; /* Increased height slightly for better visibility of longer code */
+            height: 250px; 
             font-family: monospace;
             font-size: 12px;
             background-color: #f4f4f4;
@@ -191,18 +192,43 @@
             margin-top: 10px;
             margin-bottom: 10px;
         }
+        
+        /* Navigation Button Styles */
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        button {
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        #backButton {
+            background-color: #718096;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        
+        #nextButton {
+            background-color: #3182ce;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-    <!-- PART 1: Pharmacy Catalog -->
     <div id="pharmacyCatalogSection" class="section">
         <h2>Part 1: Pharmacy Catalog</h2>
         <p>
             <strong>Step 1:</strong> You can edit the CCL code you're about to copy to your clipboard directly below if you want.
         </p>
         
-        <!-- Embedded Text Area for CCL Code -->
         <textarea id="pharmacyCatalogCCL" class="ccl-editor" placeholder="Paste the Pharmacy Catalog CCL extract code here...">
 SELECT
     MAP_SYNONYM_ID_ = O.SYNONYM_ID
@@ -242,14 +268,12 @@ WITH NOCOUNTER, SEPARATOR=" ", FORMAT, time = 10
         <p id="pharmacyStatus"></p>
     </div>
 
-    <!-- PART 2: PBS Items to Map (Initially hidden) -->
     <div id="pbsItemsSection" class="section hidden">
         <h2>Part 2: PBS Items to Map</h2>
         <p>
             <strong>Step 1:</strong> You can edit the CCL code you're about to copy to your clipboard directly below if you want.
         </p>
 
-        <!-- Embedded Text Area for CCL Code -->
         <textarea id="pbsItemsCCL" class="ccl-editor" placeholder="Paste the PBS Items to Map CCL extract code here...">
 SELECT DISTINCT
 ; This will give you all the PBS items that:
@@ -353,13 +377,11 @@ WITH    TIME = 10
         <p id="toMapStatus"></p>
     </div>
 
-    <!-- PART 3: Settings -->
     <div id="settingsSection" class="section hidden">
         <h2>Part 3: Configuration</h2>
         <div class="settings-box">
             <p>Please configure the matching process before continuing.</p>
             
-            <!-- Auto Map Setting -->
             <div class="setting-row">
                 <div class="setting-label">Auto-Map Exact Matches:</div>
                 <input type="checkbox" id="autoMapCheckbox">
@@ -375,7 +397,6 @@ WITH    TIME = 10
                 </div>
             </div>
 
-            <!-- Threshold Setting -->
             <div class="setting-row">
                 <div class="setting-label">Matching Threshold (0.0 - 1.0):</div>
                 <input type="number" id="thresholdInput" value="0.7" step="0.05" min="0.1" max="1.0" style="width: 60px;">
@@ -398,20 +419,16 @@ WITH    TIME = 10
         </div>
     </div>
 
-    <!-- PART 4: Data Mapping -->
     <div id="mappingSection" class="section hidden">
         <h2>Part 4: Data Mapping</h2>
         <div class="progress-bar">
             <div id="progress" class="progress"></div>
         </div>
 
-        <!-- Flex Container for Split Layout -->
         <div class="mapping-row">
             
-            <!-- LEFT COLUMN: Item Details AND Matches List -->
             <div class="mapping-left-col">
                 
-                <!-- Item Details Section -->
                 <div>
                     <p>Current PBS Item Details:</p>
                     <div class="currentItemDetailsBox">
@@ -421,16 +438,17 @@ WITH    TIME = 10
                     <p id="matchesHeader"></p>
                 </div>
 
-                <!-- Matches Section (Now inside Left Column) -->
                 <div>
-                    <button id="nextButton">Next / Save Selections</button>
+                    <div class="nav-buttons">
+                        <button id="backButton" class="disabled">Back</button>
+                        <button id="nextButton">Next / Save Selections</button>
+                    </div>
                     <p>List of Close Matches from our Catalog:</p>
                     <div id="matchesContainer"></div>
                 </div>
 
             </div>
 
-            <!-- RIGHT COLUMN: Auto-Match Log (Hidden by default) -->
             <div id="autoMatchLogContainer">
                 <strong>Auto-Match Log:</strong>
                 <div id="autoMatchLog"></div>
@@ -439,7 +457,6 @@ WITH    TIME = 10
         </div>
     </div>
 
-    <!-- PART 5: Generated Code -->
     <div id="outputSection" class="section hidden">
         <h2>Part 5: Generated Code</h2>
         <p>The CCL update script has been copied to your clipboard. You can paste it into DVdev.</p>
@@ -459,7 +476,7 @@ WITH    TIME = 10
             column_number: 0,
             columns: ['PRIMARY', 'BRAND','GENERIC', 'TRADE'],
             matches: [],
-            final_matches: [],
+            final_matches: [], // Stores selected matches
             total_steps: 0,
             autoMapExactMatches: false,
             matchThreshold: 0.7
@@ -467,6 +484,7 @@ WITH    TIME = 10
 
         // DOM Elements
         const nextButton = document.getElementById('nextButton');
+        const backButton = document.getElementById('backButton');
         const autoMatchLogContainer = document.getElementById('autoMatchLogContainer');
         const autoMatchLog = document.getElementById('autoMatchLog');
         const startMappingBtn = document.getElementById('startMappingBtn');
@@ -542,7 +560,6 @@ WITH    TIME = 10
                 return;
             }
 
-            // Show the log container ONLY if auto-map is checked
             if (appState.autoMapExactMatches) {
                 document.getElementById('autoMatchLogContainer').style.display = 'flex';
             } else {
@@ -645,10 +662,31 @@ WITH    TIME = 10
             return appState.row_number < appState.data1.length;
         }
 
+        // --- NEW: Go Back Logic ---
+        function retreatIndices() {
+            appState.column_number--;
+            if (appState.column_number < 0) {
+                appState.column_number = appState.columns.length - 1;
+                appState.row_number--;
+            }
+            // Ensure we don't go below 0
+            if (appState.row_number < 0) {
+                appState.row_number = 0;
+                appState.column_number = 0;
+            }
+        }
+
         function displayCurrentItem() {
             if (appState.row_number >= appState.data1.length) {
                 generateCode();
                 return;
+            }
+
+            // Enable/Disable Back Button
+            if (appState.row_number === 0 && appState.column_number === 0) {
+                backButton.classList.add('disabled');
+            } else {
+                backButton.classList.remove('disabled');
             }
 
             updateProgressBar();
@@ -665,11 +703,22 @@ WITH    TIME = 10
 
             appState.matches = performFuzzyMatching(currentItemValue, data2_subset);
 
-            if (appState.autoMapExactMatches) {
+            // Logic for Auto-Map (only if we are NOT re-visiting a step)
+            // We check if final_matches already has data for this step. If so, treat it as "revisiting" and skip auto-map.
+            const alreadyMatched = appState.final_matches.some(m => 
+                m._rowIndex === appState.row_number && m._colIndex === appState.column_number
+            );
+
+            if (appState.autoMapExactMatches && !alreadyMatched) {
                 let exactMatch = appState.matches.find(m => m.score === 1);
                 if (exactMatch) {
                     let combined = Object.assign({}, currentItem, exactMatch.data);
                     combined['MatchedColumn'] = currentColumn;
+                    
+                    // Add metadata for history tracking
+                    combined['_rowIndex'] = appState.row_number;
+                    combined['_colIndex'] = appState.column_number;
+
                     appState.final_matches.push(combined);
 
                     let logEntry = document.createElement('div');
@@ -710,6 +759,14 @@ WITH    TIME = 10
             let matchesContainer = document.getElementById('matchesContainer');
             matchesContainer.innerHTML = '';
 
+            // --- RESTORE PREVIOUSLY SELECTED CHECKBOXES ---
+            // 1. Find items in final_matches that belong to current row/column
+            const previouslySelected = appState.final_matches.filter(m => 
+                m._rowIndex === appState.row_number && m._colIndex === appState.column_number
+            );
+            // 2. Create a Set of their SYNONYM_IDs for fast lookup
+            const selectedIds = new Set(previouslySelected.map(m => m.MAP_SYNONYM_ID_));
+
             if (appState.matches.length === 0) {
                 matchesContainer.innerHTML = '<p>No matches found.</p>';
                 return;
@@ -722,6 +779,11 @@ WITH    TIME = 10
                 checkbox.type = 'checkbox';
                 checkbox.id = 'match-' + index;
                 checkbox.value = index;
+
+                // Check it if it was in our history
+                if (selectedIds.has(match.data.MAP_SYNONYM_ID_)) {
+                    checkbox.checked = true;
+                }
 
                 let label = document.createElement('label');
                 let scorePercentage = (match.score * 100).toFixed(0) + '%';
@@ -743,6 +805,7 @@ WITH    TIME = 10
             document.body.style.cursor = 'wait';
             nextButton.classList.add('disabled');
 
+            // 1. Gather User Selection from UI
             let selectedMatches = [];
             appState.matches.forEach((match, index) => {
                 let checkbox = document.getElementById('match-' + index);
@@ -751,11 +814,24 @@ WITH    TIME = 10
                 }
             });
 
+            // 2. Remove ANY existing matches for this specific step (Row+Col) from final_matches.
+            //    This is crucial if the user hit "Back" and is now changing their mind.
+            appState.final_matches = appState.final_matches.filter(m => 
+                !(m._rowIndex === appState.row_number && m._colIndex === appState.column_number)
+            );
+
+            // 3. Add the new selections
             selectedMatches.forEach(match => {
                 let currentItem = appState.data1[appState.row_number];
                 let currentColumn = appState.columns[appState.column_number];
                 let combined = Object.assign({}, currentItem, match.data);
+                
                 combined['MatchedColumn'] = currentColumn;
+                
+                // Add Metadata to identify where this match came from
+                combined['_rowIndex'] = appState.row_number;
+                combined['_colIndex'] = appState.column_number;
+
                 appState.final_matches.push(combined);
             });
 
@@ -763,14 +839,20 @@ WITH    TIME = 10
                 requestAnimationFrame(() => {
                     setTimeout(() => {
                         displayCurrentItem();
-                    }, 500);
+                    }, 100); // Slight delay for UI responsiveness
                 });
             } else {
                 generateCode();
             }
         }
 
+        function goBack() {
+            retreatIndices();
+            displayCurrentItem();
+        }
+
         document.getElementById('nextButton').addEventListener('click', saveMatchesAndNext);
+        document.getElementById('backButton').addEventListener('click', goBack);
 
         function generateCode() {
             let output = '';
@@ -805,6 +887,13 @@ where
     )
 ;________________________________________________
 `;
+            
+            // SORTING: Ensure output is in order even if user jumped back and forth
+            // Sort by Row Index, then by Column Index
+            appState.final_matches.sort((a, b) => {
+                if (a._rowIndex !== b._rowIndex) return a._rowIndex - b._rowIndex;
+                return a._colIndex - b._colIndex;
+            });
 
             appState.final_matches.forEach(match => {
                 let code = template;
@@ -815,11 +904,8 @@ where
                 code = code.replace(/MAP_SYNONYM_ID_/g, synonymId);
                 
                 // UPDATED LOGIC:
-                // 1. Get the PBS Name from the specific column we matched on
                 let matchedColumnName = match['MatchedColumn'];
                 let pbsName = match[matchedColumnName] || 'Unknown';
-
-                // 2. Get the Synonym Name from the catalog data (which has the 'NAME' key)
                 let synonymName = match['NAME'] || 'Unknown';
 
                 code = code.replace('!NAME!', pbsName); 
@@ -846,10 +932,7 @@ where
         const loadPharmacyClipboardBtn = document.getElementById('loadPharmacyClipboardBtn');
         const pharmacyStatus = document.getElementById('pharmacyStatus');
 
-        // --- UPDATED LISTENERS ---
         copyPharmacyCodeBtn.addEventListener('click', () => {
-            // Old: copyCode("url...")
-            // New: Copy from local textarea
             copyFromTextArea("pharmacyCatalogCCL");
             loadPharmacyClipboardBtn.classList.remove('hidden');
         });
@@ -878,8 +961,6 @@ where
         const toMapStatus = document.getElementById('toMapStatus');
 
         copyToMapCodeBtn.addEventListener('click', () => {
-             // Old: copyCode("url...")
-             // New: Copy from local textarea
             copyFromTextArea("pbsItemsCCL");
             loadToMapClipboardBtn.classList.remove('hidden');
         });
