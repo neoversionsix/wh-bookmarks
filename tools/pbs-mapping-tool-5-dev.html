@@ -6,7 +6,7 @@
 -->
 <html>
 <head>
-    <title>PBS Mapping Tool v5.1 (Navigable)</title>
+    <title>PBS Mapping Tool v5.1 - Part 1: Mapping</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -236,55 +236,6 @@
         #getScriptSoFarBtn:hover {
             background-color: #38a169;
         }
-
-        /* --- STYLES FOR VERIFICATION TABLE (PART 8) --- */
-        .verification-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            font-size: 0.9em;
-        }
-        .verification-table th, .verification-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        .verification-table th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        .score-cell {
-            font-weight: bold;
-            text-align: center !important;
-            color: #333;
-        }
-        
-        /* Generic Table for Error Checking */
-        .generic-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 0.9em;
-        }
-        .generic-table th, .generic-table td {
-            border: 1px solid #ddd;
-            padding: 6px;
-            text-align: left;
-        }
-        .generic-table th {
-            background-color: #ffe5e5; /* Light red for error tables */
-            color: #c00;
-        }
-        
-        .success-box {
-            background-color: #c6f6d5;
-            border: 1px solid #48bb78;
-            color: #2f855a;
-            padding: 20px;
-            border-radius: 5px;
-            text-align: center;
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
@@ -402,7 +353,6 @@
                     <div class="nav-buttons">
                         <button id="backButton" class="disabled">Back</button>
                         <button id="nextButton">Next / Save Selections</button>
-                        <!-- NEW Button for getting script so far -->
                         <button id="getScriptSoFarBtn">Get Script So Far</button>
                     </div>
                     <p>List of Close Matches from our Catalog:</p>
@@ -422,138 +372,18 @@
     <div id="outputSection" class="section hidden">
         <h2>Part 5: Generated Code</h2>
         
-        <!-- Moved Button to Top, Updated Target -->
         <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 15px;">
-            <button id="goToErrorCheck1Btn" style="background-color: #d69e2e; color: white; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer;">
-                Next: Check Errors
-            </button>
-            <span>Once you have run the update script, proceed to Error Checking.</span>
+            <p><strong>Success:</strong> The CCL update script has been copied to your clipboard. You can paste it into DVdev.</p>
         </div>
-
-        <p>The CCL update script has been copied to your clipboard. You can paste it into DVdev.</p>
-        <div id="outputContainer"></div>
-    </div>
-
-    <!-- NEW PART 6: Error Check 1 (Hospital/Prescriber Type) -->
-    <div id="errorCheck1Section" class="section hidden">
-        <h2>Part 6: Check Errors - Hospital or Prescriber Type</h2>
-        <p>
-            <strong>Step 1:</strong> Use the script below to identify any incorrect mappings due to hospital or prescriber type.
-        </p>
-
-        <textarea id="errorCheck1CCL" class="ccl-editor" placeholder="Loading script..."></textarea>
-
-        <p>
-            <strong>Step 2:</strong> Click the button below to copy the code. Run it in DVDev.
-        </p>
-        <button id="copyErrorCheck1Btn">
-            Copy Error Check Code
-        </button>
-
-        <p>
-            <strong>Step 3:</strong> Ideally, this should return <strong>0 results</strong>.
-            <br>
-            If 0 results: Click "Next".
-            <br>
-            If > 0 results: You can load the data below to inspect it.
-        </p>
-        <button id="loadErrorCheck1Btn">
-            Load data from clipboard into this tool
-        </button>
-        <div id="errorCheck1Container"></div>
         
-        <br><br>
-        <button id="goToErrorCheck2Btn" style="background-color: #d69e2e; color: white; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer;">
-            Next: Check Synonym Type Errors
-        </button>
-    </div>
-
-    <!-- NEW PART 7: Error Check 2 (Synonym Type) -->
-    <div id="errorCheck2Section" class="section hidden">
-        <h2>Part 7: Check Errors - Wrong Synonym Type</h2>
-        <p>
-            <strong>Step 1:</strong> Use the script below to identify incorrect mappings due to synonym type issues.
-        </p>
-
-        <textarea id="errorCheck2CCL" class="ccl-editor" placeholder="Loading script..."></textarea>
-
-        <p>
-            <strong>Step 2:</strong> Click the button below to copy the code. Run it in DVDev.
-        </p>
-        <button id="copyErrorCheck2Btn">
-            Copy Error Check Code
-        </button>
-
-        <p>
-            <strong>Step 3:</strong> Ideally, this should return <strong>0 results</strong>.
-            <br>
-            If 0 results: Click "Next".
-            <br>
-            If > 0 results: You can load the data below to inspect it.
-        </p>
-        <button id="loadErrorCheck2Btn">
-            Load data from clipboard into this tool
-        </button>
-        <div id="errorCheck2Container"></div>
-
-        <br><br>
-        <button id="goToVerificationBtn" style="background-color: #d69e2e; color: white; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer;">
-            Next: Verification
-        </button>
-    </div>
-
-    <!-- Part 8: Verification (Formerly Part 6) -->
-    <div id="verificationSection" class="section hidden">
-        <h2>Part 8: Verification</h2>
-        <p>
-            <strong>Step 1:</strong> Use the script below to extract the mappings you just committed to the database.
-        </p>
-
-        <textarea id="verificationCCL" class="ccl-editor" placeholder="Loading script..."></textarea>
-
-        <p>
-            <strong>Step 2:</strong> Click the button to copy the code above, run it in DVDev, and copy the output.
-        </p>
-        <button id="copyVerificationCodeBtn">
-            Copy Verification Extract Code
-        </button>
-
-        <p>
-            <strong>Step 3:</strong> Click the button below to load the verification data from your clipboard.
-        </p>
-        <button id="loadVerificationDataBtn" class="hidden">
-            Load data from clipboard into this tool
-        </button>
-        <p id="verificationStatus"></p>
-
-        <div id="verificationResults" class="hidden">
-            <h3>Verification Results</h3>
-            <p>The table below compares the PBS Name and Our Name with a calculated match score.</p>
-            <div id="verificationTableContainer"></div>
-        </div>
+        <div id="outputContainer"></div>
         
         <br>
-        <button id="goToFinalizeBtn" class="hidden" style="background-color: #805ad5; color: white; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer;">
-            Next: Finalize
-        </button>
-    </div>
-
-    <!-- NEW PART 9: Finalize/Summary Section -->
-    <div id="finalizeSection" class="section hidden">
-        <h2>Part 9: Summary</h2>
-        <div class="success-box">
-            <h1 style="margin: 0; font-size: 2em;">Process Complete!</h1>
-            <p style="font-size: 1.2em;">You have successfully completed the PBS Mapping workflow.</p>
+        <div class="settings-box">
+            <h3>Next Steps:</h3>
+            <p>1. Run the script above in DVDev to commit the mappings.</p>
+            <p>2. Open the <strong>PBS Verification Tool</strong> (Part 2) to perform error checks and validation.</p>
         </div>
-        
-        <div class="settings-box" style="margin: 20px auto;">
-            <h3>Session Summary</h3>
-            <p><strong>Items Processed:</strong> <span id="summaryTotal">0</span></p>
-            <p><strong>Items Mapped:</strong> <span id="summaryMapped">0</span></p>
-            <p>Make sure to double check any error reports if they were not zero.</p>
-        </div>
-        
-        <button onclick="location.reload()" style="background-color: #718096; color: white;">Start New Session</button>
     </div>
 
     <script>
@@ -665,193 +495,13 @@ ORDER BY
     , 0
 
 
-WITH    TIME = 10`,
-
-            errorCheck1: `SELECT	DISTINCT 	;RETRIEVES CODES THAT ARE INCORRECTLY MAPPED due to hospital type and prescriber type.
-	    DOMAIN = CURDOMAIN
-	    , _PBS_CODE_ = P_L.PBS_ITEM_CODE
-        , _PBS_DRUG_ID_ = P_O_M.PBS_DRUG_ID
-	    , SCHADUAL_PROGRAM = P_L.DRUG_TYPE_MEAN
-	    , P_D.BRAND_NAME
-	    , PRESCRIBER_TYPE = UAR_GET_CODE_DISPLAY(P_P.PRESCRIBER_TYPE_CD)
-	    , P_D.PBS_DRUG_ID
-	    , MAPPED_SYNONYM = OCS.MNEMONIC
-	    , SYNONYM_ID = OCS.SYNONYM_ID
-
-FROM
-	PBS_LISTING P_L
-	,PBS_OCS_MAPPING P_O_M
-	,PBS_ITEM P_I
-	,PBS_DRUG P_D
-	,PBS_PRESCRIBER P_P
-	,ORDER_CATALOG_SYNONYM OCS
-
-PLAN	P_L
-    WHERE
-    ;PRIVATE HOSPITAL CODES ETC THAT SHOULD NOT BE MAPPED
-    P_L.DRUG_TYPE_MEAN IN ("DB", "HS", "IN", "PQ", "TY", "DS", "DT", "OT", "SY")
-    OR	P_L.PBS_ITEM_CODE IN
-    (
-        SELECT PBS_ITEM_CODE FROM PBS_PRESCRIBER P_P_0
-        WHERE P_P_0.PRESCRIBER_TYPE_CD IN
-            (
-                SELECT CV.CODE_VALUE FROM CODE_VALUE CV
-                WHERE CV.CODE_SET = 4386008
-                ;CODES THAT ARE DENTAL AND OPTOMETRIST CODES BUT NOT ALSO THE OTHERS WE WANT TO MAP*/
-                AND CV.CDF_MEANING IN ("D", "O")
-            )
-        AND	P_P_0.PBS_ITEM_CODE NOT IN
-            (
-                SELECT P_X.PBS_ITEM_CODE FROM PBS_PRESCRIBER P_X
-                WHERE P_X.PRESCRIBER_TYPE_CD IN
-                (
-                    SELECT CV.CODE_VALUE FROM CODE_VALUE CV
-                    WHERE CV.CODE_SET = 4386008
-                    AND CV.CDF_MEANING IN ("M", "W", "N"); Medical Officer, Midwife, Nurse
-                )
-            )
-        AND	P_P_0.END_EFFECTIVE_DT_TM > SYSDATE ; Active mappings only
-	)
-
-JOIN P_P    WHERE P_P.PBS_ITEM_CODE = P_L.PBS_ITEM_CODE
-            AND	P_P.END_EFFECTIVE_DT_TM > SYSDATE
-JOIN P_I    WHERE P_I.PBS_LISTING_ID = P_L.PBS_LISTING_ID
-JOIN P_D    WHERE P_D.PBS_ITEM_ID = P_I.PBS_ITEM_ID
-JOIN P_O_M  WHERE P_O_M.PBS_DRUG_ID = P_D.PBS_DRUG_ID
-            ; Active mappings only
-            AND P_O_M.PBS_DRUG_ID != 11111111.00
-            AND 	P_O_M.END_EFFECTIVE_DT_TM > SYSDATE
-JOIN OCS    WHERE OCS.SYNONYM_ID = P_O_M.SYNONYM_ID
-
-ORDER BY	P_L.PBS_ITEM_CODE
-
-WITH TIME = 20,
-	NOCOUNTER,
-	SEPARATOR=" ",
-	FORMAT`,
-
-            errorCheck2: `SELECT	DISTINCT 	;RETRIEVES CODES THAT ARE INCORRECTLY MAPPED due to hospital type and prescriber type.
-/* Notes: Faras updated my code to get this code */
-	    DOMAIN = CURDOMAIN
-	    , PBS_CODE = P_L.PBS_ITEM_CODE
-        , PBS_DRUG_ID = P_O_M.PBS_DRUG_ID
-	    , MAPPED_SYNONYM = O_C_S.MNEMONIC
-        , SYNONYM_TYPE = UAR_GET_CODE_DISPLAY(O_C_S.MNEMONIC_TYPE_CD)
-	    , SYNONYM_ID = O_C_S.SYNONYM_ID
-
-FROM
-	  PBS_OCS_MAPPING           P_O_M
-	, ORDER_CATALOG_SYNONYM     O_C_S
-    , PBS_DRUG                  P_D
-    , PBS_ITEM                  P_I
-    , PBS_LISTING               P_L
-
-
-PLAN P_O_M
-    WHERE
-        P_O_M.END_EFFECTIVE_DT_TM > SYSDATE
-JOIN O_C_S
-    WHERE
-        O_C_S.SYNONYM_ID = P_O_M.SYNONYM_ID
-        AND O_C_S.MNEMONIC_TYPE_CD NOT IN
-            (
-                  2583.00
-                , 2580.00
-                , 614548.00
-                , 614544.00
-                , 614549.00
-                , 614545.00
-            )
-                ; "PRIMARY"
-                ; "BRAND"
-                ; "GENERIC"
-                ; "GENERIC"
-                ; "TRADE"
-                ; "TRADE"
-
-JOIN P_D    WHERE P_D.PBS_DRUG_ID = P_O_M.PBS_DRUG_ID
-JOIN P_I    WHERE P_I.PBS_ITEM_ID = P_D.PBS_ITEM_ID
-JOIN P_L    WHERE P_L.PBS_LISTING_ID = P_I.PBS_LISTING_ID
-
-ORDER BY	P_L.PBS_ITEM_CODE
-
-WITH TIME = 20,
-	NOCOUNTER,
-	SEPARATOR=" ",
-	FORMAT`,
-
-            verification: `SELECT DISTINCT
-; This will give you the mappings we have added in the last 7 days.
-; It is designed so you can 'eyeball' the mappings to see if they are correct.
-	DOMAIN = CURDOMAIN
-	, ITEM_TYPE = EVALUATE
-        (
-            O_C_S.MNEMONIC_TYPE_CD
-            , 2583.00,          "PRIMARY"
-            , 2580.00,          "BRAND"
-            , 614548.00,        "GENERIC"
-            , 614544.00,        "GENERIC"
-            , 614549.00,        "TRADE"
-            , 614545.00,        "TRADE"
-		)
-	, OUR_NAME = O_C_S.MNEMONIC
-	, PBS_NAME =
-		IF (O_C_S.MNEMONIC_TYPE_CD = 2580) P_D.BRAND_NAME ; BRAND
-		ELSEIF (O_C_S.MNEMONIC_TYPE_CD = 2583) P_I.DRUG_NAME ; PRIMARY
-		ELSEIF (O_C_S.MNEMONIC_TYPE_CD IN (614548, 614544)) P_D.FORM_STRENGTH ; GENERIC
-		ELSEIF (O_C_S.MNEMONIC_TYPE_CD IN (614549, 614545)) ;TRADE
-			CONCAT
-			(
-				TRIM(P_D.BRAND_NAME)
-				, " "
-				, TRIM(REPLACE(P_D.FORM_STRENGTH, TRIM(P_I.DRUG_NAME), "", 0))
-			)
-		ELSE ""
-		ENDIF
-	; , OCS_TYPE = UAR_GET_CODE_DISPLAY(O_C_S.MNEMONIC_TYPE_CD)
-	; , PBS_PRIMARY = P_I.DRUG_NAME
-	; , PBS_BRAND = P_D.BRAND_NAME
-	; , PBS_FORM_STRENGTH = P_D.FORM_STRENGTH
-	 , PBS_CODE = P_L.PBS_ITEM_CODE
-	; , P_O_M.PBS_DRUG_ID
-	; , P_O_M.SYNONYM_ID
-
-FROM
-	PBS_LISTING   P_L
-	, PBS_OCS_MAPPING   P_O_M
-	, PBS_ITEM   P_I
-	, PBS_DRUG   P_D
-	, PBS_PRESCRIBER   P_P
-	, ORDER_CATALOG_SYNONYM   O_C_S
-
-PLAN	P_L
-
-JOIN P_P    WHERE P_P.PBS_ITEM_CODE = P_L.PBS_ITEM_CODE
-            AND	P_P.END_EFFECTIVE_DT_TM > SYSDATE
-JOIN P_I    WHERE P_I.PBS_LISTING_ID = P_L.PBS_LISTING_ID
-JOIN P_D    WHERE P_D.PBS_ITEM_ID = P_I.PBS_ITEM_ID
-JOIN P_O_M  WHERE P_O_M.PBS_DRUG_ID = P_D.PBS_DRUG_ID
-            AND P_O_M.PBS_DRUG_ID != 11111111.00
-            AND P_O_M.END_EFFECTIVE_DT_TM > SYSDATE
-			AND P_O_M.UPDT_DT_TM > CNVTLOOKBEHIND("7,D")
-JOIN O_C_S  WHERE O_C_S.SYNONYM_ID = OUTERJOIN(P_O_M.SYNONYM_ID)
-
-ORDER BY
-	O_C_S.MNEMONIC_TYPE_CD
-
-WITH TIME = 20,
-	NOCOUNTER,
-	SEPARATOR=" ",
-	FORMAT`
+WITH    TIME = 10`
         };
 
         // --- LOAD SCRIPTS INTO UI ON STARTUP ---
         window.addEventListener('DOMContentLoaded', () => {
             document.getElementById('pharmacyCatalogCCL').value = CCL_SCRIPTS.pharmacyCatalog;
             document.getElementById('pbsItemsCCL').value = CCL_SCRIPTS.pbsItems;
-            document.getElementById('errorCheck1CCL').value = CCL_SCRIPTS.errorCheck1;
-            document.getElementById('errorCheck2CCL').value = CCL_SCRIPTS.errorCheck2;
-            document.getElementById('verificationCCL').value = CCL_SCRIPTS.verification;
         });
 
         // Application State
@@ -1303,13 +953,13 @@ where
                 let pbsId = match['MAP_PBS_DRUG_ID_'] || '0';
                 let synonymId = match['MAP_SYNONYM_ID_'] || '0';
                 
-                code = code.replace(/MAP_PBS_DRUG_ID_/g, pbsId);
-                code = code.replace(/MAP_SYNONYM_ID_/g, synonymId);
-                
                 // UPDATED LOGIC:
                 let matchedColumnName = match['MatchedColumn'];
                 let pbsName = match[matchedColumnName] || 'Unknown';
                 let synonymName = match['NAME'] || 'Unknown';
+
+                code = code.replace(/MAP_PBS_DRUG_ID_/g, pbsId);
+                code = code.replace(/MAP_SYNONYM_ID_/g, synonymId);
 
                 code = code.replace('!NAME!', pbsName); 
                 code = code.replace('!SYNONYM!', synonymName);
@@ -1392,207 +1042,6 @@ where
                     toMapStatus.textContent = 'Failed to read clipboard contents: ' + err;
                 });
         });
-
-        // --- PART 5 -> 6 NAVIGATION ---
-        document.getElementById('goToErrorCheck1Btn').addEventListener('click', () => {
-            document.getElementById('outputSection').classList.add('hidden');
-            document.getElementById('errorCheck1Section').classList.remove('hidden');
-        });
-
-        // --- PART 6 LOGIC (Error Check 1) ---
-        const copyErrorCheck1Btn = document.getElementById('copyErrorCheck1Btn');
-        const loadErrorCheck1Btn = document.getElementById('loadErrorCheck1Btn');
-        const goToErrorCheck2Btn = document.getElementById('goToErrorCheck2Btn');
-
-        copyErrorCheck1Btn.addEventListener('click', () => {
-            copyFromTextArea("errorCheck1CCL");
-            loadErrorCheck1Btn.classList.remove('hidden');
-        });
-
-        loadErrorCheck1Btn.addEventListener('click', () => {
-            navigator.clipboard.readText().then(text => {
-                let data = parseData(text);
-                renderGenericTable(data, 'errorCheck1Container');
-            }).catch(err => alert("Failed to read clipboard: " + err));
-        });
-
-        goToErrorCheck2Btn.addEventListener('click', () => {
-            document.getElementById('errorCheck1Section').classList.add('hidden');
-            document.getElementById('errorCheck2Section').classList.remove('hidden');
-        });
-
-        // --- PART 7 LOGIC (Error Check 2) ---
-        const copyErrorCheck2Btn = document.getElementById('copyErrorCheck2Btn');
-        const loadErrorCheck2Btn = document.getElementById('loadErrorCheck2Btn');
-        const goToVerificationBtn = document.getElementById('goToVerificationBtn'); // From Part 7 to 8
-
-        copyErrorCheck2Btn.addEventListener('click', () => {
-            copyFromTextArea("errorCheck2CCL");
-            loadErrorCheck2Btn.classList.remove('hidden');
-        });
-
-        loadErrorCheck2Btn.addEventListener('click', () => {
-            navigator.clipboard.readText().then(text => {
-                let data = parseData(text);
-                renderGenericTable(data, 'errorCheck2Container');
-            }).catch(err => alert("Failed to read clipboard: " + err));
-        });
-
-        goToVerificationBtn.addEventListener('click', () => {
-            document.getElementById('errorCheck2Section').classList.add('hidden');
-            document.getElementById('verificationSection').classList.remove('hidden');
-        });
-
-        // --- PART 8 LOGIC (Verification) ---
-        const copyVerificationCodeBtn = document.getElementById('copyVerificationCodeBtn');
-        const loadVerificationDataBtn = document.getElementById('loadVerificationDataBtn');
-        const verificationStatus = document.getElementById('verificationStatus');
-
-        copyVerificationCodeBtn.addEventListener('click', () => {
-            copyFromTextArea("verificationCCL");
-            loadVerificationDataBtn.classList.remove('hidden');
-        });
-
-        loadVerificationDataBtn.addEventListener('click', () => {
-            navigator.clipboard.readText()
-                .then(clipboardText => {
-                    let data = parseData(clipboardText);
-                    if (data.length > 0) {
-                        verificationStatus.textContent = 'Verification data loaded successfully.';
-                        renderVerificationTable(data);
-                    } else {
-                        verificationStatus.textContent = 'No data found or failed to parse verification data.';
-                    }
-                })
-                .catch(err => {
-                    verificationStatus.textContent = 'Failed to read clipboard contents: ' + err;
-                });
-        });
-
-        // --- PART 9 LOGIC (Finalize/Summary) ---
-        const goToFinalizeBtn = document.getElementById('goToFinalizeBtn');
-        goToFinalizeBtn.addEventListener('click', () => {
-            document.getElementById('verificationSection').classList.add('hidden');
-            document.getElementById('finalizeSection').classList.remove('hidden');
-            
-            // Populate Summary
-            document.getElementById('summaryTotal').innerText = appState.data1.length;
-            document.getElementById('summaryMapped').innerText = appState.final_matches.length;
-        });
-
-
-        // --- GENERIC TABLE RENDERER ---
-        function renderGenericTable(data, containerId) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = ''; 
-
-            if (!data || data.length === 0) {
-                container.innerHTML = '<p style="color: green; font-weight: bold;">0 Results Found (Good!)</p>';
-                return;
-            }
-
-            const table = document.createElement('table');
-            table.className = 'generic-table';
-
-            const headers = Object.keys(data[0]);
-            const thead = document.createElement('thead');
-            const headerRow = document.createElement('tr');
-            
-            headers.forEach(key => {
-                const th = document.createElement('th');
-                th.innerText = key;
-                headerRow.appendChild(th);
-            });
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
-
-            const tbody = document.createElement('tbody');
-            data.forEach(row => {
-                const tr = document.createElement('tr');
-                headers.forEach(key => {
-                    let td = document.createElement('td');
-                    td.innerText = row[key] || '';
-                    tr.appendChild(td);
-                });
-                tbody.appendChild(tr);
-            });
-            table.appendChild(tbody);
-            container.appendChild(table);
-        }
-
-        // --- VERIFICATION TABLE RENDERER ---
-        function renderVerificationTable(data) {
-            const container = document.getElementById('verificationTableContainer');
-            container.innerHTML = ''; 
-
-            const table = document.createElement('table');
-            table.className = 'verification-table';
-
-            if (data.length === 0) return;
-
-            // 1. Sort Data by Match Score (Lowest -> Highest)
-            // Need to calculate score first to sort by it
-            let enrichedData = data.map(row => {
-                let pbsName = row['PBS_NAME'] || '';
-                let ourName = row['OUR_NAME'] || '';
-                let score = jaroWinkler(pbsName, ourName);
-                return { ...row, _score: score };
-            });
-
-            // Sort ascending (lowest score first)
-            enrichedData.sort((a, b) => a._score - b._score);
-
-            const headers = Object.keys(data[0]);
-
-            const thead = document.createElement('thead');
-            const headerRow = document.createElement('tr');
-            
-            headers.forEach(key => {
-                const th = document.createElement('th');
-                th.innerText = key;
-                headerRow.appendChild(th);
-            });
-            
-            const thScore = document.createElement('th');
-            thScore.innerText = "Match Score";
-            headerRow.appendChild(thScore);
-
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
-
-            const tbody = document.createElement('tbody');
-
-            enrichedData.forEach(row => {
-                const tr = document.createElement('tr');
-                
-                let score = row._score;
-                let scorePercent = Math.round(score * 100);
-
-                let hue = score * 120; 
-                let colorStyle = `background-color: hsl(${hue}, 100%, 85%);`;
-
-                headers.forEach(key => {
-                    let td = document.createElement('td');
-                    td.innerText = row[key] || '';
-                    tr.appendChild(td);
-                });
-
-                let tdScore = document.createElement('td');
-                tdScore.innerText = scorePercent + '%';
-                tdScore.className = 'score-cell';
-                tdScore.style = colorStyle;
-                tr.appendChild(tdScore);
-
-                tbody.appendChild(tr);
-            });
-
-            table.appendChild(tbody);
-            container.appendChild(table);
-
-            document.getElementById('verificationResults').classList.remove('hidden');
-            document.getElementById('goToFinalizeBtn').classList.remove('hidden');
-        }
-
     </script>
 </body>
 </html>
