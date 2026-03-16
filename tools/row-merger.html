@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Row Consolidator</title>
+    <style>
+        :root {
+            --bg-color: #000000;
+            --card-bg: #1c1c1e;
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --accent-color: #0a84ff;
+            --accent-hover: #0070e6;
+            --border-color: #38383a;
+            --radius-main: 18px;
+            --radius-button: 999px;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-main);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        /* Drag & Drop Zone */
+        #drop-zone {
+            border: 2px dashed var(--border-color);
+            border-radius: 14px;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.02);
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+        }
+
+        #drop-zone.dragover {
+            border-color: var(--accent-color);
+            background-color: rgba(10, 132, 255, 0.1);
+        }
+
+        #drop-zone p {
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        /* Buttons & Inputs */
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: var(--radius-button);
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            background-color: #2c2c2e;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            outline: none;
+            box-sizing: border-box;
+            font-family: var(--font-family);
+        }
+
+        select:focus, input[type="text"]:focus {
+            border-color: var(--accent-color);
+        }
+
+        /* Configuration Area */
+        .config-section {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-color: #2c2c2e;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .radio-item input[type="radio"] {
+            accent-color: var(--accent-color);
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        #custom-sep {
+            margin-top: 5px;
+            margin-bottom: 0;
+            display: none;
+        }
+
+        .action-row {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        #file-info {
+            color: var(--accent-color);
+            font-weight: 500;
+            margin-top: 10px;
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Row Consolidator</h1>
+        <p class="subtitle">Merge duplicate rows while combining varying column data.</p>
+
+        <div id="drop-zone">
+            <p>Drag & drop your CSV file here</p>
+            <button id="browse-btn">Browse Files</button>
+            <span id="file-info"></span>
+        </div>
+        <input type="file" id="file-input" accept=".csv" style="display: none;">
+
+        <div class="config-section" id="config-section">
+            <div class="form-group">
+                <label for="col-select">Column to Merge On (Values in this column will be combined):</label>
+                <select id="col-select"></select>
+            </div>
+
+            <div class="form-group">
+                <label>Separator Character:</label>
+                <div class="radio-group">
+                    <label class="radio-item">
+                        <input type="radio" name="separator" value="," checked> Comma (,)
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="separator" value=" "> Space ( )
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="separator" value="|"> Pipe (|)
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="separator" value="custom"> Custom
+                    </label>
+                    <input type="text" id="custom-sep" placeholder="Enter custom separator...">
+                </div>
+            </div>
+
+            <div class="action-row">
+                <button id="process-btn">Process & Consolidate</button>
+            </div>
+        </div>
+
+        <div class="config-section" id="result-section" style="text-align: center; margin-top: 2rem;">
+            <p style="color: #32d74b; font-weight: 500; margin-bottom: 1.5rem;">Rows consolidated successfully!</p>
+            <button id="download-btn">Download Result</button>
+            <br><br>
+            <button id="reset-btn" style="background-color: transparent; border: 1px solid var(--border-color); color: var(--text-primary);">Start Over</button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const browseBtn = document.getElementById('browse-btn');
+        const fileInfo = document.getElementById('file-info');
+        const configSection = document.getElementById('config-section');
+        const colSelect = document.getElementById('col-select');
+        const radioBtns = document.querySelectorAll('input[name="separator"]');
+        const customSepInput = document.getElementById('custom-sep');
+        const processBtn = document.getElementById('process-btn');
+        const resultSection = document.getElementById('result-section');
+        const downloadBtn = document.getElementById('download-btn');
+        const resetBtn = document.getElementById('reset-btn');
+
+        // State Variables
+        let rawData = [];
+        let headers = [];
+        let consolidatedCsvStr = "";
+        let originalFileName = "";
+
+        // --- Event Listeners ---
+
+        // File Selection Logic
+        browseBtn.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('click', (e) => {
+            if (e.target !== browseBtn) fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+
+        // Drag & Drop Logic
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        // Toggle Custom Separator Input
+        radioBtns.forEach(btn => {
+            btn.addEventListener('change', (e) => {
+                if (e.target.value === 'custom') {
+                    customSepInput.style.display = 'block';
+                    customSepInput.focus();
+                } else {
+                    customSepInput.style.display = 'none';
+                }
+            });
+        });
+
+        // Processing Logic
+        processBtn.addEventListener('click', processData);
+
+        // Download Logic
+        downloadBtn.addEventListener('click', () => {
+            const blob = new Blob([consolidatedCsvStr], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", originalFileName.replace('.csv', '_consolidated.csv'));
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        // Reset
+        resetBtn.addEventListener('click', () => {
+            location.reload();
+        });
+
+
+        // --- Functions ---
+
+        function handleFile(file) {
+            if (!file || !file.name.toLowerCase().endsWith('.csv')) {
+                alert("Please upload a valid CSV file.");
+                return;
+            }
+
+            originalFileName = file.name;
+            fileInfo.textContent = `Loaded: ${file.name}`;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const text = e.target.result;
+                parseCSV(text);
+                populateDropdown();
+                
+                dropZone.style.display = 'none';
+                configSection.style.display = 'block';
+            };
+            reader.readAsText(file);
+        }
+
+        // Custom robust CSV Parser
+        function parseCSV(text) {
+            const rows = [];
+            let currentRow = [];
+            let currentCell = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                if (inQuotes) {
+                    if (char === '"') {
+                        if (text[i + 1] === '"') {
+                            currentCell += '"';
+                            i++; // skip escaped quote
+                        } else {
+                            inQuotes = false;
+                        }
+                    } else {
+                        currentCell += char;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                    } else if (char === ',') {
+                        currentRow.push(currentCell.trim());
+                        currentCell = '';
+                    } else if (char === '\r' || char === '\n') {
+                        currentRow.push(currentCell.trim());
+                        rows.push(currentRow);
+                        currentCell = '';
+                        currentRow = [];
+                        if (char === '\r' && text[i + 1] === '\n') i++; // Handle \r\n
+                    } else {
+                        currentCell += char;
+                    }
+                }
+            }
+            if (currentCell || text[text.length - 1] === ',') {
+                currentRow.push(currentCell.trim());
+            }
+            if (currentRow.length > 0) {
+                rows.push(currentRow);
+            }
+
+            // Separate headers from data and remove completely empty rows
+            const cleanRows = rows.filter(row => row.some(cell => cell !== ''));
+            if (cleanRows.length > 0) {
+                headers = cleanRows[0];
+                rawData = cleanRows.slice(1);
+            }
+        }
+
+        function populateDropdown() {
+            colSelect.innerHTML = '';
+            headers.forEach((header, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = header || `Column ${index + 1}`;
+                colSelect.appendChild(option);
+            });
+        }
+
+        function processData() {
+            const mergeIndex = parseInt(colSelect.value);
+            
+            // Determine Separator
+            let separator = ",";
+            const selectedRadio = document.querySelector('input[name="separator"]:checked').value;
+            if (selectedRadio === 'custom') {
+                separator = customSepInput.value;
+            } else {
+                separator = selectedRadio;
+            }
+
+            const groups = new Map();
+
+            // Grouping Logic
+            rawData.forEach(row => {
+                // Ensure row has the same length as headers to avoid index issues
+                const paddedRow = [...row];
+                while(paddedRow.length < headers.length) paddedRow.push("");
+
+                // Create a key based on all columns EXCEPT the merge column
+                const keyParts = paddedRow.map((val, idx) => idx === mergeIndex ? '' : val);
+                const key = JSON.stringify(keyParts);
+
+                if (!groups.has(key)) {
+                    groups.set(key, { 
+                        baseRow: paddedRow, 
+                        mergeValues: [] 
+                    });
+                }
+                
+                const valueToMerge = paddedRow[mergeIndex];
+                if (valueToMerge !== undefined && valueToMerge !== "") {
+                    groups.get(key).mergeValues.push(valueToMerge);
+                }
+            });
+
+            // Reconstruct Data
+            const consolidatedData = [];
+            for (const group of groups.values()) {
+                const newRow = [...group.baseRow];
+                // Join the merged values using the user-defined separator
+                newRow[mergeIndex] = group.mergeValues.join(separator);
+                consolidatedData.push(newRow);
+            }
+
+            // Convert back to CSV string
+            consolidatedCsvStr = generateCSV(headers, consolidatedData);
+            
+            // Switch UI
+            configSection.style.display = 'none';
+            resultSection.style.display = 'block';
+        }
+
+        function generateCSV(headerRow, dataRows) {
+            const escapeCell = (cell) => {
+                if (cell == null) return '';
+                const str = String(cell);
+                if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
+                    return `"${str.replace(/"/g, '""')}"`;
+                }
+                return str;
+            };
+
+            const csvArray = [];
+            csvArray.push(headerRow.map(escapeCell).join(','));
+            
+            dataRows.forEach(row => {
+                csvArray.push(row.map(escapeCell).join(','));
+            });
+
+            return csvArray.join('\n');
+        }
+    </script>
+</body>
+</html>
