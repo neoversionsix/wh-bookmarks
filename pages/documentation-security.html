@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Security</title>
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 2em;
+            border-bottom: 3px solid #e94560;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #e94560;
+            font-size: 1.5em;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-left: 4px solid #e94560;
+            padding-left: 12px;
+        }
+
+        h3 {
+            color: #0f3460;
+            background: linear-gradient(90deg, #e94560, #533483);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.2em;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        p, li {
+            margin-bottom: 8px;
+            color: #ccc;
+        }
+
+        ul {
+            padding-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        ol {
+            padding-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: #e94560;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #aaa;
+            font-size: 0.9em;
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
+
+        /* Cards */
+        .card {
+            background-color: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+        }
+
+        .card-highlight {
+            border-left: 4px solid #e94560;
+        }
+
+        /* Info box */
+        .info-box {
+            background-color: #0f3460;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-left: 4px solid #533483;
+        }
+
+        .info-box strong {
+            color: #e94560;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background-color: #0f3460;
+            color: #fff;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #1a1a2e;
+            background-color: #16213e;
+        }
+
+        tr:hover td {
+            background-color: #1a2744;
+        }
+
+        .table-label {
+            display: inline-block;
+            background: #e94560;
+            color: #fff;
+            font-weight: bold;
+            padding: 3px 10px;
+            border-radius: 4px 4px 0 0;
+            font-size: 0.85em;
+            margin-bottom: -1px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 10px 0 20px 0;
+        }
+
+        /* Diagrams */
+        .diagram {
+            background-color: #0d1b2a;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .diagram-title {
+            color: #e94560;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .diagram svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Note */
+        .note {
+            color: #888;
+            font-size: 0.85em;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        /* Badge/tag */
+        .badge {
+            display: inline-block;
+            background: #533483;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-right: 4px;
+        }
+
+        .badge.tool { background: #0f3460; }
+        .badge.table { background: #1b6b4a; }
+        .badge.important { background: #e94560; }
+
+        /* Section nav / TOC */
+        .section-nav {
+            background: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            padding: 15px 25px;
+            margin-bottom: 30px;
+        }
+
+        .section-nav strong {
+            color: #e94560;
+        }
+
+        .section-nav ol {
+            padding-left: 20px;
+            margin-top: 8px;
+        }
+
+        .section-nav li {
+            margin-bottom: 4px;
+        }
+
+        .section-nav a {
+            color: #8ab4f8;
+        }
+
+        /* Definition grid */
+        .def-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        @media (min-width: 768px) {
+            .def-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .def-item {
+            background: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .def-item .def-title {
+            color: #e94560;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        /* Access colors */
+        .access-granted {
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        .access-denied {
+            color: #e94560;
+            font-weight: bold;
+        }
+
+        /* Code blocks */
+        code {
+            background: #0d1b2a;
+            color: #8ab4f8;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="../index.html" class="back-link">&larr; Back to Bookmarks</a>
+
+    <h1>Security &mdash; </h1>
+
+    <!-- Table of Contents -->
+    <nav class="section-nav">
+        <strong>Table of Contents</strong>
+        <ol>
+            <li><a href="#emr">The Electronic Medical Record</a></li>
+            <li><a href="#emr-risks">EMR Risks</a></li>
+            <li><a href="#security-workflow">Security Workflow and Types</a></li>
+            <li><a href="#step1-authentication">Step 1: Authentication Security</a></li>
+            <li><a href="#step2-application">Step 2: Application Authorization</a></li>
+            <li><a href="#step3-encounter">Step 3: Encounter Access Security</a></li>
+            <li><a href="#step4-chart">Step 4: Chart Access Security</a></li>
+            <li><a href="#emergency-access">Emergency Access</a></li>
+            <li><a href="#step5-data">Step 5: Data Access</a></li>
+            <li><a href="#location-security">Location Security</a></li>
+            <li><a href="#building-tools">Front-End Tools for Building Users</a></li>
+            <li><a href="#accountability">Accountability Strategies</a></li>
+            <li><a href="#additional-education">Additional Education</a></li>
+        </ol>
+    </nav>
+
+    <!-- Section: The Electronic Medical Record -->
+    <h2 id="emr">The Electronic Medical Record</h2>
+
+    <div class="card">
+        <p>The Cerner Millennium database stores information for patients from the EMR, including Visits, Orders, Results, and more.</p>
+
+        <h3>Positives</h3>
+        <ul>
+            <li>Represents continuum of care across facilities</li>
+            <li>Increases quality of patient care</li>
+            <li>Efficient access of patient information by anyone treating the patient on site</li>
+        </ul>
+    </div>
+
+    <!-- Section: EMR Risks -->
+    <h2 id="emr-risks">EMR Risks</h2>
+
+    <div class="card">
+        <h3>Unauthorized Access to Patient Information</h3>
+        <ul>
+            <li>Patient demographic information</li>
+            <li>Sensitive results: Mental Evaluations, Pregnancy Tests, Toxicology Reports</li>
+        </ul>
+
+        <h3>Unauthorized Disclosure of Organization Information</h3>
+        <ul>
+            <li>Organization information or trade secrets</li>
+            <li>Drug studies for ground-breaking treatments</li>
+        </ul>
+
+        <h3>Data Corruption</h3>
+        <ul>
+            <li>Software virus</li>
+            <li>Natural disasters (floods, hurricanes, fires)</li>
+        </ul>
+
+        <div class="info-box">
+            <strong>The Reality:</strong> No method of security is 100% secure. There are many different and robust methods to mitigate risks in Cerner Millennium.
+        </div>
+    </div>
+
+    <!-- Section: Security Workflow -->
+    <h2 id="security-workflow">Security Workflow and Types</h2>
+
+    <div class="card">
+        <p>When a user makes a request for data through an application, it triggers the security workflow:</p>
+    </div>
+
+    <div class="diagram">
+        <div class="diagram-title">Security Workflow</div>
+        <svg width="950" height="200" viewBox="0 0 950 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <marker id="arrowRight" markerWidth="10" markerHeight="7" refX="5" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#e94560" />
+                </marker>
+            </defs>
+
+            <!-- Step 1: Authentication -->
+            <rect x="10" y="30" width="160" height="60" rx="10" fill="#16213e" stroke="#e94560" stroke-width="2" />
+            <text x="90" y="55" text-anchor="middle" fill="#e94560" font-weight="bold" font-size="12">Step 1</text>
+            <text x="90" y="75" text-anchor="middle" fill="#ccc" font-size="11">Authentication</text>
+
+            <!-- Arrow -->
+            <line x1="170" y1="60" x2="195" y2="60" stroke="#e94560" stroke-width="2" marker-end="url(#arrowRight)" />
+
+            <!-- Step 2: Application Authorization -->
+            <rect x="200" y="30" width="160" height="60" rx="10" fill="#16213e" stroke="#533483" stroke-width="2" />
+            <text x="280" y="55" text-anchor="middle" fill="#533483" font-weight="bold" font-size="12">Step 2</text>
+            <text x="280" y="75" text-anchor="middle" fill="#ccc" font-size="11">Application Auth</text>
+
+            <!-- Arrow -->
+            <line x1="360" y1="60" x2="385" y2="60" stroke="#e94560" stroke-width="2" marker-end="url(#arrowRight)" />
+
+            <!-- Step 3: Encounter Access -->
+            <rect x="390" y="30" width="160" height="60" rx="10" fill="#16213e" stroke="#0f3460" stroke-width="2" />
+            <text x="470" y="55" text-anchor="middle" fill="#0f3460" font-weight="bold" font-size="12">Step 3</text>
+            <text x="470" y="75" text-anchor="middle" fill="#ccc" font-size="11">Encounter Access</text>
+
+            <!-- Arrow -->
+            <line x1="550" y1="60" x2="575" y2="60" stroke="#e94560" stroke-width="2" marker-end="url(#arrowRight)" />
+
+            <!-- Step 4: Chart Access -->
+            <rect x="580" y="30" width="160" height="60" rx="10" fill="#16213e" stroke="#1b6b4a" stroke-width="2" />
+            <text x="660" y="55" text-anchor="middle" fill="#1b6b4a" font-weight="bold" font-size="12">Step 4</text>
+            <text x="660" y="75" text-anchor="middle" fill="#ccc" font-size="11">Chart Access</text>
+
+            <!-- Arrow -->
+            <line x1="740" y1="60" x2="765" y2="60" stroke="#e94560" stroke-width="2" marker-end="url(#arrowRight)" />
+
+            <!-- Step 5: Data Access -->
+            <rect x="770" y="30" width="160" height="60" rx="10" fill="#16213e" stroke="#e94560" stroke-width="2" />
+            <text x="850" y="55" text-anchor="middle" fill="#e94560" font-weight="bold" font-size="12">Step 5</text>
+            <text x="850" y="75" text-anchor="middle" fill="#ccc" font-size="11">Data Access</text>
+
+            <!-- Sub-labels -->
+            <text x="90" y="120" text-anchor="middle" fill="#888" font-size="10">Authentication</text>
+            <text x="90" y="133" text-anchor="middle" fill="#888" font-size="10">Security</text>
+
+            <text x="280" y="120" text-anchor="middle" fill="#888" font-size="10">Application/Task</text>
+            <text x="280" y="133" text-anchor="middle" fill="#888" font-size="10">Security</text>
+
+            <text x="470" y="120" text-anchor="middle" fill="#888" font-size="10">Encounter/Org Security</text>
+            <text x="470" y="133" text-anchor="middle" fill="#888" font-size="10">+ Confidentiality Level</text>
+            <text x="470" y="146" text-anchor="middle" fill="#888" font-size="10">Security</text>
+
+            <text x="660" y="120" text-anchor="middle" fill="#888" font-size="10">Chart Access</text>
+            <text x="660" y="133" text-anchor="middle" fill="#888" font-size="10">Security</text>
+
+            <text x="850" y="120" text-anchor="middle" fill="#888" font-size="10">Data Access</text>
+            <text x="850" y="133" text-anchor="middle" fill="#888" font-size="10">Security</text>
+        </svg>
+    </div>
+
+    <!-- Step 1: Authentication -->
+    <h2 id="step1-authentication">Step 1: Authentication Security</h2>
+
+    <div class="card">
+        <ul>
+            <li>Identifies the user</li>
+            <li>Username, Password, Domain Access</li>
+        </ul>
+
+        <div class="info-box">
+            <strong>Key Question:</strong> "Are you who you say you are?"
+        </div>
+    </div>
+
+    <!-- Step 2: Application Authorization -->
+    <h2 id="step2-application">Step 2: Application Authorization</h2>
+
+    <div class="card">
+        <p>Also known as <strong>Application Task Security</strong>. Occurs after authentication and determines which applications and tasks a user can access based on Positions and Applications.</p>
+
+        <h3>Positions</h3>
+        <ul>
+            <li>Built for groups of users with similar access needs</li>
+            <li>Examples: Physician, Hospitalist, Medical Technician, Unit Secretary</li>
+            <li>Each user will have one position</li>
+            <li>Building Tools: <span class="badge tool">Core Code Builder</span> (Code Set 88), <span class="badge tool">Bedrock Position Wizard</span></li>
+        </ul>
+
+        <h3>Application Groups</h3>
+        <ul>
+            <li>Groups of tasks associated to a position</li>
+            <li>Individual tasks in an application may be granted or revoked</li>
+            <li>One or more application groups associated to each position</li>
+            <li>All users with the same position have the same application access</li>
+            <li>Tool: <span class="badge tool">Task Access tool</span></li>
+        </ul>
+    </div>
+
+    <!-- Step 3: Encounter Access Security -->
+    <h2 id="step3-encounter">Step 3: Encounter Access Security</h2>
+
+    <div class="card">
+        <p>Two security types (both are domain-wide settings, not required):</p>
+
+        <h3>Type 1: Encounter/Organization Security</h3>
+        <ul>
+            <li>Allows user to see encounters and data from assigned organizations only</li>
+            <li>Each user can be associated to one or multiple organizations</li>
+            <li>Domain-wide setting</li>
+        </ul>
+
+        <div class="info-box">
+            <strong>Example:</strong> A user associated to TWMC can see TWMC encounters. If a patient had encounters at both TWMC and Stagecoach, the user only sees the TWMC ones.
+        </div>
+
+        <h3>Type 2: Confidentiality Level Security</h3>
+        <ul>
+            <li>Encounter/Organization Security <span class="badge important">MUST</span> be utilized first</li>
+            <li>Enhances encounter/org security by offering more selective security around encounters</li>
+            <li>Compares confidentiality level of user per organization against the encounter</li>
+            <li>User must be same level or higher to access the encounter</li>
+        </ul>
+
+        <div class="info-box">
+            <strong>Use Cases:</strong> Child abuse cases, Psychiatric visits, Crime victims, Legal issues, Celebrities
+        </div>
+    </div>
+
+    <!-- Confidentiality Level Example Table -->
+    <div class="card">
+        <h3>Confidentiality Level Example</h3>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Organization</th>
+                        <th>User Level</th>
+                        <th>Encounter Level</th>
+                        <th>Access?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>TWMC</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td><span class="access-denied">DENIED (2 &lt; 3)</span></td>
+                    </tr>
+                    <tr>
+                        <td>Stagecoach</td>
+                        <td>4</td>
+                        <td>3</td>
+                        <td><span class="access-granted">GRANTED (4 &ge; 3)</span></td>
+                    </tr>
+                    <tr>
+                        <td>Longbranch</td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td><span class="access-granted">GRANTED (3 &ge; 3)</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Step 4: Chart Access Security -->
+    <h2 id="step4-chart">Step 4: Chart Access Security</h2>
+
+    <div class="card">
+        <div class="info-box">
+            <strong>Key Concept:</strong> "It's all about Relationships"
+        </div>
+
+        <ul>
+            <li>A relationship is required to open a patient chart</li>
+            <li>Relationship defines affiliation between clinician and patient/encounter</li>
+            <li>Relationships are associated to a position</li>
+            <li>One-to-One or One-to-Many</li>
+        </ul>
+
+        <h3>Two Types of Relationships</h3>
+
+        <div class="def-grid">
+            <div class="def-item">
+                <div class="def-title">Lifetime (Person Level)</div>
+                <p>Code Set 331</p>
+            </div>
+            <div class="def-item">
+                <div class="def-title">Expirable (Encounter Level)</div>
+                <p>Code Set 333</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emergency Access -->
+    <h2 id="emergency-access">Emergency Access</h2>
+
+    <div class="card">
+        <ul>
+            <li>Users may be allowed to identify if additional encounters exist</li>
+            <li>User with Emergency Access: can see hidden encounters</li>
+            <li>User without Emergency Access: cannot see hidden encounters</li>
+        </ul>
+
+        <h3>Emergency Access Override Configuration</h3>
+        <ul>
+            <li>Used to override encounter/organization and confidentiality-level securities</li>
+            <li>If active, there are other encounters currently hidden</li>
+        </ul>
+
+        <div class="info-box">
+            <strong>Requirements:</strong>
+            <ul style="margin-top: 8px; margin-bottom: 0;">
+                <li>Emergency Access Relationship (Code Set 331)</li>
+                <li>Privilege to self-declare</li>
+                <li>Emergency Access Relationship associated to user's position</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Step 5: Data Access -->
+    <h2 id="step5-data">Step 5: Data Access</h2>
+
+    <div class="card">
+        <div class="info-box">
+            <strong>Key Concept:</strong> "It's all about Privileges"
+        </div>
+
+        <ul>
+            <li>Refinement of Application/Task Access (Step 2)</li>
+            <li>Allows modified access to application/task</li>
+            <li>Determines what specific data is viewable in patient chart</li>
+            <li>Determines which functions are performed by end-user within PowerChart framework solutions</li>
+            <li>Build Tool: <span class="badge tool">PrivMaint.exe</span></li>
+        </ul>
+
+        <h3>Examples of Privileges in Data Access</h3>
+        <ul>
+            <li>Application/task access determines that I can <strong>place orders</strong>, but privileges determine <strong>which orders</strong> I can place</li>
+            <li>Application/task access determines that I can <strong>view all results</strong>, but privileges determine <strong>which results</strong> I can view</li>
+        </ul>
+    </div>
+
+    <!-- Location Security -->
+    <h2 id="location-security">Location Security</h2>
+
+    <div class="card">
+        <h3>Additional Strategy: Location Security</h3>
+        <ul>
+            <li>Devices associated with a location within Millennium</li>
+            <li>Location provides location-specific functionality with certain solutions</li>
+            <li>Defines default printers</li>
+            <li>Does <strong>NOT</strong> restrict users from viewing patients in other locations</li>
+        </ul>
+    </div>
+
+    <!-- Front-End Tools -->
+    <h2 id="building-tools">Front-End Tools for Building Users</h2>
+
+    <div class="card">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tool</th>
+                        <th>Type</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge tool">HNAUser Tool</span></td>
+                        <td>Front-end tool</td>
+                        <td>Allows single users to be built. Ideal for maintenance.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge tool">Bedrock Personnel Wizard</span></td>
+                        <td>Front-end wizard</td>
+                        <td>Adding and maintaining users. Batch update of personnel associations to facilities, specialties, and positions.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge tool">Content Manager</span></td>
+                        <td>Front-end tool (spreadsheet)</td>
+                        <td>Allows mass uploads, unloads, and multi-user additions and modifications.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Accountability Strategies -->
+    <h2 id="accountability">Accountability Strategies</h2>
+
+    <div class="card">
+        <p>Designed to ensure timely and responsible access to patient data.</p>
+
+        <h3>Auditing Reports (Back-end)</h3>
+        <ul>
+            <li>Self-declared relationships</li>
+            <li>Charts accessed by a user</li>
+            <li>Users accessing a particular patient chart</li>
+            <li>Report on users with no activity</li>
+            <li>Customized reports using Discern Explorer</li>
+        </ul>
+    </div>
+
+    <!-- Additional Education -->
+    <h2 id="additional-education">Additional Education</h2>
+
+    <div class="card">
+        <ul>
+            <li>Building and Maintaining Security</li>
+            <li>Building and Maintaining Core</li>
+            <li>Cerner Millennium Architecture Troubleshooting and Issue Management</li>
+        </ul>
+    </div>
+
+</div>
+
+</body>
+</html>

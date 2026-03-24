@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Overview of Millennium</title>
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 2em;
+            border-bottom: 3px solid #e94560;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #e94560;
+            font-size: 1.5em;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-left: 4px solid #e94560;
+            padding-left: 12px;
+        }
+
+        h3 {
+            color: #0f3460;
+            background: linear-gradient(90deg, #e94560, #533483);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.2em;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        p, li {
+            margin-bottom: 8px;
+            color: #ccc;
+        }
+
+        ul {
+            padding-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        ol {
+            padding-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: #e94560;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #aaa;
+            font-size: 0.9em;
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
+
+        /* Cards */
+        .card {
+            background-color: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+        }
+
+        .card-highlight {
+            border-left: 4px solid #e94560;
+        }
+
+        /* Info box */
+        .info-box {
+            background-color: #0f3460;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-left: 4px solid #533483;
+        }
+
+        .info-box strong {
+            color: #e94560;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background-color: #0f3460;
+            color: #fff;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #1a1a2e;
+            background-color: #16213e;
+        }
+
+        tr:hover td {
+            background-color: #1a2744;
+        }
+
+        .table-label {
+            display: inline-block;
+            background: #e94560;
+            color: #fff;
+            font-weight: bold;
+            padding: 3px 10px;
+            border-radius: 4px 4px 0 0;
+            font-size: 0.85em;
+            margin-bottom: -1px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 10px 0 20px 0;
+        }
+
+        /* Diagrams */
+        .diagram {
+            background-color: #0d1b2a;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .diagram-title {
+            color: #e94560;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .diagram svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Note */
+        .note {
+            color: #888;
+            font-size: 0.85em;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        /* Badge/tag */
+        .badge {
+            display: inline-block;
+            background: #533483;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-right: 4px;
+        }
+
+        .badge.tool { background: #0f3460; }
+        .badge.table { background: #1b6b4a; }
+        .badge.important { background: #e94560; }
+
+        /* Section nav / TOC */
+        .section-nav {
+            background: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            padding: 15px 25px;
+            margin-bottom: 30px;
+        }
+
+        .section-nav strong {
+            color: #e94560;
+        }
+
+        .section-nav ol {
+            padding-left: 20px;
+            margin-top: 8px;
+        }
+
+        .section-nav li {
+            margin-bottom: 4px;
+        }
+
+        .section-nav a {
+            color: #8ab4f8;
+        }
+
+        /* Definition grid */
+        .def-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        @media (min-width: 768px) {
+            .def-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .def-item {
+            background: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .def-item .def-title {
+            color: #e94560;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        /* Code blocks */
+        code {
+            background: #0d1b2a;
+            color: #8ab4f8;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #0d1b2a;
+            border: 1px solid #0f3460;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #8ab4f8;
+            line-height: 1.5;
+        }
+
+        pre .keyword { color: #e94560; }
+        pre .string { color: #98c379; }
+        pre .comment { color: #666; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="../index.html" class="back-link">&larr; Back to Bookmarks</a>
+
+    <h1>Overview of Millennium &mdash; The Big Picture</h1>
+    
+
+    <!-- Table of Contents -->
+    <nav class="section-nav">
+        <strong>Table of Contents</strong>
+        <ol>
+            <li><a href="#core">Cerner Millennium Core</a></li>
+            <li><a href="#client-server">Client/Server Model</a></li>
+            <li><a href="#data-types">Database Data Types</a></li>
+            <li><a href="#cdm">Common Data Model (CDM)</a></li>
+            <li><a href="#data-flow">Data Flow</a></li>
+            <li><a href="#tables">Database Tables</a></li>
+            <li><a href="#table-relationships">Table Relationships</a></li>
+            <li><a href="#keys">Primary and Foreign Keys</a></li>
+            <li><a href="#parent-child">Parent-Child Relationships</a></li>
+            <li><a href="#expanded-model">Expanded Person Data Model</a></li>
+            <li><a href="#suffixes">Attribute Suffixes</a></li>
+            <li><a href="#abbreviations">Cerner Millennium Abbreviations</a></li>
+            <li><a href="#ccl">Discern Explorer (CCL)</a></li>
+            <li><a href="#additional-education">Additional Education</a></li>
+        </ol>
+    </nav>
+
+    <!-- Section 1: Cerner Millennium Core -->
+    <h2 id="core">Cerner Millennium Core</h2>
+
+    <div class="card">
+        <p>Core is comprised of common processes or tasks shared multiple times across clinical domains, technical activities, and project tasks.</p>
+
+        <div class="info-box">
+            <strong>Focus:</strong> "Leverage through reuse" &mdash; e.g., Patient Care Hierarchy built once and used in multiple solutions.
+        </div>
+
+        <h3>Core Elements</h3>
+        <ul>
+            <li><strong>Organizations and Locations</strong> &mdash; Patient Care Hierarchy, Organization Types</li>
+            <li><strong>Interface Processing</strong> &mdash; Contributor Systems, Contributor Sources, Code Sets, Code Values, Aliases</li>
+            <li><strong>Order Catalog</strong> &mdash; Descriptions, Synonyms</li>
+            <li><strong>Results Processing</strong> &mdash; Event Set Hierarchy</li>
+            <li><strong>Security</strong> &mdash; Workflow, Security Types</li>
+        </ul>
+    </div>
+
+    <!-- Section 2: Client/Server Model -->
+    <h2 id="client-server">Client/Server Model</h2>
+
+    <div class="card">
+        <p>Cerner Millennium utilizes a <strong>Client/Server Model</strong> &mdash; distribution of computing tasks, cooperative computing between clients requesting information and servers "serving" information.</p>
+        <p>This is a <strong>three-tiered, distributed, client-server model</strong>.</p>
+
+        <h3>Tier 1 &mdash; Client</h3>
+        <ul>
+            <li>Also known as: Front-end, GUI</li>
+            <li>Windows operating system</li>
+            <li>End-user solutions/tools accessible: <span class="badge tool">PowerChart</span> <span class="badge tool">Surgery Management</span> <span class="badge tool">Core Code Builder</span> <span class="badge tool">Bedrock</span> <span class="badge tool">Access HIM</span></li>
+        </ul>
+
+        <h3>Tier 2 &mdash; Middleware</h3>
+        <ul>
+            <li>Also known as: Main Frame Server, Node, Host, Back-end</li>
+            <li>UNIX (HP-UX, AIX, or Linux) operating system</li>
+            <li>Software programs performing multiple functions including connectivity and data transfer</li>
+            <li>Programs running on back-end are "processes"; a subset of these are "application servers" providing services including data transfer and connectivity between Tier 1 and Tier 3</li>
+        </ul>
+
+        <h3>Tier 3 &mdash; Database</h3>
+        <ul>
+            <li>Managed by Oracle relational database management system (RDBMS)</li>
+        </ul>
+
+        <div class="info-box">
+            <strong>Example:</strong> A user places an order through Tier 1, the request passes through Middleware to the Database, and the Database accepts and updates.
+        </div>
+    </div>
+
+    <!-- Three-Tier Model Diagram -->
+    <div class="diagram">
+        <div class="diagram-title">Three-Tier Client/Server Model</div>
+        <svg width="340" height="380" viewBox="0 0 340 380" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <marker id="arrowDown" markerWidth="10" markerHeight="7" refX="5" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#e94560" />
+                </marker>
+                <marker id="arrowUp" markerWidth="10" markerHeight="7" refX="5" refY="3.5" orient="auto">
+                    <polygon points="10 0, 0 3.5, 10 7" fill="#8ab4f8" />
+                </marker>
+            </defs>
+
+            <!-- Tier 1: Client -->
+            <rect x="50" y="20" width="240" height="70" rx="10" fill="#16213e" stroke="#e94560" stroke-width="2" />
+            <text x="170" y="48" text-anchor="middle" fill="#e94560" font-weight="bold" font-size="14">Tier 1 &mdash; Client</text>
+            <text x="170" y="72" text-anchor="middle" fill="#ccc" font-size="12">Front-end / GUI / Windows</text>
+
+            <!-- Arrow down from Client to Middleware -->
+            <line x1="140" y1="90" x2="140" y2="150" stroke="#e94560" stroke-width="2" marker-end="url(#arrowDown)" />
+            <text x="127" y="125" fill="#e94560" font-size="10">Request</text>
+
+            <!-- Arrow up from Middleware to Client -->
+            <line x1="200" y1="150" x2="200" y2="90" stroke="#8ab4f8" stroke-width="2" marker-end="url(#arrowUp)" />
+            <text x="208" y="125" fill="#8ab4f8" font-size="10">Response</text>
+
+            <!-- Tier 2: Middleware -->
+            <rect x="50" y="155" width="240" height="70" rx="10" fill="#16213e" stroke="#533483" stroke-width="2" />
+            <text x="170" y="183" text-anchor="middle" fill="#533483" font-weight="bold" font-size="14">Tier 2 &mdash; Middleware</text>
+            <text x="170" y="207" text-anchor="middle" fill="#ccc" font-size="12">Back-end / UNIX / Processes</text>
+
+            <!-- Arrow down from Middleware to Database -->
+            <line x1="140" y1="225" x2="140" y2="285" stroke="#e94560" stroke-width="2" marker-end="url(#arrowDown)" />
+            <text x="127" y="260" fill="#e94560" font-size="10">Request</text>
+
+            <!-- Arrow up from Database to Middleware -->
+            <line x1="200" y1="285" x2="200" y2="225" stroke="#8ab4f8" stroke-width="2" marker-end="url(#arrowUp)" />
+            <text x="208" y="260" fill="#8ab4f8" font-size="10">Response</text>
+
+            <!-- Tier 3: Database -->
+            <rect x="50" y="290" width="240" height="70" rx="10" fill="#16213e" stroke="#0f3460" stroke-width="2" />
+            <text x="170" y="318" text-anchor="middle" fill="#0f3460" font-weight="bold" font-size="14">Tier 3 &mdash; Database</text>
+            <text x="170" y="342" text-anchor="middle" fill="#ccc" font-size="12">Oracle RDBMS</text>
+        </svg>
+    </div>
+
+    <!-- Section 3: Database Data Types -->
+    <h2 id="data-types">Database Data Types</h2>
+
+    <div class="card">
+        <p>Three types of data exist in the database:</p>
+
+        <div class="def-grid">
+            <div class="def-item">
+                <div class="def-title">1. Reference Data</div>
+                <p>Information built once and used repeatedly. Examples: Patient Types, Languages, States, Patient Locations.</p>
+            </div>
+            <div class="def-item">
+                <div class="def-title">2. Activity Data</div>
+                <p>Patient-specific information. Examples: Orders and Results.</p>
+            </div>
+            <div class="def-item">
+                <div class="def-title">3. Metadata</div>
+                <p>Information about the database itself. Examples: Table space, Table structure.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 4: Common Data Model -->
+    <h2 id="cdm">Common Data Model (CDM)</h2>
+
+    <div class="card">
+        <p>The Common Data Model is a map of tables in the database. It defines the relationship of data within the system.</p>
+    </div>
+
+    <!-- Section 5: Data Flow -->
+    <h2 id="data-flow">Data Flow</h2>
+
+    <div class="card">
+        <ol>
+            <li>End user makes a request at the Client tier</li>
+            <li>Request is communicated to the Database through the Middleware</li>
+            <li>Once information is retrieved from the Database, it is sent back through the Middleware to the Client</li>
+        </ol>
+
+        <div class="info-box">
+            <strong>Example &mdash; Patient Search in PowerChart:</strong> Middleware takes the request and passes it to the Database. The Database accepts and gathers the requested information. Middleware receives the reply and passes it to the Client. The Client displays all patients for the end user.
+        </div>
+    </div>
+
+    <!-- Data Flow Diagram -->
+    <div class="diagram">
+        <div class="diagram-title">Data Flow: Request and Response</div>
+        <svg width="500" height="340" viewBox="0 0 500 340" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <marker id="arrowRight" markerWidth="10" markerHeight="7" refX="5" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#e94560" />
+                </marker>
+                <marker id="arrowLeft" markerWidth="10" markerHeight="7" refX="5" refY="3.5" orient="auto">
+                    <polygon points="10 0, 0 3.5, 10 7" fill="#8ab4f8" />
+                </marker>
+            </defs>
+
+            <!-- Client box -->
+            <rect x="20" y="30" width="130" height="60" rx="10" fill="#16213e" stroke="#e94560" stroke-width="2" />
+            <text x="85" y="55" text-anchor="middle" fill="#e94560" font-weight="bold" font-size="13">Client</text>
+            <text x="85" y="75" text-anchor="middle" fill="#ccc" font-size="11">PowerChart</text>
+
+            <!-- Middleware box -->
+            <rect x="185" y="30" width="130" height="60" rx="10" fill="#16213e" stroke="#533483" stroke-width="2" />
+            <text x="250" y="55" text-anchor="middle" fill="#533483" font-weight="bold" font-size="13">Middleware</text>
+            <text x="250" y="75" text-anchor="middle" fill="#ccc" font-size="11">Back-end</text>
+
+            <!-- Database box -->
+            <rect x="350" y="30" width="130" height="60" rx="10" fill="#16213e" stroke="#0f3460" stroke-width="2" />
+            <text x="415" y="55" text-anchor="middle" fill="#0f3460" font-weight="bold" font-size="13">Database</text>
+            <text x="415" y="75" text-anchor="middle" fill="#ccc" font-size="11">Oracle RDBMS</text>
+
+            <!-- Request arrows (top row, going right) -->
+            <text x="250" y="125" text-anchor="middle" fill="#e94560" font-weight="bold" font-size="12">Request Flow</text>
+
+            <line x1="85" y1="140" x2="230" y2="140" stroke="#e94560" stroke-width="2" marker-end="url(#arrowRight)" />
+            <text x="155" y="157" text-anchor="middle" fill="#ccc" font-size="10">1. Send request</text>
+
+            <line x1="270" y1="140" x2="415" y2="140" stroke="#e94560" stroke-width="2" marker-end="url(#arrowRight)" />
+            <text x="340" y="157" text-anchor="middle" fill="#ccc" font-size="10">2. Pass to DB</text>
+
+            <!-- Response arrows (bottom row, going left) -->
+            <text x="250" y="210" text-anchor="middle" fill="#8ab4f8" font-weight="bold" font-size="12">Response Flow</text>
+
+            <line x1="415" y1="225" x2="270" y2="225" stroke="#8ab4f8" stroke-width="2" marker-end="url(#arrowLeft)" />
+            <text x="340" y="242" text-anchor="middle" fill="#ccc" font-size="10">3. Return data</text>
+
+            <line x1="230" y1="225" x2="85" y2="225" stroke="#8ab4f8" stroke-width="2" marker-end="url(#arrowLeft)" />
+            <text x="155" y="242" text-anchor="middle" fill="#ccc" font-size="10">4. Display results</text>
+
+            <!-- Step labels at bottom -->
+            <rect x="20" y="275" width="460" height="50" rx="8" fill="#16213e" stroke="#0f3460" stroke-width="1" />
+            <text x="250" y="305" text-anchor="middle" fill="#ccc" font-size="11">End user makes request &#8594; Middleware routes to DB &#8594; DB retrieves data &#8594; Response back to Client</text>
+        </svg>
+    </div>
+
+    <!-- Section 6: Database Tables -->
+    <h2 id="tables">Database Tables</h2>
+
+    <div class="card">
+        <ul>
+            <li>Cerner Millennium has over <strong>5800 tables</strong></li>
+            <li>Tables are comprised of rows and columns</li>
+            <li>Goal is to store data values once</li>
+            <li>Columns are also known as "attributes"</li>
+            <li>Rows are also known as "records"</li>
+            <li>Data values are found at the intersection of a row and column</li>
+        </ul>
+
+        <h3>PERSON Table Example</h3>
+        <div class="table-wrapper">
+            <span class="table-label">PERSON</span>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Person_id</th>
+                        <th>Name_last_key</th>
+                        <th>Name_first_key</th>
+                        <th>Sex</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1000</td><td>RIVERS</td><td>MAVIS</td><td>Female</td></tr>
+                    <tr><td>1001</td><td>HASSLER</td><td>EMMY</td><td>Female</td></tr>
+                    <tr><td>1002</td><td>NGUYN</td><td>RAYMON</td><td>Male</td></tr>
+                    <tr><td>1003</td><td>SCOTT</td><td>DILLON</td><td>Male</td></tr>
+                    <tr><td>1004</td><td>VANHOSER</td><td>EDITH</td><td>Female</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Section 7: Table Relationships -->
+    <h2 id="table-relationships">Table Relationships</h2>
+
+    <div class="card">
+        <p>Common attributes shared between tables create a "bridge" that links them together.</p>
+
+        <div class="table-wrapper">
+            <span class="table-label">ENCOUNTER</span>
+            <table>
+                <thead>
+                    <tr><th>encntr_id</th><th>person_id</th><th>active_ind</th><th>reg_dt_tm</th></tr>
+                </thead>
+            </table>
+        </div>
+
+        <div class="table-wrapper">
+            <span class="table-label">PERSON</span>
+            <table>
+                <thead>
+                    <tr><th>person_id</th><th>name_last_key</th><th>name_first_key</th><th>active_ind</th><th>sex_cd</th><th>birth_dt_tm</th></tr>
+                </thead>
+            </table>
+        </div>
+
+        <div class="table-wrapper">
+            <span class="table-label">PERSON_ALIAS</span>
+            <table>
+                <thead>
+                    <tr><th>person_alias_id</th><th>person_id</th><th>alias</th><th>person_alias_type_cd</th><th>contributor_source_cd</th></tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+    <!-- Table Relationships Diagram -->
+    <div class="diagram">
+        <div class="diagram-title">Table Relationships via person_id</div>
+        <svg width="600" height="200" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <marker id="arrowLink" markerWidth="10" markerHeight="7" refX="5" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#e94560" />
+                </marker>
+            </defs>
+
+            <!-- ENCOUNTER -->
+            <rect x="20" y="70" width="150" height="60" rx="8" fill="#16213e" stroke="#0f3460" stroke-width="2" />
+            <text x="95" y="95" text-anchor="middle" fill="#e94560" font-weight="bold" font-size="13">ENCOUNTER</text>
+            <text x="95" y="115" text-anchor="middle" fill="#8ab4f8" font-size="11">person_id (FK)</text>
+
+            <!-- PERSON -->
+            <rect x="225" y="70" width="150" height="60" rx="8" fill="#16213e" stroke="#e94560" stroke-width="2" />
+            <text x="300" y="95" text-anchor="middle" fill="#e94560" font-weight="bold" font-size="13">PERSON</text>
+            <text x="300" y="115" text-anchor="middle" fill="#8ab4f8" font-size="11">person_id (PK)</text>
+
+            <!-- PERSON_ALIAS -->
+            <rect x="430" y="70" width="150" height="60" rx="8" fill="#16213e" stroke="#0f3460" stroke-width="2" />
+            <text x="505" y="95" text-anchor="middle" fill="#e94560" font-weight="bold" font-size="13">PERSON_ALIAS</text>
+            <text x="505" y="115" text-anchor="middle" fill="#8ab4f8" font-size="11">person_id (FK)</text>
+
+            <!-- Arrows -->
+            <line x1="225" y1="100" x2="175" y2="100" stroke="#e94560" stroke-width="2" marker-end="url(#arrowLink)" />
+            <line x1="375" y1="100" x2="425" y2="100" stroke="#e94560" stroke-width="2" marker-end="url(#arrowLink)" />
+
+            <!-- Labels -->
+            <text x="300" y="160" text-anchor="middle" fill="#ccc" font-size="11">person_id is the bridge linking all three tables</text>
+        </svg>
+    </div>
+
+    <!-- Section 8: Primary and Foreign Keys -->
+    <h2 id="keys">Primary and Foreign Keys</h2>
+
+    <div class="card">
+        <h3>Primary Keys</h3>
+        <ul>
+            <li>Always unique, system-generated, numeric identifiers</li>
+            <li>First column on a table</li>
+            <li>Usually the table name followed by <code>_id</code></li>
+            <li>PERSON's PK is <code>person_id</code>; PERSON_ALIAS's PK is <code>person_alias_id</code></li>
+        </ul>
+
+        <h3>Foreign Keys</h3>
+        <ul>
+            <li>Primary keys from other tables</li>
+            <li>Used to link tables together</li>
+            <li>Many tables have similar foreign keys</li>
+            <li><code>person_id</code> is a FK on both PERSON_ALIAS and ENCOUNTER tables</li>
+        </ul>
+
+        <div class="info-box">
+            <strong>Relationship:</strong> One-to-Many relationship between PK and FK. Also called a "Parent and Child" table relationship.
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr><th>Name</th><th>Role</th><th># Times Per Table</th><th>Identifier Type</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Primary Key</td><td>Parent</td><td>Once</td><td>Unique</td></tr>
+                    <tr><td>Foreign Key</td><td>Child</td><td>Multiple</td><td>Not Unique</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Section 9: Parent-Child Relationships -->
+    <h2 id="parent-child">Parent-Child Relationships</h2>
+
+    <div class="card">
+        <div class="def-grid">
+            <div class="def-item">
+                <div class="def-title">PERSON &rarr; PERSON_ALIAS</div>
+                <p>One person may have multiple person aliases.<br>One Row &rarr; Many Rows</p>
+            </div>
+            <div class="def-item">
+                <div class="def-title">PERSON &rarr; ENCOUNTER</div>
+                <p>One person may have multiple encounters.<br>One Row &rarr; Many Rows</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 10: Expanded Person Data Model -->
+    <h2 id="expanded-model">Expanded Person Data Model</h2>
+
+    <div class="card">
+        <p>The expanded data model shows the relationships between core tables in Cerner Millennium.</p>
+    </div>
+
+    <!-- Expanded Data Model Diagram -->
+    <div class="diagram">
+        <div class="diagram-title">Expanded Person Data Model</div>
+        <svg width="800" height="520" viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <marker id="arrowModel" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+                    <polygon points="0 0, 8 3, 0 6" fill="#e94560" />
+                </marker>
+            </defs>
+
+            <!-- ORGANIZATION -->
+            <rect x="30" y="20" width="160" height="45" rx="8" fill="#16213e" stroke="#0f3460" stroke-width="2" />
+            <text x="110" y="48" text-anchor="middle" fill="#e94560" font-weight="bold" font-size="12">Organization</text>
+
+            <!-- ORGANIZATION_ALIAS -->
+            <rect x="30" y="100" width="160" height="45" rx="8" fill="#16213e" stroke="#0f3460" stroke-width="1.5" />
+            <text x="110" y="128" text-anchor="middle" fill="#ccc" font-size="11">Organization_Alias</text>
+
+            <!-- PERSON_ORG_RELTN -->
+            <rect x="230" y="100" width="160" height="45" rx="8" fill="#16213e" stroke="#0f3460" stroke-width="1.5" />
+            <text x="310" y="128" text-anchor="middle" fill="#ccc" font-size="11">Person_Org_Reltn</text>
+
+            <!-- Org -> Org_Alias -->
+            <line x1="110" y1="65" x2="110" y2="95" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowModel)" />
+            <!-- Org -> Person_Org_Reltn -->
+            <line x1="190" y1="42" x2="235" y2="42" stroke="#555" stroke-width="1" stroke-dasharray="4" />
+            <line x1="235" y1="42" x2="235" y2="122" stroke="#555" stroke-width="1" stroke-dasharray="4" />
+            <line x1="235" y1="122" x2="225" y2="122" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowModel)" />
+
+            <!-- PERSONNEL -->
+            <rect x="610" y="20" width="160" height="45" rx="8" fill="#16213e" stroke="#0f3460" stroke-width="2" />
+            <text x="690" y="48" text-anchor="middle" fill="#e94560" font-weight="bold" font-size="12">Personnel</text>
+
+            <!-- PRSNL_ALIAS -->
+            <rect x="610" y="100" width="160" height="45" rx="8" fill="#16213e" stroke="#0f3460" stroke-width="1.5" />
+            <text x="690" y="128" text-anchor="middle" fill="#ccc" font-size="11">Prsnl_Alias</text>
+
+            <!-- PERSON_PRSNL_RELTN -->
+            <rect x="420" y="100" width="160" height="45" rx="8" fill="#16213e" stroke="#0f3460" stroke-width="1.5" />
+            <text x="500" y="128" text-anchor="middle" fill="#ccc" font-size="11">Person_Prsnl_Reltn</text>
+
+            <!-- Personnel -> Prsnl_Alias -->
+            <line x1="690" y1="65" x2="690" y2="95" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowModel)" />
+            <!-- Personnel -> Person_Prsnl_Reltn -->
+            <line x1="610" y1="42" x2="575" y2="42" stroke="#555" stroke-width="1" stroke-dasharray="4" />
+            <line x1="575" y1="42" x2="575" y2="122" stroke="#555" stroke-width="1" stroke-dasharray="4" />
+            <line x1="575" y1="122" x2="585" y2="122" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowModel)" />
+
+            <!-- PERSON (center) -->
+            <rect x="300" y="210" width="200" height="50" rx="10" fill="#16213e" stroke="#e94560" stroke-width="2.5" />
+            <text x="400" y="241" text-anchor="middle" fill="#e94560" font-weight="bold" font-size="14">Person</text>
+
+            <!-- PERSON_ALIAS -->
+            <rect x="80" y="210" width="160" height="45" rx="8" fill="#16213e" stroke="#0f3460" stroke-width="1.5" />
+            <text x="160" y="238" text-anchor="middle" fill="#ccc" font-size="11">Person_Alias</text>
+
+            <!-- Person -> Person_Alias -->
+            <line x1="300" y1="235" x2="245" y2="235" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowModel)" />
+
+            <!-- Person -> Person_Org_Reltn -->
+            <line x1="350" y1="210" x2="350" y2="150" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowModel)" />
+
+            <!-- Person -> Person_Prsnl_Reltn -->
+            <line x1="460" y1="210" x2="460" y2="150" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowModel)" />
+
+            <!-- ENCNTR_PERSON_RELTN -->
+            <rect x="530" y="290" width="180" height="45" rx="8" fill="#16213e" stroke="#0f3460" stroke-width="1.5" />
+            <text x="620" y="318" text-anchor="middle" fill="#ccc" font-size="11">Encntr_Person_Reltn</text>
+
+            <!-- Person -> Encntr_Person_Reltn -->
+            <line x1="500" y1="245" x2="560" y2="245" stroke="#555" stroke-width="1" stroke-dasharray="4" />
+            <line x1="560" y1="245" x2="560" y2="312" stroke="#555" stroke-width="1" stroke-dasharray="4" />
+            <line x1="560" y1="312" x2="525" y2="312" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowModel)" />
+
+            <!-- ENCOUNTER (center bottom) -->
+            <rect x="300" y="380" width="200" height="50" rx="10" fill="#16213e" stroke="#533483" stroke-width="2.5" />
+            <text x="400" y="411" text-anchor="middle" fill="#533483" font-weight="bold" font-size="14">Encounter</text>
+
+            <!-- ENCNTR_ALIAS -->
+            <rect x="80" y="380" width="160" height="45" rx="8" fill="#16213e" stroke="#0f3460" stroke-width="1.5" />
+            <text x="160" y="408" text-anchor="middle" fill="#ccc" font-size="11">Encntr_Alias</text>
+
+            <!-- Encounter -> Encntr_Alias -->
+            <line x1="300" y1="405" x2="245" y2="405" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowModel)" />
+
+            <!-- ENCNTR_PRSNL_RELTN -->
+            <rect x="80" y="460" width="180" height="45" rx="8" fill="#16213e" stroke="#0f3460" stroke-width="1.5" />
+            <text x="170" y="488" text-anchor="middle" fill="#ccc" font-size="11">Encntr_Prsnl_Reltn</text>
+
+            <!-- Encounter -> Encntr_Prsnl_Reltn -->
+            <line x1="350" y1="430" x2="350" y2="482" stroke="#555" stroke-width="1" stroke-dasharray="4" />
+            <line x1="350" y1="482" x2="265" y2="482" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowModel)" />
+
+            <!-- ENCNTR_ORG_RELTN -->
+            <rect x="530" y="460" width="180" height="45" rx="8" fill="#16213e" stroke="#0f3460" stroke-width="1.5" />
+            <text x="620" y="488" text-anchor="middle" fill="#ccc" font-size="11">Encntr_Org_Reltn</text>
+
+            <!-- Encounter -> Encntr_Org_Reltn -->
+            <line x1="460" y1="430" x2="460" y2="482" stroke="#555" stroke-width="1" stroke-dasharray="4" />
+            <line x1="460" y1="482" x2="525" y2="482" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowModel)" />
+
+            <!-- Encounter -> Encntr_Person_Reltn -->
+            <line x1="500" y1="395" x2="620" y2="395" stroke="#555" stroke-width="1" stroke-dasharray="4" />
+            <line x1="620" y1="395" x2="620" y2="340" stroke="#e94560" stroke-width="1.5" marker-end="url(#arrowModel)" />
+        </svg>
+    </div>
+
+    <!-- Section 11: Attribute Suffixes -->
+    <h2 id="suffixes">Attribute Suffixes</h2>
+
+    <div class="card">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr><th>Suffix</th><th>Description</th><th>Examples</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>_id</code></td>
+                        <td>Unique, system-assigned number used for table indexing</td>
+                        <td>person_id, encntr_alias_id</td>
+                    </tr>
+                    <tr>
+                        <td><code>_cd</code></td>
+                        <td>Unique, system-assigned number representing reference data</td>
+                        <td>martial_type_cd, language_cd</td>
+                    </tr>
+                    <tr>
+                        <td><code>_ind</code></td>
+                        <td>Numerical true/false indicator</td>
+                        <td>active_ind</td>
+                    </tr>
+                    <tr>
+                        <td><code>_dt_tm</code></td>
+                        <td>Date and time stamp</td>
+                        <td>update_dt_tm, birth_dt_time</td>
+                    </tr>
+                    <tr>
+                        <td><code>_key</code></td>
+                        <td>Stores data in ALL CAPITAL LETTERS, no spaces, no punctuation, no special characters. Great for searching.</td>
+                        <td>Searching for O'Malley using the _key field on the PERSON table</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Section 12: Abbreviations -->
+    <h2 id="abbreviations">Cerner Millennium Abbreviations</h2>
+
+    <div class="card">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr><th>Full Name</th><th>Abbreviation</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Encounter</td><td>Encntr</td></tr>
+                    <tr><td>Relationship</td><td>Reltn</td></tr>
+                    <tr><td>Personnel</td><td>Prsnl</td></tr>
+                    <tr><td>Organization</td><td>Org</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Section 13: Discern Explorer (CCL) -->
+    <h2 id="ccl">Discern Explorer (CCL)</h2>
+
+    <div class="card">
+        <p>Also known as <strong>CCL</strong> (Cerner Command Language). A language patterned after SQL used to communicate with the database.</p>
+
+        <h3>Used To</h3>
+        <ul>
+            <li>Perform database queries</li>
+            <li>Troubleshoot issues</li>
+            <li>Design reports</li>
+            <li>Build programs</li>
+        </ul>
+
+        <h3>Accessible Via</h3>
+        <ul>
+            <li>Discern Visual Developer</li>
+            <li>Back-end</li>
+        </ul>
+
+        <h3>Basic Query Structure</h3>
+        <pre><span class="keyword">Select</span> * <span class="keyword">from</span> &lt;table&gt; <span class="keyword">where</span> &lt;attribute&gt; = data value</pre>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr><th>Component</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>Select</code></td><td>Use "select" to start every query</td></tr>
+                    <tr><td><code>&lt;attribute&gt;</code> or <code>*</code></td><td>List attribute name or use * as wildcard</td></tr>
+                    <tr><td><code>from &lt;table&gt;</code></td><td>Use "from" and the table name</td></tr>
+                    <tr><td><code>where</code></td><td>Qualifying section, limits returns</td></tr>
+                    <tr><td><code>&lt;attribute&gt;</code></td><td>Attribute corresponding to data value</td></tr>
+                    <tr><td><code>= data value</code></td><td>Use = and list the known data value</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Example Queries</h3>
+        <pre><span class="keyword">Select</span> * <span class="keyword">from</span> PERSON <span class="keyword">where</span> name_last_key = <span class="string">"YOUNG"</span>
+
+<span class="keyword">Select</span> * <span class="keyword">from</span> PERSON_ALIAS <span class="keyword">where</span> alias = <span class="string">"7082"</span>
+
+<span class="keyword">Select</span> alias <span class="keyword">from</span> ENCNTR_ALIAS <span class="keyword">where</span> alias = <span class="string">"645017032"</span>
+
+<span class="keyword">Select</span> * <span class="keyword">from</span> PERSON <span class="keyword">where</span> person_id = 12856100
+
+<span class="keyword">Select</span> * <span class="keyword">from</span> CODE_VALUE <span class="keyword">where</span> code_value = 309311
+
+<span class="keyword">Select</span> alias <span class="keyword">from</span> ENCNTR_ALIAS <span class="keyword">where</span> encntr_id = 97725398</pre>
+
+        <div class="info-box">
+            <strong>Rules for data value formats:</strong> Any attribute that has the potential to store text must have quotes around its data value. This includes <code>_KEY</code> attributes and <code>ALIAS</code> attributes.
+        </div>
+
+        <h3>Steps to Understanding Queries</h3>
+        <ol>
+            <li>What data do you have and what table is it located within?</li>
+            <li>What data do you want and what table is it located within?</li>
+            <li>What is the connection between these tables? (direct or indirect relationship)</li>
+        </ol>
+
+        <div class="info-box">
+            <strong>Indirect Relationship Example:</strong> PERSON and ENCNTR_ALIAS are related through the ENCOUNTER table (an indirect table relationship).
+        </div>
+    </div>
+
+    <!-- Section 14: Additional Education -->
+    <h2 id="additional-education">Additional Education</h2>
+
+    <div class="card">
+        <ul>
+            <li>Millennium Core</li>
+            <li>Millennium Architecture Concepts</li>
+            <li>Cerner Millennium Architecture Troubleshooting and Issue Management</li>
+            <li>Discern Explorer 1 WBT</li>
+        </ul>
+    </div>
+
+</div>
+
+</body>
+</html>

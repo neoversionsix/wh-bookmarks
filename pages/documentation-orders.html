@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Orders</title>
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 2em;
+            border-bottom: 3px solid #e94560;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #e94560;
+            font-size: 1.5em;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-left: 4px solid #e94560;
+            padding-left: 12px;
+        }
+
+        h3 {
+            color: #0f3460;
+            background: linear-gradient(90deg, #e94560, #533483);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.2em;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        p, li {
+            margin-bottom: 8px;
+            color: #ccc;
+        }
+
+        ul {
+            padding-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        ol {
+            padding-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: #e94560;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #aaa;
+            font-size: 0.9em;
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
+
+        /* Cards */
+        .card {
+            background-color: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+        }
+
+        .card-highlight {
+            border-left: 4px solid #e94560;
+        }
+
+        /* Info box */
+        .info-box {
+            background-color: #0f3460;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-left: 4px solid #533483;
+        }
+
+        .info-box strong {
+            color: #e94560;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background-color: #0f3460;
+            color: #fff;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #1a1a2e;
+            background-color: #16213e;
+        }
+
+        tr:hover td {
+            background-color: #1a2744;
+        }
+
+        .table-label {
+            display: inline-block;
+            background: #e94560;
+            color: #fff;
+            font-weight: bold;
+            padding: 3px 10px;
+            border-radius: 4px 4px 0 0;
+            font-size: 0.85em;
+            margin-bottom: -1px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 10px 0 20px 0;
+        }
+
+        /* Diagrams */
+        .diagram {
+            background-color: #0d1b2a;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .diagram-title {
+            color: #e94560;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .diagram svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Note */
+        .note {
+            color: #888;
+            font-size: 0.85em;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        /* Badge/tag */
+        .badge {
+            display: inline-block;
+            background: #533483;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-right: 4px;
+        }
+
+        .badge.tool { background: #0f3460; }
+        .badge.table { background: #1b6b4a; }
+        .badge.important { background: #e94560; }
+
+        /* TOC */
+        .toc {
+            background-color: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            padding: 20px 25px;
+            margin-bottom: 30px;
+        }
+
+        .toc h3 {
+            margin-top: 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toc ul li {
+            padding: 4px 0;
+        }
+
+        .toc ul li a {
+            color: #ccc;
+        }
+
+        .toc ul li a:hover {
+            color: #e94560;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <a href="../index.html" class="back-link">&larr; Back to Home</a>
+
+        <h1>Orders</h1>
+        <p>The Order Catalog, Orders, and Billable Items</p>
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h3>Table of Contents</h3>
+            <ul>
+                <li><a href="#order-catalog">The Order Catalog</a></li>
+                <li><a href="#orders">Orders</a></li>
+                <li><a href="#billable-items">Billable Items</a></li>
+                <li><a href="#additional-billable">Additional Billable Items</a></li>
+                <li><a href="#hierarchy">The Order Catalog Hierarchy</a></li>
+                <li><a href="#catalog-types">Catalog Types</a></li>
+                <li><a href="#activity-types">Activity Types</a></li>
+                <li><a href="#catalog-activity-relationships">Catalog/Activity Type Relationships</a></li>
+                <li><a href="#activity-subtypes">Activity Subtypes</a></li>
+                <li><a href="#hierarchy-example">Order Catalog Hierarchy Example</a></li>
+                <li><a href="#description-synonym">Description and Primary Synonym</a></li>
+                <li><a href="#dcp-ancillary">DCP and Ancillary Synonyms</a></li>
+                <li><a href="#example-order-design">Example Order Design</a></li>
+                <li><a href="#order-entry-formats">Order Entry Formats</a></li>
+                <li><a href="#additional-education">Additional Education</a></li>
+            </ul>
+        </div>
+
+        <!-- The Order Catalog -->
+        <h2 id="order-catalog">The Order Catalog</h2>
+        <div class="card">
+            <ul>
+                <li>Consists of all orderable items and most billable items</li>
+                <li>Core component of Cerner Millennium</li>
+                <li>Used by multiple Millennium solutions</li>
+                <li>Many design considerations</li>
+            </ul>
+        </div>
+
+        <!-- Orders -->
+        <h2 id="orders">Orders</h2>
+        <div class="card">
+            <p>An order is an item or service a health care provider determines is necessary to assess or treat a patient.</p>
+
+            <h3>Assessments (Diagnose Problems)</h3>
+            <ul>
+                <li>Blood gas</li>
+                <li>Consultation</li>
+                <li>EKG</li>
+            </ul>
+
+            <h3>Treatments (Treat an Ailment)</h3>
+            <ul>
+                <li>Dressing changes</li>
+                <li>Oxygen therapy</li>
+                <li>Medication</li>
+            </ul>
+        </div>
+
+        <!-- Billable Items -->
+        <h2 id="billable-items">Billable Items</h2>
+        <div class="card">
+            <p>A billable item is any item for which a charge can be captured or scheduled.</p>
+            <ul>
+                <li>Includes orders (assessments and treatments)</li>
+                <li>Almost every lab, radiology, and pharmacy order has a charge</li>
+            </ul>
+
+            <h3>Exceptions</h3>
+            <ul>
+                <li><strong>Bed charges</strong> &mdash; If using registration management tool, handled elsewhere</li>
+                <li><strong>Add-on charges</strong> &mdash; e.g. courier fees for transporting specimen to reference lab</li>
+            </ul>
+        </div>
+
+        <!-- Additional Billable Items -->
+        <h2 id="additional-billable">Additional Billable Items</h2>
+        <div class="card">
+            <h3>Time</h3>
+            <ul>
+                <li>Occupational therapy</li>
+                <li>Physical therapy</li>
+                <li>Respiratory therapy</li>
+                <li>Speech therapy</li>
+            </ul>
+
+            <h3>Supplies</h3>
+            <ul>
+                <li>IV start kits</li>
+                <li>Kerlix rolls</li>
+                <li>Underpads</li>
+            </ul>
+        </div>
+
+        <!-- The Order Catalog Hierarchy -->
+        <h2 id="hierarchy">The Order Catalog Hierarchy</h2>
+        <div class="card">
+            <p>Structured to group similar items together.</p>
+
+            <h3>Benefits</h3>
+            <ul>
+                <li>Ordering functionality</li>
+                <li>Server processing</li>
+                <li>Security</li>
+            </ul>
+
+            <h3>Three Tiers</h3>
+            <ul>
+                <li><strong>Catalog Type</strong> &mdash; Top tier</li>
+                <li><strong>Activity Type</strong> &mdash; Middle tier</li>
+                <li><strong>Activity Subtype</strong> &mdash; Bottom tier (required tier of hierarchy)</li>
+            </ul>
+        </div>
+
+        <div class="diagram">
+            <div class="diagram-title">Order Catalog Hierarchy</div>
+            <svg width="600" height="280" viewBox="0 0 600 280">
+                <!-- Order Catalog -->
+                <rect x="200" y="10" width="200" height="44" rx="8" fill="#0f3460" stroke="#e94560" stroke-width="2"/>
+                <text x="300" y="38" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">Order Catalog</text>
+
+                <!-- Arrow 1 -->
+                <line x1="300" y1="54" x2="300" y2="76" stroke="#e94560" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- Catalog Type -->
+                <rect x="200" y="80" width="200" height="44" rx="8" fill="#16213e" stroke="#533483" stroke-width="2"/>
+                <text x="300" y="108" text-anchor="middle" fill="#ccc" font-size="14" font-weight="bold">Catalog Type</text>
+
+                <!-- Arrow 2 -->
+                <line x1="300" y1="124" x2="300" y2="146" stroke="#e94560" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- Activity Type -->
+                <rect x="200" y="150" width="200" height="44" rx="8" fill="#16213e" stroke="#533483" stroke-width="2"/>
+                <text x="300" y="178" text-anchor="middle" fill="#ccc" font-size="14" font-weight="bold">Activity Type</text>
+
+                <!-- Arrow 3 -->
+                <line x1="300" y1="194" x2="300" y2="216" stroke="#e94560" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- Activity Subtype -->
+                <rect x="200" y="220" width="200" height="44" rx="8" fill="#16213e" stroke="#533483" stroke-width="2"/>
+                <text x="300" y="248" text-anchor="middle" fill="#ccc" font-size="14" font-weight="bold">Activity Subtype</text>
+
+                <!-- Arrowhead marker -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#e94560"/>
+                    </marker>
+                </defs>
+            </svg>
+        </div>
+
+        <!-- Catalog Types -->
+        <h2 id="catalog-types">Catalog Types</h2>
+        <div class="card">
+            <p>Major divisions of the Order Catalog:</p>
+            <ul>
+                <li>Laboratory</li>
+                <li>Patient Care</li>
+                <li>Pharmacy</li>
+                <li>Radiology</li>
+            </ul>
+            <div class="info-box">
+                <strong>Managing:</strong> CoreCodeBuilder.exe <span class="badge tool">Tool</span><br>
+                <strong>Code Set:</strong> 6000
+            </div>
+        </div>
+
+        <!-- Activity Types -->
+        <h2 id="activity-types">Activity Types</h2>
+        <div class="card">
+            <p>Divisions of Catalog Types.</p>
+            <div class="table-wrapper">
+                <span class="table-label">Catalog Type / Activity Type Relationships</span>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Catalog Type</th>
+                            <th>Activity Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="4">Laboratory</td>
+                            <td>Anatomic Pathology</td>
+                        </tr>
+                        <tr><td>Blood Bank</td></tr>
+                        <tr><td>General Laboratory</td></tr>
+                        <tr><td>Micro (Microbiology)</td></tr>
+                        <tr>
+                            <td rowspan="4">Patient Care</td>
+                            <td>Patient Activity</td>
+                        </tr>
+                        <tr><td>Patient Education</td></tr>
+                        <tr><td>Discharge Orders</td></tr>
+                        <tr><td>Wound Care</td></tr>
+                        <tr>
+                            <td rowspan="4">Nutrition Services</td>
+                            <td>Nutrition Asmt/Tx/Monitoring</td>
+                        </tr>
+                        <tr><td>Snacks</td></tr>
+                        <tr><td>Supplements</td></tr>
+                        <tr><td>Tube Feeding</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Catalog/Activity Type Relationships -->
+        <h2 id="catalog-activity-relationships">Catalog/Activity Type Relationships</h2>
+        <div class="card">
+            <ul>
+                <li>Cerner Millennium defines relationships between specific catalog and activity types for proper solution functionality</li>
+                <li>Clients can define other relationships</li>
+            </ul>
+            <h3>Benefits</h3>
+            <ul>
+                <li>Enhance privilege-level security</li>
+                <li>Allow building mass numbers of orderables quickly</li>
+            </ul>
+        </div>
+
+        <!-- Activity Subtypes -->
+        <h2 id="activity-subtypes">Activity Subtypes</h2>
+        <div class="card">
+            <ul>
+                <li>Divisions of Activity Types</li>
+                <li>Can be client-defined</li>
+                <li>Specific solutions require Cerner-defined combinations</li>
+            </ul>
+            <h3>Examples</h3>
+            <ul>
+                <li><strong>Anatomic Pathology</strong> &rarr; AP Processing, AP Reports</li>
+                <li><strong>Radiology</strong> &rarr; Ultrasound, MRI</li>
+            </ul>
+        </div>
+
+        <!-- Order Catalog Hierarchy Example -->
+        <h2 id="hierarchy-example">Order Catalog Hierarchy Example</h2>
+        <div class="diagram">
+            <div class="diagram-title">Order Catalog Hierarchy Example</div>
+            <svg width="750" height="380" viewBox="0 0 750 380">
+                <defs>
+                    <marker id="arrow2" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#e94560"/>
+                    </marker>
+                </defs>
+
+                <!-- Order Catalog -->
+                <rect x="275" y="10" width="200" height="40" rx="8" fill="#0f3460" stroke="#e94560" stroke-width="2"/>
+                <text x="375" y="36" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Order Catalog</text>
+
+                <!-- Lines to Catalog Types -->
+                <line x1="325" y1="50" x2="175" y2="80" stroke="#e94560" stroke-width="2" marker-end="url(#arrow2)"/>
+                <line x1="425" y1="50" x2="575" y2="80" stroke="#e94560" stroke-width="2" marker-end="url(#arrow2)"/>
+
+                <!-- Radiology Catalog Type -->
+                <rect x="75" y="80" width="200" height="40" rx="8" fill="#16213e" stroke="#533483" stroke-width="2"/>
+                <text x="175" y="106" text-anchor="middle" fill="#ccc" font-size="13" font-weight="bold">Radiology</text>
+                <text x="175" y="88" text-anchor="middle" fill="#888" font-size="9">Catalog Type</text>
+
+                <!-- Respiratory Therapy Catalog Type -->
+                <rect x="475" y="80" width="200" height="40" rx="8" fill="#16213e" stroke="#533483" stroke-width="2"/>
+                <text x="575" y="106" text-anchor="middle" fill="#ccc" font-size="13" font-weight="bold">Respiratory Therapy</text>
+                <text x="575" y="88" text-anchor="middle" fill="#888" font-size="9">Catalog Type</text>
+
+                <!-- Line to Radiology Activity Type -->
+                <line x1="175" y1="120" x2="175" y2="155" stroke="#e94560" stroke-width="2" marker-end="url(#arrow2)"/>
+
+                <!-- Radiology Activity Type -->
+                <rect x="75" y="160" width="200" height="40" rx="8" fill="#16213e" stroke="#533483" stroke-width="2"/>
+                <text x="175" y="186" text-anchor="middle" fill="#ccc" font-size="13" font-weight="bold">Radiology</text>
+                <text x="175" y="168" text-anchor="middle" fill="#888" font-size="9">Activity Type</text>
+
+                <!-- Lines to Subtypes -->
+                <line x1="115" y1="200" x2="65" y2="240" stroke="#e94560" stroke-width="2" marker-end="url(#arrow2)"/>
+                <line x1="175" y1="200" x2="175" y2="240" stroke="#e94560" stroke-width="2" marker-end="url(#arrow2)"/>
+                <line x1="235" y1="200" x2="315" y2="240" stroke="#e94560" stroke-width="2" marker-end="url(#arrow2)"/>
+
+                <!-- Ultrasound Subtype -->
+                <rect x="0" y="245" width="130" height="40" rx="8" fill="#16213e" stroke="#1b6b4a" stroke-width="2"/>
+                <text x="65" y="271" text-anchor="middle" fill="#ccc" font-size="12">Ultrasound</text>
+                <text x="65" y="253" text-anchor="middle" fill="#888" font-size="9">Subtype</text>
+
+                <!-- MRI Subtype -->
+                <rect x="100" y="320" width="150" height="40" rx="8" fill="#16213e" stroke="#1b6b4a" stroke-width="2"/>
+                <text x="175" y="346" text-anchor="middle" fill="#ccc" font-size="11">Magnetic Resonance Imaging</text>
+                <text x="175" y="328" text-anchor="middle" fill="#888" font-size="9">Subtype</text>
+                <line x1="175" y1="285" x2="175" y2="315" stroke="#e94560" stroke-width="1" stroke-dasharray="4"/>
+
+                <!-- Diagnostic Subtype -->
+                <rect x="250" y="245" width="130" height="40" rx="8" fill="#16213e" stroke="#1b6b4a" stroke-width="2"/>
+                <text x="315" y="271" text-anchor="middle" fill="#ccc" font-size="12">Diagnostic</text>
+                <text x="315" y="253" text-anchor="middle" fill="#888" font-size="9">Subtype</text>
+
+                <!-- Lines to Respiratory Therapy Activity Types -->
+                <line x1="535" y1="120" x2="485" y2="155" stroke="#e94560" stroke-width="2" marker-end="url(#arrow2)"/>
+                <line x1="615" y1="120" x2="665" y2="155" stroke="#e94560" stroke-width="2" marker-end="url(#arrow2)"/>
+
+                <!-- Blood Gases Activity Type -->
+                <rect x="400" y="160" width="160" height="40" rx="8" fill="#16213e" stroke="#533483" stroke-width="2"/>
+                <text x="480" y="186" text-anchor="middle" fill="#ccc" font-size="13">Blood Gases</text>
+                <text x="480" y="168" text-anchor="middle" fill="#888" font-size="9">Activity Type</text>
+
+                <!-- Ventilator Activity Type -->
+                <rect x="590" y="160" width="150" height="40" rx="8" fill="#16213e" stroke="#533483" stroke-width="2"/>
+                <text x="665" y="186" text-anchor="middle" fill="#ccc" font-size="13">Ventilator</text>
+                <text x="665" y="168" text-anchor="middle" fill="#888" font-size="9">Activity Type</text>
+            </svg>
+        </div>
+
+        <!-- Description and Primary Synonym -->
+        <h2 id="description-synonym">Description and Primary Synonym</h2>
+        <div class="card">
+            <p>Required when designing orders:</p>
+            <div class="info-box">
+                <strong>Description:</strong> Required. Official, legal name. Displays on reports and requisitions.
+            </div>
+            <div class="info-box">
+                <strong>Primary Synonym:</strong> Orderable name, most commonly recognized by clinicians. Displays in all Millennium solutions. Consider future projects when creating.
+            </div>
+        </div>
+
+        <!-- DCP and Ancillary Synonyms -->
+        <h2 id="dcp-ancillary">DCP and Ancillary Synonyms (Optional)</h2>
+        <div class="card">
+            <div class="info-box">
+                <strong>DCP (Direct Care Provider) Synonym:</strong> Alternate name only seen by direct care provider. Displays in PowerChart and DCP Tools.
+            </div>
+            <div class="info-box">
+                <strong>Ancillary Synonym:</strong> Alternate name only seen by specific ancillary departments. Radiology Management sees specific synonym. Laboratory Management sees specific synonym.
+            </div>
+        </div>
+
+        <!-- Example Order Design -->
+        <h2 id="example-order-design">Example Order Design</h2>
+        <div class="card card-highlight">
+            <div class="table-wrapper">
+                <span class="table-label">Example: Respiratory Culture</span>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><strong>Catalog Type</strong></td>
+                            <td>Laboratory</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Activity Type</strong></td>
+                            <td>Micro</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Activity Subtype</strong></td>
+                            <td>None (not required)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Order Description</strong></td>
+                            <td>Respiratory Culture</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Primary Synonym</strong></td>
+                            <td>Respiratory Culture</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DCP Synonym</strong></td>
+                            <td>Sputum Culture</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ancillary Synonym</strong></td>
+                            <td>C Respiratory</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Order Entry Formats -->
+        <h2 id="order-entry-formats">Order Entry Formats</h2>
+        <div class="card">
+            <ul>
+                <li>Templates providing order details</li>
+                <li>Related to Catalog Types and Details</li>
+            </ul>
+        </div>
+
+        <!-- Additional Education -->
+        <h2 id="additional-education">Additional Education</h2>
+        <div class="card">
+            <p>Related courses:</p>
+            <ul>
+                <li>Building and Maintaining PowerOrders</li>
+                <li>Building and Maintaining PowerChart</li>
+                <li>Building and Maintaining PowerChart Ambulatory</li>
+                <li>Building and Maintaining Inpatient Pharmacy</li>
+            </ul>
+        </div>
+
+    </div>
+</body>
+</html>

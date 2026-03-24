@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Interfaces</title>
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 2em;
+            border-bottom: 3px solid #e94560;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #e94560;
+            font-size: 1.5em;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-left: 4px solid #e94560;
+            padding-left: 12px;
+        }
+
+        h3 {
+            color: #0f3460;
+            background: linear-gradient(90deg, #e94560, #533483);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.2em;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        p, li {
+            margin-bottom: 8px;
+            color: #ccc;
+        }
+
+        ul {
+            padding-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        ol {
+            padding-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: #e94560;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #aaa;
+            font-size: 0.9em;
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
+
+        /* Cards */
+        .card {
+            background-color: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+        }
+
+        .card-highlight {
+            border-left: 4px solid #e94560;
+        }
+
+        /* Info box */
+        .info-box {
+            background-color: #0f3460;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-left: 4px solid #533483;
+        }
+
+        .info-box strong {
+            color: #e94560;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background-color: #0f3460;
+            color: #fff;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #1a1a2e;
+            background-color: #16213e;
+        }
+
+        tr:hover td {
+            background-color: #1a2744;
+        }
+
+        .table-label {
+            display: inline-block;
+            background: #e94560;
+            color: #fff;
+            font-weight: bold;
+            padding: 3px 10px;
+            border-radius: 4px 4px 0 0;
+            font-size: 0.85em;
+            margin-bottom: -1px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 10px 0 20px 0;
+        }
+
+        /* Diagrams */
+        .diagram {
+            background-color: #0d1b2a;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .diagram-title {
+            color: #e94560;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .diagram svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Note */
+        .note {
+            color: #888;
+            font-size: 0.85em;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        /* Badge/tag */
+        .badge {
+            display: inline-block;
+            background: #533483;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-right: 4px;
+        }
+
+        .badge.tool { background: #0f3460; }
+        .badge.table { background: #1b6b4a; }
+        .badge.important { background: #e94560; }
+
+        /* TOC */
+        .toc {
+            background-color: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            padding: 20px 25px;
+            margin-bottom: 30px;
+        }
+
+        .toc h3 {
+            margin-top: 0;
+        }
+
+        .toc ol {
+            margin-bottom: 0;
+        }
+
+        .toc li {
+            margin-bottom: 4px;
+        }
+
+        /* HL7 pre blocks */
+        .hl7-block {
+            background-color: #0d1b2a;
+            border: 1px solid #0f3460;
+            border-radius: 8px;
+            padding: 18px 20px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.85em;
+            line-height: 1.8;
+            margin: 15px 0;
+        }
+
+        .hl7-block .seg { color: #e94560; font-weight: bold; }
+        .hl7-block .pipe { color: #555; }
+        .hl7-block .data { color: #ccc; }
+        .hl7-block .field-num { color: #4fc3f7; font-size: 0.75em; vertical-align: super; font-weight: bold; }
+
+        /* PID field annotation */
+        .field-annotation {
+            background-color: #0d1b2a;
+            border: 1px solid #0f3460;
+            border-radius: 8px;
+            padding: 18px 20px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.85em;
+            line-height: 2.2;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <a href="../index.html" class="back-link">&larr; Back to Home</a>
+
+        <h1>Interfaces &mdash; It's All in the Translation</h1>
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#code-values">Code Values &amp; the CODE_VALUE Table</a></li>
+                <li><a href="#cdf-meanings">CDF (Common Data Foundation) Meanings</a></li>
+                <li><a href="#code-sets">Code Sets</a></li>
+                <li><a href="#code-set-config">Code Set Configuration &amp; Add On the Fly (AOF)</a></li>
+                <li><a href="#example-code-sets">Example Code Sets</a></li>
+                <li><a href="#data-from-interfaces">Data Sent to Cerner Millennium</a></li>
+                <li><a href="#code-value-alias">Code Value Alias</a></li>
+                <li><a href="#alias-translation-diagram">Alias Translation Flow</a></li>
+                <li><a href="#person-vs-code-aliases">Person Aliases vs. Code Value Aliases</a></li>
+                <li><a href="#contributor-systems">Contributor Systems</a></li>
+                <li><a href="#contributor-sources">Contributor Sources</a></li>
+                <li><a href="#contributor-relationships">Contributor System &amp; Source Relationships</a></li>
+                <li><a href="#interface-definitions">Interface Definitions Summary</a></li>
+                <li><a href="#hl7">HL7 &mdash; Interface Information Format</a></li>
+                <li><a href="#hl7-sample">Sample HL7 Message</a></li>
+                <li><a href="#hl7-structure">Structure of an HL7 Message</a></li>
+                <li><a href="#hl7-empty">Empty Fields and Components</a></li>
+                <li><a href="#hl7-counting">Counting Fields and Components</a></li>
+                <li><a href="#msh-segment">The MSH Segment</a></li>
+                <li><a href="#other-segments">Other HL7 Segments</a></li>
+                <li><a href="#trigger-a01">Segments for Trigger Event A01 (Admitting)</a></li>
+                <li><a href="#additional-education">Additional Education</a></li>
+            </ol>
+        </div>
+
+        <!-- Overview -->
+        <h2 id="overview">Overview</h2>
+        <div class="card">
+            <p>Cerner Millennium provides standardized, consistent display values for end-users. Examples include:</p>
+            <ul>
+                <li>Encounter types: "Inpatient" / "Outpatient"</li>
+                <li>Languages: "Portuguese" / "French" / "Sign Language"</li>
+                <li>State/Province: "Missouri" / "Quebec"</li>
+            </ul>
+            <p>Millennium can receive foreign data from many different systems. This data must be translated into Millennium display values.</p>
+        </div>
+
+        <!-- Code Values -->
+        <h2 id="code-values">Code Values &amp; the CODE_VALUE Table</h2>
+        <div class="card">
+            <p>A <strong>Code Value</strong> is a unique, system-generated numeric value representing reference data. The Cerner Millennium database stores all reference data on the <span class="badge table">CODE_VALUE</span> table.</p>
+            <ul>
+                <li>Thousands of rows, continues to grow</li>
+                <li>Each row contains the display value for its code value</li>
+            </ul>
+
+            <h3>How Millennium Language is Stored</h3>
+            <div class="info-box">
+                <strong>Example row on CODE_VALUE table:</strong><br>
+                <code>code_value</code>: 2553237765<br>
+                <code>code_set</code>: 36<br>
+                <code>display</code>: Portuguese<br>
+                <code>display_key</code>: "PORTUGUESE"
+            </div>
+        </div>
+
+        <!-- CDF Meanings -->
+        <h2 id="cdf-meanings">CDF (Common Data Foundation) Meanings</h2>
+        <div class="card">
+            <ul>
+                <li>Created by Cerner engineers to provide internal processing</li>
+                <li>The system is hard coded to look for certain values within a code set to proceed appropriately</li>
+                <li>Cerner solutions use CDF Meanings to function properly (trigger actions)</li>
+            </ul>
+            <div class="info-box">
+                <strong>Examples:</strong> Displaying patient care hierarchy, displaying items in a drop-down box.
+            </div>
+            <p>The Locations code set (220) differentiates between locations/units, rooms, and beds based on CDF meanings. The CDF meaning causes values to display in the appropriate hierarchy in <span class="badge tool">Bedrock</span>, <span class="badge tool">Location.exe</span>, and <span class="badge tool">LocAlias.exe</span>.</p>
+        </div>
+
+        <!-- Code Sets -->
+        <h2 id="code-sets">Code Sets</h2>
+        <div class="card">
+            <p>Code Sets are groupings of like reference data elements that organize code values. They are defined by Cerner and the client.</p>
+            <div class="info-box">
+                <strong>Note:</strong> Approximately the first 100,000 code sets are Cerner defined.
+            </div>
+            <p>Examples:</p>
+            <ul>
+                <li>Patient Visit Type (71)</li>
+                <li>Language (36)</li>
+                <li>States/Provinces (62)</li>
+                <li>Marital Status (38)</li>
+                <li>Counties (74)</li>
+            </ul>
+        </div>
+
+        <!-- Code Set Configuration & AOF -->
+        <h2 id="code-set-config">Code Set Configuration &amp; Add On the Fly (AOF)</h2>
+        <div class="card">
+            <h3>Millennium Tools</h3>
+            <p>
+                <span class="badge tool">CoreCodeBuilder.exe</span>
+                <span class="badge tool">ContentManager.exe</span>
+                <span class="badge tool">Bedrock</span>
+                <span class="badge tool">Location.exe</span>
+            </p>
+            <h3>Add On the Fly (AOF)</h3>
+            <ul>
+                <li>AOF allows an interface to create the code value and alias if not present when received</li>
+                <li>AOF is a domain-wide setting (active or inactive)</li>
+            </ul>
+        </div>
+
+        <!-- Example Code Sets Table -->
+        <h2 id="example-code-sets">Example Code Sets</h2>
+        <div class="card">
+            <span class="table-label">Encounter Type &mdash; Code Set 71</span>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr><th>Code Value</th><th>Display</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>309308</td><td>Inpatient</td></tr>
+                        <tr><td>309309</td><td>Outpatient</td></tr>
+                        <tr><td>309310</td><td>Emergency</td></tr>
+                        <tr><td>22282402</td><td>Clinic</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <span class="table-label">Language &mdash; Code Set 36</span>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr><th>Code Value</th><th>Display</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2553237765</td><td>Portuguese</td></tr>
+                        <tr><td>2553237433</td><td>French</td></tr>
+                        <tr><td>2553237817</td><td>Sign Language</td></tr>
+                        <tr><td>2553237837</td><td>Samoan</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <span class="table-label">State/Province &mdash; Code Set 62</span>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr><th>Code Value</th><th>Display</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>309268</td><td>Missouri</td></tr>
+                        <tr><td>309260</td><td>Kansas</td></tr>
+                        <tr><td>309288</td><td>Quebec</td></tr>
+                        <tr><td>253166255</td><td>Yucatan</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Data from Interfaces -->
+        <h2 id="data-from-interfaces">Data Sent to Cerner Millennium</h2>
+        <div class="card">
+            <ul>
+                <li>Cerner Millennium receives data from a variety of non-Millennium sources called interfaces</li>
+                <li>Each interface speaks its own language</li>
+                <li>The database translates data from outside interfaces</li>
+                <li>This allows end-users to understand data from any translated interface</li>
+            </ul>
+        </div>
+
+        <!-- Code Value Alias -->
+        <h2 id="code-value-alias">Code Value Alias</h2>
+        <div class="card">
+            <p>A <strong>Code Value Alias</strong> is a value used to represent a piece of reference data. It is used to translate information from interfaces into standardized Millennium display values.</p>
+            <ul>
+                <li>Stored on the <span class="badge table">CODE_VALUE_ALIAS</span> table</li>
+                <li>Each alias is "tied" or "mapped" to a standardized display value through the <code>code_value</code> attribute (primary key &ndash; foreign key relationship)</li>
+            </ul>
+            <div class="info-box">
+                <strong>Examples:</strong><br>
+                Portuguese aliases: PG7, PT<br>
+                Sign Language alias: 65318<br>
+                French alias: FR
+            </div>
+        </div>
+
+        <!-- Alias Translation Flow Diagram -->
+        <h2 id="alias-translation-diagram">Alias Translation Flow</h2>
+        <div class="diagram">
+            <div class="diagram-title">Interface Alias Translation to Millennium Display Value</div>
+            <svg width="820" height="200" viewBox="0 0 820 200">
+                <!-- Interface box -->
+                <rect x="10" y="60" width="160" height="80" rx="10" fill="#16213e" stroke="#e94560" stroke-width="2"/>
+                <text x="90" y="92" text-anchor="middle" fill="#e94560" font-weight="bold" font-size="14">Interface</text>
+                <text x="90" y="115" text-anchor="middle" fill="#ccc" font-size="13">Sends alias "PG7"</text>
+
+                <!-- Arrow 1 -->
+                <line x1="170" y1="100" x2="240" y2="100" stroke="#533483" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- CODE_VALUE_ALIAS box -->
+                <rect x="240" y="50" width="180" height="100" rx="10" fill="#0f3460" stroke="#533483" stroke-width="2"/>
+                <text x="330" y="85" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">CODE_VALUE_ALIAS</text>
+                <text x="330" y="105" text-anchor="middle" fill="#ccc" font-size="12">alias = "PG7"</text>
+                <text x="330" y="125" text-anchor="middle" fill="#ccc" font-size="12">code_value = 2553237765</text>
+
+                <!-- Arrow 2 -->
+                <line x1="420" y1="100" x2="490" y2="100" stroke="#533483" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- CODE_VALUE box -->
+                <rect x="490" y="50" width="160" height="100" rx="10" fill="#0f3460" stroke="#533483" stroke-width="2"/>
+                <text x="570" y="85" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">CODE_VALUE</text>
+                <text x="570" y="105" text-anchor="middle" fill="#ccc" font-size="12">code_value = 2553237765</text>
+                <text x="570" y="125" text-anchor="middle" fill="#ccc" font-size="12">code_set = 36</text>
+
+                <!-- Arrow 3 -->
+                <line x1="650" y1="100" x2="720" y2="100" stroke="#533483" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- Display Value box -->
+                <rect x="720" y="60" width="90" height="80" rx="10" fill="#1b6b4a" stroke="#4fc3f7" stroke-width="2"/>
+                <text x="765" y="95" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">Display</text>
+                <text x="765" y="115" text-anchor="middle" fill="#ccc" font-size="12">Portuguese</text>
+
+                <!-- Arrowhead definition -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#533483"/>
+                    </marker>
+                </defs>
+            </svg>
+        </div>
+
+        <!-- Person Aliases vs Code Value Aliases -->
+        <h2 id="person-vs-code-aliases">Person Aliases vs. Code Value Aliases</h2>
+        <div class="card">
+            <p>Both are stored similarly:</p>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr><th>Aspect</th><th>Person</th><th>Code Value</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Concept</td>
+                            <td>One person_id may have multiple identifiers (MRN, SSN, Driver's License, CMRN)</td>
+                            <td>One display value (e.g. "Portuguese") may have multiple identifiers (PG7, PT)</td>
+                        </tr>
+                        <tr>
+                            <td>Table</td>
+                            <td><span class="badge table">PERSON_ALIAS</span></td>
+                            <td><span class="badge table">CODE_VALUE_ALIAS</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Contributor Systems -->
+        <h2 id="contributor-systems">Contributor Systems</h2>
+        <div class="card">
+            <p>A <strong>Contributor System</strong> is an interface sending data into the Cerner Millennium database &mdash; a foreign or external system sending the interface/feed. Think of it as a "country-of-origin."</p>
+
+            <span class="table-label">IDX</span>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>Alias</th><th>Display Value</th></tr></thead>
+                    <tbody>
+                        <tr><td>PG7</td><td>Portuguese</td></tr>
+                        <tr><td>FR</td><td>French</td></tr>
+                        <tr><td>65318</td><td>Sign Language</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <span class="table-label">Sunquest</span>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>Alias</th><th>Display Value</th></tr></thead>
+                    <tbody>
+                        <tr><td>1257</td><td>Inpatient</td></tr>
+                        <tr><td>8531</td><td>Outpatient</td></tr>
+                        <tr><td>5127</td><td>Emergency</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <span class="table-label">Cerner Classic</span>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>Alias</th><th>Display Value</th></tr></thead>
+                    <tbody>
+                        <tr><td>MO5</td><td>Missouri</td></tr>
+                        <tr><td>KS</td><td>Kansas</td></tr>
+                        <tr><td>3377</td><td>Quebec</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Contributor Sources -->
+        <h2 id="contributor-sources">Contributor Sources</h2>
+        <div class="card">
+            <ul>
+                <li>A <strong>Contributor Source</strong> is the set of reference data a foreign/external system could send to Millennium</li>
+                <li>All potential code value aliases/translations a singular contributor system might send</li>
+                <li>Think of it as "the language a contributor system speaks" &mdash; a "translation dictionary"</li>
+            </ul>
+        </div>
+
+        <!-- Contributor Relationships -->
+        <h2 id="contributor-relationships">Contributor System &amp; Source Relationships</h2>
+        <div class="card">
+            <h3>Two Types of Relationships</h3>
+            <ul>
+                <li><strong>1:1</strong> &mdash; Each contributor system uses only one contributor source (like each country speaks one language)</li>
+                <li><strong>Many:1</strong> &mdash; Many contributor systems use the same contributor source (like some countries share the same language)</li>
+            </ul>
+            <div class="info-box">
+                <strong>Examples:</strong> IDX has its own source. Cerner PathNet and Cerner RadNet share the same source &mdash; similar to how Italy, Spain, and Argentina might share a language versus speaking a unique one.
+            </div>
+        </div>
+
+        <!-- Contributor Relationship Diagram -->
+        <div class="diagram">
+            <div class="diagram-title">Contributor Systems &amp; Sources &mdash; 1:1 and Many:1 Relationships</div>
+            <svg width="700" height="320" viewBox="0 0 700 320">
+                <defs>
+                    <marker id="arr2" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#533483"/>
+                    </marker>
+                </defs>
+
+                <!-- 1:1 label -->
+                <text x="200" y="25" text-anchor="middle" fill="#e94560" font-weight="bold" font-size="14">1:1 Relationship</text>
+
+                <!-- IDX System -->
+                <rect x="30" y="40" width="140" height="45" rx="8" fill="#16213e" stroke="#e94560" stroke-width="2"/>
+                <text x="100" y="67" text-anchor="middle" fill="#fff" font-size="13">IDX</text>
+
+                <!-- Arrow -->
+                <line x1="170" y1="62" x2="270" y2="62" stroke="#533483" stroke-width="2" marker-end="url(#arr2)"/>
+
+                <!-- IDX Source -->
+                <rect x="270" y="40" width="160" height="45" rx="8" fill="#0f3460" stroke="#533483" stroke-width="2"/>
+                <text x="350" y="67" text-anchor="middle" fill="#fff" font-size="13">IDX Source</text>
+
+                <!-- Many:1 label -->
+                <text x="300" y="135" text-anchor="middle" fill="#e94560" font-weight="bold" font-size="14">Many:1 Relationship</text>
+
+                <!-- Cerner PathNet System -->
+                <rect x="30" y="155" width="160" height="45" rx="8" fill="#16213e" stroke="#e94560" stroke-width="2"/>
+                <text x="110" y="182" text-anchor="middle" fill="#fff" font-size="13">Cerner PathNet</text>
+
+                <!-- Cerner RadNet System -->
+                <rect x="30" y="225" width="160" height="45" rx="8" fill="#16213e" stroke="#e94560" stroke-width="2"/>
+                <text x="110" y="252" text-anchor="middle" fill="#fff" font-size="13">Cerner RadNet</text>
+
+                <!-- Shared Source -->
+                <rect x="340" y="185" width="180" height="50" rx="8" fill="#0f3460" stroke="#533483" stroke-width="2"/>
+                <text x="430" y="215" text-anchor="middle" fill="#fff" font-size="13">Shared Source</text>
+
+                <!-- Arrows from both systems to shared source -->
+                <line x1="190" y1="177" x2="340" y2="205" stroke="#533483" stroke-width="2" marker-end="url(#arr2)"/>
+                <line x1="190" y1="248" x2="340" y2="215" stroke="#533483" stroke-width="2" marker-end="url(#arr2)"/>
+
+                <!-- Labels -->
+                <text x="60" y="145" fill="#888" font-size="11">Contributor Systems</text>
+                <text x="370" y="145" fill="#888" font-size="11">Contributor Source</text>
+            </svg>
+        </div>
+
+        <!-- Interface Definitions Summary -->
+        <h2 id="interface-definitions">Interface Definitions Summary</h2>
+        <div class="card">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr><th>Term</th><th>Definition</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Code Values</strong></td><td>Unique, system-generated, numeric value representing Millennium reference data</td></tr>
+                        <tr><td><strong>Code Sets</strong></td><td>Groupings of like Millennium reference data, numeric values on CODE_VALUE table</td></tr>
+                        <tr><td><strong>Code Value Aliases</strong></td><td>Values sent via interface to represent reference data, stored on CODE_VALUE_ALIAS table</td></tr>
+                        <tr><td><strong>Contributor Systems</strong></td><td>Foreign or external systems sending data through an interface ("Country of origin")</td></tr>
+                        <tr><td><strong>Contributor Sources</strong></td><td>Complete translation dictionary when connected to Millennium ("Language" spoken)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- HL7 -->
+        <h2 id="hl7">HL7 &mdash; Interface Information Format</h2>
+        <div class="card">
+            <ul>
+                <li>Cerner Millennium receives data from a variety of non-Millennium sources</li>
+                <li>Each system can use different formats and variables</li>
+                <li><strong>HL7</strong> &mdash; International standards</li>
+                <li>Health Level Seven provides a standard for exchange, integration, sharing, and retrieval of electronic health information</li>
+                <li>Interfaces send HL7 messages with data in standard "placeholders"</li>
+                <li>Data gets processed by Cerner Millennium</li>
+            </ul>
+        </div>
+
+        <!-- Sample HL7 Message -->
+        <h2 id="hl7-sample">Sample HL7 Message</h2>
+        <div class="card">
+            <div class="hl7-block"><span class="seg">MSH</span><span class="pipe">|</span><span class="data">^~\&amp;</span><span class="pipe">|</span><span class="data">CERNER</span><span class="pipe">|</span><span class="data">OHH</span><span class="pipe">|</span><span class="data">MEDIC</span><span class="pipe">|</span><span class="data">OHH</span><span class="pipe">|</span><span class="data">20020806095826</span><span class="pipe">||</span><span class="data">ADT^A01</span><span class="pipe">|</span><span class="data">Q1193764T984880X81</span><span class="pipe">||</span><span class="data">2.3</span>
+<span class="seg">PID</span><span class="pipe">|</span><span class="data">1</span><span class="pipe">|</span><span class="data">1000717^^^^MRN</span><span class="pipe">|</span><span class="data">1000717^^^MRN Pool^MRN</span><span class="pipe">||</span><span class="data">Purdue^Ramona^^^^^Current</span><span class="pipe">||</span><span class="data">19590202000000</span><span class="pipe">|</span><span class="data">F</span><span class="pipe">|||</span><span class="data">2233 Flower Dr^^Oklahoma City^OK^73112^USA^home^^Oklahoma</span><span class="pipe">||</span><span class="data">(405)949-2211^Home</span><span class="pipe">|||</span><span class="data">Married</span><span class="pipe">||</span><span class="data">2521^^^FIN# Pool^FIN NBR</span><span class="pipe">|</span><span class="data">133455666</span><span class="pipe">||</span><span class="data">2521</span><span class="pipe">||||</span><span class="data">0</span>
+<span class="seg">NK1</span><span class="pipe">|</span><span class="data">1</span><span class="pipe">|</span><span class="data">Williams^Scott^^^^^Current</span><span class="pipe">||</span><span class="data">^^^OK^^^^^Oklahoma</span><span class="pipe">|</span><span class="data">(405)949-1122</span><span class="pipe">||</span><span class="data">Next of Kin</span>
+<span class="seg">NK1</span><span class="pipe">|</span><span class="data">2</span><span class="pipe">|</span><span class="data">Williams^Myrtle^^^^^Current</span><span class="pipe">||</span><span class="data">^^^OK^^^^^Oklahoma</span><span class="pipe">|</span><span class="data">(405)951-5488</span><span class="pipe">||</span><span class="data">Emergency Contact</span>
+<span class="seg">PV1</span><span class="pipe">|</span><span class="data">1</span><span class="pipe">|</span><span class="data">Inpatient</span><span class="pipe">|</span><span class="data">Pod A^201^Bed 1^Okla Heart Hosp^^Bed(s)^OHH</span><span class="pipe">|</span><span class="data">Elective</span><span class="pipe">|||</span><span class="data">^Delmas^Jon^^^^^^^Current</span><span class="pipe">|||||||</span><span class="data">Physician Referral</span><span class="pipe">|||</span><span class="data">^Schulz^Velma^^^^^^^Current</span><span class="pipe">|</span><span class="data">Inpatient</span><span class="pipe">||</span><span class="data">Blue Cross/Blue Shield</span><span class="pipe">|||||||||||||||||||</span><span class="data">Okla Heart Hosp</span><span class="pipe">||</span><span class="data">Active</span><span class="pipe">|||</span><span class="data">20020806094900</span></div>
+        </div>
+
+        <!-- HL7 Structure -->
+        <h2 id="hl7-structure">Structure of an HL7 Message</h2>
+        <div class="card">
+            <p>Three major logical structures:</p>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>Structure</th><th>Description</th><th>Delimiter</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Segments</strong></td><td>First logical breakdown of an HL7 message (e.g. MSH, PID)</td><td>Line break</td></tr>
+                        <tr><td><strong>Fields</strong></td><td>Breaks down Segments, contained within two vertical lines</td><td>Pipe <code>|Field|</code></td></tr>
+                        <tr><td><strong>Components</strong></td><td>Breaks down Fields, separated within a field by a caret character</td><td>Caret <code>^Component^</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Empty Fields and Components -->
+        <h2 id="hl7-empty">Empty Fields and Components</h2>
+        <div class="card">
+            <p>Many HL7 messages do not contain information in every field or component.</p>
+            <ul>
+                <li>Multiple pipe characters <code>||</code> indicate blank fields</li>
+                <li>Multiple caret characters <code>^^</code> indicate blank components</li>
+            </ul>
+        </div>
+
+        <!-- Counting Fields and Components -->
+        <h2 id="hl7-counting">Counting Fields and Components</h2>
+        <div class="card">
+            <p>Within a PID Segment, PID Sequence indicates data placeholders:</p>
+            <ul>
+                <li>Whole numbers = field number</li>
+                <li>Decimal numbers = component number</li>
+                <li><span class="badge important">Important</span> The segment header (MSH, PID) is NOT counted as a field</li>
+            </ul>
+
+            <h3>PID Field Counting</h3>
+            <div class="hl7-block"><span class="seg">PID</span><span class="pipe">|</span><span class="data"><span class="field-num">1</span>1</span><span class="pipe">|</span><span class="data"><span class="field-num">2</span>1000717^^^^MRN</span><span class="pipe">|</span><span class="data"><span class="field-num">3</span>1000717^^^MRN Pool^MRN</span><span class="pipe">|</span><span class="field-num">4</span><span class="pipe">|</span><span class="data"><span class="field-num">5</span>Purdue^Ramona^^^^^Current</span><span class="pipe">|</span><span class="field-num">6</span><span class="pipe">|</span><span class="data"><span class="field-num">7</span>19590202000000</span><span class="pipe">|</span><span class="data"><span class="field-num">8</span>F</span><span class="pipe">|</span><span class="field-num">9</span><span class="pipe">|</span><span class="field-num">10</span><span class="pipe">|</span><span class="data"><span class="field-num">11</span>526 Screen St^^Bean^TX^85421</span><span class="pipe">|</span><span class="field-num">12</span><span class="pipe">|</span><span class="data"><span class="field-num">13</span>(405)949-2211^Home</span><span class="pipe">|</span><span class="field-num">14</span><span class="pipe">|</span><span class="field-num">15</span><span class="pipe">|</span><span class="data"><span class="field-num">16</span>Married</span><span class="pipe">||</span><span class="data"><span class="field-num">18</span>2521^^^FIN# Pool^FIN</span></div>
+
+            <h3>PID Sequence for Field 11 (Patient Address)</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>Sequence</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td>11</td><td>Patient Address</td></tr>
+                        <tr><td>11.1</td><td>Address Line 1</td></tr>
+                        <tr><td>11.2</td><td>Address Line 2</td></tr>
+                        <tr><td>11.3</td><td>City</td></tr>
+                        <tr><td>11.4</td><td>State</td></tr>
+                        <tr><td>11.5</td><td>ZIP Code</td></tr>
+                        <tr><td>11.6</td><td>Country</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Component Counting for Field 11</h3>
+            <div class="hl7-block"><span class="pipe">|</span><span class="data">526 Screen St^^Bean^TX^85421</span><span class="pipe">|</span></div>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>Component</th><th>Value</th></tr></thead>
+                    <tbody>
+                        <tr><td>11.1</td><td>526 Screen St</td></tr>
+                        <tr><td>11.2</td><td><em>(empty)</em></td></tr>
+                        <tr><td>11.3</td><td>Bean</td></tr>
+                        <tr><td>11.4</td><td>TX</td></tr>
+                        <tr><td>11.5</td><td>85421</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- MSH Segment -->
+        <h2 id="msh-segment">The MSH Segment</h2>
+        <div class="card">
+            <p>The Message Header (MSH) begins every HL7 message and may contain event triggers.</p>
+            <div class="info-box">
+                <strong>Example:</strong> An external ADT system admits a patient, sending an MSH segment with an event trigger.
+            </div>
+            <h3>MSH Event Trigger Examples</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>Trigger</th><th>Event</th></tr></thead>
+                    <tbody>
+                        <tr><td>A01</td><td>Admit</td></tr>
+                        <tr><td>A02</td><td>Transfer</td></tr>
+                        <tr><td>A03</td><td>Discharge</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Other HL7 Segments -->
+        <h2 id="other-segments">Other HL7 Segments</h2>
+        <div class="card">
+            <h3>Demographic Segments</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>Segment</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td>PID</td><td>Patient demographic data</td></tr>
+                        <tr><td>DG1</td><td>Diagnosis information</td></tr>
+                        <tr><td>NK1</td><td>Next-of-kin information</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Order/Result Segments</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>Segment</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td>ORC</td><td>Information about an order</td></tr>
+                        <tr><td>OBR</td><td>Order details</td></tr>
+                        <tr><td>OBX</td><td>Results or observations</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Trigger Event A01 Segments -->
+        <h2 id="trigger-a01">Segments for Trigger Event A01 (Admitting)</h2>
+        <div class="card">
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>Type</th><th>Segment</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><span class="badge important">Required</span></td><td>MSH</td><td>Message Header</td></tr>
+                        <tr><td><span class="badge important">Required</span></td><td>PID</td><td>Patient Identification</td></tr>
+                        <tr><td><span class="badge important">Required</span></td><td>PV1</td><td>Patient Visit Information</td></tr>
+                        <tr><td><span class="badge">Optional</span></td><td>[{NTE}]</td><td>Notes and Comments</td></tr>
+                        <tr><td><span class="badge">Optional</span></td><td>[{NK1}]</td><td>Next-of-Kin</td></tr>
+                        <tr><td><span class="badge">Repeating</span></td><td>[PV2]</td><td>Additional Patient Visit Info</td></tr>
+                        <tr><td><span class="badge">Repeating</span></td><td>[{DG1}]</td><td>Diagnosis</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="info-box">
+                <strong>Legend:</strong> [ ] = Optional, { } = Repeating
+            </div>
+        </div>
+
+        <!-- Additional Education -->
+        <h2 id="additional-education">Additional Education</h2>
+        <div class="card">
+            <p>For further learning, refer to the following topics:</p>
+            <ul>
+                <li>Millennium Open Port</li>
+                <li>Millennium Open Engine</li>
+                <li>Cerner OPENLink</li>
+                <li>Millennium Operations Overview</li>
+            </ul>
+        </div>
+
+    </div>
+</body>
+</html>
