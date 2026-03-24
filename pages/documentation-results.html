@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Results &amp; Events - Cerner Millennium Fundamentals</title>
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 2em;
+            border-bottom: 3px solid #e94560;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #e94560;
+            font-size: 1.5em;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-left: 4px solid #e94560;
+            padding-left: 12px;
+        }
+
+        h3 {
+            color: #0f3460;
+            background: linear-gradient(90deg, #e94560, #533483);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.2em;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        p, li {
+            margin-bottom: 8px;
+            color: #ccc;
+        }
+
+        ul {
+            padding-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: #e94560;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #aaa;
+            font-size: 0.9em;
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
+
+        /* Cards */
+        .card {
+            background-color: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+        }
+
+        .card-highlight {
+            border-left: 4px solid #e94560;
+        }
+
+        /* Info box */
+        .info-box {
+            background-color: #0f3460;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-left: 4px solid #533483;
+        }
+
+        .info-box strong {
+            color: #e94560;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background-color: #0f3460;
+            color: #fff;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #1a1a2e;
+            background-color: #16213e;
+        }
+
+        tr:hover td {
+            background-color: #1a2744;
+        }
+
+        .table-label {
+            display: inline-block;
+            background: #e94560;
+            color: #fff;
+            font-weight: bold;
+            padding: 3px 10px;
+            border-radius: 4px 4px 0 0;
+            font-size: 0.85em;
+            margin-bottom: -1px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 10px 0 20px 0;
+        }
+
+        /* Diagrams */
+        .diagram {
+            background-color: #0d1b2a;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .diagram-title {
+            color: #e94560;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .diagram svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Tooltip/note */
+        .note {
+            color: #888;
+            font-size: 0.85em;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        /* Badge/tag */
+        .badge {
+            display: inline-block;
+            background: #533483;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-right: 4px;
+        }
+
+        .badge.tool { background: #0f3460; }
+        .badge.table { background: #1b6b4a; }
+        .badge.important { background: #e94560; }
+
+        /* Section nav */
+        .section-nav {
+            background: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            padding: 15px 25px;
+            margin-bottom: 30px;
+        }
+
+        .section-nav strong {
+            color: #e94560;
+        }
+
+        .section-nav ol {
+            padding-left: 20px;
+            margin-top: 8px;
+        }
+
+        .section-nav li {
+            margin-bottom: 4px;
+        }
+
+        .section-nav a {
+            color: #8ab4f8;
+        }
+
+        /* Definition list */
+        .def-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        @media (min-width: 768px) {
+            .def-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .def-item {
+            background: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .def-item .def-title {
+            color: #e94560;
+            font-weight: bold;
+            font-size: 1.05em;
+            margin-bottom: 6px;
+        }
+
+        .def-item .def-desc {
+            color: #bbb;
+            font-size: 0.92em;
+        }
+
+        /* Two-col layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        @media (min-width: 768px) {
+            .two-col { grid-template-columns: 1fr 1fr; }
+        }
+
+        .solution-box {
+            background: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .solution-box .sol-title {
+            color: #e94560;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .further-learning {
+            background: linear-gradient(135deg, #16213e, #0f3460);
+            border-radius: 10px;
+            padding: 20px 25px;
+            margin-top: 30px;
+        }
+
+        .further-learning h3 {
+            background: none;
+            -webkit-text-fill-color: #e94560;
+            color: #e94560;
+        }
+
+        code {
+            background: #0d1b2a;
+            color: #e94560;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        /* Core Event Manager mockup */
+        .rhb-window {
+            background: #f0f0f0;
+            border: 1px solid #888;
+            border-radius: 4px;
+            max-width: 420px;
+            margin: 20px auto;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-size: 13px;
+            color: #000;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+        }
+
+        .rhb-titlebar {
+            background: linear-gradient(to right, #0078d4, #005a9e);
+            color: #fff;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .rhb-titlebar .rhb-close {
+            background: #c42b1c;
+            color: #fff;
+            border: none;
+            width: 20px;
+            height: 20px;
+            font-size: 14px;
+            line-height: 18px;
+            text-align: center;
+            cursor: default;
+            border-radius: 2px;
+        }
+
+        .rhb-body {
+            background: #fff;
+            border: 1px solid #ccc;
+            margin: 8px;
+            padding: 4px;
+            max-height: 340px;
+            overflow-y: auto;
+        }
+
+        .rhb-tree {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .rhb-tree ul {
+            list-style: none;
+            padding-left: 18px;
+            margin: 0;
+        }
+
+        .rhb-tree li {
+            margin: 0;
+            padding: 1px 0;
+            color: #000;
+            line-height: 1.6;
+            white-space: nowrap;
+        }
+
+        .rhb-tree .tree-icon {
+            display: inline-block;
+            width: 16px;
+            text-align: center;
+            color: #666;
+            font-size: 10px;
+            margin-right: 2px;
+        }
+
+        .rhb-tree .folder-icon { color: #d4a017; }
+        .rhb-tree .file-icon { color: #888; }
+
+        .rhb-es-highlight {
+            background: #fff3cd;
+            border: 1px solid #e0c060;
+            padding: 0 3px;
+            border-radius: 2px;
+        }
+
+        .rhb-pes-highlight {
+            background: #d4edda;
+            border: 1px solid #80c090;
+            padding: 0 3px;
+            border-radius: 2px;
+        }
+
+        .rhb-label {
+            font-weight: bold;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .rhb-label-es { color: #c07000; }
+        .rhb-label-pes { color: #28713e; }
+
+        .rhb-buttons {
+            text-align: right;
+            padding: 4px 8px 8px;
+        }
+
+        .rhb-buttons button {
+            background: #e0e0e0;
+            border: 1px solid #aaa;
+            padding: 3px 16px;
+            font-size: 12px;
+            margin-left: 4px;
+            border-radius: 3px;
+            color: #000;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">&larr; Back to Home</a>
+
+        <h1>Results &amp; Events</h1>
+        <p>Cerner Millennium Fundamentals &mdash; How clinical results are stored, structured, and displayed.</p>
+
+        <!-- Table of Contents -->
+        <nav class="section-nav">
+            <strong>Contents</strong>
+            <ol>
+                <li><a href="#events-overview">Results and Events Overview</a></li>
+                <li><a href="#event-codes">Event Codes</a></li>
+                <li><a href="#storage">How Results Are Stored</a></li>
+                <li><a href="#definitions">Interfaces &amp; Results Definitions</a></li>
+                <li><a href="#contextualized">Results Contextualized</a></li>
+                <li><a href="#config-tools">Configuring Result Display</a></li>
+                <li><a href="#esh-overview">Event Set Hierarchy Overview</a></li>
+                <li><a href="#esh-required">Required Event Sets</a></li>
+                <li><a href="#esh-example">Event Set Hierarchy Example</a></li>
+                <li><a href="#other-results">Other Results / Other Documents</a></li>
+                <li><a href="#specialty-sections">All Specialty Sections</a></li>
+                <li><a href="#solution-specific">Solution-Specific Event Sets</a></li>
+                <li><a href="#powerchart-display">Results Displayed in PowerChart</a></li>
+                <li><a href="#further-learning">Further Learning</a></li>
+            </ol>
+        </nav>
+
+        <!-- Section 1: Overview -->
+        <section id="events-overview">
+            <h2>1. Results and Events Overview</h2>
+            <div class="card card-highlight">
+                <h3>What is an Event?</h3>
+                <p>In Cerner Millennium, an <strong>event</strong> represents any recorded patient interaction or measurement. Examples include:</p>
+                <ul>
+                    <li>Lab results (e.g., blood chemistry, CBC)</li>
+                    <li>Weight measurements</li>
+                    <li>Temperature readings</li>
+                    <li>Patient progress notes</li>
+                </ul>
+                <div class="info-box">
+                    <strong>Key Concept:</strong> A <em>result</em> is the outcome of a patient event. Results are stored on the <code>CLINICAL_EVENT</code> table in the database for many types of patient events.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Event Codes -->
+        <section id="event-codes">
+            <h2>2. Event Codes</h2>
+            <div class="card">
+                <p>An <strong>Event Code</strong> is a special type of code value reserved exclusively for results. Millennium uses event codes to reference specific patient events.</p>
+
+                <div class="table-wrapper">
+                    <span class="table-label">CODE_VALUE Table</span>
+                    <table>
+                        <tr>
+                            <th>code_value</th>
+                            <th>display</th>
+                        </tr>
+                        <tr>
+                            <td><code>4228747</code></td>
+                            <td>Weight Measured</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="info-box">
+                    <strong>Remember:</strong> The event code (e.g., 4228747) is <em>not</em> the actual result &mdash; it is the identifier that tells the system <em>what type</em> of result is being stored.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: How Results Are Stored -->
+        <section id="storage">
+            <h2>3. How Results Are Stored</h2>
+            <div class="card">
+                <h3>Analogy: Person Alias Storage</h3>
+                <p>When the database stores a person alias, it uses a <code>code_value</code> (<code>person_alias_type_cd</code>) to define the type of alias stored:</p>
+
+                <div class="table-wrapper">
+                    <span class="table-label">CODE_VALUE Table</span>
+                    <table>
+                        <tr><th>code_value</th><th>code_set</th><th>display</th></tr>
+                        <tr><td><code>10</code></td><td>263</td><td>MRN</td></tr>
+                    </table>
+                </div>
+
+                <div class="table-wrapper">
+                    <span class="table-label">PERSON_ALIAS Table</span>
+                    <table>
+                        <tr><th>person_alias_id</th><th>person_id</th><th>person_alias_type_cd</th><th>alias</th></tr>
+                        <tr><td>5312567</td><td>1</td><td><code>10</code></td><td>123456</td></tr>
+                    </table>
+                </div>
+
+                <h3>Results Storage: Same Pattern</h3>
+                <p>Results follow the same pattern. Cerner Millennium stores results on the <code>CLINICAL_EVENT</code> table, identified by a <code>code_value</code> (<code>event_cd</code>):</p>
+
+                <div class="table-wrapper">
+                    <span class="table-label">CODE_VALUE Table</span>
+                    <table>
+                        <tr><th>code_value</th><th>code_set</th><th>display</th></tr>
+                        <tr><td><code>4228747</code></td><td>263</td><td>Weight Measured</td></tr>
+                    </table>
+                </div>
+
+                <div class="table-wrapper">
+                    <span class="table-label">CLINICAL_EVENT Table</span>
+                    <table>
+                        <tr><th>clinical_event_id</th><th>person_id</th><th>event_cd</th><th>result_val</th></tr>
+                        <tr><td>68453157</td><td>1</td><td><code>4228747</code></td><td>140.5</td></tr>
+                    </table>
+                </div>
+
+                <p class="note">This is a conceptual representation of the Clinical Event table. Columns shown are for understanding and may not represent the exact table structure.</p>
+
+            </div>
+        </section>
+
+        <!-- Section 4: Definitions -->
+        <section id="definitions">
+            <h2>4. Interfaces &amp; Results Definitions</h2>
+            <div class="def-grid">
+                <div class="def-item">
+                    <div class="def-title">Event Codes</div>
+                    <div class="def-desc">
+                        <ul>
+                            <li>Placeholder for results</li>
+                            <li>A number against which discrete pieces of clinical data are stored</li>
+                            <li>Must be tied to a Primitive Event Set</li>
+                            <li><strong>NOT</strong> the actual result itself</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="def-item">
+                    <div class="def-title">Code Value Aliases</div>
+                    <div class="def-desc">
+                        <ul>
+                            <li>Foreign/external system identifier used to represent a piece of information</li>
+                            <li>Must be tied to a Millennium event code for translation</li>
+                            <li>Allows external systems to map to internal event codes</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="def-item">
+                    <div class="def-title">Primitive Event Set</div>
+                    <div class="def-desc">
+                        <ul>
+                            <li>Display name of the result as seen by end users</li>
+                            <li>Must be tied to an Event Code</li>
+                            <li>Lowest viewable value on a Cerner Millennium flowsheet</li>
+                            <li>Required for front-end display of results</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="def-item">
+                    <div class="def-title">Event Sets</div>
+                    <div class="def-desc">
+                        <ul>
+                            <li>Logical grouping of Primitive Event Sets</li>
+                            <li>Creates organizational structure</li>
+                            <li>Can be nested to form bigger, more generalized groups of information</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Section 5: Contextualized -->
+        <section id="contextualized">
+            <h2>5. Results Contextualized</h2>
+            <div class="card">
+                <p>Bringing it all together with a concrete example:</p>
+
+                <!-- SVG: Results Contextualized Diagram (matching PDF style) -->
+                <div class="diagram">
+                    <div class="diagram-title">Results Contextualized</div>
+                    <svg viewBox="0 0 780 380" xmlns="http://www.w3.org/2000/svg" style="max-width:780px;">
+                        <defs>
+                            <marker id="arrow3" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#e94560">
+                                <polygon points="0 0, 10 3.5, 0 7"/>
+                            </marker>
+                        </defs>
+
+                        <!-- Column Headers -->
+                        <rect x="10" y="10" width="160" height="35" rx="6" fill="#555" stroke="#777" stroke-width="1"/>
+                        <text x="90" y="33" text-anchor="middle" fill="#fff" font-weight="bold" font-size="14" text-decoration="underline">Terms</text>
+
+                        <rect x="270" y="10" width="200" height="35" rx="6" fill="#555" stroke="#777" stroke-width="1"/>
+                        <text x="370" y="33" text-anchor="middle" fill="#fff" font-weight="bold" font-size="14" text-decoration="underline">Examples</text>
+
+                        <rect x="580" y="10" width="185" height="35" rx="6" fill="#555" stroke="#777" stroke-width="1"/>
+                        <text x="672" y="33" text-anchor="middle" fill="#fff" font-weight="bold" font-size="14" text-decoration="underline">Tables*</text>
+
+                        <!-- Row 1: Event Set -->
+                        <rect x="10" y="60" width="160" height="40" rx="6" fill="#2196F3"/>
+                        <text x="90" y="85" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">Event Set</text>
+
+                        <rect x="270" y="60" width="200" height="40" rx="6" fill="#E67E22"/>
+                        <text x="370" y="85" text-anchor="middle" fill="#fff" font-size="13">Measurements</text>
+
+                        <!-- Arrow Row 1 -->
+                        <line x1="175" y1="80" x2="265" y2="80" stroke="#e94560" stroke-width="2.5" marker-end="url(#arrow3)"/>
+                        <line x1="475" y1="80" x2="575" y2="80" stroke="#e94560" stroke-width="2.5" marker-end="url(#arrow3)"/>
+
+                        <rect x="580" y="60" width="185" height="40" rx="6" fill="#2196F3"/>
+                        <text x="672" y="85" text-anchor="middle" fill="#fff" font-size="13">CODE_VALUE</text>
+
+                        <!-- Row 2: Primitive Event Set -->
+                        <rect x="10" y="115" width="160" height="40" rx="6" fill="#2196F3"/>
+                        <text x="90" y="140" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">Primitive Event Set</text>
+
+                        <rect x="270" y="115" width="200" height="40" rx="6" fill="#E67E22"/>
+                        <text x="370" y="140" text-anchor="middle" fill="#fff" font-size="13">Weight Measurement</text>
+
+                        <!-- Arrow Row 2 -->
+                        <line x1="175" y1="135" x2="265" y2="135" stroke="#e94560" stroke-width="2.5" marker-end="url(#arrow3)"/>
+                        <line x1="475" y1="135" x2="575" y2="135" stroke="#e94560" stroke-width="2.5" marker-end="url(#arrow3)"/>
+
+                        <rect x="580" y="115" width="185" height="40" rx="6" fill="#2196F3"/>
+                        <text x="672" y="140" text-anchor="middle" fill="#fff" font-size="13">CODE_VALUE</text>
+
+                        <!-- Row 3: Event Code -->
+                        <rect x="10" y="170" width="160" height="40" rx="6" fill="#9E9E9E"/>
+                        <text x="90" y="195" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">Event Code</text>
+
+                        <rect x="270" y="170" width="200" height="40" rx="6" fill="#9C27B0"/>
+                        <text x="370" y="195" text-anchor="middle" fill="#fff" font-weight="bold" font-size="14">4228747</text>
+
+                        <!-- Arrow Row 3 -->
+                        <line x1="175" y1="190" x2="265" y2="190" stroke="#e94560" stroke-width="2.5" marker-end="url(#arrow3)"/>
+                        <line x1="475" y1="190" x2="575" y2="190" stroke="#e94560" stroke-width="2.5" marker-end="url(#arrow3)"/>
+
+                        <rect x="580" y="165" width="185" height="55" rx="6" fill="#2196F3"/>
+                        <text x="672" y="185" text-anchor="middle" fill="#fff" font-size="12">CODE_VALUE</text>
+                        <text x="672" y="200" text-anchor="middle" fill="#fff" font-size="12">CODE_VALUE_ALIAS</text>
+                        <text x="672" y="215" text-anchor="middle" fill="#fff" font-size="12">CLINICAL_EVENT</text>
+
+                        <!-- Branching lines from 4228747 down to aliases -->
+                        <line x1="370" y1="210" x2="370" y2="240" stroke="#888" stroke-width="2"/>
+                        <!-- Left branch -->
+                        <line x1="370" y1="240" x2="290" y2="240" stroke="#888" stroke-width="2"/>
+                        <line x1="290" y1="240" x2="290" y2="260" stroke="#888" stroke-width="2"/>
+                        <!-- Middle branch -->
+                        <line x1="370" y1="240" x2="370" y2="260" stroke="#888" stroke-width="2"/>
+                        <!-- Right branch -->
+                        <line x1="370" y1="240" x2="450" y2="240" stroke="#888" stroke-width="2"/>
+                        <line x1="450" y1="240" x2="450" y2="260" stroke="#888" stroke-width="2"/>
+
+                        <!-- Row 4: Code Value Aliases -->
+                        <rect x="10" y="260" width="160" height="40" rx="6" fill="#4CAF50"/>
+                        <text x="90" y="285" text-anchor="middle" fill="#fff" font-weight="bold" font-size="12">Code Value Aliases</text>
+
+                        <rect x="240" y="260" width="100" height="40" rx="6" fill="#4CAF50"/>
+                        <text x="290" y="285" text-anchor="middle" fill="#fff" font-size="13">We123</text>
+
+                        <rect x="345" y="260" width="50" height="40" rx="6" fill="#4CAF50"/>
+                        <text x="370" y="285" text-anchor="middle" fill="#fff" font-size="13">W</text>
+
+                        <rect x="400" y="260" width="100" height="40" rx="6" fill="#4CAF50"/>
+                        <text x="450" y="285" text-anchor="middle" fill="#fff" font-size="13">3123</text>
+
+                        <!-- Arrow Row 4 -->
+                        <line x1="175" y1="280" x2="235" y2="280" stroke="#e94560" stroke-width="2.5" marker-end="url(#arrow3)"/>
+                        <line x1="505" y1="280" x2="575" y2="280" stroke="#e94560" stroke-width="2.5" marker-end="url(#arrow3)"/>
+
+                        <rect x="580" y="260" width="185" height="40" rx="6" fill="#2196F3"/>
+                        <text x="672" y="285" text-anchor="middle" fill="#fff" font-size="13">CODE_VALUE_ALIAS</text>
+
+                        <!-- Footnote -->
+                        <text x="390" y="330" text-anchor="middle" fill="#888" font-size="11" font-style="italic">*The tables listed are those discussed in class. This is not a complete list of tables where Results information is located.</text>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Config Tools -->
+        <section id="config-tools">
+            <h2>6. Configuring Result Display</h2>
+            <div class="card">
+                <h3>Tools Used</h3>
+                <div class="def-grid">
+                    <div class="def-item">
+                        <div class="def-title"><span class="badge tool">Spreadsheet</span> Event Code Spreadsheet</div>
+                        <div class="def-desc">Used to build event codes and tie them to their code value aliases.</div>
+                    </div>
+                    <div class="def-item">
+                        <div class="def-title"><span class="badge tool">Spreadsheet</span> Event Set Spreadsheet</div>
+                        <div class="def-desc">Used to build event sets and primitive event sets.</div>
+                    </div>
+                    <div class="def-item">
+                        <div class="def-title"><span class="badge tool">Back-end</span> CoreEventManager.exe</div>
+                        <div class="def-desc">Back-end function for managing event configuration.</div>
+                    </div>
+                    <div class="def-item">
+                        <div class="def-title"><span class="badge tool">Back-end</span> Discern Explorer</div>
+                        <div class="def-desc">Query and analysis tool for event data.</div>
+                    </div>
+                    <div class="def-item">
+                        <div class="def-title"><span class="badge tool">Back-end</span> Laboratory Management</div>
+                        <div class="def-desc">Solution-specific configuration for lab results.</div>
+                    </div>
+                    <div class="def-item">
+                        <div class="def-title"><span class="badge tool">Back-end</span> Radiology Management</div>
+                        <div class="def-desc">Solution-specific configuration for radiology results.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: ESH Overview -->
+        <section id="esh-overview">
+            <h2>7. Event Set Hierarchy (ESH) Overview</h2>
+            <div class="card card-highlight">
+                <p>Event Sets can be grouped into an organized and configurable view for front-end users called the <strong>Event Set Hierarchy (ESH)</strong>.</p>
+                <ul>
+                    <li>The ESH includes <strong>Primitive Event Sets</strong> (display names) and <strong>Event Sets</strong> (groupings of display names)</li>
+                    <li><strong>Event Codes are NOT part of the Event Set Hierarchy</strong> &mdash; they sit below it</li>
+                    <li>The ESH defines what is seen on PowerChart flowsheets</li>
+                </ul>
+
+                <!-- SVG: ESH Structure -->
+                <div class="diagram">
+                    <div class="diagram-title">ESH Structure</div>
+                    <svg viewBox="0 0 400 310" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;">
+                        <!-- ESH label -->
+                        <rect x="100" y="10" width="200" height="40" rx="8" fill="#e94560"/>
+                        <text x="200" y="35" text-anchor="middle" fill="#fff" font-weight="bold" font-size="14">Event Set Hierarchy</text>
+
+                        <!-- Arrow down -->
+                        <line x1="200" y1="50" x2="200" y2="80" stroke="#e94560" stroke-width="2"/>
+                        <polygon points="195,75 205,75 200,85" fill="#e94560"/>
+
+                        <!-- Event Sets -->
+                        <rect x="110" y="85" width="180" height="45" rx="8" fill="#533483" stroke="#6a42a0" stroke-width="2"/>
+                        <text x="200" y="105" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">Event Sets</text>
+                        <text x="200" y="122" text-anchor="middle" fill="#ccc" font-size="10">(groupings)</text>
+
+                        <!-- Arrow down -->
+                        <line x1="200" y1="130" x2="200" y2="155" stroke="#e94560" stroke-width="2"/>
+                        <polygon points="195,150 205,150 200,160" fill="#e94560"/>
+
+                        <!-- Primitive Event Sets -->
+                        <rect x="90" y="160" width="220" height="45" rx="8" fill="#1b6b4a" stroke="#28a06e" stroke-width="2"/>
+                        <text x="200" y="180" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">Primitive Event Sets</text>
+                        <text x="200" y="197" text-anchor="middle" fill="#ccc" font-size="10">(display names)</text>
+
+                        <!-- Dashed line separator -->
+                        <line x1="40" y1="225" x2="360" y2="225" stroke="#888" stroke-width="2" stroke-dasharray="8,4"/>
+                        <text x="200" y="245" text-anchor="middle" fill="#888" font-size="11" font-style="italic">Below this line = NOT part of ESH</text>
+
+                        <!-- Event Codes (greyed out) -->
+                        <rect x="110" y="255" width="180" height="45" rx="8" fill="#444" stroke="#888" stroke-width="1" stroke-dasharray="5,3"/>
+                        <text x="200" y="275" text-anchor="middle" fill="#aaa" font-size="13">Event Codes</text>
+                        <text x="200" y="292" text-anchor="middle" fill="#777" font-size="10">(DB identifiers)</text>
+
+                        <!-- Dashed arrow down to event codes -->
+                        <line x1="200" y1="205" x2="200" y2="255" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3"/>
+                        <polygon points="195,250 205,250 200,258" fill="#888"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 8: Required Event Sets -->
+        <section id="esh-required">
+            <h2>8. Required Event Sets (7 Required)</h2>
+            <div class="card">
+                <p>The Event Set Hierarchy requires a pre-defined skeletal structure for system functionality throughout solutions.</p>
+
+                <!-- SVG: Required Skeletal Structure -->
+                <div class="diagram">
+                    <div class="diagram-title">Required Skeletal Structure</div>
+                    <svg viewBox="0 0 660 330" xmlns="http://www.w3.org/2000/svg" style="max-width:660px;">
+                        <!-- All OCF Events -->
+                        <rect x="230" y="10" width="200" height="40" rx="8" fill="#e94560"/>
+                        <text x="330" y="35" text-anchor="middle" fill="#fff" font-weight="bold" font-size="14">All OCF Events</text>
+
+                        <!-- Lines down to level 1 -->
+                        <line x1="330" y1="50" x2="330" y2="70" stroke="#aaa" stroke-width="2"/>
+                        <line x1="165" y1="70" x2="495" y2="70" stroke="#aaa" stroke-width="2"/>
+                        <line x1="165" y1="70" x2="165" y2="85" stroke="#aaa" stroke-width="2"/>
+                        <line x1="495" y1="70" x2="495" y2="85" stroke="#aaa" stroke-width="2"/>
+
+                        <!-- All Result Sections -->
+                        <rect x="60" y="85" width="210" height="40" rx="8" fill="#533483" stroke="#6a42a0" stroke-width="2"/>
+                        <text x="165" y="110" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">All Result Sections</text>
+
+                        <!-- All Specialty Sections -->
+                        <rect x="390" y="85" width="210" height="40" rx="8" fill="#533483" stroke="#6a42a0" stroke-width="2"/>
+                        <text x="495" y="110" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">All Specialty Sections</text>
+
+                        <!-- Lines down to level 2 -->
+                        <line x1="165" y1="125" x2="165" y2="145" stroke="#aaa" stroke-width="2"/>
+                        <line x1="165" y1="145" x2="165" y2="160" stroke="#aaa" stroke-width="2"/>
+                        <line x1="495" y1="125" x2="495" y2="160" stroke="#aaa" stroke-width="2"/>
+
+                        <!-- All Sections -->
+                        <rect x="60" y="160" width="210" height="40" rx="8" fill="#0f3460" stroke="#1a4080" stroke-width="2"/>
+                        <text x="165" y="185" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">All Sections</text>
+
+                        <!-- All Service Documents -->
+                        <rect x="390" y="160" width="210" height="40" rx="8" fill="#0f3460" stroke="#1a4080" stroke-width="2"/>
+                        <text x="495" y="185" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">All Service Documents</text>
+
+                        <!-- Lines down to level 3 -->
+                        <line x1="165" y1="200" x2="165" y2="235" stroke="#aaa" stroke-width="2"/>
+                        <line x1="495" y1="200" x2="495" y2="235" stroke="#aaa" stroke-width="2"/>
+
+                        <!-- Other Results -->
+                        <rect x="60" y="235" width="210" height="40" rx="8" fill="#0f3460" stroke="#1a4080" stroke-width="2"/>
+                        <text x="165" y="260" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">Other Results</text>
+
+                        <!-- Other Documents -->
+                        <rect x="390" y="235" width="210" height="40" rx="8" fill="#0f3460" stroke="#1a4080" stroke-width="2"/>
+                        <text x="495" y="260" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">Other Documents</text>
+                    </svg>
+                </div>
+
+                <div class="info-box">
+                    <strong>7 Required Event Sets:</strong> All OCF Events, All Result Sections, All Specialty Sections, All Sections, All Service Documents, Other Results, Other Documents.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 9: ESH Example -->
+        <section id="esh-example">
+            <h2>9. Event Set Hierarchy Example</h2>
+            <div class="card">
+                <p>A practical example showing how measurements and lab results fit into the hierarchy:</p>
+
+                <!-- SVG: Full Hierarchy Example -->
+                <div class="diagram">
+                    <div class="diagram-title">Full Hierarchy Example</div>
+                    <svg viewBox="0 0 800 560" xmlns="http://www.w3.org/2000/svg" style="max-width:800px;">
+                        <!-- Level 0: All OCF Events -->
+                        <rect x="300" y="10" width="200" height="38" rx="8" fill="#e94560"/>
+                        <text x="400" y="34" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">All OCF Events</text>
+
+                        <!-- Branch down to level 1 -->
+                        <line x1="400" y1="48" x2="400" y2="62" stroke="#aaa" stroke-width="2"/>
+                        <line x1="200" y1="62" x2="600" y2="62" stroke="#aaa" stroke-width="2"/>
+                        <line x1="200" y1="62" x2="200" y2="75" stroke="#aaa" stroke-width="2"/>
+                        <line x1="600" y1="62" x2="600" y2="75" stroke="#aaa" stroke-width="2"/>
+
+                        <!-- Level 1: All Result Sections / All Specialty Sections -->
+                        <rect x="90" y="75" width="220" height="36" rx="8" fill="#533483"/>
+                        <text x="200" y="98" text-anchor="middle" fill="#fff" font-weight="bold" font-size="12">All Result Sections</text>
+                        <rect x="490" y="75" width="220" height="36" rx="8" fill="#533483"/>
+                        <text x="600" y="98" text-anchor="middle" fill="#fff" font-weight="bold" font-size="12">All Specialty Sections</text>
+
+                        <!-- Branch from All Result Sections to level 2 -->
+                        <line x1="200" y1="111" x2="200" y2="125" stroke="#aaa" stroke-width="2"/>
+                        <line x1="100" y1="125" x2="350" y2="125" stroke="#aaa" stroke-width="2"/>
+                        <line x1="100" y1="125" x2="100" y2="138" stroke="#aaa" stroke-width="2"/>
+                        <line x1="350" y1="125" x2="350" y2="138" stroke="#aaa" stroke-width="2"/>
+
+                        <!-- Level 2: All Sections / All Service Documents -->
+                        <rect x="20" y="138" width="160" height="36" rx="8" fill="#0f3460"/>
+                        <text x="100" y="161" text-anchor="middle" fill="#fff" font-size="12">All Sections</text>
+                        <rect x="270" y="138" width="180" height="36" rx="8" fill="#0f3460"/>
+                        <text x="360" y="161" text-anchor="middle" fill="#fff" font-size="12">All Service Documents</text>
+
+                        <!-- Branch from All Sections to level 3 -->
+                        <line x1="100" y1="174" x2="100" y2="188" stroke="#aaa" stroke-width="2"/>
+                        <line x1="100" y1="188" x2="490" y2="188" stroke="#aaa" stroke-width="2"/>
+                        <line x1="100" y1="188" x2="100" y2="200" stroke="#aaa" stroke-width="2"/>
+                        <line x1="300" y1="188" x2="300" y2="200" stroke="#aaa" stroke-width="2"/>
+                        <!-- Branch from All Service Documents -->
+                        <line x1="360" y1="174" x2="360" y2="188" stroke="#aaa" stroke-width="2"/>
+                        <line x1="490" y1="188" x2="490" y2="200" stroke="#aaa" stroke-width="2"/>
+                        <line x1="660" y1="188" x2="660" y2="200" stroke="#aaa" stroke-width="2"/>
+                        <line x1="490" y1="188" x2="660" y2="188" stroke="#aaa" stroke-width="2"/>
+
+                        <!-- Level 3: Specific Event Sets -->
+                        <rect x="20" y="200" width="160" height="36" rx="8" fill="#0f3460" stroke="#1a4080" stroke-width="1"/>
+                        <text x="100" y="223" text-anchor="middle" fill="#fff" font-size="12">Measurements</text>
+                        <rect x="210" y="200" width="180" height="36" rx="8" fill="#0f3460" stroke="#1a4080" stroke-width="1"/>
+                        <text x="300" y="223" text-anchor="middle" fill="#fff" font-size="12">Laboratory Results</text>
+                        <rect x="410" y="200" width="160" height="36" rx="8" fill="#0f3460" stroke="#1a4080" stroke-width="1"/>
+                        <text x="490" y="223" text-anchor="middle" fill="#fff" font-size="12">Other Results</text>
+                        <rect x="590" y="200" width="160" height="36" rx="8" fill="#0f3460" stroke="#1a4080" stroke-width="1"/>
+                        <text x="670" y="223" text-anchor="middle" fill="#fff" font-size="12">Other Documents</text>
+
+                        <!-- Branch from Measurements down -->
+                        <line x1="100" y1="236" x2="100" y2="265" stroke="#aaa" stroke-width="2"/>
+
+                        <!-- Branch from Laboratory Results down -->
+                        <line x1="300" y1="236" x2="300" y2="252" stroke="#aaa" stroke-width="2"/>
+                        <line x1="240" y1="252" x2="380" y2="252" stroke="#aaa" stroke-width="2"/>
+                        <line x1="240" y1="252" x2="240" y2="265" stroke="#aaa" stroke-width="2"/>
+                        <line x1="380" y1="252" x2="380" y2="265" stroke="#aaa" stroke-width="2"/>
+
+                        <!-- Level 4: Sub event sets -->
+                        <rect x="20" y="265" width="160" height="36" rx="8" fill="#0f3460" stroke="#28a06e" stroke-width="1"/>
+                        <text x="100" y="288" text-anchor="middle" fill="#fff" font-size="11">Weight Measurement</text>
+
+                        <rect x="175" y="265" width="130" height="36" rx="8" fill="#0f3460" stroke="#1a4080" stroke-width="1"/>
+                        <text x="240" y="288" text-anchor="middle" fill="#fff" font-size="11">Chemistry</text>
+
+                        <rect x="315" y="265" width="130" height="36" rx="8" fill="#0f3460" stroke="#1a4080" stroke-width="1"/>
+                        <text x="380" y="288" text-anchor="middle" fill="#fff" font-size="11">Cardiac Markers</text>
+
+                        <!-- Lines down to Primitive Event Sets -->
+                        <line x1="100" y1="301" x2="100" y2="330" stroke="#28a06e" stroke-width="2"/>
+                        <line x1="240" y1="301" x2="240" y2="330" stroke="#28a06e" stroke-width="2"/>
+                        <line x1="380" y1="301" x2="380" y2="315" stroke="#28a06e" stroke-width="2"/>
+                        <line x1="340" y1="315" x2="420" y2="315" stroke="#28a06e" stroke-width="2"/>
+                        <line x1="340" y1="315" x2="340" y2="330" stroke="#28a06e" stroke-width="2"/>
+                        <line x1="420" y1="315" x2="420" y2="330" stroke="#28a06e" stroke-width="2"/>
+
+                        <!-- Primitive Event Sets -->
+                        <rect x="20" y="330" width="160" height="36" rx="8" fill="#1b6b4a" stroke="#28a06e" stroke-width="2"/>
+                        <text x="100" y="353" text-anchor="middle" fill="#fff" font-weight="bold" font-size="11">Weight Measurement</text>
+
+                        <rect x="190" y="330" width="100" height="36" rx="8" fill="#1b6b4a" stroke="#28a06e" stroke-width="2"/>
+                        <text x="240" y="353" text-anchor="middle" fill="#fff" font-weight="bold" font-size="12">CK</text>
+
+                        <rect x="370" y="330" width="100" height="36" rx="8" fill="#1b6b4a" stroke="#28a06e" stroke-width="2"/>
+                        <text x="420" y="353" text-anchor="middle" fill="#fff" font-weight="bold" font-size="12">CKMB</text>
+
+                        <!-- Label: Primitive Event Sets -->
+                        <text x="540" y="353" fill="#28a06e" font-size="11" font-style="italic">&larr; Primitive Event Sets</text>
+
+                        <!-- Dashed separator -->
+                        <line x1="10" y1="385" x2="790" y2="385" stroke="#888" stroke-width="2" stroke-dasharray="8,4"/>
+                        <text x="400" y="405" text-anchor="middle" fill="#888" font-size="11" font-style="italic">Items below this line are NOT part of the Event Set Hierarchy</text>
+
+                        <!-- Dashed lines down to Event Codes -->
+                        <line x1="100" y1="366" x2="100" y2="420" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3"/>
+                        <line x1="240" y1="366" x2="240" y2="420" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3"/>
+                        <line x1="420" y1="366" x2="420" y2="420" stroke="#888" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+                        <!-- Event Codes (below ESH) -->
+                        <rect x="30" y="420" width="140" height="36" rx="8" fill="#444" stroke="#888" stroke-width="1" stroke-dasharray="5,3"/>
+                        <text x="100" y="443" text-anchor="middle" fill="#aaa" font-size="12">Weight #</text>
+
+                        <rect x="195" y="420" width="90" height="36" rx="8" fill="#444" stroke="#888" stroke-width="1" stroke-dasharray="5,3"/>
+                        <text x="240" y="443" text-anchor="middle" fill="#aaa" font-size="12">CK #</text>
+
+                        <rect x="370" y="420" width="100" height="36" rx="8" fill="#444" stroke="#888" stroke-width="1" stroke-dasharray="5,3"/>
+                        <text x="420" y="443" text-anchor="middle" fill="#aaa" font-size="12">CKMB #</text>
+
+                        <!-- Label: Event Codes -->
+                        <text x="540" y="443" fill="#888" font-size="11" font-style="italic">&larr; Event Codes</text>
+                    </svg>
+                </div>
+
+                <div class="info-box">
+                    <strong>Key Takeaway:</strong> Event Sets group Primitive Event Sets. Primitive Event Sets are what end-users see. Event Codes sit below the hierarchy and are not visible in the ESH.
+                </div>
+
+                <!-- Core Event Manager mockup -->
+                <h3>Core Event Manager</h3>
+                <p>This is how the Event Set Hierarchy appears in CoreEventManager.exe:</p>
+
+                <div class="rhb-window">
+                    <div class="rhb-titlebar">
+                        <span>Core Event Manager</span>
+                        <span class="rhb-close">X</span>
+                    </div>
+                    <div class="rhb-body">
+                        <ul class="rhb-tree">
+                            <li>
+                                <span class="tree-icon folder-icon">&#9660;</span>
+                                <span class="rhb-es-highlight">ALLOCFSETS</span>
+                                <ul>
+                                    <li>
+                                        <span class="tree-icon folder-icon">&#9660;</span>
+                                        <span class="rhb-es-highlight">ALLREFSECT</span>
+                                        <ul>
+                                            <li>
+                                                <span class="tree-icon folder-icon">&#9660;</span>
+                                                <span class="rhb-es-highlight">ALLDIPSCTS</span>
+                                                <ul>
+                                                    <li>
+                                                        <span class="tree-icon folder-icon">&#9660;</span>
+                                                        <span class="rhb-es-highlight">Laboratory</span>
+                                                        <span class="rhb-label rhb-label-es">Event Sets</span>
+                                                        <ul>
+                                                            <li><span class="tree-icon folder-icon">&#9654;</span> Blood Gases</li>
+                                                            <li><span class="tree-icon folder-icon">&#9654;</span> Hematology</li>
+                                                            <li><span class="tree-icon folder-icon">&#9654;</span> Coagulation/Thrombosis</li>
+                                                            <li><span class="tree-icon folder-icon">&#9654;</span> Chemistry</li>
+                                                            <li><span class="tree-icon folder-icon">&#9654;</span> Routine Chemistry</li>
+                                                            <li><span class="tree-icon folder-icon">&#9654;</span> Tolerance Testing</li>
+                                                            <li><span class="tree-icon folder-icon">&#9654;</span> Lipids</li>
+                                                            <li>
+                                                                <span class="tree-icon folder-icon">&#9660;</span>
+                                                                <span class="rhb-es-highlight">Cardiac Markers</span>
+                                                                <ul>
+                                                                    <li><span class="tree-icon file-icon">&#9679;</span> <span class="rhb-pes-highlight">CKMB</span></li>
+                                                                    <li><span class="tree-icon file-icon">&#9679;</span> <span class="rhb-pes-highlight">CKMB %</span></li>
+                                                                    <li><span class="tree-icon file-icon">&#9679;</span> <span class="rhb-pes-highlight">Troponin-I POC</span></li>
+                                                                    <li><span class="tree-icon file-icon">&#9679;</span> <span class="rhb-pes-highlight">Troponin-I POC</span></li>
+                                                                    <li><span class="tree-icon file-icon">&#9679;</span> <span class="rhb-pes-highlight">BNP</span>
+                                                                        <span class="rhb-label rhb-label-pes">Primitive Event Sets</span></li>
+                                                                    <li><span class="tree-icon file-icon">&#9679;</span> <span class="rhb-pes-highlight">CK and CKMB</span></li>
+                                                                    <li><span class="tree-icon file-icon">&#9679;</span> <span class="rhb-pes-highlight">Troponin-T</span></li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li><span class="tree-icon folder-icon">&#9654;</span> Pregnancy Testing</li>
+                                                    <li><span class="tree-icon folder-icon">&#9654;</span> Thyroid</li>
+                                                    <li><span class="tree-icon folder-icon">&#9654;</span> Urine Chemistry</li>
+                                                    <li><span class="tree-icon folder-icon">&#9654;</span> Endocrinology</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="rhb-buttons">
+                        <button>OK</button>
+                        <button>Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 10: Other Results/Documents -->
+        <section id="other-results">
+            <h2>10. Other Results / Other Documents</h2>
+            <div class="card">
+                <h3>Temporary Storage</h3>
+                <p>The "Other Results" and "Other Documents" event sets serve as temporary holding locations:</p>
+                <ul>
+                    <li><strong>Add-on-the-fly results/documents</strong></li>
+                    <li><strong>Non-aliased results</strong> &mdash; the alias received becomes the display value</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Examples of non-aliased results:</strong> <code>574986</code>, <code>NURASA89</code>, <code>Potassium</code>
+                    <br>These are placed automatically under Other Results or Other Documents.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 11: All Specialty Sections -->
+        <section id="specialty-sections">
+            <h2>11. All Specialty Sections</h2>
+            <div class="card">
+                <p>The <strong>All Specialty Sections</strong> branch provides customized groupings of Primitive Event Sets for specific PowerChart flowsheet views.</p>
+                <ul>
+                    <li>Contains customized groupings tailored for specific clinical workflows</li>
+                    <li>Results in <strong>increased (dual) maintenance</strong> &mdash; changes must be made in both the main hierarchy and specialty sections</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>Note:</strong> Increased (dual) maintenance is required when using Specialty Sections &mdash; changes may need to be made in both the main hierarchy and the specialty sections.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 12: Solution-Specific -->
+        <section id="solution-specific">
+            <h2>12. Solution-Specific Event Sets</h2>
+            <div class="card">
+                <p>Some Cerner solutions require specific event sets to be configured for their functionality:</p>
+
+                <div class="two-col">
+                    <div class="solution-box">
+                        <div class="sol-title">Surgery Management</div>
+                        <ul>
+                            <li><strong>Clinical Patient Info</strong></li>
+                            <li>Required if Intake and Output Flowsheet is used</li>
+                        </ul>
+                    </div>
+                    <div class="solution-box">
+                        <div class="sol-title">PowerChart</div>
+                        <ul>
+                            <li><strong>Clinical Demographics</strong></li>
+                            <li>Required if Clinical Demographics tab is used</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- SVG: Solution Event Sets in Hierarchy -->
+                <div class="diagram">
+                    <div class="diagram-title">Solution Event Sets in the Hierarchy</div>
+                    <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;">
+                        <!-- All OCF Events -->
+                        <rect x="250" y="10" width="200" height="36" rx="8" fill="#e94560"/>
+                        <text x="350" y="33" text-anchor="middle" fill="#fff" font-weight="bold" font-size="13">All OCF Events</text>
+
+                        <line x1="350" y1="46" x2="350" y2="58" stroke="#aaa" stroke-width="2"/>
+                        <line x1="180" y1="58" x2="520" y2="58" stroke="#aaa" stroke-width="2"/>
+                        <line x1="180" y1="58" x2="180" y2="70" stroke="#aaa" stroke-width="2"/>
+                        <line x1="520" y1="58" x2="520" y2="70" stroke="#aaa" stroke-width="2"/>
+
+                        <!-- All Result Sections -->
+                        <rect x="70" y="70" width="220" height="36" rx="8" fill="#533483"/>
+                        <text x="180" y="93" text-anchor="middle" fill="#fff" font-weight="bold" font-size="12">All Result Sections</text>
+                        <!-- All Specialty Sections -->
+                        <rect x="410" y="70" width="220" height="36" rx="8" fill="#533483"/>
+                        <text x="520" y="93" text-anchor="middle" fill="#fff" font-weight="bold" font-size="12">All Specialty Sections</text>
+
+                        <!-- Down from All Result Sections -->
+                        <line x1="180" y1="106" x2="180" y2="130" stroke="#aaa" stroke-width="2"/>
+
+                        <!-- All Sections -->
+                        <rect x="70" y="130" width="220" height="36" rx="8" fill="#0f3460"/>
+                        <text x="180" y="153" text-anchor="middle" fill="#fff" font-size="12">All Sections</text>
+
+                        <!-- Down to level 3 -->
+                        <line x1="180" y1="166" x2="180" y2="180" stroke="#aaa" stroke-width="2"/>
+                        <line x1="100" y1="180" x2="550" y2="180" stroke="#aaa" stroke-width="2"/>
+                        <line x1="100" y1="180" x2="100" y2="192" stroke="#aaa" stroke-width="2"/>
+                        <line x1="300" y1="180" x2="300" y2="192" stroke="#aaa" stroke-width="2"/>
+                        <line x1="500" y1="180" x2="500" y2="192" stroke="#aaa" stroke-width="2"/>
+
+                        <!-- Other Results -->
+                        <rect x="20" y="192" width="160" height="36" rx="8" fill="#0f3460" stroke="#1a4080" stroke-width="1"/>
+                        <text x="100" y="215" text-anchor="middle" fill="#fff" font-size="12">Other Results</text>
+
+                        <!-- Clinical Patient Info -->
+                        <rect x="200" y="192" width="195" height="36" rx="8" fill="#6b4c1b" stroke="#a07828" stroke-width="2"/>
+                        <text x="297" y="215" text-anchor="middle" fill="#fff" font-weight="bold" font-size="12">Clinical Patient Info</text>
+
+                        <!-- Clinical Demographics -->
+                        <rect x="410" y="192" width="195" height="36" rx="8" fill="#6b4c1b" stroke="#a07828" stroke-width="2"/>
+                        <text x="507" y="215" text-anchor="middle" fill="#fff" font-weight="bold" font-size="12">Clinical Demographics</text>
+
+                        <!-- Labels -->
+                        <text x="297" y="248" text-anchor="middle" fill="#a07828" font-size="10" font-style="italic">Surgery Management</text>
+                        <text x="507" y="248" text-anchor="middle" fill="#a07828" font-size="10" font-style="italic">PowerChart</text>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 13: PowerChart Display -->
+        <section id="powerchart-display">
+            <h2>13. Results Displayed in PowerChart</h2>
+            <div class="card">
+                <p>In the PowerChart front-end, results are displayed based on the Event Set Hierarchy configuration:</p>
+                <ul>
+                    <li><strong>CBC and Differential</strong> is an <strong>Event Set</strong></li>
+                    <li><strong>HGB</strong> is a <strong>Primitive Event Set</strong></li>
+                </ul>
+
+                <!-- PowerChart-style mockup showing ESH in action -->
+                <div class="rhb-window" style="max-width:350px;">
+                    <div class="rhb-titlebar" style="background:linear-gradient(to right, #2e6da4, #1a4a6e);">
+                        <span>Core Event Manager</span>
+                        <span class="rhb-close">X</span>
+                    </div>
+                    <div class="rhb-body" style="max-height:200px;">
+                        <ul class="rhb-tree">
+                            <li>
+                                <span class="tree-icon folder-icon">&#9660;</span>
+                                <span class="rhb-es-highlight"><strong>CBC and Differential</strong></span>
+                                <span class="rhb-label rhb-label-es">Event Set</span>
+                                <ul>
+                                    <li><span class="tree-icon file-icon">&#9679;</span> <span class="rhb-pes-highlight">HGB</span>
+                                        <span class="rhb-label rhb-label-pes">Primitive Event Set</span></li>
+                                    <li><span class="tree-icon file-icon">&#9679;</span> <span class="rhb-pes-highlight">WBC</span></li>
+                                    <li><span class="tree-icon file-icon">&#9679;</span> <span class="rhb-pes-highlight">RBC</span></li>
+                                    <li><span class="tree-icon file-icon">&#9679;</span> <span class="rhb-pes-highlight">PLT</span></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 14: Further Learning -->
+        <section id="further-learning">
+            <div class="further-learning">
+                <h2 style="border:none; padding:0; margin-top:0;">14. Further Learning</h2>
+                <p>Additional education opportunities for deepening your understanding of Results:</p>
+                <ul>
+                    <li>Introduction to the Event Set Hierarchy</li>
+                    <li>Advanced Event Set Hierarchy</li>
+                    <li>Building and Maintaining Core</li>
+                    <li>Activity and Event Integration in Emergency Medicine</li>
+                </ul>
+            </div>
+        </section>
+
+        <footer style="margin-top:40px; padding-top:20px; border-top:1px solid #0f3460; color:#666; font-size:0.85em; text-align:center;">
+            <p>Source: Cerner Millennium Fundamentals &mdash; Results Section (P-150 to P-164)</p>
+        </footer>
+    </div>
+</body>
+</html>
