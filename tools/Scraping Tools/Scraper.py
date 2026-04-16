@@ -1,3 +1,55 @@
+# =============================================================================
+# Web Page Scraper
+# =============================================================================
+#
+# PURPOSE:
+#   This tool scrapes a documentation website — specifically designed for
+#   Confluence-style wikis (e.g. Cerner/wiki.cerner.com) — by downloading a
+#   set of linked sub-pages from a single index/hub page and saving them as
+#   clean, self-contained HTML files on your local machine.
+#
+# HOW TO USE:
+#   1. Run this script directly:  python Scraper.py
+#   2. A GUI window will open. Fill in the fields:
+#
+#      Start URL:
+#        The URL of the main/hub page that contains links to the sub-pages
+#        you want to download.
+#
+#      Scraping Method — choose ONE:
+#        a) "By Introductory Text" — finds links that appear in a list or
+#           container immediately after a specific block of text on the page.
+#           Enter a regex pattern that matches that introductory sentence.
+#           Example: "Click each of the following Programming Constructs"
+#
+#        b) "By Container Class" — finds all links inside <div> elements
+#           that have a specific CSS class name.
+#           Example: "panelContent"
+#
+#      Output Folder:
+#        Click "Browse..." to select where the downloaded files will be saved.
+#        An index.html (the cleaned hub page) and one .html file per sub-page
+#        will be written to this folder.
+#
+#   3. Click "Start Scraping". Progress is shown in the Log Output panel.
+#
+# WHAT THE SCRAPER CLEANS UP (fluff removed from every page):
+#   - Navigation headers and footers (IDs: header, main-header, footer, etc.)
+#   - Left-side navigation panel (class: ia-splitter-left, dbNav)
+#   - Page metadata / published-version banners
+#   - Hidden parameter fieldsets
+#   - Pop-up dialog <section> tags
+#   - All <script>, <link>, and <meta> tags (no external dependencies)
+#   - Inline styles on the main content area (sidebar offset margin)
+#   - Border styles on code/preformatted boxes
+#   - Hyperlinks inside sub-page content bodies (keeps text, removes <a> tags)
+#   - External links (only pages from the same domain are downloaded)
+#   - Labels section and comments section
+#
+# REQUIREMENTS:
+#   pip install requests beautifulsoup4
+# =============================================================================
+
 import requests
 import os
 import time
