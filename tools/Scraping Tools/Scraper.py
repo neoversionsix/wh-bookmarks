@@ -26,6 +26,16 @@
 #           that have a specific CSS class name.
 #           Example: "panelContent"
 #
+#      Cookies (optional):
+#        If the site requires you to be logged in, paste your browser's cookie
+#        string here. To get it from Edge (or Chrome):
+#          1. Open the wiki page in your browser while logged in
+#          2. Press F12 to open DevTools → go to the Network tab
+#          3. Refresh the page, then click any request to that domain
+#          4. Under Headers → Request Headers, find the "Cookie:" line
+#          5. Copy everything after "Cookie:" and paste it here
+#        Leave blank for public pages that don't require a login.
+#
 #      Output Folder:
 #        Click "Browse..." to select where the downloaded files will be saved.
 #        An index.html (the cleaned hub page) and one .html file per sub-page
@@ -126,7 +136,7 @@ def clean_html(soup, is_main_page=False):
 
     return soup
 
-def scrape_website(start_url, scrape_method, text_pattern, container_class, output_dir, log_callback):
+def scrape_website(start_url, scrape_method, text_pattern, container_class, output_dir, cookie_string, log_callback):
     """
     Scrapes a website based on the selected method.
     """
@@ -134,6 +144,11 @@ def scrape_website(start_url, scrape_method, text_pattern, container_class, outp
         os.makedirs(output_dir)
 
     session = requests.Session()
+    if cookie_string:
+        for pair in cookie_string.split(';'):
+            if '=' in pair:
+                name, _, value = pair.strip().partition('=')
+                session.cookies.set(name.strip(), value.strip())
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -289,6 +304,11 @@ class ScraperApp(tk.Tk):
         self.container_entry.grid(row=2, column=1, sticky=tk.EW, padx=5, pady=2)
         self.container_entry.insert(0, "panelContent")
 
+        self.cookie_label = ttk.Label(input_frame, text="Cookies (optional):")
+        self.cookie_label.grid(row=3, column=0, sticky=tk.W, padx=5, pady=2)
+        self.cookie_entry = ttk.Entry(input_frame, width=80)
+        self.cookie_entry.grid(row=3, column=1, sticky=tk.EW, padx=5, pady=2)
+
         input_frame.columnconfigure(1, weight=1)
 
         # --- Output folder selection frame ---
@@ -351,6 +371,7 @@ class ScraperApp(tk.Tk):
         scrape_method = self.scrape_method_var.get()
         text_pattern = self.text_entry.get().strip()
         container_class = self.container_entry.get().strip()
+        cookie_string = self.cookie_entry.get().strip()
         output_dir = self.output_dir
 
         if not start_url:
@@ -373,14 +394,14 @@ class ScraperApp(tk.Tk):
 
         thread = threading.Thread(
             target=self.run_scrape_task,
-            args=(start_url, scrape_method, text_pattern, container_class, output_dir)
+            args=(start_url, scrape_method, text_pattern, container_class, output_dir, cookie_string)
         )
         thread.daemon = True
         thread.start()
 
-    def run_scrape_task(self, start_url, scrape_method, text_pattern, container_class, output_dir):
+    def run_scrape_task(self, start_url, scrape_method, text_pattern, container_class, output_dir, cookie_string):
         try:
-            scrape_website(start_url, scrape_method, text_pattern, container_class, output_dir, self.log)
+            scrape_website(start_url, scrape_method, text_pattern, container_class, output_dir, cookie_string, self.log)
         except Exception as e:
             self.log(f"An unexpected error occurred in the scraping thread: {e}")
         finally:
