@@ -136,7 +136,7 @@ def clean_html(soup, is_main_page=False):
 
     return soup
 
-def scrape_website(start_url, scrape_method, text_pattern, container_class, output_dir, cookie_string, log_callback):
+def scrape_website(start_url, scrape_method, text_pattern, container_class, output_dir, cookie_string, user_agent, log_callback):
     """
     Scrapes a website based on the selected method.
     """
@@ -145,23 +145,37 @@ def scrape_website(start_url, scrape_method, text_pattern, container_class, outp
 
     session = requests.Session()
     if cookie_string:
-        for pair in cookie_string.split(';'):
-            if '=' in pair:
-                name, _, value = pair.strip().partition('=')
-                session.cookies.set(name.strip(), value.strip())
+        # Instead of parsing, we directly set the exact string the browser uses.
+        # This is more reliable for enterprise WAFs and complex SSO cookies.
+        pass
+
+    chrome_version = "146"
+    if user_agent:
+        match = re.search(r'Chrome/(\d+)', user_agent)
+        if match:
+            chrome_version = match.group(1)
+            
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+        'User-Agent': user_agent if user_agent else f'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{chrome_version}.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
         'Accept-Language': 'en-US,en;q=0.9',
         'Accept-Encoding': 'gzip, deflate, br',
         'Connection': 'keep-alive',
         'Upgrade-Insecure-Requests': '1',
         'Sec-Fetch-Dest': 'document',
         'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-Site': 'none',
+        'Sec-Fetch-Site': 'same-origin',
         'Sec-Fetch-User': '?1',
+        'Sec-Ch-Ua': f'"Chromium";v="{chrome_version}", "Not(A:Brand";v="24", "Google Chrome";v="{chrome_version}"',
+        'Sec-Ch-Ua-Mobile': '?0',
+        'Sec-Ch-Ua-Platform': '"Windows"',
+        'Priority': 'u=0, i',
         'Cache-Control': 'max-age=0',
     }
+    
+    if cookie_string:
+        headers['Cookie'] = cookie_string
+
     session.headers.update(headers)
 
     try:
@@ -179,24 +193,42 @@ def scrape_website(start_url, scrape_method, text_pattern, container_class, outp
             if intro_text_element:
                 log_callback("Found introductory text.")
                 parent = intro_text_element.find_parent()
-                link_container = parent.find_next_sibling(['ul', 'ol', 'div', 'p'])
+                
+                link_container = None
+                for sibling in parent.find_next_siblings(['ul', 'ol', 'div', 'p', 'table', 'tbody', 'section']):
+                    if sibling.find('a', href=True):
+                        link_container = sibling
+                        break
+
                 if link_container:
                     links = link_container.find_all('a', href=True)
                     log_callback(f"Found container for links: <{link_container.name}>")
                 else:
-                    log_callback("Error: Found intro text, but couldn't find a following list or div.")
+                    log_callback("Error: Found intro text, but couldn't find a following list, table, or div containing links.")
             else:
                 log_callback(f"Error: Could not find text matching pattern.")
         
         elif scrape_method == "container":
-            log_callback(f"Searching for links inside containers with class: '{container_class}'")
-            link_containers = main_soup.find_all('div', class_=container_class)
+            log_callback(f"Searching for links inside containers with class or ID: '{container_class}'")
+            link_containers = main_soup.find_all(class_=re.compile(container_class, re.IGNORECASE))
+            if not link_containers:
+                link_containers = main_soup.find_all(id=re.compile(container_class, re.IGNORECASE))
+                
             if link_containers:
                 for container in link_containers:
                     links.extend(container.find_all('a', href=True))
                 log_callback(f"Found {len(link_containers)} container(s).")
             else:
-                log_callback("Error: Could not find any containers with that class name.")
+                log_callback("Error: Could not find any containers with that class or ID name.")
+
+        # Deduplicate links to avoid fetching the same page multiple times
+        unique_links = []
+        seen_hrefs = set()
+        for link in links:
+            if link['href'] not in seen_hrefs:
+                unique_links.append(link)
+                seen_hrefs.add(link['href'])
+        links = unique_links
 
         if not links:
             log_callback("\nScraping stopped: No links found to process.")
@@ -309,6 +341,11 @@ class ScraperApp(tk.Tk):
         self.cookie_entry = ttk.Entry(input_frame, width=80)
         self.cookie_entry.grid(row=3, column=1, sticky=tk.EW, padx=5, pady=2)
 
+        self.ua_label = ttk.Label(input_frame, text="User-Agent (optional):")
+        self.ua_label.grid(row=4, column=0, sticky=tk.W, padx=5, pady=2)
+        self.ua_entry = ttk.Entry(input_frame, width=80)
+        self.ua_entry.grid(row=4, column=1, sticky=tk.EW, padx=5, pady=2)
+
         input_frame.columnconfigure(1, weight=1)
 
         # --- Output folder selection frame ---
@@ -372,6 +409,7 @@ class ScraperApp(tk.Tk):
         text_pattern = self.text_entry.get().strip()
         container_class = self.container_entry.get().strip()
         cookie_string = self.cookie_entry.get().strip()
+        user_agent = self.ua_entry.get().strip()
         output_dir = self.output_dir
 
         if not start_url:
@@ -394,14 +432,14 @@ class ScraperApp(tk.Tk):
 
         thread = threading.Thread(
             target=self.run_scrape_task,
-            args=(start_url, scrape_method, text_pattern, container_class, output_dir, cookie_string)
+            args=(start_url, scrape_method, text_pattern, container_class, output_dir, cookie_string, user_agent)
         )
         thread.daemon = True
         thread.start()
 
-    def run_scrape_task(self, start_url, scrape_method, text_pattern, container_class, output_dir, cookie_string):
+    def run_scrape_task(self, start_url, scrape_method, text_pattern, container_class, output_dir, cookie_string, user_agent):
         try:
-            scrape_website(start_url, scrape_method, text_pattern, container_class, output_dir, cookie_string, self.log)
+            scrape_website(start_url, scrape_method, text_pattern, container_class, output_dir, cookie_string, user_agent, self.log)
         except Exception as e:
             self.log(f"An unexpected error occurred in the scraping thread: {e}")
         finally:
