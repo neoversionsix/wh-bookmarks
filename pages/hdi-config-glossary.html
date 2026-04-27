@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MD REF Config File Glossary</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <style>
+    body { background-color: #222; color: #fff; font-family: sans-serif; padding: 20px; }
+    a { color: #ee8383; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #555; padding: 8px; text-align: left; }
+    th { background-color: #444; position: sticky; top: 0; }
+    input.column-filter { width: 90%; padding: 4px; margin-top: 4px; box-sizing: border-box; background-color: #333; color: white; border: 1px solid #777; }
+    button {
+      background-color: #000000;
+      color: #ffffff;
+      border: 1px solid #ee8383;
+      padding: 5px 10px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #1a1a1a;
+      box-shadow: 0 5px 15px rgba(238, 131, 131, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <h1>MD REF Config File Glossary</h1>
+  <a href='../index.html'><button>Back to Bookmarks</button></a>
+  <br><br>
+  <ul><li><strong>CONFIG_PRODUCT: </strong>The group of configuration values used in the <span class="conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle Health Unified Analytics and Reporting</span> content for specific analytics content areas. Do not change this value in the configuration file.</li><li><strong>CONFIG_GROUP: </strong>���The group of configuration code used in the <span class="conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle Health Unified Analytics and Reporting</span> content for a set of particular values. Do not change this value in the configuration file.</li><li><strong>CONFIG_VALUE: </strong>The particular value used in the <span class="conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle Health Unified Analytics and Reporting</span> <span style="letter-spacing: 0.0px;"> content to identify a client's configuration. For example, Triage is the triage event in the emergency department workflow. Do not change this value in the configuration file unless the <a href="https://wiki.cerner.com/pages/releaseview.action?spaceKey=reference&amp;title=Configure+MD_REF_CONFIG+File#ConfigureMD_REF_CONFIGFile-ConfigurationFileValues">Configuration File Values</a> table below specifies that it needs to be updated. </span></li><li><strong>CONFIG_CLASS: </strong>The way that the CONFIG_VALUE value qualifies for the <span class="conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Oracle Health Unified Analytics and Reporting</span> <span style="letter-spacing: 0.0px;"> content. The value is the code set field used to qualify the value (for example, Common Data Foundation (CDF)), and then the code set number (for example, 220) that the field is pulled from. Code set fields include Concept CKI, CDF meaning, display, and code value. Clients can adjust this value based on their <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> </span><span style="letter-spacing: 0.0px;">configuration.</span></li><li><strong>CONFIG_KEY: </strong>The specific value that qualifies based on what is set in the CONFIG_CLASS value. Clients can adjust this value based on their <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> configuration.</li><li><strong>CONFIG_IND: </strong>This specific value used to be used to identify if a configuration value matched a client's <span class="conf-solution-name conf-macro output-inline" data-hasbody="false" data-macro-name="solution">Millennium Platform</span> domain. This value is no longer used. The configuration status checking has moved to the CONFIG_F_VERFICATION dataset and this value is always displayed as N and can be ignored.</li><li><strong>Concept CKI: </strong>This CONFIG_CLASS value represents the Concept CKI field on the CODE_VALUE table for a particular code set.</li><li><strong>DISPLAY: </strong>This CONFIG_CLASS value represents the Display field on the CODE_VALUE table for a particular code set.</li><li><strong>CDF: </strong>This CONFIG_CLASS value represents the CDF meaning field on the CODE_VALUE table for a particular code set.</li><li><strong>CODE_VALUE: </strong>This CONFIG_CLASS value represents the Code Value field on the CODE_VALUE table for a particular code set.</li><li><strong>DEFAULT: </strong>This CONFIG_CLASS value represents orders, results for clinical events, and so on.</li><li><strong>Like: </strong>This configuration value references a general text value that applies to all values. For example, in Computerized Physician Order Entry (CPOE), the Order Personnel Position Like value references a general text value that applies to all physician positions.</li><li><p><strong>Match:<strong> </strong></strong>This configuration value references specific physician names. For example, in CPOE, the Order Personnel Position Match value references the specific physician position name.</p></li></ul>
+  
+</body>
+</html>
