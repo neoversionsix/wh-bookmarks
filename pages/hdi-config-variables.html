@@ -39,16 +39,14 @@
     const table = document.querySelector('table');
     if (!table) return;
     
-    // Create filter row
+    // Add filters to header row
     const thead = table.querySelector('thead');
     const headerRow = thead.querySelector('tr');
-    const filterRow = document.createElement('tr');
     
     const headers = Array.from(headerRow.querySelectorAll('th'));
     const inputs = [];
     
     headers.forEach((th, index) => {
-      const td = document.createElement('th');
       const input = document.createElement('input');
       input.type = 'text';
       input.placeholder = 'Filter...';
@@ -78,11 +76,8 @@
       });
       
       inputs.push(input);
-      td.appendChild(input);
-      filterRow.appendChild(td);
+      th.insertBefore(input, th.firstChild);
     });
-    
-    thead.appendChild(filterRow);
   });
 </script>
 
